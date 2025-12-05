@@ -57,7 +57,7 @@ leaf_final12 <- c(
 )
 
 
-gbif_leaf_list12 <- map(leaf_final12, fetch_japan_occ)
+gbif_leaf_list12 <- map(leaf_final12, fetch_occ_japan)
 
 
 gbif_leaf_list12 <- gbif_leaf_list12[!sapply(gbif_leaf_list12, is.null)]
