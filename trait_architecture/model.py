@@ -11,10 +11,10 @@ P = pollinator service
 H = floral-herbivore or florivore pressure
 L = leaf-cutter or leaf-consumer pressure
 
-The key switch is ``defence_pollinator_cost`` versus
-``defence_selectivity``. When defence substantially obstructs pollination it
-creates an attraction-defence trade-off. When defence selectively reduces damage
-while preserving pollination, attraction and defence can co-occur.
+The key switch is the defence cost to pollination versus its damage-reduction
+efficacy. When defence substantially obstructs pollination it creates an
+attraction-defence trade-off. When defence selectively reduces damage while
+preserving pollination, attraction and defence can co-occur.
 """
 
 from __future__ import annotations
