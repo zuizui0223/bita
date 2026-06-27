@@ -154,14 +154,13 @@ def deduplicate_metadata(rows: Iterable[Mapping[str, object]]) -> tuple[list[dic
                 item.get("provider_record_id", ""),
             )
 
-        chosen = max(group, key=richness).copy()
+        chosen_index = max(range(len(group)), key=lambda index: richness(group[index]))
+        chosen = group[chosen_index].copy()
         chosen.setdefault("source_id", stable_id("src", fingerprint))
         chosen["dedupe_fingerprint"] = fingerprint
         retained.append(chosen)
-        for item in group:
-            if item is chosen:
-                continue
-            if item.get("provider_record_id") == chosen.get("provider_record_id") and item.get("provider") == chosen.get("provider"):
+        for index, item in enumerate(group):
+            if index == chosen_index:
                 continue
             discarded.append(
                 {
