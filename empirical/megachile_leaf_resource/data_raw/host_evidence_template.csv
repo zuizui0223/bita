@@ -1,0 +1,1 @@
+record_id,bee_name_reported,bee_name_accepted,plant_name_reported,plant_name_accepted,interaction_type,evidence_grade,record_basis,country,administrative_area,latitude,longitude,year,month,source_type,source_id,source_locator,evidence_note,taxon_reconciliation_status,include_in_primary_host_universe,exclusion_reason
