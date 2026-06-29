@@ -1,0 +1,46 @@
+name: Inspect Impatiens processed table
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/probe-impatiens-processed-table.yml"
+  workflow_dispatch:
+
+jobs:
+  inspect_processed_table:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Retrieve public Dryad processed table
+        run: |
+          curl --fail --location --retry 2 \
+            "https://datadryad.org/stash/downloads/file_stream/26621" \
+            --output processed_data.csv
+
+      - name: Record headers without retaining raw observations
+        run: |
+          python - <<'PY'
+          import csv, json
+          with open('processed_data.csv', encoding='utf-8-sig', newline='') as handle:
+              reader = csv.reader(handle)
+              header = next(reader)
+              first = next(reader)
+          receipt = {
+              'source_dataset_doi': '10.5061/dryad.0j96d17',
+              'source_file_id': 26621,
+              'source_file_name': 'Soper_Gorden_Adler_AJB_2018_Flower_Insect_Interactions_Processed_Data.csv',
+              'header_columns': header,
+              'header_column_count': len(header),
+              'first_data_row_column_count': len(first),
+              'warning': 'Receipt includes only file structure; raw observations are intentionally not retained.'
+          }
+          with open('impatiens_processed_table_receipt.json', 'w', encoding='utf-8') as output:
+              json.dump(receipt, output, indent=2)
+          PY
+          rm processed_data.csv
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: impatiens-processed-table-receipt
+          path: impatiens_processed_table_receipt.json
+          if-no-files-found: error
