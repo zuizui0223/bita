@@ -19,6 +19,13 @@ from .stability import (
     canonical_scenarios,
     summarise_scenario,
 )
+from .trait_coverage_audit import (
+    TraitCoverageAuditReport,
+    TraitCoverageSummary,
+    audit_trait_coverage,
+    audit_trait_coverage_files,
+    trait_coverage_report_to_dict,
+)
 
 __all__ = [
     "ADInteractionCondition",
@@ -46,4 +53,9 @@ __all__ = [
     "assess_sign_stability",
     "canonical_scenarios",
     "summarise_scenario",
+    "TraitCoverageAuditReport",
+    "TraitCoverageSummary",
+    "audit_trait_coverage",
+    "audit_trait_coverage_files",
+    "trait_coverage_report_to_dict",
 ]
