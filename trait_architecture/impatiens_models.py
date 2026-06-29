@@ -12,7 +12,6 @@ from typing import Any
 
 
 MISSING = {"", "na", "nan", "n/a", "null", "none"}
-ADJUSTMENTS = ("Robbing", "Florivory", "Pollination", "Julian_Date_of_First_CH_Flower")
 
 
 def _text(value: object) -> str:
@@ -73,6 +72,7 @@ def prepare_rows(
     attraction_transform: str,
     barrier_field: str,
     barrier_transform: str,
+    phenology_field: str,
 ) -> tuple[list[dict[str, float]], int]:
     """Return complete cases and count of omitted rows for one predeclared model."""
 
@@ -87,7 +87,7 @@ def prepare_rows(
                 "Robbing_Y": yn(row.get("Robbing"), "Robbing"),
                 "Florivory_Y": yn(row.get("Florivory"), "Florivory"),
                 "Pollination_Y": yn(row.get("Pollination"), "Pollination"),
-                "Julian": _number(row.get("Julian_Date_of_First_CH_Flower"), "Julian_Date_of_First_CH_Flower"),
+                "Phenology": _number(row.get(phenology_field), phenology_field),
             })
         except (ValueError, TypeError):
             omitted += 1
@@ -95,22 +95,22 @@ def prepare_rows(
 
 
 def design_matrix(rows: list[dict[str, float]], *, interaction: bool) -> tuple[list[float], list[list[float]], list[str]]:
-    """Standardize outcome/traits/date inside the declared complete-case sample."""
+    """Standardize outcome/traits/phenology inside the declared complete-case sample."""
 
     y = zscore([row["y"] for row in rows])
     a = zscore([row["A"] for row in rows])
     b = zscore([row["B"] for row in rows])
-    julian = zscore([row["Julian"] for row in rows])
+    phenology = zscore([row["Phenology"] for row in rows])
     terms = ["Intercept", "A_z", "B_z"]
     if interaction:
         terms.append("A_z:B_z")
-    terms.extend(["Robbing_Y", "Florivory_Y", "Pollination_Y", "Julian_Date_z"])
+    terms.extend(["Robbing_Y", "Florivory_Y", "Pollination_Y", "Phenology_z"])
     design: list[list[float]] = []
     for index, row in enumerate(rows):
         values = [1.0, a[index], b[index]]
         if interaction:
             values.append(a[index] * b[index])
-        values.extend([row["Robbing_Y"], row["Florivory_Y"], row["Pollination_Y"], julian[index]])
+        values.extend([row["Robbing_Y"], row["Florivory_Y"], row["Pollination_Y"], phenology[index]])
         design.append(values)
     return y, design, terms
 
