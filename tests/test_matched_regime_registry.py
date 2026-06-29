@@ -85,7 +85,25 @@ def test_conflated_attraction_and_barrier_composite_stays_m2() -> None:
 
     assert summary.evidence_level == "M2_aligned_two_channel_panel"
     assert "independent A_flower and B_flower measurement" in summary.missing_for_d1
-    assert "Attraction and barrier measures are not independent" in summary.warnings[0]
+    assert "available only as a composite" in summary.warnings[0]
+
+
+def test_separate_measurements_without_raw_table_remain_m2_but_do_not_fail_module_separation() -> None:
+    report = audit_matched_study_cards(
+        [
+            card(
+                "d1_contingent",
+                module_separation_status="separately_measured_raw_not_recovered",
+                raw_table_status="author_request_required",
+            )
+        ]
+    )
+    summary = report.summaries[0]
+
+    assert summary.evidence_level == "M2_aligned_two_channel_panel"
+    assert "recoverable plant-level table" in summary.missing_for_d1
+    assert "independent A_flower and B_flower measurement" not in summary.missing_for_d1
+    assert "A and B were measured separately" in summary.warnings[0]
 
 
 def test_aligned_channels_without_recoverable_table_stay_m2() -> None:
