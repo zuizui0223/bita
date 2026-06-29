@@ -14,7 +14,7 @@ jobs:
       - name: Retrieve public Dryad processed table
         run: |
           curl --fail --location --retry 2 \
-            "https://datadryad.org/stash/downloads/file_stream/26621" \
+            "https://datadryad.org/downloads/file_stream/26621" \
             --output processed_data.csv
 
       - name: Record headers without retaining raw observations
