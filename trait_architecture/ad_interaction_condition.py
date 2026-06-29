@@ -15,9 +15,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from math import exp
+from math import exp, isclose
 
 from .model import Architecture, InteractionRegime, ModelParameters
+
+
+_SIGN_TOLERANCE = 1e-12
 
 
 class ADLocalRelation(str, Enum):
@@ -36,6 +39,10 @@ class ADInteractionCondition:
     negative sign.  ``floral_damage_relief`` enters with a positive sign.
     Leaf-consumer pressure is absent from this direct cross-partial because the
     current model gives leaf defence benefits without an ``A`` interaction.
+
+    ``cross_partial`` retains the raw floating-point value. ``relation`` uses a
+    small absolute tolerance so an algebraic boundary is not misclassified by
+    round-off residue.
     """
 
     pollination_access_penalty: float
@@ -63,6 +70,9 @@ def attraction_defence_cross_partial(
     The expression is independent of leaf-consumer pressure ``L`` *directly*.
     ``L`` can still change the optimal level of defence and therefore change the
     simulated covariance across regime optima.
+
+    The returned numerical value is raw. Only the categorical relation uses
+    ``_SIGN_TOLERANCE`` to classify algebraic boundaries robustly.
     """
 
     d = architecture.defence
@@ -81,12 +91,12 @@ def attraction_defence_cross_partial(
     shared_budget_penalty = parameters.attraction_defence_shared_cost
     cross_partial = floral_damage_relief - pollination_access_penalty - shared_budget_penalty
 
-    if cross_partial > 0.0:
-        relation = ADLocalRelation.COMPLEMENTARY
-    elif cross_partial < 0.0:
-        relation = ADLocalRelation.SUBSTITUTABLE
-    else:
+    if isclose(cross_partial, 0.0, abs_tol=_SIGN_TOLERANCE):
         relation = ADLocalRelation.NEUTRAL
+    elif cross_partial > 0.0:
+        relation = ADLocalRelation.COMPLEMENTARY
+    else:
+        relation = ADLocalRelation.SUBSTITUTABLE
 
     return ADInteractionCondition(
         pollination_access_penalty=pollination_access_penalty,
