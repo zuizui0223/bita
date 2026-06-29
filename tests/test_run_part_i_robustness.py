@@ -42,13 +42,16 @@ def minimal_config() -> dict:
     }
 
 
-def test_run_emits_every_case_scenario_form_combination() -> None:
-    rows, summaries = MODULE.run(minimal_config())
+def test_run_emits_case_form_and_parameter_envelope_summaries() -> None:
+    rows, form_summaries, envelope_summaries = MODULE.run(minimal_config())
 
     assert len(rows) == 4
-    assert len(summaries) == 1
-    assert summaries[0]["total_evaluation_count"] == 4
+    assert len(form_summaries) == 2
+    assert len(envelope_summaries) == 1
+    assert envelope_summaries[0]["total_evaluation_count"] == 4
+    assert envelope_summaries[0]["parameter_scenario_count"] == 2
     assert {row["parameter_scenario_id"] for row in rows} == {"baseline", "high_damage"}
+    assert {row["parameter_scenario_id"] for row in form_summaries} == {"baseline", "high_damage"}
     assert {row["form_id"] for row in rows} == {"baseline", "saturated"}
 
 
