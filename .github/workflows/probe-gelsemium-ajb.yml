@@ -1,0 +1,68 @@
+name: Probe Gelsemium article evidence
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/probe-gelsemium-ajb.yml"
+  workflow_dispatch:
+
+jobs:
+  inspect_gelsemium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Fetch public American Journal of Botany article page
+        run: |
+          curl --fail --location --retry 2 \
+            --user-agent "Mozilla/5.0 (research evidence screen; github.com/zuizui0223/biotic-interaction-trait-architecture)" \
+            "https://bsapubs.onlinelibrary.wiley.com/doi/full/10.3732/ajb.93.1.64" \
+            --output gelsemium_article.html || true
+
+      - name: Extract design and public-data evidence snippets
+        run: |
+          python - <<'PY'
+          import html
+          import re
+          from pathlib import Path
+
+          path = Path('gelsemium_article.html')
+          if not path.exists():
+              Path('gelsemium_screen_receipt.txt').write_text('article_page_not_retrieved\n', encoding='utf-8')
+              raise SystemExit(0)
+          raw = path.read_text(encoding='utf-8', errors='replace')
+          plain = re.sub(r'<script[^>]*>.*?</script>|<style[^>]*>.*?</style>', ' ', raw, flags=re.I | re.S)
+          plain = html.unescape(re.sub(r'<[^>]+>', ' ', plain))
+          plain = re.sub(r'\s+', ' ', plain)
+          terms = (
+              'secondary compound', 'herbivore resistance', 'pollination',
+              'nectar robber', 'floral visitor', 'visitor', 'gelsemine',
+              'iridoid', 'distyl', 'sample size', 'data availability',
+              'supplementary',
+          )
+          snippets=[]
+          for term in terms:
+              for match in re.finditer(rf'.{{0,600}}{re.escape(term)}.{{0,1200}}', plain, flags=re.I):
+                  value = match.group(0).strip()
+                  if value not in snippets:
+                      snippets.append(value)
+                  if len(snippets) >= 32:
+                      break
+              if len(snippets) >= 32:
+                  break
+          Path('gelsemium_screen_receipt.txt').write_text(
+              '\n\n--- ARTICLE SCREEN SNIPPET ---\n\n'.join(snippets), encoding='utf-8'
+          )
+          Path('gelsemium_screen_summary.txt').write_text(
+              f'html_characters={len(raw)}\nplain_text_characters={len(plain)}\nsnippet_count={len(snippets)}\n'
+              'The receipt is a screen aid, not a D1 classification.\n', encoding='utf-8'
+          )
+          PY
+          rm -f gelsemium_article.html
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gelsemium-article-screen-receipt
+          path: |
+            gelsemium_screen_receipt.txt
+            gelsemium_screen_summary.txt
+          if-no-files-found: error
