@@ -8,12 +8,17 @@ def test_research_pipeline_runs_without_pretending_empty_evidence_is_calibrated(
     root = Path(__file__).parents[1]
     out_dir = tmp_path / "pipeline"
 
-    subprocess.run(
+    result = subprocess.run(
         [sys.executable, "scripts/run_research_pipeline.py", str(out_dir)],
         cwd=root,
-        check=True,
+        check=False,
         capture_output=True,
         text=True,
+    )
+    assert result.returncode == 0, (
+        "research pipeline failed\n"
+        f"stdout:\n{result.stdout}\n"
+        f"stderr:\n{result.stderr}"
     )
 
     manifest = json.loads((out_dir / "pipeline_manifest.json").read_text(encoding="utf-8"))
