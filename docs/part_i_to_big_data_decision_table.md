@@ -39,7 +39,32 @@ c_{AD}.
 Leaf-consumer pressure may change leaf investment or overall allocation, but it
 does not directly enter this floral mixed partial.
 
-## Evidence levels for Parts II+
+## Step zero: functional-form robustness
+
+Before empirical effects constrain any parameter range, Part I must identify
+which local signs survive changes in response curvature. The predeclared sweep
+varies:
+
+```text
+attraction benefit: linear versus saturating
+barrier efficacy: linear versus saturating
+shared A×B cost: linear versus escalating
+channel strengths: low / baseline / high scenarios
+P, H, R, A, D: local regime and phenotype grid
+```
+
+The result is a **qualitative robustness map**:
+
+```text
+structurally_robust
+conditional_majority
+mixed_or_sensitive
+```
+
+This step does not use literature effect sizes and does not claim calibration.
+It determines which model signatures are worth confronting with data.
+
+## Evidence levels for direct cases
 
 | Evidence level | Required unit and data | What it can judge | What it cannot judge |
 |---|---|---|---|
@@ -52,6 +77,32 @@ does not directly enter this floral mixed partial.
 | **C2 Leaf-antagonist component test** | explicit plant–leaf-antagonist network and direct leaf quality/resistance traits | whether `Q_leaf`/`B_leaf` is associated with leaf-antagonist structure | floral A×B result without an explicit cross-organ bridge |
 | **C3 Source feasibility result** | trait/interaction source that passes or fails access and metadata gates | whether a data route is reproducibly available | any biological effect or theory sign |
 | **N0 Non-test** | unmatched databases, imputed traits, or pairwise claims without sampled units | nothing about the Part I sign | a trade-off, complementarity, or absence of evidence |
+
+## Broad evidence synthesis: four separate paths
+
+When ideal D2/D3 studies are rare, the broad empirical route does not stop. It
+collects separate direct effects for the four arrows:
+
+```text
+A_flower → pollination            b_A
+A_flower → floral antagonism      d_A
+B_flower → floral antagonism      e_F
+B_flower → pollination            c_D
+```
+
+Each registry row is `study × trait × outcome × reported model effect`. Effects
+stay separated by scale and design type until a conversion is declared. The
+result is a role-specific parameter envelope, not a single pooled “trade-off”
+effect.
+
+```text
+role × effect scale × design type distributions
+→ parameter envelopes for robustness scenarios
+→ empirically informed regime map
+```
+
+`c_AD` remains a sensitivity parameter until a direct allocation-cost measure or
+validated calibration exists.
 
 ## Decision rules
 
@@ -107,13 +158,15 @@ The public-data probes remain C3 feasibility tests:
    sampled-network metadata required for a C2 route.
 3. Matched floral studies are screened for M0–D3 rather than being forced into a
    single direct-test category.
+4. Four-path effect records are screened separately for scale-compatible
+   synthesis and parameter-envelope readiness.
 
 ## Publication logic
 
 ```text
-Part I: exact conditions + simulation phase map
+Part I: exact conditions + functional-form robustness map
 Part II: public-data feasibility and component analyses
-Part III: matched floral synthesis with D1–D3 identifiability ladder
+Part III: four-path synthesis + exceptional D2/D3 case validation
 ```
 
 The project is successful at each completed level. A failed C3 route or an M2
