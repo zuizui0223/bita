@@ -1,6 +1,6 @@
 # Test whether BIEN can supply directly observed leaf functional traits through
-# its public R interface. This is a source-feasibility screen, not a trait-effect
-# analysis and not a claim that BIEN creates a herbivory backbone.
+# its current public R client, RBIEN. This is a source-feasibility screen, not a
+# trait-effect analysis and not a claim that BIEN creates a herbivory backbone.
 #
 # Input: orientation directory from scripts/probe_wol_orientation.py
 # Output: candidate trait labels, per-taxon results, and a go/no-go report.
@@ -31,19 +31,19 @@ write_report <- function(report) {
   cat(jsonlite::toJSON(report, pretty = TRUE, auto_unbox = TRUE, null = "null"), "\n")
 }
 
-if (!requireNamespace("BIEN", quietly = TRUE)) {
+if (!requireNamespace("RBIEN", quietly = TRUE)) {
   write_report(list(
-    source = "BIEN R package + Web of Life",
-    access_status = "package_unavailable",
-    decision = "no_go_package_installation_or_access_failure"
+    source = "RBIEN + Web of Life",
+    access_status = "rbien_client_unavailable",
+    decision = "technical_failure_repair_client_installation_before_biological_screen"
   ))
-  quit(status = 0)
+  quit(status = 1)
 }
 
 orientation_path <- file.path(orientation_dir, "wol_orientation_network_audit.csv")
 if (!file.exists(orientation_path)) {
   write_report(list(
-    source = "BIEN R package + Web of Life",
+    source = "RBIEN + Web of Life",
     access_status = "orientation_input_missing",
     decision = "repair_orientation_dependency_before_leaf_trait_test"
   ))
@@ -70,9 +70,9 @@ plant_from_row <- function(row) {
 }
 
 species_rank_binomial <- function(value) {
-  # Exclude Web-of-Life local labels, genus-only names, hybrid formulae, and
-  # uncertain determinations. This is a feasibility sample, so conservatism is
-  # preferable to pretending a local code is a taxon accepted by BIEN.
+  # Exclude local labels, genus-only names, hybrids, and uncertain
+  # determinations. A conservative feasibility sample is preferable to
+  # presenting non-taxon labels to a public trait provider.
   if (is.na(value) || !nzchar(value)) return(FALSE)
   parts <- strsplit(trimws(value), "\\s+")[[1]]
   if (length(parts) != 2L) return(FALSE)
@@ -91,14 +91,14 @@ orientation <- orientation[
   drop = FALSE
 ]
 
-# Keep one reproducibly sampled taxon per oriented network and only then sample
-# networks. This avoids over-representing large networks in the provider test.
+# Keep one reproducibly sampled taxon per oriented network and then sample
+# networks, avoiding over-representation of large networks.
 set.seed(20260629)
 orientation <- orientation[!duplicated(orientation$network_name), , drop = FALSE]
 sample_size <- min(30L, nrow(orientation))
 if (sample_size == 0L) {
   write_report(list(
-    source = "BIEN R package + Web of Life",
+    source = "RBIEN + Web of Life",
     access_status = "no_species_rank_plant_taxa",
     decision = "no_go_no_valid_taxa_for_leaf_trait_screen"
   ))
@@ -106,10 +106,10 @@ if (sample_size == 0L) {
 }
 selected <- orientation[sample(seq_len(nrow(orientation)), sample_size), , drop = FALSE]
 
-trait_catalogue <- tryCatch(BIEN::BIEN_trait_list(), error = function(error) error)
+trait_catalogue <- tryCatch(RBIEN::BIEN_trait_list(), error = function(error) error)
 if (inherits(trait_catalogue, "error") || !is.data.frame(trait_catalogue)) {
   write_report(list(
-    source = "BIEN R package + Web of Life",
+    source = "RBIEN + Web of Life",
     access_status = "trait_catalogue_query_failed",
     message = if (inherits(trait_catalogue, "error")) conditionMessage(trait_catalogue) else class(trait_catalogue)[[1]],
     decision = "no_go_public_trait_catalogue_unavailable"
@@ -117,9 +117,9 @@ if (inherits(trait_catalogue, "error") || !is.data.frame(trait_catalogue)) {
   quit(status = 0)
 }
 
-# BIEN has changed column names across releases. Search every character/factor
-# column rather than depending on a particular schema, then retain exact labels
-# returned by the live catalogue for the subsequent trait queries.
+# RBIEN has changed catalogue column names across releases. Search every text
+# column, retain the exact labels returned live, then pass those labels to the
+# species-level record query.
 character_columns <- names(trait_catalogue)[vapply(
   trait_catalogue,
   function(column) is.character(column) || is.factor(column),
@@ -152,21 +152,12 @@ candidate_table <- do.call(
   rbind,
   lapply(names(candidate_labels), function(trait_id) {
     labels <- candidate_labels[[trait_id]]
-    if (!length(labels)) {
-      data.frame(
-        functional_trait_id = trait_id,
-        bien_trait_label = NA_character_,
-        label_found = FALSE,
-        stringsAsFactors = FALSE
-      )
-    } else {
-      data.frame(
-        functional_trait_id = trait_id,
-        bien_trait_label = labels,
-        label_found = TRUE,
-        stringsAsFactors = FALSE
-      )
-    }
+    data.frame(
+      functional_trait_id = trait_id,
+      bien_trait_label = if (length(labels)) labels else NA_character_,
+      label_found = length(labels) > 0,
+      stringsAsFactors = FALSE
+    )
   })
 )
 write.csv(
@@ -181,12 +172,7 @@ query_one <- function(species, labels) {
     return(list(status = "trait_label_not_listed", records = 0L, columns = "", message = ""))
   }
   result <- tryCatch(
-    BIEN::BIEN_trait_traitbyspecies(
-      species = species,
-      trait = labels,
-      all.taxonomy = TRUE,
-      source.citation = TRUE
-    ),
+    RBIEN::BIEN_trait_traitbyspecies(species = species, trait = labels),
     error = function(error) error
   )
   if (inherits(result, "error")) {
@@ -262,8 +248,9 @@ construction_pass <- any(passes_screen[construction_traits])
 nutrient_pass <- any(passes_screen[nutrient_traits])
 
 write_report(list(
-  source = "BIEN::BIEN_trait_list + BIEN::BIEN_trait_traitbyspecies + Web of Life",
-  package_version = as.character(utils::packageVersion("BIEN")),
+  source = "RBIEN::BIEN_trait_list + RBIEN::BIEN_trait_traitbyspecies + Web of Life",
+  package = "RBIEN",
+  package_version = as.character(utils::packageVersion("RBIEN")),
   sample_seed = 20260629,
   oriented_networks_with_species_rank_sample = nrow(orientation),
   sampled_networks = nrow(selected),
