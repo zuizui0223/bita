@@ -1,0 +1,44 @@
+name: Screen matched floral-study public resources
+
+on:
+  pull_request:
+    paths:
+      - "scripts/harvest_openalex_matched_flower_seeds.py"
+      - "scripts/screen_public_matched_evidence.py"
+      - "empirical/matched_flower_regime/literature_seed_queries.csv"
+      - "empirical/matched_flower_regime/PUBLIC_RESOURCE_SCREEN_PROTOCOL.md"
+      - ".github/workflows/screen-matched-flower-public-resources.yml"
+  workflow_dispatch:
+
+jobs:
+  public_evidence_screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Rebuild complete OpenAlex candidate universe
+        run: |
+          python scripts/harvest_openalex_matched_flower_seeds.py \
+            empirical/matched_flower_regime/literature_seed_queries.csv \
+            artifacts/matched_flower_seed_harvest \
+            --results-per-query 50 \
+            --shortlist-per-route 15
+
+      - name: Discover public supplements and repository leads for every candidate
+        run: |
+          python scripts/screen_public_matched_evidence.py \
+            artifacts/matched_flower_seed_harvest/openalex_matched_flower_all_candidates.csv \
+            artifacts/matched_flower_public_evidence \
+            --timeout-seconds 12 \
+            --sleep-seconds 0.15
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: matched-flower-public-evidence-screen
+          path: artifacts/
+          if-no-files-found: error
