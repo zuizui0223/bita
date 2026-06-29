@@ -24,17 +24,18 @@ jobs:
         with:
           r-version: "release"
 
-      - name: Install BIEN client and report dependency failures
+      - name: Install and verify current RBIEN client
         shell: bash
         run: |
           sudo apt-get update
           sudo apt-get install --yes libpq-dev
-          Rscript -e 'install.packages(c("jsonlite", "BIEN"), repos="https://cloud.r-project.org")'
+          Rscript -e 'install.packages(c("jsonlite", "RBIEN"), repos="https://cloud.r-project.org")'
+          Rscript -e 'stopifnot(requireNamespace("RBIEN", quietly=TRUE)); required <- c("BIEN_trait_list", "BIEN_trait_traitbyspecies"); stopifnot(all(required %in% getNamespaceExports("RBIEN"))); cat("RBIEN", as.character(packageVersion("RBIEN")), "ready\n")'
 
       - name: Recover Web of Life plant-side orientation
         run: python scripts/probe_wol_orientation.py artifacts/orientation
 
-      - name: Screen direct BIEN leaf-trait coverage
+      - name: Screen direct RBIEN leaf-trait coverage
         run: Rscript scripts/probe_bien_wol_leaf_coverage.R artifacts/orientation artifacts/bien_leaf
 
       - uses: actions/upload-artifact@v4
