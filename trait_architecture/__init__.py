@@ -1,5 +1,11 @@
 """Qualitative simulations and empirical data contracts for trait architecture."""
 
+from .ad_interaction_condition import (
+    ADInteractionCondition,
+    ADLocalRelation,
+    attraction_defence_cross_partial,
+    floral_pressure_threshold_for_complementarity,
+)
 from .model import Architecture, FitnessBreakdown, InteractionRegime, ModelParameters, fitness
 from .network_audit import CoverageReport, audit_files, audit_network_coverage, report_to_dict
 from .regime_map import RegimeOptimum, classify_strategy, optimise_architecture, sweep_regimes
@@ -15,6 +21,10 @@ from .stability import (
 )
 
 __all__ = [
+    "ADInteractionCondition",
+    "ADLocalRelation",
+    "attraction_defence_cross_partial",
+    "floral_pressure_threshold_for_complementarity",
     "Architecture",
     "FitnessBreakdown",
     "InteractionRegime",
