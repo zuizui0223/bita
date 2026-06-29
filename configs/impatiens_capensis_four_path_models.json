@@ -35,9 +35,9 @@
       "reason": "randomised supplemental pollination assignment"
     },
     {
-      "field": "Julian_Date_of_First_CH_Flower",
+      "field": "Date_of_First_CH_Flower",
       "coding": "zscore",
-      "reason": "seasonal/phenological adjustment"
+      "reason": "published processed-table phenology covariate"
     }
   ],
   "pathway_models": [
@@ -48,7 +48,7 @@
       "outcome_definition": "average number of pollinator visits in 60 minutes, calculated as average visits in 15 minutes multiplied by four",
       "exposure_or_denominator": "pollinator visitor surveys; processed outcome standardised to 60 minutes",
       "effect_roles": ["A_to_pollination", "B_to_pollination"],
-      "model": "ols_hc3: outcome_z ~ A_z + B_z + Robbing_Y + Florivory_Y + Pollination_Y + Julian_Date_z",
+      "model": "ols_hc3: outcome_z ~ A_z + B_z + Robbing_Y + Florivory_Y + Pollination_Y + Date_of_First_CH_Flower_z",
       "interpretation": "conditional observational association with pollinator visitation rate"
     },
     {
@@ -58,7 +58,7 @@
       "outcome_definition": "average percent flower tissue missing; raw response includes only natural florivory and is surveyed on plants with open CH flowers",
       "exposure_or_denominator": "raw records contain percent florivory on individual flowers and total open CH flowers per plant survey",
       "effect_roles": ["A_to_antagonism", "B_to_antagonism"],
-      "model": "ols_hc3: outcome_z ~ A_z + B_z + Robbing_Y + Florivory_Y + Pollination_Y + Julian_Date_z",
+      "model": "ols_hc3: outcome_z ~ A_z + B_z + Robbing_Y + Florivory_Y + Pollination_Y + Date_of_First_CH_Flower_z",
       "interpretation": "conditional observational association with natural floral tissue loss"
     }
   ],
@@ -68,7 +68,7 @@
       "outcome_field": "Average_CH_Fruits_Per_Day",
       "outcome_transform": "log1p_then_zscore",
       "outcome_definition": "average count of all chasmogamous fruits per plant per day",
-      "model": "ols_hc3: outcome_z ~ A_z + B_z + A_z:B_z + Robbing_Y + Florivory_Y + Pollination_Y + Julian_Date_z",
+      "model": "ols_hc3: outcome_z ~ A_z + B_z + A_z:B_z + Robbing_Y + Florivory_Y + Pollination_Y + Date_of_First_CH_Flower_z",
       "interpretation": "fitness-component interaction surface; not full lifetime fitness"
     },
     {
@@ -76,7 +76,7 @@
       "outcome_field": "Average_Seeds_Per_CH_Fruit",
       "outcome_transform": "log_then_zscore",
       "outcome_definition": "average count of seeds in each chasmogamous fruit",
-      "model": "ols_hc3: outcome_z ~ A_z + B_z + A_z:B_z + Robbing_Y + Florivory_Y + Pollination_Y + Julian_Date_z",
+      "model": "ols_hc3: outcome_z ~ A_z + B_z + A_z:B_z + Robbing_Y + Florivory_Y + Pollination_Y + Date_of_First_CH_Flower_z",
       "interpretation": "fitness-component interaction surface on the observed seed subset; not full lifetime fitness"
     }
   ],
