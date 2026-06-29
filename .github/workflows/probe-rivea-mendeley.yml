@@ -1,0 +1,70 @@
+name: Probe Rivea public Mendeley data
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/probe-rivea-mendeley.yml"
+  workflow_dispatch:
+
+jobs:
+  inspect_rivea_mendeley:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Retrieve public Mendeley dataset page
+        run: |
+          curl --fail --location --retry 2 \
+            --user-agent "Mozilla/5.0 (research evidence screen; github.com/zuizui0223/biotic-interaction-trait-architecture)" \
+            "https://data.mendeley.com/datasets/2n4vgpvzgs/1" \
+            --output rivea_mendeley_page.html
+
+      - name: Record file labels and visible data description
+        run: |
+          python - <<'PY'
+          import html
+          import json
+          import re
+          from pathlib import Path
+          from urllib.parse import urljoin
+
+          raw = Path('rivea_mendeley_page.html').read_text(encoding='utf-8', errors='replace')
+          plain = re.sub(r'<script[^>]*>.*?</script>|<style[^>]*>.*?</style>', ' ', raw, flags=re.I | re.S)
+          plain = html.unescape(re.sub(r'<[^>]+>', ' ', plain))
+          plain = re.sub(r'\s+', ' ', plain)
+          terms = ('Description', 'pollinator', 'florivor', 'flower', 'raw data', 'file', 'trait', 'nectar', 'damage')
+          snippets=[]
+          for term in terms:
+              for match in re.finditer(rf'.{{0,450}}{re.escape(term)}.{{0,1200}}', plain, flags=re.I):
+                  value=match.group(0).strip()
+                  if value not in snippets:
+                      snippets.append(value)
+                  if len(snippets)>=25:
+                      break
+              if len(snippets)>=25:
+                  break
+          files=[]
+          for href,label in re.findall(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', raw, flags=re.I|re.S):
+              label=html.unescape(re.sub(r'<[^>]+>', ' ', label))
+              signal=(href+' '+label).lower()
+              if any(k in signal for k in ('.csv','.xlsx','.xls','.zip','.rdata','.rds','download','file')):
+                  files.append({'url':urljoin('https://data.mendeley.com', html.unescape(href)), 'label':re.sub(r'\s+', ' ',label).strip()})
+          Path('rivea_mendeley_package_receipt.json').write_text(json.dumps({
+              'source_dataset_doi':'10.17632/2n4vgpvzgs.1',
+              'source_article_doi':'10.1186/s12862-024-02301-7',
+              'screen_scope':'public Mendeley page description and visible file links only; no raw rows retained',
+              'snippets':snippets,
+              'visible_file_links':files,
+          }, indent=2), encoding='utf-8')
+          Path('rivea_mendeley_package_summary.txt').write_text(
+              f'html_characters={len(raw)}\nplain_text_characters={len(plain)}\nsnippet_count={len(snippets)}\nfile_links={len(files)}\n', encoding='utf-8'
+          )
+          PY
+          rm rivea_mendeley_page.html
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rivea-mendeley-package-receipt
+          path: |
+            rivea_mendeley_package_receipt.json
+            rivea_mendeley_package_summary.txt
+          if-no-files-found: error
