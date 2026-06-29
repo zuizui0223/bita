@@ -35,12 +35,13 @@ interaction regime to trait architecture:
    can actually supply the matched unit required for an empirical analysis.
 3. **Part III — matched floral-study synthesis.** Test predeclared Part I
    observation models only with studies that measure floral traits, pollination,
-   and floral antagonism in the same biological context.
+   floral antagonism, and—where possible—reproductive fitness in the same
+   biological context.
 
 ```text
 Part I: model assumptions → exact conditions → simulation phase map
 Part II: source feasibility → accepted or retired data routes
-Part III: matched study panels → compatible / contradicts / not identified
+Part III: matched study panels → mechanism paths → fitness curvature where identified
 ```
 
 The score retains reproductive assurance `R` as a sensitivity term because it can
@@ -69,33 +70,38 @@ or unmatched joins.
 
 ## Direct empirical route: matched floral studies
 
-A direct test of the current Part I \(A_{flower} \times B_{flower}\) result
-requires a study panel with:
+The exact Part I result concerns local **fitness curvature**, not observed trait
+covariance. A direct empirical route therefore needs more than A/B traits and
+two interaction responses. It must establish the four directional paths:
 
 ```text
-floral attraction trait(s)
-+ floral barrier/resistance trait(s)
-+ pollination response with denominator
-+ floral-antagonist response with denominator
-+ same site/time or predeclared overlap
-+ a declared linkage unit
-+ recoverable table and trait method
+A_flower → pollination
+A_flower → floral antagonism
+B_flower → floral antagonism
+B_flower → pollination
 ```
 
-The unit is a **study landscape**, not a species name pooled across unrelated
-databases. Evidence is classified before modelling:
+and, for a direct observed-curvature comparison, a linked reproductive-fitness
+response.
 
 ```text
 M0  candidate requiring full-text screen
 M1  one-channel or unaligned evidence ledger
-M2  aligned two-channel panel, but incomplete for a direct test
-D1  direct-regime model candidate
+M2  aligned two-channel panel, but one or more Part I paths unestimated
+D1  four-arrow channel-mechanism panel
+D2  D1 plus observed reproductive-fitness surface
+D3  D2 plus independently observed/calibrated A×B shared cost
 ```
+
+The unit is a **study landscape**, not a species name pooled across unrelated
+databases. A D1 panel can identify the interaction-channel balance; only D2/D3
+can compare an observed A×B fitness curvature with a declared Part I scenario.
 
 Files for this active route:
 
 ```text
 empirical/matched_flower_regime/MATCHED_STUDY_PROTOCOL.md
+docs/theory_empirical_identifiability_reassessment.md
 empirical/matched_flower_regime/literature_seed_queries.csv
 empirical/matched_flower_regime/matched_flower_study_cards.csv
 examples/audit_matched_flower_studies.py
@@ -141,12 +147,14 @@ therefore separates:
 ```text
 interaction architecture
 → trait-associated interaction signatures
-→ dedicated mechanism tests
+→ directional mechanism paths
+→ conditional reproductive-fitness curvature
 ```
 
-A D1 result can be called only `compatible_with_declared_scenario`,
-`contradicts_declared_scenario`, or `not_identified`. It is not proof of
-adaptation unless fitness or selection data are separately included.
+D1 identifies channel pathways, not the full Part I sign. D2/D3 results can be
+called only `compatible_with_declared_scenario`,
+`contradicts_declared_scenario`, or `not_identified`; none is proof of adaptation
+without a suitable intervention or identification design.
 
 ## Boundary with eco-genetic-criticality
 
