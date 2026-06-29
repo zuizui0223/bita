@@ -21,25 +21,16 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote, unquote, urljoin, urlparse
 from urllib.request import Request, urlopen
 
-
 DRYAD_ORIGIN = "https://datadryad.org"
 DRYAD_API = f"{DRYAD_ORIGIN}/api/v2"
-USER_AGENT = "biotic-interaction-trait-architecture Dryad public-data probe/0.2 (+https://github.com/zuizui0223/biotic-interaction-trait-architecture)"
+USER_AGENT = "biotic-interaction-trait-architecture Dryad public-data probe/0.3 (+https://github.com/zuizui0223/biotic-interaction-trait-architecture)"
 MAX_JSON_REQUESTS = 24
 MAX_PREVIEW_BYTES = 2_000_000
 TABULAR_SUFFIXES = (".csv", ".tsv", ".tab", ".txt")
 FILE_FIELDS = [
-    "file_name",
-    "file_id",
-    "mime_type",
-    "size_bytes",
-    "metadata_url",
-    "download_url",
-    "tabular_candidate",
-    "preview_status",
-    "detected_delimiter",
-    "header_columns",
-    "first_data_row_column_count",
+    "file_name", "file_id", "mime_type", "size_bytes", "metadata_url",
+    "download_url", "tabular_candidate", "preview_status", "detected_delimiter",
+    "header_columns", "first_data_row_column_count",
 ]
 
 
@@ -56,9 +47,7 @@ def normalise_doi(value: object) -> str:
 
 def absolute_dryad_url(value: object, base_url: str = DRYAD_ORIGIN) -> str:
     raw = text(value)
-    if not raw:
-        return ""
-    return urljoin(base_url, raw)
+    return urljoin(base_url, raw) if raw else ""
 
 
 def request_json(url: str, timeout: float) -> tuple[str, Any | None]:
@@ -92,17 +81,29 @@ def request_bytes(url: str, timeout: float, max_bytes: int) -> tuple[str, bytes]
         return f"error_{type(error).__name__}", b""
 
 
+def nested_dicts(value: object) -> Iterable[dict[str, Any]]:
+    """Yield all dictionaries because Dryad v2 file arrays vary by endpoint."""
+    if isinstance(value, dict):
+        yield value
+        for child in value.values():
+            yield from nested_dicts(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from nested_dicts(child)
+
+
 def link_urls(value: object, base_url: str) -> list[tuple[str, str]]:
-    """Recursively retain labelled API URLs, including Dryad's relative hrefs."""
+    """Recursively retain labelled Dryad API URLs, including relative hrefs."""
     found: list[tuple[str, str]] = []
     if isinstance(value, dict):
         for key, child in value.items():
-            if isinstance(child, str) and child.startswith(("/api/v2/", "https://datadryad.org/api/v2/")):
-                found.append((str(key), absolute_dryad_url(child, base_url)))
+            href = ""
+            if isinstance(child, str):
+                href = child
             elif isinstance(child, dict):
-                href = child.get("href") or child.get("url")
-                if isinstance(href, str) and href.startswith(("/api/v2/", "https://datadryad.org/api/v2/")):
-                    found.append((str(key), absolute_dryad_url(href, base_url)))
+                href = text(child.get("href") or child.get("url"))
+            if href.startswith(("/api/v2/", "https://datadryad.org/api/v2/")):
+                found.append((str(key), absolute_dryad_url(href, base_url)))
             found.extend(link_urls(child, base_url))
     elif isinstance(value, list):
         for child in value:
@@ -118,7 +119,7 @@ def looks_like_dryad_api(url: str) -> bool:
 def _download_link(links: object, metadata_url: str) -> str:
     if not isinstance(links, dict):
         return ""
-    raw = links.get("stash:download") or links.get("download")
+    raw = links.get("stash:download") or links.get("download") or links.get("download_url")
     if isinstance(raw, dict):
         raw = raw.get("href") or raw.get("url")
     return absolute_dryad_url(raw, metadata_url)
@@ -134,17 +135,23 @@ def _file_record_from_object(obj: dict[str, Any], metadata_url: str) -> dict[str
         or attributes.get("filename")
         or attributes.get("name")
         or attributes.get("original_filename")
+        or attributes.get("file")
     )
     links = obj.get("links") if isinstance(obj.get("links"), dict) else obj.get("_links")
     download_url = text(
         attributes.get("downloadUrl")
         or attributes.get("download_url")
+        or attributes.get("url")
         or _download_link(links, metadata_url)
     )
-    file_id = text(obj.get("id") or attributes.get("id"))
-    mime_type = text(attributes.get("mimeType") or attributes.get("mime_type") or attributes.get("contentType"))
-    size = attributes.get("size") or attributes.get("sizeBytes") or attributes.get("size_bytes")
-    if not candidate_name and not download_url:
+    file_id = text(obj.get("id") or attributes.get("id") or attributes.get("file_id"))
+    mime_type = text(attributes.get("mimeType") or attributes.get("mime_type") or attributes.get("contentType") or attributes.get("content_type"))
+    size = attributes.get("size") or attributes.get("sizeBytes") or attributes.get("size_bytes") or attributes.get("file_size")
+    # Avoid treating the dataset/version object itself as a file merely because
+    # it carries a generic name/title. Require a file-like name or a direct
+    # download link alongside file metadata.
+    looks_file_like = bool(candidate_name) and ("." in candidate_name or "file" in obj.get("type", "").lower())
+    if not looks_file_like and not download_url:
         return None
     if not candidate_name:
         candidate_name = urlparse(download_url).path.rsplit("/", 1)[-1] or file_id
@@ -163,26 +170,7 @@ def _file_record_from_object(obj: dict[str, Any], metadata_url: str) -> dict[str
     }
 
 
-def objects_from_json(payload: object) -> Iterable[dict[str, Any]]:
-    if isinstance(payload, dict):
-        data = payload.get("data")
-        if isinstance(data, list):
-            yield from (item for item in data if isinstance(item, dict))
-        elif isinstance(data, dict):
-            yield data
-        for key in ("included", "files", "items", "_embedded"):
-            nested = payload.get(key)
-            if isinstance(nested, list):
-                yield from (item for item in nested if isinstance(item, dict))
-            elif isinstance(nested, dict):
-                yield nested
-    elif isinstance(payload, list):
-        yield from (item for item in payload if isinstance(item, dict))
-
-
-def discover_dryad_document_tree(
-    dataset_doi: str, timeout: float
-) -> tuple[dict[str, Any], list[tuple[str, object]], list[dict[str, str]]]:
+def discover_dryad_document_tree(dataset_doi: str, timeout: float) -> tuple[dict[str, Any], list[tuple[str, object]], list[dict[str, str]]]:
     root = f"{DRYAD_API}/datasets/doi:{quote(dataset_doi, safe='')}"
     queue: deque[str] = deque([root])
     visited: set[str] = set()
@@ -202,16 +190,14 @@ def discover_dryad_document_tree(
         if url == root and isinstance(payload, dict):
             root_payload = payload
 
-        for obj in objects_from_json(payload):
+        for obj in nested_dicts(payload):
             record = _file_record_from_object(obj, url)
             if record:
                 inventory.setdefault((record["file_id"], record["file_name"]), record)
 
         for key, link in link_urls(payload, url):
-            if looks_like_dryad_api(link):
-                label = key.lower()
-                if any(token in label for token in ("file", "version", "dataset", "related")):
-                    queue.append(link)
+            if looks_like_dryad_api(link) and any(token in key.lower() for token in ("file", "version", "dataset", "related")):
+                queue.append(link)
 
     return root_payload, documents, list(inventory.values())
 
@@ -265,6 +251,10 @@ def dataset_title(payload: dict[str, Any]) -> str:
     return text(attributes.get("title"))
 
 
+def serializable_documents(documents: Iterable[tuple[str, object]]) -> dict[str, object]:
+    return {url: body for url, body in documents}
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("dataset_doi")
@@ -282,6 +272,7 @@ def main(argv: list[str] | None = None) -> int:
     root_payload, documents, inventory = discover_dryad_document_tree(dataset_doi, args.timeout_seconds)
     inventory = [preview_tabular_file(record, args.timeout_seconds) for record in inventory]
     (out_dir / "dryad_dataset_metadata.json").write_text(json.dumps(root_payload, indent=2, sort_keys=True), encoding="utf-8")
+    (out_dir / "dryad_api_documents.json").write_text(json.dumps(serializable_documents(documents), indent=2, sort_keys=True), encoding="utf-8")
     (out_dir / "dryad_api_receipt.json").write_text(
         json.dumps(
             {
