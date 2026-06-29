@@ -41,26 +41,35 @@ def _processed(archive: zipfile.ZipFile) -> list[dict[str, str]]:
     return [dict(row) for row in csv.DictReader(io.StringIO(data))]
 
 
-def _run_model(model: dict[str, Any], rows: list[dict[str, str]], traits: dict[str, Any]) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+def _phenology_field(config: dict[str, Any]) -> str:
+    matches = [item["field"] for item in config["shared_adjustments"] if item.get("coding") == "zscore"]
+    if len(matches) != 1:
+        raise ValueError("config must declare exactly one zscore phenology adjustment")
+    return matches[0]
+
+
+def _run_model(
+    model: dict[str, Any],
+    rows: list[dict[str, str]],
+    traits: dict[str, Any],
+    phenology_field: str,
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     a, b = traits["A_flower"], traits["B_flower"]
     prepared, omitted = prepare_rows(
         rows,
         outcome_field=model["outcome_field"], outcome_transform=model["outcome_transform"],
         attraction_field=a["field"], attraction_transform=a["transform"],
         barrier_field=b["field"], barrier_transform=b["transform"],
+        phenology_field=phenology_field,
     )
     y, design, terms = design_matrix(prepared, interaction=has_interaction(model))
     result = fit_ols_hc3(y, design, terms)
     coeff = {item.term: item for item in result.coefficients}
     summary = {
-        "analysis_id": model["analysis_id"],
-        "outcome_field": model["outcome_field"],
-        "outcome_transform": model["outcome_transform"],
-        "n_complete": result.n,
-        "n_omitted": omitted,
-        "r_squared": result.r_squared,
-        "residual_df": result.residual_df,
-        "coefficients": [asdict(item) for item in result.coefficients],
+        "analysis_id": model["analysis_id"], "outcome_field": model["outcome_field"],
+        "outcome_transform": model["outcome_transform"], "phenology_field": phenology_field,
+        "n_complete": result.n, "n_omitted": omitted, "r_squared": result.r_squared,
+        "residual_df": result.residual_df, "coefficients": [asdict(item) for item in result.coefficients],
         "interpretation": model["interpretation"],
     }
     effects: list[dict[str, Any]] = []
@@ -86,14 +95,15 @@ def run(config_json: str, targets_csv: str, out_dir: str) -> dict[str, object]:
     archive_url = f"{_version_url(receipt)}/download"
     archive_bytes = _download_archive(archive_url, landing_page_url=receipt.landing_page_url)
     rows = _processed(zipfile.ZipFile(BytesIO(archive_bytes)))
+    phenology = _phenology_field(config)
     summaries: list[dict[str, Any]] = []
     effects: list[dict[str, Any]] = []
     for model in config["pathway_models"]:
-        summary, candidate = _run_model(model, rows, config["primary_trait_modules"])
+        summary, candidate = _run_model(model, rows, config["primary_trait_modules"], phenology)
         summaries.append(summary)
         effects.extend(candidate)
     for model in config["fitness_component_models"]:
-        summary, _ = _run_model(model, rows, config["primary_trait_modules"])
+        summary, _ = _run_model(model, rows, config["primary_trait_modules"], phenology)
         summaries.append(summary)
     report = {
         "study_id": config["study_id"], "study_doi": config["study_doi"], "dataset_doi": config["dataset_doi"],
