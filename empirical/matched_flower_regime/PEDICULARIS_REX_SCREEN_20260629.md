@@ -13,69 +13,99 @@ DOI: `10.1093/aob/mcw097`.
 M2_aligned_two_channel_panel
 ```
 
-This is an unusually informative two-channel study, but it is **not a D1 direct
-regime panel** for the current Part I `A_flower × B_flower` relation.
+This is an unusually informative two-channel study. It is **currently not a D1
+panel because the public materials lack individual rows**, but it is a
+**D1-reanalysis candidate** if the original data for the linked plants can be
+obtained.
 
 ## What is actually measured
 
 | Required component | Evidence recovered from full text | Status |
 |---|---|---|
-| Attraction/access candidate | corolla exsertion beyond cupular bracts; lower corolla-lip width | present |
-| Barrier/protection candidate | cupular-bract height and water-bearing bract architecture | present mechanistically |
+| Attraction/access candidates | flower length, corolla-tube length/diameter, lower-lip length/width, corolla opening | separately measured |
+| Barrier/protection candidate | cupular-bract height; water-bearing bract architecture | separately measured / mechanistically supported |
+| Published focal composite | proportional corolla exsertion beyond water-bearing bracts | derived from flower length and bract height |
 | Pollination channel | stigmatic pollen load | present |
 | Pollination denominator | two late-anthesis flowers per plant | present |
 | Floral-antagonist channel | proportional pre-dispersal seed predation | present |
 | Antagonist denominator | intact + larva-damaged seeds in capsules, averaged per plant | present |
 | Linkage | morphology and pollen were recorded for individual plants; in seven populations later capsule data were from those same labelled plants | partial but real |
 | Time/site alignment | same field study and population context; exact collection dates not recoverable from the paper | overlapping field context |
-| Data recoverability | online supplement provides population summaries and means/SE, not an individual-level table | insufficient for D1 |
+| Data recoverability | online supplement provides population summaries and means/SE, not an individual-level table | currently insufficient for D1 |
 
-## Why it does **not** identify the Part I mixed relation
+## Why the published analysis is not yet a Part I test
 
-### 1. The focal trait is an A/B composite
+### 1. The published focal variable is an A/B composite
 
-The paper calculates proportional corolla exsertion as:
+The article calculates proportional corolla exsertion as:
 
 ```text
 (flower length − cupular-bract height) / flower length
 ```
 
-This combines a flower-access/showiness component with bract-mediated
-protection. Its variation can be caused by a longer flower, a shorter bract, or
-both. Therefore it cannot supply separately variable `A_flower` and `B_flower`
-coordinates for the Part I cross-partial.
+That published predictor cannot itself identify the Part I
+`A_flower × B_flower` relation: variation in it can be caused by flower length,
+bract height, or both.
+
+**But this is not a permanent identification failure.** The methods show that
+flower traits and cupular-bract height were measured separately. With the
+original individual-level table, the analysis can instead predefine independent
+coordinates, for example:
+
+```text
+A_flower: lower-lip width / corolla opening / flower length
+B_flower: cupular-bract height or a bract-water protection index
+```
+
+The choice must be fixed before reanalysis and tested for collinearity; it cannot
+be selected after inspecting the effect sign.
 
 ### 2. No recoverable individual-level table
 
-The supplement contains population-level summaries and seed-predation summaries,
-not the plant-level rows needed to fit a preregistered direct-regime observation
-model or check the module separation empirically.
+The accessible supplement contains population-level summaries and seed-predation
+summaries, not the plant-level rows needed to recompute separate A/B coordinates
+or fit a direct-regime observation model.
 
 ### 3. Partial linkage only
 
-The paper states that labels were lost in five of the 12 populations with
+The article reports that labels were lost in five of the 12 populations with
 seed-production data. Those populations cannot link individual floral morphology
-to individual seed predation.
+to individual seed predation. The seven retained linked populations are still a
+valid bounded reanalysis set if their original rows can be supplied.
 
-## What this study **does** contribute
+## What this study contributes now
 
-It is strong M2 evidence that the same flower-associated morphology can have
-opposite paths through pollination and pre-dispersal seed predation. At the
-within-population level, greater exsertion and wider lower lips were associated
-with more stigmatic pollen and higher seed-predation rates. The study also gives
-a mechanistic bridge: a companion experiment found that removing water from
-cupular bracts increased seed predation.
+It is strong M2 evidence that flower-associated morphology has opposite paths
+through pollination and pre-dispersal seed predation: greater published exsertion
+and wider lower lips were associated with more stigmatic pollen and higher seed
+predation. The authors also report that a companion experiment found that
+removing water from cupular bracts increased seed predation without a detectable
+increase in pollination.
 
-It can therefore guide parameter scenarios and nominate the companion experiment
-for separate screening. It cannot by itself test whether independently measured
-attraction and barrier modules are complementary or substitutable.
+The paper therefore supplies both a matched observational panel and a candidate
+barrier mechanism. It does **not** yet test whether independently measured
+attraction and barrier modules are complementary or substitutable, because the
+individual table is unavailable publicly.
 
-## Next acquisition action
+## Concrete acquisition action
 
-1. Look for an archived plant-level dataset or contact the authors for the
-   individual-level morphology, pollen, capsule, and predation table.
-2. Screen the companion study:
-   Sun & Huang (2015), *Rainwater in cupulate bracts repels seed herbivores in a
-   bumblebee-pollinated subalpine flower*, **AoB Plants** 7, plv019.
-3. Keep the present study as M2 even if individual rows become available unless
-   bract protection and attraction/access can be separately parameterised.
+Request the original rows for the seven populations where plant identity was
+maintained. Ask specifically for:
+
+```text
+population ID and plant ID
+all six floral measurements and cupular-bract height
+pollen counts from the two sampled flowers
+capsule-level intact, damaged, and unfertilised seed counts
+capsule/whorl identity and sampling dates, if retained
+```
+
+If those rows are received, freeze the seven-population analysis set and run the
+predeclared D1 reanalysis. If they are not available, keep this study as M2.
+
+## Related study to screen separately
+
+Sun & Huang (2015), *Rainwater in cupulate bracts repels seed herbivores in a
+bumblebee-pollinated subalpine flower*, **AoB Plants** 7, plv019, is a
+barrier-mechanism component study. It should not be combined with this study as
+though it were the same individual panel.
