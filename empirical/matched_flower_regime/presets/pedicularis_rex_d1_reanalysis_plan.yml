@@ -1,0 +1,75 @@
+study_id: Sun_Armbruster_Huang_2016_Pedicularis_rex
+status: D1_contingent_on_author_provided_individual_rows
+purpose: >-
+  Reanalyse the seven Pedicularis rex populations in which individual floral
+  measurements, pollen load, and later capsule/seed-predation observations can
+  be linked by plant identity. Do not fit this plan until the requested rows are
+  received and their linkage is checked.
+
+fixed_analysis_set:
+  populations: "Only the seven populations with retained plant labels; do not recover the five label-lost populations by aggregation."
+  unit: individual_plant
+  no_post_hoc_module_selection: true
+
+predeclared_modules:
+  A_flower:
+    primary_coordinate: lower_corolla_lip_width
+    sensitivity_coordinates:
+      - flower_length
+      - corolla_opening
+    rationale: "Separately measured display/access candidates in the field study."
+  B_flower:
+    primary_coordinate: cupular_bract_height
+    mechanism_variable_if_available: water_depth_or_water_presence
+    rationale: >-
+      Bract height was separately measured; the companion manipulation supports
+      water-bearing cupular bracts as a seed-predator barrier. Do not use
+      proportional corolla exsertion as an A or B coordinate.
+
+required_input_columns:
+  - population_id
+  - plant_id
+  - flower_length
+  - corolla_tube_length
+  - corolla_tube_diameter
+  - lower_lip_length
+  - lower_lip_width
+  - corolla_opening
+  - cupular_bract_height
+  - pollen_count_per_sampled_flower
+  - sampled_flower_id_for_pollen
+  - capsule_id
+  - capsule_whorl_position
+  - intact_seed_count
+  - larva_damaged_seed_count
+  - unfertilised_ovule_count
+  - sampling_date_or_relative_phase
+
+outcomes:
+  pollination:
+    response: pollen_count
+    denominator: number_of_sampled_late_anthesis_flowers
+    model_family: negative_binomial_or_poisson_after_diagnostics
+  antagonist:
+    response: larva_damaged_seed_count
+    denominator: intact_seed_count_plus_larva_damaged_seed_count
+    model_family: binomial_or_beta_binomial_after_diagnostics
+
+models:
+  - name: pollination_component
+    formula: "pollen_count ~ A_flower * B_flower + population_id"
+  - name: antagonist_component
+    formula: "cbind(damaged_seed_count, intact_seed_count) ~ A_flower * B_flower + population_id"
+  - name: robustness
+    requirement: >-
+      Repeat only the predeclared A sensitivity coordinates, report all results,
+      and test whether bract height is collinear with each A coordinate.
+
+interpretation_limits:
+  - "A compatible or contradicting sign is an observational result, not proof of adaptation."
+  - "The companion water-draining experiment is a separate B-mechanism component study and is not pooled as if it were the same individual panel."
+  - "No comparison to the five populations with lost individual labels."
+
+data_request:
+  minimum: "Plant-level morphology, pollen, capsule, and seed-count rows for the seven linked populations."
+  contact_status: not_requested
