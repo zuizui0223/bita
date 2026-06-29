@@ -39,59 +39,59 @@ def test_normalise_doi_handles_urls_and_query_strings() -> None:
     assert MODULE.normalise_doi("doi:10.1000/ABC.") == "10.1000/abc"
 
 
-def test_page_resource_extraction_keeps_supplement_repository_and_table_leads() -> None:
-    supplements, machine, repositories = MODULE.extract_page_resources(
+def test_page_resource_extraction_rejects_generic_pages_and_keeps_direct_assets() -> None:
+    statements, supplements, machine, repositories = MODULE.extract_page_resources(
         [
-            ("https://publisher.example/supporting-information.pdf", "Supporting Information"),
-            ("https://zenodo.org/record/1", "Dataset"),
-            ("https://zenodo.org/record/1/data.csv", "CSV"),
+            ("https://journals.plos.org/plosone/s/supporting-information", "Supporting Information"),
+            ("https://journals.plos.org/plosone/article/file?type=supplementary&id=10.1.s001", "Supplementary data"),
+            ("https://figshare.com/articles/dataset/example/1", "Dataset"),
+            ("https://figshare.com/ndownloader/files/1/data.csv", "Download CSV"),
+            ("https://github.com/PLOS/plos-thesaurus", "GitHub"),
         ]
     )
 
-    assert supplements == ["https://publisher.example/supporting-information.pdf"]
-    assert machine == ["https://zenodo.org/record/1/data.csv"]
-    assert repositories == ["https://zenodo.org/record/1", "https://zenodo.org/record/1/data.csv"]
+    assert statements == ["https://journals.plos.org/plosone/s/supporting-information"]
+    assert supplements == ["https://journals.plos.org/plosone/article/file?type=supplementary&id=10.1.s001"]
+    assert machine == ["https://figshare.com/ndownloader/files/1/data.csv"]
+    assert repositories == [
+        "https://figshare.com/articles/dataset/example/1",
+        "https://figshare.com/ndownloader/files/1/data.csv",
+    ]
 
 
-def test_datacite_returns_only_explicitly_related_nonarticle_datasets() -> None:
-    payload = {
-        "data": [
-            {
-                "attributes": {
-                    "doi": "10.5061/dryad.example",
-                    "url": "https://datadryad.org/stash/dataset/doi:10.5061/dryad.example",
-                    "types": {"resourceTypeGeneral": "Dataset"},
-                    "relatedIdentifiers": [
-                        {"relatedIdentifier": "https://doi.org/10.1000/article", "relationType": "IsSupplementTo"}
-                    ],
-                }
-            },
-            {
-                "attributes": {
-                    "doi": "10.1000/other-article",
-                    "types": {"resourceTypeGeneral": "Text"},
-                    "relatedIdentifiers": [
-                        {"relatedIdentifier": "10.1000/article", "relationType": "IsCitedBy"}
-                    ],
-                }
-            },
-            {
-                "attributes": {
-                    "doi": "10.5281/zenodo.unrelated",
-                    "types": {"resourceTypeGeneral": "Dataset"},
-                    "relatedIdentifiers": [],
-                }
-            },
-        ]
+def test_direct_datacite_relations_require_article_metadata_and_dataset_type(monkeypatch) -> None:
+    article_payload = {
+        "data": {
+            "attributes": {
+                "relatedIdentifiers": [
+                    {"relatedIdentifier": "10.5061/dryad.example", "relationType": "IsSupplementedBy"},
+                    {"relatedIdentifier": "10.9999/nondata", "relationType": "References"},
+                ]
+            }
+        }
     }
+    dataset_payload = {
+        "data": {
+            "attributes": {
+                "url": "https://datadryad.org/stash/dataset/doi:10.5061/dryad.example",
+                "types": {"resourceTypeGeneral": "Dataset"},
+            }
+        }
+    }
+    responses = {
+        "10.1000/article": ("queried", article_payload),
+        "10.5061/dryad.example": ("queried", dataset_payload),
+    }
+    monkeypatch.setattr(MODULE, "_datacite_get", lambda doi, timeout: responses.get(doi, ("http_error_404", None)))
 
-    found = MODULE.datacite_related_datasets(payload, "10.1000/article")
+    status, found = MODULE.direct_datacite_related_datasets("10.1000/article", 1)
 
+    assert status == "queried_direct_article_relations"
     assert found == [
         {
             "doi": "10.5061/dryad.example",
             "url": "https://datadryad.org/stash/dataset/doi:10.5061/dryad.example",
-            "relation_types": "IsSupplementTo",
+            "relation_types": "issupplementedby",
         }
     ]
 
@@ -102,14 +102,14 @@ def test_screen_preserves_each_candidate_and_never_auto_promotes_to_d1(monkeypat
         "fetch_html_links",
         lambda url, timeout: (
             "fetched_html",
-            [("https://figshare.com/file.csv", "download csv")],
+            [("https://figshare.com/ndownloader/files/1/data.csv", "Download CSV")],
             url,
         ),
     )
     monkeypatch.setattr(
         MODULE,
-        "query_datacite",
-        lambda doi, timeout: ("queried", []),
+        "direct_datacite_related_datasets",
+        lambda doi, timeout: ("queried_direct_article_relations", []),
     )
 
     screened, report = MODULE.screen_candidates(
