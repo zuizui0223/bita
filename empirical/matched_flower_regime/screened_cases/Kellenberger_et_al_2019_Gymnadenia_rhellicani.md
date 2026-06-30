@@ -4,7 +4,7 @@
 article DOI:       10.1038/s41467-018-07936-x
 public source DOI: 10.6084/m9.figshare.7314731.v10
 source status:      article-declared Figshare package verified
-screen status:      header recovered; pollinator-image annotation required
+screen status:      header recovered; image exposure mapping unresolved
 ```
 
 ## Provenance contract
@@ -39,17 +39,31 @@ Thus floral morph and several reproductive / floral-antagonism outcomes occur
 in a recoverable individual-plant data structure. They must not be repurposed
 as a direct pollination outcome without an explicit bridge.
 
-The same Figshare package includes camera-recording archives for 2016 and 2017,
-as well as focal-plant and fruit/seed image archives. The pollinator response is
-therefore potentially recoverable from images, not yet from a verified tabular
-individual visitation response.
+## Pollinator-image manifest audit
+
+The package contains five declared pollinator-recording archives. A central-
+directory-only audit did not read image pixels or image paths.
+
+```text
+2016 archive 1: 8,155 JPG files; no black/red/white or timestamp filename tokens
+2016 archive 2: 8,675 JPG files; no black/red/white or timestamp filename tokens
+2017 archive 1: 8,848 JPG files plus 10 AVI files; no black/red/white or timestamp filename tokens
+2016 archive 3: ZIP central-directory manifest unavailable
+2017 archive 2: ZIP central-directory manifest unavailable
+```
+
+The absence of morph and timestamp tokens in the readable archive names means
+that image filenames alone cannot establish morph-specific display exposure or
+observation duration. The inaccessible central directories cannot fill that gap.
+No image content was downloaded or inspected by this audit.
 
 ## Current evidence boundary
 
 ```text
 source route:              verified
 individual morph + fitness: header-level recoverable
-individual morph + visit rate: not yet extracted
+individual morph + visit rate: not extracted
+camera exposure mapping:    unresolved from public filenames
 A_to_pollination effect:    not registered
 B_flower module:            not identified
 D1 / D2 / D3:               not established
@@ -66,3 +80,8 @@ Follow `GYMNADENIA_RHELLICANI_POLLINATOR_ANNOTATION_PROTOCOL.md` before opening
 or counting any camera frames. The protocol must be satisfied separately for
 the 2016 in-situ paired-morph design and the 2017 cut-inflorescence triplet
 design; these are not pooled automatically.
+
+The first remaining source requirement is a camera-layout or experimental
+mapping record that links each camera sequence to its displayed morph(es) and
+observation interval. Without it, no colour-morph visitation effect can be
+computed transparently from these archives.
