@@ -38,24 +38,28 @@ def _declared_file(payload: dict[str, Any], file_name: str) -> dict[str, Any]:
     return matches[0]
 
 
-def _fetch_http_range(url: str, start: int, end: int | None = None, *, timeout: int = 45) -> bytes:
-    range_value = f"bytes={start}-{'' if end is None else end}"
-    request = Request(url, headers={"Range": range_value, "User-Agent": USER_AGENT})
-    with urlopen(request, timeout=timeout) as response:  # nosec B310: exact public manifest URL
-        return response.read()
+def _manifest_size(item: dict[str, Any]) -> int:
+    """Read the public Figshare manifest's exact file size without a HEAD probe."""
 
-
-def _content_length(url: str, *, timeout: int = 45) -> int:
-    request = Request(url, method="HEAD", headers={"User-Agent": USER_AGENT})
-    with urlopen(request, timeout=timeout) as response:  # nosec B310: exact public manifest URL
-        value = response.headers.get("Content-Length", "")
     try:
-        length = int(value)
-    except ValueError as error:
-        raise ValueError("archive response did not provide Content-Length") from error
-    if length <= 0:
-        raise ValueError("archive Content-Length must be positive")
-    return length
+        value = int(item.get("size"))
+    except (TypeError, ValueError) as error:
+        raise ValueError("declared Figshare archive manifest has no positive size") from error
+    if value <= 0:
+        raise ValueError("declared Figshare archive manifest size must be positive")
+    return value
+
+
+def _fetch_http_range(url: str, start: int, end: int, *, timeout: int = 45) -> bytes:
+    request = Request(
+        url,
+        headers={"Range": f"bytes={start}-{end}", "User-Agent": USER_AGENT},
+    )
+    with urlopen(request, timeout=timeout) as response:  # nosec B310: exact public manifest URL
+        status = int(getattr(response, "status", response.getcode()))
+        if status != 206:
+            raise ValueError("archive host did not honor bounded Range request")
+        return response.read()
 
 
 def _central_directory_names_from_bytes(data: bytes, *, archive_length: int | None = None) -> list[str]:
@@ -93,12 +97,11 @@ def _central_directory_names_from_bytes(data: bytes, *, archive_length: int | No
     return names
 
 
-def _range_manifest_names(url: str) -> list[str]:
+def _range_manifest_names(url: str, archive_length: int) -> list[str]:
     """Read only central-directory bytes from a public ZIP with Range requests."""
 
-    length = _content_length(url)
-    tail_start = max(0, length - TAIL_BYTES)
-    tail = _fetch_http_range(url, tail_start, length - 1)
+    tail_start = max(0, archive_length - TAIL_BYTES)
+    tail = _fetch_http_range(url, tail_start, archive_length - 1)
     eocd_index = tail.rfind(EOCD_SIGNATURE)
     if eocd_index < 0:
         raise ValueError("ZIP end-of-central-directory not found in bounded tail")
@@ -106,7 +109,7 @@ def _range_manifest_names(url: str) -> list[str]:
         raise ValueError("truncated ZIP end-of-central-directory record")
     directory_size = struct.unpack_from("<I", tail, eocd_index + 12)[0]
     directory_offset = struct.unpack_from("<I", tail, eocd_index + 16)[0]
-    if directory_offset >= tail_start and directory_offset + directory_size <= length:
+    if directory_offset >= tail_start and directory_offset + directory_size <= archive_length:
         segment = tail[directory_offset - tail_start:directory_offset - tail_start + directory_size]
     else:
         segment = _fetch_http_range(url, directory_offset, directory_offset + directory_size - 1)
@@ -169,7 +172,11 @@ def audit_declared_figshare_image_manifests(
         url = _as_url(item.get("download_url"))
         if not url:
             raise ValueError("declared Figshare archive has no public download URL")
-        names = _full_zip_names(fetch_bytes, url) if fetch_bytes is not None else _range_manifest_names(url)
+        names = (
+            _full_zip_names(fetch_bytes, url)
+            if fetch_bytes is not None
+            else _range_manifest_names(url, _manifest_size(item))
+        )
         archives.append({"archive_name": name, **_member_summary_from_names(names)})
     return {
         "figshare_article_id": accession,
