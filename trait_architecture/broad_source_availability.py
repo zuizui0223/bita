@@ -32,6 +32,13 @@ REQUIRED_COLUMNS = {
     "metadata_recoverability_signal",
     "candidate_status",
 }
+FINAL_SCREEN_STATUSES = {
+    "registered_D1_observational_panel",
+    "screened_no_eligible_trait_effect",
+    "screened_secondary_package_not_promoted",
+    "screened_public_sources_inaccessible",
+    "blocked",
+}
 
 
 @dataclass(frozen=True)
@@ -64,6 +71,15 @@ def _text(value: object) -> str:
     return str(value or "").strip()
 
 
+def normalise_doi(value: object) -> str:
+    doi = _text(value).lower()
+    for prefix in ("https://doi.org/", "http://doi.org/", "doi:"):
+        if doi.startswith(prefix):
+            doi = doi[len(prefix):]
+            break
+    return doi.strip()
+
+
 def _bool(value: object) -> bool:
     text = _text(value).lower()
     return text in {"true", "1", "yes", "y"}
@@ -85,6 +101,28 @@ def read_harvest(path: str | Path) -> list[dict[str, str]]:
     if missing:
         raise ValueError(f"harvest CSV missing columns: {', '.join(missing)}")
     return rows
+
+
+def read_already_screened_dois(path: str | Path) -> set[str]:
+    """Return DOIs whose queue rows are already final for this public-only pass."""
+
+    with Path(path).open(encoding="utf-8", newline="") as handle:
+        rows = [{key: _text(value) for key, value in row.items()} for row in csv.DictReader(handle)]
+    if not rows:
+        return set()
+    required = {"citation_or_doi", "queue_status"}
+    missing = sorted(required.difference(rows[0]))
+    if missing:
+        raise ValueError(f"screen queue missing columns: {', '.join(missing)}")
+    return {
+        normalise_doi(row["citation_or_doi"])
+        for row in rows
+        if row.get("queue_status") in FINAL_SCREEN_STATUSES and normalise_doi(row.get("citation_or_doi"))
+    }
+
+
+def filter_unscreened(rows: Iterable[dict[str, str]], excluded_dois: set[str]) -> list[dict[str, str]]:
+    return [row for row in rows if normalise_doi(row.get("doi")) not in excluded_dois]
 
 
 def score_row(row: dict[str, str]) -> AvailabilityRecord:
@@ -161,7 +199,14 @@ def rank_candidates(rows: Iterable[dict[str, str]]) -> list[AvailabilityRecord]:
     )
 
 
-def write_outputs(records: list[AvailabilityRecord], out_dir: str | Path, *, top_n: int = 40) -> dict[str, object]:
+def write_outputs(
+    records: list[AvailabilityRecord],
+    out_dir: str | Path,
+    *,
+    top_n: int = 40,
+    original_candidate_count: int | None = None,
+    excluded_screened_count: int = 0,
+) -> dict[str, object]:
     output = Path(out_dir)
     output.mkdir(parents=True, exist_ok=True)
     with (output / "broad_public_source_availability.csv").open("w", encoding="utf-8", newline="") as handle:
@@ -178,6 +223,8 @@ def write_outputs(records: list[AvailabilityRecord], out_dir: str | Path, *, top
     priorities = Counter(record.screen_priority for record in records)
     summary = {
         "candidate_count": len(records),
+        "original_candidate_count": original_candidate_count if original_candidate_count is not None else len(records),
+        "excluded_already_screened_count": excluded_screened_count,
         "top_n_manual_queue": min(top_n, len(records)),
         "bucket_counts": dict(sorted(counts.items())),
         "priority_counts": dict(sorted(priorities.items())),
