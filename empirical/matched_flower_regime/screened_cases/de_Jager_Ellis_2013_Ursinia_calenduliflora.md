@@ -26,13 +26,17 @@ recoverable direct trait → pollination or trait → antagonist coefficient exi
 OpenAlex OA route:        an OUP article-PDF URL was reported by the metadata harvest
 DataCite exact dataset:   not found
 Dryad exact dataset:      not found
-Zenodo exact dataset:     endpoint timeout at the bounded 8-second probe
+Zenodo eligible dataset:  not found
 ```
 
-No public repository record explicitly linked to the article DOI was recovered.
-The absence of a linked repository does not establish that the article has no
-supplement or no usable reported table; it only closes the machine-readable
-repository route.
+An initial Zenodo response contained a file manifest because it mentioned the
+article DOI, but the record did not provide an allowed supplement, derivation,
+or part-of relation. The resolver now rejects DOI-citation-only Zenodo records;
+the strict rerun recovered no eligible Zenodo source package.
+
+No public repository record with an eligible source relation to the article DOI
+was recovered. This does not establish that the article has no supplement or no
+usable reported table; it only closes the machine-readable repository route.
 
 ## Current boundary
 
