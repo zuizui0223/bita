@@ -1,0 +1,33 @@
+name: Scout Castilleja public sources
+
+on:
+  pull_request:
+    paths:
+      - "trait_architecture/public_article_source_scout.py"
+      - "scripts/scout_castilleja_public_sources.py"
+      - "tests/test_public_article_source_scout.py"
+      - ".github/workflows/scout-castilleja-public-sources.yml"
+  workflow_dispatch:
+
+jobs:
+  scout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package
+        run: python -m pip install -e .
+
+      - name: Scout public sources without downloading article tables
+        run: python scripts/scout_castilleja_public_sources.py
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: castilleja-public-source-scout
+          path: artifacts/castilleja_public_sources/
+          if-no-files-found: error
