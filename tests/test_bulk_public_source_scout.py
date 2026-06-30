@@ -1,4 +1,10 @@
+import sys
 from dataclasses import dataclass, field
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from scripts.bulk_scout_openalex_public_sources import build_row
 
