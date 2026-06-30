@@ -156,7 +156,13 @@ def audit_declared_figshare_image_manifests(
     fetch_json: Callable[[str], tuple[int, Any]] = _fetch_json,
     fetch_bytes: Callable[[str], bytes] | None = None,
 ) -> dict[str, object]:
-    """Return aggregate ZIP manifest facts for exact declared pollinator archives."""
+    """Return aggregate ZIP manifest facts for exact declared pollinator archives.
+
+    If the source refuses bounded Range requests, emit an explicit unavailable
+    status rather than downloading the archive payload or failing the source
+    audit. That outcome leaves image annotation unsupported, which is a valid
+    evidence result.
+    """
 
     accession = _text(figshare_article_id)
     request_url = FIGSHARE_API + accession
@@ -172,12 +178,24 @@ def audit_declared_figshare_image_manifests(
         url = _as_url(item.get("download_url"))
         if not url:
             raise ValueError("declared Figshare archive has no public download URL")
-        names = (
-            _full_zip_names(fetch_bytes, url)
-            if fetch_bytes is not None
-            else _range_manifest_names(url, _manifest_size(item))
-        )
-        archives.append({"archive_name": name, **_member_summary_from_names(names)})
+        try:
+            names = (
+                _full_zip_names(fetch_bytes, url)
+                if fetch_bytes is not None
+                else _range_manifest_names(url, _manifest_size(item))
+            )
+        except (OSError, ValueError) as error:
+            archives.append({
+                "archive_name": name,
+                "manifest_status": "range_manifest_unavailable",
+                "reason": str(error),
+            })
+            continue
+        archives.append({
+            "archive_name": name,
+            "manifest_status": "manifest_recovered",
+            **_member_summary_from_names(names),
+        })
     return {
         "figshare_article_id": accession,
         "figshare_dataset_doi": _text(payload.get("doi")),
