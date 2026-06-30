@@ -13,6 +13,7 @@ Neither result reads article tables, downloads an archive, or extracts effects.
 
 from __future__ import annotations
 
+import csv
 import json
 import re
 from dataclasses import asdict, dataclass
