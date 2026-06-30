@@ -94,10 +94,10 @@ def _inverse(matrix: list[list[float]]) -> list[list[float]]:
     """Invert a square matrix with Gauss-Jordan elimination."""
 
     n = len(matrix)
-    augmented = [row[:] + [1.0 if row == column else 0.0 for column in range(n)] for row, row_values in enumerate(matrix) for row in [row]]
-    # The comprehension above cannot retain the original row_values name cleanly in
-    # older Python parsers; rebuild explicitly for clarity.
-    augmented = [matrix[row][:] + [1.0 if row == column else 0.0 for column in range(n)] for row in range(n)]
+    augmented = [
+        matrix[row][:] + [1.0 if row == column else 0.0 for column in range(n)]
+        for row in range(n)
+    ]
     for column in range(n):
         pivot = max(range(column, n), key=lambda row: abs(augmented[row][column]))
         if abs(augmented[pivot][column]) < 1e-12:
@@ -151,8 +151,6 @@ def _fit_quasi_binomial_logit(
         raise ValueError("insufficient rows for fitted parameters")
     beta = [0.0] * p
     converged = False
-    final_information: list[list[float]] | None = None
-    final_probabilities: list[float] | None = None
 
     for iteration in range(1, MAX_ITERATIONS + 1):
         eta = [sum(value * coefficient for value, coefficient in zip(row, beta)) for row in design]
@@ -166,13 +164,11 @@ def _fit_quasi_binomial_logit(
         updated = _solve_linear(information, score)
         delta = max(abs(new - old) for new, old in zip(updated, beta))
         beta = updated
-        final_information = information
-        final_probabilities = probabilities
         if delta < CONVERGENCE_TOLERANCE:
             converged = True
             break
 
-    if not converged or final_information is None or final_probabilities is None:
+    if not converged:
         raise ValueError("binomial-logit model did not converge")
 
     eta = [sum(value * coefficient for value, coefficient in zip(row, beta)) for row in design]
@@ -260,9 +256,9 @@ def extract_gymnadenia_a_to_antagonism(
         raise ValueError("fewer than two population-year strata")
     baseline = categories[0]
     dummy_categories = categories[1:]
-    design = []
-    successes = []
-    trials = []
+    design: list[list[float]] = []
+    successes: list[int] = []
+    trials: list[int] = []
     for log_scent, eaten, flowers, key in included:
         group = "|".join((key[2], key[3], key[1]))
         standardized = (log_scent - mean_scent) / scent_sd
