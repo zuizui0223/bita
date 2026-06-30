@@ -5,9 +5,12 @@ on:
     paths:
       - "trait_architecture/fixed_candidate_universe.py"
       - "trait_architecture/candidate_universe_public_audit.py"
+      - "trait_architecture/high_information_access_probe.py"
       - "scripts/audit_fixed_matched_flower_universe.py"
+      - "scripts/probe_high_information_candidate_access.py"
       - "tests/test_fixed_candidate_universe.py"
       - "tests/test_candidate_universe_public_audit.py"
+      - "tests/test_high_information_access_probe.py"
       - ".github/workflows/audit-fixed-matched-flower-universe.yml"
   workflow_dispatch:
 
@@ -44,6 +47,20 @@ jobs:
           echo "$status" > artifacts/fixed_258_public_routes/audit_exit_status.txt
           cat artifacts/fixed_258_public_routes/audit_stdout.log
           cat artifacts/fixed_258_public_routes/audit_stderr.log >&2
+          exit "$status"
+
+      - name: Verify high-information public content routes and manifest identity
+        run: |
+          set +e
+          python scripts/probe_high_information_candidate_access.py \
+            artifacts/fixed_258_public_routes \
+            --workers 6 \
+            > artifacts/fixed_258_public_routes/access_probe_stdout.log \
+            2> artifacts/fixed_258_public_routes/access_probe_stderr.log
+          status=$?
+          echo "$status" > artifacts/fixed_258_public_routes/access_probe_exit_status.txt
+          cat artifacts/fixed_258_public_routes/access_probe_stdout.log
+          cat artifacts/fixed_258_public_routes/access_probe_stderr.log >&2
           exit "$status"
 
       - uses: actions/upload-artifact@v4
