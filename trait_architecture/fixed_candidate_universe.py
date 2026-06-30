@@ -19,7 +19,8 @@ import os
 import zipfile
 from dataclasses import dataclass
 from typing import Callable
-from urllib.request import Request, urlopen
+from urllib.parse import urlparse
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 
 REPOSITORY = "zuizui0223/biotic-interaction-trait-architecture"
@@ -47,6 +48,17 @@ class CandidateSnapshotReceipt:
     candidate_count: int
 
 
+class _StripAuthorizationOnCrossHostRedirect(HTTPRedirectHandler):
+    """Keep the GitHub token on api.github.com, never on signed storage URLs."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):  # type: ignore[no-untyped-def]
+        redirected = super().redirect_request(req, fp, code, msg, headers, newurl)
+        if redirected and urlparse(req.full_url).netloc != urlparse(newurl).netloc:
+            redirected.remove_header("Authorization")
+            redirected.remove_header("authorization")
+        return redirected
+
+
 def _artifact_url() -> str:
     return f"https://api.github.com/repos/{REPOSITORY}/actions/artifacts/{SOURCE_ARTIFACT_ID}/zip"
 
@@ -59,7 +71,8 @@ def _download(url: str, token: str, *, timeout: int = 90) -> bytes:
     if token:
         headers["Authorization"] = f"Bearer {token}"
     request = Request(url, headers=headers)
-    with urlopen(request, timeout=timeout) as response:  # nosec B310: fixed GitHub artifact endpoint
+    opener = build_opener(_StripAuthorizationOnCrossHostRedirect())
+    with opener.open(request, timeout=timeout) as response:  # nosec B310: fixed GitHub artifact endpoint
         return response.read()
 
 
