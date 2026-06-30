@@ -32,13 +32,23 @@ jobs:
 
       - name: Bulk scout DOI candidates for source routes
         run: |
+          mkdir -p artifacts/bulk_public_source_scout
+          set +e
           python scripts/bulk_scout_openalex_public_sources.py \
             empirical/matched_flower_regime/literature_seed_queries.csv \
             artifacts/bulk_public_source_scout \
-            --results-per-query "${{ github.event.inputs.results_per_query || '50' }}"
+            --results-per-query "${{ github.event.inputs.results_per_query || '50' }}" \
+            > artifacts/bulk_public_source_scout/bulk_stdout.log \
+            2> artifacts/bulk_public_source_scout/bulk_stderr.log
+          status=$?
+          echo "$status" > artifacts/bulk_public_source_scout/bulk_exit_status.txt
+          cat artifacts/bulk_public_source_scout/bulk_stdout.log
+          cat artifacts/bulk_public_source_scout/bulk_stderr.log >&2
+          exit "$status"
 
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: bulk-public-source-scout
           path: artifacts/bulk_public_source_scout/
-          if-no-files-found: error
+          if-no-files-found: warn
