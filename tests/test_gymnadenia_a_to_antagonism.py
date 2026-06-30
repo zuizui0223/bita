@@ -42,11 +42,13 @@ def make_archive() -> bytes:
     keys = [
         ["P1", "2015", "R1", "A"], ["P2", "2015", "R1", "A"],
         ["P3", "2015", "R1", "A"], ["P4", "2015", "R1", "A"],
-        ["P5", "2016", "R1", "A"], ["P6", "2016", "R1", "A"],
+        ["P5", "2015", "R1", "A"], ["P6", "2015", "R1", "A"],
         ["P7", "2016", "R1", "A"], ["P8", "2016", "R1", "A"],
+        ["P9", "2016", "R1", "A"], ["P10", "2016", "R1", "A"],
+        ["P11", "2016", "R1", "A"], ["P12", "2016", "R1", "A"],
     ]
-    scent = ["0.1", "0.4", "1.0", "2.0", "0.2", "0.8", "1.5", "3.0"]
-    eaten = ["0", "1", "2", "4", "0", "1", "3", "5"]
+    scent = ["0.1", "0.3", "0.6", "1.0", "1.8", "3.0", "0.2", "0.5", "0.9", "1.4", "2.2", "3.5"]
+    eaten = ["0", "1", "1", "2", "3", "4", "0", "1", "2", "3", "4", "5"]
     floral_rows = [key + ["10", value] for key, value in zip(keys, scent)]
     herbivory_rows = [key + [value] for key, value in zip(keys, eaten)]
     files = {
@@ -87,7 +89,7 @@ def test_predeclared_extractor_returns_one_aggregate_effect_without_rows() -> No
     )
 
     effect = report["effect"]
-    assert report["sample"]["included_rows"] == 8
+    assert report["sample"]["included_rows"] == 12
     assert report["sample"]["population_year_strata"] == 2
     assert report["analysis"]["effect_measure"] == "log_odds_ratio"
     assert effect["fit_converged"] is True
