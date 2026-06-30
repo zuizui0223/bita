@@ -42,7 +42,7 @@ jobs:
       - name: Rank shallow public-source availability
         run: |
           python scripts/rank_broad_public_source_availability.py \
-            artifacts/matched_flower_seed_harvest/matched_flower_seed_candidates.csv \
+            artifacts/matched_flower_seed_harvest/openalex_matched_flower_all_candidates.csv \
             artifacts/broad_public_source_availability \
             --top-n "${{ github.event.inputs.manual_queue_size || '40' }}"
 
