@@ -39,6 +39,7 @@ jobs:
             artifacts/openalex_retrieval_scope
 
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: openalex-retrieval-scope-audit
           path: artifacts/openalex_retrieval_scope/
