@@ -7,14 +7,18 @@ on:
       - "scripts/run_part_i_robustness.py"
       - "scripts/run_broad_meta_analysis.py"
       - "scripts/validate_current_theory_meta.py"
+      - "scripts/audit_current_regime_discrimination.py"
       - "trait_architecture/model.py"
       - "trait_architecture/robustness.py"
       - "trait_architecture/broad_meta_analysis.py"
       - "trait_architecture/theory_meta_validation.py"
+      - "trait_architecture/regime_discrimination_audit.py"
       - "empirical/broad_reality_evidence/broad_route_records.csv"
       - "empirical/broad_reality_evidence/broad_effect_extractions.csv"
       - "empirical/broad_reality_evidence/broad_meta_analysis_strata.csv"
+      - "empirical/part_i_robustness/CURRENT_EVIDENCE_REGIME_DISCRIMINATION_PROTOCOL.md"
       - "tests/test_theory_meta_validation.py"
+      - "tests/test_regime_discrimination_audit.py"
       - ".github/workflows/validate-current-theory-meta.yml"
   workflow_dispatch:
 
@@ -35,8 +39,11 @@ jobs:
       - name: Install package and test dependency
         run: python -m pip install -e '.[dev]'
 
-      - name: Run theory-meta validator tests
-        run: python -m pytest tests/test_theory_meta_validation.py
+      - name: Run theory and discrimination audit tests
+        run: |
+          python -m pytest \
+            tests/test_theory_meta_validation.py \
+            tests/test_regime_discrimination_audit.py
 
       - name: Reproduce Part I robustness from current configuration
         run: |
@@ -60,6 +67,14 @@ jobs:
             artifacts/current_theory_meta_validation/broad_meta/broad_direction_map.csv \
             artifacts/current_theory_meta_validation/broad_meta/broad_meta_analysis_summary.csv \
             artifacts/current_theory_meta_validation/validation
+
+      - name: Audit scenario discrimination from current direction evidence
+        run: |
+          python scripts/audit_current_regime_discrimination.py \
+            configs/part_i_robustness_grid.json \
+            artifacts/current_theory_meta_validation/part_i/part_i_functional_form_summary.csv \
+            artifacts/current_theory_meta_validation/broad_meta/broad_direction_map.csv \
+            artifacts/current_theory_meta_validation/regime_discrimination
 
       - uses: actions/upload-artifact@v4
         with:
