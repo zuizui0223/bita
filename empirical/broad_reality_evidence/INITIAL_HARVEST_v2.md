@@ -2,6 +2,13 @@
 
 ## Retrieval receipt
 
+The broad corpus is a **versioned live bibliographic retrieval**, not a frozen
+local database snapshot. Each GitHub Actions artifact is therefore the complete
+receipt for one run, including query report, deduplicated candidate CSV, and
+screen summary.
+
+The first completed run returned:
+
 ```text
 source:                  Crossref REST API
 query routes:            21
@@ -9,7 +16,22 @@ requested depth:         200 journal-article records per query
 raw returned records:    4,183
 unique DOI/title records: 2,896
 records with abstract metadata: 1,008
+priority shallow screen:   650
 ```
+
+The next completed regeneration returned:
+
+```text
+raw returned records:    4,187
+unique DOI/title records: 2,898
+records with abstract metadata: 1,010
+priority shallow screen:   657
+```
+
+This small difference is expected from a live provider's ranking and metadata
+updates. No run silently overwrites the previous receipt. Exact counts used in
+an analysis must be reported with the artifact digest, query report, and run
+date from that analysis run.
 
 This is deliberately larger than the fixed 258-work OpenAlex snapshot. The two
 corpora have different roles and must not be silently combined.
@@ -22,17 +44,17 @@ broad_reality_evidence_v2_Crossref_seed
     high-recall real-world evidence discovery and shallow source-coding universe
 ```
 
-## Route coverage in the raw corpus
+## Route coverage in the latest regenerated raw corpus
 
 A record can occur in more than one route because source query membership is
 retained rather than arbitrarily assigned.
 
 ```text
-A_to_pollination:  919
+A_to_pollination:  929
 A_to_antagonism:   584
-B_to_antagonism:   605
-B_to_pollination:  392
-joint_channels:  1,078
+B_to_antagonism:   606
+B_to_pollination:  385
+joint_channels:  1,073
 ```
 
 These counts are **query-route memberships**, not counts of studies that
@@ -64,12 +86,12 @@ The priority class needs all of:
 - no obvious non-biological exclusion term.
 ```
 
-On the initial harvest this rule selected **650** priority records. This is a
-triage set, not a final eligible-study set and not a collection of effect sizes.
+The latest regenerated run selected **657** priority records. This is a triage
+set, not a final eligible-study set and not a collection of effect sizes.
 
 ## Next analysis layer
 
-The 650-record priority cohort is used for shallow source coding:
+The priority cohort is used for shallow source coding:
 
 ```text
 study × route × trait class × outcome class
