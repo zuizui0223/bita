@@ -81,6 +81,18 @@ def test_scope_audit_detects_depth_and_omitted_route_expansion(monkeypatch: pyte
     json.dumps(report)
 
 
+def test_scope_audit_rejects_partial_api_outage(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(scope, "load_fixed_candidate_universe", fixed_loader)
+
+    def partially_failing_request(_: str, params: dict[str, str]) -> dict[str, object]:
+        if params["search"] == "query-D04":
+            raise RuntimeError("HTTP Error 503: Service Unavailable")
+        return fake_request(_, params)
+
+    with pytest.raises(RuntimeError, match="OpenAlex scope audit incomplete.*D04"):
+        scope.run_scope_audit(query_rows(), request_json=partially_failing_request)
+
+
 def test_scope_audit_requires_every_historical_and_d_query() -> None:
     incomplete = [row for row in query_rows() if row["query_id"] != "D04"]
 
