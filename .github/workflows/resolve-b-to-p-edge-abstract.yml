@@ -1,0 +1,41 @@
+name: Resolve B to P edge abstract
+
+on:
+  pull_request:
+    paths:
+      - "empirical/broad_reality_evidence/precision_expansions/edge_candidates/B_TO_P_EDGE_CANDIDATES_v1.csv"
+      - "trait_architecture/broad_calibration_abstracts.py"
+      - "scripts/build_broad_calibration_abstract_packet.py"
+      - ".github/workflows/resolve-b-to-p-edge-abstract.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package
+        run: python -m pip install -e .
+
+      - name: Retrieve edge-candidate Crossref source packet
+        run: |
+          mkdir -p artifacts/b_to_p_edge_candidate
+          python scripts/build_broad_calibration_abstract_packet.py \
+            empirical/broad_reality_evidence/precision_expansions/edge_candidates/B_TO_P_EDGE_CANDIDATES_v1.csv \
+            artifacts/b_to_p_edge_candidate/b_to_p_edge_abstract_packet.csv
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: b-to-p-edge-abstract
+          path: artifacts/b_to_p_edge_candidate/
+          if-no-files-found: warn
