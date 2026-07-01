@@ -43,7 +43,8 @@ def _text(value: object) -> str:
 def _plain_text(value: object) -> str:
     text = html.unescape(_text(value))
     text = re.sub(r"<[^>]+>", " ", text)
-    return re.sub(r"\s+", " ", text).strip()
+    text = re.sub(r"\s+", " ", text).strip()
+    return re.sub(r"\s+([,.;:!?])", r"\1", text)
 
 
 def _year(message: dict[str, Any]) -> str:
