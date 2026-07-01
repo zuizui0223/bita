@@ -6,6 +6,7 @@ on:
       - "trait_architecture/openalex_retrieval_scope_audit.py"
       - "scripts/audit_openalex_retrieval_scope.py"
       - "tests/test_openalex_retrieval_scope_audit.py"
+      - "empirical/evidence_architecture/OPENALEX_RETRIEVAL_SCOPE_AUDIT.md"
       - "empirical/matched_flower_regime/literature_seed_queries.csv"
       - ".github/workflows/audit-openalex-retrieval-scope.yml"
   workflow_dispatch:
@@ -31,6 +32,7 @@ jobs:
       - name: Compare historical head depth with current scope routes
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: |
           python scripts/audit_openalex_retrieval_scope.py \
             empirical/matched_flower_regime/literature_seed_queries.csv \
