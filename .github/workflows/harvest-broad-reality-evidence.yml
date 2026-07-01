@@ -4,8 +4,11 @@ on:
   pull_request:
     paths:
       - "trait_architecture/broad_reality_evidence.py"
+      - "trait_architecture/broad_reality_screen.py"
       - "scripts/harvest_broad_reality_evidence.py"
+      - "scripts/screen_broad_reality_evidence.py"
       - "tests/test_broad_reality_evidence.py"
+      - "tests/test_broad_reality_screen.py"
       - "empirical/broad_reality_evidence/**"
       - ".github/workflows/harvest-broad-reality-evidence.yml"
   workflow_dispatch:
@@ -33,6 +36,12 @@ jobs:
             empirical/broad_reality_evidence/broad_evidence_query_registry.csv \
             artifacts/broad_reality_evidence \
             --rows-per-query 200
+
+      - name: Create metadata-only shallow-screen cohort
+        run: |
+          python scripts/screen_broad_reality_evidence.py \
+            artifacts/broad_reality_evidence/broad_reality_evidence_candidates.csv \
+            artifacts/broad_reality_evidence
 
       - uses: actions/upload-artifact@v4
         if: always()
