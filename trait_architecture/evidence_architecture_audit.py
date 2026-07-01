@@ -169,7 +169,7 @@ def metadata_baseline_summary(rows: Iterable[dict[str, str]]) -> dict[str, objec
     """Summarize retrieval metadata only, explicitly without biological inference."""
 
     rows = list(rows)
-    validate_matrix(rows)
+    validate_matrix(rows, expected_count=None)
     signal_fields = (
         "metadata_attraction_signal",
         "metadata_barrier_signal",
