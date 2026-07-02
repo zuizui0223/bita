@@ -6,8 +6,8 @@ Usage:
       artifacts/broad_abstract_evidence/fixed_l1_abstract_packet.csv \
       artifacts/broad_abstract_label_audit
 
-No discovery retrieval is performed. Both inputs must arise from the same fixed
-broad-map artifact.
+No discovery retrieval is performed. Both inputs must originate from the same
+fixed broad-map artifact.
 """
 
 from __future__ import annotations
@@ -17,16 +17,18 @@ import argparse
 from trait_architecture.broad_abstract_label_audit import (
     DEFAULT_NONJOINT_TARGET,
     DEFAULT_SEED,
-    PACKET_FIELDS,
     build_audit_packet,
     read_rows,
     write_audit_packet,
 )
 
-
-RECORD_REQUIRED = set(PACKET_FIELDS).difference({
-    "audit_id", "source_bucket", "audit_strata", "target_model_edges", "selection_mode", "crossref_abstract_text", "coding_warning",
-})
+RECORD_REQUIRED = {
+    "candidate_id", "doi", "publication_year", "work_type", "route_families", "source_queries",
+    "shallow_screen_status", "abstract_retrieval_state", "crossref_lookup_status", "crossref_abstract_available",
+    "abstract_code_status", "floral_context_signal", "empirical_language_signal", "review_language_signal",
+    "A_signal", "B_signal", "P_signal", "H_signal", "W_signal", "shared_cost_language_signal",
+    "candidate_A_to_P", "candidate_A_to_H", "candidate_B_to_H", "candidate_B_to_P", "candidate_joint_channels",
+}
 PACKET_REQUIRED = {
     "candidate_id", "doi", "title", "publication_year", "work_type", "container_title", "publisher",
     "abstract_retrieval_state", "crossref_lookup_status", "crossref_abstract_available", "crossref_abstract_text",
