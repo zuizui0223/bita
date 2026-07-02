@@ -1,0 +1,6 @@
+route_family_audit,priority_screenable_rows,priority_direct_route_present_rows,priority_direct_route_yield,biological_nonpriority_screenable_rows,biological_nonpriority_direct_route_present_rows,biological_nonpriority_direct_route_yield,nonpriority_minus_priority_yield,comparison_status
+A_to_antagonism,17,1,0.058824,6,0,0.000000,-0.058824,comparable_screened_groups
+A_to_pollination,20,6,0.300000,9,1,0.111111,-0.188889,comparable_screened_groups
+B_to_antagonism,19,1,0.052632,4,0,0.000000,-0.052632,comparable_screened_groups
+B_to_pollination,20,0,0.000000,9,0,0.000000,0.000000,comparable_screened_groups
+joint_channels,18,1,0.055556,14,1,0.071429,0.015873,comparable_screened_groups
