@@ -45,6 +45,16 @@ pollinator-use costs under particular dose, consumer, and ecological contexts
 
 It does **not** enter as a pooled average effect, a generic pollination-fitness effect, or an unconditional trade-off.
 
+## Core claim gate
+
+`../../core_claims/CORE_B_TO_P_META_FEASIBILITY_v1.md` fixes the only primary
+quantitative question, separates voluntary-use outcomes from visitation,
+learning, and fitness outcomes, and states the go/no-go thresholds for a
+condition-specific B-to-P effect-size synthesis. It also records the two
+additional provisional core candidates identified from the fixed Batch 1
+abstract set. Those additions do not change the current verdict until they
+pass full-text source resolution.
+
 ## Stopping rule for further discovery
 
 No new broad retrieval is warranted at this point. The immediate information gain comes from resolving the four fixed primary sources. Only after that pass can a missing stratum be defined precisely enough to justify any additional targeted discovery.
