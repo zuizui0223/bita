@@ -9,6 +9,7 @@ on:
       - "trait_architecture/priority_leak_audit.py"
       - "trait_architecture/priority_leak_audit_abstracts.py"
       - "trait_architecture/priority_leak_audit_adjudication.py"
+      - "trait_architecture/priority_leak_audit_overlay.py"
       - "trait_architecture/broad_source_screening.py"
       - "trait_architecture/broad_calibration_batch.py"
       - "trait_architecture/broad_calibration_abstracts.py"
@@ -20,6 +21,8 @@ on:
       - "scripts/build_priority_leak_audit_abstract_packet.py"
       - "scripts/build_priority_leak_audit_coding_sheet.py"
       - "scripts/summarize_priority_leak_audit.py"
+      - "scripts/apply_priority_leak_audit_decisions.py"
+      - "scripts/validate_priority_leak_audit_adjudication_snapshot.py"
       - "scripts/build_broad_source_screening_matrix.py"
       - "scripts/build_broad_calibration_batch.py"
       - "scripts/build_broad_calibration_abstract_packet.py"
@@ -29,6 +32,8 @@ on:
       - "tests/test_priority_leak_audit.py"
       - "tests/test_priority_leak_audit_abstracts.py"
       - "tests/test_priority_leak_audit_adjudication.py"
+      - "tests/test_priority_leak_audit_overlay.py"
+      - "tests/test_priority_leak_audit_abstract_adjudication.py"
       - "tests/test_broad_reality_screen.py"
       - "tests/test_broad_source_screening.py"
       - "tests/test_broad_calibration_batch.py"
@@ -63,23 +68,23 @@ jobs:
           python scripts/screen_broad_reality_evidence.py \
             artifacts/broad_reality_evidence/broad_reality_evidence_candidates.csv \
             artifacts/broad_reality_evidence
-      - name: Build priority leakage audit queue
+      - name: Build current priority leakage audit queue
         run: |
           python scripts/build_priority_leak_audit.py \
             artifacts/broad_reality_evidence/broad_reality_evidence_screened.csv \
             artifacts/broad_reality_evidence/priority_leak_audit \
             --per-route-per-group 30
-      - name: Retrieve Crossref abstracts for priority leakage audit
+      - name: Retrieve Crossref abstracts for current priority leakage audit
         run: |
           python scripts/build_priority_leak_audit_abstract_packet.py \
             artifacts/broad_reality_evidence/priority_leak_audit/priority_leak_audit_queue.csv \
             artifacts/broad_reality_evidence/priority_leak_audit/priority_leak_audit_abstract_packet.csv
-      - name: Build priority-leak audit coding sheet
+      - name: Build current priority-leak audit coding sheet
         run: |
           python scripts/build_priority_leak_audit_coding_sheet.py \
             artifacts/broad_reality_evidence/priority_leak_audit/priority_leak_audit_abstract_packet.csv \
             artifacts/broad_reality_evidence/priority_leak_audit/priority_leak_audit_coding_sheet.csv
-      - name: Summarize priority-leak audit coding state
+      - name: Summarize current priority-leak audit coding state
         run: |
           python scripts/summarize_priority_leak_audit.py \
             artifacts/broad_reality_evidence/priority_leak_audit/priority_leak_audit_abstract_packet.csv \
