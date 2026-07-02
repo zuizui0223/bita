@@ -18,6 +18,9 @@ on:
       - "trait_architecture/meta_analysis_intake.py"
       - "trait_architecture/evidence_yield_meta_analysis.py"
       - "trait_architecture/evidence_yield_meta_model.py"
+      - "trait_architecture/broad_abstract_corpus.py"
+      - "trait_architecture/broad_abstract_evidence_map.py"
+      - "trait_architecture/theory_evidence_interface.py"
       - "scripts/harvest_broad_reality_evidence.py"
       - "scripts/harvest_broad_reality_evidence_paged.py"
       - "scripts/screen_broad_reality_evidence.py"
@@ -34,6 +37,8 @@ on:
       - "scripts/build_hierarchical_evidence_synthesis.py"
       - "scripts/build_meta_analysis_intake.py"
       - "scripts/run_l1_l2_evidence_yield_meta.py"
+      - "scripts/build_fixed_broad_abstract_packet.py"
+      - "scripts/build_broad_abstract_theory_map.py"
       - "tests/test_broad_reality_evidence.py"
       - "tests/test_broad_reality_deep.py"
       - "tests/test_priority_leak_audit.py"
@@ -49,8 +54,14 @@ on:
       - "tests/test_hierarchical_evidence_synthesis.py"
       - "tests/test_meta_analysis_intake.py"
       - "tests/test_evidence_yield_meta_analysis.py"
+      - "tests/test_broad_abstract_evidence_map.py"
       - "empirical/broad_reality_evidence/**"
+      - "docs/broad_evidence_to_regime_interface.md"
+      - "docs/functional_trait_model_scope.md"
+      - "docs/theory_to_network_prediction_contract.md"
+      - "theory/README.md"
       - ".github/workflows/harvest-broad-reality-evidence.yml"
+      - ".github/workflows/build-fixed-broad-abstract-evidence.yml"
   workflow_dispatch:
 
 permissions:
@@ -144,7 +155,7 @@ jobs:
             empirical/broad_reality_evidence/broad_effect_extractions.csv \
             empirical/broad_reality_evidence/precision_expansions/fulltext/B_TO_P_FULLTEXT_READING_QUEUE_v1.csv \
             artifacts/meta_analysis_intake
-      - name: Build L1 L2 evidence-yield meta-analysis
+      - name: Build L1 L2 evidence-yield calibration
         run: |
           python scripts/run_l1_l2_evidence_yield_meta.py \
             artifacts/broad_reality_evidence/broad_reality_evidence_screened.csv \
