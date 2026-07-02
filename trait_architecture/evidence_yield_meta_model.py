@@ -112,6 +112,12 @@ def build_evidence_yield_meta(
 ) -> tuple[list[dict[str, str]], list[dict[str, str]], dict[str, object], dict[str, str]]:
     screened = list(screened_rows)
     audit = validate_audit(audit_rows)
+    # The projection layer multiplies audit-calibrated rates by fixed-corpus
+    # membership counts. Those counts only exist when the frozen screened corpus
+    # is supplied. Without it the audit-only core (posterior rates and the
+    # priority-vs-nonpriority enrichment meta-analysis) is still reproducible, so
+    # emit the core and mark projections unavailable rather than fabricating zeros.
+    corpus_supplied = bool(screened)
     counts = screen_universe_counts(screened)
     priors = {group: _fit_group_prior(audit, group) for group in VALID_AUDIT_GROUPS}
     lookup = {(row["route_family_audit"], row["audit_group"]): row for row in audit}
@@ -125,15 +131,11 @@ def build_evidence_yield_meta(
         rate_low, rate_high = q025_q975(samples)
         l2_n = counts[(route, group)]["l2"]
         abstract_n = counts[(route, group)]["abstract_available"]
-        all_projection = [sample * l2_n for sample in samples]
-        abstract_projection = [sample * abstract_n for sample in samples]
-        all_low, all_high = q025_q975(all_projection)
-        abstract_low, abstract_high = q025_q975(abstract_projection)
-        output.append({
+        record = {
             "route": route, "audit_group": group,
-            "l1_candidate_memberships": str(counts[(route, group)]["l1"]),
-            "l2_candidate_memberships": str(l2_n),
-            "l2_abstract_available_memberships": str(abstract_n),
+            "l1_candidate_memberships": str(counts[(route, group)]["l1"]) if corpus_supplied else "",
+            "l2_candidate_memberships": str(l2_n) if corpus_supplied else "",
+            "l2_abstract_available_memberships": str(abstract_n) if corpus_supplied else "",
             "audit_sampled_rows": row["sampled_rows"], "audit_screenable_rows": row["route_screenable_rows"],
             "audit_direct_route_rows": row["direct_route_present_rows"],
             "audit_direct_route_yield": f"{y / n:.6f}" if n else "",
@@ -141,18 +143,35 @@ def build_evidence_yield_meta(
             "posterior_direct_rate_mean": f"{sum(samples) / len(samples):.6f}",
             "posterior_direct_rate_ci_low": f"{rate_low:.6f}",
             "posterior_direct_rate_ci_high": f"{rate_high:.6f}",
-            "equal_yield_projection_mean": f"{sum(all_projection) / len(all_projection):.3f}",
-            "equal_yield_projection_ci_low": f"{all_low:.3f}",
-            "equal_yield_projection_ci_high": f"{all_high:.3f}",
-            "abstract_proxy_projection_mean": f"{sum(abstract_projection) / len(abstract_projection):.3f}",
-            "abstract_proxy_projection_ci_low": f"{abstract_low:.3f}",
-            "abstract_proxy_projection_ci_high": f"{abstract_high:.3f}",
-            "projection_boundary": "Projections are calibrated sensitivity estimates, not counts of confirmed empirical studies.",
-        })
+        }
+        if corpus_supplied:
+            all_projection = [sample * l2_n for sample in samples]
+            abstract_projection = [sample * abstract_n for sample in samples]
+            all_low, all_high = q025_q975(all_projection)
+            abstract_low, abstract_high = q025_q975(abstract_projection)
+            record.update({
+                "equal_yield_projection_mean": f"{sum(all_projection) / len(all_projection):.3f}",
+                "equal_yield_projection_ci_low": f"{all_low:.3f}",
+                "equal_yield_projection_ci_high": f"{all_high:.3f}",
+                "abstract_proxy_projection_mean": f"{sum(abstract_projection) / len(abstract_projection):.3f}",
+                "abstract_proxy_projection_ci_low": f"{abstract_low:.3f}",
+                "abstract_proxy_projection_ci_high": f"{abstract_high:.3f}",
+                "projection_boundary": "Projections are calibrated sensitivity estimates, not counts of confirmed empirical studies.",
+            })
+        else:
+            record.update({
+                "equal_yield_projection_mean": "", "equal_yield_projection_ci_low": "",
+                "equal_yield_projection_ci_high": "", "abstract_proxy_projection_mean": "",
+                "abstract_proxy_projection_ci_low": "", "abstract_proxy_projection_ci_high": "",
+                "projection_boundary": "corpus_not_supplied: membership projections require the frozen screened corpus; audit-only rates and enrichment are still valid.",
+            })
+        output.append(record)
     route_effects, screening_summary = priority_screen_meta(audit)
     diagnostics: dict[str, object] = {
         "schema_version": "l1_l2_evidence_yield_meta_v1",
         "analysis_target": "direct-route evidence yield, not biological effect magnitude",
+        "screened_corpus_supplied": corpus_supplied,
+        "projection_layer_status": "computed" if corpus_supplied else "skipped_corpus_not_supplied",
         "l1_candidate_count": len(screened),
         "audit_sampled_rows": sum(as_int(row["sampled_rows"], "sampled_rows") for row in audit),
         "audit_screenable_rows": sum(as_int(row["route_screenable_rows"], "route_screenable_rows") for row in audit),

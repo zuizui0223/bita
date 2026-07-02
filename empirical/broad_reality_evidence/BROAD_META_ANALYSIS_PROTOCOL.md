@@ -115,6 +115,13 @@ This layer is a calibration and sensitivity analysis. Equal-yield projections ar
 sensitivity summaries, never confirmed study counts, and the audit sample is a
 deterministic route-stratified cohort, not a corpus-wide prevalence estimate.
 
+The enrichment meta-analysis and the audit-calibrated posterior rates reproduce
+from the committed audit CSV alone; the frozen screened corpus is required only
+for the membership-projection columns and is passed with `--screened-csv`. When
+it is absent the projection columns are marked `corpus_not_supplied` rather than
+being emitted as misleading zeros. This reproducible core is pinned by
+`tests/test_primary_products_end_to_end.py`.
+
 ## Deferred layer — pooled effect sizes (future Layer 4)
 
 Numerical pooling would be allowed only inside a predeclared stratum with the
