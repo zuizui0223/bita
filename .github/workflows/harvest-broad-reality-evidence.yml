@@ -158,9 +158,9 @@ jobs:
       - name: Build L1 L2 evidence-yield calibration
         run: |
           python scripts/run_l1_l2_evidence_yield_meta.py \
-            artifacts/broad_reality_evidence/broad_reality_evidence_screened.csv \
             empirical/broad_reality_evidence/priority_leak_audit/priority_leak_audit_yield_by_route_group_v1.csv \
-            artifacts/l1_l2_evidence_yield_meta
+            artifacts/l1_l2_evidence_yield_meta \
+            --screened-csv artifacts/broad_reality_evidence/broad_reality_evidence_screened.csv
       - uses: actions/upload-artifact@v4
         if: always()
         with:
