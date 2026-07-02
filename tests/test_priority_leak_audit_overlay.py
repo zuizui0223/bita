@@ -60,6 +60,17 @@ def test_overlay_rejects_doi_mismatch() -> None:
         raise AssertionError("expected DOI mismatch error")
 
 
+def test_overlay_rejects_rank_drift_even_when_doi_is_same() -> None:
+    row = overlay_row()
+    row["audit_rank"] = "2"
+    try:
+        apply_overlay([packet_row()], [row])
+    except ValueError as error:
+        assert "not in the frozen packet" in str(error)
+    else:
+        raise AssertionError("expected frozen-packet identity error")
+
+
 def test_unmodified_rows_stay_unassessed() -> None:
     packet = [packet_row()]
     sheet = apply_overlay(packet, [])
