@@ -1,7 +1,11 @@
-"""Materialize the registered abstract-level priority-leak audit adjudication.
+"""Materialize registered abstract-level audit decisions for the matching frozen packet.
+
+This command is deliberately strict about audit group, route, rank, candidate ID,
+and DOI. Do not apply a registered decision overlay to a fresh live Crossref
+harvest: a new harvest is a new audit packet and must be coded separately.
 
 Usage:
-  python scripts/apply_priority_leak_audit_decisions.py PACKET.csv OVERRIDES.csv OUTPUT_SHEET.csv OUTPUT_DIR
+  python scripts/apply_priority_leak_audit_decisions.py FROZEN_PACKET.csv OVERRIDES.csv OUTPUT_SHEET.csv OUTPUT_DIR
 """
 
 from __future__ import annotations
