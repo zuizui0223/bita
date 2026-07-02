@@ -121,7 +121,7 @@ jobs:
           python scripts/build_hierarchical_evidence_synthesis.py \
             artifacts/broad_reality_evidence/broad_reality_evidence_candidates.csv \
             artifacts/broad_reality_evidence/broad_reality_evidence_screened.csv \
-            artifacts/broad_reality_evidence/priority_leak_audit/priority_leak_audit_yield_by_route_group.csv \
+            empirical/broad_reality_evidence/priority_leak_audit/priority_leak_audit_yield_v1.csv \
             empirical/broad_reality_evidence/broad_route_records.csv \
             empirical/broad_reality_evidence/broad_effect_extractions.csv \
             empirical/broad_reality_evidence/precision_expansions/fulltext/B_TO_P_FULLTEXT_READING_QUEUE_v1.csv \
