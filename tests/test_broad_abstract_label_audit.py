@@ -99,8 +99,7 @@ def test_joint_is_censused_and_core_cells_keep_joint_population():
 
 def test_incomplete_partitions_do_not_emit_calibrated_coverage():
     records = [make_record("ap", edge="A_to_pollination"), make_record("control")]
-    packet, coding, design = build_audit_packet(records, [make_packet(row) for row in records], nonjoint_target=1)
-    coding[0] = reviewed(coding[0])
+    _, coding, design = build_audit_packet(records, [make_packet(row) for row in records], nonjoint_target=25)
     _, _, coverage, _ = summarize_audit(coding, design)
     ap = next(row for row in coverage if row["target_label"] == "A_to_pollination")
     assert ap["calibration_status"] == "incomplete"
