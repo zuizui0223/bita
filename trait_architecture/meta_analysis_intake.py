@@ -1,18 +1,9 @@
-"""Gate the existing evidence layers and prepare a fixed meta-analysis intake.
+"""Gate fixed-corpus evidence layers and prepare meta-analysis intake.
 
-This module is deliberately conservative.  It never treats a discovery candidate,
-an abstract-direction record, or a full-text queue item as a numerical effect.
-
-The key output is an intake table for *already source-adjudicated direction
-anchors*.  Each anchor is either:
-
-* matched to one exact, predeclared quantitative stratum and sent to primary
-  source/numeric-field recovery; or
-* retained in the direction map because its outcome/design cell is not a
-  predeclared quantitative stratum.
-
-This allows the current fixed literature corpus to support a reproducible
-extraction programme without silently widening strata or adding new papers.
+Discovery candidates, audit rows, direction anchors, full-text queues, and
+numerical effects are distinct kinds of evidence.  This module preserves that
+distinction and admits a direction anchor to quantitative intake only where it
+matches one exact, predeclared route/trait/outcome/design cell.
 """
 
 from __future__ import annotations
@@ -30,7 +21,6 @@ from trait_architecture.broad_meta_analysis import (
     validate_effect_rows,
     validate_route_records,
 )
-
 
 GATE_FIELDS = (
     "gate_id", "layer_from", "layer_to", "input_universe", "input_count", "pass_count",
@@ -57,7 +47,7 @@ PRIMARY_SOURCE_BASES = frozenset({
 
 
 class IntakeInputError(ValueError):
-    """Raised for malformed layer-gate or intake inputs."""
+    """Raised when a layer input is malformed or a gate cannot be evaluated."""
 
 
 def text(value: object) -> str:
@@ -68,6 +58,16 @@ def is_true(value: object) -> bool:
     return text(value).lower() in {"true", "1", "yes", "y"}
 
 
+def as_int(value: object) -> int:
+    raw = text(value)
+    if not raw:
+        return 0
+    try:
+        return int(raw)
+    except ValueError as error:
+        raise IntakeInputError(f"expected integer value, got {raw!r}") from error
+
+
 def read_rows(path: str | Path, required: Iterable[str]) -> list[dict[str, str]]:
     location = Path(path)
     with location.open(encoding="utf-8", newline="") as handle:
@@ -75,73 +75,63 @@ def read_rows(path: str | Path, required: Iterable[str]) -> list[dict[str, str]]
         fields = set(reader.fieldnames or [])
         missing = set(required).difference(fields)
         if missing:
-            raise IntakeInputError(
-                f"{location} missing required columns: {', '.join(sorted(missing))}"
-            )
+            raise IntakeInputError(f"{location} missing columns: {', '.join(sorted(missing))}")
         return [{key: text(value) for key, value in row.items()} for row in reader]
 
 
 def _validate_strata(rows: Iterable[dict[str, str]]) -> list[dict[str, str]]:
     rows = list(rows)
-    seen: set[str] = set()
-    required = set(STRATUM_FIELDS)
+    seen_ids: set[str] = set()
+    seen_cells: set[tuple[str, str, str, str]] = set()
     for row in rows:
-        missing = required.difference(row)
+        missing = set(STRATUM_FIELDS).difference(row)
         if missing:
-            raise IntakeInputError(f"stratum row missing columns: {', '.join(sorted(missing))}")
-        identifier = text(row.get("stratum_id"))
-        if not identifier or identifier in seen:
-            raise IntakeInputError("stratum IDs must be present and unique")
-        seen.add(identifier)
+            raise IntakeInputError(f"stratum missing columns: {', '.join(sorted(missing))}")
+        identifier = row["stratum_id"]
+        cell = (row["route"], row["trait_class"], row["outcome_class"], row["design_class"])
+        if not identifier or identifier in seen_ids or cell in seen_cells:
+            raise IntakeInputError("strata require unique IDs and unique exact route/trait/outcome/design cells")
+        seen_ids.add(identifier)
+        seen_cells.add(cell)
     return rows
 
 
-def _screen_counts(rows: Iterable[dict[str, str]]) -> Counter[str]:
-    return Counter(text(row.get("shallow_screen_status")) for row in rows)
-
-
 def _primary_direction_anchors(rows: Iterable[dict[str, str]]) -> list[dict[str, str]]:
-    validated = validate_route_records(rows)
     return [
-        row for row in validated
+        row for row in validate_route_records(rows)
         if row.get("record_status") == "included_for_direction_map"
         and is_true(row.get("is_primary_sign_record"))
     ]
 
 
-def _stratum_lookup(rows: Iterable[dict[str, str]]) -> dict[tuple[str, str, str, str], dict[str, str]]:
-    lookup: dict[tuple[str, str, str, str], dict[str, str]] = {}
-    for row in rows:
-        key = (row["route"], row["trait_class"], row["outcome_class"], row["design_class"])
-        if key in lookup:
-            raise IntakeInputError("predeclared strata must not duplicate a route/trait/outcome/design cell")
-        lookup[key] = row
-    return lookup
+def _stratum_by_cell(rows: Iterable[dict[str, str]]) -> dict[tuple[str, str, str, str], dict[str, str]]:
+    return {
+        (row["route"], row["trait_class"], row["outcome_class"], row["design_class"]): row
+        for row in rows
+    }
 
 
-def _fulltext_lookup(rows: Iterable[dict[str, str]]) -> dict[str, dict[str, str]]:
-    lookup: dict[str, dict[str, str]] = {}
+def _fulltext_by_cluster(rows: Iterable[dict[str, str]]) -> dict[str, dict[str, str]]:
+    result: dict[str, dict[str, str]] = {}
     for row in rows:
         cluster = text(row.get("study_cluster_id"))
-        if not cluster:
-            continue
-        if cluster in lookup:
-            raise IntakeInputError("full-text queue cannot contain duplicated study_cluster_id values")
-        lookup[cluster] = row
-    return lookup
+        if cluster in result:
+            raise IntakeInputError("full-text queue contains duplicate study clusters")
+        if cluster:
+            result[cluster] = row
+    return result
 
 
-def _effect_cluster_counts(rows: Iterable[dict[str, str]]) -> dict[tuple[str, str, str, str], set[str]]:
-    validated = validate_effect_rows(rows)
-    counts: dict[tuple[str, str, str, str], set[str]] = defaultdict(set)
-    for row in validated:
+def _numeric_effect_clusters(rows: Iterable[dict[str, str]]) -> dict[tuple[str, str, str, str], set[str]]:
+    result: dict[tuple[str, str, str, str], set[str]] = defaultdict(set)
+    for row in validate_effect_rows(rows):
         if row.get("analysis_status") != "eligible_for_quantitative_synthesis":
             continue
         if not is_true(row.get("is_primary_effect")):
             continue
-        key = (row["route"], row["trait_class"], row["outcome_class"], row["design_class"])
-        counts[key].add(row["study_cluster_id"])
-    return counts
+        cell = (row["route"], row["trait_class"], row["outcome_class"], row["design_class"])
+        result[cell].add(row["study_cluster_id"])
+    return result
 
 
 def build_intake(
@@ -153,180 +143,158 @@ def build_intake(
     effects: Iterable[dict[str, str]],
     fulltext_queue: Iterable[dict[str, str]],
 ) -> tuple[list[dict[str, str]], list[dict[str, str]], list[dict[str, str]], dict[str, object]]:
-    """Create explicit layer-gate audit, exact-stratum intake, and capacity tables."""
-    candidates = list(candidates)
-    screened = list(screened)
-    audit = list(audit)
+    """Return layer gates, exact-cell intake, stratum capacity, and summary."""
+    candidates, screened, audit = list(candidates), list(screened), list(audit)
     anchors = _primary_direction_anchors(route_records)
     strata = _validate_strata(strata)
-    effects = list(effects)
-    fulltext_queue = list(fulltext_queue)
+    cell_to_stratum = _stratum_by_cell(strata)
+    fulltext = _fulltext_by_cluster(fulltext_queue)
+    effects_by_cell = _numeric_effect_clusters(effects)
 
-    screen_counts = _screen_counts(screened)
-    biological_queue = (
+    screen_counts = Counter(row.get("shallow_screen_status", "") for row in screened)
+    biological_pass = (
         screen_counts["priority_for_shallow_source_coding"]
         + screen_counts["biological_context_needs_route_screen"]
     )
-    screened_total = len(screened)
-    screened_hold = screened_total - biological_queue
-    audit_screenable = sum(int(text(row.get("route_screenable_rows")) or 0) for row in audit)
-    audit_unassessed = sum(int(text(row.get("unassessed_rows")) or 0) for row in audit)
+    audit_sampled = sum(as_int(row.get("sampled_rows")) for row in audit)
+    audit_screenable = sum(as_int(row.get("route_screenable_rows")) for row in audit)
+    audit_unassessed = sum(as_int(row.get("unassessed_rows")) for row in audit)
 
-    strata_lookup = _stratum_lookup(strata)
-    fulltext_by_cluster = _fulltext_lookup(fulltext_queue)
-    effect_clusters = _effect_cluster_counts(effects)
-
-    anchor_counts: dict[tuple[str, str, str, str], set[str]] = defaultdict(set)
-    primary_confirmed: dict[tuple[str, str, str, str], set[str]] = defaultdict(set)
-    intake_rows: list[dict[str, str]] = []
-    exact_anchor_count = 0
+    anchor_clusters: dict[tuple[str, str, str, str], set[str]] = defaultdict(set)
+    primary_source_clusters: dict[tuple[str, str, str, str], set[str]] = defaultdict(set)
+    intake: list[dict[str, str]] = []
 
     for index, row in enumerate(anchors, start=1):
         cell = (row["route"], row["trait_class"], row["outcome_class"], row["design_class"])
-        stratum = strata_lookup.get(cell)
-        queue = fulltext_by_cluster.get(row["study_cluster_id"], {})
-        if stratum:
-            exact_anchor_count += 1
-            anchor_counts[cell].add(row["study_cluster_id"])
-            target_stratum = stratum["stratum_id"]
-            match_status = "exact_predeclared_stratum"
-            source_confirmed = text(row.get("source_basis")) in PRIMARY_SOURCE_BASES
-            if source_confirmed:
-                primary_confirmed[cell].add(row["study_cluster_id"])
-                source_gate = "primary_source_confirmed"
-                numeric_gate = "ready_for_numeric_field_check"
-                intake_status = "numeric_extraction_candidate"
-            else:
-                source_gate = "primary_source_not_yet_confirmed"
-                numeric_gate = "requires_primary_source_and_numeric_fields"
-                intake_status = "core_source_resolution_queue"
-            queue_id = text(queue.get("queue_id"))
-            fulltext_state = text(queue.get("full_text_state")) or "not_enqueued"
-            required_fields = (
-                "treatment/control definition; effect-compatible response unit and denominator; "
-                "independent-panel identity; n and variance/raw fields; exact source locator"
-            )
-            deficit = max(0, int(stratum["min_clusters_exploratory"]) - len(anchor_counts[cell]))
-            priority = "P1" if deficit <= 1 else "P2"
-            decision_reason = (
-                "Exact predeclared route/trait/outcome/design cell. Extract one primary effect only after source and panel checks."
-            )
-        else:
-            target_stratum = ""
-            match_status = "no_exact_predeclared_stratum"
-            source_gate = "direction_map_source_basis_retained"
-            numeric_gate = "do_not_force_into_current_quantitative_strata"
-            intake_status = "direction_map_only"
-            queue_id = text(queue.get("queue_id"))
-            fulltext_state = text(queue.get("full_text_state")) or "not_enqueued"
-            required_fields = "No numerical extraction under current protocol unless a future separately declared stratum is justified."
-            priority = "P3"
-            decision_reason = (
-                "The record remains valuable for the route/direction map, but its exact outcome/design cell does not match a predeclared quantitative stratum."
-            )
+        stratum = cell_to_stratum.get(cell)
+        queue = fulltext.get(row["study_cluster_id"], {})
+        if stratum is None:
+            intake.update if False else None
+            intake.append({
+                "intake_id": f"MAI{index:03d}", "record_id": row["record_id"],
+                "study_id": row["study_id"], "study_cluster_id": row["study_cluster_id"],
+                "doi": row["doi"], "taxon": row["taxon"], "route": row["route"],
+                "trait_role": row["trait_role"], "trait_class": row["trait_class"],
+                "outcome_class": row["outcome_class"], "design_class": row["design_class"],
+                "reported_direction": row["reported_direction"], "source_basis": row["source_basis"],
+                "target_stratum_id": "", "stratum_match_status": "no_exact_predeclared_stratum",
+                "source_gate_status": "direction_map_source_basis_retained",
+                "numeric_gate_status": "do_not_force_into_current_quantitative_strata",
+                "intake_status": "direction_map_only", "extraction_priority": "P3",
+                "fulltext_queue_id": text(queue.get("queue_id")),
+                "fulltext_state": text(queue.get("full_text_state")) or "not_enqueued",
+                "required_primary_source_fields": "No quantitative extraction under current protocol unless a separately declared stratum is justified.",
+                "decision_reason": "Exact outcome/design cell does not match a predeclared quantitative stratum.",
+            })
+            continue
 
-        intake_rows.append({
-            "intake_id": f"MAI{index:03d}",
-            "record_id": row["record_id"], "study_id": row["study_id"],
-            "study_cluster_id": row["study_cluster_id"], "doi": row["doi"],
-            "taxon": row["taxon"], "route": row["route"], "trait_role": row["trait_role"],
-            "trait_class": row["trait_class"], "outcome_class": row["outcome_class"],
-            "design_class": row["design_class"], "reported_direction": row["reported_direction"],
-            "source_basis": row["source_basis"], "target_stratum_id": target_stratum,
-            "stratum_match_status": match_status, "source_gate_status": source_gate,
-            "numeric_gate_status": numeric_gate, "intake_status": intake_status,
-            "extraction_priority": priority, "fulltext_queue_id": queue_id,
-            "fulltext_state": fulltext_state, "required_primary_source_fields": required_fields,
-            "decision_reason": decision_reason,
+        anchor_clusters[cell].add(row["study_cluster_id"])
+        source_confirmed = row["source_basis"] in PRIMARY_SOURCE_BASES
+        if source_confirmed:
+            primary_source_clusters[cell].add(row["study_cluster_id"])
+        current_anchor_n = len(anchor_clusters[cell])
+        exploratory_gap = max(0, as_int(stratum["min_clusters_exploratory"]) - current_anchor_n)
+        intake.append({
+            "intake_id": f"MAI{index:03d}", "record_id": row["record_id"],
+            "study_id": row["study_id"], "study_cluster_id": row["study_cluster_id"],
+            "doi": row["doi"], "taxon": row["taxon"], "route": row["route"],
+            "trait_role": row["trait_role"], "trait_class": row["trait_class"],
+            "outcome_class": row["outcome_class"], "design_class": row["design_class"],
+            "reported_direction": row["reported_direction"], "source_basis": row["source_basis"],
+            "target_stratum_id": stratum["stratum_id"], "stratum_match_status": "exact_predeclared_stratum",
+            "source_gate_status": "primary_source_confirmed" if source_confirmed else "primary_source_not_yet_confirmed",
+            "numeric_gate_status": "ready_for_numeric_field_check" if source_confirmed else "requires_primary_source_and_numeric_fields",
+            "intake_status": "numeric_extraction_candidate" if source_confirmed else "core_source_resolution_queue",
+            "extraction_priority": "P1" if exploratory_gap <= 1 else "P2",
+            "fulltext_queue_id": text(queue.get("queue_id")),
+            "fulltext_state": text(queue.get("full_text_state")) or "not_enqueued",
+            "required_primary_source_fields": "treatment/control definition; effect-compatible response unit and denominator; independent-panel identity; n and variance/raw fields; exact source locator",
+            "decision_reason": "Exact predeclared route/trait/outcome/design cell; retain one primary comparison only after source and panel checks.",
         })
 
-    capacity_rows: list[dict[str, str]] = []
+    exact_anchor_clusters = set()
+    for clusters in anchor_clusters.values():
+        exact_anchor_clusters.update(clusters)
+    numeric_exact_clusters = set()
+    for cell, clusters in effects_by_cell.items():
+        numeric_exact_clusters.update(clusters.intersection(anchor_clusters.get(cell, set())))
+
+    capacity: list[dict[str, str]] = []
     for stratum in strata:
         cell = (stratum["route"], stratum["trait_class"], stratum["outcome_class"], stratum["design_class"])
-        direction_n = len(anchor_counts[cell])
-        primary_n = len(primary_confirmed[cell])
-        effect_n = len(effect_clusters[cell])
-        min_exploratory = int(stratum["min_clusters_exploratory"])
-        min_stability = int(stratum["min_clusters_stability"])
-        if effect_n >= min_stability:
-            status = "ready_for_stable_meta_analysis"
-            action = "Run the predeclared random-effects model and report heterogeneity."
-        elif effect_n >= min_exploratory:
-            status = "ready_for_exploratory_meta_analysis"
-            action = "Run only the exploratory model and label the estimate unstable."
+        direction_n = len(anchor_clusters[cell])
+        source_n = len(primary_source_clusters[cell])
+        effect_n = len(effects_by_cell[cell])
+        exploratory = as_int(stratum["min_clusters_exploratory"])
+        stability = as_int(stratum["min_clusters_stability"])
+        if effect_n >= stability:
+            status, action = "ready_for_stable_meta_analysis", "Run the predeclared random-effects model and report heterogeneity."
+        elif effect_n >= exploratory:
+            status, action = "ready_for_exploratory_meta_analysis", "Run only the exploratory model and label it unstable."
         elif direction_n == 0:
-            status = "no_direction_anchor_in_fixed_corpus"
-            action = "Freeze this stratum as unpopulated; do not seek a pooled estimate under the current fixed corpus."
-        elif primary_n == 0:
-            status = "source_resolution_required"
-            action = "Recover primary source and numeric fields for the exact-stratum anchor(s); no pooling until effect rows exist."
+            status, action = "no_direction_anchor_in_fixed_corpus", "Freeze as unpopulated; do not create an ad hoc pool."
+        elif source_n == 0:
+            status, action = "source_resolution_required", "Recover primary source and numeric fields for the exact-cell anchor(s)."
         else:
-            status = "numeric_extraction_required"
-            action = "Complete effect conversion and panel checks for the primary-source-confirmed anchor(s)."
-        capacity_rows.append({
-            "stratum_id": stratum["stratum_id"], "route": stratum["route"],
-            "trait_class": stratum["trait_class"], "outcome_class": stratum["outcome_class"],
-            "effect_metric": stratum["effect_metric"], "design_class": stratum["design_class"],
-            "min_clusters_exploratory": stratum["min_clusters_exploratory"],
-            "min_clusters_stability": stratum["min_clusters_stability"],
-            "direction_anchor_clusters": str(direction_n),
-            "primary_source_confirmed_clusters": str(primary_n),
-            "numeric_effect_clusters": str(effect_n),
-            "shortfall_to_exploratory": str(max(0, min_exploratory - effect_n)),
-            "shortfall_to_stability": str(max(0, min_stability - effect_n)),
+            status, action = "numeric_extraction_required", "Convert a source-confirmed primary comparison after panel and uncertainty checks."
+        capacity.append({
+            "stratum_id": stratum["stratum_id"], "route": stratum["route"], "trait_class": stratum["trait_class"],
+            "outcome_class": stratum["outcome_class"], "effect_metric": stratum["effect_metric"],
+            "design_class": stratum["design_class"], "min_clusters_exploratory": str(exploratory),
+            "min_clusters_stability": str(stability), "direction_anchor_clusters": str(direction_n),
+            "primary_source_confirmed_clusters": str(source_n), "numeric_effect_clusters": str(effect_n),
+            "shortfall_to_exploratory": str(max(0, exploratory - effect_n)),
+            "shortfall_to_stability": str(max(0, stability - effect_n)),
             "capacity_status": status, "recommended_action": action,
         })
 
+    exact_anchor_n = len(exact_anchor_clusters)
     gate_rows = [
         {
             "gate_id": "G01", "layer_from": "L1_discovery", "layer_to": "L2_biological_screen",
             "input_universe": "all_deduplicated_candidates", "input_count": str(len(candidates)),
-            "pass_count": str(biological_queue), "hold_count": str(screened_hold),
+            "pass_count": str(biological_pass), "hold_count": str(len(screened) - biological_pass),
             "gate_status": "fixed_metadata_rule",
-            "filter_rule": "Pass only priority_for_shallow_source_coding or biological_context_needs_route_screen; retain all other candidates as discovery-only.",
-            "interpretation_boundary": "This is metadata triage, not evidence that a route was measured.",
+            "filter_rule": "Pass only priority_for_shallow_source_coding or biological_context_needs_route_screen; keep the remainder as discovery-only.",
+            "interpretation_boundary": "Metadata triage is not evidence that a route was measured.",
         },
         {
             "gate_id": "G02", "layer_from": "L2_audit", "layer_to": "L3_source_adjudication",
-            "input_universe": "frozen_route_stratified_audit_cohort", "input_count": str(len(audit)),
+            "input_universe": "frozen_route_stratified_audit_cohort", "input_count": str(audit_sampled),
             "pass_count": str(audit_screenable), "hold_count": str(audit_unassessed),
             "gate_status": "audit_calibration_only",
-            "filter_rule": "A route can be adjudicated only with a usable source; unassessed rows remain unresolved and are never coded absent.",
-            "interpretation_boundary": "The audit is a calibration sample, not an exhaustive numerator/denominator for the direction registry.",
+            "filter_rule": "Adjudicate only rows with a usable source; unresolved rows remain unresolved rather than absent.",
+            "interpretation_boundary": "The audit calibrates screen behaviour and is not an exhaustive denominator for the direction registry.",
         },
         {
             "gate_id": "G03", "layer_from": "L3_direction_map", "layer_to": "L4_meta_intake",
-            "input_universe": "primary_source_adjudicated_direction_anchors", "input_count": str(len(anchors)),
-            "pass_count": str(exact_anchor_count), "hold_count": str(len(anchors) - exact_anchor_count),
+            "input_universe": "primary_direction_anchors", "input_count": str(len(anchors)),
+            "pass_count": str(exact_anchor_n), "hold_count": str(len(anchors) - exact_anchor_n),
             "gate_status": "exact_predeclared_cell_match",
-            "filter_rule": "Require included primary sign record plus exact match on route, trait class, outcome class, and design class to a predeclared stratum.",
-            "interpretation_boundary": "Nonmatching anchors remain evidence-map records and cannot be widened into a numerical stratum post hoc.",
+            "filter_rule": "Require included primary sign record and exact route, trait class, outcome class, and design class match to a predeclared stratum.",
+            "interpretation_boundary": "A nonmatching anchor remains direction evidence and cannot be widened post hoc.",
         },
         {
             "gate_id": "G04", "layer_from": "L4_meta_intake", "layer_to": "L5_numeric_effect",
-            "input_universe": "exact_predeclared_intake_anchors", "input_count": str(exact_anchor_count),
-            "pass_count": str(sum(len(value) for value in effect_clusters.values())),
-            "hold_count": str(exact_anchor_count - sum(len(value) for value in effect_clusters.values())),
-            "gate_status": "primary_source_numeric_fields_required",
-            "filter_rule": "Require primary-source confirmation, compatible treatment/control contrast, independent panel identity, oriented effect metric, and uncertainty/raw fields.",
-            "interpretation_boundary": "A full-text queue or an abstract direction is not a numerical effect.",
+            "input_universe": "exact_predeclared_intake_anchors", "input_count": str(exact_anchor_n),
+            "pass_count": str(len(numeric_exact_clusters)), "hold_count": str(exact_anchor_n - len(numeric_exact_clusters)),
+            "gate_status": "primary_source_and_numeric_fields_required",
+            "filter_rule": "Require primary source, compatible treatment/control contrast, independent panel, oriented metric, and uncertainty or raw fields.",
+            "interpretation_boundary": "An abstract direction or a full-text queue entry is not an effect size.",
         },
     ]
-
     summary = {
         "schema_version": "meta_analysis_intake_v1",
-        "fixed_corpus_rule": "No candidate-retrieval expansion is required for this intake assessment.",
+        "fixed_corpus_rule": "No candidate-retrieval expansion is used for this capacity assessment.",
         "input_counts": {
-            "candidates": len(candidates), "screened": len(screened), "audit_rows": len(audit),
-            "primary_direction_anchors": len(anchors), "exact_predeclared_intake_anchors": exact_anchor_count,
-            "direction_map_only_anchors": len(anchors) - exact_anchor_count,
-            "primary_effect_clusters": sum(len(value) for value in effect_clusters.values()),
+            "candidates": len(candidates), "screened": len(screened), "audit_sampled_rows": audit_sampled,
+            "primary_direction_anchors": len(anchors), "exact_predeclared_intake_anchors": exact_anchor_n,
+            "direction_map_only_anchors": len(anchors) - exact_anchor_n,
+            "primary_effect_clusters_for_exact_intake": len(numeric_exact_clusters),
         },
-        "meta_analysis_verdict": (
-            "No predeclared stratum is currently poolable. The immediate fixed-corpus task is primary-source and numeric-field recovery for the exact-stratum intake anchors."
-        ),
+        "meta_analysis_verdict": "No predeclared stratum is currently poolable; recover primary-source numerical fields for exact-cell anchors before any synthesis.",
     }
-    return gate_rows, intake_rows, capacity_rows, summary
+    return gate_rows, intake, capacity, summary
 
 
 def _write_csv(path: Path, fields: Iterable[str], rows: Iterable[dict[str, str]]) -> None:
@@ -341,50 +309,31 @@ def _markdown(gates: list[dict[str, str]], intake: list[dict[str, str]], capacit
     lines = [
         "# Fixed-corpus layer gates and meta-analysis intake v1", "",
         "## Current capacity", "",
-        f"- Deduplicated discovery candidates: {counts['candidates']}",
-        f"- Screened candidates: {counts['screened']}",
+        f"- Deduplicated candidates: {counts['candidates']}",
+        f"- Frozen audit sampled rows: {counts['audit_sampled_rows']}",
         f"- Primary direction anchors: {counts['primary_direction_anchors']}",
-        f"- Exact predeclared quantitative-cell anchors: {counts['exact_predeclared_intake_anchors']}",
+        f"- Exact-stratum anchors: {counts['exact_predeclared_intake_anchors']}",
         f"- Direction-map-only anchors: {counts['direction_map_only_anchors']}",
-        f"- Extracted primary numeric effects: {counts['primary_effect_clusters']}", "",
-        "## Fixed decision", "",
-        summary["meta_analysis_verdict"], "",
-        "## Gates", "",
-        "| Gate | From → to | Input | Pass | Held | Rule |", "|---|---|---:|---:|---:|---|",
+        f"- Numeric effects for exact-stratum anchors: {counts['primary_effect_clusters_for_exact_intake']}", "",
+        "## Gates", "", "| Gate | From → to | Input | Pass | Held |", "|---|---|---:|---:|---:|",
     ]
     for row in gates:
-        lines.append(
-            f"| {row['gate_id']} | {row['layer_from']} → {row['layer_to']} | {row['input_count']} | {row['pass_count']} | {row['hold_count']} | {row['filter_rule']} |"
-        )
-    lines.extend(["", "## Exact-stratum core extraction queue", "", "| Priority | Stratum | Study cluster | Source gate | Numeric gate |", "|---|---|---|---|---|"])
+        lines.append(f"| {row['gate_id']} | {row['layer_from']} → {row['layer_to']} | {row['input_count']} | {row['pass_count']} | {row['hold_count']} |")
+    lines.extend(["", "## Core numeric extraction queue", "", "| Priority | Stratum | Study cluster | Source gate | Numeric gate |", "|---|---|---|---|---|"])
     for row in intake:
-        if row["intake_status"] == "core_source_resolution_queue" or row["intake_status"] == "numeric_extraction_candidate":
-            lines.append(
-                f"| {row['extraction_priority']} | {row['target_stratum_id']} | {row['study_cluster_id']} | {row['source_gate_status']} | {row['numeric_gate_status']} |"
-            )
+        if row["intake_status"] != "direction_map_only":
+            lines.append(f"| {row['extraction_priority']} | {row['target_stratum_id']} | {row['study_cluster_id']} | {row['source_gate_status']} | {row['numeric_gate_status']} |")
     lines.extend(["", "## Stratum capacity", "", "| Stratum | Direction anchors | Source-confirmed | Numeric effects | Exploratory gap | Status |", "|---|---:|---:|---:|---:|---|"])
     for row in capacity:
-        lines.append(
-            f"| {row['stratum_id']} | {row['direction_anchor_clusters']} | {row['primary_source_confirmed_clusters']} | {row['numeric_effect_clusters']} | {row['shortfall_to_exploratory']} | {row['capacity_status']} |"
-        )
+        lines.append(f"| {row['stratum_id']} | {row['direction_anchor_clusters']} | {row['primary_source_confirmed_clusters']} | {row['numeric_effect_clusters']} | {row['shortfall_to_exploratory']} | {row['capacity_status']} |")
     return "\n".join(lines) + "\n"
 
 
-def write_intake_outputs(
-    out_dir: str | Path,
-    gate_rows: list[dict[str, str]],
-    intake_rows: list[dict[str, str]],
-    capacity_rows: list[dict[str, str]],
-    summary: dict[str, object],
-) -> None:
+def write_intake_outputs(out_dir: str | Path, gate_rows: list[dict[str, str]], intake_rows: list[dict[str, str]], capacity_rows: list[dict[str, str]], summary: dict[str, object]) -> None:
     destination = Path(out_dir)
     destination.mkdir(parents=True, exist_ok=True)
     _write_csv(destination / "layer_gate_audit.csv", GATE_FIELDS, gate_rows)
     _write_csv(destination / "meta_analysis_intake_queue.csv", INTAKE_FIELDS, intake_rows)
     _write_csv(destination / "meta_analysis_stratum_capacity.csv", CAPACITY_FIELDS, capacity_rows)
-    (destination / "meta_analysis_intake_summary.json").write_text(
-        json.dumps(summary, indent=2, sort_keys=True), encoding="utf-8"
-    )
-    (destination / "FIXED_CORPUS_META_ANALYSIS_FOUNDATION.md").write_text(
-        _markdown(gate_rows, intake_rows, capacity_rows, summary), encoding="utf-8"
-    )
+    (destination / "meta_analysis_intake_summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True), encoding="utf-8")
+    (destination / "FIXED_CORPUS_META_ANALYSIS_FOUNDATION.md").write_text(_markdown(gate_rows, intake_rows, capacity_rows, summary), encoding="utf-8")
