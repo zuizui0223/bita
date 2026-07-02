@@ -160,8 +160,8 @@ def build_interface(
                 if channel in directions else "No active direct empirical channel identifies this term."
             ),
             "connection_boundary": (
-                "The exact mixed-partial equation is unchanged. Broad abstract coverage describes literature attention; "
-                "source-direction anchors describe limited sign/context evidence; neither is a numerical parameter estimate."
+                "The exact mixed-partial equation is unchanged. The broad evidence interface is not a numerical parameter estimate: "
+                "abstract coverage maps literature attention, while source-direction anchors supply limited sign/context evidence."
             ),
         })
     return output
