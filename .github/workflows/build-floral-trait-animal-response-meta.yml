@@ -7,6 +7,10 @@ on:
         description: "Artifact ID for fixed-broad-abstract-evidence-map"
         required: true
         default: "8034748524"
+      b_pollinator_topup:
+        description: "Maximum non-census B-to-pollinator records in the first B screening batch"
+        required: true
+        default: "24"
 
 permissions:
   contents: read
@@ -39,8 +43,16 @@ jobs:
             fixed-map/broad_abstract_evidence_records.csv \
             fixed-map/fixed_l1_abstract_packet.csv \
             artifacts/floral_trait_animal_response_meta
+      - name: Build B-flower mechanism-aware full-text batch
+        run: |
+          python scripts/build_b_flower_mechanism_triage.py \
+            artifacts/floral_trait_animal_response_meta/floral_trait_animal_response_candidate_queue.csv \
+            artifacts/b_flower_mechanism_triage \
+            --b-pollinator-topup "${{ inputs.b_pollinator_topup }}"
       - uses: actions/upload-artifact@v4
         with:
           name: floral-trait-animal-response-meta-queue
-          path: artifacts/floral_trait_animal_response_meta/
+          path: |
+            artifacts/floral_trait_animal_response_meta/
+            artifacts/b_flower_mechanism_triage/
           if-no-files-found: error
