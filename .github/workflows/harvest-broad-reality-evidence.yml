@@ -8,6 +8,7 @@ on:
       - "trait_architecture/broad_reality_screen.py"
       - "trait_architecture/priority_leak_audit.py"
       - "trait_architecture/priority_leak_audit_abstracts.py"
+      - "trait_architecture/priority_leak_audit_adjudication.py"
       - "trait_architecture/broad_source_screening.py"
       - "trait_architecture/broad_calibration_batch.py"
       - "trait_architecture/broad_calibration_abstracts.py"
@@ -17,6 +18,8 @@ on:
       - "scripts/screen_broad_reality_evidence.py"
       - "scripts/build_priority_leak_audit.py"
       - "scripts/build_priority_leak_audit_abstract_packet.py"
+      - "scripts/build_priority_leak_audit_coding_sheet.py"
+      - "scripts/summarize_priority_leak_audit.py"
       - "scripts/build_broad_source_screening_matrix.py"
       - "scripts/build_broad_calibration_batch.py"
       - "scripts/build_broad_calibration_abstract_packet.py"
@@ -25,6 +28,7 @@ on:
       - "tests/test_broad_reality_deep.py"
       - "tests/test_priority_leak_audit.py"
       - "tests/test_priority_leak_audit_abstracts.py"
+      - "tests/test_priority_leak_audit_adjudication.py"
       - "tests/test_broad_reality_screen.py"
       - "tests/test_broad_source_screening.py"
       - "tests/test_broad_calibration_batch.py"
@@ -70,6 +74,17 @@ jobs:
           python scripts/build_priority_leak_audit_abstract_packet.py \
             artifacts/broad_reality_evidence/priority_leak_audit/priority_leak_audit_queue.csv \
             artifacts/broad_reality_evidence/priority_leak_audit/priority_leak_audit_abstract_packet.csv
+      - name: Build priority-leak audit coding sheet
+        run: |
+          python scripts/build_priority_leak_audit_coding_sheet.py \
+            artifacts/broad_reality_evidence/priority_leak_audit/priority_leak_audit_abstract_packet.csv \
+            artifacts/broad_reality_evidence/priority_leak_audit/priority_leak_audit_coding_sheet.csv
+      - name: Summarize priority-leak audit coding state
+        run: |
+          python scripts/summarize_priority_leak_audit.py \
+            artifacts/broad_reality_evidence/priority_leak_audit/priority_leak_audit_abstract_packet.csv \
+            artifacts/broad_reality_evidence/priority_leak_audit/priority_leak_audit_coding_sheet.csv \
+            artifacts/broad_reality_evidence/priority_leak_audit
       - name: Build source-screening matrix for the priority cohort
         run: |
           python scripts/build_broad_source_screening_matrix.py \
