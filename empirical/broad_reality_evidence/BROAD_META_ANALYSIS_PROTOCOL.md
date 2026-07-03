@@ -1,5 +1,14 @@
 # Broad real-world evidence: meta-analysis design (finalized)
 
+> **Amendment (Part B).** The sourcing and independence-counting rules below are
+> superseded for the mechanism-level *support route* by
+> `docs/PART_B_MECHANISM_META_STRATEGY_v1.md` and
+> `docs/PART_B_STOPPING_RULE_AMENDMENTS_v1.md`. That route pools the four marginal
+> arrows separately (independence counted per arrow, sourced from each arrow's own
+> mature literature), adds a moderator/conditionality headline and a break-even
+> bound on `c_AD`, and keeps every scale/design/honesty prohibition in this
+> document in force. The joint-panel proof route (`D1`/`D2`/`D3`) is unchanged.
+
 ## Finalized decision
 
 The broad-evidence meta-analysis has two **primary products** and one **deferred

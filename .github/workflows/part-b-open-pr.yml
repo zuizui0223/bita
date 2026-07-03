@@ -1,0 +1,49 @@
+name: Open Part B pull request
+
+# Opens the Part B branch's PR using the built-in GITHUB_TOKEN, so no personal
+# credential is needed. Idempotent: it does nothing if a PR already exists.
+#
+# Requirement: repo/org setting "Allow GitHub Actions to create and approve pull
+# requests" must be ON (Settings -> Actions -> General -> Workflow permissions).
+# Without it the GITHUB_TOKEN cannot open a PR and this step returns HTTP 403.
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - part-b-mechanism-meta-strategy
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  open-pr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: github.ref_name != 'main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Open PR if none exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_BRANCH: ${{ github.ref_name }}
+        run: |
+          existing=$(gh pr list --head "$HEAD_BRANCH" --state open --json number --jq 'length')
+          if [ "$existing" != "0" ]; then
+            echo "A PR for $HEAD_BRANCH already exists; nothing to do."
+            exit 0
+          fi
+          if gh pr create \
+            --base main \
+            --head "$HEAD_BRANCH" \
+            --title "Part B: mechanism-level meta-analysis (support route) - math + meta split" \
+            --body-file .github/PART_B_PR_BODY.md; then
+            echo "PR opened."
+          else
+            echo "::warning::gh pr create failed (usually HTTP 403). Turn ON"
+            echo "::warning::Settings -> Actions -> General -> Workflow permissions ->"
+            echo "::warning::'Allow GitHub Actions to create and approve pull requests', then re-run."
+            echo "Open it manually: https://github.com/${GITHUB_REPOSITORY}/pull/new/${HEAD_BRANCH}"
+          fi

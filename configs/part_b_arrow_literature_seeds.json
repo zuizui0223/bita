@@ -1,0 +1,104 @@
+{
+  "seed_id": "part_b_arrow_literature_seeds_v1",
+  "purpose": "Per-arrow seed populations for the Part B mechanism-level support route. Each arrow is a SEPARATE marginal meta-analysis drawn from its own mature literature; arrows do not need to share a plant/site/time (that is the joint-panel proof route only). See docs/PART_B_MECHANISM_META_STRATEGY_v1.md.",
+  "honesty_contract": "candidate_syntheses are UNVERIFIED seed leads. A named review or meta-analysis is a starting point for a source audit, never an effect. No DOI, effect, or sign is asserted from this file; each seed must pass the per-arrow eligibility contract before it contributes to B1/B2/B3.",
+  "shared_eligibility_contract": {
+    "trait_role_declared": "the study measures the arrow's trait module (A_flower or B_flower) as an independent predictor, not a treatment contrast standing in for it",
+    "outcome_denominator": "the outcome carries a stated at-risk denominator or exposure (visits per unit effort; damaged per inspected; seeds per ovule)",
+    "effect_scale_single": "one declared effect scale per pooled envelope; scales are never mixed",
+    "design_split": "observational and manipulation effects are pooled separately, never merged",
+    "uncertainty_present": "an SE/CI is reported or reconstructable from declared inputs",
+    "independence": "clusters counted marginally within the arrow; multiple papers on one field panel are one cluster",
+    "no_organ_substitution": "leaf/stem defence or antagonism is not admitted to a floral arrow without a declared cross-organ bridge"
+  },
+  "arrows": [
+    {
+      "arrow_id": "b_A",
+      "route": "A_to_pollination",
+      "part_i_parameter": "attraction_gain",
+      "estimand": "effect of a floral attraction/display trait (size, colour, display number, nectar reward, guide) on pollination/visitation outcome",
+      "predicted_sign": "positive",
+      "primary_effect_scale": "log_response_ratio",
+      "secondary_effect_scales": ["standardized_beta"],
+      "outcome_classes": ["visitation_rate", "pollen_transfer", "fruit_or_seed_set"],
+      "b3_moderators": ["pollination_generalization", "display_conspicuousness", "reward_type", "biotic_vs_wind_context"],
+      "seed_queries": [
+        "floral display size AND pollinator visitation meta-analysis",
+        "flower size OR flower number effect on visitation rate",
+        "pollinator-mediated phenotypic selection on floral traits meta-analysis"
+      ],
+      "candidate_syntheses": [
+        {"descriptor": "meta-analysis of phenotypic selection on floral display traits", "verification_status": "unverified_seed"},
+        {"descriptor": "review of floral advertisement and pollinator visitation rate", "verification_status": "unverified_seed"}
+      ],
+      "notes": "Visitation is admissible only with an effort denominator; visitation-to-service proxy must be declared before it informs b_A."
+    },
+    {
+      "arrow_id": "d_A",
+      "route": "A_to_antagonism",
+      "part_i_parameter": "attraction_tracking",
+      "estimand": "effect of a floral attraction/display trait on floral antagonism (florivory, nectar/pollen robbing, pre-dispersal seed predation)",
+      "predicted_sign": "positive",
+      "primary_effect_scale": "log_odds_ratio",
+      "secondary_effect_scales": ["log_response_ratio", "standardized_beta"],
+      "outcome_classes": ["florivory_incidence", "floral_tissue_loss", "seed_predation"],
+      "b3_moderators": ["pollination_generalization", "display_conspicuousness", "antagonist_guild", "florivore_pressure_H"],
+      "seed_queries": [
+        "attractive flowers attract florivores meta-analysis",
+        "floral display AND florivory OR seed predation",
+        "pollinator and herbivore shared preference for floral traits"
+      ],
+      "candidate_syntheses": [
+        {"descriptor": "review of conflicting pollinator and florivore selection on floral traits", "verification_status": "unverified_seed"},
+        {"descriptor": "meta-analysis of florivory effects mediated by floral attractiveness", "verification_status": "unverified_seed"}
+      ],
+      "notes": "This is the empirical crux arrow: its sign and magnitude relative to b_A*c_D decide the regime. Its B3 moderator slope is the headline conditionality test."
+    },
+    {
+      "arrow_id": "e_F",
+      "route": "B_to_antagonism",
+      "part_i_parameter": "floral_defence_efficacy",
+      "estimand": "effect of a flower-specific barrier/defence trait (floral chemistry, trichomes, sticky/mechanical barrier) on floral antagonism",
+      "predicted_sign": "negative",
+      "primary_effect_scale": "log_response_ratio",
+      "secondary_effect_scales": ["log_odds_ratio", "hedges_g"],
+      "outcome_classes": ["florivory_incidence", "floral_tissue_loss", "antagonist_deterrence"],
+      "b3_moderators": ["defence_type_chemical_vs_physical", "antagonist_guild", "florivore_pressure_H"],
+      "seed_queries": [
+        "floral defence chemistry AND florivory reduction meta-analysis",
+        "floral trichomes OR floral secondary metabolites AND flower herbivory",
+        "flower-specific defence effect on floral antagonists"
+      ],
+      "candidate_syntheses": [
+        {"descriptor": "meta-analysis of plant chemical defence effects on herbivory (floral-organ subset)", "verification_status": "unverified_seed"},
+        {"descriptor": "review of floral (as distinct from leaf) defence against florivores", "verification_status": "unverified_seed"}
+      ],
+      "notes": "The envelope must lie in [0,1] under the current model; any bounded mapping from a raw effect must be declared. Leaf-defence effects are excluded without a floral bridge."
+    },
+    {
+      "arrow_id": "c_D",
+      "route": "B_to_pollination",
+      "part_i_parameter": "defence_pollinator_cost",
+      "estimand": "effect of a flower-specific barrier/access-limitation trait on pollination/access outcome",
+      "predicted_sign": "negative",
+      "primary_effect_scale": "log_response_ratio",
+      "secondary_effect_scales": ["standardized_beta"],
+      "outcome_classes": ["visitation_rate", "access_success", "pollen_transfer", "fruit_or_seed_set"],
+      "b3_moderators": ["access_restriction_strength", "pollinator_functional_group", "morphological_vs_chemical_barrier"],
+      "seed_queries": [
+        "floral morphology restriction AND pollinator access meta-analysis",
+        "corolla depth OR floral barrier effect on visitation",
+        "chemical defence trade-off with pollinator attraction"
+      ],
+      "candidate_syntheses": [
+        {"descriptor": "review of floral morphological filters on pollinator access", "verification_status": "unverified_seed"},
+        {"descriptor": "meta-analysis of defence-pollination conflict in flowers", "verification_status": "unverified_seed"}
+      ],
+      "notes": "Must be a direct barrier-caused access/pollination reduction, not a generic trait-visitor association; a positive contrary sign is a context/trait-role finding, never recoded."
+    }
+  ],
+  "unresolved_parameters": {
+    "attraction_defence_shared_cost": "c_AD: bounded via the B4 break-even threshold (trait_architecture/part_b_support.py), never pooled from any arrow.",
+    "assurance_outcross_dilution": "c_R: no active Part B arrow; remains a declared sensitivity axis."
+  }
+}
