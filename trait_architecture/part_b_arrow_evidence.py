@@ -5,17 +5,18 @@ research-management question the results force: **which arrow should be collecte
 next, and why**. It combines two objective signals:
 
 1. Evidence state per arrow (from the real anchors): absent / single_anchor /
-   consistent / conflicting / poolable, plus how many more independent clusters
-   are needed to pool, and whether the arrow's anchors agree on sign.
+   consistent / poolable, plus two explicitly different unresolved states:
+   ``within_stratum_conflict`` and ``cross_stratum_heterogeneity``.
 2. Regime leverage (from B4): how much the fraction of complementary local cases
    moves when that arrow's channel parameter swings across its declared range.
    High leverage = the regime boundary is sensitive to this arrow.
 
-The priority is leverage-weighted and unresolved-first. A sign *conflict* (e.g.
-the two current ``d_A`` anchors disagree) is flagged for moderator resolution
-rather than for more undifferentiated collection. Nothing here estimates a
-parameter or pools across scales; it is a decision layer over the finished
-analysis.
+A sign difference is only a conflict when opposite signs occur in the same
+trait × outcome × metric × design stratum. Opposite signs across distinct strata
+are heterogeneity, not evidence that one biological mechanism changes sign. The
+latter requires stratum-specific collection before a B3 moderator is proposed.
+Nothing here estimates a parameter or pools across scales; it is a decision layer
+over the finished analysis.
 """
 
 from __future__ import annotations
@@ -26,7 +27,6 @@ from typing import Iterable, Mapping, Sequence
 from .broad_meta_analysis import (
     DIRECT_ROUTES,
     ROUTE_EXPECTED_SIGN,
-    ROUTE_TRAIT_ROLE,
     _bool,
     _text,
     effect_estimate,
@@ -48,8 +48,8 @@ FIELD_TO_ARROW = {
 }
 ROUTE_TO_FIELD = {route: field for field, (route, _sym, _role) in FIELD_TO_ARROW.items()}
 # One primary moderator per arrow (first entry of the arrow's B3 moderator set in
-# configs/part_b_arrow_literature_seeds.json); used only to phrase the recommended
-# action for a sign conflict.
+# configs/part_b_arrow_literature_seeds.json). It applies only to a genuine,
+# within-stratum sign conflict.
 ARROW_PRIMARY_MODERATOR = {
     "A_to_pollination": "pollination_generalization",
     "A_to_antagonism": "pollination_generalization",
@@ -84,12 +84,29 @@ class ArrowEvidence:
     recommended_action: str
 
 
+def _stratum(row: Mapping[str, str]) -> tuple[str, str, str, str]:
+    """Return the compatibility stratum required by the B2 pooling contract."""
+
+    return (
+        _text(row.get("trait_class")),
+        _text(row.get("outcome_class")),
+        _text(row.get("effect_metric")),
+        _text(row.get("design_class")),
+    )
+
+
 def synthesise_arrow_evidence(
     effect_rows: Iterable[Mapping[str, str]],
     *,
     pooling_threshold: int = DEFAULT_POOLING_THRESHOLD,
 ) -> dict[str, ArrowEvidence]:
-    """Classify the current evidence state of each of the four marginal arrows."""
+    """Classify the current evidence state of each of the four marginal arrows.
+
+    ``within_stratum_conflict`` means at least one compatible B2 stratum contains
+    both signs. ``cross_stratum_heterogeneity`` means opposite signs occur only
+    across distinct strata. The latter must not be treated as a biological sign
+    reversal or sent directly to a B3 moderator analysis.
+    """
 
     valid = validate_effect_rows(effect_rows)
     eligible = [
@@ -106,25 +123,27 @@ def synthesise_arrow_evidence(
     evidence: dict[str, ArrowEvidence] = {}
     for route, rows in by_route.items():
         clusters = {_text(row.get("study_cluster_id")) for row in rows}
-        strata = {
-            (
-                _text(row.get("trait_class")), _text(row.get("outcome_class")),
-                _text(row.get("effect_metric")), _text(row.get("design_class")),
-            )
-            for row in rows
-        }
-        estimates = [effect_estimate(dict(row)) for row in rows]
-        positives = sum(1 for est in estimates if est.value > 0)
-        negatives = sum(1 for est in estimates if est.value < 0)
+        stratum_estimates: dict[tuple[str, str, str, str], list[float]] = {}
+        for row in rows:
+            stratum_estimates.setdefault(_stratum(row), []).append(effect_estimate(dict(row)).value)
+        positives = sum(1 for values in stratum_estimates.values() for value in values if value > 0)
+        negatives = sum(1 for values in stratum_estimates.values() for value in values if value < 0)
         expected = ROUTE_EXPECTED_SIGN[route]
         compatible = positives if expected == "positive" else negatives
         k = len(clusters)
+        within_stratum_conflict = any(
+            any(value > 0 for value in values) and any(value < 0 for value in values)
+            for values in stratum_estimates.values()
+        )
+        cross_stratum_heterogeneity = positives > 0 and negatives > 0 and not within_stratum_conflict
         if k == 0:
             sign_state = "absent"
         elif k == 1:
             sign_state = "single_anchor"
-        elif positives and negatives:
-            sign_state = "conflicting"
+        elif within_stratum_conflict:
+            sign_state = "within_stratum_conflict"
+        elif cross_stratum_heterogeneity:
+            sign_state = "cross_stratum_heterogeneity"
         elif k >= pooling_threshold:
             sign_state = "poolable_consistent"
         else:
@@ -139,7 +158,7 @@ def synthesise_arrow_evidence(
             positive_signs=positives,
             negative_signs=negatives,
             compatible_signs=compatible,
-            distinct_strata=len(strata),
+            distinct_strata=len(stratum_estimates),
             sign_state=sign_state,
             clusters_needed_to_pool=max(0, pooling_threshold - k),
             regime_leverage=None,
@@ -212,9 +231,11 @@ def arrow_regime_leverage(
 
 
 def _recommended_action(item: ArrowEvidence) -> str:
-    if item.sign_state == "conflicting":
+    if item.sign_state == "within_stratum_conflict":
         moderator = ARROW_PRIMARY_MODERATOR[item.route]
-        return f"code moderator '{moderator}' to resolve the sign conflict (B3)"
+        return f"code moderator '{moderator}' to resolve the within-stratum sign conflict (B3)"
+    if item.sign_state == "cross_stratum_heterogeneity":
+        return "retain trait/outcome/metric/design strata; collect compatible within-stratum clusters before B3"
     if item.sign_state == "poolable_consistent":
         return "pool the envelope (B2), then run B3 moderators"
     if item.sign_state in {"single_anchor", "consistent"}:
@@ -223,27 +244,38 @@ def _recommended_action(item: ArrowEvidence) -> str:
     return "collect the first independent effect for this arrow"
 
 
+def _unresolved_priority(sign_state: str) -> int:
+    """Lower values are addressed first without treating heterogeneity as conflict."""
+
+    return {
+        "within_stratum_conflict": 0,
+        "cross_stratum_heterogeneity": 1,
+        "single_anchor": 2,
+        "consistent": 2,
+        "absent": 2,
+        "poolable_consistent": 3,
+    }[sign_state]
+
+
 def prioritise_arrows(
     evidence: Mapping[str, ArrowEvidence],
     leverage: Mapping[str, float],
 ) -> list[ArrowEvidence]:
-    """Rank arrows by regime leverage, unresolved and conflicting first.
+    """Rank arrows by leverage and unresolved evidence state.
 
-    Resolved arrows (poolable and consistent) sink to the bottom. Among the rest,
-    a sign conflict outranks a matched-magnitude non-conflict, then higher absolute
-    leverage, then closer to the pooling threshold.
+    Genuine within-stratum conflict comes first, then cross-stratum heterogeneity,
+    then underpowered consistent/single-anchor evidence. Poolable evidence sinks to
+    the bottom. Cross-stratum heterogeneity remains important because the analysis
+    needs stratum-specific evidence, but it is not a sign-reversal claim.
     """
 
     def sort_key(route: str) -> tuple:
         item = evidence[route]
         lev = leverage.get(route, 0.0)
-        resolved = item.sign_state == "poolable_consistent"
-        conflicting = item.sign_state == "conflicting"
         return (
-            resolved,                    # False (unresolved) sorts first
-            not conflicting,             # False (conflicting) sorts first
-            -abs(lev),                   # higher leverage first
-            item.clusters_needed_to_pool,  # closer to threshold first
+            _unresolved_priority(item.sign_state),
+            -abs(lev),
+            item.clusters_needed_to_pool,
             route,
         )
 
