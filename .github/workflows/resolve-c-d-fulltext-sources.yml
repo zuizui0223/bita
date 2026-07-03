@@ -1,0 +1,49 @@
+name: Resolve c_D full-text sources
+
+# Resolves the fixed chemical-barrier c_D reading queue against Crossref and uploads
+# reproducible access/relation receipts. This is a C3 source-feasibility step only:
+# it never reads article text, extracts a dose/response, or claims B2 eligibility.
+
+on:
+  pull_request:
+    paths:
+      - "empirical/broad_reality_evidence/precision_expansions/fulltext/B_TO_P_FULLTEXT_READING_QUEUE_v1.csv"
+      - "trait_architecture/c_d_source_resolution.py"
+      - "trait_architecture/d_a_source_resolver.py"
+      - "scripts/resolve_c_d_fulltext_sources.py"
+      - "tests/test_c_d_source_resolution.py"
+      - ".github/workflows/resolve-c-d-fulltext-sources.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and test dependencies
+        run: python -m pip install -e ".[dev]"
+
+      - name: Resolver tests (offline)
+        run: python -m pytest -q tests/test_c_d_source_resolution.py
+
+      - name: Resolve c_D source routes against Crossref
+        run: |
+          python scripts/resolve_c_d_fulltext_sources.py \
+            empirical/broad_reality_evidence/precision_expansions/fulltext/B_TO_P_FULLTEXT_READING_QUEUE_v1.csv \
+            artifacts/c_d_source_receipts \
+            --mailto actions@users.noreply.github.com
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c-d-source-receipts
+          path: artifacts/c_d_source_receipts/
+          if-no-files-found: error
