@@ -9,6 +9,7 @@ import trait_architecture.c_d_fulltext_locator as locator
 from trait_architecture.c_d_fulltext_locator import (
     locate_receipt_row,
     locate_receipts,
+    read_public_source_receipts,
     read_receipts,
     write_locators,
 )
@@ -25,6 +26,22 @@ def _receipt(urls: str = "https://publisher.example/article.pdf") -> dict[str, s
         "outcome_class": "pollinator_preference_or_foraging",
         "design_class": "manipulation",
         "crossref_content_urls": urls,
+    }
+
+
+def _public_source_receipt(*, status: str = "public_fulltext_candidate", relation: str = "exact_article_doi", url: str = "https://publisher.example/doi/pdfdirect/10.1234/example") -> dict[str, str]:
+    return {
+        "queue_id": "Q1",
+        "study_id": "study",
+        "study_cluster_id": "cluster",
+        "doi": "10.1234/example",
+        "taxon": "Example plant",
+        "trait_class": "chemical_barrier",
+        "outcome_class": "pollinator_preference_or_foraging",
+        "design_class": "manipulation",
+        "content_url": url,
+        "resolution_status": status,
+        "relation_to_article": relation,
     }
 
 
@@ -66,6 +83,37 @@ def test_locator_uses_only_declared_pdf_url_and_emits_page_metadata(monkeypatch)
     assert row["page_count"] == "7"
     assert json.loads(row["candidate_pages"])[0]["page"] == 3
     assert "does not verify table values" in row["do_not_infer"]
+
+
+def test_locator_accepts_pdfdirect_from_exact_doi_public_receipt(monkeypatch, tmp_path) -> None:
+    receipt = _public_source_receipt()
+    path = tmp_path / "public.csv"
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=receipt)
+        writer.writeheader()
+        writer.writerow(receipt)
+
+    rows = read_public_source_receipts(path)
+    assert rows[0]["crossref_content_urls"].endswith("/pdfdirect/10.1234/example")
+    monkeypatch.setattr(locator, "_candidate_pages", lambda _bytes: (3, "[]"))
+    located = locate_receipt_row(rows[0], fetch_pdf=lambda _url: (200, "application/pdf", b"%PDF-1.7 fake"))
+    assert located["pdf_access_status"] == "public_pdf_recovered"
+
+
+def test_public_source_reader_excludes_nonexact_or_nonpdf_candidates(tmp_path) -> None:
+    valid = _public_source_receipt()
+    excluded = [
+        _public_source_receipt(status="public_landing_candidate"),
+        _public_source_receipt(relation="endpoint_screen_only"),
+        _public_source_receipt(url=""),
+    ]
+    path = tmp_path / "public.csv"
+    fields = list(valid)
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows([valid, *excluded])
+    assert len(read_public_source_receipts(path)) == 1
 
 
 def test_locator_never_treats_non_pdf_or_missing_pdf_link_as_readable() -> None:
