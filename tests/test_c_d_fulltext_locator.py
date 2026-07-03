@@ -34,7 +34,7 @@ def _public_source_receipt(*, status: str = "public_fulltext_candidate", relatio
         "queue_id": "Q1",
         "study_id": "study",
         "study_cluster_id": "cluster",
-        "doi": "10.1234/example",
+        "study_doi": "10.1234/example",
         "taxon": "Example plant",
         "trait_class": "chemical_barrier",
         "outcome_class": "pollinator_preference_or_foraging",
@@ -94,6 +94,7 @@ def test_locator_accepts_pdfdirect_from_exact_doi_public_receipt(monkeypatch, tm
         writer.writerow(receipt)
 
     rows = read_public_source_receipts(path)
+    assert rows[0]["doi"] == "10.1234/example"
     assert rows[0]["crossref_content_urls"].endswith("/pdfdirect/10.1234/example")
     monkeypatch.setattr(locator, "_candidate_pages", lambda _bytes: (3, "[]"))
     located = locate_receipt_row(rows[0], fetch_pdf=lambda _url: (200, "application/pdf", b"%PDF-1.7 fake"))
