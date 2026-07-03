@@ -1,16 +1,19 @@
 name: Probe d_A Caruso primary-study index
 
 # Caruso 2019 is a system-seeding meta-analysis, not a d_A effect source. This
-# workflow probes only public metadata and publisher data-link routes for a possible
-# primary-study index. It never downloads an index database, extracts primary-study
-# rows, or writes an effect table.
+# workflow first finds public index routes, then checks the explicitly related Dryad
+# record's metadata and file manifest. It never downloads file contents, extracts
+# primary-study rows, or writes an effect table.
 
 on:
   pull_request:
     paths:
       - "trait_architecture/d_a_caruso_index_probe.py"
+      - "trait_architecture/d_a_caruso_dryad_manifest.py"
       - "scripts/probe_d_a_caruso_primary_index.py"
+      - "scripts/probe_d_a_caruso_dryad_manifest.py"
       - "tests/test_d_a_caruso_index_probe.py"
+      - "tests/test_d_a_caruso_dryad_manifest.py"
       - ".github/workflows/probe-d-a-caruso-primary-index.yml"
   workflow_dispatch:
 
@@ -31,8 +34,11 @@ jobs:
       - name: Install package and test dependencies
         run: python -m pip install -e ".[dev]"
 
-      - name: Test bounded index probe
-        run: python -m pytest -q tests/test_d_a_caruso_index_probe.py
+      - name: Test bounded index and manifest probes
+        run: |
+          python -m pytest -q \
+            tests/test_d_a_caruso_index_probe.py \
+            tests/test_d_a_caruso_dryad_manifest.py
 
       - name: Probe public metadata routes
         run: |
@@ -40,8 +46,15 @@ jobs:
             artifacts/d_a_caruso_index_probe \
             --mailto actions@users.noreply.github.com
 
+      - name: Inspect Dryad metadata and file manifest only
+        run: |
+          python scripts/probe_d_a_caruso_dryad_manifest.py \
+            artifacts/d_a_caruso_dryad_manifest
+
       - uses: actions/upload-artifact@v4
         with:
           name: d-a-caruso-index-probe
-          path: artifacts/d_a_caruso_index_probe/
+          path: |
+            artifacts/d_a_caruso_index_probe/
+            artifacts/d_a_caruso_dryad_manifest/
           if-no-files-found: error
