@@ -1,7 +1,7 @@
 # Part B results readout v1 (current evidence base)
 
 Reproducible run of the full Part B pipeline (`scripts/run_part_b_support.py`,
-layers B1-B4) on the current committed inputs. This is the honest present state:
+layers B1–B5) on the current committed inputs. This is the honest present state:
 the machinery is complete and runs end to end; the evidence base is thin, so most
 cells are reported as *insufficient* rather than forced.
 
@@ -23,9 +23,9 @@ Of the source-adjudicated direction strata, exactly one currently reaches the
 |---|---|---|---:|---:|---|
 | `c_D` (`B_to_pollination`) | chemical_barrier -> pollinator preference/foraging | manipulation | 3 | 100% | `mostly_compatible_with_channel_assumption` |
 
-So the model's `c_D > 0` premise (a floral chemical barrier reduces
-pollinator use) has real, if modest, directional support. Every other channel
-stratum is `insufficient_directional_clusters`.
+So the model's `c_D > 0` premise (a floral chemical barrier reduces pollinator
+use) has real, if modest, directional support. Every other channel stratum is
+`insufficient_directional_clusters`.
 
 ## B2 per-arrow effect envelopes — five real anchors, none poolable yet
 
@@ -73,11 +73,18 @@ replace the declared channel scenarios.
 
 B5 combines each arrow's evidence state with its B4 regime leverage (how much the
 complementary fraction of the local grid moves when that arrow swings across its
-declared range) to produce an objective collection priority:
+declared range) to produce an objective collection priority.
+
+Critically, B5 does **not** call opposite signs a biological conflict merely
+because they share an arrow label. The B2 compatibility stratum is
+`trait class × outcome class × effect metric × design class`. Opposite signs
+within one such stratum are a genuine `within_stratum_conflict`; opposite signs
+across different strata are `cross_stratum_heterogeneity` and require separate
+within-stratum replication before any moderator model is attempted.
 
 | Rank | Arrow | Role | Clusters | Signs | State | Leverage | Recommended next action |
 |---:|---|---|---:|---|---|---:|---|
-| 1 | `d_A` | complementarity driver | 2 | +1 / -1 | **conflicting** | +0.67 | code the `pollination_generalization` moderator to resolve the sign conflict (B3) |
+| 1 | `d_A` | complementarity driver | 2 | +1 / -1 | **cross_stratum_heterogeneity** | +0.67 | retain visual and scent strata; collect compatible within-stratum clusters before B3 |
 | 2 | `e_F` | complementarity driver | 1 | +1 / -0 | single anchor | +0.37 | collect 2 more independent clusters |
 | 3 | `b_A` | substitutability driver | 1 | +1 / -0 | single anchor | -0.31 | collect 2 more independent clusters |
 | 4 | `c_D` | substitutability driver | 1 | +0 / -1 | single anchor | -0.22 | collect 2 more independent clusters |
@@ -88,30 +95,29 @@ complementarity drivers (`d_A`, `e_F`) raise the complementary fraction, the two
 substitutability drivers (`b_A`, `c_D`) lower it, exactly as the mixed-partial
 expression requires.
 
-The decisive finding: the two `d_A` anchors **disagree on sign** (Impatiens visual
--0.09 vs Gymnadenia scent +0.57), and `d_A` also has the **highest absolute regime
-leverage**. The regime boundary hinges on the arrow whose current evidence is
-self-contradictory. That contradiction is a moderator signal, not noise, so the
-recommended action is to code a moderator (B3), not to collect undifferentiated
-`d_A` studies.
+The present `d_A` anchors differ in both their trait class and effect metric:
+Impatiens is a visual-signal standardized beta (-0.09), whereas Gymnadenia is a
+scent log odds ratio (+0.57). They are therefore not a test of a single shared
+parameter whose sign has reversed. `d_A` remains the highest-leverage evidence
+gap, but the correct next action is **stratum-specific collection**, not coding
+`pollination_generalization` as if it already explained a sign conflict.
 
 ## Bottom line
 
 The Part B pipeline is complete and reproducible. The current evidence supports
 one channel premise directionally (`c_D`), holds five verified single-cluster
 anchors across the four arrows, and cannot yet pool or test conditionality. B5
-identifies the priority objectively: **`d_A` is the contested, highest-leverage
-crux** — resolve its sign conflict with a `pollination_generalization` moderator
-first; then add a second independent cluster to `e_F`, `c_D`, and `b_A`.
+identifies the priority objectively: **`d_A` is the highest-leverage, stratified
+evidence gap**, so visual-display and scent/reward routes must each gain
+compatible independent clusters before a moderator or pooled-envelope claim.
 
 ## Next-step scouting (d_A)
 
 A first scouting pass for `d_A` candidates is recorded in
 `d_A_candidate_scouting_v1.md` / `d_A_candidate_scouting_v1.csv` (8 unverified
 leads). The strongest is Schiestl et al. 2015 (eLife `10.7554/eLife.07641`): a
-manipulative `d_A > 0` on a generalized system (scent/nectar raise both pollinator
-visits and hawkmoth oviposition). Caruso et al. 2019 (Evolution `10.1111/evo.13639`)
-is a meta-analytic seed for mining several independent `d_A` clusters. These are
-candidates for human verification, not effects, and enter the coding queue only
-after a direct estimate, denominator, uncertainty, and moderator basis are
-confirmed.
+candidate manipulative scent/nectar -> hawkmoth-oviposition route on a generalized
+system. Caruso et al. 2019 (Evolution `10.1111/evo.13639`) is a meta-analytic seed
+for mining independent primary-study clusters. These remain candidates for human
+verification, not effects, and enter the coding queue only after a direct estimate,
+denominator, uncertainty, and trait-stratum basis are confirmed.
