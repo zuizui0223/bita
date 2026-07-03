@@ -43,7 +43,10 @@ def _crossref_payload() -> dict[str, object]:
             "type": "journal-article",
             "is-referenced-by-count": 17,
             "license": [{"URL": "https://license.example"}],
-            "link": [{"content-type": "application/pdf"}],
+            "link": [
+                {"content-type": "application/pdf", "URL": "https://publisher.example/article.pdf"},
+                {"content-type": "text/html", "URL": "https://publisher.example/article.html"},
+            ],
             "relation": {"is-supplemented-by": [{"id": "dataset"}]},
         }
     }
@@ -57,7 +60,7 @@ def test_queue_mapping_uses_registered_dois() -> None:
     ]
 
 
-def test_resolve_fulltext_queue_retains_reading_metadata() -> None:
+def test_resolve_fulltext_queue_retains_reading_metadata_and_content_urls() -> None:
     calls: list[str] = []
 
     def fake_fetch(url: str):
@@ -71,8 +74,11 @@ def test_resolve_fulltext_queue_retains_reading_metadata() -> None:
     assert rows[0]["study_cluster_id"] == "cluster"
     assert rows[0]["access_state"] == "linked_data_relation_present"
     assert rows[0]["resolved"] == "true"
+    assert rows[0]["crossref_content_urls"] == (
+        "https://publisher.example/article.pdf;https://publisher.example/article.html"
+    )
     assert "Access and relation metadata only" in rows[0]["do_not_infer"]
-    assert len(calls) == 1
+    assert len(calls) == 2
 
 
 def test_write_receipts_emits_access_only_report(tmp_path) -> None:
@@ -86,7 +92,9 @@ def test_write_receipts_emits_access_only_report(tmp_path) -> None:
         written = list(csv.DictReader(handle))
     saved = json.loads((tmp_path / "c_d_fulltext_source_report.json").read_text(encoding="utf-8"))
     assert written[0]["queue_id"] == "Q1"
+    assert written[0]["crossref_content_urls"].endswith("article.html")
     assert report["queue_count"] == 1
+    assert report["rows_with_crossref_content_url"] == 1
     assert saved["counts_by_access_state"]["linked_data_relation_present"] == 1
 
 
