@@ -23,9 +23,12 @@ from urllib.request import Request, urlopen
 CARUSO_SOURCE_DOI = "10.1111/evo.13639"
 DRYAD_DATASET_DOI = "10.5061/dryad.2v8c5g0"
 DATACITE_DOI = "https://api.datacite.org/dois/"
+# Dryad treats the DOI identifier as one API path component, so both the colon and
+# slash must be percent-encoded. The two variants cover API deployments that expect
+# either `doi:<id>` or bare `<id>` as the resource identifier.
 DRYAD_DATASET_ENDPOINTS = (
-    "https://datadryad.org/api/v2/datasets/doi:10.5061/dryad.2v8c5g0",
-    "https://datadryad.org/api/v2/datasets/10.5061/dryad.2v8c5g0",
+    "https://datadryad.org/api/v2/datasets/" + quote(f"doi:{DRYAD_DATASET_DOI}", safe=""),
+    "https://datadryad.org/api/v2/datasets/" + quote(DRYAD_DATASET_DOI, safe=""),
 )
 USER_AGENT = "biotic-interaction-trait-architecture d-a-caruso-dryad-manifest/0.1"
 INDEX_NAME_TERMS = ("study", "studies", "reference", "citation", "bibliograph", "database", "metadata")
@@ -115,10 +118,18 @@ def _receipt(
     )
 
 
-def _links(value: Any) -> dict[str, str]:
-    if not isinstance(value, dict):
+def _resource(payload: Any) -> dict[str, Any]:
+    """Unwrap JSON:API-style `data` envelopes without assuming one provider format."""
+
+    if not isinstance(payload, dict):
         return {}
-    links = value.get("_links")
+    data = payload.get("data")
+    return data if isinstance(data, dict) else payload
+
+
+def _links(value: Any) -> dict[str, str]:
+    resource = _resource(value)
+    links = resource.get("_links")
     if not isinstance(links, dict):
         return {}
     output: dict[str, str] = {}
@@ -127,15 +138,16 @@ def _links(value: Any) -> dict[str, str]:
             href = _text(item.get("href"))
             if href:
                 output[_text(key)] = href
+        elif isinstance(item, str) and item.strip():
+            output[_text(key)] = item.strip()
     return output
 
 
 def _extract_files(payload: Any) -> list[dict[str, Any]]:
     """Return likely HATEOAS file dictionaries, tolerating Dryad API key variants."""
 
-    if not isinstance(payload, dict):
-        return []
-    embedded = payload.get("_embedded")
+    resource = _resource(payload)
+    embedded = resource.get("_embedded")
     if not isinstance(embedded, dict):
         return []
     values: list[dict[str, Any]] = []
@@ -188,6 +200,41 @@ def _index_candidate(filename: str, mime_type: str) -> bool:
     return tabular and any(term in folded_name for term in INDEX_NAME_TERMS)
 
 
+def _first_link(links: dict[str, str], *terms: str) -> str:
+    for key, url in links.items():
+        if any(term in key.casefold() for term in terms):
+            return url
+    return ""
+
+
+def _dryad_file_endpoint(
+    dataset_payload: Any,
+    *,
+    dataset_status: int,
+    fetch_json: Callable[[str], tuple[int, Any]],
+    output: list[DryadManifestReceipt],
+) -> tuple[int, str, Any]:
+    """Resolve a direct files link or the normal dataset -> version -> files chain."""
+
+    links = _links(dataset_payload)
+    direct = _first_link(links, "file")
+    if direct:
+        return dataset_status, direct, None
+    version_url = _first_link(links, "version")
+    if not version_url:
+        return dataset_status, "", None
+    try:
+        status, version_payload = fetch_json(version_url)
+    except Exception as error:
+        output.append(_receipt("dryad_version", "", "request_failed", notes=f"{type(error).__name__}: {error}"))
+        return dataset_status, "", None
+    if status >= 400 or not isinstance(version_payload, dict):
+        output.append(_receipt("dryad_version", status, "version_metadata_unavailable", notes=version_url))
+        return status, "", None
+    output.append(_receipt("dryad_version", status, "version_metadata_recovered", discovery_basis="dryad_hateoas_version", notes=version_url))
+    return status, _first_link(_links(version_payload), "file"), version_payload
+
+
 def probe_dryad_manifest(
     *,
     fetch_json: Callable[[str], tuple[int, Any]],
@@ -219,7 +266,7 @@ def probe_dryad_manifest(
             ))
 
     dataset_payload: Any = None
-    dataset_status: int | str = ""
+    dataset_status = 0
     dataset_url = ""
     for endpoint in DRYAD_DATASET_ENDPOINTS:
         try:
@@ -231,19 +278,18 @@ def probe_dryad_manifest(
             dataset_payload, dataset_status, dataset_url = payload, status, endpoint
             output.append(_receipt("dryad_dataset", status, "dataset_metadata_recovered", discovery_basis="dryad_dataset_endpoint", notes=endpoint))
             break
+        output.append(_receipt("dryad_dataset", status, "dataset_endpoint_unavailable", notes=endpoint))
     if dataset_payload is None:
-        if not any(row.probe_source == "dryad_dataset" for row in output):
-            output.append(_receipt("dryad_dataset", dataset_status, "dataset_metadata_unavailable"))
         return output
 
-    links = _links(dataset_payload)
-    file_endpoint = ""
-    for key, url in links.items():
-        if "file" in key.casefold():
-            file_endpoint = url
-            break
+    file_status, file_endpoint, _version_payload = _dryad_file_endpoint(
+        dataset_payload,
+        dataset_status=dataset_status,
+        fetch_json=fetch_json,
+        output=output,
+    )
     if not file_endpoint:
-        output.append(_receipt("dryad_files", dataset_status, "file_manifest_link_not_found", notes=dataset_url))
+        output.append(_receipt("dryad_files", file_status, "file_manifest_link_not_found", notes=dataset_url))
         return output
 
     try:
