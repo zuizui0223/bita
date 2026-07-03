@@ -1,17 +1,18 @@
-"""Part B orchestrator: run layers B1-B5 as one reproducible pipeline.
+"""Part B orchestrator: run B1-B5 plus a layered evidence-capacity audit.
 
 This ties the finished Part B pieces into a single, deterministic run:
 
     B1  direction map                  broad_meta_analysis.direction_map
     B2  per-arrow effect envelopes     broad_meta_analysis.meta_analysis
     B3  moderator/conditionality       part_b_moderator.moderator_contrast
-    B4  break-even regime map           part_b_support.envelope_break_even_map
-    B5  evidence-priority queue         part_b_arrow_evidence
+    B4  break-even regime map          part_b_support.envelope_break_even_map
+    B5  evidence-priority queue        part_b_arrow_evidence
+    C0  evidence-capacity audit        part_b_evidence_capacity
 
-It has no third-party dependencies and emits CSV + JSON artefacts plus an honest
-diagnostics block. It never fabricates a pooled or moderated result: with the
-current evidence base every arrow-stratum is a single cluster, so B2/B3 report
-``insufficient`` and B4 is an explicitly declared sensitivity map.
+C0 preserves every registered source at the strongest role currently justified by
+its extraction state. It separates directional-only records from numerical effects
+and labels quantitative cells as individual, exploratory, or stable candidates.
+It does not infer a direct A x D interaction from separate marginal arrows.
 """
 
 from __future__ import annotations
@@ -34,6 +35,13 @@ from .part_b_arrow_evidence import (
     arrow_regime_leverage,
     prioritise_arrows,
     synthesise_arrow_evidence,
+)
+from .part_b_evidence_capacity import (
+    EVIDENCE_INVENTORY_FIELDS,
+    QUANTITATIVE_CAPACITY_FIELDS,
+    evidence_capacity_diagnostics,
+    evidence_inventory,
+    quantitative_capacity,
 )
 from .part_b_moderator import moderator_contrast
 from .part_b_support import envelope_break_even_map
@@ -142,16 +150,23 @@ def write_part_b_outputs(
     moderator_hypotheses: Iterable[Mapping[str, object]],
     break_even_config: Mapping[str, object],
 ) -> dict[str, object]:
-    """Run B1-B5 and write the full Part B artefact bundle."""
+    """Run B1-B5 plus C0 and write the full Part B artefact bundle."""
 
     destination = Path(out_dir)
     destination.mkdir(parents=True, exist_ok=True)
 
+    route_rows = list(route_rows)
     effect_rows = list(effect_rows)
+    strata = list(strata)
     map_rows = direction_map(route_rows)
     summary_rows, _used_rows, meta_diag = meta_analysis(effect_rows, strata)
     moderator_rows = run_moderator_hypotheses(effect_rows, moderator_hypotheses)
     break_even_rows = run_break_even_map(break_even_config)
+
+    # C0: preserve source roles before any numerical synthesis is interpreted.
+    inventory_rows = evidence_inventory(route_rows, effect_rows)
+    capacity_rows = quantitative_capacity(effect_rows, strata)
+    capacity_diag = evidence_capacity_diagnostics(inventory_rows, capacity_rows)
 
     # B5: evidence synthesis + regime-leverage priority queue.
     cases = _cases_from_config(break_even_config["case_grid"])  # type: ignore[index]
@@ -166,6 +181,8 @@ def write_part_b_outputs(
     ranked = prioritise_arrows(evidence, leverage)
     evidence_rows = [arrow_evidence_to_row(item) for item in ranked]
 
+    write_csv_rows(destination / "part_b_c0_evidence_inventory.csv", EVIDENCE_INVENTORY_FIELDS, inventory_rows)
+    write_csv_rows(destination / "part_b_c0_quantitative_capacity.csv", QUANTITATIVE_CAPACITY_FIELDS, capacity_rows)
     write_csv_rows(destination / "part_b_b1_direction_map.csv", DIRECTION_OUTPUT_FIELDS, map_rows)
     write_csv_rows(destination / "part_b_b2_arrow_envelopes.csv", META_SUMMARY_FIELDS, summary_rows)
     write_csv_rows(destination / "part_b_b3_moderator_contrasts.csv", MODERATOR_CONTRAST_FIELDS, moderator_rows)
@@ -174,6 +191,7 @@ def write_part_b_outputs(
     write_csv_rows(destination / "part_b_b5_arrow_evidence_priority.csv", ARROW_EVIDENCE_FIELDS, evidence_rows)
 
     diagnostics = {
+        **capacity_diag,
         "b1_direction_strata": len(map_rows),
         "b1_strata_with_sufficient_clusters": sum(
             row["direction_map_status"] != "insufficient_directional_clusters" for row in map_rows
@@ -194,12 +212,13 @@ def write_part_b_outputs(
         "b5_top_priority_arrow": evidence_rows[0]["part_i_parameter"] if evidence_rows else "",
         "b5_top_priority_action": evidence_rows[0]["recommended_action"] if evidence_rows else "",
         "interpretation_boundary": (
-            "B2/B3 pool marginal arrows and count clusters per arrow; a stratum with "
-            "fewer than three independent clusters is reported as insufficient, not forced. "
-            "B5 distinguishes a within-stratum sign conflict from cross-stratum "
-            "heterogeneity; only the former triggers moderator resolution. B4 is a "
-            "declared sensitivity map bounding c_AD, never an estimate of it. No output "
-            "is a joint-panel D1/D2 identification."
+            "C0 classifies registered records into numerical, directional-only, and candidate "
+            "roles; it does not identify a direct A_x_D interaction. B2/B3 only consider exact "
+            "trait/outcome/metric/design strata. A stratum with fewer than three independent "
+            "clusters is never forced into a pooled result, and an exploratory-capacity label is "
+            "not a completed meta-analysis. B5 distinguishes within-stratum sign conflict from "
+            "cross-stratum heterogeneity. B4 is a declared sensitivity map bounding c_AD, never "
+            "an estimate of it. No output is a joint-panel D1/D2 identification."
         ),
     }
     (destination / "part_b_diagnostics.json").write_text(

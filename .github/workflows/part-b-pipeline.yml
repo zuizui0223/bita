@@ -1,8 +1,8 @@
 name: Part B support pipeline
 
-# Reproduces the full Part B analysis (B1-B5) in CI and uploads the artefact
-# bundle, so the meta-analysis result is regenerated from committed inputs on every
-# change rather than by hand.
+# Reproduces the Part B analysis plus the C0 evidence-capacity audit in CI. The
+# artifact keeps directional-only and quantitative evidence separate instead of
+# creating an all-route pooled estimate by hand.
 
 on:
   pull_request:
@@ -35,9 +35,15 @@ jobs:
         run: python -m pip install -e ".[dev]"
 
       - name: Run Part B tests
-        run: python -m pytest -q tests/test_part_b_support.py tests/test_part_b_moderator.py tests/test_part_b_arrow_evidence.py tests/test_part_b_pipeline.py
+        run: >
+          python -m pytest -q
+          tests/test_part_b_support.py
+          tests/test_part_b_moderator.py
+          tests/test_part_b_arrow_evidence.py
+          tests/test_part_b_evidence_capacity.py
+          tests/test_part_b_pipeline.py
 
-      - name: Reproduce the Part B pipeline
+      - name: Reproduce the layered Part B pipeline
         run: |
           python scripts/run_part_b_support.py \
             empirical/broad_reality_evidence/broad_route_records.csv \
