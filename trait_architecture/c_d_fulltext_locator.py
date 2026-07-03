@@ -1,12 +1,12 @@
 """Bounded, non-retentive PDF page locator for the fixed c_D source queue.
 
 This module follows c_D source receipts. It downloads only an unauthenticated PDF
-response advertised by Crossref or a DOI-exact OpenAlex public-fulltext location,
-keeps it in a temporary directory, and emits page *locators* (page number plus
-matched extraction keywords). It never stores article text or PDFs in repository
-artefacts, never extracts numerical effects, and never promotes a source into B2.
-Its sole purpose is to determine whether a public source can be read efficiently
-enough for a human C4 extraction.
+response advertised by Crossref or a DOI-exact OpenAlex/Unpaywall public-fulltext
+location, keeps it in a temporary directory, and emits page *locators* (page number
+plus matched extraction keywords). It never stores article text or PDFs in
+repository artefacts, never extracts numerical effects, and never promotes a source
+into B2. Its sole purpose is to determine whether a public source can be read
+efficiently enough for a human C4 extraction.
 
 PDF text is used only to locate candidate pages. Any later numerical extraction
 must visually verify the relevant table/figure/page and meet the registered c_D
@@ -172,7 +172,7 @@ def read_receipts(path: str | Path) -> list[dict[str, str]]:
 
 
 def read_public_source_receipts(path: str | Path) -> list[dict[str, str]]:
-    """Read only exact-DOI public-PDF candidates from the provenance-separated scout."""
+    """Read unique exact-DOI public-PDF candidates from provenance-separated receipts."""
 
     with Path(path).open(encoding="utf-8", newline="") as handle:
         rows = [{key: _text(value) for key, value in row.items()} for row in csv.DictReader(handle)]
@@ -183,11 +183,16 @@ def read_public_source_receipts(path: str | Path) -> list[dict[str, str]]:
     if rows and not required.issubset(rows[0]):
         raise ValueError("c_D public-source receipt file lacks required fields")
     candidates: list[dict[str, str]] = []
+    seen: set[tuple[str, str, str]] = set()
     for row in rows:
         if row["resolution_status"] != "public_fulltext_candidate":
             continue
         if row["relation_to_article"] != "exact_article_doi" or not row["content_url"]:
             continue
+        key = (row["queue_id"], row["study_doi"], row["content_url"])
+        if key in seen:
+            continue
+        seen.add(key)
         candidates.append({
             "queue_id": row["queue_id"],
             "study_id": row["study_id"],
