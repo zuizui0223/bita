@@ -51,14 +51,17 @@ See `d_A_candidate_scouting_v1.csv`. Highlights:
 
 `scripts/resolve_d_a_candidate_sources.py` (module
 `trait_architecture/d_a_source_resolver.py`, CI
-`.github/workflows/resolve-d-a-candidate-sources.yml`) resolves each candidate's
-DOI against the public Crossref API and writes a deterministic access receipt
-(does the DOI resolve, is a full-text link advertised, is a dataset linked). It is
-access/relation metadata only — no article text, no effect. On the current table
-the three DOI-bearing leads (Schiestl 2015, Caruso 2019, Trollius) resolve with
-full-text links; the five `pmid:`/`url:` leads report `no_doi_supplied` and need a
-DOI resolved first. This makes the "which leads are reachable" step reproducible in
-CI, so the only manual work left is the verified numeric extraction itself.
+`.github/workflows/resolve-d-a-candidate-sources.yml`) resolves each candidate to a
+DOI — directly, via NCBI id-conversion for `pmid:`/PMC leads, or a DOI embedded in
+a `url:` — then resolves that DOI against the public Crossref API and writes a
+deterministic access receipt (does the DOI resolve, is a full-text link advertised,
+is a dataset linked). It is access/relation metadata only — no article text, no
+effect. On the current table **6 of 8 leads resolve to a full-text link**
+(declared DOIs: Schiestl 2015, Caruso 2019, Trollius; id-converted: the PMID
+seed-predation study and the two PMC leads Parnassia, Aerides); the two remaining
+plain-URL leads (Phlox, Iris) are honestly `unresolvable` and need a DOI. This
+makes the "which leads are reachable" step reproducible in CI, so the only manual
+work left is the verified numeric extraction itself.
 
 ## How this advances B3
 

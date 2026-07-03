@@ -1,22 +1,24 @@
 """Reproducible source-access resolver for d_A candidate leads (C3 feasibility).
 
-Given the `d_A` candidate scouting table, this resolves each candidate's DOI
-against the public Crossref works API and records a deterministic **access
-receipt**: whether the DOI resolves, whether a full-text link is advertised, and
-whether a linked dataset relation exists. It is the repository's standard C3
-source-feasibility pattern applied to the d_A leads.
+Given the `d_A` candidate scouting table, this resolves each candidate to a DOI
+(directly, or via NCBI id-conversion for `pmid:`/PMC leads, or a DOI embedded in a
+`url:`), then resolves that DOI against the public Crossref works API and records a
+deterministic **access receipt**: whether the DOI resolves, whether a full-text
+link is advertised, and whether a linked dataset relation exists. It is the
+repository's standard C3 source-feasibility pattern applied to the d_A leads.
 
 Like the other probes in this package, it takes an injectable `fetch_json` so the
 logic is deterministic and unit-testable offline; the CLI supplies a real,
-rate-limited Crossref fetcher. It records access and relation metadata only. It
-does not read article text, inspect tables, assign trait roles, or estimate any
-effect. A resolved OA link is a route, never evidence.
+rate-limited fetcher. It records access and relation metadata only. It does not
+read article text, inspect tables, assign trait roles, or estimate any effect. A
+resolved OA link is a route, never evidence.
 """
 
 from __future__ import annotations
 
 import csv
 import json
+import re
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -28,9 +30,12 @@ from urllib.request import Request, urlopen
 
 USER_AGENT = "biotic-interaction-trait-architecture d-a-source-resolver/0.1"
 CROSSREF_WORKS = "https://api.crossref.org/works/"
+NCBI_IDCONV = "https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?format=json&ids="
+_DOI_IN_TEXT = re.compile(r"10\.\d{4,9}/[^\s\"'<>&]+")
+_PMCID_IN_TEXT = re.compile(r"PMC\d+", re.IGNORECASE)
 RECEIPT_FIELDS = (
-    "candidate_id", "source", "doi", "access_state", "resolved", "work_type",
-    "is_referenced_by_count", "license_present", "fulltext_link_count",
+    "candidate_id", "source", "doi", "resolution_method", "access_state", "resolved",
+    "work_type", "is_referenced_by_count", "license_present", "fulltext_link_count",
     "fulltext_content_types", "data_relation_types", "notes", "do_not_infer",
 )
 DO_NOT_INFER = (
@@ -44,6 +49,7 @@ class SourceReceipt:
     candidate_id: str
     source: str
     doi: str
+    resolution_method: str
     access_state: str
     resolved: str
     work_type: str
@@ -57,7 +63,11 @@ class SourceReceipt:
 
 
 class CrossrefFetcher:
-    """Polite, keyless Crossref JSON fetcher with a minimum inter-request interval."""
+    """Polite, keyless JSON fetcher with a minimum inter-request interval.
+
+    Used for both Crossref and the NCBI id-conversion endpoint. ``mailto`` is added
+    to the Crossref polite pool only when the URL has no query string of its own.
+    """
 
     def __init__(self, min_interval_seconds: float = 0.5, mailto: str | None = None):
         if min_interval_seconds < 0:
@@ -71,11 +81,11 @@ class CrossrefFetcher:
         if wait > 0:
             time.sleep(wait)
         self._next_allowed = time.monotonic() + self.min_interval_seconds
-        if self.mailto:
+        if self.mailto and "?" not in url:
             url = f"{url}?mailto={quote(self.mailto)}"
         request = Request(url, headers={"Accept": "application/json", "User-Agent": USER_AGENT})
         try:
-            with urlopen(request, timeout=45) as response:  # nosec B310: fixed public Crossref endpoint
+            with urlopen(request, timeout=45) as response:  # nosec B310: fixed public metadata endpoints
                 status = int(getattr(response, "status", response.getcode()))
                 return status, json.loads(response.read().decode("utf-8"))
         except HTTPError as error:
@@ -87,12 +97,7 @@ def _text(value: object) -> str:
 
 
 def doi_from_source(source: str) -> str:
-    """Extract a DOI from a candidate `source` field, else empty.
-
-    Candidate sources look like `doi:10.x/y`, `pmid:12345`, or `url:host/path`.
-    Only `doi:`-prefixed sources are resolvable here; others return empty so the
-    receipt records `no_doi_supplied` rather than guessing.
-    """
+    """Return a directly declared DOI from a `doi:`-prefixed source, else empty."""
 
     value = _text(source)
     if value.lower().startswith("doi:"):
@@ -100,16 +105,55 @@ def doi_from_source(source: str) -> str:
     return ""
 
 
+def _idconv_to_doi(identifier: str, fetch_json: Callable[[str], tuple[int, Any]]) -> str:
+    """Resolve a PMID or PMCID to a DOI via the NCBI id-conversion API."""
+
+    status, payload = fetch_json(NCBI_IDCONV + quote(identifier))
+    if status >= 400 or not isinstance(payload, dict):
+        return ""
+    records = payload.get("records")
+    if isinstance(records, list) and records and isinstance(records[0], dict):
+        return _text(records[0].get("doi"))
+    return ""
+
+
+def resolve_source_doi(
+    source: str,
+    *,
+    fetch_json: Callable[[str], tuple[int, Any]],
+) -> tuple[str, str, str]:
+    """Resolve a candidate `source` field to (doi, resolution_method, note).
+
+    Handles `doi:` (direct), `pmid:` and PMC ids (via NCBI id-conversion), and a
+    DOI or PMCID embedded in a `url:`. Returns an empty DOI with a method of
+    ``unresolvable`` when no identifier can be recovered, so the receipt records
+    honest missingness rather than a guess.
+    """
+
+    value = _text(source)
+    low = value.lower()
+    if low.startswith("doi:"):
+        return value[4:].strip(), "declared_doi", ""
+    if low.startswith("pmid:"):
+        pmid = value.split(":", 1)[1].strip()
+        doi = _idconv_to_doi(pmid, fetch_json)
+        return (doi, "pmid_idconv", "") if doi else ("", "pmid_idconv_failed", f"NCBI id-conversion returned no DOI for {pmid}")
+    # url: (or bare) — try an embedded DOI first, then an embedded PMCID.
+    embedded = _DOI_IN_TEXT.search(value)
+    if embedded:
+        return embedded.group(0).rstrip(".").strip(), "doi_in_url", ""
+    pmcid = _PMCID_IN_TEXT.search(value)
+    if pmcid:
+        doi = _idconv_to_doi(pmcid.group(0).upper(), fetch_json)
+        return (doi, "pmcid_idconv", "") if doi else ("", "pmcid_idconv_failed", f"NCBI id-conversion returned no DOI for {pmcid.group(0)}")
+    return "", "unresolvable", "No DOI, PMID, or PMCID recoverable from source."
+
+
 def _fulltext_links(message: dict[str, Any]) -> list[str]:
     links = message.get("link")
     if not isinstance(links, list):
         return []
-    types: list[str] = []
-    for link in links:
-        if isinstance(link, dict):
-            content_type = _text(link.get("content-type")) or "unspecified"
-            types.append(content_type)
-    return types
+    return [_text(link.get("content-type")) or "unspecified" for link in links if isinstance(link, dict)]
 
 
 def _data_relation_types(message: dict[str, Any]) -> list[str]:
@@ -120,39 +164,38 @@ def _data_relation_types(message: dict[str, Any]) -> list[str]:
     return sorted(key for key in relation if key in interesting)
 
 
+def _receipt(candidate_id: str, source: str, doi: str, method: str, access_state: str, resolved: str,
+             *, work_type: str = "", refs: str = "", license_present: str = "", link_count: str = "",
+             link_types: str = "", data_relations: str = "", notes: str = "") -> SourceReceipt:
+    return SourceReceipt(
+        candidate_id=candidate_id, source=source, doi=doi, resolution_method=method,
+        access_state=access_state, resolved=resolved, work_type=work_type,
+        is_referenced_by_count=refs, license_present=license_present,
+        fulltext_link_count=link_count, fulltext_content_types=link_types,
+        data_relation_types=data_relations, notes=notes,
+    )
+
+
 def resolve_candidate_source(
     row: dict[str, str],
     *,
     fetch_json: Callable[[str], tuple[int, Any]],
 ) -> SourceReceipt:
-    """Resolve one candidate's DOI to a deterministic access receipt."""
+    """Resolve one candidate to a DOI and then to a deterministic access receipt."""
 
     candidate_id = _text(row.get("candidate_id"))
     source = _text(row.get("source"))
-    doi = doi_from_source(source)
+    doi, method, note = resolve_source_doi(source, fetch_json=fetch_json)
     if not doi:
-        return SourceReceipt(
-            candidate_id=candidate_id, source=source, doi="", access_state="no_doi_supplied",
-            resolved="false", work_type="", is_referenced_by_count="", license_present="",
-            fulltext_link_count="", fulltext_content_types="", data_relation_types="",
-            notes="Source is not a DOI (pmid/url); resolve a DOI before Crossref lookup.",
-        )
+        return _receipt(candidate_id, source, "", method, "no_doi_resolved", "false", notes=note)
     try:
         status, payload = fetch_json(CROSSREF_WORKS + quote(doi, safe=""))
     except Exception as error:  # network / parse failure
-        return SourceReceipt(
-            candidate_id=candidate_id, source=source, doi=doi, access_state="crossref_unresolved",
-            resolved="false", work_type="", is_referenced_by_count="", license_present="",
-            fulltext_link_count="", fulltext_content_types="", data_relation_types="",
-            notes=f"{type(error).__name__}: {error}",
-        )
+        return _receipt(candidate_id, source, doi, method, "crossref_unresolved", "false",
+                        notes=f"{type(error).__name__}: {error}")
     if status >= 400 or not isinstance(payload, dict) or not isinstance(payload.get("message"), dict):
-        return SourceReceipt(
-            candidate_id=candidate_id, source=source, doi=doi, access_state="crossref_unresolved",
-            resolved="false", work_type="", is_referenced_by_count="", license_present="",
-            fulltext_link_count="", fulltext_content_types="", data_relation_types="",
-            notes=f"Crossref returned HTTP {status} or no message.",
-        )
+        return _receipt(candidate_id, source, doi, method, "crossref_unresolved", "false",
+                        notes=f"Crossref returned HTTP {status} or no message.")
     message = payload["message"]
     fulltext = _fulltext_links(message)
     data_relations = _data_relation_types(message)
@@ -163,14 +206,14 @@ def resolve_candidate_source(
         state = "oa_or_fulltext_link_present"
     else:
         state = "metadata_only"
-    return SourceReceipt(
-        candidate_id=candidate_id, source=source, doi=doi, access_state=state, resolved="true",
+    return _receipt(
+        candidate_id, source, doi, method, state, "true",
         work_type=_text(message.get("type")),
-        is_referenced_by_count=_text(message.get("is-referenced-by-count")),
+        refs=_text(message.get("is-referenced-by-count")),
         license_present=license_present,
-        fulltext_link_count=str(len(fulltext)),
-        fulltext_content_types=";".join(sorted(set(fulltext))),
-        data_relation_types=";".join(data_relations),
+        link_count=str(len(fulltext)),
+        link_types=";".join(sorted(set(fulltext))),
+        data_relations=";".join(data_relations),
         notes="Resolved via Crossref; access/relation metadata only.",
     )
 
@@ -186,11 +229,14 @@ def resolve_candidates(
 def summarise(receipts: Iterable[SourceReceipt]) -> dict[str, object]:
     receipts = list(receipts)
     states: dict[str, int] = {}
+    methods: dict[str, int] = {}
     for receipt in receipts:
         states[receipt.access_state] = states.get(receipt.access_state, 0) + 1
+        methods[receipt.resolution_method] = methods.get(receipt.resolution_method, 0) + 1
     return {
         "candidate_count": len(receipts),
         "counts_by_access_state": dict(sorted(states.items())),
+        "counts_by_resolution_method": dict(sorted(methods.items())),
         "decision_boundary": DO_NOT_INFER,
     }
 
