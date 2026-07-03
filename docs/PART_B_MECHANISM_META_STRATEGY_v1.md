@@ -254,7 +254,8 @@ identification kept as a clearly separated future part.
 All four layers are implemented and run as one reproducible pipeline:
 
 ```text
-trait_architecture/part_b_pipeline.py        write_part_b_outputs()  (B1->B2->B3->B4)
+trait_architecture/part_b_pipeline.py        write_part_b_outputs()  (B1->B2->B3->B4->B5)
+trait_architecture/part_b_arrow_evidence.py  B5 evidence synthesis + regime-leverage priority queue
 scripts/run_part_b_support.py                CLI runner
 configs/part_b_moderator_hypotheses.json     B3 pre-registered contrasts
 configs/part_b_break_even_scenarios.json     B4 declared sensitivity scenarios

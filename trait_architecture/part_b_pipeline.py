@@ -28,6 +28,13 @@ from .broad_meta_analysis import (
     write_csv_rows,
 )
 from .model import ModelParameters
+from .part_b_arrow_evidence import (
+    ARROW_EVIDENCE_FIELDS,
+    arrow_evidence_to_row,
+    arrow_regime_leverage,
+    prioritise_arrows,
+    synthesise_arrow_evidence,
+)
 from .part_b_moderator import moderator_contrast
 from .part_b_support import envelope_break_even_map
 from .robustness import cartesian_cases
@@ -103,6 +110,15 @@ def _cases_from_config(grid: Mapping[str, Sequence[float]]):
     )
 
 
+def _leverage_shared_cost(config: Mapping[str, object]) -> float:
+    """Pick the middle declared shared-cost scenario for the leverage probe."""
+
+    scenarios = list(config.get("shared_cost_scenarios", ()))
+    if not scenarios:
+        return 0.1
+    return float(scenarios[len(scenarios) // 2])
+
+
 def run_break_even_map(config: Mapping[str, object]) -> list[dict[str, object]]:
     """Build the B4 empirically-informed regime map from a declared config."""
 
@@ -137,11 +153,24 @@ def write_part_b_outputs(
     moderator_rows = run_moderator_hypotheses(effect_rows, moderator_hypotheses)
     break_even_rows = run_break_even_map(break_even_config)
 
+    # B5: evidence synthesis + regime-leverage priority queue.
+    cases = _cases_from_config(break_even_config["case_grid"])  # type: ignore[index]
+    leverage_shared_cost = _leverage_shared_cost(break_even_config)
+    evidence = synthesise_arrow_evidence(effect_rows)
+    leverage = arrow_regime_leverage(
+        cases,
+        break_even_config["channel_envelopes"],  # type: ignore[index]
+        shared_cost=leverage_shared_cost,
+    )
+    ranked = prioritise_arrows(evidence, leverage)
+    evidence_rows = [arrow_evidence_to_row(item) for item in ranked]
+
     write_csv_rows(destination / "part_b_b1_direction_map.csv", DIRECTION_OUTPUT_FIELDS, map_rows)
     write_csv_rows(destination / "part_b_b2_arrow_envelopes.csv", META_SUMMARY_FIELDS, summary_rows)
     write_csv_rows(destination / "part_b_b3_moderator_contrasts.csv", MODERATOR_CONTRAST_FIELDS, moderator_rows)
     break_even_fields = list(break_even_rows[0].keys()) if break_even_rows else []
     write_csv_rows(destination / "part_b_b4_break_even_regime_map.csv", break_even_fields, break_even_rows)
+    write_csv_rows(destination / "part_b_b5_arrow_evidence_priority.csv", ARROW_EVIDENCE_FIELDS, evidence_rows)
 
     diagnostics = {
         "b1_direction_strata": len(map_rows),
@@ -155,6 +184,9 @@ def write_part_b_outputs(
         "b3_supported": sum(row["status"] == "moderator_supported" for row in moderator_rows),
         "b3_contradicted": sum(row["status"] == "moderator_contradicted" for row in moderator_rows),
         "b4_regime_map_rows": len(break_even_rows),
+        "b5_arrows_conflicting": sum(1 for row in evidence_rows if row["sign_state"] == "conflicting"),
+        "b5_top_priority_arrow": evidence_rows[0]["part_i_parameter"] if evidence_rows else "",
+        "b5_top_priority_action": evidence_rows[0]["recommended_action"] if evidence_rows else "",
         "interpretation_boundary": (
             "B2/B3 pool marginal arrows and count clusters per arrow; a stratum with "
             "fewer than three independent clusters is reported as insufficient, not forced. "

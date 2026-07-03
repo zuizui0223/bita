@@ -69,10 +69,32 @@ cases into the complementary regime; the reverse pushes them to substitutable.
 The map is a declared sensitivity result and becomes empirical once B2 envelopes
 replace the declared channel scenarios.
 
+## B5 evidence synthesis + regime-leverage priority
+
+B5 combines each arrow's evidence state with its B4 regime leverage (how much the
+complementary fraction of the local grid moves when that arrow swings across its
+declared range) to produce an objective collection priority:
+
+| Rank | Arrow | Role | Clusters | Signs | State | Leverage | Recommended next action |
+|---:|---|---|---:|---|---|---:|---|
+| 1 | `d_A` | complementarity driver | 2 | +1 / -1 | **conflicting** | 0.67 | code the `pollination_generalization` moderator to resolve the sign conflict (B3) |
+| 2 | `e_F` | complementarity driver | 1 | +1 / -0 | single anchor | 0.37 | collect 2 more independent clusters |
+| 3 | `c_D` | substitutability driver | 1 | +0 / -1 | single anchor | -0.22 | collect 2 more independent clusters |
+| 4 | `b_A` | substitutability driver | 1 | +1 / -0 | single anchor | 0.00 | collect 2 more independent clusters |
+
+The decisive finding: the two `d_A` anchors **disagree on sign** (Impatiens visual
+-0.09 vs Gymnadenia scent +0.57), and `d_A` also has the **highest regime
+leverage**. The regime boundary hinges on the arrow whose current evidence is
+self-contradictory. That contradiction is a moderator signal, not noise, so the
+recommended action is to code a moderator (B3), not to collect undifferentiated
+`d_A` studies. (Leverage 0.00 for `b_A` reflects the current envelope holding it
+constant, not a claim that attraction gain is irrelevant.)
+
 ## Bottom line
 
 The Part B pipeline is complete and reproducible. The current evidence supports
 one channel premise directionally (`c_D`), holds five verified single-cluster
-anchors across the four arrows, and cannot yet pool or test conditionality. The
-two things that unblock a real B2/B3 result are: a second independent cluster per
-arrow, and moderator-coded effects for the B3 hypotheses.
+anchors across the four arrows, and cannot yet pool or test conditionality. B5
+identifies the priority objectively: **`d_A` is the contested, highest-leverage
+crux** — resolve its sign conflict with a `pollination_generalization` moderator
+first; then add a second independent cluster to `e_F`, `c_D`, and `b_A`.
