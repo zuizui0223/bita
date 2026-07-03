@@ -60,7 +60,7 @@ def test_read_target_and_write_outputs(tmp_path) -> None:
     receipts = probe_target(
         _target(),
         fetch_json=_crossref,
-        fetch_prefix=lambda _url: (200, "application/xml", b"<?xml version='1.0'?><article/>),
+        fetch_prefix=lambda _url: (200, "application/xml", b"<?xml version='1.0'?><article/>"),
     )
     report = write_outputs(tmp_path / "out", receipts)
     saved = json.loads((tmp_path / "out" / "d_a_elife_source_probe_report.json").read_text(encoding="utf-8"))
