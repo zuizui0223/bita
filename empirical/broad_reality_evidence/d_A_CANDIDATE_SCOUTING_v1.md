@@ -25,6 +25,10 @@ treatment contrast), and codes the moderator level with a cited basis. This
 follows the repository rule that query membership or abstract co-mention is never
 an effect.
 
+A source may also be marked `candidate_screened_context_only`: this is still
+**non-effect** evidence. It records that a bounded C3/C4 screen did not locate the
+required direct route and prevents repeated numerical extraction attempts.
+
 ## Candidates
 
 See `d_A_candidate_scouting_v1.csv`. Highlights:
@@ -36,16 +40,18 @@ See `d_A_candidate_scouting_v1.csv`. Highlights:
 - **Caruso, Eisen, Martin & Sletvold 2019, Evolution (`10.1111/evo.13639`).**
   Meta-analysis of agents of selection on floral traits. **Caveat (see
   `docs/PART_B_CRITICAL_APPRAISAL_v1.md` L4):** its effect metric is a *selection
-  gradient* (β), which is not a `trait -> antagonism` effect. Use it only to
-  identify candidate **systems** (via its Dryad database), then extract the marginal
-  `d_A` estimate from each primary study. Never enter a selection gradient as a
-  `d_A` effect.
+  gradient* (β), which is not a `trait -> antagonism` effect. Its explicitly related
+  Dryad dataset and experimental-study file manifest are public, but the registered
+  no-auth XLSX download returned HTTP 401 before primary-study identifiers could be
+  read. It is therefore retained as a **system seed only**, not as a current index
+  route or `d_A` effect.
 - **Geographic conflicting selection, pollinators vs seed predators (PMID
   27325896).** Floral exsertion increases seed predation, and the strength varies
   across populations -- a built-in moderator contrast.
-- **Trollius ranunculoides, PLoS One (`10.1371/journal.pone.0118299`).** Explicitly
-  generalized pollination; useful as a `generalized`-level anchor once an
-  antagonism outcome is confirmed.
+- **Trollius ranunculoides, PLoS One (`10.1371/journal.pone.0118299`).** Public
+  PMC XML is available and contains floral-trait and beetle terms, but its heading
+  structure does not locate a trait-intervention plus antagonist-outcome test.
+  Retained as generalized-system context only; no `d_A` extraction target.
 
 ## Reproducible source resolution (C3)
 
@@ -60,17 +66,20 @@ effect. On the current table **6 of 8 leads resolve to a full-text link**
 (declared DOIs: Schiestl 2015, Caruso 2019, Trollius; id-converted: the PMID
 seed-predation study and the two PMC leads Parnassia, Aerides); the two remaining
 plain-URL leads (Phlox, Iris) are honestly `unresolvable` and need a DOI. This
-makes the "which leads are reachable" step reproducible in CI, so the only manual
-work left is the verified numeric extraction itself.
+makes the "which leads are reachable" step reproducible in CI, but a reachable
+source can still be context-only or access-blocked rather than numerically
+extractable.
 
 ## How this advances B3
 
 Target: two independent clusters at each `pollination_generalization` level.
-Generalized-level leads (Brassica rapa, Trollius, plus the existing Impatiens
-anchor pending coding) and more specialized systems (the existing Gymnadenia
-anchor, plus Caruso-mined clusters) can populate both levels. Once coded, rerun
-`scripts/run_part_b_support.py` with the queue; the
-`d_A_display_stronger_where_pollination_generalized` contrast moves from
+Current generalized-level **extraction** prospects are Brassica rapa and the
+existing Impatiens anchor pending coding. Trollius does not contribute an
+independent generalized `d_A` cluster, and Caruso remains a system seed until a
+lawful primary-study identifier route exists. More specialized prospects include
+the existing Gymnadenia anchor plus independently source-audited candidates. Once
+compatible clusters are coded, rerun `scripts/run_part_b_support.py` with the
+queue; the `d_A_display_stronger_where_pollination_generalized` contrast moves from
 `insufficient_levels` to a verdict.
 
 ## Provenance
