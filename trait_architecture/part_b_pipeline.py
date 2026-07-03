@@ -1,11 +1,12 @@
-"""Part B orchestrator: run layers B1-B4 as one reproducible pipeline.
+"""Part B orchestrator: run layers B1-B5 as one reproducible pipeline.
 
 This ties the finished Part B pieces into a single, deterministic run:
 
-    B1  direction map                 broad_meta_analysis.direction_map
+    B1  direction map                  broad_meta_analysis.direction_map
     B2  per-arrow effect envelopes     broad_meta_analysis.meta_analysis
-    B3  moderator/conditionality        part_b_moderator.moderator_contrast
+    B3  moderator/conditionality       part_b_moderator.moderator_contrast
     B4  break-even regime map           part_b_support.envelope_break_even_map
+    B5  evidence-priority queue         part_b_arrow_evidence
 
 It has no third-party dependencies and emits CSV + JSON artefacts plus an honest
 diagnostics block. It never fabricates a pooled or moderated result: with the
@@ -16,7 +17,6 @@ current evidence base every arrow-stratum is a single cluster, so B2/B3 report
 from __future__ import annotations
 
 import json
-from dataclasses import asdict
 from pathlib import Path
 from typing import Iterable, Mapping, Sequence
 
@@ -142,7 +142,7 @@ def write_part_b_outputs(
     moderator_hypotheses: Iterable[Mapping[str, object]],
     break_even_config: Mapping[str, object],
 ) -> dict[str, object]:
-    """Run B1-B4 and write the full Part B artefact bundle."""
+    """Run B1-B5 and write the full Part B artefact bundle."""
 
     destination = Path(out_dir)
     destination.mkdir(parents=True, exist_ok=True)
@@ -185,14 +185,21 @@ def write_part_b_outputs(
         "b3_supported": sum(row["status"] == "moderator_supported" for row in moderator_rows),
         "b3_contradicted": sum(row["status"] == "moderator_contradicted" for row in moderator_rows),
         "b4_regime_map_rows": len(break_even_rows),
-        "b5_arrows_conflicting": sum(1 for row in evidence_rows if row["sign_state"] == "conflicting"),
+        "b5_arrows_within_stratum_conflict": sum(
+            1 for row in evidence_rows if row["sign_state"] == "within_stratum_conflict"
+        ),
+        "b5_arrows_cross_stratum_heterogeneity": sum(
+            1 for row in evidence_rows if row["sign_state"] == "cross_stratum_heterogeneity"
+        ),
         "b5_top_priority_arrow": evidence_rows[0]["part_i_parameter"] if evidence_rows else "",
         "b5_top_priority_action": evidence_rows[0]["recommended_action"] if evidence_rows else "",
         "interpretation_boundary": (
             "B2/B3 pool marginal arrows and count clusters per arrow; a stratum with "
             "fewer than three independent clusters is reported as insufficient, not forced. "
-            "B4 is a declared sensitivity map bounding c_AD, never an estimate of it. No "
-            "output is a joint-panel D1/D2 identification."
+            "B5 distinguishes a within-stratum sign conflict from cross-stratum "
+            "heterogeneity; only the former triggers moderator resolution. B4 is a "
+            "declared sensitivity map bounding c_AD, never an estimate of it. No output "
+            "is a joint-panel D1/D2 identification."
         ),
     }
     (destination / "part_b_diagnostics.json").write_text(

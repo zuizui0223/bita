@@ -109,12 +109,17 @@ def test_full_pipeline_on_repo_inputs_is_honest(tmp_path) -> None:
     assert diagnostics["b3_moderator_hypotheses"] == 3
     assert diagnostics["b3_supported"] == 0
     assert diagnostics["b3_contradicted"] == 0
-    # All four artefacts plus diagnostics were written.
+    # The two d_A anchors occupy different compatibility strata, so they are not a
+    # within-stratum sign conflict and do not warrant a B3 moderator claim yet.
+    assert diagnostics["b5_arrows_within_stratum_conflict"] == 0
+    assert diagnostics["b5_arrows_cross_stratum_heterogeneity"] == 1
+    # All five artefacts plus diagnostics were written.
     for name in (
         "part_b_b1_direction_map.csv",
         "part_b_b2_arrow_envelopes.csv",
         "part_b_b3_moderator_contrasts.csv",
         "part_b_b4_break_even_regime_map.csv",
+        "part_b_b5_arrow_evidence_priority.csv",
         "part_b_diagnostics.json",
     ):
         assert (tmp_path / name).exists()
