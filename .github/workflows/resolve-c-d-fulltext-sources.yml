@@ -1,7 +1,7 @@
 name: Resolve c_D full-text sources
 
 # Resolves the fixed chemical-barrier c_D reading queue against Crossref, scouts
-# DOI-exact OpenAlex/repository routes, then performs bounded public-PDF
+# DOI-exact OpenAlex/Unpaywall/repository routes, then performs bounded public-PDF
 # page-location probes. Artefacts contain receipts and page locators only: no article
 # PDFs/text, effects, dose classifications, or B2 eligibility decisions are stored.
 
@@ -56,11 +56,12 @@ jobs:
             artifacts/c_d_source_receipts \
             --mailto actions@users.noreply.github.com
 
-      - name: Scout DOI-exact OpenAlex and repository source routes
+      - name: Scout DOI-exact OpenAlex, Unpaywall, and repository source routes
         run: |
           python scripts/scout_c_d_public_sources.py \
             empirical/broad_reality_evidence/precision_expansions/fulltext/B_TO_P_FULLTEXT_READING_QUEUE_v1.csv \
-            artifacts/c_d_public_sources
+            artifacts/c_d_public_sources \
+            --unpaywall-email actions@users.noreply.github.com
 
       - name: Locate publisher-advertised PDF dose and outcome pages
         run: |
@@ -68,7 +69,7 @@ jobs:
             artifacts/c_d_source_receipts/c_d_fulltext_source_receipts.csv \
             artifacts/c_d_source_receipts/c_d_fulltext_page_locators.csv
 
-      - name: Locate DOI-exact OpenAlex public-PDF dose and outcome pages
+      - name: Locate DOI-exact public-PDF dose and outcome pages
         run: |
           python scripts/locate_c_d_public_source_pages.py \
             artifacts/c_d_public_sources/c_d_public_source_receipts.csv \
