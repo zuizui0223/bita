@@ -112,6 +112,12 @@ direction for a path until a role × reported-scale × causal-status stratum has
 at least two independent study clusters. Multiple papers using the same field
 panel are one cluster, not replication.
 
+> **Part B amendment.** Under `docs/PART_B_STOPPING_RULE_AMENDMENTS_v1.md` (A1–A2),
+> the "two independent clusters" test is evaluated **marginally within a single
+> arrow** (`b_A`/`d_A`/`e_F`/`c_D`), across studies drawn from that arrow's own
+> mature literature — not by whether the same panel also measured the other three
+> arrows. The one-cluster-per-shared-panel rule above is retained inside each arrow.
+
 ### Stop image-derived pollination extraction without exposure mapping
 
 Do not count or model *Gymnadenia rhellicani* frames until a public source links

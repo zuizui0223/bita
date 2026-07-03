@@ -82,9 +82,18 @@ A study can be useful broad evidence even when it is not eligible for direct
 four-path calibration. Query membership and title/abstract signals are never
 mistaken for measured effects.
 
+The **support route** for Part II — pooling the four marginal channel arrows
+separately (rather than the joint panel), with a moderator/conditionality
+headline and a break-even bound on the unmeasured shared cost — is specified in
+`docs/PART_B_MECHANISM_META_STRATEGY_v1.md`. It supersedes only the sourcing and
+independence-counting rules of the documents below; the joint-panel proof route
+(Part III/IV) is unchanged.
+
 Key files:
 
 ```text
+docs/PART_B_MECHANISM_META_STRATEGY_v1.md
+docs/PART_B_STOPPING_RULE_AMENDMENTS_v1.md
 empirical/broad_reality_evidence/BROAD_REALITY_EVIDENCE_PROTOCOL.md
 empirical/broad_reality_evidence/HIERARCHICAL_EVIDENCE_SYNTHESIS_PROTOCOL_v1.md
 empirical/broad_reality_evidence/BROAD_META_ANALYSIS_PROTOCOL.md
