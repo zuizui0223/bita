@@ -248,3 +248,25 @@ B4  break-even τ table + sensitivity on c_AD/c_R
 The paper's Part B result is the B3 conditionality finding plus the B4 break-even
 regime map — support for the theorem's conditionality, with proof-level joint-panel
 identification kept as a clearly separated future part.
+
+## Implementation status
+
+All four layers are implemented and run as one reproducible pipeline:
+
+```text
+trait_architecture/part_b_pipeline.py        write_part_b_outputs()  (B1->B2->B3->B4)
+scripts/run_part_b_support.py                CLI runner
+configs/part_b_moderator_hypotheses.json     B3 pre-registered contrasts
+configs/part_b_break_even_scenarios.json     B4 declared sensitivity scenarios
+empirical/broad_reality_evidence/part_b_arrow_effects.csv   5 verified anchors (marginal schema)
+empirical/broad_reality_evidence/part_b_arrow_strata.csv    per-arrow strata
+empirical/broad_reality_evidence/PART_B_RESULTS_READOUT_v1.md   honest current-state result
+tests/test_part_b_{support,moderator,pipeline}.py
+```
+
+Current honest readout (`PART_B_RESULTS_READOUT_v1.md`): one channel (`c_D`) already
+has directional support at B1; five verified single-cluster anchors sit across the
+four arrows at B2 (none poolable yet); B3 awaits moderator-coded effects; B4
+reproduces the predicted mechanism conditionality as a declared sensitivity map.
+The two unblockers are a second independent cluster per arrow and moderator-coded
+effects.
