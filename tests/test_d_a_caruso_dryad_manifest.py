@@ -15,7 +15,11 @@ from trait_architecture.d_a_caruso_dryad_manifest import (
 def _responder(url: str):
     if "api.datacite.org" in url:
         return 200, {"data": {"attributes": {"relatedIdentifiers": [{"relatedIdentifier": CARUSO_SOURCE_DOI}]}}}
-    if "datadryad.org/api/v2/datasets/doi:" in url:
+    if "datadryad.org/api/v2/datasets/" in url:
+        # The real DOI is one encoded path component and exposes its current version,
+        # rather than the files link directly.
+        return 200, {"_links": {"stash:version": {"href": "https://datadryad.org/api/v2/versions/1"}}}
+    if "versions/1" in url and not url.endswith("/files"):
         return 200, {"_links": {"stash:files": {"href": "https://datadryad.org/api/v2/versions/1/files"}}}
     if "versions/1/files" in url:
         return 200, {
@@ -39,6 +43,7 @@ def test_manifest_identifies_filename_candidate_without_reading_contents() -> No
     rows = probe_dryad_manifest(fetch_json=_responder)
     entries = [row for row in rows if row.access_status == "file_manifest_entry"]
     assert len(entries) == 2
+    assert any(row.access_status == "version_metadata_recovered" for row in rows)
     assert entries[0].filename == "primary_study_metadata.csv"
     assert entries[0].primary_study_index_candidate == "true"
     assert entries[1].primary_study_index_candidate == "false"
