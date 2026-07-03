@@ -28,6 +28,29 @@ def _receipt(urls: str = "https://publisher.example/article.pdf") -> dict[str, s
     }
 
 
+def _locator_output_row() -> dict[str, str]:
+    return {
+        "queue_id": "Q1",
+        "study_id": "study",
+        "study_cluster_id": "cluster",
+        "doi": "10.1234/example",
+        "taxon": "Example plant",
+        "trait_class": "chemical_barrier",
+        "outcome_class": "pollinator_preference_or_foraging",
+        "design_class": "manipulation",
+        "source_url": "https://publisher.example/article.pdf",
+        "pdf_access_status": "public_pdf_recovered",
+        "http_status": "200",
+        "content_type": "application/pdf",
+        "pdf_bytes": "1234",
+        "page_count": "2",
+        "candidate_pages": "[]",
+        "locator_status": "candidate_pages_located",
+        "locator_note": "temporary only",
+        "do_not_infer": "boundary",
+    }
+
+
 def test_locator_uses_only_declared_pdf_url_and_emits_page_metadata(monkeypatch) -> None:
     calls: list[str] = []
 
@@ -58,20 +81,7 @@ def test_locator_never_treats_non_pdf_or_missing_pdf_link_as_readable() -> None:
 
 
 def test_locator_writes_only_metadata_and_requires_receipt_columns(tmp_path) -> None:
-    monkeypatch_rows = [{
-        **_receipt(),
-        "source_url": "https://publisher.example/article.pdf",
-        "pdf_access_status": "public_pdf_recovered",
-        "http_status": "200",
-        "content_type": "application/pdf",
-        "pdf_bytes": "1234",
-        "page_count": "2",
-        "candidate_pages": "[]",
-        "locator_status": "candidate_pages_located",
-        "locator_note": "temporary only",
-        "do_not_infer": "boundary",
-    }]
-    report = write_locators(tmp_path / "locators.csv", monkeypatch_rows)
+    report = write_locators(tmp_path / "locators.csv", [_locator_output_row()])
     with (tmp_path / "locators.csv").open(encoding="utf-8", newline="") as handle:
         written = list(csv.DictReader(handle))
     assert written[0]["queue_id"] == "Q1"
