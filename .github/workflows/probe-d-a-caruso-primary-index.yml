@@ -1,0 +1,47 @@
+name: Probe d_A Caruso primary-study index
+
+# Caruso 2019 is a system-seeding meta-analysis, not a d_A effect source. This
+# workflow probes only public metadata and publisher data-link routes for a possible
+# primary-study index. It never downloads an index database, extracts primary-study
+# rows, or writes an effect table.
+
+on:
+  pull_request:
+    paths:
+      - "trait_architecture/d_a_caruso_index_probe.py"
+      - "scripts/probe_d_a_caruso_primary_index.py"
+      - "tests/test_d_a_caruso_index_probe.py"
+      - ".github/workflows/probe-d-a-caruso-primary-index.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and test dependencies
+        run: python -m pip install -e ".[dev]"
+
+      - name: Test bounded index probe
+        run: python -m pytest -q tests/test_d_a_caruso_index_probe.py
+
+      - name: Probe public metadata routes
+        run: |
+          python scripts/probe_d_a_caruso_primary_index.py \
+            artifacts/d_a_caruso_index_probe \
+            --mailto actions@users.noreply.github.com
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: d-a-caruso-index-probe
+          path: artifacts/d_a_caruso_index_probe/
+          if-no-files-found: error
