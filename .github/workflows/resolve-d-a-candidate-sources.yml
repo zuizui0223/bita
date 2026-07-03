@@ -1,9 +1,10 @@
 name: Resolve d_A candidate sources
 
-# Reproducibly resolves each d_A candidate lead's DOI against Crossref and then
-# screens only the two registered PMC leads through exact Europe PMC full-text XML.
-# Artefacts contain access receipts and term/section/table locators only; they never
-# retain article XML, extract effects, or declare a direct d_A route.
+# Reproducibly resolves each d_A candidate lead's DOI against Crossref, screens
+# only registered PMC leads through exact Europe PMC full-text XML, and builds C4
+# reading targets for any viable trait-intervention -> antagonist structure. Artefacts
+# contain receipts and locators only; they never retain XML, extract effects, or
+# declare a direct d_A route.
 
 on:
   pull_request:
@@ -11,10 +12,13 @@ on:
       - "empirical/broad_reality_evidence/d_A_candidate_scouting_v1.csv"
       - "trait_architecture/d_a_source_resolver.py"
       - "trait_architecture/d_a_pmc_screen.py"
+      - "trait_architecture/d_a_pmc_reading_targets.py"
       - "scripts/resolve_d_a_candidate_sources.py"
       - "scripts/screen_d_a_pmc_fulltext.py"
+      - "scripts/build_d_a_pmc_c4_reading_targets.py"
       - "tests/test_d_a_source_resolver.py"
       - "tests/test_d_a_pmc_screen.py"
+      - "tests/test_d_a_pmc_reading_targets.py"
       - ".github/workflows/resolve-d-a-candidate-sources.yml"
   workflow_dispatch:
 
@@ -35,11 +39,12 @@ jobs:
       - name: Install package and test dependencies
         run: python -m pip install -e ".[dev]"
 
-      - name: Resolver and PMC screen tests (offline)
+      - name: Resolver, PMC screen, and C4-target tests (offline)
         run: |
           python -m pytest -q \
             tests/test_d_a_source_resolver.py \
-            tests/test_d_a_pmc_screen.py
+            tests/test_d_a_pmc_screen.py \
+            tests/test_d_a_pmc_reading_targets.py
 
       - name: Resolve candidate sources against Crossref
         run: |
@@ -54,10 +59,17 @@ jobs:
             empirical/broad_reality_evidence/d_A_candidate_scouting_v1.csv \
             artifacts/d_a_pmc_fulltext_screen
 
+      - name: Build C4 targets for viable PMC d_A candidates
+        run: |
+          python scripts/build_d_a_pmc_c4_reading_targets.py \
+            artifacts/d_a_pmc_fulltext_screen/d_a_pmc_fulltext_screen.csv \
+            artifacts/d_a_pmc_c4_reading_targets
+
       - uses: actions/upload-artifact@v4
         with:
           name: d-a-source-receipts
           path: |
             artifacts/d_a_source_receipts/
             artifacts/d_a_pmc_fulltext_screen/
+            artifacts/d_a_pmc_c4_reading_targets/
           if-no-files-found: error
