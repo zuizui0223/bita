@@ -8,9 +8,11 @@ XML, copy tables, estimate effects, determine direction, or promote a lead into 
 
 The screen answers only a feasibility question: does the accessible source appear
 to contain a candidate trait intervention and an antagonist outcome in a structure
-that warrants human source coding? It distinguishes that pattern from headings
-that instead describe antagonist effects on pollinators (H -> P), which must not be
-mistaken for d_A.
+that warrants human source coding? Route-structure classification uses section
+**headings**, rather than full section prose, so a generic Methods section that
+mentions both domains cannot masquerade as a direct d_A experiment. It also
+recognizes headings that describe antagonist effects on pollinators (H -> P), which
+must not be mistaken for d_A.
 """
 
 from __future__ import annotations
@@ -27,7 +29,7 @@ from urllib.request import Request, urlopen
 
 
 EUROPE_PMC_FULLTEXT = "https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML"
-USER_AGENT = "bita d-a-pmc-screen/0.2"
+USER_AGENT = "bita d-a-pmc-screen/0.3"
 PMCID_PATTERN = re.compile(r"PMC\d+", re.IGNORECASE)
 
 TRAIT_TERMS = (
@@ -158,22 +160,22 @@ def _route_structure_signal(
     if trait_intervention_sections and antagonist_sections and not reverse_sections:
         return (
             "candidate_A_to_H_experiment_structure_needs_numeric_context_check",
-            "Trait-intervention and antagonist-outcome sections are both present; inspect model/table context, denominator, and effect direction before declaring d_A.",
+            "Trait-intervention and antagonist-outcome headings are both present; inspect model/table context, denominator, and effect direction before declaring d_A.",
         )
     if reverse_sections and not trait_intervention_sections:
         return (
             "probable_H_to_P_or_downstream_structure",
-            "Antagonist and pollination/behavior terms co-occur in section headings without a trait-intervention section; do not code as d_A unless a direct trait-to-antagonist model is located.",
+            "Antagonist and pollination/behavior terms co-occur in headings without a trait-intervention heading; do not code as d_A unless a direct trait-to-antagonist model is located.",
         )
     if trait_intervention_sections and antagonist_sections:
         return (
             "mixed_route_structure_needs_manual_disambiguation",
-            "Both candidate d_A and possible downstream-route section structures occur; manually identify whether the same model links trait to antagonist outcome.",
+            "Both candidate d_A and possible downstream-route heading structures occur; manually identify whether the same model links trait to antagonist outcome.",
         )
     if trait_hits and antagonist_hits:
         return (
             "term_cooccurrence_without_experiment_link",
-            "Both term families occur, but section structure does not establish a trait-intervention to antagonist-outcome test.",
+            "Both term families occur, but section headings do not establish a trait-intervention to antagonist-outcome test.",
         )
     if trait_hits or antagonist_hits:
         return (
@@ -225,16 +227,22 @@ def screen_candidate(
         text = _plain(section)
         section_trait = _matched(text, TRAIT_TERMS)
         section_antagonist = _matched(text, ANTAGONIST_TERMS)
-        section_intervention = _matched(text, INTERVENTION_TERMS)
-        section_pollination = _matched(text, POLLINATION_DOWNSTREAM_TERMS)
         if section_trait and section_antagonist:
             section_titles.append(title)
-        if section_trait and section_intervention:
+
+        # Classification is deliberately heading-only. Full section text is retained
+        # only for the broad co-occurrence locator above, never as a direct-route test.
+        title_trait = _matched(title, TRAIT_TERMS)
+        title_antagonist = _matched(title, ANTAGONIST_TERMS)
+        title_intervention = _matched(title, INTERVENTION_TERMS)
+        title_pollination = _matched(title, POLLINATION_DOWNSTREAM_TERMS)
+        if title_trait and title_intervention:
             trait_intervention_sections.append(title)
-        if section_antagonist:
+        if title_antagonist:
             antagonist_sections.append(title)
-        if section_antagonist and section_pollination and not section_trait:
+        if title_antagonist and title_pollination and not title_trait:
             reverse_sections.append(title)
+
     table_labels: list[str] = []
     for table in root.findall(".//table-wrap"):
         text = _plain(table)
@@ -296,7 +304,8 @@ def write_outputs(out_dir: str | Path, rows: Iterable[PMCScreen]) -> dict[str, o
             for row in rows
         ),
         "probable_H_to_P_or_downstream_structure": sum(
-            row.route_structure_signal == "probable_H_to_P_or_downstream_structure" for row in rows
+            row.route_structure_signal == "probable_H_to_P_or_downstream_structure"
+            for row in rows
         ),
         "decision_boundary": DO_NOT_INFER,
     }
