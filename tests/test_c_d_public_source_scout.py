@@ -49,7 +49,7 @@ def _fetch(url: str):
             "locations": [],
         }
     if "api.unpaywall.org" in url:
-        assert "email=test%40example.org" in url
+        assert "email=test@example.org" in url
         return 200, {
             "doi": "10.1234/example",
             "title": "Example",
