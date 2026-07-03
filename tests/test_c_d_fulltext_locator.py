@@ -29,7 +29,7 @@ def _receipt(urls: str = "https://publisher.example/article.pdf") -> dict[str, s
     }
 
 
-def _public_source_receipt(*, status: str = "public_fulltext_candidate", relation: str = "exact_article_doi", url: str = "https://publisher.example/doi/pdfdirect/10.1234/example") -> dict[str, str]:
+def _public_source_receipt(*, provider: str = "OpenAlex", status: str = "public_fulltext_candidate", relation: str = "exact_article_doi", url: str = "https://publisher.example/doi/pdfdirect/10.1234/example") -> dict[str, str]:
     return {
         "queue_id": "Q1",
         "study_id": "study",
@@ -39,6 +39,7 @@ def _public_source_receipt(*, status: str = "public_fulltext_candidate", relatio
         "trait_class": "chemical_barrier",
         "outcome_class": "pollinator_preference_or_foraging",
         "design_class": "manipulation",
+        "provider": provider,
         "content_url": url,
         "resolution_status": status,
         "relation_to_article": relation,
@@ -101,8 +102,9 @@ def test_locator_accepts_pdfdirect_from_exact_doi_public_receipt(monkeypatch, tm
     assert located["pdf_access_status"] == "public_pdf_recovered"
 
 
-def test_public_source_reader_excludes_nonexact_or_nonpdf_candidates(tmp_path) -> None:
+def test_public_source_reader_excludes_nonexact_and_deduplicates_same_pdf_route(tmp_path) -> None:
     valid = _public_source_receipt()
+    duplicate = _public_source_receipt(provider="Unpaywall")
     excluded = [
         _public_source_receipt(status="public_landing_candidate"),
         _public_source_receipt(relation="endpoint_screen_only"),
@@ -113,8 +115,10 @@ def test_public_source_reader_excludes_nonexact_or_nonpdf_candidates(tmp_path) -
     with path.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
-        writer.writerows([valid, *excluded])
-    assert len(read_public_source_receipts(path)) == 1
+        writer.writerows([valid, duplicate, *excluded])
+    rows = read_public_source_receipts(path)
+    assert len(rows) == 1
+    assert rows[0]["crossref_content_urls"] == valid["content_url"]
 
 
 def test_locator_never_treats_non_pdf_or_missing_pdf_link_as_readable() -> None:
