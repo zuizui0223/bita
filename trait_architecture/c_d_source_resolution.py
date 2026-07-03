@@ -3,9 +3,10 @@
 The B1 direction layer identifies a small set of chemical-barrier manipulation
 studies as the current strongest support for ``c_D``. This module converts the
 already-registered full-text reading queue into the repository's standard Crossref
-access-receipt pattern. It records source reachability and linked-data relation
-metadata only; it does not inspect article text, extract an effect, classify dose,
-or promote any study into B2.
+access-receipt pattern, preserving Crossref-advertised article-content URLs for
+subsequent bounded source reading. It records source reachability and linked-data
+relation metadata only; it does not inspect article text, extract an effect,
+classify dose, or promote any study into B2.
 """
 
 from __future__ import annotations
@@ -14,12 +15,20 @@ import csv
 import json
 from dataclasses import asdict
 from pathlib import Path
-from typing import Iterable
+from typing import Any, Iterable
+from urllib.parse import quote
 
-from .d_a_source_resolver import RECEIPT_FIELDS, SourceReceipt, resolve_candidates, summarise
+from .d_a_source_resolver import (
+    CROSSREF_WORKS,
+    RECEIPT_FIELDS,
+    SourceReceipt,
+    resolve_candidates,
+    summarise,
+)
 
 
 REQUIRED_QUEUE_FIELDS = frozenset({"queue_id", "doi", "study_id", "study_cluster_id"})
+CONTENT_URL_FIELD = "crossref_content_urls"
 DO_NOT_INFER = (
     "Access and relation metadata only. Do not infer treatment doses, natural-dose "
     "relevance, response units, experimental unit, effect value, or B2 eligibility."
@@ -59,6 +68,33 @@ def queue_to_source_candidates(rows: Iterable[dict[str, str]]) -> list[dict[str,
     return candidates
 
 
+def crossref_content_urls(doi: str, *, fetch_json) -> str:
+    """Return unique Crossref-advertised full-text URLs, without fetching content."""
+
+    if not doi:
+        return ""
+    try:
+        status, payload = fetch_json(CROSSREF_WORKS + quote(doi, safe=""))
+    except Exception:
+        return ""
+    if status >= 400 or not isinstance(payload, dict):
+        return ""
+    message = payload.get("message")
+    if not isinstance(message, dict):
+        return ""
+    links = message.get("link")
+    if not isinstance(links, list):
+        return ""
+    urls: list[str] = []
+    for link in links:
+        if not isinstance(link, dict):
+            continue
+        url = _text(link.get("URL"))
+        if url and url not in urls:
+            urls.append(url)
+    return ";".join(urls)
+
+
 def resolve_fulltext_queue(
     rows: Iterable[dict[str, str]],
     *,
@@ -81,6 +117,7 @@ def resolve_fulltext_queue(
             "outcome_class": _text(row.get("outcome_class")),
             "design_class": _text(row.get("design_class")),
             "primary_reading_goal": _text(row.get("primary_reading_goal")),
+            CONTENT_URL_FIELD: crossref_content_urls(receipt.doi, fetch_json=fetch_json),
             **asdict(receipt),
             "do_not_infer": DO_NOT_INFER,
         })
@@ -92,7 +129,7 @@ def receipt_fields() -> tuple[str, ...]:
 
     prefix = (
         "queue_id", "study_id", "study_cluster_id", "taxon", "trait_class",
-        "outcome_class", "design_class", "primary_reading_goal",
+        "outcome_class", "design_class", "primary_reading_goal", CONTENT_URL_FIELD,
     )
     return (*prefix, *RECEIPT_FIELDS)
 
@@ -114,6 +151,7 @@ def write_receipts(out_dir: str | Path, rows: Iterable[dict[str, str]]) -> dict[
     report = {
         **summarise(base_receipts),
         "queue_count": len(rows),
+        "rows_with_crossref_content_url": sum(bool(row[CONTENT_URL_FIELD]) for row in rows),
         "decision_boundary": DO_NOT_INFER,
     }
     (destination / "c_d_fulltext_source_report.json").write_text(
