@@ -104,6 +104,10 @@ moderator.
 
 ### B2 — effect-size envelope (scale-compatible pooling, per arrow)
 
+The per-arrow seed populations (estimand, predicted sign, effect scale, B3
+moderators, seed queries, and unverified candidate syntheses to resolve in a
+source audit) are declared in `configs/part_b_arrow_literature_seeds.json`.
+
 Within an arrow, pool only inside one effect scale and one design class, oriented
 so positive = *more declared trait, more declared outcome*:
 
@@ -163,6 +167,15 @@ The empirically anchored, falsifiable statement becomes:
 
 `c_AD` and `c_R·R` stay declared sensitivity axes. B4 turns "we cannot measure it"
 into a quantitative, testable boundary rather than a blocked claim.
+
+B4 is implemented and reuses the exact Part I decomposition, so the break-even and
+the mixed-partial sign can never diverge:
+
+```text
+trait_architecture/part_b_support.py        break_even_shared_cost(), envelope_break_even_map()
+examples/part_b_break_even_regime_map.py     runnable regime map from channel envelopes + c_AD scenarios
+tests/test_part_b_support.py                 sign-consistency and envelope-labelling tests
+```
 
 ## Empirically informed regime map
 
