@@ -1,11 +1,12 @@
 """Bounded, non-retentive PDF page locator for the fixed c_D source queue.
 
-This module follows the c_D access receipt. It downloads only an unauthenticated
-PDF response advertised by Crossref, keeps it in a temporary directory, and emits
-page *locators* (page number plus matched extraction keywords). It never stores
-article text or PDFs in repository artefacts, never extracts numerical effects,
-and never promotes a source into B2. Its sole purpose is to determine whether a
-public source can be read efficiently enough for a human C4 extraction.
+This module follows c_D source receipts. It downloads only an unauthenticated PDF
+response advertised by Crossref or a DOI-exact OpenAlex public-fulltext location,
+keeps it in a temporary directory, and emits page *locators* (page number plus
+matched extraction keywords). It never stores article text or PDFs in repository
+artefacts, never extracts numerical effects, and never promotes a source into B2.
+Its sole purpose is to determine whether a public source can be read efficiently
+enough for a human C4 extraction.
 
 PDF text is used only to locate candidate pages. Any later numerical extraction
 must visually verify the relevant table/figure/page and meet the registered c_D
@@ -16,7 +17,6 @@ from __future__ import annotations
 
 import csv
 import json
-import re
 import tempfile
 from pathlib import Path
 from typing import Callable, Iterable
@@ -49,12 +49,12 @@ def _text(value: object) -> str:
 
 def _pdf_urls(row: dict[str, str]) -> list[str]:
     urls = [url.strip() for url in _text(row.get("crossref_content_urls")).split(";") if url.strip()]
-    return [url for url in urls if "/pdf/" in url.lower() or url.lower().endswith(".pdf")]
+    return [url for url in urls if "/pdf/" in url.lower() or "/pdfdirect/" in url.lower() or url.lower().endswith(".pdf")]
 
 
 def _fetch_pdf(url: str) -> tuple[int, str, bytes]:
     request = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/pdf,*/*"})
-    with urlopen(request, timeout=60) as response:  # nosec B310: URL was emitted by Crossref for the fixed queue
+    with urlopen(request, timeout=60) as response:  # nosec B310: URL was declared by an exact-DOI source receipt
         status = int(getattr(response, "status", response.getcode()))
         content_type = _text(response.headers.get("Content-Type")).lower()
         payload = response.read(MAX_PDF_BYTES + 1)
@@ -92,8 +92,9 @@ def _candidate_pages(pdf_bytes: bytes) -> tuple[int, str]:
                 # Keyword score prioritizes pages that contain outcome plus treatment terms.
                 score = len(terms)
                 pages.append({"page": index, "matched_terms": terms, "score": score})
+        page_count = len(reader.pages)
     pages.sort(key=lambda row: (-int(row["score"]), int(row["page"])))
-    return len(reader.pages), json.dumps(pages[:8], sort_keys=True)
+    return page_count, json.dumps(pages[:8], sort_keys=True)
 
 
 def locate_receipt_row(
@@ -120,7 +121,7 @@ def locate_receipt_row(
         "page_count": "",
         "candidate_pages": "",
         "locator_status": "not_run",
-        "locator_note": "Crossref receipt supplied no PDF-like URL.",
+        "locator_note": "The source receipt supplied no PDF-like URL.",
         "do_not_infer": DO_NOT_INFER,
     }
     urls = _pdf_urls(row)
@@ -168,6 +169,37 @@ def read_receipts(path: str | Path) -> list[dict[str, str]]:
     if rows and not required.issubset(rows[0]):
         raise ValueError("c_D source receipt file lacks required fields")
     return rows
+
+
+def read_public_source_receipts(path: str | Path) -> list[dict[str, str]]:
+    """Read only exact-DOI public-PDF candidates from the provenance-separated scout."""
+
+    with Path(path).open(encoding="utf-8", newline="") as handle:
+        rows = [{key: _text(value) for key, value in row.items()} for row in csv.DictReader(handle)]
+    required = {
+        "queue_id", "study_id", "study_cluster_id", "doi", "content_url",
+        "resolution_status", "relation_to_article",
+    }
+    if rows and not required.issubset(rows[0]):
+        raise ValueError("c_D public-source receipt file lacks required fields")
+    candidates: list[dict[str, str]] = []
+    for row in rows:
+        if row["resolution_status"] != "public_fulltext_candidate":
+            continue
+        if row["relation_to_article"] != "exact_article_doi" or not row["content_url"]:
+            continue
+        candidates.append({
+            "queue_id": row["queue_id"],
+            "study_id": row["study_id"],
+            "study_cluster_id": row["study_cluster_id"],
+            "doi": row["doi"],
+            "taxon": _text(row.get("taxon")),
+            "trait_class": _text(row.get("trait_class")),
+            "outcome_class": _text(row.get("outcome_class")),
+            "design_class": _text(row.get("design_class")),
+            "crossref_content_urls": row["content_url"],
+        })
+    return candidates
 
 
 def locate_receipts(
