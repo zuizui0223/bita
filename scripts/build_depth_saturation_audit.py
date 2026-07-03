@@ -4,7 +4,7 @@ Example:
     python scripts/build_depth_saturation_audit.py \
       artifacts/broad_reality_evidence/broad_reality_evidence_rank_memberships.csv \
       artifacts/broad_reality_evidence/depth_saturation_audit \
-      --per-route-stratum-group 15
+      --per-route-stratum-group 10
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--head-rank-max", type=int, default=200)
     parser.add_argument("--tail-rank-min", type=int, default=1601)
     parser.add_argument("--tail-rank-max", type=int, default=2000)
-    parser.add_argument("--per-route-stratum-group", type=int, default=15)
+    parser.add_argument("--per-route-stratum-group", type=int, default=10)
     args = parser.parse_args(argv)
 
     summary = write_depth_audit_outputs(
