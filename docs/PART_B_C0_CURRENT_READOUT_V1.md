@@ -11,7 +11,7 @@ about the full published literature.
 ```text
 primary route-direction records: 13
 verified eligible primary numerical effects: 5
-configured quantitative compatibility strata: 18
+configured quantitative compatibility strata: 15
 ```
 
 The five numerical effects come from the verified effect registry and do not yet
