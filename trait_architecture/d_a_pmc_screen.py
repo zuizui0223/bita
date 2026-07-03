@@ -19,7 +19,7 @@ import re
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, asdict
 from pathlib import Path
-from typing import Any, Callable, Iterable
+from typing import Callable, Iterable
 from urllib.parse import quote
 from urllib.request import Request, urlopen
 
@@ -155,24 +155,23 @@ def screen_candidate(
         if _matched(text, trait_hits) and _matched(text, antagonist_hits):
             table_labels.append(_plain(table.find("label")) or "unlabeled_table")
     if trait_hits and antagonist_hits:
-        status = "both_term_families_present_needs_human_route_coding"
+        route_status = "both_term_families_present_needs_human_route_coding"
         note = "Source contains both candidate term families; inspect model/table context before declaring a direct d_A route."
     elif trait_hits or antagonist_hits:
-        status = "one_term_family_present_not_direct_route"
+        route_status = "one_term_family_present_not_direct_route"
         note = "Only one candidate term family appeared in the full-text XML screen."
     else:
-        status = "no_candidate_term_family_detected"
+        route_status = "no_candidate_term_family_detected"
         note = "Neither candidate term family appeared in the full-text XML screen."
     return PMCScreen(
-        **base,
-        doi=doi,
+        **{**base, "doi": doi},
         source_access_status="fulltext_xml_recovered",
         xml_bytes=str(len(payload)),
         matched_trait_terms=";".join(trait_hits),
         matched_antagonist_terms=";".join(antagonist_hits),
         matched_section_titles=";".join(_unique(section_titles)),
         matched_table_labels=";".join(_unique(table_labels)),
-        direct_route_screen_status=status,
+        direct_route_screen_status=route_status,
         screen_note=note,
     )
 
