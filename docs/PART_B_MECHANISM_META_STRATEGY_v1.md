@@ -148,6 +148,18 @@ direction that Part A predicts changes the mixed-partial sign. This tests the
 theorem's own content (conditionality), is more informative than a pooled mean,
 and does not overclaim a universal sign.
 
+B3 is implemented as a dependency-free subgroup-contrast meta-analysis that reuses
+the B2 effect recovery and DerSimonian-Laird pooling, so B2 and B3 never diverge:
+
+```text
+trait_architecture/part_b_moderator.py       moderator_contrast()  -> supported / contradicted / uncertain / insufficient
+tests/test_part_b_moderator.py               contrast direction, uncertainty, and sparsity verdicts
+```
+
+A `moderator_supported` verdict requires the between-level contrast CI to exclude
+zero on the predicted side and both levels to have >= 2 independent clusters. A
+contradicted moderator is a finding, never recoded.
+
 ### B4 — break-even bound for the unmeasured `c_AD`
 
 `c_AD` (shared allocation cost) is not recoverable from the channel literatures
