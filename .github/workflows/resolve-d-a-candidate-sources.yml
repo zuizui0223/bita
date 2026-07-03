@@ -1,17 +1,20 @@
 name: Resolve d_A candidate sources
 
-# Reproducibly resolves each d_A candidate lead's DOI against the public Crossref
-# API and uploads the access receipts (OA full-text link? linked dataset?). This
-# is a C3 source-feasibility step: it records access and relation metadata only and
-# never reads article text or estimates an effect.
+# Reproducibly resolves each d_A candidate lead's DOI against Crossref and then
+# screens only the two registered PMC leads through exact Europe PMC full-text XML.
+# Artefacts contain access receipts and term/section/table locators only; they never
+# retain article XML, extract effects, or declare a direct d_A route.
 
 on:
   pull_request:
     paths:
       - "empirical/broad_reality_evidence/d_A_candidate_scouting_v1.csv"
       - "trait_architecture/d_a_source_resolver.py"
+      - "trait_architecture/d_a_pmc_screen.py"
       - "scripts/resolve_d_a_candidate_sources.py"
+      - "scripts/screen_d_a_pmc_fulltext.py"
       - "tests/test_d_a_source_resolver.py"
+      - "tests/test_d_a_pmc_screen.py"
       - ".github/workflows/resolve-d-a-candidate-sources.yml"
   workflow_dispatch:
 
@@ -21,7 +24,7 @@ permissions:
 jobs:
   resolve:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -32,8 +35,11 @@ jobs:
       - name: Install package and test dependencies
         run: python -m pip install -e ".[dev]"
 
-      - name: Resolver tests (offline)
-        run: python -m pytest -q tests/test_d_a_source_resolver.py
+      - name: Resolver and PMC screen tests (offline)
+        run: |
+          python -m pytest -q \
+            tests/test_d_a_source_resolver.py \
+            tests/test_d_a_pmc_screen.py
 
       - name: Resolve candidate sources against Crossref
         run: |
@@ -42,8 +48,16 @@ jobs:
             artifacts/d_a_source_receipts \
             --mailto actions@users.noreply.github.com
 
+      - name: Screen registered PMC full-text XML for d_A route feasibility
+        run: |
+          python scripts/screen_d_a_pmc_fulltext.py \
+            empirical/broad_reality_evidence/d_A_candidate_scouting_v1.csv \
+            artifacts/d_a_pmc_fulltext_screen
+
       - uses: actions/upload-artifact@v4
         with:
           name: d-a-source-receipts
-          path: artifacts/d_a_source_receipts/
+          path: |
+            artifacts/d_a_source_receipts/
+            artifacts/d_a_pmc_fulltext_screen/
           if-no-files-found: error
