@@ -35,8 +35,15 @@ jobs:
             echo "A PR for $HEAD_BRANCH already exists; nothing to do."
             exit 0
           fi
-          gh pr create \
+          if gh pr create \
             --base main \
             --head "$HEAD_BRANCH" \
             --title "Part B: mechanism-level meta-analysis (support route) - math + meta split" \
-            --body-file .github/PART_B_PR_BODY.md
+            --body-file .github/PART_B_PR_BODY.md; then
+            echo "PR opened."
+          else
+            echo "::warning::gh pr create failed (usually HTTP 403). Turn ON"
+            echo "::warning::Settings -> Actions -> General -> Workflow permissions ->"
+            echo "::warning::'Allow GitHub Actions to create and approve pull requests', then re-run."
+            echo "Open it manually: https://github.com/${GITHUB_REPOSITORY}/pull/new/${HEAD_BRANCH}"
+          fi
