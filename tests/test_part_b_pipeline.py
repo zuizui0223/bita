@@ -105,6 +105,12 @@ def test_full_pipeline_on_repo_inputs_is_honest(tmp_path) -> None:
     # Five verified anchors are eligible, but none pool (each is a single cluster).
     assert diagnostics["b2_eligible_primary_effects"] == 5
     assert diagnostics["b2_pooled_strata"] == 0
+    # C0 preserves those anchors as individual estimates and keeps directional-only
+    # records visible instead of forcing an all-route pooled result.
+    assert diagnostics["quantitative_effect_cells"] == 5
+    assert diagnostics["directional_only_cells"] == 13
+    assert diagnostics["exploratory_synthesis_candidate_cells"] == 0
+    assert diagnostics["recommended_primary_synthesis"] == "multilayer_evidence_map_with_individual_effect_inventory"
     # Moderator hypotheses run but have no coded data yet.
     assert diagnostics["b3_moderator_hypotheses"] == 3
     assert diagnostics["b3_supported"] == 0
@@ -113,8 +119,9 @@ def test_full_pipeline_on_repo_inputs_is_honest(tmp_path) -> None:
     # within-stratum sign conflict and do not warrant a B3 moderator claim yet.
     assert diagnostics["b5_arrows_within_stratum_conflict"] == 0
     assert diagnostics["b5_arrows_cross_stratum_heterogeneity"] == 1
-    # All five artefacts plus diagnostics were written.
     for name in (
+        "part_b_c0_evidence_inventory.csv",
+        "part_b_c0_quantitative_capacity.csv",
         "part_b_b1_direction_map.csv",
         "part_b_b2_arrow_envelopes.csv",
         "part_b_b3_moderator_contrasts.csv",
