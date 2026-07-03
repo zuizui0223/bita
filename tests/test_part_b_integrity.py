@@ -36,6 +36,19 @@ def test_candidate_claiming_verified_status_is_flagged(tmp_path) -> None:
     assert any("verification_status" in v for v in violations)
 
 
+def test_screened_context_only_candidate_is_allowed_but_remains_non_effect(tmp_path) -> None:
+    candidate = tmp_path / "candidates.csv"
+    with candidate.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["candidate_id", "verification_status", "extraction_todo"])
+        writer.writeheader()
+        writer.writerow({
+            "candidate_id": "c_context_only",
+            "verification_status": "candidate_screened_context_only",
+            "extraction_todo": "retain as context only; do not extract as d_A",
+        })
+    assert check_candidates(candidate) == []
+
+
 def test_queue_blank_level_needs_coding_flag(tmp_path) -> None:
     from trait_architecture.broad_meta_analysis import EFFECT_FIELDS, ORIENTATION
 
@@ -49,8 +62,8 @@ def test_queue_blank_level_needs_coding_flag(tmp_path) -> None:
         "is_primary_effect": "true", "analysis_status": "eligible_for_quantitative_synthesis",
     })
     row["moderator_variable"] = "pollination_generalization"
-    row["moderator_level"] = ""  # blank ...
-    row["coding_status"] = "done"  # ... but NOT flagged as needing coding
+    row["moderator_level"] = ""
+    row["coding_status"] = "done"
     bad = tmp_path / "queue.csv"
     with bad.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(row.keys()))

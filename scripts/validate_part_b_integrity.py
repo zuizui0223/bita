@@ -5,9 +5,9 @@ Checks that the verified/candidate/queue boundary is not crossed:
 1. verified effect table   - passes validate_effect_rows; no eligible effect is
                              sourced from a candidate/unverified basis; each has a
                              source_locator.
-2. candidate scouting table - carries no effect_value/standard_error columns (a
-                             candidate is a lead, never an effect) and every row is
-                             flagged unverified.
+2. candidate scouting table - carries no effect_value/standard_error columns and
+                             every row is explicitly within an unverified candidate
+                             state, including candidates screened out as context only.
 3. moderator coding queue  - passes validate_effect_rows; every row with a blank
                              moderator_level is explicitly marked
                              needs_moderator_level_coding (honest missingness).
@@ -24,7 +24,11 @@ from pathlib import Path
 
 from trait_architecture.broad_meta_analysis import read_csv_rows, validate_effect_rows
 
-ALLOWED_CANDIDATE_STATUSES = frozenset({"candidate_unverified", "seed_synthesis_unverified"})
+ALLOWED_CANDIDATE_STATUSES = frozenset({
+    "candidate_unverified",
+    "seed_synthesis_unverified",
+    "candidate_screened_context_only",
+})
 FORBIDDEN_EFFECT_SOURCE_TOKENS = ("candidate", "unverified")
 
 
