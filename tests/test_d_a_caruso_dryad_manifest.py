@@ -16,12 +16,19 @@ def _responder(url: str):
     if "api.datacite.org" in url:
         return 200, {"data": {"attributes": {"relatedIdentifiers": [{"relatedIdentifier": CARUSO_SOURCE_DOI}]}}}
     if "datadryad.org/api/v2/datasets/" in url:
-        # The real DOI is one encoded path component and exposes its current version,
-        # rather than the files link directly.
-        return 200, {"_links": {"stash:version": {"href": "https://datadryad.org/api/v2/versions/1"}}}
-    if "versions/1" in url and not url.endswith("/files"):
-        return 200, {"_links": {"stash:files": {"href": "https://datadryad.org/api/v2/versions/1/files"}}}
-    if "versions/1/files" in url:
+        # The real API returns an encoded DOI route and a relative versions link.
+        return 200, {"_links": {"stash:versions": {"href": "/api/v2/datasets/doi%3A10.5061%2Fdryad.2v8c5g0/versions"}}}
+    if url.endswith("/versions"):
+        # Versions can arrive as a collection; the file relation belongs to the
+        # current embedded version entry rather than the collection itself.
+        return 200, {
+            "_embedded": {
+                "stash:versions": [
+                    {"_links": {"stash:files": {"href": "/api/v2/versions/1/files"}}}
+                ]
+            }
+        }
+    if url.endswith("/versions/1/files"):
         return 200, {
             "_embedded": {
                 "stash:files": [
@@ -30,7 +37,7 @@ def _responder(url: str):
                         "path": "primary_study_metadata.csv",
                         "mimeType": "text/csv",
                         "size": 1200,
-                        "_links": {"stash:download": {"href": "https://datadryad.org/file/f1/download"}},
+                        "_links": {"stash:download": {"href": "/file/f1/download"}},
                     },
                     {"id": "f2", "path": "effect_sizes.rds", "mimeType": "application/octet-stream", "size": 999},
                 ]
@@ -45,6 +52,7 @@ def test_manifest_identifies_filename_candidate_without_reading_contents() -> No
     assert len(entries) == 2
     assert any(row.access_status == "version_metadata_recovered" for row in rows)
     assert entries[0].filename == "primary_study_metadata.csv"
+    assert entries[0].file_url == "https://datadryad.org/file/f1/download"
     assert entries[0].primary_study_index_candidate == "true"
     assert entries[1].primary_study_index_candidate == "false"
     report = summarise(rows)
