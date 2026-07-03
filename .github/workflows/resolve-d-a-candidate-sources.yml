@@ -14,6 +14,7 @@ on:
       - "trait_architecture/d_a_source_resolver.py"
       - "trait_architecture/d_a_pmc_screen.py"
       - "trait_architecture/d_a_pmc_reading_targets.py"
+      - "trait_architecture/d_a_pmc_c4_context.py"
       - "trait_architecture/d_a_elife_probe.py"
       - "trait_architecture/d_a_elife_screen.py"
       - "trait_architecture/d_a_elife_asset_locator.py"
@@ -22,6 +23,7 @@ on:
       - "scripts/resolve_d_a_candidate_sources.py"
       - "scripts/screen_d_a_pmc_fulltext.py"
       - "scripts/build_d_a_pmc_c4_reading_targets.py"
+      - "scripts/assess_d_a_pmc_c4_context.py"
       - "scripts/probe_d_a_elife_source.py"
       - "scripts/screen_d_a_elife_xml.py"
       - "scripts/locate_d_a_elife_assets.py"
@@ -30,6 +32,7 @@ on:
       - "tests/test_d_a_source_resolver.py"
       - "tests/test_d_a_pmc_screen.py"
       - "tests/test_d_a_pmc_reading_targets.py"
+      - "tests/test_d_a_pmc_c4_context.py"
       - "tests/test_d_a_elife_probe.py"
       - "tests/test_d_a_elife_screen.py"
       - "tests/test_d_a_elife_asset_locator.py"
@@ -61,6 +64,7 @@ jobs:
             tests/test_d_a_source_resolver.py \
             tests/test_d_a_pmc_screen.py \
             tests/test_d_a_pmc_reading_targets.py \
+            tests/test_d_a_pmc_c4_context.py \
             tests/test_d_a_elife_probe.py \
             tests/test_d_a_elife_screen.py \
             tests/test_d_a_elife_asset_locator.py \
@@ -85,6 +89,12 @@ jobs:
           python scripts/build_d_a_pmc_c4_reading_targets.py \
             artifacts/d_a_pmc_fulltext_screen/d_a_pmc_fulltext_screen.csv \
             artifacts/d_a_pmc_c4_reading_targets
+
+      - name: Assess required PMC C4 context without extracting an effect
+        run: |
+          python scripts/assess_d_a_pmc_c4_context.py \
+            artifacts/d_a_pmc_fulltext_screen/d_a_pmc_fulltext_screen.csv \
+            artifacts/d_a_pmc_c4_context
 
       - name: Probe registered eLife scent reward source
         run: |
@@ -111,7 +121,7 @@ jobs:
             artifacts/d_a_elife_assets/d_a_elife_asset_receipts.csv \
             artifacts/d_a_elife_figure_previews
 
-      - name: Assess required C4 context without extracting an effect
+      - name: Assess required eLife C4 context without extracting an effect
         run: |
           python scripts/assess_d_a_elife_c4_context.py \
             artifacts/d_a_elife_source_probe/d_a_elife_source_probe.csv \
@@ -124,6 +134,7 @@ jobs:
             artifacts/d_a_source_receipts/
             artifacts/d_a_pmc_fulltext_screen/
             artifacts/d_a_pmc_c4_reading_targets/
+            artifacts/d_a_pmc_c4_context/
             artifacts/d_a_elife_source_probe/
             artifacts/d_a_elife_xml_screen/
             artifacts/d_a_elife_assets/
