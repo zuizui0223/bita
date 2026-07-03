@@ -15,19 +15,6 @@ from trait_architecture.d_a_caruso_dryad_manifest import (
 def _responder(url: str):
     if "api.datacite.org" in url:
         return 200, {"data": {"attributes": {"relatedIdentifiers": [{"relatedIdentifier": CARUSO_SOURCE_DOI}]}}}
-    if "datadryad.org/api/v2/datasets/" in url:
-        # The real API returns an encoded DOI route and a relative versions link.
-        return 200, {"_links": {"stash:versions": {"href": "/api/v2/datasets/doi%3A10.5061%2Fdryad.2v8c5g0/versions"}}}
-    if url.endswith("/versions"):
-        # Versions can arrive as a collection; the file relation belongs to the
-        # current embedded version entry rather than the collection itself.
-        return 200, {
-            "_embedded": {
-                "stash:versions": [
-                    {"_links": {"stash:files": {"href": "/api/v2/versions/1/files"}}}
-                ]
-            }
-        }
     if url.endswith("/versions/1/files"):
         return 200, {
             "_embedded": {
@@ -43,6 +30,19 @@ def _responder(url: str):
                 ]
             }
         }
+    if url.endswith("/versions"):
+        # Versions can arrive as a collection; the file relation belongs to the
+        # current embedded version entry rather than the collection itself.
+        return 200, {
+            "_embedded": {
+                "stash:versions": [
+                    {"_links": {"stash:files": {"href": "/api/v2/versions/1/files"}}}
+                ]
+            }
+        }
+    if "datadryad.org/api/v2/datasets/" in url:
+        # The real API returns an encoded DOI route and a relative versions link.
+        return 200, {"_links": {"stash:versions": {"href": "/api/v2/datasets/doi%3A10.5061%2Fdryad.2v8c5g0/versions"}}}
     raise AssertionError(url)
 
 
