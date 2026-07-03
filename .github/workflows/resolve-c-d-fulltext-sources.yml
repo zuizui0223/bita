@@ -1,17 +1,21 @@
 name: Resolve c_D full-text sources
 
-# Resolves the fixed chemical-barrier c_D reading queue against Crossref and uploads
-# reproducible access/relation receipts. This is a C3 source-feasibility step only:
-# it never reads article text, extracts a dose/response, or claims B2 eligibility.
+# Resolves the fixed chemical-barrier c_D reading queue against Crossref, then
+# performs a bounded public-PDF page-location probe. Artefacts contain receipts and
+# page locators only: no article PDFs/text, effects, dose classifications, or B2
+# eligibility decisions are stored.
 
 on:
   pull_request:
     paths:
       - "empirical/broad_reality_evidence/precision_expansions/fulltext/B_TO_P_FULLTEXT_READING_QUEUE_v1.csv"
       - "trait_architecture/c_d_source_resolution.py"
+      - "trait_architecture/c_d_fulltext_locator.py"
       - "trait_architecture/d_a_source_resolver.py"
       - "scripts/resolve_c_d_fulltext_sources.py"
+      - "scripts/locate_c_d_fulltext_pages.py"
       - "tests/test_c_d_source_resolution.py"
+      - "tests/test_c_d_fulltext_locator.py"
       - ".github/workflows/resolve-c-d-fulltext-sources.yml"
   workflow_dispatch:
 
@@ -21,7 +25,7 @@ permissions:
 jobs:
   resolve:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -30,10 +34,10 @@ jobs:
           python-version: "3.11"
 
       - name: Install package and test dependencies
-        run: python -m pip install -e ".[dev]"
+        run: python -m pip install -e ".[dev]" pypdf
 
-      - name: Resolver tests (offline)
-        run: python -m pytest -q tests/test_c_d_source_resolution.py
+      - name: Resolver and locator tests (offline)
+        run: python -m pytest -q tests/test_c_d_source_resolution.py tests/test_c_d_fulltext_locator.py
 
       - name: Resolve c_D source routes against Crossref
         run: |
@@ -41,6 +45,12 @@ jobs:
             empirical/broad_reality_evidence/precision_expansions/fulltext/B_TO_P_FULLTEXT_READING_QUEUE_v1.csv \
             artifacts/c_d_source_receipts \
             --mailto actions@users.noreply.github.com
+
+      - name: Locate public-PDF dose and outcome pages
+        run: |
+          python scripts/locate_c_d_fulltext_pages.py \
+            artifacts/c_d_source_receipts/c_d_fulltext_source_receipts.csv \
+            artifacts/c_d_source_receipts/c_d_fulltext_page_locators.csv
 
       - uses: actions/upload-artifact@v4
         with:
