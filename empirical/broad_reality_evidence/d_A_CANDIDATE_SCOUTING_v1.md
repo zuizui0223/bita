@@ -34,10 +34,12 @@ See `d_A_candidate_scouting_v1.csv`. Highlights:
   (herbivore) oviposition. A direct, manipulative `d_A > 0` candidate on a
   generalized (bee + moth) system. Strongest single lead.
 - **Caruso, Eisen, Martin & Sletvold 2019, Evolution (`10.1111/evo.13639`).**
-  Meta-analysis of agents of selection on floral traits, including herbivore-driven
-  selection on attraction traits. Not one cluster: a **seed** to mine several
-  independent `d_A` clusters (with their own pollination contexts) from its
-  database.
+  Meta-analysis of agents of selection on floral traits. **Caveat (see
+  `docs/PART_B_CRITICAL_APPRAISAL_v1.md` L4):** its effect metric is a *selection
+  gradient* (β), which is not a `trait -> antagonism` effect. Use it only to
+  identify candidate **systems** (via its Dryad database), then extract the marginal
+  `d_A` estimate from each primary study. Never enter a selection gradient as a
+  `d_A` effect.
 - **Geographic conflicting selection, pollinators vs seed predators (PMID
   27325896).** Floral exsertion increases seed predation, and the strength varies
   across populations -- a built-in moderator contrast.

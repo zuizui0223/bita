@@ -1,0 +1,44 @@
+name: Part B integrity guard
+
+# Enforces the verified/candidate/queue honesty boundary on every change to the
+# Part B data files: no unverified lead may enter the verified effect base, a
+# candidate table may never carry effect sizes, and a blank moderator level must be
+# flagged as needing coding. Fails the check (and thus the PR) on any violation.
+
+on:
+  pull_request:
+    paths:
+      - "empirical/broad_reality_evidence/part_b_arrow_effects.csv"
+      - "empirical/broad_reality_evidence/d_A_candidate_scouting_v1.csv"
+      - "empirical/broad_reality_evidence/d_A_moderator_coding_queue.csv"
+      - "scripts/validate_part_b_integrity.py"
+      - "tests/test_part_b_integrity.py"
+      - ".github/workflows/part-b-integrity.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package
+        run: python -m pip install -e .
+
+      - name: Integrity guard tests
+        run: python -m pytest -q tests/test_part_b_integrity.py
+
+      - name: Run integrity guard on committed Part B files
+        run: |
+          python scripts/validate_part_b_integrity.py \
+            empirical/broad_reality_evidence/part_b_arrow_effects.csv \
+            empirical/broad_reality_evidence/d_A_candidate_scouting_v1.csv \
+            empirical/broad_reality_evidence/d_A_moderator_coding_queue.csv
