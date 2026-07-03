@@ -102,7 +102,7 @@ jobs:
           python scripts/build_depth_saturation_audit.py \
             artifacts/broad_reality_evidence/broad_reality_evidence_rank_memberships.csv \
             artifacts/broad_reality_evidence/depth_saturation_audit \
-            --per-route-stratum-group 15
+            --per-route-stratum-group 10
       - name: Retrieve Crossref abstracts for head-tail depth audit
         run: |
           python scripts/build_depth_saturation_audit_abstract_packet.py \
