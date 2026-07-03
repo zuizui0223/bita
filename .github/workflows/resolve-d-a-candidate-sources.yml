@@ -1,0 +1,49 @@
+name: Resolve d_A candidate sources
+
+# Reproducibly resolves each d_A candidate lead's DOI against the public Crossref
+# API and uploads the access receipts (OA full-text link? linked dataset?). This
+# is a C3 source-feasibility step: it records access/relation metadata only and
+# never reads article text or estimates an effect.
+
+on:
+  pull_request:
+    paths:
+      - "empirical/broad_reality_evidence/d_A_candidate_scouting_v1.csv"
+      - "trait_architecture/d_a_source_resolver.py"
+      - "scripts/resolve_d_a_candidate_sources.py"
+      - "tests/test_d_a_source_resolver.py"
+      - ".github/workflows/resolve-d-a-candidate-sources.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package
+        run: python -m pip install -e .
+
+      - name: Resolver tests (offline)
+        run: python -m pytest -q tests/test_d_a_source_resolver.py
+
+      - name: Resolve candidate sources against Crossref
+        run: |
+          python scripts/resolve_d_a_candidate_sources.py \
+            empirical/broad_reality_evidence/d_A_candidate_scouting_v1.csv \
+            artifacts/d_a_source_receipts \
+            --mailto actions@users.noreply.github.com
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: d-a-source-receipts
+          path: artifacts/d_a_source_receipts/
+          if-no-files-found: error

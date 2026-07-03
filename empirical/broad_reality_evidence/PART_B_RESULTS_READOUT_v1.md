@@ -103,3 +103,15 @@ anchors across the four arrows, and cannot yet pool or test conditionality. B5
 identifies the priority objectively: **`d_A` is the contested, highest-leverage
 crux** — resolve its sign conflict with a `pollination_generalization` moderator
 first; then add a second independent cluster to `e_F`, `c_D`, and `b_A`.
+
+## Next-step scouting (d_A)
+
+A first scouting pass for `d_A` candidates is recorded in
+`d_A_candidate_scouting_v1.md` / `d_A_candidate_scouting_v1.csv` (8 unverified
+leads). The strongest is Schiestl et al. 2015 (eLife `10.7554/eLife.07641`): a
+manipulative `d_A > 0` on a generalized system (scent/nectar raise both pollinator
+visits and hawkmoth oviposition). Caruso et al. 2019 (Evolution `10.1111/evo.13639`)
+is a meta-analytic seed for mining several independent `d_A` clusters. These are
+candidates for human verification, not effects, and enter the coding queue only
+after a direct estimate, denominator, uncertainty, and moderator basis are
+confirmed.
