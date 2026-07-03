@@ -2,7 +2,7 @@ name: Resolve d_A candidate sources
 
 # Reproducibly resolves each d_A candidate lead's DOI against the public Crossref
 # API and uploads the access receipts (OA full-text link? linked dataset?). This
-# is a C3 source-feasibility step: it records access/relation metadata only and
+# is a C3 source-feasibility step: it records access and relation metadata only and
 # never reads article text or estimates an effect.
 
 on:
@@ -29,8 +29,8 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install package
-        run: python -m pip install -e .
+      - name: Install package and test dependencies
+        run: python -m pip install -e ".[dev]"
 
       - name: Resolver tests (offline)
         run: python -m pytest -q tests/test_d_a_source_resolver.py
