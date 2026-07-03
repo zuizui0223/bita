@@ -25,8 +25,6 @@ def _xlsx_bytes(headers: list[str]) -> bytes:
             f'<Relationships xmlns="{PKG}"><Relationship Id="rId1" Target="worksheets/sheet1.xml"/></Relationships>',
         )
         cells = "".join(f'<c r="A{i + 1}" t="s"><v>{i}</v></c>' for i in range(len(headers)))
-        # Cell positions are irrelevant for the schema test; the first row is the
-        # header source and no data row is included in the fixture.
         archive.writestr(
             "xl/worksheets/sheet1.xml",
             f'<worksheet xmlns="{NS}"><dimension ref="A1:E12"/><sheetData><row r="1">{cells}</row></sheetData></worksheet>',
@@ -44,6 +42,11 @@ def _write_manifest(path, rows):
         writer.writerows(rows)
 
 
+def _file_metadata(url: str):
+    assert url.endswith("/api/v2/files/21863")
+    return 200, {"_links": {"stash:download": {"href": "/api/v2/files/21863/download"}}}
+
+
 def test_exp_stud_xlsx_is_selected_and_emits_headers_only(tmp_path) -> None:
     manifest = tmp_path / "manifest.csv"
     _write_manifest(manifest, [{
@@ -52,8 +55,14 @@ def test_exp_stud_xlsx_is_selected_and_emits_headers_only(tmp_path) -> None:
         "file_url": "https://datadryad.org/api/v2/files/21863/download",
         "primary_study_index_candidate": "false",
     }])
-    rows = inspect_manifest(manifest, download=lambda _url: _xlsx_bytes(["Study_ID", "DOI", "Trait", "Herbivore_damage", "Selection_gradient"]))
+    rows = inspect_manifest(
+        manifest,
+        download=lambda url: _xlsx_bytes(["Study_ID", "DOI", "Trait", "Herbivore_damage", "Selection_gradient"]),
+        fetch_json=_file_metadata,
+    )
     assert len(rows) == 1
+    assert rows[0].file_metadata_status == "metadata_http_200_resolved"
+    assert rows[0].resolved_file_url == "https://datadryad.org/api/v2/files/21863/download"
     assert rows[0].sheet_name == "Study metadata"
     assert rows[0].worksheet_dimension == "A1:E12"
     assert rows[0].bibliographic_identifier_columns == "Study_ID;DOI"
@@ -71,7 +80,11 @@ def test_only_xls_manifest_entry_is_not_downloaded(tmp_path) -> None:
         "primary_study_index_candidate": "false",
     }])
     assert read_manifest(manifest) == []
-    assert inspect_manifest(manifest, download=lambda _url: (_ for _ in ()).throw(AssertionError("must not download xls"))) == []
+    assert inspect_manifest(
+        manifest,
+        download=lambda _url: (_ for _ in ()).throw(AssertionError("must not download xls")),
+        fetch_json=lambda _url: (_ for _ in ()).throw(AssertionError("must not resolve xls")),
+    ) == []
 
 
 def test_write_outputs_has_no_data_rows_or_identifiers(tmp_path) -> None:
@@ -82,7 +95,11 @@ def test_write_outputs_has_no_data_rows_or_identifiers(tmp_path) -> None:
         "file_url": "https://datadryad.org/api/v2/files/21863/download",
         "primary_study_index_candidate": "false",
     }])
-    rows = inspect_manifest(manifest, download=lambda _url: _xlsx_bytes(["Study_ID", "DOI"]))
+    rows = inspect_manifest(
+        manifest,
+        download=lambda _url: _xlsx_bytes(["Study_ID", "DOI"]),
+        fetch_json=_file_metadata,
+    )
     report = write_outputs(tmp_path / "out", rows)
     saved = json.loads((tmp_path / "out" / "d_a_caruso_xlsx_schema_report.json").read_text(encoding="utf-8"))
     written = list(csv.DictReader((tmp_path / "out" / "d_a_caruso_xlsx_schema.csv").open(encoding="utf-8")))
