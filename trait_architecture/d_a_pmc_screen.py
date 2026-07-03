@@ -1,18 +1,9 @@
-"""Bounded full-text XML screen for registered PMC d_A candidate leads.
+"""Bounded XML feasibility screen for registered PMC d_A candidates.
 
-The d_A scouting table contains two leads explicitly anchored to PMC records. This
-module fetches only those exact PMCID records through Europe PMC's full-text XML
-endpoint and emits locator metadata: matched section titles, table labels, and
-route-structure signals from declared term families. It does not retain article
-XML, copy tables, estimate effects, determine direction, or promote a lead into B2.
-
-The screen answers only a feasibility question: does the accessible source appear
-to contain a candidate trait intervention and an antagonist outcome in a structure
-that warrants human source coding? Route-structure classification uses section
-**headings**, rather than full section prose, so a generic Methods section that
-mentions both domains cannot masquerade as a direct d_A experiment. It also
-recognizes headings that describe antagonist effects on pollinators (H -> P), which
-must not be mistaken for d_A.
+Only exact PMCID leads from the registered scouting table are fetched. Artefacts
+retain term/section/table locators, never article XML, numerical effects, or a d_A
+inclusion decision. Route structure is classified from section *headings* so broad
+Methods prose cannot create a false direct-route signal.
 """
 
 from __future__ import annotations
@@ -21,43 +12,27 @@ import csv
 import json
 import re
 import xml.etree.ElementTree as ET
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Callable, Iterable
 from urllib.parse import quote
 from urllib.request import Request, urlopen
 
-
 EUROPE_PMC_FULLTEXT = "https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML"
-USER_AGENT = "bita d-a-pmc-screen/0.3"
+USER_AGENT = "bita d-a-pmc-screen/0.4"
 PMCID_PATTERN = re.compile(r"PMC\d+", re.IGNORECASE)
-
-TRAIT_TERMS = (
-    "staminode", "display", "flower size", "floral size", "corolla", "exsertion",
-    "scent", "fragrance", "nectar", "colour", "color", "petal",
-)
-ANTAGONIST_TERMS = (
-    "florivor", "herbivor", "beetle", "seed predat", "oviposition", "nectar rob",
-    "pollen thief", "larcen", "damage",
-)
-INTERVENTION_TERMS = (
-    "removal", "manipulation", "treatment", "choice experiment", "feeding choice",
-)
-POLLINATION_DOWNSTREAM_TERMS = (
-    "pollinator", "pollination", "foraging behavior", "visitor", "reproductive fitness",
-    "pollen transfer",
-)
+TRAIT_TERMS = ("staminode", "display", "flower size", "floral size", "corolla", "exsertion", "scent", "fragrance", "nectar", "colour", "color", "petal")
+ANTAGONIST_TERMS = ("florivor", "herbivor", "beetle", "seed predat", "oviposition", "nectar rob", "pollen thief", "larcen", "damage")
+REVERSE_HEADING_ANTAGONIST_TERMS = (*ANTAGONIST_TERMS, "antagonist")
+INTERVENTION_TERMS = ("removal", "manipulation", "treatment", "choice experiment", "feeding choice")
+POLLINATION_DOWNSTREAM_TERMS = ("pollinator", "pollination", "foraging behavior", "visitor", "reproductive fitness", "pollen transfer")
 SCREEN_FIELDS = (
-    "candidate_id", "pmcid", "doi", "trait_class", "antagonism_outcome",
-    "source_access_status", "xml_bytes", "matched_trait_terms", "matched_antagonist_terms",
-    "matched_section_titles", "matched_table_labels", "trait_intervention_section_titles",
-    "antagonist_outcome_section_titles", "reverse_route_section_titles",
+    "candidate_id", "pmcid", "doi", "trait_class", "antagonism_outcome", "source_access_status", "xml_bytes",
+    "matched_trait_terms", "matched_antagonist_terms", "matched_section_titles", "matched_table_labels",
+    "trait_intervention_section_titles", "antagonist_outcome_section_titles", "reverse_route_section_titles",
     "direct_route_screen_status", "route_structure_signal", "screen_note", "do_not_infer",
 )
-DO_NOT_INFER = (
-    "Full-text XML term-location screen only. Do not infer a measured direct route, "
-    "effect direction, effect size, denominator, causal design, or B2 eligibility."
-)
+DO_NOT_INFER = "Full-text XML term-location screen only. Do not infer a measured direct route, effect direction, effect size, denominator, causal design, or B2 eligibility."
 
 
 @dataclass(frozen=True)
@@ -91,6 +66,20 @@ def _pmcid(source: str) -> str:
     return match.group(0).upper() if match else ""
 
 
+def _plain(element: ET.Element | None) -> str:
+    return "" if element is None else " ".join("".join(element.itertext()).split())
+
+
+def _matched(text: str, terms: Iterable[str]) -> list[str]:
+    folded = text.casefold()
+    return [term for term in terms if term in folded]
+
+
+def _unique(values: Iterable[str]) -> list[str]:
+    seen: set[str] = set()
+    return [value for value in values if value and not (value in seen or seen.add(value))]
+
+
 def read_candidates(path: str | Path) -> list[dict[str, str]]:
     with Path(path).open(encoding="utf-8", newline="") as handle:
         rows = [{key: _text(value) for key, value in row.items()} for row in csv.DictReader(handle)]
@@ -102,188 +91,73 @@ def read_candidates(path: str | Path) -> list[dict[str, str]]:
 
 def _fetch_xml(url: str) -> tuple[int, bytes]:
     request = Request(url, headers={"Accept": "application/xml,text/xml,*/*", "User-Agent": USER_AGENT})
-    with urlopen(request, timeout=60) as response:  # nosec B310: exact Europe PMC PMCID endpoint from registered source
-        status = int(getattr(response, "status", response.getcode()))
-        return status, response.read(15 * 1024 * 1024 + 1)
+    with urlopen(request, timeout=60) as response:  # nosec B310: exact registered Europe PMC endpoint
+        return int(getattr(response, "status", response.getcode())), response.read(15 * 1024 * 1024 + 1)
 
 
-def _plain(element: ET.Element | None) -> str:
-    if element is None:
-        return ""
-    return " ".join("".join(element.itertext()).split())
+def _failure(base: dict[str, str], access_status: str, note: str) -> PMCScreen:
+    return PMCScreen(**base, source_access_status=access_status, xml_bytes="", matched_trait_terms="", matched_antagonist_terms="", matched_section_titles="", matched_table_labels="", trait_intervention_section_titles="", antagonist_outcome_section_titles="", reverse_route_section_titles="", direct_route_screen_status="not_screened", route_structure_signal="not_available", screen_note=note)
 
 
-def _matched(text: str, terms: Iterable[str]) -> list[str]:
-    folded = text.casefold()
-    return [term for term in terms if term in folded]
-
-
-def _unique(values: Iterable[str]) -> list[str]:
-    seen: set[str] = set()
-    output: list[str] = []
-    for value in values:
-        value = _text(value)
-        if value and value not in seen:
-            seen.add(value)
-            output.append(value)
-    return output
-
-
-def _failure_screen(base: dict[str, str], *, access_status: str, note: str) -> PMCScreen:
-    return PMCScreen(
-        **base,
-        source_access_status=access_status,
-        xml_bytes="",
-        matched_trait_terms="",
-        matched_antagonist_terms="",
-        matched_section_titles="",
-        matched_table_labels="",
-        trait_intervention_section_titles="",
-        antagonist_outcome_section_titles="",
-        reverse_route_section_titles="",
-        direct_route_screen_status="not_screened",
-        route_structure_signal="not_available",
-        screen_note=note,
-    )
-
-
-def _route_structure_signal(
-    *,
-    trait_intervention_sections: list[str],
-    antagonist_sections: list[str],
-    reverse_sections: list[str],
-    trait_hits: list[str],
-    antagonist_hits: list[str],
-) -> tuple[str, str]:
-    """Triage headings without converting textual co-occurrence into a d_A effect."""
-
-    if trait_intervention_sections and antagonist_sections and not reverse_sections:
-        return (
-            "candidate_A_to_H_experiment_structure_needs_numeric_context_check",
-            "Trait-intervention and antagonist-outcome headings are both present; inspect model/table context, denominator, and effect direction before declaring d_A.",
-        )
-    if reverse_sections and not trait_intervention_sections:
-        return (
-            "probable_H_to_P_or_downstream_structure",
-            "Antagonist and pollination/behavior terms co-occur in headings without a trait-intervention heading; do not code as d_A unless a direct trait-to-antagonist model is located.",
-        )
-    if trait_intervention_sections and antagonist_sections:
-        return (
-            "mixed_route_structure_needs_manual_disambiguation",
-            "Both candidate d_A and possible downstream-route heading structures occur; manually identify whether the same model links trait to antagonist outcome.",
-        )
+def _signal(trait_intervention: list[str], antagonist: list[str], reverse: list[str], trait_hits: list[str], antagonist_hits: list[str]) -> tuple[str, str]:
+    if trait_intervention and antagonist and not reverse:
+        return "candidate_A_to_H_experiment_structure_needs_numeric_context_check", "Trait-intervention and antagonist-outcome headings are both present; inspect model/table context, denominator, and effect direction before declaring d_A."
+    if reverse and not trait_intervention:
+        return "probable_H_to_P_or_downstream_structure", "Antagonist and pollination/behavior terms co-occur in headings without a trait-intervention heading; do not code as d_A unless a direct trait-to-antagonist model is located."
+    if trait_intervention and antagonist:
+        return "mixed_route_structure_needs_manual_disambiguation", "Both candidate d_A and possible downstream-route heading structures occur; manually identify whether the same model links trait to antagonist outcome."
     if trait_hits and antagonist_hits:
-        return (
-            "term_cooccurrence_without_experiment_link",
-            "Both term families occur, but section headings do not establish a trait-intervention to antagonist-outcome test.",
-        )
+        return "term_cooccurrence_without_experiment_link", "Both term families occur, but section headings do not establish a trait-intervention to antagonist-outcome test."
     if trait_hits or antagonist_hits:
-        return (
-            "one_term_family_present",
-            "Only one candidate term family appears in the full-text XML screen.",
-        )
-    return (
-        "no_candidate_term_family_detected",
-        "Neither candidate term family appears in the full-text XML screen.",
-    )
+        return "one_term_family_present", "Only one candidate term family appears in the full-text XML screen."
+    return "no_candidate_term_family_detected", "Neither candidate term family appears in the full-text XML screen."
 
 
-def screen_candidate(
-    row: dict[str, str],
-    *,
-    fetch_xml: Callable[[str], tuple[int, bytes]] = _fetch_xml,
-) -> PMCScreen:
+def screen_candidate(row: dict[str, str], *, fetch_xml: Callable[[str], tuple[int, bytes]] = _fetch_xml) -> PMCScreen:
     pmcid = _pmcid(row.get("source", ""))
-    base = {
-        "candidate_id": _text(row.get("candidate_id")),
-        "pmcid": pmcid,
-        "doi": "",
-        "trait_class": _text(row.get("trait_class")),
-        "antagonism_outcome": _text(row.get("antagonism_outcome")),
-    }
+    base = {"candidate_id": _text(row.get("candidate_id")), "pmcid": pmcid, "doi": "", "trait_class": _text(row.get("trait_class")), "antagonism_outcome": _text(row.get("antagonism_outcome"))}
     if not pmcid:
-        return _failure_screen(base, access_status="not_pmc_candidate", note="Registered source contains no PMCID.")
-    url = EUROPE_PMC_FULLTEXT.format(pmcid=quote(pmcid))
+        return _failure(base, "not_pmc_candidate", "Registered source contains no PMCID.")
     try:
-        status, payload = fetch_xml(url)
+        status, payload = fetch_xml(EUROPE_PMC_FULLTEXT.format(pmcid=quote(pmcid)))
         if status >= 400:
             raise RuntimeError(f"HTTP {status}")
         if len(payload) > 15 * 1024 * 1024:
             raise RuntimeError("XML response exceeds 15 MiB cap")
         root = ET.fromstring(payload)
     except Exception as error:
-        return _failure_screen(base, access_status="xml_access_or_parse_failed", note=f"{type(error).__name__}: {error}")
+        return _failure(base, "xml_access_or_parse_failed", f"{type(error).__name__}: {error}")
 
-    article_text = _plain(root)
-    trait_hits = _matched(article_text, TRAIT_TERMS)
-    antagonist_hits = _matched(article_text, ANTAGONIST_TERMS)
-    doi = _text(root.findtext(".//article-id[@pub-id-type='doi']"))
-    section_titles: list[str] = []
-    trait_intervention_sections: list[str] = []
+    article = _plain(root)
+    trait_hits, antagonist_hits = _matched(article, TRAIT_TERMS), _matched(article, ANTAGONIST_TERMS)
+    shared_sections: list[str] = []
+    trait_intervention: list[str] = []
     antagonist_sections: list[str] = []
     reverse_sections: list[str] = []
     for section in root.findall(".//sec"):
         title = _plain(section.find("title")) or "untitled_section"
-        text = _plain(section)
-        section_trait = _matched(text, TRAIT_TERMS)
-        section_antagonist = _matched(text, ANTAGONIST_TERMS)
-        if section_trait and section_antagonist:
-            section_titles.append(title)
-
-        # Classification is deliberately heading-only. Full section text is retained
-        # only for the broad co-occurrence locator above, never as a direct-route test.
+        body = _plain(section)
+        if _matched(body, TRAIT_TERMS) and _matched(body, ANTAGONIST_TERMS):
+            shared_sections.append(title)
         title_trait = _matched(title, TRAIT_TERMS)
         title_antagonist = _matched(title, ANTAGONIST_TERMS)
+        title_reverse_antagonist = _matched(title, REVERSE_HEADING_ANTAGONIST_TERMS)
         title_intervention = _matched(title, INTERVENTION_TERMS)
         title_pollination = _matched(title, POLLINATION_DOWNSTREAM_TERMS)
         if title_trait and title_intervention:
-            trait_intervention_sections.append(title)
+            trait_intervention.append(title)
         if title_antagonist:
             antagonist_sections.append(title)
-        if title_antagonist and title_pollination and not title_trait:
+        if title_reverse_antagonist and title_pollination and not title_trait:
             reverse_sections.append(title)
-
-    table_labels: list[str] = []
-    for table in root.findall(".//table-wrap"):
-        text = _plain(table)
-        if _matched(text, TRAIT_TERMS) and _matched(text, ANTAGONIST_TERMS):
-            table_labels.append(_plain(table.find("label")) or "unlabeled_table")
-
-    signal, note = _route_structure_signal(
-        trait_intervention_sections=_unique(trait_intervention_sections),
-        antagonist_sections=_unique(antagonist_sections),
-        reverse_sections=_unique(reverse_sections),
-        trait_hits=trait_hits,
-        antagonist_hits=antagonist_hits,
-    )
-    if trait_hits and antagonist_hits:
-        route_status = "both_term_families_present_needs_human_route_coding"
-    elif trait_hits or antagonist_hits:
-        route_status = "one_term_family_present_not_direct_route"
-    else:
-        route_status = "no_candidate_term_family_detected"
-    return PMCScreen(
-        **{**base, "doi": doi},
-        source_access_status="fulltext_xml_recovered",
-        xml_bytes=str(len(payload)),
-        matched_trait_terms=";".join(trait_hits),
-        matched_antagonist_terms=";".join(antagonist_hits),
-        matched_section_titles=";".join(_unique(section_titles)),
-        matched_table_labels=";".join(_unique(table_labels)),
-        trait_intervention_section_titles=";".join(_unique(trait_intervention_sections)),
-        antagonist_outcome_section_titles=";".join(_unique(antagonist_sections)),
-        reverse_route_section_titles=";".join(_unique(reverse_sections)),
-        direct_route_screen_status=route_status,
-        route_structure_signal=signal,
-        screen_note=note,
-    )
+    tables = [(_plain(table.find("label")) or "unlabeled_table") for table in root.findall(".//table-wrap") if _matched(_plain(table), TRAIT_TERMS) and _matched(_plain(table), ANTAGONIST_TERMS)]
+    trait_intervention, antagonist_sections, reverse_sections = _unique(trait_intervention), _unique(antagonist_sections), _unique(reverse_sections)
+    signal, note = _signal(trait_intervention, antagonist_sections, reverse_sections, trait_hits, antagonist_hits)
+    direct_status = "both_term_families_present_needs_human_route_coding" if trait_hits and antagonist_hits else ("one_term_family_present_not_direct_route" if trait_hits or antagonist_hits else "no_candidate_term_family_detected")
+    return PMCScreen(**{**base, "doi": _text(root.findtext(".//article-id[@pub-id-type='doi']"))}, source_access_status="fulltext_xml_recovered", xml_bytes=str(len(payload)), matched_trait_terms=";".join(trait_hits), matched_antagonist_terms=";".join(antagonist_hits), matched_section_titles=";".join(_unique(shared_sections)), matched_table_labels=";".join(_unique(tables)), trait_intervention_section_titles=";".join(trait_intervention), antagonist_outcome_section_titles=";".join(antagonist_sections), reverse_route_section_titles=";".join(reverse_sections), direct_route_screen_status=direct_status, route_structure_signal=signal, screen_note=note)
 
 
-def screen_candidates(
-    rows: Iterable[dict[str, str]],
-    *,
-    fetch_xml: Callable[[str], tuple[int, bytes]] = _fetch_xml,
-) -> list[PMCScreen]:
+def screen_candidates(rows: Iterable[dict[str, str]], *, fetch_xml: Callable[[str], tuple[int, bytes]] = _fetch_xml) -> list[PMCScreen]:
     return [screen_candidate(row, fetch_xml=fetch_xml) for row in rows]
 
 
@@ -299,17 +173,9 @@ def write_outputs(out_dir: str | Path, rows: Iterable[PMCScreen]) -> dict[str, o
         "pmc_candidate_count": len(rows),
         "fulltext_xml_recovered": sum(row.source_access_status == "fulltext_xml_recovered" for row in rows),
         "both_term_families_present": sum(row.direct_route_screen_status == "both_term_families_present_needs_human_route_coding" for row in rows),
-        "candidate_A_to_H_experiment_structure": sum(
-            row.route_structure_signal == "candidate_A_to_H_experiment_structure_needs_numeric_context_check"
-            for row in rows
-        ),
-        "probable_H_to_P_or_downstream_structure": sum(
-            row.route_structure_signal == "probable_H_to_P_or_downstream_structure"
-            for row in rows
-        ),
+        "candidate_A_to_H_experiment_structure": sum(row.route_structure_signal == "candidate_A_to_H_experiment_structure_needs_numeric_context_check" for row in rows),
+        "probable_H_to_P_or_downstream_structure": sum(row.route_structure_signal == "probable_H_to_P_or_downstream_structure" for row in rows),
         "decision_boundary": DO_NOT_INFER,
     }
-    (destination / "d_a_pmc_fulltext_screen_report.json").write_text(
-        json.dumps(report, indent=2, sort_keys=True), encoding="utf-8"
-    )
+    (destination / "d_a_pmc_fulltext_screen_report.json").write_text(json.dumps(report, indent=2, sort_keys=True), encoding="utf-8")
     return report
