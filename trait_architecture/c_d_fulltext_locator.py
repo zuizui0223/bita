@@ -177,7 +177,7 @@ def read_public_source_receipts(path: str | Path) -> list[dict[str, str]]:
     with Path(path).open(encoding="utf-8", newline="") as handle:
         rows = [{key: _text(value) for key, value in row.items()} for row in csv.DictReader(handle)]
     required = {
-        "queue_id", "study_id", "study_cluster_id", "doi", "content_url",
+        "queue_id", "study_id", "study_cluster_id", "study_doi", "content_url",
         "resolution_status", "relation_to_article",
     }
     if rows and not required.issubset(rows[0]):
@@ -192,7 +192,7 @@ def read_public_source_receipts(path: str | Path) -> list[dict[str, str]]:
             "queue_id": row["queue_id"],
             "study_id": row["study_id"],
             "study_cluster_id": row["study_cluster_id"],
-            "doi": row["doi"],
+            "doi": row["study_doi"],
             "taxon": _text(row.get("taxon")),
             "trait_class": _text(row.get("trait_class")),
             "outcome_class": _text(row.get("outcome_class")),
