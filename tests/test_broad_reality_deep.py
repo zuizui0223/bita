@@ -56,3 +56,32 @@ def test_paged_harvest_stops_on_short_page_before_requested_depth() -> None:
     assert len(candidates) == 2
     assert reports[0]["works_returned"] == "2"
     assert "retrieval_cap_reached=false" in reports[0]["message"]
+
+
+def test_paged_harvest_observer_receives_each_rank_page_before_deduplication() -> None:
+    observed: list[tuple[int, int, list[int]]] = []
+
+    def fake_request(_: str, params: dict[str, str]) -> dict[str, object]:
+        offset = int(params["offset"])
+        rows = int(params["rows"])
+        items = [record(index) for index in range(offset + 1, offset + rows + 1)]
+        return {"message": {"items": items, "total-results": 450}}
+
+    def observe(_query, offset, candidates, raw_records_returned) -> None:
+        observed.append((offset, raw_records_returned, [candidate.query_ranks[0] for candidate in candidates]))
+
+    candidates, reports = harvest_crossref_paged(
+        [query()],
+        rows_per_query=450,
+        page_size=200,
+        page_observer=observe,
+        request_json=fake_request,
+    )
+
+    assert len(candidates) == 450
+    assert reports[0]["works_returned"] == "450"
+    assert observed == [
+        (0, 200, list(range(1, 201))),
+        (200, 200, list(range(201, 401))),
+        (400, 50, list(range(401, 451))),
+    ]

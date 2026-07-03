@@ -5,6 +5,7 @@ on:
     paths:
       - "trait_architecture/broad_reality_evidence.py"
       - "trait_architecture/broad_reality_deep.py"
+      - "trait_architecture/broad_reality_depth.py"
       - "trait_architecture/broad_reality_screen.py"
       - "trait_architecture/priority_leak_audit.py"
       - "trait_architecture/priority_leak_audit_abstracts.py"
@@ -41,6 +42,7 @@ on:
       - "scripts/build_broad_abstract_theory_map.py"
       - "tests/test_broad_reality_evidence.py"
       - "tests/test_broad_reality_deep.py"
+      - "tests/test_broad_reality_depth.py"
       - "tests/test_priority_leak_audit.py"
       - "tests/test_priority_leak_audit_abstracts.py"
       - "tests/test_priority_leak_audit_adjudication.py"
@@ -83,7 +85,8 @@ jobs:
           python scripts/harvest_broad_reality_evidence_paged.py \
             empirical/broad_reality_evidence/broad_evidence_query_registry.csv \
             artifacts/broad_reality_evidence \
-            --rows-per-query 2000
+            --rows-per-query 2000 \
+            --page-size 200
       - name: Create metadata-only shallow-screen cohort
         run: |
           python scripts/screen_broad_reality_evidence.py \

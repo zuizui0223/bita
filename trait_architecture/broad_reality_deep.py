@@ -1,19 +1,18 @@
 """Paged Crossref retrieval for the existing broad evidence query registry.
 
-This module preserves the existing query registry and candidate construction.
-It only permits a requested depth above Crossref's 1,000-record page limit by
+This module preserves the existing query registry and candidate construction. It
+only permits a requested depth above Crossref's 1,000-record page limit by
 retrieving consecutive score-ranked pages and keeping an auditable per-query
-receipt.
+receipt. Callers may observe each page before corpus-level deduplication to build
+rank-binned retrieval diagnostics.
 """
 
 from __future__ import annotations
 
-from collections import defaultdict
 from typing import Any, Callable, Iterable
 
 from .broad_reality_evidence import (
     CROSSREF_WORKS_URL,
-    MAX_ROWS_PER_QUERY,
     Candidate,
     _request_json,
     candidate_from_crossref_item,
@@ -22,12 +21,15 @@ from .broad_reality_evidence import (
 
 CROSSREF_PAGE_SIZE = 1000
 MAX_DEEP_ROWS_PER_QUERY = 5000
+PageObserver = Callable[[dict[str, str], int, list[Candidate], int], None]
 
 
 def harvest_crossref_paged(
     queries: Iterable[dict[str, str]],
     *,
     rows_per_query: int,
+    page_size: int = CROSSREF_PAGE_SIZE,
+    page_observer: PageObserver | None = None,
     request_json: Callable[[str, dict[str, str]], dict[str, Any]] = _request_json,
 ) -> tuple[list[Candidate], list[dict[str, str]]]:
     """Retrieve a fixed total depth per query using Crossref score-ranked pages.
@@ -36,11 +38,20 @@ def harvest_crossref_paged(
     Crossref response. A query stops early only when Crossref returns a short
     page. The receipt records whether the requested depth was reached; reaching
     it is a retrieval cap, not a claim that the provider has no further works.
+
+    ``page_observer`` receives the query, zero-based page offset, title-bearing
+    candidate memberships from that page, and the raw number of records returned.
+    It is deliberately called before the cross-query candidate deduplication so a
+    caller can diagnose yield across ranked pages within each query.
     """
 
     if not 1 <= rows_per_query <= MAX_DEEP_ROWS_PER_QUERY:
         raise ValueError(
             f"rows_per_query must be between 1 and {MAX_DEEP_ROWS_PER_QUERY} for paged retrieval"
+        )
+    if not 1 <= page_size <= CROSSREF_PAGE_SIZE:
+        raise ValueError(
+            f"page_size must be between 1 and {CROSSREF_PAGE_SIZE} for Crossref retrieval"
         )
 
     candidates: dict[str, Candidate] = {}
@@ -51,7 +62,8 @@ def harvest_crossref_paged(
         api_total_results = ""
         try:
             while collected < rows_per_query:
-                page_rows = min(CROSSREF_PAGE_SIZE, rows_per_query - collected)
+                page_rows = min(page_size, rows_per_query - collected)
+                page_offset = collected
                 payload = request_json(
                     CROSSREF_WORKS_URL,
                     {
@@ -60,7 +72,7 @@ def harvest_crossref_paged(
                         "sort": "score",
                         "order": "desc",
                         "rows": str(page_rows),
-                        "offset": str(collected),
+                        "offset": str(page_offset),
                     },
                 )
                 message = payload.get("message")
@@ -72,16 +84,20 @@ def harvest_crossref_paged(
                 if not api_total_results:
                     api_total_results = str(message.get("total-results", ""))
                 pages += 1
+                page_candidates: list[Candidate] = []
                 for local_rank, item in enumerate(items, start=1):
                     if not isinstance(item, dict):
                         continue
-                    candidate = candidate_from_crossref_item(item, query, collected + local_rank)
+                    candidate = candidate_from_crossref_item(item, query, page_offset + local_rank)
                     if not candidate.title:
                         continue
+                    page_candidates.append(candidate)
                     if candidate.candidate_id in candidates:
                         merge_candidate(candidates[candidate.candidate_id], candidate)
                     else:
                         candidates[candidate.candidate_id] = candidate
+                if page_observer is not None:
+                    page_observer(query, page_offset, page_candidates, len(items))
                 collected += len(items)
                 if len(items) < page_rows:
                     break
