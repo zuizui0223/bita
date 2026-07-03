@@ -16,7 +16,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Callable, Iterable
 from urllib.error import HTTPError
-from urllib.parse import quote
+from urllib.parse import quote, urljoin
 from urllib.request import Request, urlopen
 
 
@@ -127,7 +127,11 @@ def _resource(payload: Any) -> dict[str, Any]:
     return data if isinstance(data, dict) else payload
 
 
-def _links(value: Any) -> dict[str, str]:
+def _absolute(url: str, base_url: str) -> str:
+    return urljoin(base_url, url) if url else ""
+
+
+def _links(value: Any, *, base_url: str = "") -> dict[str, str]:
     resource = _resource(value)
     links = resource.get("_links")
     if not isinstance(links, dict):
@@ -136,26 +140,32 @@ def _links(value: Any) -> dict[str, str]:
     for key, item in links.items():
         if isinstance(item, dict):
             href = _text(item.get("href"))
-            if href:
-                output[_text(key)] = href
-        elif isinstance(item, str) and item.strip():
-            output[_text(key)] = item.strip()
+        elif isinstance(item, str):
+            href = item.strip()
+        else:
+            href = ""
+        if href:
+            output[_text(key)] = _absolute(href, base_url)
+    return output
+
+
+def _embedded_entries(value: Any, term: str) -> list[dict[str, Any]]:
+    resource = _resource(value)
+    embedded = resource.get("_embedded")
+    if not isinstance(embedded, dict):
+        return []
+    output: list[dict[str, Any]] = []
+    for key, item in embedded.items():
+        if term not in _text(key).casefold() or not isinstance(item, list):
+            continue
+        output.extend(entry for entry in item if isinstance(entry, dict))
     return output
 
 
 def _extract_files(payload: Any) -> list[dict[str, Any]]:
     """Return likely HATEOAS file dictionaries, tolerating Dryad API key variants."""
 
-    resource = _resource(payload)
-    embedded = resource.get("_embedded")
-    if not isinstance(embedded, dict):
-        return []
-    values: list[dict[str, Any]] = []
-    for key, item in embedded.items():
-        if "file" not in _text(key).casefold() or not isinstance(item, list):
-            continue
-        values.extend(entry for entry in item if isinstance(entry, dict))
-    return values
+    return _embedded_entries(payload, "file")
 
 
 def _filename(row: dict[str, Any]) -> str:
@@ -186,8 +196,8 @@ def _identifier(row: dict[str, Any]) -> str:
     return _text(row.get("id") or row.get("fileId") or row.get("uuid"))
 
 
-def _file_url(row: dict[str, Any]) -> str:
-    links = _links(row)
+def _file_url(row: dict[str, Any], *, base_url: str) -> str:
+    links = _links(row, base_url=base_url)
     for key in ("stash:download", "download", "self"):
         if key in links:
             return links[key]
@@ -207,32 +217,46 @@ def _first_link(links: dict[str, str], *terms: str) -> str:
     return ""
 
 
+def _files_from_version_payload(version_payload: Any, *, version_url: str) -> str:
+    """Find a files link from a version resource or its version collection entries."""
+
+    files = _first_link(_links(version_payload, base_url=version_url), "file")
+    if files:
+        return files
+    for entry in _embedded_entries(version_payload, "version"):
+        files = _first_link(_links(entry, base_url=version_url), "file")
+        if files:
+            return files
+    return ""
+
+
 def _dryad_file_endpoint(
     dataset_payload: Any,
     *,
+    dataset_url: str,
     dataset_status: int,
     fetch_json: Callable[[str], tuple[int, Any]],
     output: list[DryadManifestReceipt],
-) -> tuple[int, str, Any]:
+) -> tuple[int, str]:
     """Resolve a direct files link or the normal dataset -> version -> files chain."""
 
-    links = _links(dataset_payload)
+    links = _links(dataset_payload, base_url=dataset_url)
     direct = _first_link(links, "file")
     if direct:
-        return dataset_status, direct, None
+        return dataset_status, direct
     version_url = _first_link(links, "version")
     if not version_url:
-        return dataset_status, "", None
+        return dataset_status, ""
     try:
         status, version_payload = fetch_json(version_url)
     except Exception as error:
         output.append(_receipt("dryad_version", "", "request_failed", notes=f"{type(error).__name__}: {error}"))
-        return dataset_status, "", None
+        return dataset_status, ""
     if status >= 400 or not isinstance(version_payload, dict):
         output.append(_receipt("dryad_version", status, "version_metadata_unavailable", notes=version_url))
-        return status, "", None
+        return status, ""
     output.append(_receipt("dryad_version", status, "version_metadata_recovered", discovery_basis="dryad_hateoas_version", notes=version_url))
-    return status, _first_link(_links(version_payload), "file"), version_payload
+    return status, _files_from_version_payload(version_payload, version_url=version_url)
 
 
 def probe_dryad_manifest(
@@ -282,8 +306,9 @@ def probe_dryad_manifest(
     if dataset_payload is None:
         return output
 
-    file_status, file_endpoint, _version_payload = _dryad_file_endpoint(
+    file_status, file_endpoint = _dryad_file_endpoint(
         dataset_payload,
+        dataset_url=dataset_url,
         dataset_status=dataset_status,
         fetch_json=fetch_json,
         output=output,
@@ -311,7 +336,7 @@ def probe_dryad_manifest(
             filename=filename,
             mime_type=mime_type,
             size_bytes=_size(row),
-            file_url=_file_url(row),
+            file_url=_file_url(row, base_url=file_endpoint),
             index_candidate="true" if candidate else "false",
             discovery_basis="filename_and_mime_manifest_screen",
             notes="File metadata only; contents not downloaded.",
