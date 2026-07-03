@@ -1,12 +1,12 @@
 """Build a route-balanced head-versus-tail source-coding audit queue.
 
-This audit follows the rank-binned depth diagnostic.  It asks whether the same
+This audit follows the rank-binned depth diagnostic. It asks whether the same
 metadata screen finds direct-route studies near the beginning and near the end of
-each existing Crossref query.  It never changes the query registry, inclusion
+each existing Crossref query. It never changes the query registry, inclusion
 rules, or effect estimands.
 
 The queue deliberately uses query-rank memberships rather than corpus-wide unique
-records.  Within a route, a candidate already seen in the head stratum is excluded
+records. Within a route, a candidate already seen in the head stratum is excluded
 from the tail stratum so the comparison does not reread the same study as both a
 head and a tail result.
 """
@@ -118,15 +118,20 @@ def build_depth_audit_sample(
     head_rank_max: int = 200,
     tail_rank_min: int = 1601,
     tail_rank_max: int = 2000,
-    per_route_stratum_group: int = 15,
+    per_route_stratum_group: int = 10,
     seed: str = "depth-saturation-audit-v1",
 ) -> tuple[list[dict[str, str]], dict[str, object]]:
     """Select a route-balanced head/tail audit sample from rank memberships.
 
-    Both screen groups are sampled separately in both rank strata.  Candidate
+    Both screen groups are sampled separately in both rank strata. Candidate
     duplicates within a route/stratum/group retain their lowest-ranked query
-    membership.  Any candidate present in the head stratum of a route is removed
+    membership. Any candidate present in the head stratum of a route is removed
     from that route's tail cells, preserving non-overlapping comparison samples.
+
+    The default of ten rows per route × stratum × screen group is intentional: the
+    first observed 2,000-record run leaves only 19 A→antagonism priority memberships
+    in ranks 1,601–2,000 before cross-query overlap removal. Ten yields a balanced,
+    feasible human coding batch rather than silently oversampling other routes.
     """
 
     if head_rank_max < 1:
@@ -248,7 +253,7 @@ def write_depth_audit_outputs(
     head_rank_max: int = 200,
     tail_rank_min: int = 1601,
     tail_rank_max: int = 2000,
-    per_route_stratum_group: int = 15,
+    per_route_stratum_group: int = 10,
 ) -> dict[str, object]:
     rows = read_rank_memberships(membership_csv)
     sample, summary = build_depth_audit_sample(
