@@ -72,7 +72,7 @@ def test_pmc_screen_flags_probable_reverse_route() -> None:
 
     assert row.route_structure_signal == "probable_H_to_P_or_downstream_structure"
     assert "Influence of Floral Antagonists on Pollinator Behavior" in row.reverse_route_section_titles
-    assert row.direct_route_screen_status == "both_term_families_present_needs_human_route_coding"
+    assert row.direct_route_screen_status == "one_term_family_present_not_direct_route"
 
 
 def test_pmc_screen_keeps_access_failure_separate_from_absence() -> None:
