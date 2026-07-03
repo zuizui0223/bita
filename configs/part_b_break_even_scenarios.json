@@ -29,5 +29,12 @@
       "defence_pollinator_cost": 0.3
     }
   },
-  "shared_cost_scenarios": [0.0, 0.1, 0.3]
+  "shared_cost_scenarios": [0.0, 0.1, 0.3],
+  "leverage_ranges": {
+    "attraction_gain": [0.6, 1.8],
+    "attraction_tracking": [0.4, 1.6],
+    "floral_defence_efficacy": [0.5, 0.9],
+    "defence_pollinator_cost": [0.3, 0.6]
+  },
+  "leverage_ranges_note": "Declared low/high per channel arrow for the B5 leverage probe, so every arrow gets a comparable regime-sensitivity number independent of the named channel_envelopes above."
 }

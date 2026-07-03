@@ -77,18 +77,23 @@ declared range) to produce an objective collection priority:
 
 | Rank | Arrow | Role | Clusters | Signs | State | Leverage | Recommended next action |
 |---:|---|---|---:|---|---|---:|---|
-| 1 | `d_A` | complementarity driver | 2 | +1 / -1 | **conflicting** | 0.67 | code the `pollination_generalization` moderator to resolve the sign conflict (B3) |
-| 2 | `e_F` | complementarity driver | 1 | +1 / -0 | single anchor | 0.37 | collect 2 more independent clusters |
-| 3 | `c_D` | substitutability driver | 1 | +0 / -1 | single anchor | -0.22 | collect 2 more independent clusters |
-| 4 | `b_A` | substitutability driver | 1 | +1 / -0 | single anchor | 0.00 | collect 2 more independent clusters |
+| 1 | `d_A` | complementarity driver | 2 | +1 / -1 | **conflicting** | +0.67 | code the `pollination_generalization` moderator to resolve the sign conflict (B3) |
+| 2 | `e_F` | complementarity driver | 1 | +1 / -0 | single anchor | +0.37 | collect 2 more independent clusters |
+| 3 | `b_A` | substitutability driver | 1 | +1 / -0 | single anchor | -0.31 | collect 2 more independent clusters |
+| 4 | `c_D` | substitutability driver | 1 | +0 / -1 | single anchor | -0.22 | collect 2 more independent clusters |
+
+Leverage is measured with declared per-arrow ranges (`leverage_ranges` in the B4
+config), so all four arrows are comparable. Signs are informative: the two
+complementarity drivers (`d_A`, `e_F`) raise the complementary fraction, the two
+substitutability drivers (`b_A`, `c_D`) lower it, exactly as the mixed-partial
+expression requires.
 
 The decisive finding: the two `d_A` anchors **disagree on sign** (Impatiens visual
--0.09 vs Gymnadenia scent +0.57), and `d_A` also has the **highest regime
+-0.09 vs Gymnadenia scent +0.57), and `d_A` also has the **highest absolute regime
 leverage**. The regime boundary hinges on the arrow whose current evidence is
 self-contradictory. That contradiction is a moderator signal, not noise, so the
 recommended action is to code a moderator (B3), not to collect undifferentiated
-`d_A` studies. (Leverage 0.00 for `b_A` reflects the current envelope holding it
-constant, not a claim that attraction gain is irrelevant.)
+`d_A` studies.
 
 ## Bottom line
 

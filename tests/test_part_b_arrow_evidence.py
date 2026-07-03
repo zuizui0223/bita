@@ -78,6 +78,14 @@ def test_regime_leverage_positive_for_tracking() -> None:
     # b_A is held constant across the envelope, so it has no leverage here.
     assert leverage["A_to_pollination"] == 0.0
 
+    # With a declared range, b_A becomes comparable: more attraction gain feeds the
+    # obstruction term, so its leverage is negative (fewer complementary cases).
+    ranged = arrow_regime_leverage(
+        cases, envelopes, shared_cost=0.1,
+        param_ranges={"attraction_gain": (0.6, 1.8)},
+    )
+    assert ranged["A_to_pollination"] < 0
+
 
 def test_priority_ranks_conflict_and_leverage_first() -> None:
     evidence = synthesise_arrow_evidence(_conflicting_d_A_rows())

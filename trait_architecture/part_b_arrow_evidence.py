@@ -174,14 +174,20 @@ def arrow_regime_leverage(
     *,
     shared_cost: float,
     base_parameters: ModelParameters | None = None,
+    param_ranges: Mapping[str, Sequence[float]] | None = None,
 ) -> dict[str, float]:
-    """Return each arrow's swing in fraction-complementary across its declared range.
+    """Return each arrow's swing in fraction-complementary across a declared range.
 
     Holding the other three arrows at the baseline level (or the first declared
-    level), each arrow's channel parameter is set to its minimum and maximum across
-    the declared envelope levels; the leverage is ``frac_complementary(high) -
-    frac_complementary(low)``. Its sign shows the direction, its magnitude the pull
-    on the regime boundary. An arrow the envelope holds constant gets leverage 0.
+    level), each arrow's channel parameter is set to a low and a high value; the
+    leverage is ``frac_complementary(high) - frac_complementary(low)``. Its sign
+    shows the direction, its magnitude the pull on the regime boundary.
+
+    The low/high per arrow come from ``param_ranges`` when supplied (a declared
+    ``field -> (low, high)`` map, so every arrow gets a comparable probe even if the
+    named scenarios hold it constant); otherwise they fall back to the min and max
+    of that parameter across the declared envelope levels, and an arrow the
+    envelopes hold constant gets leverage 0.
     """
 
     base = base_parameters if base_parameters is not None else ModelParameters()
@@ -191,9 +197,13 @@ def arrow_regime_leverage(
     baseline_level = dict(channel_envelopes.get("baseline", levels[0]))
     leverage: dict[str, float] = {}
     for field in CHANNEL_PARAMETER_FIELDS:
-        values = [float(level[field]) for level in levels]
-        low_channel = {**baseline_level, field: min(values)}
-        high_channel = {**baseline_level, field: max(values)}
+        if param_ranges is not None and field in param_ranges:
+            low, high = float(param_ranges[field][0]), float(param_ranges[field][1])
+        else:
+            values = [float(level[field]) for level in levels]
+            low, high = min(values), max(values)
+        low_channel = {**baseline_level, field: low}
+        high_channel = {**baseline_level, field: high}
         frac_low = _fraction_complementary(cases, low_channel, shared_cost, base)
         frac_high = _fraction_complementary(cases, high_channel, shared_cost, base)
         route = FIELD_TO_ARROW[field][0]

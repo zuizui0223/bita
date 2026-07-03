@@ -161,6 +161,7 @@ def write_part_b_outputs(
         cases,
         break_even_config["channel_envelopes"],  # type: ignore[index]
         shared_cost=leverage_shared_cost,
+        param_ranges=break_even_config.get("leverage_ranges"),  # type: ignore[arg-type]
     )
     ranked = prioritise_arrows(evidence, leverage)
     evidence_rows = [arrow_evidence_to_row(item) for item in ranked]
