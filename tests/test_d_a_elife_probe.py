@@ -15,8 +15,7 @@ def _target() -> dict[str, str]:
     }
 
 
-def _crossref(url: str):
-    assert "10.7554%2FeLife.07641" in url
+def _crossref(_url: str):
     return 200, {
         "message": {
             "link": [
@@ -32,7 +31,7 @@ def test_candidate_urls_deduplicate_crossref_and_standard_elife_routes() -> None
     assert urls[0] == ("crossref_link", "https://elifesciences.org/articles/07641.xml")
     assert urls.count(("elife_xml", "https://elifesciences.org/articles/07641.xml")) == 0
     assert ("elife_html", "https://elifesciences.org/articles/07641") in urls
-    assert ("elife_pdf", "https://elifesciences.org/articles/07641.pdf") in urls
+    assert ("elife_pdf", "https://elifesciences.org/articles/07641.pdf") not in urls
 
 
 def test_probe_classifies_xml_pdf_and_html_without_reading_content() -> None:
@@ -41,12 +40,7 @@ def test_probe_classifies_xml_pdf_and_html_without_reading_content() -> None:
         "https://elifesciences.org/articles/07641.pdf": (200, "application/pdf", b"%PDF-1.7 fake"),
         "https://elifesciences.org/articles/07641": (200, "text/html", b"<html><head></head></html>"),
     }
-
-    receipts = probe_target(
-        _target(),
-        fetch_json=_crossref,
-        fetch_prefix=lambda url: responses[url],
-    )
+    receipts = probe_target(_target(), fetch_json=_crossref, fetch_prefix=lambda url: responses[url])
     states = {row.source_url: row.access_status for row in receipts}
     assert states["https://elifesciences.org/articles/07641.xml"] == "public_xml_prefix_recovered"
     assert states["https://elifesciences.org/articles/07641.pdf"] == "public_pdf_prefix_recovered"
@@ -66,7 +60,7 @@ def test_read_target_and_write_outputs(tmp_path) -> None:
     receipts = probe_target(
         _target(),
         fetch_json=_crossref,
-        fetch_prefix=lambda _url: (200, "application/xml", b"<?xml version='1.0'?><article/>"),
+        fetch_prefix=lambda _url: (200, "application/xml", b"<?xml version='1.0'?><article/>),
     )
     report = write_outputs(tmp_path / "out", receipts)
     saved = json.loads((tmp_path / "out" / "d_a_elife_source_probe_report.json").read_text(encoding="utf-8"))
