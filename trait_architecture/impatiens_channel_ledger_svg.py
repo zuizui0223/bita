@@ -77,7 +77,7 @@ def render_svg(response_report: dict[str, Any], factorial_report: dict[str, Any]
     fruit_factorial = _model(factorial_report, "impatiens_factorial_ch_fruit_rate")
 
     a_to_p = _ratio_label(_coefficient(pollinator, "A_z"), "A→P obs RR")
-    d_to_p = _ratio_label(_coefficient(pollinator, "D→P obs RR") if False else _coefficient(pollinator, "D_z"), "D→P obs RR")
+    d_to_p = _ratio_label(_coefficient(pollinator, "D_z"), "D→P obs RR")
     a_to_h = _ratio_label(_coefficient(natural_damage, "A_z"), "A→H obs OR")
     d_to_h = _ratio_label(_coefficient(natural_damage, "D_z"), "D→H obs OR")
     a_d_seed = _ratio_label(_coefficient(seed, "A_z:D_z"), "A×D obs RR")
