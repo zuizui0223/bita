@@ -33,8 +33,34 @@
       "family": "poisson_log",
       "cluster_field": null,
       "interaction": false,
+      "response_rule": "as_recorded",
+      "analysis_role": "primary_response_scale_model",
       "response_contract": "integer pollinator visits standardized to 60 minutes; no further effort offset because the processed outcome is already standardized",
       "inference_contract": "robust sandwich inference for independent individual-plant records"
+    },
+    {
+      "analysis_id": "impatiens_pollinator_presence_hurdle_sensitivity",
+      "source_table": "Processed_Data.csv",
+      "outcome_field": "Pollinators_Per_Hour",
+      "family": "fractional_logit",
+      "cluster_field": null,
+      "interaction": false,
+      "response_rule": "binary_nonzero",
+      "analysis_role": "post_primary_model_adequacy_sensitivity",
+      "response_contract": "any pollinator visit (1) versus no observed pollinator visit (0) during the 60-minute-standardized observation window",
+      "inference_contract": "robust sandwich inference for independent individual-plant records; zero-hurdle sensitivity only"
+    },
+    {
+      "analysis_id": "impatiens_pollinator_positive_rate_hurdle_sensitivity",
+      "source_table": "Processed_Data.csv",
+      "outcome_field": "Pollinators_Per_Hour",
+      "family": "poisson_log",
+      "cluster_field": null,
+      "interaction": false,
+      "response_rule": "positive_only",
+      "analysis_role": "post_primary_model_adequacy_sensitivity",
+      "response_contract": "integer standardized pollinator count conditional on at least one observed visit",
+      "inference_contract": "robust sandwich inference for independent individual-plant records; zero-hurdle sensitivity only"
     },
     {
       "analysis_id": "impatiens_flower_level_florivory_fractional_logit",
@@ -44,6 +70,7 @@
       "family": "fractional_logit",
       "cluster_field": "Plot",
       "interaction": false,
+      "analysis_role": "primary_response_scale_model",
       "response_contract": "percent tissue missing on individual flowers; Tot_Flwrs is open-flower abundance during survey and is not a damaged-tissue trial denominator",
       "inference_contract": "plant-cluster robust sandwich inference for repeated flower records"
     },
@@ -56,6 +83,7 @@
       "family": "poisson_log",
       "cluster_field": "Plot",
       "interaction": true,
+      "analysis_role": "primary_response_scale_model",
       "response_contract": "integer seed count in each CH fruit; one fruit is one response record",
       "inference_contract": "plant-cluster robust sandwich inference for repeated fruit records"
     }
@@ -65,6 +93,7 @@
     "Do not use visitor Seconds as an observation-effort offset; documentation identifies Pollinators_Per_Hour as already standardized to 60 minutes, while Seconds records individual visit duration.",
     "Do not use Tot_Flwrs as a binomial denominator for Per_Florivory; the response is percent tissue missing on an individual flower.",
     "Do not interpret the raw seed-count A:D term as total reproductive-fitness curvature or c_AD.",
+    "The two pollinator hurdle models are post-primary adequacy sensitivities prompted by zero mass and overdispersion. They cannot replace the primary model or be used for result selection.",
     "Do not select covariates after inspecting results; this config is the declared model set."
   ]
 }
