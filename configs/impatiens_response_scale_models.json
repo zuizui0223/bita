@@ -41,6 +41,7 @@
       "source_table": "Raw_Florivory_Data.csv",
       "outcome_field": "Per_Florivory",
       "outcome_scale": "percent_to_fraction",
+      "family": "fractional_logit",
       "cluster_field": "Plot",
       "interaction": false,
       "response_contract": "percent tissue missing on individual flowers; Tot_Flwrs is open-flower abundance during survey and is not a damaged-tissue trial denominator",
