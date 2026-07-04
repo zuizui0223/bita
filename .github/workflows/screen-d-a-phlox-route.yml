@@ -1,0 +1,47 @@
+name: Screen d_A Phlox route
+
+# This workflow screens the fixed Phlox candidate through accessible abstract routes.
+# It determines whether the regression structure supports a direct display -> florivory
+# route; it never writes an effect row.
+
+on:
+  pull_request:
+    paths:
+      - "trait_architecture/d_a_phlox_abstract_screen.py"
+      - "scripts/screen_d_a_phlox_abstract.py"
+      - "tests/test_d_a_phlox_abstract_screen.py"
+      - "empirical/broad_reality_evidence/d_A_candidate_scouting_v1.csv"
+      - ".github/workflows/screen-d-a-phlox-route.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and test dependencies
+        run: python -m pip install -e ".[dev]"
+
+      - name: Test bounded Phlox abstract screen
+        run: python -m pytest -q tests/test_d_a_phlox_abstract_screen.py
+
+      - name: Screen accessible abstract structure
+        run: |
+          python scripts/screen_d_a_phlox_abstract.py \
+            empirical/broad_reality_evidence/d_A_candidate_scouting_v1.csv \
+            artifacts/d_a_phlox_abstract_screen
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: d-a-phlox-abstract-screen
+          path: artifacts/d_a_phlox_abstract_screen/
+          if-no-files-found: error
