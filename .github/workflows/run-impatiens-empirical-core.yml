@@ -2,7 +2,8 @@ name: Run Impatiens empirical core
 
 # Recomputes aligned observational channel models and randomized treatment effects
 # from the title-validated Dryad archive. Raw observations stay in memory; only
-# aggregate diagnostics, audits, model reports, and bounded readouts are uploaded.
+# aggregate diagnostics, audits, model reports, bounded readouts, and an aggregate
+# channel-ledger figure are uploaded.
 
 on:
   pull_request:
@@ -20,6 +21,7 @@ on:
       - "scripts/build_impatiens_response_scale_readout.py"
       - "scripts/build_impatiens_factorial_fitness_readout.py"
       - "scripts/build_impatiens_theory_bridge.py"
+      - "scripts/build_impatiens_channel_ledger_svg.py"
       - "trait_architecture/impatiens_models.py"
       - "trait_architecture/impatiens_empirical_readout.py"
       - "trait_architecture/impatiens_response_scale_models.py"
@@ -27,6 +29,7 @@ on:
       - "trait_architecture/impatiens_factorial_fitness_models.py"
       - "trait_architecture/impatiens_factorial_fitness_readout.py"
       - "trait_architecture/impatiens_theory_bridge.py"
+      - "trait_architecture/impatiens_channel_ledger_svg.py"
       - "trait_architecture/quasi_glm.py"
       - "trait_architecture/standardized_ols.py"
       - "trait_architecture/dryad_archive_schema.py"
@@ -38,6 +41,7 @@ on:
       - "tests/test_impatiens_factorial_fitness_models.py"
       - "tests/test_impatiens_factorial_fitness_readout.py"
       - "tests/test_impatiens_theory_bridge.py"
+      - "tests/test_impatiens_channel_ledger_svg.py"
       - "tests/test_quasi_glm.py"
       - ".github/workflows/run-impatiens-empirical-core.yml"
       - "docs/EMPIRICAL_PIVOT_IMPATIENS_V1.md"
@@ -71,7 +75,8 @@ jobs:
             tests/test_impatiens_response_scale_readout.py \
             tests/test_impatiens_factorial_fitness_models.py \
             tests/test_impatiens_factorial_fitness_readout.py \
-            tests/test_impatiens_theory_bridge.py
+            tests/test_impatiens_theory_bridge.py \
+            tests/test_impatiens_channel_ledger_svg.py
 
       - name: Audit raw observation structures and denominators
         run: |
@@ -130,6 +135,13 @@ jobs:
             artifacts/impatiens_empirical_core/impatiens_response_scale_model_report.json \
             artifacts/impatiens_empirical_core/impatiens_randomized_fitness_model_report.json \
             artifacts/impatiens_empirical_core/IMPATIENS_THEORY_BRIDGE.md
+
+      - name: Build empirical channel-ledger figure
+        run: |
+          python scripts/build_impatiens_channel_ledger_svg.py \
+            artifacts/impatiens_empirical_core/impatiens_response_scale_model_report.json \
+            artifacts/impatiens_empirical_core/impatiens_randomized_fitness_model_report.json \
+            artifacts/impatiens_empirical_core/IMPATIENS_CHANNEL_LEDGER.svg
 
       - uses: actions/upload-artifact@v4
         with:
