@@ -82,6 +82,12 @@ CH fruits per day    ~ robbing * florivory * pollination + pre-treatment phenolo
 seeds per CH fruit   ~ robbing * florivory * pollination + pre-treatment phenology
 ```
 
+The observed processed table contains all 200 plants in valid treatment assignment
+cells: each of the eight `Robbing × Florivory × Pollination` combinations has
+exactly 25 plants. The descriptive baseline-complete audit retains 170 plants, with
+19–24 per cell; it is recorded for implementation transparency and is not used for
+post-randomization covariate selection.
+
 Treatment coefficients are causal assignment contrasts for reproductive components
 within this experiment. They are not causal effects of flower redness or tannins,
 and the component outcomes remain distinct from total lifetime reproductive fitness.
@@ -117,6 +123,7 @@ treatment causality: identified only for randomized assignment contrasts on the 
 2. raw response/denominator and variable-definition audit
 3. primary response-scale channel models plus declared pollinator hurdle sensitivity
 4. full randomized 2×2×2 treatment models for CH fruit and seed components
-5. theory-to-empirics bridge and monochrome channel-ledger figure
-6. literature evidence map as the generalisation boundary, not the central test
+5. treatment-cell and baseline-summary audit
+6. theory-to-empirics bridge and monochrome channel-ledger figure
+7. literature evidence map as the generalisation boundary, not the central test
 ```
