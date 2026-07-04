@@ -1,0 +1,53 @@
+name: Run Impatiens empirical core
+
+# Recomputes the same-unit four-path observational panel and the two declared
+# component-fitness surfaces from the title-validated Dryad archive. Raw observations
+# stay in memory; only aggregate model diagnostics and candidate effects are uploaded.
+
+on:
+  pull_request:
+    paths:
+      - "configs/impatiens_capensis_four_path_models.json"
+      - "empirical/four_path_effects/title_validated_dataset_targets.csv"
+      - "scripts/run_impatiens_four_path_models.py"
+      - "trait_architecture/impatiens_models.py"
+      - "trait_architecture/standardized_ols.py"
+      - "trait_architecture/dryad_archive_schema.py"
+      - "trait_architecture/title_validated_dryad_manifest.py"
+      - "tests/test_impatiens_models.py"
+      - ".github/workflows/run-impatiens-empirical-core.yml"
+      - "docs/EMPIRICAL_PIVOT_IMPATIENS_V1.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and test dependencies
+        run: python -m pip install -e ".[dev]"
+
+      - name: Test declared model construction
+        run: python -m pytest -q tests/test_impatiens_models.py
+
+      - name: Recompute empirical panel models
+        run: |
+          python scripts/run_impatiens_four_path_models.py \
+            configs/impatiens_capensis_four_path_models.json \
+            empirical/four_path_effects/title_validated_dataset_targets.csv \
+            artifacts/impatiens_empirical_core
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: impatiens-empirical-core
+          path: artifacts/impatiens_empirical_core/
+          if-no-files-found: error
