@@ -5,8 +5,8 @@ study rather than a trait-manipulation experiment. This module resolves its PMID
 through NCBI's public id-conversion endpoint and, only when a PMCID is public,
 searches XML for *co-located* exsertion and seed-predation terms plus a model context.
 It first tries the Europe PMC full-text route and then NCBI EFetch for PMC records.
-It stores identifiers and locators only; it never stores article prose, effect
-values, signs, sample sizes, or a B2 eligibility decision.
+It stores identifiers and structural locators only; it never stores article prose,
+effect values, signs, sample sizes, or a B2 eligibility decision.
 """
 
 from __future__ import annotations
@@ -25,14 +25,15 @@ PMID = "27325896"
 NCBI_IDCONV = "https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?format=json&ids="
 EUROPE_PMC_FULLTEXT = "https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML"
 NCBI_PMC_EFETCH = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id={pmc_numeric}"
-USER_AGENT = "bita d-a-seedpred-pmid-probe/0.2"
+USER_AGENT = "bita d-a-seedpred-pmid-probe/0.3"
 TRAIT_TERMS = ("exsertion", "floral exsertion", "flower exsertion")
 OUTCOME_TERMS = ("seed predat", "seed predator", "seed damage")
 MODEL_TERMS = ("regression", "generalized linear", "glm", "glmm", "mixed model", "logistic", "model")
 PROBE_FIELDS = (
     "candidate_id", "pmid", "doi", "pmcid", "idconv_status", "source_access_status", "xml_retrieval_route", "xml_bytes",
-    "matched_trait_terms", "matched_antagonist_terms", "matched_model_terms", "shared_section_titles",
-    "relevant_table_labels", "route_structure_signal", "direct_route_screen_status", "screen_note", "do_not_infer",
+    "document_structure_status", "matched_trait_terms", "matched_antagonist_terms", "matched_model_terms",
+    "trait_term_locations", "antagonist_term_locations", "model_term_locations", "trait_section_titles", "antagonist_section_titles",
+    "shared_section_titles", "relevant_table_labels", "route_structure_signal", "direct_route_screen_status", "screen_note", "do_not_infer",
 )
 DO_NOT_INFER = (
     "PMID-resolution and XML term-location screen only. Do not infer a direct effect, direction, effect size, "
@@ -50,9 +51,15 @@ class SeedPredProbe:
     source_access_status: str
     xml_retrieval_route: str
     xml_bytes: str
+    document_structure_status: str
     matched_trait_terms: str
     matched_antagonist_terms: str
     matched_model_terms: str
+    trait_term_locations: str
+    antagonist_term_locations: str
+    model_term_locations: str
+    trait_section_titles: str
+    antagonist_section_titles: str
     shared_section_titles: str
     relevant_table_labels: str
     route_structure_signal: str
@@ -127,9 +134,15 @@ def _failure(base: dict[str, str], *, idconv_status: str, access: str, note: str
         source_access_status=access,
         xml_retrieval_route=xml_route,
         xml_bytes="",
+        document_structure_status="not_available",
         matched_trait_terms="",
         matched_antagonist_terms="",
         matched_model_terms="",
+        trait_term_locations="",
+        antagonist_term_locations="",
+        model_term_locations="",
+        trait_section_titles="",
+        antagonist_section_titles="",
         shared_section_titles="",
         relevant_table_labels="",
         route_structure_signal="not_available",
@@ -166,6 +179,17 @@ def _recover_xml(
     return "", b"", "; ".join(failures)
 
 
+def _locations(root: ET.Element, terms: Iterable[str]) -> list[str]:
+    locations: list[str] = []
+    abstract = " ".join(_plain(item) for item in root.findall(".//abstract"))
+    body = _plain(root.find(".//body"))
+    if _matched(abstract, terms):
+        locations.append("abstract")
+    if _matched(body, terms):
+        locations.append("body")
+    return locations
+
+
 def probe_candidate(
     candidate: dict[str, str],
     *,
@@ -188,19 +212,33 @@ def probe_candidate(
     if not xml_route:
         return _failure(base, idconv_status="resolved_pmcid", access="xml_access_or_parse_failed", xml_route="public_xml_routes_exhausted", note=failure_note)
     root = ET.fromstring(xml)
+    body = root.find(".//body")
+    sections = body.findall(".//sec") if body is not None else []
+    structure = f"body_sections_{len(sections)}" if body is not None else "body_not_present"
 
     article = _plain(root)
     trait_hits = _matched(article, TRAIT_TERMS)
     outcome_hits = _matched(article, OUTCOME_TERMS)
     model_hits = _matched(article, MODEL_TERMS)
+    trait_locations = _locations(root, TRAIT_TERMS)
+    outcome_locations = _locations(root, OUTCOME_TERMS)
+    model_locations = _locations(root, MODEL_TERMS)
+    trait_sections: list[str] = []
+    outcome_sections: list[str] = []
     shared_sections: list[str] = []
     model_sections: list[str] = []
-    for section in root.findall(".//sec"):
+    for section in sections:
         title = _plain(section.find("title")) or "untitled_section"
-        body = _plain(section)
-        if _matched(body, TRAIT_TERMS) and _matched(body, OUTCOME_TERMS):
+        section_text = _plain(section)
+        has_trait = bool(_matched(section_text, TRAIT_TERMS))
+        has_outcome = bool(_matched(section_text, OUTCOME_TERMS))
+        if has_trait:
+            trait_sections.append(title)
+        if has_outcome:
+            outcome_sections.append(title)
+        if has_trait and has_outcome:
             shared_sections.append(title)
-            if _matched(body, MODEL_TERMS):
+            if _matched(section_text, MODEL_TERMS):
                 model_sections.append(title)
     table_labels = [
         _plain(table.find("label")) or "unlabeled_table"
@@ -208,12 +246,16 @@ def probe_candidate(
         if _matched(_plain(table), TRAIT_TERMS) and _matched(_plain(table), OUTCOME_TERMS)
     ]
 
+    body_has_both = "body" in trait_locations and "body" in outcome_locations
     if shared_sections and (model_sections or table_labels):
         signal = "candidate_observational_trait_to_seed_predation_model_needs_numeric_context_check"
         note = "Exsertion and seed-predation terms co-locate in at least one section with model context or a relevant table; inspect the exact model, denominator, and uncertainty before any d_A coding."
+    elif trait_hits and outcome_hits and not body_has_both:
+        signal = "abstract_or_metadata_term_cooccurrence_only"
+        note = "Candidate terms co-occur outside the article body; no body-level direct route can be opened from this XML record."
     elif trait_hits and outcome_hits:
         signal = "term_cooccurrence_without_model_context"
-        note = "Trait and seed-predation terms occur in the XML, but no co-located model/table context was found."
+        note = "Trait and seed-predation terms occur in the article body, but no co-located model/table context was found."
     elif trait_hits or outcome_hits:
         signal = "one_term_family_present"
         note = "Only one candidate term family appears in the public XML."
@@ -227,9 +269,15 @@ def probe_candidate(
         source_access_status="fulltext_xml_recovered",
         xml_retrieval_route=xml_route,
         xml_bytes=str(len(xml)),
+        document_structure_status=structure,
         matched_trait_terms=";".join(trait_hits),
         matched_antagonist_terms=";".join(outcome_hits),
         matched_model_terms=";".join(model_hits),
+        trait_term_locations=";".join(trait_locations),
+        antagonist_term_locations=";".join(outcome_locations),
+        model_term_locations=";".join(model_locations),
+        trait_section_titles=";".join(_unique(trait_sections)),
+        antagonist_section_titles=";".join(_unique(outcome_sections)),
         shared_section_titles=";".join(_unique(shared_sections)),
         relevant_table_labels=";".join(_unique(table_labels)),
         route_structure_signal=signal,
