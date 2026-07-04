@@ -13,6 +13,7 @@ on:
       - "configs/impatiens_randomized_fitness_models.json"
       - "empirical/four_path_effects/title_validated_dataset_targets.csv"
       - "scripts/audit_impatiens_four_path_data.py"
+      - "scripts/audit_impatiens_factorial_balance.py"
       - "scripts/extract_impatiens_variable_dictionary.py"
       - "scripts/run_impatiens_four_path_models.py"
       - "scripts/run_impatiens_response_scale_models.py"
@@ -28,6 +29,7 @@ on:
       - "trait_architecture/impatiens_response_scale_readout.py"
       - "trait_architecture/impatiens_factorial_fitness_models.py"
       - "trait_architecture/impatiens_factorial_fitness_readout.py"
+      - "trait_architecture/impatiens_factorial_balance_audit.py"
       - "trait_architecture/impatiens_theory_bridge.py"
       - "trait_architecture/impatiens_channel_ledger_svg.py"
       - "trait_architecture/quasi_glm.py"
@@ -40,6 +42,7 @@ on:
       - "tests/test_impatiens_response_scale_readout.py"
       - "tests/test_impatiens_factorial_fitness_models.py"
       - "tests/test_impatiens_factorial_fitness_readout.py"
+      - "tests/test_impatiens_factorial_balance_audit.py"
       - "tests/test_impatiens_theory_bridge.py"
       - "tests/test_impatiens_channel_ledger_svg.py"
       - "tests/test_quasi_glm.py"
@@ -75,12 +78,19 @@ jobs:
             tests/test_impatiens_response_scale_readout.py \
             tests/test_impatiens_factorial_fitness_models.py \
             tests/test_impatiens_factorial_fitness_readout.py \
+            tests/test_impatiens_factorial_balance_audit.py \
             tests/test_impatiens_theory_bridge.py \
             tests/test_impatiens_channel_ledger_svg.py
 
       - name: Audit raw observation structures and denominators
         run: |
           python scripts/audit_impatiens_four_path_data.py \
+            empirical/four_path_effects/title_validated_dataset_targets.csv \
+            artifacts/impatiens_empirical_core
+
+      - name: Audit factorial treatment cells and baseline summaries
+        run: |
+          python scripts/audit_impatiens_factorial_balance.py \
             empirical/four_path_effects/title_validated_dataset_targets.csv \
             artifacts/impatiens_empirical_core
 
