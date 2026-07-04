@@ -86,7 +86,7 @@ The observed processed table contains all 200 plants in valid treatment assignme
 cells: each of the eight `Robbing × Florivory × Pollination` combinations has
 exactly 25 plants. The descriptive baseline-complete audit retains 170 plants, with
 19–24 per cell; it is recorded for implementation transparency and is not used for
-post-randomization covariate selection.
+post-randomization covariate selection or causal redefinition.
 
 Treatment coefficients are causal assignment contrasts for reproductive components
 within this experiment. They are not causal effects of flower redness or tannins,
