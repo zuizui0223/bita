@@ -1,11 +1,10 @@
-"""Audit the title-validated Impatiens Dryad archive for four-path pre-analysis.
+"""Audit the title-validated Impatiens Dryad archive for empirical model design.
 
-The audit records only counts, missingness, variable ranges, treatment-level
-counts, and overlap cardinalities. It never exports individual observations.
-
-It is intentionally a gate before effect estimation. A variable being present
-in a table does not establish trait function, temporal precedence, denominator
-adequacy, or a causal path.
+The audit records only aggregate counts, missingness, variable ranges, discrete-scale
+checks, treatment-level counts, and overlap cardinalities. It never exports
+individual observations. It is a gate before effect estimation: field presence does
+not establish trait function, temporal precedence, denominator adequacy, or a causal
+path.
 """
 
 from __future__ import annotations
@@ -81,12 +80,17 @@ def _numeric_summary(rows: list[dict[str, str]], field: str) -> dict[str, object
             values.append(number)
         else:
             non_numeric += 1
+    integer_values = sum(abs(value - round(value)) <= 1e-9 for value in values)
     return {
         "non_missing_numeric": len(values),
         "missing": missing,
         "non_numeric_or_nonfinite": non_numeric,
         "min": min(values) if values else None,
         "max": max(values) if values else None,
+        "zero_count": sum(value == 0 for value in values),
+        "positive_count": sum(value > 0 for value in values),
+        "integer_valued_count": integer_values,
+        "all_numeric_values_integer": bool(values) and integer_values == len(values),
     }
 
 
@@ -134,14 +138,22 @@ def audit(targets_csv: str, out_dir: str) -> dict[str, Any]:
             "unique_plant_ids": len(processed_plots),
             "all_primary_fields_complete_row_count": complete_primary,
             "treatment_levels": {field: _levels(processed, field) for field in ("Robbing", "Florivory", "Pollination")},
-            "numeric_field_audit": {field: _numeric_summary(processed, field) for field in PROCESSED_FIELDS if field not in {"Plot_Number", "Robbing", "Florivory", "Pollination"}},
+            "numeric_field_audit": {
+                field: _numeric_summary(processed, field)
+                for field in PROCESSED_FIELDS
+                if field not in {"Plot_Number", "Robbing", "Florivory", "Pollination"}
+            },
         },
         "raw_table_structure": {},
-        "warning": "This is a data-availability audit. It does not decide whether floral redness is an A trait or tannins are a B trait, does not determine causal status, and does not fit an effect model.",
+        "response_scale_notes": {
+            "pollinator_rate": "Pollinators_Per_Hour is already a 60-minute-standardized rate; individual visitor Seconds must not be treated as a survey-effort offset without a documented observation-window definition.",
+            "florivory_proportion": "Per_Florivory is percent tissue missing on an individual flower. Tot_Flwrs is the number of open CH flowers during a survey and is not a damaged-tissue trial denominator.",
+            "seed_count": "Num_Seeds is a fruit-level count candidate. Fruit_type and repeated Plot rows must be screened before a clustered fruit-level model is specified.",
+        },
+        "warning": "This is a data-availability and response-scale audit. It does not decide trait function or causal status and does not fit an effect model.",
     }
     for name, rows in raw_tables.items():
-        plot_field = "Plot"
-        raw_plots = _plots(rows, plot_field)
+        raw_plots = _plots(rows, "Plot")
         entry: dict[str, Any] = {
             "row_count": len(rows),
             "unique_plot_ids": len(raw_plots),
@@ -151,9 +163,17 @@ def audit(targets_csv: str, out_dir: str) -> dict[str, Any]:
         if name == "visitors":
             entry["behavior_levels"] = _levels(rows, "Behavior")
             entry["seconds"] = _numeric_summary(rows, "Seconds")
+            entry["visitor_number"] = _numeric_summary(rows, "Visitor_Num")
+            entry["open_flower_count"] = _numeric_summary(rows, "Num_Flowers")
+            entry["survey_date_levels"] = _levels(rows, "Date")
         if name == "florivory":
             entry["per_florivory"] = _numeric_summary(rows, "Per_Florivory")
-            entry["total_flowers"] = _numeric_summary(rows, "Tot_Flwrs")
+            entry["total_open_ch_flowers"] = _numeric_summary(rows, "Tot_Flwrs")
+            entry["survey_date_levels"] = _levels(rows, "Date")
+        if name == "seed":
+            entry["fruit_type_levels"] = _levels(rows, "Fruit_type")
+            entry["num_seeds"] = _numeric_summary(rows, "Num_Seeds")
+            entry["collection_date_levels"] = _levels(rows, "Date_coll")
         report["raw_table_structure"][name] = entry
 
     output = Path(out_dir)
@@ -167,6 +187,7 @@ def audit(targets_csv: str, out_dir: str) -> dict[str, Any]:
         "complete_primary_rows": complete_primary,
         "visitor_rows": len(visitors),
         "florivory_rows": len(florivory),
+        "seed_rows": len(raw_tables["seed"]),
     }
 
 
