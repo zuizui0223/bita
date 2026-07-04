@@ -1,0 +1,69 @@
+{
+  "study_id": "Gorden_Adler_2018_Impatiens_capensis",
+  "study_doi": "10.1002/ajb2.1182",
+  "dataset_doi": "10.5061/dryad.0j96d17",
+  "unit_contract": {
+    "trait_unit": "individual plant (Plot_Number)",
+    "pollinator_unit": "individual plant; 60-minute-standardized visit count",
+    "florivory_unit": "individual flower; percent tissue missing; clustered within plant",
+    "seed_unit": "individual CH fruit; seed count; clustered within plant"
+  },
+  "trait_predictors": {
+    "A_flower": {
+      "field": "Early_Season_Flower_Redness",
+      "transform": "identity_then_zscore",
+      "definition": "percent of floral lip red-orange in early-season pre-treatment flowers"
+    },
+    "D_candidate": {
+      "field": "Early_Season_Condensed_Tannins",
+      "transform": "log1p_then_zscore",
+      "definition": "relative floral condensed tannins in early-season pre-treatment flowers"
+    },
+    "phenology": {
+      "field": "Date_of_First_CH_Flower",
+      "transform": "identity_then_zscore"
+    }
+  },
+  "treatment_adjustments": ["Robbing", "Florivory", "Pollination"],
+  "models": [
+    {
+      "analysis_id": "impatiens_pollinator_rate_quasi_poisson",
+      "source_table": "Processed_Data.csv",
+      "outcome_field": "Pollinators_Per_Hour",
+      "family": "poisson_log",
+      "cluster_field": null,
+      "interaction": false,
+      "response_contract": "integer pollinator visits standardized to 60 minutes; no further effort offset because the processed outcome is already standardized",
+      "inference_contract": "robust sandwich inference for independent individual-plant records"
+    },
+    {
+      "analysis_id": "impatiens_flower_level_florivory_fractional_logit",
+      "source_table": "Raw_Florivory_Data.csv",
+      "outcome_field": "Per_Florivory",
+      "outcome_scale": "percent_to_fraction",
+      "cluster_field": "Plot",
+      "interaction": false,
+      "response_contract": "percent tissue missing on individual flowers; Tot_Flwrs is open-flower abundance during survey and is not a damaged-tissue trial denominator",
+      "inference_contract": "plant-cluster robust sandwich inference for repeated flower records"
+    },
+    {
+      "analysis_id": "impatiens_ch_seed_count_quasi_poisson",
+      "source_table": "Raw_Seed_Data.csv",
+      "outcome_field": "Num_Seeds",
+      "filter_field": "Fruit_type",
+      "filter_value": "CH",
+      "family": "poisson_log",
+      "cluster_field": "Plot",
+      "interaction": true,
+      "response_contract": "integer seed count in each CH fruit; one fruit is one response record",
+      "inference_contract": "plant-cluster robust sandwich inference for repeated fruit records"
+    }
+  ],
+  "guardrails": [
+    "Treat A_flower and D_candidate coefficients as observational associations, not causal trait effects.",
+    "Do not use visitor Seconds as an observation-effort offset; documentation identifies Pollinators_Per_Hour as already standardized to 60 minutes, while Seconds records individual visit duration.",
+    "Do not use Tot_Flwrs as a binomial denominator for Per_Florivory; the response is percent tissue missing on an individual flower.",
+    "Do not interpret the raw seed-count A:D term as total reproductive-fitness curvature or c_AD.",
+    "Do not select covariates after inspecting results; this config is the declared model set."
+  ]
+}
