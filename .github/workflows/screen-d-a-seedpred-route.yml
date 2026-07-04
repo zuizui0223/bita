@@ -1,0 +1,48 @@
+name: Screen d_A seed-predation route
+
+# This workflow performs a fixed-source C3/C4 feasibility screen for PMID 27325896.
+# It resolves PMID -> DOI/PMCID using the public NCBI id-conversion endpoint and
+# checks public XML only when a PMCID exists. It records identifiers and locators;
+# it never extracts numerical effects or writes a Part B effect row.
+
+on:
+  pull_request:
+    paths:
+      - "trait_architecture/d_a_seedpred_pmid_probe.py"
+      - "scripts/probe_d_a_seedpred_pmid.py"
+      - "tests/test_d_a_seedpred_pmid_probe.py"
+      - "empirical/broad_reality_evidence/d_A_candidate_scouting_v1.csv"
+      - ".github/workflows/screen-d-a-seedpred-route.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and test dependencies
+        run: python -m pip install -e ".[dev]"
+
+      - name: Test bounded PMID route screen
+        run: python -m pytest -q tests/test_d_a_seedpred_pmid_probe.py
+
+      - name: Resolve identifiers and screen public full-text XML
+        run: |
+          python scripts/probe_d_a_seedpred_pmid.py \
+            empirical/broad_reality_evidence/d_A_candidate_scouting_v1.csv \
+            artifacts/d_a_seedpred_pmid_probe
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: d-a-seedpred-pmid-probe
+          path: artifacts/d_a_seedpred_pmid_probe/
+          if-no-files-found: error
