@@ -30,45 +30,93 @@ unit: individual plant (Plot_Number)
 Trait paths are treatment-adjusted observational associations. Randomized treatment
 assignments do not make flower redness or tannins randomized traits.
 
-## Main analysis
+## Primary empirical products
 
-### D1 channel-mechanism effect map
+### 1. Response-scale D1 channel map
 
-```text
-pollinator visitation ~ redness + tannins + assignments + phenology
-natural florivory     ~ redness + tannins + assignments + phenology
-```
-
-The main result is an aligned, same-unit four-path coefficient map. It describes
-component associations in one flower–insect system; it is not a causal trait
-intervention result.
-
-### Component fitness surfaces
+The channel analysis uses the response scale defined by the archived measurements,
+rather than treating every response as a standardized Gaussian outcome.
 
 ```text
-CH fruits per plant per day ~ redness * tannins + assignments + phenology
-seeds per CH fruit          ~ redness * tannins + assignments + phenology
+pollinator use:      60-minute-standardized integer visit rate
+natural florivory:   individual-flower tissue-loss fraction, clustered within plant
+seed component:      individual-CH-fruit seed count, clustered within plant
 ```
 
-These are reproductive components rather than a declared total lifetime-fitness
-response. The interaction is reported as an observed component surface, not as the
-Part A mixed partial and not as a shared-allocation cost estimate.
+The predeclared models estimate:
+
+```text
+P rate              ~ A + D candidate + assignments + phenology
+H fraction          ~ A + D candidate + assignments + phenology
+CH seed count       ~ A * D candidate + assignments + phenology
+```
+
+For the raw flower and fruit responses, plant-level predictors are standardized
+once per plant before they are expanded over repeated flowers or fruits. The
+analysis therefore does not give plants with more recorded flowers/fruits extra
+weight when defining a one-standard-deviation trait contrast.
+
+### 2. Pollinator-rate adequacy sensitivity
+
+The 60-minute pollinator rate has substantial zero mass and overdispersion. The
+primary robust mean-rate model remains reported, but a declared two-part sensitivity
+separates:
+
+```text
+any observed pollinator visit
+positive visit intensity conditional on at least one visit
+```
+
+This sensitivity describes whether a trait association is concentrated in zero
+visitation, positive intensity, both, or neither. It is not a replacement primary
+model and cannot be used for result selection.
+
+### 3. Randomized downstream reproductive effects
+
+The study’s supplemental robbing, florivory, and pollination assignments are analysed
+separately from trait paths in a full 2×2×2 factorial model. All main effects, all
+pairwise interactions, and the three-way interaction remain in each model.
+
+```text
+CH fruits per day    ~ robbing * florivory * pollination + pre-treatment phenology
+seeds per CH fruit   ~ robbing * florivory * pollination + pre-treatment phenology
+```
+
+Treatment coefficients are causal assignment contrasts for reproductive components
+within this experiment. They are not causal effects of flower redness or tannins,
+and the component outcomes remain distinct from total lifetime reproductive fitness.
+
+### 4. Theory-to-empirics ledger
+
+The output includes a single channel-ledger figure and readout that explicitly
+separate:
+
+```text
+observational A/D trait-channel associations      dashed arrows
+randomized imposed-florivory effect on fruit      solid arrow
+unidentified Part A terms                         explicit gaps
+```
+
+No output multiplies regression coefficients across incompatible link scales or
+calibrates the shared allocation term `c_AD`.
 
 ## Inference boundary
 
 ```text
-D1: supported as treatment-adjusted observational channel panel.
+D1: aligned treatment-adjusted observational channel panel; response-scale models.
 D2: not established; no total reproductive-fitness response.
 D3: not established; no independent allocation/shared-cost measure.
+trait causality: not identified for flower redness or floral tannins.
+treatment causality: identified only for randomized assignment contrasts on the stated components.
 ```
 
 ## Deliverables
 
 ```text
-1. reproducible archive retrieval and raw-in-memory rerun
-2. four-path coefficient table with complete-case n and HC3 intervals
-3. two predeclared component fitness surfaces
-4. main empirical coefficient-map figure
-5. companion component-surface figure labelled non-D2
-6. literature map as generalisation boundary, not central test
+1. title-validated archive retrieval and raw-in-memory rerun
+2. raw response/denominator and variable-definition audit
+3. primary response-scale channel models plus declared pollinator hurdle sensitivity
+4. full randomized 2×2×2 treatment models for CH fruit and seed components
+5. theory-to-empirics bridge and monochrome channel-ledger figure
+6. literature evidence map as the generalisation boundary, not the central test
 ```
