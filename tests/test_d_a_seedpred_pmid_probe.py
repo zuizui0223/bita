@@ -41,12 +41,25 @@ def test_pmc_screen_requires_colocated_observational_model_context() -> None:
     assert row.doi == "10.1111/example.12345"
     assert row.pmcid == "PMC5555555"
     assert row.source_access_status == "fulltext_xml_recovered"
+    assert row.xml_retrieval_route == "europe_pmc_fulltext_xml"
     assert row.route_structure_signal == "candidate_observational_trait_to_seed_predation_model_needs_numeric_context_check"
     assert "exsertion" in row.matched_trait_terms
     assert "seed predat" in row.matched_antagonist_terms
     assert "generalized linear" in row.matched_model_terms
     assert row.shared_section_titles == "Seed-predation model"
     assert row.relevant_table_labels == "Table 2"
+
+
+def test_ncbi_efetch_fallback_is_used_after_europe_pmc_404() -> None:
+    def fetch_xml(url: str):
+        if "europepmc" in url:
+            return 404, b""
+        assert "eutils.ncbi.nlm.nih.gov" in url
+        assert "id=5555555" in url
+        return _direct_model_xml(url)
+    row = probe_candidate(_candidate_row(), fetch_json=_idconv, fetch_xml=fetch_xml)
+    assert row.source_access_status == "fulltext_xml_recovered"
+    assert row.xml_retrieval_route == "ncbi_pmc_efetch"
 
 
 def test_pmcid_missing_stops_before_xml_read() -> None:
