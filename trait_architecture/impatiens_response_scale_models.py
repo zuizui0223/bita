@@ -4,7 +4,9 @@ Raw Dryad observations are downloaded and used only in memory. Outputs contain
 aggregate diagnostics and coefficients. The module separates three response units:
 individual-plant pollinator rate, individual-flower natural florivory fraction, and
 individual-CH-fruit seed count. Trait coefficients remain observational; clustered
-sandwich inference handles repeated flowers/fruits within plant.
+sandwich inference handles repeated flowers/fruits within plant. For raw models,
+plant-level traits are standardized once per plant before they are expanded to
+repeated flower or fruit records.
 """
 
 from __future__ import annotations
@@ -35,10 +37,6 @@ TABLE_SUFFIXES = {
 
 def _text(value: object) -> str:
     return str(value or "").strip()
-
-
-def _is_missing(value: object) -> bool:
-    return _text(value).lower() in MISSING
 
 
 def _load_csv(archive: zipfile.ZipFile, suffix: str) -> list[dict[str, str]]:
@@ -84,10 +82,43 @@ def _traits(processed: dict[str, str], config: dict[str, Any]) -> tuple[float, f
     )
 
 
-def _standardized_design(records: list[dict[str, Any]], *, interaction: bool) -> tuple[list[list[float]], list[str]]:
-    a_values = _zscore([float(row["A"]) for row in records])
-    b_values = _zscore([float(row["B"]) for row in records])
-    phenology_values = _zscore([float(row["Phenology"]) for row in records])
+def _cluster_predictor_z(records: list[dict[str, Any]]) -> tuple[dict[str, float], dict[str, float], dict[str, float]]:
+    """Standardize raw-model predictors once per plant and verify trait consistency."""
+
+    unique: dict[str, tuple[float, float, float]] = {}
+    for row in records:
+        cluster = str(row["cluster"])
+        values = (float(row["A"]), float(row["B"]), float(row["Phenology"]))
+        previous = unique.get(cluster)
+        if previous is not None and previous != values:
+            raise ValueError(f"cluster {cluster} has inconsistent plant-level trait values")
+        unique[cluster] = values
+    clusters = list(unique)
+    a_z = _zscore([unique[cluster][0] for cluster in clusters])
+    b_z = _zscore([unique[cluster][1] for cluster in clusters])
+    phenology_z = _zscore([unique[cluster][2] for cluster in clusters])
+    return (
+        dict(zip(clusters, a_z)),
+        dict(zip(clusters, b_z)),
+        dict(zip(clusters, phenology_z)),
+    )
+
+
+def _standardized_design(
+    records: list[dict[str, Any]],
+    *,
+    interaction: bool,
+    standardize_by_cluster: bool,
+) -> tuple[list[list[float]], list[str]]:
+    if standardize_by_cluster:
+        a_map, b_map, phenology_map = _cluster_predictor_z(records)
+        a_values = [a_map[str(row["cluster"])] for row in records]
+        b_values = [b_map[str(row["cluster"])] for row in records]
+        phenology_values = [phenology_map[str(row["cluster"])] for row in records]
+    else:
+        a_values = _zscore([float(row["A"]) for row in records])
+        b_values = _zscore([float(row["B"]) for row in records])
+        phenology_values = _zscore([float(row["Phenology"]) for row in records])
     terms = ["Intercept", "A_z", "D_z"]
     if interaction:
         terms.append("A_z:D_z")
@@ -189,9 +220,13 @@ def _serialize_model(
     records: list[dict[str, Any]],
     omitted: int,
 ) -> dict[str, Any]:
-    design, terms = _standardized_design(records, interaction=bool(model.get("interaction")))
-    response = [float(row["y"]) for row in records]
     cluster_field = model.get("cluster_field")
+    design, terms = _standardized_design(
+        records,
+        interaction=bool(model.get("interaction")),
+        standardize_by_cluster=bool(cluster_field),
+    )
+    response = [float(row["y"]) for row in records]
     clusters = [str(row["cluster"]) for row in records] if cluster_field else None
     result = fit_quasi_glm(response, design, terms, family=model["family"], clusters=clusters)
     return {
@@ -202,6 +237,7 @@ def _serialize_model(
         "response_contract": model["response_contract"],
         "inference_contract": model["inference_contract"],
         "interaction": bool(model.get("interaction")),
+        "predictor_standardization_unit": "plant" if cluster_field else "individual plant record",
         "n_response_records": result.n,
         "n_omitted": omitted,
         "cluster_count": result.cluster_count,
