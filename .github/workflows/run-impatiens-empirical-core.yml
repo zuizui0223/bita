@@ -19,12 +19,14 @@ on:
       - "scripts/build_impatiens_empirical_readout.py"
       - "scripts/build_impatiens_response_scale_readout.py"
       - "scripts/build_impatiens_factorial_fitness_readout.py"
+      - "scripts/build_impatiens_theory_bridge.py"
       - "trait_architecture/impatiens_models.py"
       - "trait_architecture/impatiens_empirical_readout.py"
       - "trait_architecture/impatiens_response_scale_models.py"
       - "trait_architecture/impatiens_response_scale_readout.py"
       - "trait_architecture/impatiens_factorial_fitness_models.py"
       - "trait_architecture/impatiens_factorial_fitness_readout.py"
+      - "trait_architecture/impatiens_theory_bridge.py"
       - "trait_architecture/quasi_glm.py"
       - "trait_architecture/standardized_ols.py"
       - "trait_architecture/dryad_archive_schema.py"
@@ -35,6 +37,7 @@ on:
       - "tests/test_impatiens_response_scale_readout.py"
       - "tests/test_impatiens_factorial_fitness_models.py"
       - "tests/test_impatiens_factorial_fitness_readout.py"
+      - "tests/test_impatiens_theory_bridge.py"
       - "tests/test_quasi_glm.py"
       - ".github/workflows/run-impatiens-empirical-core.yml"
       - "docs/EMPIRICAL_PIVOT_IMPATIENS_V1.md"
@@ -67,7 +70,8 @@ jobs:
             tests/test_impatiens_response_scale_models.py \
             tests/test_impatiens_response_scale_readout.py \
             tests/test_impatiens_factorial_fitness_models.py \
-            tests/test_impatiens_factorial_fitness_readout.py
+            tests/test_impatiens_factorial_fitness_readout.py \
+            tests/test_impatiens_theory_bridge.py
 
       - name: Audit raw observation structures and denominators
         run: |
@@ -119,6 +123,13 @@ jobs:
           python scripts/build_impatiens_factorial_fitness_readout.py \
             artifacts/impatiens_empirical_core/impatiens_randomized_fitness_model_report.json \
             artifacts/impatiens_empirical_core/IMPATIENS_RANDOMIZED_FITNESS_READOUT.md
+
+      - name: Build theory-to-empirics bridge
+        run: |
+          python scripts/build_impatiens_theory_bridge.py \
+            artifacts/impatiens_empirical_core/impatiens_response_scale_model_report.json \
+            artifacts/impatiens_empirical_core/impatiens_randomized_fitness_model_report.json \
+            artifacts/impatiens_empirical_core/IMPATIENS_THEORY_BRIDGE.md
 
       - uses: actions/upload-artifact@v4
         with:
