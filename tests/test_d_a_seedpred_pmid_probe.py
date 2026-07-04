@@ -42,6 +42,9 @@ def test_pmc_screen_requires_colocated_observational_model_context() -> None:
     assert row.pmcid == "PMC5555555"
     assert row.source_access_status == "fulltext_xml_recovered"
     assert row.xml_retrieval_route == "europe_pmc_fulltext_xml"
+    assert row.document_structure_status == "body_sections_1"
+    assert row.trait_term_locations == "body"
+    assert row.antagonist_term_locations == "body"
     assert row.route_structure_signal == "candidate_observational_trait_to_seed_predation_model_needs_numeric_context_check"
     assert "exsertion" in row.matched_trait_terms
     assert "seed predat" in row.matched_antagonist_terms
@@ -78,8 +81,20 @@ def test_term_cooccurrence_without_model_context_does_not_open_c4() -> None:
       <p>Floral exsertion and seed predation were discussed.</p>
     </sec></body></article>"""
     row = probe_candidate(_candidate_row(), fetch_json=_idconv, fetch_xml=lambda _url: (200, xml))
+    assert row.trait_term_locations == "body"
+    assert row.antagonist_term_locations == "body"
     assert row.route_structure_signal == "term_cooccurrence_without_model_context"
     assert row.direct_route_screen_status == "both_term_families_present_needs_human_route_coding"
+
+
+def test_abstract_only_terms_are_not_a_body_level_direct_route() -> None:
+    xml = b"""<article><front><article-meta><abstract>
+      <p>Floral exsertion and seed predation were reported.</p>
+    </abstract></article-meta></front><body><sec><title>Methods</title><p>Measurements were made.</p></sec></body></article>"""
+    row = probe_candidate(_candidate_row(), fetch_json=_idconv, fetch_xml=lambda _url: (200, xml))
+    assert row.trait_term_locations == "abstract"
+    assert row.antagonist_term_locations == "abstract"
+    assert row.route_structure_signal == "abstract_or_metadata_term_cooccurrence_only"
 
 
 def test_registered_lookup_and_output_exclude_effect_fields(tmp_path) -> None:
