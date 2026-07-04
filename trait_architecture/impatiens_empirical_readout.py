@@ -2,8 +2,9 @@
 
 The report is produced from raw Dryad rows in memory. This module consumes only
 aggregate coefficients and writes a results summary with explicit D1/D2 boundaries.
-It does not make causal claims or classify a confidence interval crossing zero as a
-biological null.
+It distinguishes observational trait-path estimates from randomized treatment
+coefficients on reproductive components. It does not classify a confidence interval
+crossing zero as a biological null.
 """
 
 from __future__ import annotations
@@ -22,6 +23,14 @@ FOUR_PATH_TERMS = (
 SURFACE_TERMS = (
     ("impatiens_ch_fruit_surface", "A_z:B_z", "CH fruits per plant per day"),
     ("impatiens_ch_seed_surface", "A_z:B_z", "seeds per CH fruit"),
+)
+TREATMENT_TERMS = (
+    ("impatiens_ch_fruit_surface", "Robbing_Y", "Supplemental robbing", "CH fruits per plant per day"),
+    ("impatiens_ch_fruit_surface", "Florivory_Y", "Supplemental florivory", "CH fruits per plant per day"),
+    ("impatiens_ch_fruit_surface", "Pollination_Y", "Supplemental pollination", "CH fruits per plant per day"),
+    ("impatiens_ch_seed_surface", "Robbing_Y", "Supplemental robbing", "seeds per CH fruit"),
+    ("impatiens_ch_seed_surface", "Florivory_Y", "Supplemental florivory", "seeds per CH fruit"),
+    ("impatiens_ch_seed_surface", "Pollination_Y", "Supplemental pollination", "seeds per CH fruit"),
 )
 
 
@@ -102,9 +111,29 @@ def render_readout(report: dict[str, Any]) -> str:
         "",
         "These are component-level response surfaces. They are not a total lifetime reproductive-fitness surface, do not identify the Part A mixed partial, and do not calibrate the shared-allocation term.",
         "",
+        "## Randomized perturbations of reproductive components",
+        "",
+        "The following coefficients use experimental assignment variables. Their interpretation is confined to the assigned treatment's effect on the named reproductive component under this design; they do not identify causal effects of flower redness or tannins.",
+        "",
+        "| Treatment | Reproductive component | Complete-case n | Standardized coefficient | 95% CI | Interpretation |",
+        "|---|---|---:|---:|---|---|",
+    ]
+    for analysis_id, term, treatment, component in TREATMENT_TERMS:
+        model = models[analysis_id]
+        coefficient = _coefficient(model, term)
+        estimate = float(coefficient["estimate"])
+        lower = float(coefficient["ci95_lower"])
+        upper = float(coefficient["ci95_upper"])
+        lines.append(
+            f"| {treatment} | {component} | {int(model['n_complete'])} | {estimate:+.3f} | "
+            f"[{lower:+.3f}, {upper:+.3f}] | {_interval_statement(coefficient)} |"
+        )
+
+    lines += [
+        "",
         "## Empirical conclusion",
         "",
-        "The panel qualifies as an aligned D1 observational channel candidate: A, D candidate, pollination, and natural florivory are estimable at the same individual-plant unit. The present predeclared trait modules do not produce a precisely resolved four-path contrast, and the component-surface interactions do not upgrade the study to D2. Phenology should be retained as a central ecological covariate in any next-stage model or field design.",
+        "The panel qualifies as an aligned D1 observational channel candidate: A, D candidate, pollination, and natural florivory are estimable at the same individual-plant unit. The present predeclared trait modules do not produce a precisely resolved four-path contrast, and the component-surface interactions do not upgrade the study to D2. Randomized treatment terms can nevertheless test downstream perturbations of reproductive components. Phenology should be retained as a central ecological covariate in any next-stage model or field design.",
         "",
     ]
     return "\n".join(lines)
