@@ -2,14 +2,15 @@ name: Run Impatiens empirical core
 
 # Recomputes the same-unit four-path observational panel and the two declared
 # component-fitness surfaces from the title-validated Dryad archive. Raw observations
-# stay in memory; only aggregate model diagnostics, candidate effects, and a bounded
-# D1/D2-aware readout are uploaded.
+# stay in memory; only aggregate diagnostics, candidate effects, a raw-structure
+# audit, and a bounded D1/D2-aware readout are uploaded.
 
 on:
   pull_request:
     paths:
       - "configs/impatiens_capensis_four_path_models.json"
       - "empirical/four_path_effects/title_validated_dataset_targets.csv"
+      - "scripts/audit_impatiens_four_path_data.py"
       - "scripts/run_impatiens_four_path_models.py"
       - "scripts/build_impatiens_empirical_readout.py"
       - "trait_architecture/impatiens_models.py"
@@ -42,6 +43,12 @@ jobs:
 
       - name: Test declared models and readout boundaries
         run: python -m pytest -q tests/test_impatiens_models.py tests/test_impatiens_empirical_readout.py
+
+      - name: Audit raw observation structures and denominators
+        run: |
+          python scripts/audit_impatiens_four_path_data.py \
+            empirical/four_path_effects/title_validated_dataset_targets.csv \
+            artifacts/impatiens_empirical_core
 
       - name: Recompute empirical panel models
         run: |
