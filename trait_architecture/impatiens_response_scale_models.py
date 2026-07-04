@@ -150,14 +150,27 @@ def _processed_by_plot(rows: list[dict[str, str]]) -> dict[str, dict[str, str]]:
     return indexed
 
 
-def _processed_rate_records(rows: list[dict[str, str]], config: dict[str, Any], outcome_field: str) -> tuple[list[dict[str, Any]], int]:
+def _processed_rate_records(
+    rows: list[dict[str, str]],
+    config: dict[str, Any],
+    model: dict[str, Any],
+) -> tuple[list[dict[str, Any]], int, int]:
     records: list[dict[str, Any]] = []
     omitted = 0
+    filtered = 0
+    rule = _text(model.get("response_rule") or "as_recorded")
     for row in rows:
         try:
-            outcome = _number(row.get(outcome_field), outcome_field)
+            outcome = _number(row.get(model["outcome_field"]), model["outcome_field"])
             if outcome < 0:
                 raise ValueError("pollinator rate cannot be negative")
+            if rule == "positive_only" and outcome <= 0:
+                filtered += 1
+                continue
+            if rule == "binary_nonzero":
+                outcome = 1.0 if outcome > 0 else 0.0
+            elif rule != "as_recorded" and rule != "positive_only":
+                raise ValueError(f"unsupported response_rule {rule}")
             a, b, robbing, florivory, pollination, phenology = _traits(row, config)
             records.append({
                 "y": outcome,
@@ -171,7 +184,7 @@ def _processed_rate_records(rows: list[dict[str, str]], config: dict[str, Any], 
             })
         except (TypeError, ValueError):
             omitted += 1
-    return records, omitted
+    return records, omitted, filtered
 
 
 def _raw_records(
@@ -179,13 +192,15 @@ def _raw_records(
     processed_by_plot: dict[str, dict[str, str]],
     config: dict[str, Any],
     model: dict[str, Any],
-) -> tuple[list[dict[str, Any]], int]:
+) -> tuple[list[dict[str, Any]], int, int]:
     records: list[dict[str, Any]] = []
     omitted = 0
+    filtered = 0
     filter_field = _text(model.get("filter_field"))
     filter_value = _text(model.get("filter_value"))
     for row in raw_rows:
         if filter_field and _text(row.get(filter_field)) != filter_value:
+            filtered += 1
             continue
         try:
             cluster = _text(row.get("Plot"))
@@ -212,13 +227,14 @@ def _raw_records(
             })
         except (TypeError, ValueError):
             omitted += 1
-    return records, omitted
+    return records, omitted, filtered
 
 
 def _serialize_model(
     model: dict[str, Any],
     records: list[dict[str, Any]],
     omitted: int,
+    filtered: int,
 ) -> dict[str, Any]:
     cluster_field = model.get("cluster_field")
     design, terms = _standardized_design(
@@ -231,15 +247,18 @@ def _serialize_model(
     result = fit_quasi_glm(response, design, terms, family=model["family"], clusters=clusters)
     return {
         "analysis_id": model["analysis_id"],
+        "analysis_role": _text(model.get("analysis_role") or "unspecified"),
         "family": model["family"],
         "source_table": model["source_table"],
         "outcome_field": model["outcome_field"],
+        "response_rule": _text(model.get("response_rule") or "as_recorded"),
         "response_contract": model["response_contract"],
         "inference_contract": model["inference_contract"],
         "interaction": bool(model.get("interaction")),
         "predictor_standardization_unit": "plant" if cluster_field else "individual plant record",
         "n_response_records": result.n,
         "n_omitted": omitted,
+        "n_filtered_by_rule": filtered,
         "cluster_count": result.cluster_count,
         "mean_response": result.mean_response,
         "pearson_dispersion": result.pearson_dispersion,
@@ -260,13 +279,13 @@ def run(config_json: str | Path, targets_csv: str | Path, out_dir: str | Path) -
     for model in config["models"]:
         source = _text(model["source_table"])
         if source == "Processed_Data.csv":
-            records, omitted = _processed_rate_records(processed, config, model["outcome_field"])
+            records, omitted, filtered = _processed_rate_records(processed, config, model)
         else:
             raw_rows = _load_csv(archive, TABLE_SUFFIXES[source])
-            records, omitted = _raw_records(raw_rows, processed_by_plot, config, model)
+            records, omitted, filtered = _raw_records(raw_rows, processed_by_plot, config, model)
         if len(records) <= 8:
             raise RuntimeError(f"{model['analysis_id']}: too few complete records ({len(records)})")
-        summaries.append(_serialize_model(model, records, omitted))
+        summaries.append(_serialize_model(model, records, omitted, filtered))
     report = {
         "study_id": config["study_id"],
         "study_doi": config["study_doi"],
