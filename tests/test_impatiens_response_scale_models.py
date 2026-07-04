@@ -44,12 +44,37 @@ def _processed_rows() -> list[dict[str, str]]:
     ]
 
 
+def _rate_model(rule: str) -> dict:
+    return {
+        "outcome_field": "Pollinators_Per_Hour",
+        "response_rule": rule,
+        "family": "fractional_logit" if rule == "binary_nonzero" else "poisson_log",
+        "interaction": False,
+        "analysis_id": rule,
+        "source_table": "Processed_Data.csv",
+        "response_contract": "x",
+        "inference_contract": "x",
+    }
+
+
 def test_processed_rate_uses_plant_level_counts_without_offset() -> None:
-    records, omitted = _processed_rate_records(_processed_rows(), _config(), "Pollinators_Per_Hour")
+    records, omitted, filtered = _processed_rate_records(_processed_rows(), _config(), _rate_model("as_recorded"))
     assert omitted == 0
+    assert filtered == 0
     assert len(records) == 17
     assert records[0]["y"] == 1.0
     assert "Seconds" not in records[0]
+
+
+def test_pollinator_hurdle_rules_are_explicit() -> None:
+    binary, omitted_binary, filtered_binary = _processed_rate_records(_processed_rows(), _config(), _rate_model("binary_nonzero"))
+    positive, omitted_positive, filtered_positive = _processed_rate_records(_processed_rows(), _config(), _rate_model("positive_only"))
+    assert omitted_binary == omitted_positive == 0
+    assert filtered_binary == 0
+    assert set(record["y"] for record in binary).issubset({0.0, 1.0})
+    assert filtered_positive == 4
+    assert len(positive) == 13
+    assert all(record["y"] > 0 for record in positive)
 
 
 def test_flower_percent_is_fractional_response_not_binomial_trials() -> None:
@@ -65,8 +90,9 @@ def test_flower_percent_is_fractional_response_not_binomial_trials() -> None:
         {"Plot": str(index), "Per_Florivory": str((index * 7) % 100), "Tot_Flwrs": "10"}
         for index in range(1, 18)
     ]
-    records, omitted = _raw_records(raw, indexed, _config(), model)
+    records, omitted, filtered = _raw_records(raw, indexed, _config(), model)
     assert omitted == 0
+    assert filtered == 0
     assert records[0]["y"] == 0.07
     assert records[0]["cluster"] == "1"
     result = _serialize_model(
@@ -78,6 +104,7 @@ def test_flower_percent_is_fractional_response_not_binomial_trials() -> None:
         },
         records,
         omitted,
+        filtered,
     )
     assert result["cluster_count"] == 17
     assert result["family"] == "fractional_logit"
@@ -96,8 +123,9 @@ def test_seed_filter_keeps_ch_fruit_records_only() -> None:
     for index in range(1, 18):
         raw.append({"Plot": str(index), "Fruit_type": "CH", "Num_Seeds": str(1 + index % 5)})
         raw.append({"Plot": str(index), "Fruit_type": "CL", "Num_Seeds": "4"})
-    records, omitted = _raw_records(raw, indexed, _config(), model)
+    records, omitted, filtered = _raw_records(raw, indexed, _config(), model)
     assert omitted == 0
+    assert filtered == 17
     assert len(records) == 17
     assert all(record["y"] >= 1 for record in records)
     result = _serialize_model(
@@ -109,6 +137,7 @@ def test_seed_filter_keeps_ch_fruit_records_only() -> None:
         },
         records,
         omitted,
+        filtered,
     )
     assert result["cluster_count"] == 17
     assert any(item["term"] == "A_z:D_z" for item in result["coefficients"])
