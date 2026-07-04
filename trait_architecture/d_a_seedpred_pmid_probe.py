@@ -1,18 +1,18 @@
 """Bounded C3/C4 probe for the PMID 27325896 seed-predation d_A candidate.
 
 The registered candidate may be an observational floral-exsertion -> seed-predation
-study rather than a trait-manipulation experiment.  This module therefore resolves
-its PMID through NCBI's public id-conversion endpoint and, only when a PMCID is
-public, searches the XML for *co-located* exsertion and seed-predation terms plus a
-model context.  It stores identifiers and locators only; it never stores article
-prose, effect values, signs, sample sizes, or a B2 eligibility decision.
+study rather than a trait-manipulation experiment. This module resolves its PMID
+through NCBI's public id-conversion endpoint and, only when a PMCID is public,
+searches XML for *co-located* exsertion and seed-predation terms plus a model context.
+It first tries the Europe PMC full-text route and then NCBI EFetch for PMC records.
+It stores identifiers and locators only; it never stores article prose, effect
+values, signs, sample sizes, or a B2 eligibility decision.
 """
 
 from __future__ import annotations
 
 import csv
 import json
-import re
 import xml.etree.ElementTree as ET
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -24,12 +24,13 @@ from urllib.request import Request, urlopen
 PMID = "27325896"
 NCBI_IDCONV = "https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?format=json&ids="
 EUROPE_PMC_FULLTEXT = "https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML"
-USER_AGENT = "bita d-a-seedpred-pmid-probe/0.1"
+NCBI_PMC_EFETCH = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id={pmc_numeric}"
+USER_AGENT = "bita d-a-seedpred-pmid-probe/0.2"
 TRAIT_TERMS = ("exsertion", "floral exsertion", "flower exsertion")
 OUTCOME_TERMS = ("seed predat", "seed predator", "seed damage")
 MODEL_TERMS = ("regression", "generalized linear", "glm", "glmm", "mixed model", "logistic", "model")
 PROBE_FIELDS = (
-    "candidate_id", "pmid", "doi", "pmcid", "idconv_status", "source_access_status", "xml_bytes",
+    "candidate_id", "pmid", "doi", "pmcid", "idconv_status", "source_access_status", "xml_retrieval_route", "xml_bytes",
     "matched_trait_terms", "matched_antagonist_terms", "matched_model_terms", "shared_section_titles",
     "relevant_table_labels", "route_structure_signal", "direct_route_screen_status", "screen_note", "do_not_infer",
 )
@@ -47,6 +48,7 @@ class SeedPredProbe:
     pmcid: str
     idconv_status: str
     source_access_status: str
+    xml_retrieval_route: str
     xml_bytes: str
     matched_trait_terms: str
     matched_antagonist_terms: str
@@ -92,7 +94,7 @@ def _fetch_json(url: str) -> tuple[int, Any]:
 
 def _fetch_xml(url: str) -> tuple[int, bytes]:
     request = Request(url, headers={"Accept": "application/xml,text/xml,*/*", "User-Agent": USER_AGENT})
-    with urlopen(request, timeout=60) as response:  # nosec B310: exact resolved public Europe PMC endpoint
+    with urlopen(request, timeout=60) as response:  # nosec B310: exact resolved public full-text routes
         return int(getattr(response, "status", response.getcode())), response.read(15 * 1024 * 1024 + 1)
 
 
@@ -114,11 +116,16 @@ def _idconv(payload: Any) -> tuple[str, str]:
     return _text(record.get("doi")), _text(record.get("pmcid")).upper()
 
 
-def _failure(base: dict[str, str], *, idconv_status: str, access: str, note: str) -> SeedPredProbe:
+def _pmc_numeric(pmcid: str) -> str:
+    return pmcid[3:] if pmcid.upper().startswith("PMC") else pmcid
+
+
+def _failure(base: dict[str, str], *, idconv_status: str, access: str, note: str, xml_route: str = "") -> SeedPredProbe:
     return SeedPredProbe(
         **base,
         idconv_status=idconv_status,
         source_access_status=access,
+        xml_retrieval_route=xml_route,
         xml_bytes="",
         matched_trait_terms="",
         matched_antagonist_terms="",
@@ -129,6 +136,34 @@ def _failure(base: dict[str, str], *, idconv_status: str, access: str, note: str
         direct_route_screen_status="not_screened",
         screen_note=note,
     )
+
+
+def _recover_xml(
+    pmcid: str,
+    *,
+    fetch_xml: Callable[[str], tuple[int, bytes]],
+) -> tuple[str, bytes, str]:
+    """Return (route, XML bytes, failure notes) after two fixed public routes."""
+
+    routes = (
+        ("europe_pmc_fulltext_xml", EUROPE_PMC_FULLTEXT.format(pmcid=quote(pmcid))),
+        ("ncbi_pmc_efetch", NCBI_PMC_EFETCH.format(pmc_numeric=quote(_pmc_numeric(pmcid)))),
+    )
+    failures: list[str] = []
+    for name, url in routes:
+        try:
+            status, payload = fetch_xml(url)
+            if status >= 400:
+                failures.append(f"{name}:HTTP_{status}")
+                continue
+            if len(payload) > 15 * 1024 * 1024:
+                failures.append(f"{name}:response_exceeds_15MiB_cap")
+                continue
+            ET.fromstring(payload)
+            return name, payload, ""
+        except Exception as error:
+            failures.append(f"{name}:{type(error).__name__}:{error}")
+    return "", b"", "; ".join(failures)
 
 
 def probe_candidate(
@@ -149,15 +184,10 @@ def probe_candidate(
     if not pmcid:
         return _failure(base, idconv_status="resolved_no_pmcid", access="no_pmc_fulltext_route", note="PMID resolved without a PMCID; retain as an unverified candidate pending a lawful full-text route.")
 
-    try:
-        status, xml = fetch_xml(EUROPE_PMC_FULLTEXT.format(pmcid=quote(pmcid)))
-        if status >= 400:
-            raise RuntimeError(f"HTTP {status}")
-        if len(xml) > 15 * 1024 * 1024:
-            raise RuntimeError("XML response exceeds 15 MiB cap")
-        root = ET.fromstring(xml)
-    except Exception as error:
-        return _failure(base, idconv_status="resolved_pmcid", access="xml_access_or_parse_failed", note=f"{type(error).__name__}: {error}")
+    xml_route, xml, failure_note = _recover_xml(pmcid, fetch_xml=fetch_xml)
+    if not xml_route:
+        return _failure(base, idconv_status="resolved_pmcid", access="xml_access_or_parse_failed", xml_route="public_xml_routes_exhausted", note=failure_note)
+    root = ET.fromstring(xml)
 
     article = _plain(root)
     trait_hits = _matched(article, TRAIT_TERMS)
@@ -195,6 +225,7 @@ def probe_candidate(
         **base,
         idconv_status="resolved_pmcid",
         source_access_status="fulltext_xml_recovered",
+        xml_retrieval_route=xml_route,
         xml_bytes=str(len(xml)),
         matched_trait_terms=";".join(trait_hits),
         matched_antagonist_terms=";".join(outcome_hits),
