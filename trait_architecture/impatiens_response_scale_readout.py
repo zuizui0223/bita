@@ -1,7 +1,8 @@
 """Render a bounded markdown readout for response-scale Impatiens models.
 
 The input contains aggregate model output only. This renderer reports rate ratios or
-odds ratios with their robust intervals and preserves the observational/D1 boundary.
+odds ratios with their robust intervals and separates primary response-scale models
+from explicitly labelled post-primary model-adequacy sensitivities.
 """
 
 from __future__ import annotations
@@ -12,6 +13,13 @@ from typing import Any
 
 
 FOCAL_TERMS = ("A_z", "D_z", "A_z:D_z")
+ORDER = (
+    "impatiens_pollinator_rate_quasi_poisson",
+    "impatiens_pollinator_presence_hurdle_sensitivity",
+    "impatiens_pollinator_positive_rate_hurdle_sensitivity",
+    "impatiens_flower_level_florivory_fractional_logit",
+    "impatiens_ch_seed_count_quasi_poisson",
+)
 
 
 def _index(report: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -60,6 +68,36 @@ def _row(term_label: str, coefficient: dict[str, Any]) -> str:
     return f"| {term_label} | {ratio:.3f} | [{lower:.3f}, {upper:.3f}] | {_ratio_interpretation(coefficient)} |"
 
 
+def _append_model(lines: list[str], model: dict[str, Any]) -> None:
+    family = str(model["family"])
+    lines += [
+        f"### {model['analysis_id']}",
+        "",
+        f"- role: `{model.get('analysis_role', 'unspecified')}`",
+        f"- response: `{model['outcome_field']}` from `{model['source_table']}`",
+        f"- {model['response_contract']}",
+        f"- {model['inference_contract']}",
+        f"- response records: {int(model['n_response_records'])}; clusters: {int(model['cluster_count'])}; omitted candidate records: {int(model['n_omitted'])}; filtered by rule: {int(model.get('n_filtered_by_rule', 0))}",
+        f"- mean response: {float(model['mean_response']):.4f}; Pearson dispersion: {float(model['pearson_dispersion']):.3f}",
+        f"- predictor standardization unit: {model['predictor_standardization_unit']}",
+        "",
+        f"| Predictor | {_effect_name(family)} | Robust 95% CI | Interpretation |",
+        "|---|---:|---|---|",
+    ]
+    labels = {
+        "A_z": "A: early flower redness",
+        "D_z": "D candidate: floral tannins",
+        "A_z:D_z": "A × D candidate",
+    }
+    for term in FOCAL_TERMS:
+        try:
+            coefficient = _coefficient(model, term)
+        except ValueError:
+            continue
+        lines.append(_row(labels[term], coefficient))
+    lines.append("")
+
+
 def render_readout(report: dict[str, Any]) -> str:
     models = _index(report)
     lines = [
@@ -69,43 +107,34 @@ def render_readout(report: dict[str, Any]) -> str:
         "",
         "These are predeclared response-scale observational models recomputed from the title-validated Dryad archive. Raw records were used only in memory. Rate and odds ratios describe conditional associations, not causal effects of flower redness or floral tannins.",
         "",
+        "## Primary response-scale models",
+        "",
     ]
-    for analysis_id in (
-        "impatiens_pollinator_rate_quasi_poisson",
-        "impatiens_flower_level_florivory_fractional_logit",
-        "impatiens_ch_seed_count_quasi_poisson",
-    ):
-        model = models[analysis_id]
-        family = str(model["family"])
+    for analysis_id in ORDER:
+        model = models.get(analysis_id)
+        if model is None or model.get("analysis_role") != "primary_response_scale_model":
+            continue
+        _append_model(lines, model)
+    sensitivity_present = any(
+        model.get("analysis_role") == "post_primary_model_adequacy_sensitivity"
+        for model in models.values()
+    )
+    if sensitivity_present:
         lines += [
-            f"## {analysis_id}",
+            "## Pollinator hurdle model-adequacy sensitivity",
             "",
-            f"- response: `{model['outcome_field']}` from `{model['source_table']}`",
-            f"- {model['response_contract']}",
-            f"- {model['inference_contract']}",
-            f"- response records: {int(model['n_response_records'])}; clusters: {int(model['cluster_count'])}; omitted candidate records: {int(model['n_omitted'])}",
-            f"- mean response: {float(model['mean_response']):.4f}; Pearson dispersion: {float(model['pearson_dispersion']):.3f}",
-            f"- predictor standardization unit: {model['predictor_standardization_unit']}",
+            "The following two-part models are post-primary diagnostic sensitivities triggered by the primary rate model's zero mass and overdispersion. They must not replace the primary model or be used for result selection.",
             "",
-            f"| Predictor | {_effect_name(family)} | Robust 95% CI | Interpretation |",
-            "|---|---:|---|---|",
         ]
-        labels = {
-            "A_z": "A: early flower redness",
-            "D_z": "D candidate: floral tannins",
-            "A_z:D_z": "A × D candidate",
-        }
-        for term in FOCAL_TERMS:
-            try:
-                coefficient = _coefficient(model, term)
-            except ValueError:
+        for analysis_id in ORDER:
+            model = models.get(analysis_id)
+            if model is None or model.get("analysis_role") != "post_primary_model_adequacy_sensitivity":
                 continue
-            lines.append(_row(labels[term], coefficient))
-        lines.append("")
+            _append_model(lines, model)
     lines += [
         "## Boundary of inference",
         "",
-        "The pollinator-rate and florivory models together provide a response-scale D1 channel map in one system. The CH seed-count interaction is a reproductive-component surface, not total lifetime reproductive fitness. None of these estimates identifies the Part A mixed partial or the residual shared-allocation cost `c_AD`.",
+        "The primary pollinator-rate and florivory models together provide a response-scale D1 channel map in one system. The CH seed-count interaction is a reproductive-component surface, not total lifetime reproductive fitness. None of these estimates identifies the Part A mixed partial or the residual shared-allocation cost `c_AD`.",
         "",
     ]
     return "\n".join(lines)
