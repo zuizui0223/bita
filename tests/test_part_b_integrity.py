@@ -37,9 +37,9 @@ def test_verified_effects_require_source_locator(tmp_path) -> None:
     row = {field: "" for field in EFFECT_FIELDS}
     row.update({
         "effect_id": "e2", "study_id": "s", "study_cluster_id": "s",
-        "route": "B_to_pollination", "trait_role": "B", "trait_class": "chemistry",
-        "outcome_class": "pollinator_visitation", "design_class": "observational",
-        "effect_input_type": "reported_effect", "effect_metric": "log_rate_ratio",
+        "route": "B_to_pollination", "trait_role": "B", "trait_class": "chemical_barrier",
+        "outcome_class": "visitation_rate", "design_class": "observational",
+        "effect_input_type": "reported_effect", "effect_metric": "standardized_beta",
         "effect_value": "-0.2", "standard_error": "0.1", "effect_orientation": ORIENTATION,
         "is_primary_effect": "true", "analysis_status": "eligible_for_quantitative_synthesis",
         "source_basis": "reported_model_table", "source_locator": "",
