@@ -5,6 +5,7 @@ on:
     paths:
       - "configs/part_i_robustness_grid.json"
       - "scripts/run_part_i_robustness.py"
+      - "scripts/build_part_i_manuscript_readout.py"
       - "scripts/run_broad_meta_analysis.py"
       - "scripts/validate_current_theory_meta.py"
       - "scripts/audit_current_regime_discrimination.py"
@@ -17,6 +18,7 @@ on:
       - "empirical/broad_reality_evidence/broad_effect_extractions.csv"
       - "empirical/broad_reality_evidence/broad_meta_analysis_strata.csv"
       - "empirical/part_i_robustness/CURRENT_EVIDENCE_REGIME_DISCRIMINATION_PROTOCOL.md"
+      - "tests/test_build_part_i_manuscript_readout.py"
       - "tests/test_theory_meta_validation.py"
       - "tests/test_regime_discrimination_audit.py"
       - ".github/workflows/validate-current-theory-meta.yml"
@@ -39,9 +41,10 @@ jobs:
       - name: Install package and test dependency
         run: python -m pip install -e '.[dev]'
 
-      - name: Run theory and discrimination audit tests
+      - name: Run theory, manuscript-readout, and discrimination audit tests
         run: |
           python -m pytest \
+            tests/test_build_part_i_manuscript_readout.py \
             tests/test_theory_meta_validation.py \
             tests/test_regime_discrimination_audit.py
 
@@ -50,6 +53,14 @@ jobs:
           python scripts/run_part_i_robustness.py \
             configs/part_i_robustness_grid.json \
             artifacts/current_theory_meta_validation/part_i
+
+      - name: Build manuscript-facing Part I theory readout
+        run: |
+          python scripts/build_part_i_manuscript_readout.py \
+            artifacts/current_theory_meta_validation/part_i/part_i_robustness_cases.csv \
+            artifacts/current_theory_meta_validation/part_i/part_i_functional_form_summary.csv \
+            artifacts/current_theory_meta_validation/part_i/part_i_robustness_envelope.csv \
+            artifacts/current_theory_meta_validation/part_i/PART_I_MANUSCRIPT_READOUT.md
 
       - name: Recompute broad direction map and quantitative readiness from registered records
         run: |
