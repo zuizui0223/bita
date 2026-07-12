@@ -1,28 +1,34 @@
 # Submission scope
 
-This repository is now organized around the current manuscript only.
+This repository is the computational supplement for the current theory-and-literature manuscript.
 
-## Active manuscript path
+## Active evidence layers
 
-1. Route-based conditional theory and robustness analysis.
-2. Route-level literature pattern synthesis used as contextual/generalization support, not as a universal pooled causal meta-analysis.
-3. The linked *Impatiens capensis* case study, with observational trait-channel analyses and randomized supplemental-treatment contrasts kept inferentially distinct.
-4. Reproducible manuscript figures, readouts, tests, and CI required to regenerate or guard those claims.
+1. Route-based conditional theory and the declared robustness grid.
+2. Verified route-level literature evidence used to establish that a defence/access trait can impose a pollination cost, especially the retained B -> P direction.
+3. Reproducible figures, readouts, tests, provenance records, and integrity checks required to regenerate or guard those claims.
 
-## Retired from the active codebase
+## Excluded from the submission
 
-Exploratory candidate-universe construction, matched-flower discovery, abandoned Dalechampia/Gymnadenia linked-panel attempts, one-off repository receipt resolution, obsolete evidence-architecture prototypes, and superseded manuscript-planning documents are not part of the submission pipeline and have been removed.
+The following are not part of the active supplement:
 
-Git history remains the archive for those exploratory attempts. They should not be restored to the active tree unless a future manuscript explicitly depends on them.
+- the former *Impatiens capensis* linked case study;
+- observational or randomized models fitted to third-party raw observations;
+- matched-flower candidate discovery and fixed-universe screening machinery;
+- abandoned Dalechampia or Gymnadenia linked-panel attempts;
+- one-off repository and data-receipt probes;
+- superseded manuscript drafts, planning notes, and historical cleanup records.
 
-## Cleanup rule
+Git history remains the archive for these exploratory branches. They must not be restored unless a future manuscript explicitly depends on them.
 
-A file belongs in the active repository only if it does at least one of the following:
+## Inclusion rule
 
-- defines or tests the current theory;
-- generates or validates a current manuscript result, table, or figure;
-- supports the retained route-level literature pattern synthesis;
-- reproduces or guards the *Impatiens* empirical analysis;
-- documents the current manuscript, data provenance, or inferential boundary.
+A file belongs in the active repository only when it does at least one of the following:
 
-Historical exploration alone is not sufficient reason to keep implementation in the active tree.
+- defines or tests the current attraction-defence theory;
+- generates or validates a current robustness result, table, or figure;
+- supports or verifies the retained route-level literature evidence;
+- documents data provenance, reproduction steps, or inferential boundaries;
+- prevents retired exploratory material from re-entering the submission tree.
+
+Historical interest alone is not sufficient reason to retain a file.
