@@ -6,41 +6,44 @@ Reproducible supplementary code and evidence for a conditional theory of floral 
 
 The repository supports two linked claims:
 
-1. **Theory:** attraction and defence are not assumed to be intrinsically traded off. Their local fitness interaction is determined by a sign criterion balancing antagonist relief against mutualist interference and direct joint cost.
-2. **Literature support:** verified route-level evidence shows that defence/access traits can reduce pollinator use in at least some systems. This establishes the biological existence of one sign-changing pathway in the criterion; it does not identify the complete mixed partial in nature.
+1. **Theory:** within a mechanistically explicit class of attraction–defence fitness models, the local fitness interaction is determined by a break-even condition balancing antagonist relief against mutualist interference and direct joint cost.
+2. **Literature support:** verified route-level evidence shows that defence/access traits can reduce pollinator use in at least some systems. This supports the biological plausibility of one ingredient of the mutualist-interference pathway; it does not identify the complete mixed partial in nature.
 
-The theorem-level result is a statement about the local mixed partial `d2W / dA dD`. A positive value means local fitness complementarity and a negative value local fitness substitutability. Neither sign, by itself, predicts population-level trait covariance, genetic correlation, or an evolutionary endpoint.
+The theoretical result is a statement about the local mixed partial `d2W / dA dD`. A positive value means local fitness complementarity and a negative value local fitness substitutability. Neither sign, by itself, predicts population-level trait covariance, genetic correlation, or an evolutionary endpoint.
 
 The repository does **not** claim that the complete attraction -> antagonism, defence -> antagonism, shared-cost, or full A x D mixed-partial terms have been jointly estimated empirically.
 
 ## Core theoretical result
 
-For a broad local decomposition
+The substantive model class is
 
 ```text
-W(A,D) = mutualist contribution - antagonist loss - direct joint cost,
+W(A,D) = P B(A) Q(D) - H F(A) S(D) - C(A,D),
 ```
 
-the A x D mixed partial can be written as
+where attraction affects mutualist return and antagonist exposure, while defence/access limitation affects retained mutualist return and residual antagonist damage. Under the oriented derivative assumptions stated in `docs/GENERAL_SIGN_CRITERION.md`,
 
 ```text
-antagonist relief - mutualist interference - joint cost.
+local A x D fitness interaction
+= antagonist relief
+- mutualist interference
+- direct joint cost.
 ```
 
-The sign switches when antagonist relief crosses the sum of the two opposing terms. The implemented exponential/linear score is one explicit corollary; the robustness grid tests selected nonlinear alternatives rather than serving as the proof itself.
+The sign switches when antagonist relief crosses the sum of the two opposing terms. The unrestricted identity `W_AD = M_AD - G_AD - C_AD` is algebra, not the claimed novelty. The implemented exponential/linear score is one explicit corollary; the robustness grid tests selected nonlinear alternatives rather than serving as the proof itself.
 
-The novelty claim is deliberately narrower than the biological background: it is **not** new that mutualists and antagonists can both shape floral traits. The contribution is the explicit local sign criterion that separates the mechanisms producing fitness complementarity from those producing fitness substitutability and identifies their break-even boundary. See `docs/GENERAL_SIGN_CRITERION.md` and `docs/NOVELTY_POSITIONING.md`.
+See `docs/GENERAL_SIGN_CRITERION.md` for assumptions, derivation, and inference boundaries, and `docs/NOVELTY_POSITIONING.md` for the novelty boundary.
 
 ## Supplement structure
 
 ```text
 configs/                         predeclared robustness configuration
 theory/                          mathematical definitions and interpretation
-trait_architecture/              theorem, robustness, and evidence-validation code
+trait_architecture/              criterion, robustness, and evidence-validation code
 scripts/                         command-line reproduction entry points
 empirical/broad_reality_evidence verified route-level literature records
 empirical/part_i_robustness/     locked protocols and manuscript-facing outputs
-docs/                            theorem, scope, methods, claim boundaries, and readouts
+docs/                            theory, scope, methods, claim boundaries, and readouts
 tests/                           regression and integrity tests
 .github/workflows/               automated reproduction and validation
 ```
