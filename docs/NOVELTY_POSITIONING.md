@@ -2,97 +2,80 @@
 
 ## What is not claimed as novel
 
-The manuscript does not claim novelty for the general observations that floral traits can be shaped by both mutualists and antagonists, that attractive signals can also expose plants to enemies, or that defensive traits can carry collateral costs for beneficial visitors.
+The manuscript does not claim that it is new that pollinators and antagonists can both shape floral traits, that attractive floral traits can expose plants to antagonists, or that floral defence/barrier traits can carry collateral costs for beneficial visitors.
 
-It also does **not** claim novelty for the algebraic identity
+It also does not claim novelty for the algebraic identity
 
 ```text
 W_AD = M_AD - G_AD - C_AD
 ```
 
-or for merely assuming oriented channel signs. Those restrictions define a biological hypothesis class; by themselves they do not predict how the interaction changes across environments.
+or for merely assigning signs to those three terms.
 
-## The narrower theoretical contribution
+## The contribution being claimed
 
-The framework has three layers.
-
-### Diagnostic layer
-
-Oriented local channel curvatures give
+The contribution is a **focal-trait local comparative-static framework** that keeps three mechanisms separate:
 
 ```text
-local A x D fitness interaction
+local A x D marginal-fitness interaction
 = antagonist relief
 - mutualist interference
 - direct joint cost.
 ```
 
-This provides local channel accounting within the declared biological hypothesis class.
+For one declared attraction trait `A` and one declared flower-specific barrier/defence trait `D`, the framework:
 
-### Predictive layer
+1. separates ecological mutualist interference from direct allocation or construction cost;
+2. identifies the local break-even balance between antagonist relief and the two opposing contributions;
+3. states the extra regime-scaling assumptions required before making an environmental directional prediction;
+4. makes explicit that nonlinear regime dependence can yield no threshold, one threshold, or multiple sign switches.
 
-The linear special case is
+The strongest theoretical claim is therefore not that context matters in general. It is that, after the focal trait pair and local channels are declared, the framework exposes exactly which derivative inequalities are required for an ecological regime shift to move the local interaction toward complementarity or substitutability.
 
-```text
-W_AD = H * relief_rate - P * interference_rate - joint_cost.
-```
+## What is deliberately narrower than a full evolutionary model
 
-But linear scaling is not required. A broader local form is
+`W_AD` is a local mixed partial of a declared fitness or fitness-score surface. It describes how the marginal fitness effect of one focal trait changes with the other.
 
-```text
-W_AD = a(H) * relief_rate
-       - b(P) * interference_rate
-       - joint_cost(P, H).
-```
+It does not by itself predict:
 
-The directional predictions are therefore conditional:
+- population-level trait covariance;
+- genetic correlation;
+- an evolved environmental cline;
+- an evolutionary trajectory;
+- a stable equilibrium or global optimum.
 
-- increasing antagonist pressure moves the interaction toward complementarity when the increase in antagonist-relief scaling exceeds any increase in direct joint cost;
-- increasing mutualist service moves the interaction toward substitutability when mutualist-interference scaling rises sufficiently strongly relative to any offsetting cost change.
+Those would require additional assumptions about fitness scaling, constraints, genetic architecture, and dynamics.
 
-### Threshold layer
+## Trait-definition boundary
 
-A unique break-even boundary requires additional monotonicity conditions. In a strongly nonlinear system there may be no threshold, one threshold, or multiple sign switches.
+The theory is not a model of an omnibus `attraction` index crossed with an omnibus `defence` index. Every application must choose one focal `A`–`D` pair and declare its measurement scale.
 
-Thus the framework does not claim that more antagonists or more mutualists always move the system in one direction. The predictions are local and conditional on regime-response derivatives.
+`D` is defined by a flower-specific antagonist-reduction role. A pollinator cost is a possible effect of that same focal trait. A trait that merely obstructs pollinators is not sufficient to instantiate the complete defence mechanism.
 
-## Relation to existing ecological theory
+This distinction is important for empirical synthesis: records from different traits or taxa can establish that a pathway is biologically possible, but they do not jointly estimate one system-specific mixed partial.
 
-Existing work establishes the biological ingredients used here: non-pollinating organisms can select on floral traits; floral signals can affect both mutualists and antagonists; florivory can link pollination and herbivory; and defensive traits can impose collateral effects on beneficial visitors.
+## Parameterisation boundary
 
-The framework should therefore be positioned as a **mechanistic synthesis and formalization** of these ingredients at the level of local attraction–defence fitness interactions. The novelty claim should not rest on the existence of the ingredients themselves, nor on the unrestricted mixed-partial identity.
-
-A defensible claim is:
-
-> We separate diagnostic channel accounting from the additional regime-response assumptions needed to generate directional predictions and ecological break-even boundaries for local attraction–defence fitness interactions.
-
-Whether this precise formalization is unprecedented remains a prior-art question and should be established by targeted literature review rather than asserted from the mathematics alone.
-
-## What the criterion does not establish
-
-The sign of the mixed partial is not, by itself, a prediction of population-level trait covariance, genetic correlation, correlated evolutionary response, coevolutionary history, a global optimum, or a stable evolutionary endpoint.
-
-The comparative statics are conditional. If channel sensitivities or direct cross-costs change with `P`, `H`, phenotype, or other environmental variables, those dependencies must be modelled rather than ignored.
+Mixed partials are coordinate-dependent quantities. Positive affine rescaling preserves the sign, but arbitrary nonlinear trait transformations can alter a cross-partial away from special cases. The manuscript therefore treats the sign as a property of a declared biological parameterisation, not as a transformation-free universal label.
 
 ## Empirical role of the literature layer
 
-The literature layer is not a full empirical test of the regime prediction. Its present role is narrower: to show that defence/access limitation can reduce pollinator use in real systems.
+The current literature layer is a mechanism-plausibility check. Source-adjudicated route records show that flower-specific defence/barrier traits can reduce pollinator use in some systems.
 
-That supports the plausibility of one ingredient of mutualist interference. It does **not** estimate the full interference rate, antagonist-relief rate, regime-scaling functions, regime-dependent joint cost, or the response of `W_AD` to `P` or `H`.
-
-A direct empirical test would compare matched biological contexts across variation in mutualist service and/or antagonist pressure while estimating the relevant attraction–defence fitness interaction.
+That evidence does not estimate the full mutualist-interference curvature, antagonist-relief curvature, direct joint cost, complete mixed partial, or environmental derivative of the mixed partial. The current quantitative extraction table is not sufficient for pooled calibration.
 
 ## Reviewer-facing positioning
 
-A safer abstract-level sentence is:
+A defensible abstract-level claim is:
 
-> We derive local conditions under which antagonist relief can outweigh mutualist interference and direct joint cost, and show that environmental predictions require additional assumptions about how those channels scale with antagonist pressure and mutualist service.
+> For a declared floral attraction trait and flower-specific defence/barrier trait, we formalize the local balance among antagonist relief, mutualist interference, and direct joint cost, and derive the additional regime-scaling conditions required for ecological change to shift their marginal fitness interaction toward complementarity or substitutability.
 
 Avoid stronger formulations such as:
 
-- "We derive a completely general theorem for all attraction–defence systems."
-- "More antagonists always favour complementarity and more pollinators always favour substitutability."
-- "We predict positive or negative attraction–defence correlations from the mixed partial alone."
-- "We empirically validate the complete complementarity–substitutability regime map."
+- “We derive a completely general theorem for all attraction–defence systems.”
+- “More antagonists always favour attraction–defence complementarity.”
+- “The mixed partial predicts positive or negative trait correlations.”
+- “The literature data empirically validate the full regime map.”
+- “All floral defence and access-limitation traits are measurements of one common `D` axis.”
 
-These would overstate mathematical generality, comparative-statics scope, prior-art novelty, or the current empirical evidence.
+Whether an identical focal-pair criterion has appeared previously remains a targeted prior-art question and should be established by citation review rather than asserted from the algebra alone.
