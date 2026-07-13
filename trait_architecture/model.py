@@ -1,20 +1,23 @@
 """A minimal, deliberately qualitative trait-architecture fitness model.
 
 The model maps a phenotype ``(A, D, R)`` and an interaction regime ``(P, H, L)``
-to a decomposed fitness score. It is intended for regime-map simulation, not for
-estimating absolute fitness in a particular species.
+to a decomposed fitness score. It is intended for local interaction and regime-map
+sensitivity analysis, not for estimating absolute fitness or an evolutionary endpoint
+in a particular species.
 
-A = attraction investment
-D = defence / access-limitation investment
+A = floral attraction investment
+D = flower-specific defence / pollinator-access-limitation investment
 R = reproductive-assurance investment
 P = pollinator service
 H = floral-herbivore or florivore pressure
-L = leaf-cutter or leaf-consumer pressure
+L = leaf-consumer pressure retained as an additive sensitivity term
 
-The key switch is the defence cost to pollination versus its damage-reduction
-efficacy. When defence substantially obstructs pollination it creates an
-attraction-defence trade-off. When defence selectively reduces damage while
-preserving pollination, attraction and defence can co-occur.
+The core A--D result concerns the mixed partial of the score surface. Defence can
+reduce the pollination return to attraction while reducing damage associated with
+attraction. Their balance, together with any direct A x D cross-cost, determines
+whether the two focal traits are locally complementary or locally substitutable in
+fitness. Terms that do not depend jointly on A and D can change total fitness or
+single-trait gradients without changing this mixed partial.
 """
 
 from __future__ import annotations
@@ -120,7 +123,11 @@ def fitness(
     ``defence_pollinator_cost`` while reducing floral and leaf damage. Attraction
     can increase floral damage when antagonists track displays. Assurance gains
     value as pollinator service falls, but carries a small outcross-dilution term.
+
+    The leaf-damage term is retained for sensitivity analysis but has no A x D
+    interaction because it is independent of A in this baseline formulation.
     """
+
     a, d, r = architecture.attraction, architecture.defence, architecture.assurance
     p = regime.pollinator_service
     h = regime.floral_damage_pressure
