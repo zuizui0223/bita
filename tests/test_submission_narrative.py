@@ -21,7 +21,9 @@ def test_manifest_does_not_promote_literature_to_claim_two() -> None:
 
 def test_scope_keeps_assurance_auxiliary() -> None:
     text = (ROOT / "docs" / "SUBMISSION_SCOPE.md").read_text(encoding="utf-8")
-    assert "auxiliary background moderator" in text
+    assert "**Auxiliary moderator:**" in text
+    assert "reproductive assurance `R`" in text
+    assert "background moderator" in text
     assert "not a third focal trait" in text
 
 
