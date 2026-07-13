@@ -1,17 +1,15 @@
 """Local mixed-curvature criteria for a declared pair of floral traits.
 
 The focal variables are one attraction trait ``A`` and one flower-specific
-barrier/defence trait ``D``. The classes below evaluate local mixed-partial
-bookkeeping after the biological channels, trait parameterisation, and required
-orientation signs have been specified. They do not turn broad trait categories
-into a common quantitative axis and they do not predict population-level
-covariance or evolutionary endpoints.
+barrier/defence trait ``D`` on one declared outcome scale ``W``. The classes
+below evaluate local bookkeeping after the biological channels, trait/output
+parameterisation, and required orientation signs have been specified.
 
 ``OrientedSignCriterion`` evaluates already-oriented non-negative channel
-magnitudes. ``RegimeScaledCriterion`` is the linear special case in which
-exogenous regime indices scale fixed local channel sensitivities.
-``LocalRegimeCriterion`` stores more general local regime scalings and their
-local derivatives.
+magnitudes. ``RegimeDerivativeBalance`` is the general local derivative balance
+for environmental change after those channels have been defined.
+``RegimeScaledCriterion`` and ``SeparableLocalRegimeCriterion`` are restricted
+special cases that impose separable regime scaling.
 """
 
 from __future__ import annotations
@@ -36,7 +34,8 @@ class OrientedSignCriterion:
 
     ``joint_cost_curvature`` is the non-negative contribution ``C_AD`` to the
     mixed partial. It is not the total cost function ``C(A,D)`` or a total
-    energetic cost.
+    energetic cost. The three channel magnitudes are not identifiable from total
+    ``W`` alone unless the channel decomposition is independently specified.
     """
 
     antagonist_relief: float
@@ -53,11 +52,7 @@ class OrientedSignCriterion:
 
     @property
     def mixed_partial(self) -> float:
-        return (
-            self.antagonist_relief
-            - self.mutualist_interference
-            - self.joint_cost_curvature
-        )
+        return self.antagonist_relief - self.mutualist_interference - self.joint_cost_curvature
 
     def classify(self, *, tolerance: float = 1e-12) -> str:
         if not isfinite(tolerance) or tolerance < 0:
@@ -75,21 +70,64 @@ class OrientedSignCriterion:
 
 
 @dataclass(frozen=True)
-class RegimeScaledCriterion:
-    """Linear oriented local special case with conditional comparative statics.
+class RegimeDerivativeBalance:
+    """General local environmental derivative balance for the oriented channels.
 
-    ``P`` and ``H`` are exogenous reference-regime indices, not realised
-    visitation or damage after the focal traits act. At fixed focal ``A`` and
-    ``D`` and fixed local rates,
+    If
+
+        W_AD = R(P,H) - I(P,H) - C_AD(P,H),
+
+    then, at the same focal phenotype and outcome scale,
+
+        dW_AD/dH = R_H - I_H - C_AD,H
+        dW_AD/dP = R_P - I_P - C_AD,P.
+
+    All supplied slopes are signed local derivatives. No separability assumption
+    is imposed: antagonist pressure may change mutualist interference, and
+    pollinator service may change antagonist relief.
+    """
+
+    relief_h_slope: float
+    interference_h_slope: float
+    joint_cost_curvature_h_slope: float
+    relief_p_slope: float
+    interference_p_slope: float
+    joint_cost_curvature_p_slope: float
+
+    def __post_init__(self) -> None:
+        for name, value in self.__dict__.items():
+            _require_finite(value, name)
+
+    @property
+    def d_mixed_partial_d_antagonist_pressure(self) -> float:
+        return (
+            self.relief_h_slope
+            - self.interference_h_slope
+            - self.joint_cost_curvature_h_slope
+        )
+
+    @property
+    def d_mixed_partial_d_pollinator_service(self) -> float:
+        return (
+            self.relief_p_slope
+            - self.interference_p_slope
+            - self.joint_cost_curvature_p_slope
+        )
+
+
+@dataclass(frozen=True)
+class RegimeScaledCriterion:
+    """Linear separable oriented special case.
+
+    ``P`` and ``H`` are exogenous reference-regime indices. At fixed focal ``A``
+    and ``D`` and fixed local rates,
 
         W_AD = H * relief_rate
              - P * interference_rate
              - joint_cost_curvature.
 
-    ``joint_cost_curvature`` is ``C_AD`` in the local mixed-partial expression,
-    not total cost. The resulting directional statements are partial derivatives
-    at the same phenotype neighbourhood; they are not derivatives along an
-    optimum or an observed environmental trait cline.
+    This special case assumes no H-dependence of mutualist interference, no
+    P-dependence of antagonist relief, and regime-invariant cross-cost curvature.
     """
 
     pollinator_service: float
@@ -112,28 +150,30 @@ class RegimeScaledCriterion:
 
     @property
     def mixed_partial(self) -> float:
-        return (
-            self.antagonist_relief
-            - self.mutualist_interference
-            - self.joint_cost_curvature
+        return self.antagonist_relief - self.mutualist_interference - self.joint_cost_curvature
+
+    @property
+    def derivative_balance(self) -> RegimeDerivativeBalance:
+        return RegimeDerivativeBalance(
+            relief_h_slope=self.relief_rate,
+            interference_h_slope=0.0,
+            joint_cost_curvature_h_slope=0.0,
+            relief_p_slope=0.0,
+            interference_p_slope=self.interference_rate,
+            joint_cost_curvature_p_slope=0.0,
         )
 
     @property
     def d_mixed_partial_d_antagonist_pressure(self) -> float:
-        return self.relief_rate
+        return self.derivative_balance.d_mixed_partial_d_antagonist_pressure
 
     @property
     def d_mixed_partial_d_pollinator_service(self) -> float:
-        return -self.interference_rate
+        return self.derivative_balance.d_mixed_partial_d_pollinator_service
 
     @property
     def break_even_antagonist_pressure(self) -> float | None:
-        """Return the unique finite linear threshold, or ``None`` if none exists.
-
-        With zero relief rate the equation is independent of antagonist pressure:
-        either no pressure can reach break-even or every pressure is neutral.
-        Neither case has a unique finite threshold.
-        """
+        """Return the unique finite linear threshold, or ``None`` if none exists."""
 
         if self.relief_rate == 0:
             return None
@@ -144,22 +184,18 @@ class RegimeScaledCriterion:
 
 
 @dataclass(frozen=True)
-class LocalRegimeCriterion:
-    """Oriented local nonlinear regime scaling and directional derivatives.
+class SeparableLocalRegimeCriterion:
+    """Nonlinear but separable local regime-scaling special case.
 
-    Around a focal environment and fixed focal phenotype, write
+    Around a focal environment and fixed focal phenotype,
 
         W_AD = a(H) * relief_rate
              - b(P) * interference_rate
-             - joint_cost_curvature(P, H).
+             - joint_cost_curvature(P,H).
 
-    ``antagonist_scale`` and ``mutualist_scale`` are the local values of
-    ``a(H)`` and ``b(P)``. Their slopes are the local derivatives ``a'(H)`` and
-    ``b'(P)``. ``joint_cost_curvature_*_slope`` terms are local derivatives of
-    the cross-cost curvature ``C_AD`` with respect to the regime indices.
-
-    Scale slopes are allowed to be negative because the returned derivatives,
-    rather than the class name, determine the actual local prediction.
+    This representation still imposes ``dI/dH = 0`` and ``dR/dP = 0``. It is
+    therefore more flexible than the linear special case but less general than
+    :class:`RegimeDerivativeBalance`.
     """
 
     antagonist_scale: float
@@ -198,15 +234,20 @@ class LocalRegimeCriterion:
         )
 
     @property
-    def d_mixed_partial_d_antagonist_pressure(self) -> float:
-        return (
-            self.antagonist_scale_slope * self.relief_rate
-            - self.joint_cost_curvature_h_slope
+    def derivative_balance(self) -> RegimeDerivativeBalance:
+        return RegimeDerivativeBalance(
+            relief_h_slope=self.antagonist_scale_slope * self.relief_rate,
+            interference_h_slope=0.0,
+            joint_cost_curvature_h_slope=self.joint_cost_curvature_h_slope,
+            relief_p_slope=0.0,
+            interference_p_slope=self.mutualist_scale_slope * self.interference_rate,
+            joint_cost_curvature_p_slope=self.joint_cost_curvature_p_slope,
         )
 
     @property
+    def d_mixed_partial_d_antagonist_pressure(self) -> float:
+        return self.derivative_balance.d_mixed_partial_d_antagonist_pressure
+
+    @property
     def d_mixed_partial_d_pollinator_service(self) -> float:
-        return (
-            -self.mutualist_scale_slope * self.interference_rate
-            - self.joint_cost_curvature_p_slope
-        )
+        return self.derivative_balance.d_mixed_partial_d_pollinator_service
