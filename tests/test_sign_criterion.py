@@ -1,9 +1,11 @@
+import math
+
 import pytest
 
 from trait_architecture.model import ModelParameters
 from trait_architecture.robustness import RobustnessCase, mixed_partial
 from trait_architecture.sign_criterion import (
-    MonotoneRegimeCriterion,
+    LocalRegimeCriterion,
     RegimeScaledCriterion,
     SignCriterion,
 )
@@ -39,7 +41,7 @@ def test_break_even_boundary_is_explicit() -> None:
     assert criterion.classify() == "locally_neutral"
 
 
-def test_baseline_robustness_result_is_a_corollary_of_general_criterion() -> None:
+def test_baseline_robustness_result_is_a_corollary_of_local_criterion() -> None:
     case = RobustnessCase(
         case_id="baseline_corollary",
         attraction=0.4,
@@ -57,16 +59,22 @@ def test_baseline_robustness_result_is_a_corollary_of_general_criterion() -> Non
     assert criterion.mixed_partial == pytest.approx(result.mixed_partial)
 
 
-def test_signed_channel_magnitudes_must_be_oriented_before_use() -> None:
-    with pytest.raises(ValueError, match="must be non-negative after orientation"):
+def test_oriented_channel_magnitudes_must_be_nonnegative_and_finite() -> None:
+    with pytest.raises(ValueError, match="finite and non-negative"):
         SignCriterion(
             antagonist_relief=-0.1,
             mutualist_interference=0.2,
             joint_cost=0.1,
         )
+    with pytest.raises(ValueError, match="finite and non-negative"):
+        SignCriterion(
+            antagonist_relief=math.nan,
+            mutualist_interference=0.2,
+            joint_cost=0.1,
+        )
 
 
-def test_more_antagonist_pressure_pushes_toward_complementarity() -> None:
+def test_linear_regime_scaling_has_conditional_comparative_statics() -> None:
     low_h = RegimeScaledCriterion(
         pollinator_service=0.6,
         antagonist_pressure=0.2,
@@ -84,8 +92,6 @@ def test_more_antagonist_pressure_pushes_toward_complementarity() -> None:
     assert high_h.mixed_partial > low_h.mixed_partial
     assert high_h.d_mixed_partial_d_antagonist_pressure == pytest.approx(1.0)
 
-
-def test_more_pollinator_service_pushes_toward_substitutability() -> None:
     low_p = RegimeScaledCriterion(
         pollinator_service=0.2,
         antagonist_pressure=0.6,
@@ -104,7 +110,7 @@ def test_more_pollinator_service_pushes_toward_substitutability() -> None:
     assert high_p.d_mixed_partial_d_pollinator_service == pytest.approx(-0.7)
 
 
-def test_break_even_antagonist_pressure_is_predictive_boundary() -> None:
+def test_linear_break_even_requires_positive_relief_rate() -> None:
     criterion = RegimeScaledCriterion(
         pollinator_service=0.5,
         antagonist_pressure=0.0,
@@ -114,9 +120,18 @@ def test_break_even_antagonist_pressure_is_predictive_boundary() -> None:
     )
     assert criterion.break_even_antagonist_pressure == pytest.approx(0.5)
 
+    no_unique_threshold = RegimeScaledCriterion(
+        pollinator_service=0.5,
+        antagonist_pressure=0.0,
+        relief_rate=0.0,
+        interference_rate=0.6,
+        joint_cost=0.1,
+    )
+    assert no_unique_threshold.break_even_antagonist_pressure is None
 
-def test_nonlinear_monotone_antagonist_scaling_preserves_direction() -> None:
-    criterion = MonotoneRegimeCriterion(
+
+def test_nonlinear_local_scaling_can_preserve_direction() -> None:
+    criterion = LocalRegimeCriterion(
         antagonist_scale=0.7,
         mutualist_scale=0.8,
         antagonist_scale_slope=0.3,
@@ -130,7 +145,7 @@ def test_nonlinear_monotone_antagonist_scaling_preserves_direction() -> None:
 
 
 def test_regime_dependent_joint_cost_can_reverse_directional_prediction() -> None:
-    criterion = MonotoneRegimeCriterion(
+    criterion = LocalRegimeCriterion(
         antagonist_scale=0.7,
         mutualist_scale=0.8,
         antagonist_scale_slope=0.3,
