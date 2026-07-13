@@ -2,28 +2,27 @@
 
 This map links each submission claim to the files needed to inspect or reproduce it.
 
-## Claim 1: attraction and defence have a general local sign-switch criterion
+## Claim 1: regime-scaled attraction–defence interaction
 
-The theorem-level claim is about the local fitness mixed partial, not an observed trait correlation.
-
-Primary theorem and implementation:
+Primary theory:
 
 - `docs/GENERAL_SIGN_CRITERION.md`
+- `docs/NOVELTY_POSITIONING.md`
 - `trait_architecture/sign_criterion.py`
 - `tests/test_sign_criterion.py`
 
-Baseline corollary and robustness analysis:
+Implemented corollary and sensitivity analysis:
 
 - `trait_architecture/model.py`
 - `trait_architecture/robustness.py`
 - `configs/part_i_robustness_grid.json`
 - `scripts/run_part_i_robustness.py`
-- `docs/PART_I_ROBUSTNESS_PROTOCOL.md`
 
 Manuscript-facing outputs:
 
 - `scripts/build_part_i_manuscript_readout.py`
 - `scripts/build_part_i_regime_figure_svg.py`
+- `docs/PART_I_ROBUSTNESS_PROTOCOL.md`
 - `empirical/part_i_robustness/`
 
 Automated guard:
@@ -31,7 +30,9 @@ Automated guard:
 - `.github/workflows/validate-current-theory-meta.yml`
 - theory and figure tests under `tests/`
 
-## Claim 2: a defence/access -> pollination cost occurs in at least some systems
+The primary directional prediction is conditional: with locally comparable positive relief and interference rates, increasing antagonist pressure raises `W_AD`, while increasing mutualist service lowers `W_AD` when defence interferes with attraction-mediated mutualist return.
+
+## Claim 2: a D -> P pollination cost occurs in at least some defence systems
 
 Registered evidence and outputs:
 
@@ -55,7 +56,7 @@ Validation:
 - `trait_architecture/regime_discrimination_audit.py`
 - `docs/SUBMISSION_SCOPE.md`
 
-The literature records establish the existence and direction of specific biological pathways. They do not estimate the complete theoretical mixed partial, identify an attraction--defence covariance, or estimate the prevalence of local complementarity versus substitutability in nature.
+The literature records support the plausibility of one ingredient of mutualist interference. They do not estimate the complete local curvature, the regime-scaled comparative statics, or the prevalence of complementarity versus substitutability in nature.
 
 ## Deliberately absent
 
