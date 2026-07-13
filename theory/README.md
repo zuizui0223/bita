@@ -2,9 +2,7 @@
 
 ## Objective
 
-Map mutualist and antagonist regimes to qualitative floral attraction--defence
-trait architectures without pretending that the first model is an empirically
-calibrated evolutionary prediction.
+Identify when floral attraction and flower-specific defence/access limitation are **locally complementary versus locally substitutable in fitness**, without assuming a trade-off in advance and without treating the first model as an empirically calibrated evolutionary prediction.
 
 ## Active empirical interpretation
 
@@ -13,82 +11,77 @@ A = A_flower: floral display, nectar guide, flower size, nectar reward, orientat
 D = B_flower: flower-specific defence or pollinator-access restriction
 ```
 
-Examples of `D` include floral chemical deterrents, trichomes, spines, sticky
-structures, and other barriers that are measured on the attacked or visited
-flowering organ. Leaf toughness, LDMC, leaf chemistry, and stem resistance are
-not automatically observations of `D` in the active A--D result.
+Examples of `D` include floral chemical deterrents, trichomes, spines, sticky structures, and other barriers measured on the attacked or visited flowering organ. Leaf toughness, LDMC, leaf chemistry, and stem resistance are not automatically observations of `D` in the active A--D result.
 
-The current score retains reproductive assurance `R` as a theoretical sensitivity
-term. It is varied in sensitivity analyses, but no active L1/L2 empirical module
-calibrates it.
+The current score retains reproductive assurance `R` as a theoretical sensitivity term. It is varied in sensitivity analyses, but it is not part of the theorem-level novelty and no active empirical module calibrates it.
 
-## Interaction regimes
+## Theorem-level sign criterion
+
+The primary result is the general local decomposition
+
+\[
+W(A,D)=M(A,D)-G(A,D)-C(A,D),
+\]
+
+so that
+
+\[
+W_{AD}=M_{AD}-G_{AD}-C_{AD}.
+\]
+
+Under the biological orientation used here, this becomes
 
 ```text
-P: pollinator service
-H: floral herbivore / florivore pressure
-L: leaf consumer pressure
+local A x D interaction
+= antagonist relief
+- mutualist interference
+- direct joint cost.
 ```
 
-The simulator sweeps a low-dimensional parameter grid and classifies strategies
-rather than simulating whole plant genomes.
+Therefore attraction and defence are locally complementary only when the antagonist-relief contribution exceeds the sum of mutualist interference and direct joint cost.
 
-## Exact local A--D condition
+This criterion is implemented in `trait_architecture/sign_criterion.py` and documented in `docs/GENERAL_SIGN_CRITERION.md`.
 
-For the implemented score, the mixed partial
+## Baseline model as a corollary
+
+For the implemented score,
 
 \[
 \frac{\partial^2 W}{\partial A\,\partial D}
 =
 H d_A e_F
 - P b_A c_D e^{-c_DD}(1-c_RR)
-- c_{AD}
+- c_{AD}.
 \]
 
-separates local complementarity from local substitution. It is exact for the
-current score, but it is not an empirical covariance prediction by itself. The
-implementation and required bridge to global data are documented in
-`docs/theory_to_network_prediction_contract.md`.
-
-The broad literature interface does not alter the expression. It maps which terms
-have abstract-level coverage and limited source-coded sign/context support; see
-`docs/broad_evidence_to_regime_interface.md`.
-
-## Strategy classes to detect
+The terms map directly onto the general criterion:
 
 ```text
-open attraction:       A high, D low
-guarded attraction:    A high, D high
-defence-first:         A low,  D high
-mixed:                 no coarse corner label
+H d_A e_F                                  antagonist relief
+P b_A c_D exp(-c_D D) (1 - c_R R)         mutualist interference
+c_AD                                       direct joint cost
 ```
+
+A positive value is **local fitness complementarity**: increasing defence raises the marginal fitness return to attraction. A negative value is **local fitness substitutability**: increasing defence lowers that marginal return.
+
+These are curvature statements about the score surface. They are not empirical covariance predictions, genetic correlations, or evolutionary endpoints.
+
+## Robustness analysis
+
+The numerical sweep varies selected response-function curvature and parameter values around the baseline corollary. Its purpose is to ask whether the sign of the local mixed partial is stable within a declared family of models.
+
+The grid is therefore a sensitivity analysis, not the proof of the general criterion and not an empirical frequency distribution over nature.
 
 ## Falsifiable model-family predictions
 
-1. Attraction and defence are locally substitutable when defence directly
-   reduces pollinator access or shares a binding allocation budget with
-   attraction.
-2. Attraction and defence are locally complementary when floral antagonists
-   track attractive displays and defence selectively reduces their damage.
-3. A positive or negative covariance among simulated optima is a separate,
-   grid-dependent result; stability must be assessed over declared parameter
-   scenarios.
-4. Leaf-consumer pressure affects defence directly, but it changes the floral
-   A--D relation only through a separately declared shared cost, architecture,
-   or distribution of regimes.
+1. Mutualist interference pushes the local interaction toward substitutability when defence reduces the pollination return to attraction.
+2. Antagonist relief pushes the local interaction toward complementarity when antagonists track attraction and defence reduces the resulting damage.
+3. Direct shared cost pushes the local interaction toward substitutability independently of mutualist interference.
+4. A sign switch occurs at the explicit break-even boundary where antagonist relief equals mutualist interference plus joint cost.
+5. Positive or negative covariance among simulated optima is a separate, model-dependent result and must not be inferred directly from the mixed partial.
 
-## Link to broad literature analysis
+## Link to literature evidence
 
-The broad L1/L2 layer does **not** estimate model coefficients. It reports:
+The literature layer currently supports a narrower statement: a defence/access -> pollination cost exists in at least some systems. That evidence supports the biological existence of the mutualist-interference pathway.
 
-```text
-A -> P candidate coverage      maps to the sign/context status of b_A
-A -> H candidate coverage      maps to the sign/context status of d_A
-B -> H candidate coverage      maps to the sign/context status of e_F
-B -> P candidate coverage      maps to the sign/context status of c_D
-```
-
-`c_AD` requires matched attraction/defence allocation evidence, and `c_R*R`
-requires a reproductive-assurance observation model. Both remain sensitivity
-axes. A direct A--D test remains deferred until a matched dual-layer dataset
-provides comparable plants, sites, and times.
+It does not establish the complete sign of `W_AD` in those systems because antagonist relief and direct joint cost are not jointly estimated on a common scale.
