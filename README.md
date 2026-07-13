@@ -1,12 +1,12 @@
 # Biotic Interaction Trait Architecture
 
-Reproducible supplementary code and evidence for a local theory of one focal floral attraction trait (`A`) and one focal flower-specific barrier/defence trait (`D`).
+Reproducible supplementary code and evidence for a mechanistically oriented local theory of one focal floral attraction trait (`A`) and one focal flower-specific barrier/defence trait (`D`) on one declared outcome scale (`W`).
 
 ## Submission claim
 
 The repository supports two linked but unequal claims.
 
-1. **Theory:** for a declared `A`–`D` pair, the local mixed partial can be organized into antagonist relief, mutualist interference, and direct joint cost **after the required mixed-curvature signs have been established for that focal model**. Environmental directional predictions require explicit assumptions about how ecological regime variables scale those channels.
+1. **Theory:** for a declared `A`–`D` pair and declared `W` scale, the local mixed partial can be organized into antagonist relief, mutualist interference, and direct joint-cost curvature **after the required mixed-curvature signs have been established for that focal model**. Environmental directional predictions require explicit assumptions about how ecological regime variables scale those channels.
 2. **Literature context:** the current registry contains abstract-coded directional records. One predeclared three-cluster manipulation stratum for chemical barriers and pollinator preference/foraging is uniformly negative. This is restricted abstract-level directional consistency with a collateral pollinator-cost pathway; it does not identify the focal mutualist mixed curvature, estimate the complete mixed partial, or validate the regime comparative statics.
 
 The core quantity is
@@ -15,18 +15,21 @@ The core quantity is
 W_AD = d2W / dA dD
 ```
 
-for a declared, twice-differentiable fitness or fitness-score surface. A positive value means that one focal trait raises the other's local marginal fitness return; a negative value means that it lowers that return. The result does not by itself predict trait covariance, genetic correlation, an evolved environmental cline, or an evolutionary endpoint.
+for a declared, twice-differentiable outcome surface. A positive value means that one focal trait raises the other's local marginal return **on that declared `W` scale**; a negative value means that it lowers that return. The result does not by itself predict trait covariance, genetic correlation, an evolved environmental cline, or an evolutionary endpoint.
 
-## Focal-trait rule
+## Focal-trait and outcome-scale rule
 
-`A` and `D` are not omnibus trait categories.
+`A`, `D`, and `W` must be declared explicitly.
 
 ```text
-A = one biologically defined floral attraction trait
-D = one biologically defined flower-specific barrier/defence trait
+A = one biologically defined floral attraction trait and its scale
+D = one biologically defined flower-specific barrier/defence trait and its scale
+W = one declared fitness, relative-fitness, or score scale
 ```
 
-A concrete application must declare the focal traits and their scales. `D` is defined by a flower-specific antagonist-reduction role; a pollinator-use cost is a possible collateral effect of that same trait.
+`A` and `D` are not omnibus trait categories. `D` is defined by a flower-specific antagonist-reduction role; a pollinator-use cost is a possible collateral effect of that same trait.
+
+The mixed-partial sign is not transformation free. Positive affine rescaling of the focal traits and `W` preserves the sign of a nonzero mixed partial, but arbitrary nonlinear trait or outcome transformations can change it. Fitness, relative fitness, log fitness, and an additive qualitative score must not be treated as interchangeable curvature scales.
 
 ## Core theoretical structure
 
@@ -39,10 +42,10 @@ W_AD = M_AD - G_AD - C_AD
 is always the unrestricted signed decomposition. The non-negative magnitude form
 
 ```text
-local A x D marginal-fitness interaction
+local A x D marginal interaction
 = antagonist relief
 - mutualist interference
-- direct joint cost
+- direct joint-cost curvature
 ```
 
 is used only after an explicit model or local derivative argument establishes the orientation conditions
@@ -55,27 +58,43 @@ C_AD >= 0.
 
 The trait names alone do not guarantee those mixed-curvature signs. For example, a negative `D -> pollinator use` effect does not by itself identify `M_AD < 0`; it must show that `D` reduces the marginal mutualist return to the particular focal `A`.
 
-Under the oriented mechanism class, local complementarity requires antagonist relief to exceed mutualist interference plus direct joint cost.
+Under the oriented mechanism class, local complementarity requires antagonist relief to exceed mutualist interference plus direct joint-cost curvature.
 
 Environmental predictions need an additional regime-scaling layer. In the general local form
 
 ```text
 W_AD = a(H) * relief_rate
      - b(P) * interference_rate
-     - joint_cost(P, H)
+     - C_AD(P, H)
 ```
 
-stronger antagonist pressure shifts the interaction toward complementarity only when the local increase in relief scaling exceeds any countervailing change in direct cross-cost. The mutualist-service prediction is likewise conditional on its derivative inequality.
+stronger antagonist pressure shifts the interaction toward complementarity only when the local increase in relief scaling exceeds any countervailing change in direct cross-cost curvature. The mutualist-service prediction is likewise conditional on its derivative inequality.
 
 The linear expression
 
 ```text
-W_AD = H * relief_rate - P * interference_rate - joint_cost
+W_AD = H * relief_rate - P * interference_rate - joint_cost_curvature
 ```
 
 is one special case, not a universal law.
 
 See `docs/GENERAL_SIGN_CRITERION.md` for assumptions and derivation and `docs/NOVELTY_POSITIONING.md` for the claim boundary and prior-art positioning.
+
+## Sensitivity analysis
+
+The active numerical sweep compares four biological parameter scenarios and four nonlinear response-shape variants over a declared 0–1 focal-trait grid.
+
+The nonlinear response shapes are **endpoint normalized**:
+
+```text
+attraction response at A=1                    matched across variants
+defence response at D=1                       matched across variants
+direct joint-cost scale at A=D=1              matched across variants
+```
+
+This reduces the earlier confounding between changing response shape and simply changing endpoint effect magnitude. The variants still differ in local derivatives and represent only a finite tested family.
+
+`tested_set_unanimous` means unanimity across that finite set, not mathematical structural robustness. Exact complementary/substitutable modal ties are reported as `mixed`, not assigned to one sign. The configured `neutral_tolerance` is recorded as an absolute numerical zero threshold on the declared score scale; it is not a biologically invariant neutrality band.
 
 ## Supplement structure
 
@@ -134,4 +153,4 @@ Only derived, aggregate, or bibliographic evidence required for the stated claim
 
 ## Interpretation boundary
 
-The theory grid is a finite, predeclared sensitivity analysis, not an empirical frequency distribution and not proof of mathematical structural robustness. The literature layer is abstract-level route coding, not a full-text systematic review or pooled universal meta-analysis. It does not establish the focal `M_AD` curvature, the complete local `A`–`D` interaction, an observed attraction–defence correlation, or the response of that interaction to changing ecological regimes in nature.
+The theory grid is a finite, predeclared sensitivity analysis, not an empirical frequency distribution and not proof of mathematical structural robustness. Its signs and numerical zero classifications are properties of the declared trait coordinates, score scale, and tolerance convention. The literature layer is abstract-level route coding, not a full-text systematic review or pooled universal meta-analysis. It does not establish the focal `M_AD` curvature, the complete local `A`–`D` interaction, an observed attraction–defence correlation, or the response of that interaction to changing ecological regimes in nature.
