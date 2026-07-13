@@ -1,23 +1,25 @@
-"""A minimal, deliberately qualitative trait-architecture fitness model.
+"""A minimal qualitative fitness-score corollary for one focal floral trait pair.
 
-The model maps a phenotype ``(A, D, R)`` and an interaction regime ``(P, H, L)``
-to a decomposed fitness score. It is intended for local interaction and regime-map
-sensitivity analysis, not for estimating absolute fitness or an evolutionary endpoint
-in a particular species.
+The model maps a phenotype ``(A, D, R)`` and an exogenous interaction regime
+``(P, H)`` to a decomposed score.  It is used for local mixed-partial and
+sensitivity calculations, not for estimating absolute fitness or an evolutionary
+endpoint in a particular species.
 
-A = floral attraction investment
-D = flower-specific defence / pollinator-access-limitation investment
-R = reproductive-assurance investment
-P = pollinator service
-H = floral-herbivore or florivore pressure
-L = leaf-consumer pressure retained as an additive sensitivity term
+A = one declared focal floral attraction trait
+D = one declared flower-specific barrier/defence trait
+R = reproductive-assurance investment retained as an auxiliary moderator
+P = exogenous reference intensity of pollinator service
+H = exogenous reference intensity of floral-antagonist pressure
 
-The core A--D result concerns the mixed partial of the score surface. Defence can
-reduce the pollination return to attraction while reducing damage associated with
-attraction. Their balance, together with any direct A x D cross-cost, determines
-whether the two focal traits are locally complementary or locally substitutable in
-fitness. Terms that do not depend jointly on A and D can change total fitness or
-single-trait gradients without changing this mixed partial.
+``A`` and ``D`` are not omnibus trait classes.  A concrete application must choose
+one biologically defined pair and its measurement scale.  ``D`` is defined by its
+flower-specific antagonist-reduction role; any reduction in pollinator return is a
+possible collateral effect of that same focal trait, not a separate definition of
+``D``.
+
+The core A--D result concerns the mixed partial of the declared score surface.
+Terms that do not depend jointly on A and D can change total score or single-trait
+marginal effects without changing that mixed partial.
 """
 
 from __future__ import annotations
@@ -33,7 +35,7 @@ def _unit_interval(value: float, name: str) -> None:
 
 @dataclass(frozen=True)
 class Architecture:
-    """Investment in attraction, defence/access limitation, and assurance."""
+    """Scaled values of the focal attraction, defence/barrier, and assurance traits."""
 
     attraction: float
     defence: float
@@ -47,25 +49,23 @@ class Architecture:
 
 @dataclass(frozen=True)
 class InteractionRegime:
-    """Scaled external interaction pressures."""
+    """Scaled exogenous reference intensities for the two interaction environments."""
 
     pollinator_service: float
     floral_damage_pressure: float
-    leaf_consumer_pressure: float
 
     def __post_init__(self) -> None:
         _unit_interval(self.pollinator_service, "pollinator_service")
         _unit_interval(self.floral_damage_pressure, "floral_damage_pressure")
-        _unit_interval(self.leaf_consumer_pressure, "leaf_consumer_pressure")
 
 
 @dataclass(frozen=True)
 class ModelParameters:
-    """Dimensionless parameters for qualitative regime exploration.
+    """Dimensionless parameters for qualitative local-regime exploration.
 
-    The defaults create an interpretable baseline rather than a calibrated
-    biological system. Users should sweep plausible values before attaching an
-    empirical interpretation to any regime boundary.
+    The defaults are an interpretable scaffold rather than a calibrated biological
+    system. Parameter ranges must be declared before biological regime frequencies
+    or thresholds are interpreted.
     """
 
     baseline_outcross: float = 0.10
@@ -75,8 +75,6 @@ class ModelParameters:
     floral_damage_baseline: float = 0.20
     attraction_tracking: float = 1.10
     floral_defence_efficacy: float = 0.75
-    leaf_damage_baseline: float = 0.75
-    leaf_defence_efficacy: float = 0.85
     attraction_cost: float = 0.22
     defence_cost: float = 0.24
     assurance_cost: float = 0.20
@@ -87,8 +85,10 @@ class ModelParameters:
         for name, value in self.__dict__.items():
             if value < 0:
                 raise ValueError(f"{name} must be non-negative")
-        if self.floral_defence_efficacy > 1 or self.leaf_defence_efficacy > 1:
-            raise ValueError("defence efficacies must lie in [0, 1]")
+        if self.floral_defence_efficacy > 1:
+            raise ValueError("floral_defence_efficacy must lie in [0, 1]")
+        if self.assurance_outcross_dilution > 1:
+            raise ValueError("assurance_outcross_dilution must lie in [0, 1]")
 
 
 @dataclass(frozen=True)
@@ -98,7 +98,6 @@ class FitnessBreakdown:
     outcross_benefit: float
     assurance_benefit: float
     floral_damage_loss: float
-    leaf_damage_loss: float
     investment_cost: float
 
     @property
@@ -107,7 +106,6 @@ class FitnessBreakdown:
             self.outcross_benefit
             + self.assurance_benefit
             - self.floral_damage_loss
-            - self.leaf_damage_loss
             - self.investment_cost
         )
 
@@ -117,21 +115,17 @@ def fitness(
     regime: InteractionRegime,
     parameters: ModelParameters = ModelParameters(),
 ) -> FitnessBreakdown:
-    """Evaluate the qualitative fitness decomposition.
+    """Evaluate the qualitative score decomposition for the declared focal pair.
 
-    Attraction raises pollinator-mediated gain. Defence reduces that gain through
-    ``defence_pollinator_cost`` while reducing floral and leaf damage. Attraction
-    can increase floral damage when antagonists track displays. Assurance gains
-    value as pollinator service falls, but carries a small outcross-dilution term.
-
-    The leaf-damage term is retained for sensitivity analysis but has no A x D
-    interaction because it is independent of A in this baseline formulation.
+    ``P`` and ``H`` are reference-regime intensities held external to the focal
+    trait effects.  Realised pollinator use and realised damage are generated by
+    the trait-dependent terms below; treating those realised outcomes as ``P`` or
+    ``H`` would double-count the focal trait effects.
     """
 
     a, d, r = architecture.attraction, architecture.defence, architecture.assurance
     p = regime.pollinator_service
     h = regime.floral_damage_pressure
-    l = regime.leaf_consumer_pressure
 
     pollination_access = exp(-parameters.defence_pollinator_cost * d)
     outcross_benefit = (
@@ -146,8 +140,6 @@ def fitness(
     floral_exposure = parameters.floral_damage_baseline + parameters.attraction_tracking * a
     floral_damage_loss = h * floral_exposure * (1.0 - parameters.floral_defence_efficacy * d)
 
-    leaf_damage_loss = l * parameters.leaf_damage_baseline * (1.0 - parameters.leaf_defence_efficacy * d)
-
     investment_cost = (
         parameters.attraction_cost * a * a
         + parameters.defence_cost * d * d
@@ -159,6 +151,5 @@ def fitness(
         outcross_benefit=outcross_benefit,
         assurance_benefit=assurance_benefit,
         floral_damage_loss=floral_damage_loss,
-        leaf_damage_loss=leaf_damage_loss,
         investment_cost=investment_cost,
     )
