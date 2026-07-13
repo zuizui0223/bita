@@ -89,19 +89,19 @@ M_{AD}\le0,\qquad G_{AD}\le0,\qquad C_{AD}\ge0.
 Define
 
 \[
-I_P=-M_{AD}\ge0
+I=-M_{AD}\ge0
 \]
 
 as **mutualist interference**, and
 
 \[
-R_H=-G_{AD}\ge0
+R=-G_{AD}\ge0
 \]
 
 as **antagonist relief**. Then
 
 \[
-W_{AD}=R_H-I_P-C_{AD}.
+W_{AD}=R-I-C_{AD}.
 \]
 
 The diagnostic break-even condition is
@@ -109,22 +109,69 @@ The diagnostic break-even condition is
 \[
 W_{AD}>0
 \iff
-R_H>I_P+C_{AD}.
+R>I+C_{AD}.
 \]
 
 This condition organizes the oriented local mechanism class. It must not be used by forcing an opposite-signed curvature into a non-negative magnitude label. If an orientation condition fails, retain the original signed terms or derive a different biological model.
 
-## 4. Where environmental predictions enter
+## 4. Environmental comparative statics
 
 Let `P` and `H` denote **exogenous reference-regime indices** for mutualist service and floral-antagonist pressure. They are not realised visitation or realised damage after `A` and `D` act; using those realised outcomes as `P` or `H` would double-count focal trait effects.
 
-A local regime-scaled form is
+After the channels have been operationally defined, allow all three oriented contributions to depend locally on both regime variables:
 
 \[
-W_{AD}=a(H)r-b(P)i-C_{AD}(P,H),
+W_{AD}(P,H)=R(P,H)-I(P,H)-C_{AD}(P,H).
 \]
 
-where `r>=0` and `i>=0` are local channel sensitivities for the declared focal pair after the orientation gate has been satisfied. At fixed focal `A` and `D`,
+The general local derivatives at the same focal phenotype and outcome scale are therefore
+
+\[
+\frac{\partial W_{AD}}{\partial H}
+=\frac{\partial R}{\partial H}
+-\frac{\partial I}{\partial H}
+-\frac{\partial C_{AD}}{\partial H},
+\]
+
+and
+
+\[
+\frac{\partial W_{AD}}{\partial P}
+=\frac{\partial R}{\partial P}
+-\frac{\partial I}{\partial P}
+-\frac{\partial C_{AD}}{\partial P}.
+\]
+
+Thus:
+
+- increasing antagonist pressure shifts the local interaction toward complementarity only when `dW_AD/dH > 0`;
+- increasing pollinator service shifts it toward substitutability only when `dW_AD/dP < 0`.
+
+These statements retain possible **cross-environment effects**. For example, antagonist pressure may change mutualist interference, and pollinator service may change antagonist relief.
+
+### Separable nonlinear special case
+
+A more restrictive local model is
+
+\[
+R(P,H)=a(H)r,\qquad I(P,H)=b(P)i,
+\]
+
+so that
+
+\[
+W_{AD}=a(H)r-b(P)i-C_{AD}(P,H).
+\]
+
+This assumes
+
+\[
+\frac{\partial I}{\partial H}=0,
+\qquad
+\frac{\partial R}{\partial P}=0
+\]
+
+in the focal neighbourhood. Under that separability assumption,
 
 \[
 \frac{\partial W_{AD}}{\partial H}
@@ -138,39 +185,41 @@ and
 =-b'(P)i-\frac{\partial C_{AD}}{\partial P}.
 \]
 
-Therefore stronger antagonist pressure shifts the local interaction toward complementarity only when
+### Linear special case
+
+The implemented linear regime criterion further assumes
 
 \[
-a'(H)r>\frac{\partial C_{AD}}{\partial H},
+a(H)=H,\qquad b(P)=P,
 \]
 
-and stronger mutualist service shifts it toward substitutability only when
+and regime-invariant direct cross-cost curvature:
 
 \[
-b'(P)i+\frac{\partial C_{AD}}{\partial P}>0.
+W_{AD}=Hr-Pi-C_{AD}.
 \]
 
-These are partial derivatives at the **same focal phenotype neighbourhood and outcome scale**. They are not derivatives along an environmental cline of evolved optima or observed population means.
-
-The linear special case is
+Then
 
 \[
-W_{AD}=Hr-Pi-C_{AD},
+\frac{\partial W_{AD}}{\partial H}=r,
+\qquad
+\frac{\partial W_{AD}}{\partial P}=-i.
 \]
 
-with `a(H)=H`, `b(P)=P`, and regime-invariant direct cross-cost curvature.
+The separable and linear expressions are useful special cases, not the general environmental derivative law.
 
 ## 5. Break-even boundaries
 
-A nonlinear break-even antagonist pressure satisfies
+A break-even antagonist pressure solves
 
 \[
-a(H^*)r=b(P)i+C_{AD}(P,H^*).
+W_{AD}(P,H^*)=0.
 \]
 
 A unique threshold requires additional continuity and monotonicity conditions. Without them there may be no crossing, one crossing, or multiple sign switches.
 
-In the linear special case with `r>0`,
+In the separable linear special case with `r>0`,
 
 \[
 H^*=\frac{Pi+C_{AD}}{r}.
@@ -195,16 +244,16 @@ B'(A)\ge0,\quad Q'(D)\le0,\quad F'(A)\ge0,\quad S'(D)\le0.
 Then
 
 \[
-I_P=-P B'(A)Q'(D),
+I=-P B'(A)Q'(D),
 \]
 
 and
 
 \[
-R_H=-H F'(A)S'(D).
+R=-H F'(A)S'(D).
 \]
 
-This product form is an interpretable sufficient construction that operationally defines the channels and passes the orientation gate. It is not a necessary assumption.
+This product form is an interpretable sufficient construction that operationally defines the channels and passes the orientation gate. It is not a necessary assumption and it imposes a specific separable structure.
 
 ## 7. Implemented baseline corollary
 
@@ -267,7 +316,7 @@ Consequently:
 
 The mathematical neutral boundary is `W_AD = 0`. The numerical sweep uses an absolute `neutral_tolerance` only to classify values near zero on the declared score scale.
 
-Because an absolute tolerance is scale dependent, generated metadata records both:
+Generated metadata records both:
 
 ```text
 neutral_tolerance
@@ -282,4 +331,4 @@ The current literature layer is narrower than the theory. It provides abstract-l
 
 A negative `D -> pollinator use` effect alone does **not** identify `M_AD < 0`, because the mixed curvature additionally depends on how that defence effect changes the marginal mutualist return to the particular focal `A`. Likewise, evidence that `D` reduces antagonist damage does not by itself identify `G_AD < 0` without the corresponding attraction-linked interaction.
 
-Most importantly, separate route records do not identify the three-term decomposition from total fitness. A full empirical mechanism test would require the relevant channel responses for the same focal `A`–`D` pair and biological context, measured on compatible trait and outcome scales, with enough design structure to distinguish mutualist, antagonist, and direct-cost contributions.
+Separate route records also do not identify the three-term decomposition from total fitness. A full empirical mechanism test would require the relevant channel responses for the same focal `A`–`D` pair and biological context, measured on compatible trait and outcome scales, with enough design structure to distinguish mutualist, antagonist, and direct-cost contributions and, for environmental comparative statics, their regime derivatives.
