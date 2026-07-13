@@ -32,19 +32,23 @@ def test_build_readout_derives_results_without_hard_coded_manuscript_numbers() -
         {"functional_form_class": "tested_set_unanimous"},
         {"functional_form_class": "mixed_or_sensitive"},
     ]
-    envelope_rows = [
-        {"envelope_class": "conditional_majority"},
-        {"envelope_class": "mixed_or_sensitive"},
+    full_tested_set_rows = [
+        {"full_tested_set_class": "mixed_or_sensitive"},
+        {"full_tested_set_class": "mixed_or_sensitive"},
     ]
 
-    text = MODULE.build_readout(case_rows, form_summary_rows, envelope_rows)
+    text = MODULE.build_readout(case_rows, form_summary_rows, full_tested_set_rows)
 
-    assert "conditional attraction-defence regimes" in text
+    assert "Part I sensitivity readout v2" in text
+    assert "conditional attraction–defence regimes" in text
     assert "endpoint-normalized response-shape" in text
-    assert "theoretical sign frequencies" in text
+    assert "unweighted occupancy fractions" in text
     assert "not an empirical parameter calibration" in text
     assert "tested_set_unanimous" in text
     assert "mathematical structural robustness" in text
+    assert "No arbitrary majority threshold" in text
+    assert "conditional_majority" not in text
+    assert "predeclared" not in text
     assert "`high_tracking`" in text
     assert "100.0%" in text
     assert "92.1%" not in text
