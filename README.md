@@ -6,8 +6,8 @@ Reproducible supplementary code and evidence for a local theory of one focal flo
 
 The repository supports two linked but unequal claims.
 
-1. **Theory:** for a declared `A`–`D` pair, the local mixed partial separates antagonist relief, mutualist interference, and direct joint cost. Environmental directional predictions require explicit assumptions about how ecological regime variables scale those channels.
-2. **Literature support:** source-adjudicated route records show that flower-specific defence/barrier traits can reduce pollinator use in some systems. This supports mechanism plausibility only; it does not estimate the complete mixed partial or validate the regime comparative statics.
+1. **Theory:** for a declared `A`–`D` pair, the local mixed partial can be organized into antagonist relief, mutualist interference, and direct joint cost **after the required mixed-curvature signs have been established for that focal model**. Environmental directional predictions require explicit assumptions about how ecological regime variables scale those channels.
+2. **Literature context:** the current registry contains abstract-coded directional records. One predeclared three-cluster manipulation stratum for chemical barriers and pollinator preference/foraging is uniformly negative. This is restricted abstract-level directional consistency with a collateral pollinator-cost pathway; it does not identify the focal mutualist mixed curvature, estimate the complete mixed partial, or validate the regime comparative statics.
 
 The core quantity is
 
@@ -30,16 +30,32 @@ A concrete application must declare the focal traits and their scales. `D` is de
 
 ## Core theoretical structure
 
-The diagnostic channel balance is
+For bookkeeping,
+
+```text
+W_AD = M_AD - G_AD - C_AD
+```
+
+is always the unrestricted signed decomposition. The non-negative magnitude form
 
 ```text
 local A x D marginal-fitness interaction
 = antagonist relief
 - mutualist interference
-- direct joint cost.
+- direct joint cost
 ```
 
-Thus local complementarity requires antagonist relief to exceed mutualist interference plus direct joint cost.
+is used only after an explicit model or local derivative argument establishes the orientation conditions
+
+```text
+M_AD <= 0
+G_AD <= 0
+C_AD >= 0.
+```
+
+The trait names alone do not guarantee those mixed-curvature signs. For example, a negative `D -> pollinator use` effect does not by itself identify `M_AD < 0`; it must show that `D` reduces the marginal mutualist return to the particular focal `A`.
+
+Under the oriented mechanism class, local complementarity requires antagonist relief to exceed mutualist interference plus direct joint cost.
 
 Environmental predictions need an additional regime-scaling layer. In the general local form
 
@@ -59,19 +75,19 @@ W_AD = H * relief_rate - P * interference_rate - joint_cost
 
 is one special case, not a universal law.
 
-See `docs/GENERAL_SIGN_CRITERION.md` for assumptions and derivation and `docs/NOVELTY_POSITIONING.md` for the claim boundary.
+See `docs/GENERAL_SIGN_CRITERION.md` for assumptions and derivation and `docs/NOVELTY_POSITIONING.md` for the claim boundary and prior-art positioning.
 
 ## Supplement structure
 
 ```text
-configs/                         declared robustness configuration
- theory/                         mathematical definitions and interpretation
-trait_architecture/              active criterion, robustness, and validation code
+configs/                         declared sensitivity configuration
+theory/                          mathematical definitions and interpretation
+trait_architecture/              active criterion, sensitivity, and validation code
 scripts/                         command-line reproduction entry points
-empirical/broad_reality_evidence route-level literature records and readout
+empirical/broad_reality_evidence abstract-level route records and evidence readout
 empirical/part_i_robustness/     manuscript-facing theory outputs
- docs/                           scope, methods, assumptions, and claim boundaries
- tests/                          regression and integrity tests
+docs/                            scope, methods, assumptions, and claim boundaries
+tests/                           regression and integrity tests
 .github/workflows/               automated reproduction and validation
 ```
 
@@ -118,4 +134,4 @@ Only derived, aggregate, or bibliographic evidence required for the stated claim
 
 ## Interpretation boundary
 
-The theory grid is a conditional sensitivity analysis, not an empirical frequency distribution. The literature layer is route-level mechanism support, not a pooled universal meta-analysis. It does not establish the complete local `A`–`D` interaction, an observed attraction–defence correlation, or the response of that interaction to changing ecological regimes in nature.
+The theory grid is a finite, predeclared sensitivity analysis, not an empirical frequency distribution and not proof of mathematical structural robustness. The literature layer is abstract-level route coding, not a full-text systematic review or pooled universal meta-analysis. It does not establish the focal `M_AD` curvature, the complete local `A`–`D` interaction, an observed attraction–defence correlation, or the response of that interaction to changing ecological regimes in nature.
