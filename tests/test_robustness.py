@@ -1,3 +1,7 @@
+import math
+
+import pytest
+
 from trait_architecture.model import ModelParameters
 from trait_architecture.robustness import (
     BASELINE_FORM,
@@ -31,7 +35,7 @@ def test_baseline_mixed_partial_matches_declared_analytic_expression() -> None:
     result = mixed_partial(case, parameters)
 
     expected_antagonism = 0.6 * 1.1 * 0.75
-    expected_pollination = 0.7 * 1.2 * 0.45 * __import__("math").exp(-0.45 * 0.3) * (1 - 0.10 * 0.2)
+    expected_pollination = 0.7 * 1.2 * 0.45 * math.exp(-0.45 * 0.3) * (1 - 0.10 * 0.2)
     expected_cost = 0.10
     assert result.antagonism_term == expected_antagonism
     assert result.pollination_obstruction_term == expected_pollination
@@ -77,7 +81,7 @@ def test_saturating_defence_reduces_marginal_protection_at_high_defence() -> Non
     assert saturated.antagonism_term < baseline.antagonism_term
 
 
-def test_summary_requires_all_variants_for_structural_robustness() -> None:
+def test_summary_calls_unanimity_only_over_the_supplied_tested_set() -> None:
     results = [
         MixedPartialResult("case", "one", 1.0, 0.0, 0.0, 1.0, "complementary"),
         MixedPartialResult("case", "two", 2.0, 0.0, 0.0, 2.0, "complementary"),
@@ -86,11 +90,11 @@ def test_summary_requires_all_variants_for_structural_robustness() -> None:
     summary = summarise_case(results)
 
     assert summary.modal_sign == "complementary"
-    assert summary.robustness_class == "structurally_robust"
+    assert summary.robustness_class == "tested_set_unanimous"
     assert summary.modal_sign_agreement == 1.0
 
 
-def test_summary_marks_disagreement_as_sensitive() -> None:
+def test_summary_preserves_an_exact_sign_tie_as_mixed() -> None:
     results = [
         MixedPartialResult("case", "one", 1.0, 0.0, 0.0, 1.0, "complementary"),
         MixedPartialResult("case", "two", 0.0, 1.0, 0.0, -1.0, "substitutable"),
@@ -98,7 +102,22 @@ def test_summary_marks_disagreement_as_sensitive() -> None:
 
     summary = summarise_case(results)
 
+    assert summary.modal_sign == "mixed"
     assert summary.robustness_class == "mixed_or_sensitive"
+    assert summary.modal_sign_agreement == 0.5
+
+
+def test_nonfinite_functional_form_values_are_rejected() -> None:
+    with pytest.raises(ValueError, match="finite and non-negative"):
+        FunctionalForm("bad", attraction_saturation=math.nan)
+    with pytest.raises(ValueError, match="finite and positive"):
+        FunctionalForm("bad", defence_half_saturation=math.inf)
+
+
+def test_nonfinite_mixed_partial_is_rejected() -> None:
+    case = RobustnessCase("finite", 0.5, 0.5, 0.0, 0.5, 0.5)
+    with pytest.raises(ValueError, match="mixed partial must be finite"):
+        mixed_partial(case, ModelParameters(attraction_tracking=math.inf))
 
 
 def test_default_forms_cover_baseline_and_three_nonlinear_variants() -> None:
