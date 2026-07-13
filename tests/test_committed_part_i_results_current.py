@@ -14,32 +14,45 @@ assert SPEC is not None and SPEC.loader is not None
 RUNNER = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = RUNNER
 SPEC.loader.exec_module(RUNNER)
+REPORT_PATH = (
+    ROOT
+    / "empirical"
+    / "part_i_robustness"
+    / "endpoint_normalized_grid_v2_report.json"
+)
+
+
+def _committed_report() -> dict:
+    return json.loads(REPORT_PATH.read_text(encoding="utf-8"))
 
 
 def test_committed_part_i_report_matches_current_config_and_code() -> None:
     config = json.loads(
         (ROOT / "configs" / "part_i_robustness_grid.json").read_text(encoding="utf-8")
     )
-    committed = json.loads(
-        (
-            ROOT
-            / "empirical"
-            / "part_i_robustness"
-            / "initial_grid_report.json"
-        ).read_text(encoding="utf-8")
+    committed = _committed_report()
+
+    rows, form_summaries, full_tested_set_summaries = RUNNER.run(config)
+    reproduced = RUNNER.build_report(
+        config, rows, form_summaries, full_tested_set_summaries
     )
 
-    rows, form_summaries, envelope_summaries = RUNNER.run(config)
-    reproduced = RUNNER.build_report(config, rows, form_summaries, envelope_summaries)
-
-    assert committed["case_count"] == reproduced["case_count"]
-    assert committed["evaluation_count"] == reproduced["evaluation_count"]
-    assert committed["functional_form_summary_count"] == reproduced["functional_form_summary_count"]
-    assert committed["neutral_tolerance"] == reproduced["neutral_tolerance"]
-    assert committed["neutral_tolerance_scale"] == reproduced["neutral_tolerance_scale"]
-    assert committed["response_shape_normalization"] == reproduced["response_shape_normalization"]
-    assert committed["functional_form_class_counts"] == reproduced["functional_form_class_counts"]
-    assert committed["parameter_envelope_class_counts"] == reproduced["parameter_envelope_class_counts"]
+    for key in (
+        "run_id",
+        "case_count",
+        "evaluation_count",
+        "functional_form_summary_count",
+        "neutral_tolerance",
+        "neutral_tolerance_scale",
+        "response_shape_normalization",
+        "finite_design_measure",
+        "minimum_absolute_mixed_partial",
+        "neutral_evaluation_count",
+        "near_tolerance_evaluation_count",
+        "functional_form_class_counts",
+        "full_tested_set_class_counts",
+    ):
+        assert committed[key] == reproduced[key]
 
     sign_counts = Counter(row["sign"] for row in rows)
     reproduced_sign_counts = {
@@ -53,19 +66,10 @@ def test_committed_scenario_readout_matches_current_modal_and_sign_counts() -> N
     config = json.loads(
         (ROOT / "configs" / "part_i_robustness_grid.json").read_text(encoding="utf-8")
     )
-    committed = json.loads(
-        (
-            ROOT
-            / "empirical"
-            / "part_i_robustness"
-            / "initial_grid_report.json"
-        ).read_text(encoding="utf-8")
-    )
+    committed = _committed_report()
     rows, form_summaries, _ = RUNNER.run(config)
 
-    scenario_ids = {
-        row["parameter_scenario_id"] for row in rows
-    }
+    scenario_ids = {row["parameter_scenario_id"] for row in rows}
     assert scenario_ids == set(committed["scenario_readout"])
 
     for scenario_id in scenario_ids:
