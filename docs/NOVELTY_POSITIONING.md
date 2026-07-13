@@ -2,34 +2,23 @@
 
 ## What is not claimed as novel
 
-The manuscript does not claim novelty for the general observations that floral traits can be shaped by both mutualists and antagonists, that attractive signals can also expose plants to enemies, or that defensive traits can carry collateral costs for beneficial visitors. Those biological ideas are established in the floral-evolution and plant–insect interaction literature.
+The manuscript does not claim novelty for the general observations that floral traits can be shaped by both mutualists and antagonists, that attractive signals can also expose plants to enemies, or that defensive traits can carry collateral costs for beneficial visitors.
 
-The manuscript also does **not** claim novelty for the algebraic identity
+It also does **not** claim novelty for the algebraic identity
 
 ```text
 W_AD = M_AD - G_AD - C_AD
 ```
 
-under an arbitrary decomposition `W = M - G - C`. Without biological restrictions on the channel curvatures, that identity is tautological.
+or for merely assuming `M_AD <= 0`, `G_AD <= 0`, and `C_AD >= 0`. Those sign restrictions define a biological hypothesis class; by themselves they do not predict how the interaction changes across environments.
 
 ## The narrower theoretical contribution
 
-The contribution is a mechanistically oriented local criterion for floral attraction (`A`) and flower-specific defence/access limitation (`D`). The minimal local model class is defined by channel meanings and curvature signs:
+The framework has two layers.
 
-```text
-M_AD <= 0   mutualist interference
-G_AD <= 0   antagonist relief after subtracting antagonist loss
-C_AD >= 0   direct joint cost
-```
+### Diagnostic layer
 
-Writing
-
-```text
-I_P = -M_AD
-R_H = -G_AD
-```
-
-gives
+Oriented local channel curvatures give
 
 ```text
 local A x D fitness interaction
@@ -38,13 +27,30 @@ local A x D fitness interaction
 - direct joint cost.
 ```
 
-Hence local complementarity occurs when `R_H > I_P + C_AD`, and local substitutability otherwise.
+This provides a break-even accounting identity within the declared biological hypothesis class.
 
-This framing does three things that verbal accounts can blur.
+### Predictive layer
 
-1. It does not assume an attraction–defence trade-off; the sign follows from competing ecological and direct-cost channels.
-2. It distinguishes mutualist interference from a direct allocation or construction trade-off.
-3. It gives a local break-even boundary while allowing nonseparable ecological response functions.
+When mutualist service `P` and antagonist pressure `H` scale locally comparable channel sensitivities,
+
+```text
+W_AD = H * relief_rate - P * interference_rate - joint_cost.
+```
+
+Then the model predicts, conditionally,
+
+```text
+more antagonist pressure -> W_AD increases -> toward complementarity
+more mutualist service    -> W_AD decreases -> toward substitutability
+```
+
+and the break-even antagonist pressure is
+
+```text
+H* = (P * interference_rate + joint_cost) / relief_rate.
+```
+
+This comparative-static result is more substantive than simply naming the mixed-partial components. It is falsifiable, but conditional on local response rates and the phenotype neighbourhood remaining comparable across the regime contrast.
 
 The product model
 
@@ -52,37 +58,39 @@ The product model
 W(A,D) = P B(A) Q(D) - H F(A) S(D) - C(A,D)
 ```
 
-is a transparent sufficient construction, not a necessary assumption. The implemented exponential/linear model is one further corollary. The numerical robustness grid tests selected nonlinear response functions and parameter choices; it is not the source of the criterion.
+is a transparent sufficient construction, not a necessary assumption. The implemented exponential/linear model is one further corollary.
 
 ## Relation to existing ecological theory
 
 Existing work establishes the biological ingredients used here: non-pollinating organisms can select on floral traits; floral signals can affect both mutualists and antagonists; florivory can link pollination and herbivory; and defensive traits can impose collateral effects on beneficial visitors.
 
-The framework should therefore be positioned as a **mechanistic synthesis and formalization** of these ingredients at the level of a two-trait local fitness interaction. The novelty claim should not rest on the existence of the ingredients themselves, nor on the unrestricted mixed-partial identity.
+The framework should therefore be positioned as a **mechanistic synthesis and formalization** of these ingredients, with its strongest theoretical contribution being the regime-scaled comparative statics and explicit break-even boundary—not the existence of the biological ingredients or an unrestricted mixed-partial identity.
 
 A defensible claim is:
 
-> We identify the local curvature conditions under which antagonist relief outweighs mutualist interference and direct joint cost, making floral attraction and defence fitness complements rather than substitutes.
+> Under a locally regime-scaled attraction–defence model, increasing antagonist pressure shifts the fitness interaction toward complementarity, whereas increasing mutualist service shifts it toward substitutability when defence interferes with attraction-mediated mutualist return; the model gives the explicit break-even boundary between these regimes.
 
-Whether this precise criterion is unprecedented in the literature remains a prior-art question and should be established by targeted literature review rather than asserted from the mathematics alone.
+Whether this precise formulation is unprecedented remains a prior-art question and should be established by targeted literature review rather than asserted from the mathematics alone.
 
 ## What the criterion does not establish
 
-The sign of the mixed partial is not, by itself, a prediction of population-level trait covariance, genetic correlation, correlated evolutionary response, coevolutionary history, a global optimum, or a stable evolutionary endpoint. Those require additional assumptions about the fitness landscape, genetic architecture, environmental variation, and evolutionary dynamics.
+The sign of the mixed partial is not, by itself, a prediction of population-level trait covariance, genetic correlation, correlated evolutionary response, coevolutionary history, a global optimum, or a stable evolutionary endpoint.
 
-The criterion is also conditional on local channel signs. If defence facilitates mutualists, attraction and defence jointly amplify antagonist damage, or the direct cross-cost is negative, the corresponding channel must be reoriented rather than forced into the labels `interference`, `relief`, or `joint cost`.
+The comparative statics are also conditional. If local relief or interference rates change with `P`, `H`, phenotype, or other environmental variables, those dependencies must be modelled rather than ignored.
 
 ## Empirical role of the literature layer
 
-The literature layer is not a full empirical test of the criterion. Its present role is narrower: to show that defence/access limitation can reduce pollinator use in real systems.
+The literature layer is not a full empirical test of the regime prediction. Its present role is narrower: to show that defence/access limitation can reduce pollinator use in real systems.
 
-That evidence supports the plausibility of one ingredient of mutualist interference. Under the product special case it corresponds to the plausibility of `Q'(D) < 0`; in a nonseparable model the full relevant quantity is the channel curvature `M_AD`. The current literature layer does not estimate that full curvature, the antagonist-relief term, or the complete mixed partial.
+That supports the plausibility of one ingredient of mutualist interference. It does **not** estimate the full interference rate, antagonist-relief rate, joint cost, or the response of `W_AD` to `P` or `H`.
+
+A direct empirical test would compare matched biological contexts across variation in mutualist service and/or antagonist pressure while estimating the relevant attraction–defence fitness interaction.
 
 ## Reviewer-facing positioning
 
 A safer abstract-level sentence is:
 
-> We identify a local break-even condition in which antagonist relief must exceed mutualist interference and direct joint cost for floral attraction and defence to function as fitness complements rather than substitutes.
+> We derive conditional comparative statics for a regime-scaled attraction–defence fitness model: stronger antagonist pressure shifts the local interaction toward complementarity, whereas stronger mutualist service shifts it toward substitutability when defence obstructs attraction-mediated mutualist return, with an explicit break-even boundary between the regimes.
 
 Avoid stronger formulations such as:
 
