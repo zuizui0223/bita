@@ -1,8 +1,8 @@
 # Supplement manifest
 
-This map links each submission claim to the files needed to inspect or reproduce it.
+This map links the primary submission claim and its supporting context to the files needed to inspect or reproduce them.
 
-## Claim 1: local attraction–defence interaction theory
+## Primary claim: local attraction–defence interaction theory
 
 Primary theory and assumptions:
 
@@ -35,9 +35,11 @@ The environmental comparative statics are conditional. `P` and `H` are exogenous
 
 The non-negative mechanism-magnitude decomposition is also conditional on an orientation gate. The focal trait labels alone do not guarantee `M_AD <= 0`, `G_AD <= 0`, or `C_AD >= 0`.
 
-## Claim 2: abstract-level directional consistency with a collateral pollinator-cost route
+The implemented baseline also contains reproductive assurance `R` as an auxiliary background moderator of the pollination-mediated channel. `R` is not a third focal trait in the submission claim, and the manuscript must not present the sensitivity grid as a three-trait theory.
 
-Active route-level evidence:
+## Preliminary literature context: collateral pollinator-cost route
+
+Active route-level context:
 
 - `empirical/broad_reality_evidence/broad_route_records.csv`
 - `empirical/broad_reality_evidence/broad_effect_extractions.csv`
@@ -52,11 +54,11 @@ Reproduction and validation:
 - `trait_architecture/theory_meta_validation.py`
 - `.github/workflows/validate-current-theory-meta.yml`
 
-All currently active directional records are coded from `crossref_deposited_abstract`. The relevant predeclared `B_to_pollination × chemical_barrier × pollinator_preference_or_foraging × manipulation` stratum contains three independent primary clusters, all coded negative. A separate `visitation_rate` stratum contains one mixed record and is not pooled into that three-cluster directional fraction.
+All currently active directional records are coded from `crossref_deposited_abstract`. The relevant declared `B_to_pollination × chemical_barrier × pollinator_preference_or_foraging × manipulation` stratum contains three independent primary clusters, all coded negative. A separate `visitation_rate` stratum contains one mixed record and is not pooled into that three-cluster directional fraction.
 
-The current quantitative extraction table contains no eligible effect rows, so the evidence layer does **not** calibrate effect magnitudes or model parameters. Its present contribution is restricted abstract-level directional consistency with a route-level biological premise.
+The current quantitative extraction table contains no eligible effect rows, and the abstract-level registry has not undergone full-text verification and independent duplicate coding or documented adjudication. The literature layer therefore does **not** constitute a second independent submission claim, calibrate effect magnitudes or model parameters, or validate the complete regime map. Its present role is preliminary mechanism context only.
 
-## Boundary between the two claims
+## Boundary between theory and literature context
 
 - `docs/SUBMISSION_SCOPE.md`
 - `scripts/validate_current_theory_meta.py`
