@@ -33,6 +33,16 @@ RETIRED_PATHS = [
     "trait_architecture/trait_coverage_audit.py",
     "tests/test_trait_coverage_audit.py",
     "examples/audit_trait_receipt_coverage.py",
+    # Retired four-path registry and synthesis layer.
+    "trait_architecture/four_path_effects.py",
+    "trait_architecture/effect_synthesis.py",
+    "scripts/synthesise_four_path_effects.py",
+    "examples/audit_four_path_effects.py",
+    "tests/test_four_path_effects.py",
+    "tests/test_effect_synthesis.py",
+    "tests/test_gymnadenia_effect_registration.py",
+    "configs/four_path_parameter_envelope_contracts.json",
+    "empirical/four_path_effects/FOUR_PATH_EFFECT_PROTOCOL.md",
     # Retired layered Part B machinery and legacy effect anchors.
     "empirical/broad_reality_evidence/part_b_arrow_effects.csv",
     "empirical/broad_reality_evidence/PART_B_RESULTS_READOUT_v1.md",
