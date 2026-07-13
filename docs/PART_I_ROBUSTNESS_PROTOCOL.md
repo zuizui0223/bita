@@ -47,7 +47,7 @@ For each declared local phenotype and regime case, ask:
 
 ```text
 Does the sign of the A x D mixed partial remain the same across
-this finite, predeclared set of response-function and parameter variants?
+this finite, predeclared set of response-shape and parameter variants?
 ```
 
 The answer is summarized as:
@@ -60,32 +60,38 @@ mixed_or_sensitive
 
 `tested_set_unanimous` means exactly what its name says: every evaluation in the summarized finite tested set has the same non-neutral sign. It must not be described as a proof that the sign is structurally robust to all admissible model formulations.
 
-## Functional-form families
+## Endpoint-normalized response-shape families
 
-The active sweep varies three curvature choices while retaining the same focal mechanisms.
+The active sweep varies three response-shape choices while preserving comparable endpoint scales on the declared `A,D in [0,1]` domain. This avoids the earlier confounding in which a nominal “curvature” change also changed the endpoint effect magnitude.
 
 ### 1. Pollination return to attraction
 
 ```text
 baseline:      b_A A
-saturating:    b_A A / (1 + q_A A)
+saturating:    b_A (1 + q_A) A / (1 + q_A A)
 ```
+
+Both equal `b_A` at `A=1`. `q_A=0` recovers the baseline.
 
 ### 2. Defence reduction of floral-antagonist damage
 
 ```text
 baseline:      e_F D
-saturating:    e_F D / (h_D + D)
+saturating:    e_F (1 + q_D) D / (1 + q_D D)
 ```
+
+Both equal `e_F` at `D=1`. `q_D=0` recovers the baseline.
 
 ### 3. Direct attraction–defence joint cost
 
 ```text
 baseline:      c_AD A D
-curved:        c_AD A D [1 + k_AD(A + D)]
+curved:        c_AD A D [1 + k_AD(A + D)] / (1 + 2 k_AD)
 ```
 
-These variants are sensitivity choices. They are not estimated from the current literature layer, and they do not exhaust all biologically possible functional forms.
+Both equal `c_AD` at `A=D=1`. `k_AD=0` recovers the baseline.
+
+The nonlinear variants therefore share the declared endpoint scales while redistributing local derivatives and mixed curvature across trait space. They still represent only a finite family of possible biological functions and do not isolate every conceivable notion of “curvature” from every other local property.
 
 ## Required dimensions
 
@@ -96,21 +102,21 @@ P     exogenous reference pollinator service
 H     exogenous reference floral-antagonist pressure
 R     auxiliary reproductive-assurance moderator
 A,D   local focal-trait coordinates
-b_A   attraction-mediated mutualist response
+b_A   endpoint scale of attraction-mediated mutualist response
 d_A   attraction-mediated antagonist tracking
-e_F   defence-mediated antagonist reduction
+e_F   endpoint scale of defence-mediated antagonist reduction
 c_D   defence-mediated pollinator obstruction
-c_AD  direct A x D cross-cost curvature
-q_A   attraction saturation
-h_D   defence half-saturation
-k_AD  shared-cost curvature
+c_AD  baseline/corner scale of direct A x D joint cost
+q_A   attraction-response saturation
+q_D   defence-response saturation
+k_AD  joint-cost curvature
 ```
 
-The parameter names describe mechanisms in the baseline corollary. Current literature records do not calibrate their magnitudes.
+The parameter names describe mechanisms in the baseline corollary and their normalized nonlinear variants. Current literature records do not calibrate their magnitudes.
 
 ## Numerical procedure
 
-For every parameter-regime case, evaluate the analytic mixed partial for each predeclared functional form.
+For every parameter-regime case, evaluate the analytic mixed partial for each predeclared response-shape variant.
 
 ```text
 sign agreement = non-neutral evaluations with modal sign / non-neutral evaluations
@@ -156,16 +162,17 @@ No direction-only record or heterogeneous cross-system record is inserted as a r
 
 ```text
 part_i_robustness_cases.csv
-  one row per functional-form / parameter / regime case
+  one row per response-shape / parameter / regime case
 
 part_i_robustness_envelope.csv
   modal sign, agreement, and tested-set classification by local case
 
 part_i_functional_form_summary.csv
-  within-scenario summaries across the declared functional-form family
+  within-scenario summaries across the declared response-shape family
 
 part_i_robustness_report.json
-  run dimensions, classification counts, neutral_tolerance, and its declared scale
+  run dimensions, classification counts, normalization rule,
+  neutral_tolerance, and its declared scale
 ```
 
 ## Interpretation boundary
@@ -174,4 +181,4 @@ A `tested_set_unanimous` region means only:
 
 > under every score function and parameter variant actually included in the stated finite tested set, the local `A x D` mixed partial has the same non-neutral numerical classification on the declared score scale and tolerance.
 
-It does not establish that the region is common in nature, that parameter values are universal, that a measured trait covariance is adaptive, that the sign survives every admissible functional form, that the same sign survives a different nonlinear parameterisation of the focal traits or output, or that an absolute tolerance would have the same meaning after rescaling the score.
+It does not establish that the region is common in nature, that parameter values are universal, that a measured trait covariance is adaptive, that the sign survives every admissible response function, that the same sign survives a different nonlinear parameterisation of the focal traits or output, or that an absolute tolerance would have the same meaning after rescaling the score.
