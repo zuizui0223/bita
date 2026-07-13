@@ -10,11 +10,11 @@ It also does **not** claim novelty for the algebraic identity
 W_AD = M_AD - G_AD - C_AD
 ```
 
-or for merely assuming `M_AD <= 0`, `G_AD <= 0`, and `C_AD >= 0`. Those sign restrictions define a biological hypothesis class; by themselves they do not predict how the interaction changes across environments.
+or for merely assuming oriented channel signs. Those restrictions define a biological hypothesis class; by themselves they do not predict how the interaction changes across environments.
 
 ## The narrower theoretical contribution
 
-The framework has two layers.
+The framework has three layers.
 
 ### Diagnostic layer
 
@@ -27,62 +27,58 @@ local A x D fitness interaction
 - direct joint cost.
 ```
 
-This provides a break-even accounting identity within the declared biological hypothesis class.
+This provides local channel accounting within the declared biological hypothesis class.
 
 ### Predictive layer
 
-When mutualist service `P` and antagonist pressure `H` scale locally comparable channel sensitivities,
+The linear special case is
 
 ```text
 W_AD = H * relief_rate - P * interference_rate - joint_cost.
 ```
 
-Then the model predicts, conditionally,
+But linear scaling is not required. A broader local form is
 
 ```text
-more antagonist pressure -> W_AD increases -> toward complementarity
-more mutualist service    -> W_AD decreases -> toward substitutability
+W_AD = a(H) * relief_rate
+       - b(P) * interference_rate
+       - joint_cost(P, H).
 ```
 
-and the break-even antagonist pressure is
+The directional predictions are therefore conditional:
 
-```text
-H* = (P * interference_rate + joint_cost) / relief_rate.
-```
+- increasing antagonist pressure moves the interaction toward complementarity when the increase in antagonist-relief scaling exceeds any increase in direct joint cost;
+- increasing mutualist service moves the interaction toward substitutability when mutualist-interference scaling rises sufficiently strongly relative to any offsetting cost change.
 
-This comparative-static result is more substantive than simply naming the mixed-partial components. It is falsifiable, but conditional on local response rates and the phenotype neighbourhood remaining comparable across the regime contrast.
+### Threshold layer
 
-The product model
+A unique break-even boundary requires additional monotonicity conditions. In a strongly nonlinear system there may be no threshold, one threshold, or multiple sign switches.
 
-```text
-W(A,D) = P B(A) Q(D) - H F(A) S(D) - C(A,D)
-```
-
-is a transparent sufficient construction, not a necessary assumption. The implemented exponential/linear model is one further corollary.
+Thus the framework does not claim that more antagonists or more mutualists always move the system in one direction. The predictions are local and conditional on regime-response derivatives.
 
 ## Relation to existing ecological theory
 
 Existing work establishes the biological ingredients used here: non-pollinating organisms can select on floral traits; floral signals can affect both mutualists and antagonists; florivory can link pollination and herbivory; and defensive traits can impose collateral effects on beneficial visitors.
 
-The framework should therefore be positioned as a **mechanistic synthesis and formalization** of these ingredients, with its strongest theoretical contribution being the regime-scaled comparative statics and explicit break-even boundary—not the existence of the biological ingredients or an unrestricted mixed-partial identity.
+The framework should therefore be positioned as a **mechanistic synthesis and formalization** of these ingredients at the level of local attraction–defence fitness interactions. The novelty claim should not rest on the existence of the ingredients themselves, nor on the unrestricted mixed-partial identity.
 
 A defensible claim is:
 
-> Under a locally regime-scaled attraction–defence model, increasing antagonist pressure shifts the fitness interaction toward complementarity, whereas increasing mutualist service shifts it toward substitutability when defence interferes with attraction-mediated mutualist return; the model gives the explicit break-even boundary between these regimes.
+> We separate diagnostic channel accounting from the additional regime-response assumptions needed to generate directional predictions and ecological break-even boundaries for local attraction–defence fitness interactions.
 
-Whether this precise formulation is unprecedented remains a prior-art question and should be established by targeted literature review rather than asserted from the mathematics alone.
+Whether this precise formalization is unprecedented remains a prior-art question and should be established by targeted literature review rather than asserted from the mathematics alone.
 
 ## What the criterion does not establish
 
 The sign of the mixed partial is not, by itself, a prediction of population-level trait covariance, genetic correlation, correlated evolutionary response, coevolutionary history, a global optimum, or a stable evolutionary endpoint.
 
-The comparative statics are also conditional. If local relief or interference rates change with `P`, `H`, phenotype, or other environmental variables, those dependencies must be modelled rather than ignored.
+The comparative statics are conditional. If channel sensitivities or direct cross-costs change with `P`, `H`, phenotype, or other environmental variables, those dependencies must be modelled rather than ignored.
 
 ## Empirical role of the literature layer
 
 The literature layer is not a full empirical test of the regime prediction. Its present role is narrower: to show that defence/access limitation can reduce pollinator use in real systems.
 
-That supports the plausibility of one ingredient of mutualist interference. It does **not** estimate the full interference rate, antagonist-relief rate, joint cost, or the response of `W_AD` to `P` or `H`.
+That supports the plausibility of one ingredient of mutualist interference. It does **not** estimate the full interference rate, antagonist-relief rate, regime-scaling functions, regime-dependent joint cost, or the response of `W_AD` to `P` or `H`.
 
 A direct empirical test would compare matched biological contexts across variation in mutualist service and/or antagonist pressure while estimating the relevant attraction–defence fitness interaction.
 
@@ -90,13 +86,13 @@ A direct empirical test would compare matched biological contexts across variati
 
 A safer abstract-level sentence is:
 
-> We derive conditional comparative statics for a regime-scaled attraction–defence fitness model: stronger antagonist pressure shifts the local interaction toward complementarity, whereas stronger mutualist service shifts it toward substitutability when defence obstructs attraction-mediated mutualist return, with an explicit break-even boundary between the regimes.
+> We derive local conditions under which antagonist relief can outweigh mutualist interference and direct joint cost, and show that environmental predictions require additional assumptions about how those channels scale with antagonist pressure and mutualist service.
 
 Avoid stronger formulations such as:
 
 - "We derive a completely general theorem for all attraction–defence systems."
-- "We show for the first time that pollinators and herbivores jointly shape floral traits."
+- "More antagonists always favour complementarity and more pollinators always favour substitutability."
 - "We predict positive or negative attraction–defence correlations from the mixed partial alone."
 - "We empirically validate the complete complementarity–substitutability regime map."
 
-These would overstate mathematical generality, prior-art novelty, or the current empirical evidence.
+These would overstate mathematical generality, comparative-statics scope, prior-art novelty, or the current empirical evidence.
