@@ -32,13 +32,13 @@ def minimal_config() -> dict:
             {
                 "form_id": "baseline",
                 "attraction_saturation": 0.0,
-                "defence_half_saturation": None,
+                "defence_saturation": 0.0,
                 "shared_cost_curvature": 0.0,
             },
             {
                 "form_id": "saturated",
                 "attraction_saturation": 1.0,
-                "defence_half_saturation": 0.35,
+                "defence_saturation": 2.0,
                 "shared_cost_curvature": 1.0,
             },
         ],
@@ -57,16 +57,17 @@ def test_run_emits_case_form_and_parameter_envelope_summaries() -> None:
     assert {row["parameter_scenario_id"] for row in rows} == {"baseline", "high_damage"}
     assert {row["parameter_scenario_id"] for row in form_summaries} == {"baseline", "high_damage"}
     assert {row["form_id"] for row in rows} == {"baseline", "saturated"}
+    assert {row["defence_saturation"] for row in rows} == {0.0, 2.0}
 
     report = MODULE.build_report(config, rows, form_summaries, envelope_summaries)
     assert report["neutral_tolerance"] == 1e-12
     assert report["neutral_tolerance_scale"] == "absolute_on_declared_score_scale"
+    assert report["response_shape_normalization"] == "common_endpoints_on_unit_trait_domain"
 
 
 def test_rejects_unknown_model_parameter_override() -> None:
     config = minimal_config()
     config["parameter_scenarios"][0]["overrides"] = {"not_a_parameter": 1.0}
-
     with pytest.raises(ValueError, match="unknown ModelParameters field"):
         MODULE.run(config)
 
