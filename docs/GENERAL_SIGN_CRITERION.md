@@ -18,51 +18,90 @@ W_{AD}=M_{AD}-G_{AD}-C_{AD}
 
 is algebra. It is **not** itself the novelty.
 
-Biological content enters by specifying the local signs of the channel curvatures:
+Biological orientation defines a hypothesis class in which, locally,
 
 \[
 M_{AD}\le 0,\qquad G_{AD}\le 0,\qquad C_{AD}\ge 0.
 \]
 
-These conditions mean, locally:
+These signs mean that defence lowers the marginal mutualist return to attraction, defence reduces antagonist loss more strongly where attraction raises antagonist exposure, and attraction and defence have a non-negative direct joint cost.
 
-- defence/access limitation reduces the marginal mutualist return to attraction (`M_AD <= 0`);
-- defence reduces antagonist damage more strongly when attraction creates more antagonist exposure (`G_AD <= 0`);
-- attraction and defence have a non-negative direct joint cost (`C_AD >= 0`).
-
-Define the non-negative oriented magnitudes
+Define
 
 \[
-I_P=-M_{AD}\ge 0
+I_P=-M_{AD}\ge 0,\qquad R_H=-G_{AD}\ge 0.
 \]
 
-for **mutualist interference**, and
+Then
 
 \[
-R_H=-G_{AD}\ge 0
+W_{AD}=R_H-I_P-C_{AD},
 \]
 
-for **antagonist relief**. Then
+and
 
 \[
-W_{AD}=R_H-I_P-C_{AD}.
+W_{AD}>0\iff R_H>I_P+C_{AD}.
 \]
 
-Therefore,
+This is a **diagnostic break-even criterion**. By itself it classifies competing local channel curvatures; it does not yet generate a directional environmental prediction. Treating the sign assumptions alone as a prediction would be circular.
+
+## Where predictive content enters
+
+A stronger model class specifies how ecological regime variables scale the local channel curvatures. Let
 
 \[
-W_{AD}>0
-\iff
-R_H>I_P+C_{AD}.
+M(A,D;P)=P\,m(A,D),\qquad G(A,D;H)=H\,g(A,D),
 \]
 
-This is the local break-even criterion used in the manuscript.
+with locally oriented per-unit curvatures
+
+\[
+m_{AD}<0,\qquad g_{AD}<0.
+\]
+
+Define
+
+\[
+i=-m_{AD}>0,\qquad r=-g_{AD}>0.
+\]
+
+Then
+
+\[
+W_{AD}=Hr-Pi-C_{AD}.
+\]
+
+This yields conditional comparative statics:
+
+\[
+\frac{\partial W_{AD}}{\partial H}=r>0,
+\]
+
+so greater antagonist pressure pushes the local interaction toward complementarity, whereas
+
+\[
+\frac{\partial W_{AD}}{\partial P}=-i<0,
+\]
+
+so greater mutualist service pushes it toward substitutability when defence interferes with the attraction-mediated mutualist return.
+
+For fixed local rates and direct cross-cost, the break-even antagonist pressure is
+
+\[
+H^*=\frac{Pi+C_{AD}}{r}.
+\]
+
+These are the actual directional predictions of the framework. They are conditional on the local response rates and phenotype neighbourhood remaining comparable as `P` or `H` changes. If those rates themselves vary strongly with the regime, the derivative must include those dependencies explicitly.
 
 ## Why this is not just a tautology
 
-The arithmetic decomposition alone is tautological. The substantive model class is the set of systems satisfying the stated **channel meanings and local curvature signs**. Those restrictions are biological assumptions that can fail and therefore generate testable alternatives.
+The arithmetic decomposition alone is tautological. The biologically substantive content is layered:
 
-The criterion does **not** require the mutualist and antagonist channels to be multiplicatively separable. Product forms are sufficient constructions that make the mechanism transparent, but they are not necessary.
+1. **diagnostic layer:** declare and estimate the signs and magnitudes of the local channel curvatures;
+2. **predictive layer:** specify how ecological regime variables scale those curvatures, yielding comparative statics and a break-even boundary.
+
+The first layer organizes mechanisms. The second produces falsifiable directional predictions.
 
 ## A transparent sufficient construction
 
@@ -93,14 +132,10 @@ G_{AD}=H F'(A)S'(D)\le 0.
 Thus
 
 \[
-I_P=-P B'(A)Q'(D),
+I_P=-P B'(A)Q'(D),\qquad R_H=-H F'(A)S'(D),
 \]
 
-\[
-R_H=-H F'(A)S'(D),
-\]
-
-and the same break-even condition follows. This product structure is an interpretable example, not the most general admissible model.
+and the same break-even condition follows. This product structure is an interpretable sufficient construction, not a necessary assumption.
 
 ## Interpretation
 
@@ -110,7 +145,7 @@ and the same break-even condition follows. This product structure is an interpre
 
 These statements concern local curvature of the declared fitness surface. They do **not** by themselves imply population-level trait covariance, genetic correlation, coevolution, a global optimum, or the prevalence of either regime in nature.
 
-The oriented labels are conditional. If defence facilitates mutualists (`M_AD > 0`), if attraction and defence jointly amplify antagonist damage (`G_AD > 0`), or if the direct cross-cost is negative, the relevant channel changes sign and must not be forced into the labels `interference`, `relief`, or `joint cost`.
+The oriented labels are conditional. If defence facilitates mutualists, attraction and defence jointly amplify antagonist damage, or the direct cross-cost is negative, the relevant channel changes sign and must not be forced into the labels `interference`, `relief`, or `joint cost`.
 
 ## Baseline model as a corollary
 
@@ -127,23 +162,17 @@ P(b_0+b_AA)e^{-c_DD}(1-c_RR)
 with direct joint cost term `c_AD A D`,
 
 \[
-W_{AD}
-=
-H d_Ae_F
--
-P b_Ac_De^{-c_DD}(1-c_RR)
--
-c_{AD}.
+W_{AD}=H d_Ae_F-P b_Ac_De^{-c_DD}(1-c_RR)-c_{AD}.
 \]
 
 The mapping is
 
 \[
-R_H=Hd_Ae_F,
+r=d_Ae_F,
 \]
 
 \[
-I_P=Pb_Ac_De^{-c_DD}(1-c_RR),
+i=b_Ac_De^{-c_DD}(1-c_RR),
 \]
 
 and
@@ -152,10 +181,12 @@ and
 C_{AD}=c_{AD}.
 \]
 
+Thus the baseline directly exhibits the comparative statics above when the local rates are held fixed.
+
 The numerical robustness sweep varies curvature around this corollary. It is a sensitivity analysis over selected functional forms, not a proof of the criterion and not an estimate of regime frequencies in nature.
 
 ## Empirical bridge
 
-The literature layer currently supports only a narrower statement: defence/access limitation can reduce pollinator use in at least some systems. At the nonseparable level, this makes a negative mutualist channel curvature `M_AD < 0` biologically plausible only when the attraction-dependent return is also defined for the same context. Under the product special case, it supports the plausibility of `Q'(D) < 0`, one ingredient of `I_P`.
+The literature layer currently supports only a narrower statement: defence/access limitation can reduce pollinator use in at least some systems. Under the product special case, this supports the plausibility of `Q'(D)<0`, one ingredient of the per-unit interference rate `i`.
 
-It does **not** estimate `I_P` by itself, nor the complete mixed partial. The antagonist-relief and direct joint-cost terms are not jointly estimated on compatible scales and contexts.
+It does **not** estimate `i`, `r`, the direct joint cost, or the complete mixed partial. A direct empirical test of the regime prediction would require comparable estimates across variation in `P` and/or `H`, ideally with the relevant local trait responses measured in the same biological context.
