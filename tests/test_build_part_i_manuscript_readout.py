@@ -44,5 +44,6 @@ def test_build_readout_reports_conditional_regimes_without_structural_overclaim(
     assert "theoretical sign frequencies" in text
     assert "not an empirical parameter calibration" in text
     assert "tested_set_unanimous" in text
-    assert "not proof of mathematical structural robustness" in text
+    assert "structural robustness" in text
+    assert "not claims of mathematical structural robustness" in text
     assert "Impatiens" not in text
