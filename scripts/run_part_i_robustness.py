@@ -1,12 +1,14 @@
-"""Run the predeclared Part I functional-form sensitivity sweep.
+"""Run the predeclared Part I response-shape sensitivity sweep.
 
 The runner produces every local mixed-partial evaluation, within-scenario sign
-agreement across alternative functional forms, and the sign envelope across all
+agreement across alternative response shapes, and the sign envelope across all
 predeclared biological parameter scenarios.
 
-The configured ``neutral_tolerance`` is an absolute numerical zero threshold on
-the declared score scale. It is not a biologically invariant neutrality band.
-Unanimity means only unanimity across the finite predeclared tested set.
+Nonlinear response shapes are normalized to common endpoint scales on the
+0–1 focal-trait domain. The configured ``neutral_tolerance`` is an absolute
+numerical zero threshold on the declared score scale, not a biologically
+invariant neutrality band. Unanimity means only unanimity across the finite
+predeclared tested set.
 
 Usage:
     python scripts/run_part_i_robustness.py \
@@ -38,7 +40,7 @@ CASE_FIELDS = [
     "case_id", "parameter_scenario_id", "form_id", "attraction", "defence",
     "assurance", "pollinator_service", "floral_damage_pressure", "attraction_gain",
     "attraction_tracking", "floral_defence_efficacy", "defence_pollinator_cost",
-    "attraction_defence_shared_cost", "attraction_saturation", "defence_half_saturation",
+    "attraction_defence_shared_cost", "attraction_saturation", "defence_saturation",
     "shared_cost_curvature", "antagonism_term", "pollination_obstruction_term",
     "shared_cost_term", "mixed_partial", "sign",
 ]
@@ -100,10 +102,7 @@ def _functional_forms(config: dict[str, Any]) -> tuple[FunctionalForm, ...]:
         form = FunctionalForm(
             form_id=str(raw.get("form_id") or "").strip(),
             attraction_saturation=float(raw.get("attraction_saturation", 0.0)),
-            defence_half_saturation=(
-                None if raw.get("defence_half_saturation") is None
-                else float(raw["defence_half_saturation"])
-            ),
+            defence_saturation=float(raw.get("defence_saturation", 0.0)),
             shared_cost_curvature=float(raw.get("shared_cost_curvature", 0.0)),
         )
         if form.form_id in seen:
@@ -193,7 +192,7 @@ def run(
                     "defence_pollinator_cost": parameters.defence_pollinator_cost,
                     "attraction_defence_shared_cost": parameters.attraction_defence_shared_cost,
                     "attraction_saturation": form.attraction_saturation,
-                    "defence_half_saturation": "" if form.defence_half_saturation is None else form.defence_half_saturation,
+                    "defence_saturation": form.defence_saturation,
                     "shared_cost_curvature": form.shared_cost_curvature,
                     "antagonism_term": result.antagonism_term,
                     "pollination_obstruction_term": result.pollination_obstruction_term,
@@ -265,13 +264,14 @@ def build_report(
         "functional_form_summary_count": len(form_summaries),
         "neutral_tolerance": tolerance,
         "neutral_tolerance_scale": "absolute_on_declared_score_scale",
+        "response_shape_normalization": "common_endpoints_on_unit_trait_domain",
         "functional_form_class_counts": _class_counts(form_summaries, "functional_form_class"),
         "parameter_envelope_class_counts": _class_counts(envelope_summaries, "envelope_class"),
         "warning": (
             "Outputs are qualitative diagnostics over a finite predeclared tested set. "
-            "The neutral tolerance is an absolute numerical zero threshold on the declared "
-            "score scale, not a biologically invariant neutrality band. Tested-set unanimity "
-            "is not proof of structural robustness."
+            "Nonlinear response shapes share declared endpoint scales but differ in local "
+            "derivatives. The neutral tolerance is an absolute numerical zero threshold on "
+            "the declared score scale, not a biologically invariant neutrality band."
         ),
     }
 
