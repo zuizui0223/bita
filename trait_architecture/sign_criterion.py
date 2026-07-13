@@ -2,17 +2,10 @@
 
 The arithmetic here is used only after ecological channels have been derived from
 an explicit model. ``SignCriterion`` evaluates already-oriented channel
-magnitudes. ``RegimeScaledCriterion`` adds a stronger, predictive restriction:
+magnitudes. ``RegimeScaledCriterion`` is the linear special case in which
 mutualist service and antagonist pressure scale fixed local channel sensitivities.
-
-Under that restriction,
-
-    W_AD = H * relief_rate - P * interference_rate - joint_cost,
-
-so increasing antagonist pressure pushes the local interaction toward
-complementarity, while increasing mutualist service pushes it toward
-substitutability. These comparative statics are conditional predictions, unlike
-the bare arithmetic decomposition.
+``MonotoneRegimeCriterion`` records the more general local comparative statics for
+nonlinear regime scalings.
 
 Neither class by itself predicts population-level trait covariance, genetic
 correlation, or an evolutionary endpoint.
@@ -61,19 +54,14 @@ class SignCriterion:
 
 @dataclass(frozen=True)
 class RegimeScaledCriterion:
-    """Evaluate a regime-scaled local criterion with testable comparative statics.
-
-    ``relief_rate`` is antagonist-relief curvature per unit antagonist pressure H.
-    ``interference_rate`` is mutualist-interference curvature per unit mutualist
-    service P. Both are non-negative local sensitivities after biological
-    orientation. ``joint_cost`` is a non-negative direct cross-cost.
+    """Linear special case with testable local comparative statics.
 
     The model is
 
         W_AD = H * relief_rate - P * interference_rate - joint_cost.
 
-    The resulting directional predictions are conditional on the rates and local
-    phenotype neighbourhood remaining comparable while P or H changes.
+    The resulting directional predictions are conditional on the rates, joint cost,
+    and local phenotype neighbourhood remaining comparable while P or H changes.
     """
 
     pollinator_service: float
@@ -114,3 +102,71 @@ class RegimeScaledCriterion:
         return (
             self.pollinator_service * self.interference_rate + self.joint_cost
         ) / self.relief_rate
+
+
+@dataclass(frozen=True)
+class MonotoneRegimeCriterion:
+    """Local nonlinear regime scaling and its directional derivatives.
+
+    Around a focal environment, write
+
+        W_AD = a(H) * relief_rate
+             - b(P) * interference_rate
+             - joint_cost(P, H).
+
+    ``antagonist_scale`` and ``mutualist_scale`` are the local values of ``a(H)``
+    and ``b(P)``. Their slopes are the local derivatives ``a'(H)`` and ``b'(P)``.
+    ``joint_cost_h_slope`` and ``joint_cost_p_slope`` allow the direct cross-cost to
+    vary with the two regime variables.
+
+    The local comparative statics are therefore
+
+        dW_AD/dH = a'(H) * relief_rate - dC_AD/dH
+        dW_AD/dP = -b'(P) * interference_rate - dC_AD/dP.
+
+    This class deliberately does not require the scale slopes to be positive. The
+    signs of the returned derivatives are the actual local predictions.
+    """
+
+    antagonist_scale: float
+    mutualist_scale: float
+    antagonist_scale_slope: float
+    mutualist_scale_slope: float
+    relief_rate: float
+    interference_rate: float
+    joint_cost: float
+    joint_cost_h_slope: float = 0.0
+    joint_cost_p_slope: float = 0.0
+
+    def __post_init__(self) -> None:
+        for name in (
+            "antagonist_scale",
+            "mutualist_scale",
+            "relief_rate",
+            "interference_rate",
+            "joint_cost",
+        ):
+            if getattr(self, name) < 0:
+                raise ValueError(f"{name} must be non-negative")
+
+    @property
+    def mixed_partial(self) -> float:
+        return (
+            self.antagonist_scale * self.relief_rate
+            - self.mutualist_scale * self.interference_rate
+            - self.joint_cost
+        )
+
+    @property
+    def d_mixed_partial_d_antagonist_pressure(self) -> float:
+        return (
+            self.antagonist_scale_slope * self.relief_rate
+            - self.joint_cost_h_slope
+        )
+
+    @property
+    def d_mixed_partial_d_pollinator_service(self) -> float:
+        return (
+            -self.mutualist_scale_slope * self.interference_rate
+            - self.joint_cost_p_slope
+        )
