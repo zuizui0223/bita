@@ -48,28 +48,34 @@
     {
       "form_id": "baseline",
       "attraction_saturation": 0.0,
-      "defence_half_saturation": null,
+      "defence_saturation": 0.0,
       "shared_cost_curvature": 0.0
     },
     {
       "form_id": "saturating_attraction",
       "attraction_saturation": 1.0,
-      "defence_half_saturation": null,
+      "defence_saturation": 0.0,
       "shared_cost_curvature": 0.0
     },
     {
       "form_id": "saturating_defence",
       "attraction_saturation": 0.0,
-      "defence_half_saturation": 0.35,
+      "defence_saturation": 2.857142857142857,
       "shared_cost_curvature": 0.0
     },
     {
       "form_id": "saturating_both_curved_cost",
       "attraction_saturation": 1.0,
-      "defence_half_saturation": 0.35,
+      "defence_saturation": 2.857142857142857,
       "shared_cost_curvature": 1.0
     }
   ],
+  "normalization": {
+    "trait_domain": "A,D in [0,1]",
+    "attraction": "all attraction response shapes equal attraction_gain at A=1",
+    "defence": "all defence response shapes equal floral_defence_efficacy at D=1",
+    "joint_cost": "all joint-cost shapes equal attraction_defence_shared_cost at A=D=1"
+  },
   "interpretation": {
     "tested_set_unanimous": "Every evaluation in the summarized finite predeclared tested set has the same non-neutral sign. This is tested-set unanimity, not a proof of mathematical structural robustness.",
     "conditional_majority": "At least 80% sign agreement among non-neutral evaluations in the summarized tested set, without full unanimity.",
