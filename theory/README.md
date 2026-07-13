@@ -50,7 +50,17 @@ so algebraically
 W_{AD}=M_{AD}-G_{AD}-C_{AD}.
 \]
 
-The manuscript does not claim novelty for that identity. Under the active biological orientation,
+The manuscript does not claim novelty for that identity.
+
+The three non-negative magnitude labels are used only after an **orientation gate** has been passed. The focal biological roles alone do not guarantee the required mixed-curvature signs. The active orientation requires locally
+
+```text
+M_AD <= 0  defence reduces the mutualist return specifically associated with marginal A
+G_AD <= 0  defence reduces antagonist loss specifically associated with marginal A
+C_AD >= 0  the direct joint-cost curvature is non-negative
+```
+
+Only then is it valid to write
 
 ```text
 local A x D interaction
@@ -65,6 +75,8 @@ This gives the diagnostic condition
 local complementarity
 iff antagonist relief > mutualist interference + direct joint cost.
 ```
+
+If an explicit model or empirical response surface gives the opposite sign for one of those curvatures, that result must remain signed. It must not be forced into a non-negative mechanism magnitude merely because `A` was called attraction or `D` was called defence.
 
 Environmental prediction requires more structure. `P` and `H` are treated as **exogenous reference-regime indices**, not realised visitation or damage after the focal traits act. In the general local form
 
@@ -95,6 +107,8 @@ P b_A c_D exp(-c_D D) (1 - c_R R)         mutualist interference
 c_AD                                       direct joint cost
 ```
 
+Here the orientation follows from the explicit baseline functional form and non-negative parameter restrictions; it does not follow from the trait names alone.
+
 `R` is retained only as an auxiliary moderator of the pollination-mediated channel. It is not a third focal trait in the submission claim.
 
 ## Trait scale
@@ -107,22 +121,23 @@ A local mixed partial and an evolutionary optimum answer different questions. An
 
 Those assumptions are not needed for the present question and are not added merely to make the model look more evolutionary.
 
-## Robustness analysis
+## Sensitivity analysis
 
-The numerical sweep varies selected response-function curvature and parameter values around the baseline corollary. Its purpose is to ask whether the sign of the local mixed partial is stable within a declared family of models.
+The numerical sweep varies selected response-function curvature and parameter values around the baseline corollary. Its purpose is to ask whether the sign of the local mixed partial is stable within a finite, declared family of models.
 
-The grid is a sensitivity analysis, not a proof of the criterion and not an empirical frequency distribution over nature.
+`tested_set_unanimous` means unanimity across that finite predeclared set only. It is not a proof of mathematical structural robustness. The grid is a sensitivity analysis, not a proof of the criterion and not an empirical frequency distribution over nature.
 
-## Falsifiable model-family predictions
+## Model-family implications and empirical failure conditions
 
-1. Mutualist interference pushes the local interaction toward substitutability when the same focal `D` lowers the attraction-mediated mutualist return.
-2. Antagonist relief pushes it toward complementarity when attraction increases antagonist exposure and the same focal `D` reduces the resulting loss.
-3. Direct joint cost pushes it toward substitutability independently of the two ecological channels.
-4. Environmental effects are conditional on how the regime changes those channel contributions; more antagonists or more mutualists do not have universal effects without the derivative conditions.
+1. The oriented magnitude decomposition is applicable only when the local mixed curvatures satisfy the declared sign conditions. Opposite-signed curvatures are evidence that the active orientation is incomplete or inappropriate for that focal pair.
+2. A negative `D -> pollinator use` effect alone does not identify mutualist interference `M_AD < 0`; the test must determine whether `D` changes the marginal mutualist return to the specific focal `A`.
+3. A protective `D -> antagonist damage` effect alone does not identify antagonist relief `G_AD < 0`; the test must determine whether `D` changes the antagonist loss associated with marginal `A`.
+4. Environmental effects are conditional on how the regime changes the channel contributions; more antagonists or more mutualists do not have universal effects without the derivative conditions.
 5. A sign switch occurs only where the regime-dependent channel balance crosses zero; nonlinear models may have no crossing, one crossing, or multiple crossings.
+6. A direct empirical test of the focal theory requires a compatible response surface or factorial design for the same `A`–`D` pair and biological context; separate route records from different systems cannot identify the complete mixed partial.
 
 ## Link to literature evidence
 
-The literature layer supports only a narrower mechanism-plausibility statement: flower-specific defence/barrier traits can reduce pollinator use in some systems.
+The literature layer supports only a narrower mechanism-plausibility statement: flower-associated defence/barrier traits can reduce pollinator use in some systems.
 
-That evidence does not estimate the complete `A`–`D` mixed partial or its environmental derivative because the full channel set is not measured for the same focal trait pair on compatible scales.
+That evidence does not identify `M_AD < 0` by itself and does not estimate the complete `A`–`D` mixed partial or its environmental derivative, because the full channel interactions are not measured for the same focal trait pair on compatible scales.
