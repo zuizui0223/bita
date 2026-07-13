@@ -7,6 +7,8 @@
   "functional_form_count": 4,
   "evaluation_count": 2592,
   "functional_form_summary_count": 648,
+  "neutral_tolerance": 1e-10,
+  "neutral_tolerance_scale": "absolute_on_declared_score_scale",
   "functional_form_class_counts": {
     "tested_set_unanimous": 395,
     "conditional_majority": 0,
@@ -44,5 +46,5 @@
     }
   },
   "interpretation": "The initial broad envelope does not support an unconditional universal sign. Within fixed biological scenarios, many local cases retain their sign across the four predeclared response-function variants. Across deliberately contrasting biological scenarios, the sign is usually sensitive. This is the expected conditional-regime result, not a failure of the model. Unanimity over the tested set is not a proof of mathematical structural robustness.",
-  "warning": "This is a qualitative finite tested-set and parameter-scenario sensitivity diagnostic. It is not calibrated from empirical effect sizes and does not estimate adaptation or population trait covariance."
+  "warning": "This is a qualitative finite tested-set and parameter-scenario sensitivity diagnostic. The neutral tolerance is an absolute numerical zero threshold on the declared score scale, not a biologically invariant neutrality band. The run is not calibrated from empirical effect sizes and does not estimate adaptation or population trait covariance."
 }
