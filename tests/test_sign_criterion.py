@@ -2,7 +2,11 @@ import pytest
 
 from trait_architecture.model import ModelParameters
 from trait_architecture.robustness import RobustnessCase, mixed_partial
-from trait_architecture.sign_criterion import RegimeScaledCriterion, SignCriterion
+from trait_architecture.sign_criterion import (
+    MonotoneRegimeCriterion,
+    RegimeScaledCriterion,
+    SignCriterion,
+)
 
 
 def test_antagonist_relief_can_make_traits_locally_complementary() -> None:
@@ -109,3 +113,31 @@ def test_break_even_antagonist_pressure_is_predictive_boundary() -> None:
         joint_cost=0.1,
     )
     assert criterion.break_even_antagonist_pressure == pytest.approx(0.5)
+
+
+def test_nonlinear_monotone_antagonist_scaling_preserves_direction() -> None:
+    criterion = MonotoneRegimeCriterion(
+        antagonist_scale=0.7,
+        mutualist_scale=0.8,
+        antagonist_scale_slope=0.3,
+        mutualist_scale_slope=0.4,
+        relief_rate=1.2,
+        interference_rate=0.5,
+        joint_cost=0.1,
+    )
+    assert criterion.d_mixed_partial_d_antagonist_pressure == pytest.approx(0.36)
+    assert criterion.d_mixed_partial_d_pollinator_service == pytest.approx(-0.2)
+
+
+def test_regime_dependent_joint_cost_can_reverse_directional_prediction() -> None:
+    criterion = MonotoneRegimeCriterion(
+        antagonist_scale=0.7,
+        mutualist_scale=0.8,
+        antagonist_scale_slope=0.3,
+        mutualist_scale_slope=0.4,
+        relief_rate=1.2,
+        interference_rate=0.5,
+        joint_cost=0.1,
+        joint_cost_h_slope=0.5,
+    )
+    assert criterion.d_mixed_partial_d_antagonist_pressure == pytest.approx(-0.14)
