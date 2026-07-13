@@ -12,7 +12,7 @@ Primary theory and assumptions:
 - `trait_architecture/sign_criterion.py`
 - `tests/test_sign_criterion.py`
 
-Implemented baseline corollary and sensitivity analysis:
+Implemented baseline corollary and finite-set sensitivity analysis:
 
 - `trait_architecture/model.py`
 - `trait_architecture/robustness.py`
@@ -33,7 +33,9 @@ Automated guard:
 
 The environmental comparative statics are conditional. `P` and `H` are exogenous reference-regime indices, and the directional effect of changing them depends on the local derivatives of the ecological channel scaling and any regime dependence of direct cross-cost.
 
-## Claim 2: a flower-specific defence/barrier can reduce pollinator use
+The non-negative mechanism-magnitude decomposition is also conditional on an orientation gate. The focal trait labels alone do not guarantee `M_AD <= 0`, `G_AD <= 0`, or `C_AD >= 0`.
+
+## Claim 2: abstract-level directional consistency with a collateral pollinator-cost route
 
 Active route-level evidence:
 
@@ -50,7 +52,9 @@ Reproduction and validation:
 - `trait_architecture/theory_meta_validation.py`
 - `.github/workflows/validate-current-theory-meta.yml`
 
-The current quantitative extraction table contains no eligible effect rows, so the evidence layer does **not** calibrate effect magnitudes or model parameters. Its present contribution is restricted directional support for mechanism plausibility in declared route strata.
+All currently active directional records are coded from `crossref_deposited_abstract`. The relevant predeclared `B_to_pollination × chemical_barrier × pollinator_preference_or_foraging × manipulation` stratum contains three independent primary clusters, all coded negative. A separate `visitation_rate` stratum contains one mixed record and is not pooled into that three-cluster directional fraction.
+
+The current quantitative extraction table contains no eligible effect rows, so the evidence layer does **not** calibrate effect magnitudes or model parameters. Its present contribution is restricted abstract-level directional consistency with a route-level biological premise.
 
 ## Boundary between the two claims
 
@@ -58,7 +62,7 @@ The current quantitative extraction table contains no eligible effect rows, so t
 - `scripts/validate_current_theory_meta.py`
 - `trait_architecture/theory_meta_validation.py`
 
-Route records from different traits and taxa can establish that a pathway is biologically possible. They do not jointly estimate one system-specific `D` axis, the complete local `A`–`D` mixed partial, its environmental derivative, trait covariance, or an evolutionary endpoint.
+A negative `D -> pollinator use` route does not by itself identify the focal mutualist mixed curvature `M_AD < 0`; that would require showing how `D` changes the marginal mutualist return to the same focal `A`. Route records from different traits and taxa also do not jointly estimate one system-specific `D` axis, the complete local `A`–`D` mixed partial, its environmental derivative, trait covariance, or an evolutionary endpoint.
 
 ## Deliberately absent
 
