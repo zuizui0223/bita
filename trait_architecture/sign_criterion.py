@@ -1,18 +1,24 @@
-"""General local sign criterion for attraction--defence interaction.
+"""Local sign criterion for a mechanistically oriented attraction--defence model.
 
-The module separates the theorem-level decomposition from any particular response
-function used by the numerical robustness sweep.  It evaluates the mixed partial
-of a broad local fitness decomposition
+The arithmetic implemented here is used after ecological channels have been derived
+from an explicit model such as
 
-    W(A, D) = M(A, D) - G(A, D) - C(A, D),
+    W(A, D) = P B(A) Q(D) - H F(A) S(D) - C(A, D).
 
-where ``M`` is the mutualist-mediated contribution, ``G`` is antagonist-mediated
-loss, and ``C`` is direct investment or allocation cost.
+In the oriented region B' >= 0, Q' <= 0, F' >= 0, and S' <= 0, define
 
-A positive mixed partial means *local fitness complementarity*: increasing D raises
-the marginal fitness return to A.  A negative mixed partial means *local fitness
-substitutability*.  Neither sign is, by itself, a prediction of population-level
-trait covariance, genetic correlation, or an evolutionary endpoint.
+    antagonist_relief      = -H F'(A) S'(D),
+    mutualist_interference = -P B'(A) Q'(D),
+    joint_cost             = C_AD.
+
+The mixed partial is then antagonist relief minus mutualist interference minus
+joint cost. The class does not turn an arbitrary fitness decomposition into a new
+theorem; callers are responsible for establishing the mechanistic mapping and
+local derivative signs before supplying non-negative channel magnitudes.
+
+A positive mixed partial means local fitness complementarity and a negative mixed
+partial local fitness substitutability. Neither sign alone predicts population-
+level trait covariance, genetic correlation, or an evolutionary endpoint.
 """
 
 from __future__ import annotations
@@ -22,21 +28,19 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class SignCriterion:
-    """Channel decomposition of the local A x D mixed partial.
+    """Evaluate oriented channel magnitudes for the local A x D mixed partial.
 
-    Parameters are signed contributions to ``d2W / dA dD`` after biological
-    orientation has been declared:
+    ``antagonist_relief`` is the non-negative magnitude ``-H F' S'`` when
+    attraction increases antagonist exposure and defence reduces residual damage.
 
-    ``antagonist_relief``
-        Positive when attraction increases antagonist exposure and defence reduces
-        the resulting damage, so defence raises the marginal return to attraction.
+    ``mutualist_interference`` is the non-negative magnitude ``-P B' Q'`` when
+    attraction increases mutualist return and defence/access limitation reduces the
+    retained return.
 
-    ``mutualist_interference``
-        Non-negative magnitude of the opposing pathway in which defence reduces
-        the mutualist-mediated return to attraction.
+    ``joint_cost`` is ``C_AD`` when the local direct cross-cost is non-negative.
 
-    ``joint_cost``
-        Non-negative magnitude of a direct A x D allocation or construction cost.
+    If those derivative signs do not hold, the affected channel must be reoriented
+    rather than forced into these labels.
     """
 
     antagonist_relief: float
@@ -54,12 +58,12 @@ class SignCriterion:
 
     @property
     def mixed_partial(self) -> float:
-        """Return the local A x D mixed partial."""
+        """Return the local A x D mixed partial for the oriented model region."""
 
         return self.antagonist_relief - self.mutualist_interference - self.joint_cost
 
     def classify(self, *, tolerance: float = 1e-12) -> str:
-        """Classify the local score interaction without implying trait covariance."""
+        """Classify the local fitness interaction without implying trait covariance."""
 
         if tolerance < 0:
             raise ValueError("tolerance must be non-negative")
@@ -72,6 +76,6 @@ class SignCriterion:
 
     @property
     def break_even_antagonist_relief(self) -> float:
-        """Return the antagonist-relief magnitude required for a zero mixed partial."""
+        """Return antagonist relief required for a zero mixed partial."""
 
         return self.mutualist_interference + self.joint_cost
