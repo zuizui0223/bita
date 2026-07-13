@@ -4,76 +4,51 @@
 
 The central theoretical result is a **local fitness-interaction criterion**, not a direct prediction of trait covariance.
 
-An unrestricted decomposition
+For a broad decomposition
 
 \[
-W(A,D)=M(A,D)-G(A,D)-C(A,D)
+W(A,D)=M(A,D)-G(A,D)-C(A,D),
 \]
 
-implies the identity
+the identity
 
 \[
-W_{AD}=M_{AD}-G_{AD}-C_{AD}.
+W_{AD}=M_{AD}-G_{AD}-C_{AD}
 \]
 
-That identity alone is algebra and is **not** claimed as a theorem or as the source of novelty. Biological content enters only after the mutualist and antagonist contributions are given an explicit mechanistic structure.
+is algebra. It is **not** itself the novelty.
 
-## Mechanistic model class
-
-Consider the local model class
+Biological content enters by specifying the local signs of the channel curvatures:
 
 \[
-W(A,D)=P\,B(A)Q(D)-H\,F(A)S(D)-C(A,D),
+M_{AD}\le 0,\qquad G_{AD}\le 0,\qquad C_{AD}\ge 0.
 \]
 
-where:
+These conditions mean, locally:
 
-- `B(A)` is the mutualist-mediated return associated with attraction;
-- `Q(D)` is the fraction of that return retained under defence/access limitation;
-- `F(A)` is antagonist exposure associated with attraction;
-- `S(D)` is the residual antagonist damage retained under defence;
-- `C(A,D)` is direct construction, allocation, or other joint cost;
-- `P,H >= 0` scale mutualist service and antagonist pressure.
+- defence/access limitation reduces the marginal mutualist return to attraction (`M_AD <= 0`);
+- defence reduces antagonist damage more strongly when attraction creates more antagonist exposure (`G_AD <= 0`);
+- attraction and defence have a non-negative direct joint cost (`C_AD >= 0`).
 
-The biologically oriented region used in this project assumes locally that
+Define the non-negative oriented magnitudes
 
 \[
-B'(A)\ge 0,\quad Q'(D)\le 0,\quad F'(A)\ge 0,\quad S'(D)\le 0.
+I_P=-M_{AD}\ge 0
 \]
 
-Thus attraction can increase mutualist return and antagonist exposure, while defence/access limitation can obstruct mutualist return and reduce residual antagonist damage.
-
-For this model class,
+for **mutualist interference**, and
 
 \[
-W_{AD}
-=
-P B'(A)Q'(D)
--
-H F'(A)S'(D)
--
-C_{AD}.
+R_H=-G_{AD}\ge 0
 \]
 
-Define non-negative, locally oriented ecological channel magnitudes
-
-\[
-R_H=-H F'(A)S'(D)\ge 0
-\]
-
-for **antagonist relief**, and
-
-\[
-I_P=-P B'(A)Q'(D)\ge 0
-\]
-
-for **mutualist interference**. Then
+for **antagonist relief**. Then
 
 \[
 W_{AD}=R_H-I_P-C_{AD}.
 \]
 
-If `C_AD >= 0` represents a direct joint cost, the sign-switch condition is
+Therefore,
 
 \[
 W_{AD}>0
@@ -81,7 +56,51 @@ W_{AD}>0
 R_H>I_P+C_{AD}.
 \]
 
-This is the substantive criterion used in the manuscript. It is not obtained by merely renaming an arbitrary mixed partial: `R_H` and `I_P` are induced by the stated compositional structure and derivative-sign assumptions.
+This is the local break-even criterion used in the manuscript.
+
+## Why this is not just a tautology
+
+The arithmetic decomposition alone is tautological. The substantive model class is the set of systems satisfying the stated **channel meanings and local curvature signs**. Those restrictions are biological assumptions that can fail and therefore generate testable alternatives.
+
+The criterion does **not** require the mutualist and antagonist channels to be multiplicatively separable. Product forms are sufficient constructions that make the mechanism transparent, but they are not necessary.
+
+## A transparent sufficient construction
+
+A convenient special case is
+
+\[
+W(A,D)=P\,B(A)Q(D)-H\,F(A)S(D)-C(A,D),
+\]
+
+with
+
+\[
+B'(A)\ge 0,\quad Q'(D)\le 0,\quad F'(A)\ge 0,\quad S'(D)\le 0.
+\]
+
+Then
+
+\[
+M_{AD}=P B'(A)Q'(D)\le 0,
+\]
+
+and
+
+\[
+G_{AD}=H F'(A)S'(D)\le 0.
+\]
+
+Thus
+
+\[
+I_P=-P B'(A)Q'(D),
+\]
+
+\[
+R_H=-H F'(A)S'(D),
+\]
+
+and the same break-even condition follows. This product structure is an interpretable example, not the most general admissible model.
 
 ## Interpretation
 
@@ -91,7 +110,7 @@ This is the substantive criterion used in the manuscript. It is not obtained by 
 
 These statements concern local curvature of the declared fitness surface. They do **not** by themselves imply population-level trait covariance, genetic correlation, coevolution, a global optimum, or the prevalence of either regime in nature.
 
-The criterion is also conditional on the oriented biological region above. If, for example, defence facilitates rather than obstructs mutualists (`Q' > 0`), or attraction reduces rather than increases antagonist exposure (`F' < 0`), those channels change sign and must not be forced into the labels `interference` or `relief`.
+The oriented labels are conditional. If defence facilitates mutualists (`M_AD > 0`), if attraction and defence jointly amplify antagonist damage (`G_AD > 0`), or if the direct cross-cost is negative, the relevant channel changes sign and must not be forced into the labels `interference`, `relief`, or `joint cost`.
 
 ## Baseline model as a corollary
 
@@ -133,10 +152,10 @@ and
 C_{AD}=c_{AD}.
 \]
 
-The numerical robustness sweep varies curvature around this corollary. It is a sensitivity analysis over selected functional forms, not a proof of the mechanistic criterion and not an estimate of regime frequencies in nature.
+The numerical robustness sweep varies curvature around this corollary. It is a sensitivity analysis over selected functional forms, not a proof of the criterion and not an estimate of regime frequencies in nature.
 
 ## Empirical bridge
 
-The literature layer currently supports only a narrower statement: a negative defence/access -> pollinator-use pathway exists in at least some systems. Within the model class above, that supports the biological plausibility of `Q'(D) < 0`, one ingredient of `I_P`.
+The literature layer currently supports only a narrower statement: defence/access limitation can reduce pollinator use in at least some systems. At the nonseparable level, this makes a negative mutualist channel curvature `M_AD < 0` biologically plausible only when the attraction-dependent return is also defined for the same context. Under the product special case, it supports the plausibility of `Q'(D) < 0`, one ingredient of `I_P`.
 
-It does **not** estimate `I_P` by itself, because the full term also depends on the attraction response `B'(A)` and the relevant ecological scaling. Nor does it establish the sign of the complete mixed partial, because `R_H` and `C_AD` are not jointly estimated on a compatible scale.
+It does **not** estimate `I_P` by itself, nor the complete mixed partial. The antagonist-relief and direct joint-cost terms are not jointly estimated on compatible scales and contexts.
