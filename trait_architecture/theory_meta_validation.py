@@ -1,9 +1,9 @@
-"""Validate the current theory-to-meta-analysis evidence boundary.
+"""Validate the current theory-to-literature inference boundary.
 
 This module does not estimate new biological parameters. It checks that the
-predeclared Part I sensitivity run reproduces from its configuration, then reads
-the existing broad direction map and quantitative synthesis outputs to state
-exactly which empirical checks are presently supported.
+declared Part I sensitivity run reproduces from its configuration, then reads
+the existing abstract-level direction map and quantitative-readiness outputs to
+state exactly which preliminary literature checks are presently supported.
 """
 
 from __future__ import annotations
@@ -57,7 +57,7 @@ def write_csv_rows(path: str | Path, fields: Iterable[str], rows: Iterable[dict[
 
 
 def expected_part_i_dimensions(config: dict[str, object]) -> dict[str, int]:
-    """Calculate the exact declared Part I grid size from its immutable config."""
+    """Calculate the exact declared Part I grid size from the active config."""
 
     grid = config.get("phenotype_and_regime_grid")
     scenarios = config.get("parameter_scenarios")
@@ -84,7 +84,7 @@ def expected_part_i_dimensions(config: dict[str, object]) -> dict[str, int]:
 
 
 def validate_part_i_run(config: dict[str, object], report: dict[str, object]) -> dict[str, object]:
-    """Confirm that generated Part I dimensions exactly match the predeclared config."""
+    """Confirm that generated Part I dimensions exactly match the declared config."""
 
     expected = expected_part_i_dimensions(config)
     actual = {
@@ -96,21 +96,23 @@ def validate_part_i_run(config: dict[str, object], report: dict[str, object]) ->
         for key in actual
         if expected[key] != actual[key]
     }
-    classes = report.get("parameter_envelope_class_counts")
+    classes = report.get("full_tested_set_class_counts")
     if not isinstance(classes, dict):
-        raise ValueError("Part I report lacks parameter_envelope_class_counts")
-    class_total = sum(_int(classes.get(name), f"parameter_envelope_class_counts.{name}") for name in (
-        "tested_set_unanimous", "conditional_majority", "mixed_or_sensitive",
-    ))
+        raise ValueError("Part I report lacks full_tested_set_class_counts")
+    class_total = sum(
+        _int(classes.get(name), f"full_tested_set_class_counts.{name}")
+        for name in ("tested_set_unanimous", "mixed_or_sensitive")
+    )
     if class_total != expected["case_count"]:
-        mismatches["parameter_envelope_class_total"] = {
-            "expected": expected["case_count"], "actual": class_total,
+        mismatches["full_tested_set_class_total"] = {
+            "expected": expected["case_count"],
+            "actual": class_total,
         }
     return {
         "status": "reproduced" if not mismatches else "mismatch",
         "expected_dimensions": expected,
         "actual_dimensions": actual,
-        "parameter_envelope_class_total": class_total,
+        "full_tested_set_class_total": class_total,
         "mismatches": mismatches,
     }
 
@@ -120,12 +122,12 @@ def _channel_status(row: dict[str, str]) -> tuple[str, str]:
     if status == "mostly_compatible_with_channel_assumption":
         return (
             "directionally_consistent_in_restricted_stratum",
-            "Channel-sign check only; not a whole-model or parameter-magnitude validation.",
+            "Abstract-level channel-direction context only; not whole-model or parameter-magnitude validation.",
         )
     if status == "mostly_contradictory_to_channel_assumption":
         return (
             "directionally_contradictory_in_restricted_stratum",
-            "Restricted stratum contradicts the declared channel sign and must remain visible.",
+            "Restricted abstract-level stratum contradicts the declared channel sign and remains visible.",
         )
     if status == "mixed_or_context_dependent":
         return (
@@ -135,20 +137,19 @@ def _channel_status(row: dict[str, str]) -> tuple[str, str]:
     if status == "insufficient_directional_clusters":
         return (
             "insufficient_directional_clusters",
-            "Fewer than three evaluable independent clusters; do not validate a channel sign.",
+            "Fewer than three evaluable independent clusters; do not promote a channel direction.",
         )
     raise ValueError(f"unknown direction_map_status: {status}")
 
 
 def validate_direction_map(rows: Iterable[dict[str, str]]) -> list[dict[str, object]]:
-    """Annotate existing direction strata without changing their statistical labels."""
+    """Annotate existing abstract-level direction strata without changing their labels."""
 
     checks: list[dict[str, object]] = []
     for row in rows:
         missing = [field for field in DIRECTION_FIELDS if field not in row]
         if missing:
             raise ValueError(f"direction map lacks fields: {', '.join(missing)}")
-        independent = _int(row["independent_clusters"], "independent_clusters")
         evaluable = _int(row["evaluable_direction_count"], "evaluable_direction_count")
         compatible = _int(row["compatible_count"], "compatible_count")
         contradictory = _int(row["contradictory_count"], "contradictory_count")
@@ -159,13 +160,13 @@ def validate_direction_map(rows: Iterable[dict[str, str]]) -> list[dict[str, obj
             **row,
             "channel_validation_status": status,
             "validation_scope": scope,
-            "parameter_calibration_status": "not_calibrated_from_direction_only_evidence",
+            "parameter_calibration_status": "not_calibrated_from_abstract_direction_only_context",
         })
     return checks
 
 
 def validate_quantitative_summary(rows: Iterable[dict[str, str]]) -> dict[str, object]:
-    """State whether any predeclared quantitative stratum is actually poolable."""
+    """State whether any declared quantitative stratum is currently poolable."""
 
     rows = list(rows)
     required = {"analysis_status", "effect_count", "independent_clusters"}
@@ -181,8 +182,8 @@ def validate_quantitative_summary(rows: Iterable[dict[str, str]]) -> dict[str, o
         "pooled_strata_count": len(pooled),
         "status": "quantitative_synthesis_not_ready" if not pooled else "quantitative_synthesis_present",
         "boundary": (
-            "Direction-only records cannot calibrate Part I magnitude parameters. "
-            "Only a pooled compatible effect stratum can inform a standardized sensitivity envelope."
+            "Abstract-level direction records cannot calibrate Part I magnitude parameters. "
+            "Only independently verified quantitative effects could support a future parameterized sensitivity analysis."
         ),
     }
 
@@ -197,15 +198,21 @@ def build_validation_report(
     part_i = validate_part_i_run(part_i_config, part_i_report)
     direction_checks = validate_direction_map(direction_rows)
     quantitative = validate_quantitative_summary(quantitative_rows)
-    aligned = [row for row in direction_checks if row["channel_validation_status"] == "directionally_consistent_in_restricted_stratum"]
-    contradictory = [row for row in direction_checks if row["channel_validation_status"] == "directionally_contradictory_in_restricted_stratum"]
+    aligned = [
+        row for row in direction_checks
+        if row["channel_validation_status"] == "directionally_consistent_in_restricted_stratum"
+    ]
+    contradictory = [
+        row for row in direction_checks
+        if row["channel_validation_status"] == "directionally_contradictory_in_restricted_stratum"
+    ]
     report = {
         "validation_scope": (
-            "Current-data verification only: reproduce the predeclared Part I grid, inspect existing broad direction strata, "
-            "and confirm whether any compatible quantitative synthesis is ready."
+            "Reproduce the declared Part I sensitivity analysis and inspect preliminary abstract-level "
+            "literature context without promoting it to regime-map validation or parameter calibration."
         ),
         "part_i_computation": part_i,
-        "broad_direction_map": {
+        "preliminary_literature_direction_map": {
             "registered_strata": len(direction_checks),
             "restricted_directional_alignment_strata": len(aligned),
             "restricted_directional_contradiction_strata": len(contradictory),
@@ -223,22 +230,23 @@ def build_validation_report(
                 for row in aligned
             ],
         },
-        "quantitative_meta_analysis": quantitative,
+        "quantitative_readiness": quantitative,
         "integrated_verdict": {
-            "part_i_regime_map": (
+            "part_i_sensitivity": (
                 "reproduced" if part_i["status"] == "reproduced" else "failed_reproduction_check"
             ),
-            "channel_sign_validation": (
-                "limited_restricted_support_only" if aligned else "no_directional_stratum_reaches_minimum"
+            "literature_context_status": (
+                "limited_abstract_level_directional_context" if aligned else "no_directional_stratum_reaches_minimum"
             ),
-            "regime_level_empirical_validation": "not_evaluable_from_current_single_route_records",
+            "regime_level_empirical_validation": "not_evaluable_from_current_abstract_level_route_records",
             "parameter_magnitude_calibration": (
                 "not_ready" if quantitative["status"] == "quantitative_synthesis_not_ready" else "available_for_review"
             ),
             "prohibited_claims": [
                 "No universal attraction–barrier sign is validated.",
                 "No model mixed-partial regime is empirically estimated from the current records.",
-                "No Part I parameter magnitude is calibrated from direction-only evidence.",
+                "No Part I parameter magnitude is calibrated from abstract-level direction records.",
+                "The literature layer is preliminary context, not a second independent submission claim.",
             ],
         },
     }
@@ -265,8 +273,8 @@ def write_validation_outputs(
         direction_rows=read_csv_rows(direction_map_path),
         quantitative_rows=read_csv_rows(quantitative_summary_path),
     )
-    write_csv_rows(destination / "theory_meta_directional_checks.csv", CHECK_FIELDS, checks)
-    (destination / "theory_meta_validation.json").write_text(
+    write_csv_rows(destination / "theory_literature_directional_checks.csv", CHECK_FIELDS, checks)
+    (destination / "theory_literature_validation.json").write_text(
         json.dumps(validation, indent=2, sort_keys=True), encoding="utf-8"
     )
     return validation
