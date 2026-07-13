@@ -26,7 +26,7 @@ def part_i_report() -> dict[str, object]:
         "evaluation_count": 16,
         "functional_form_summary_count": 8,
         "parameter_envelope_class_counts": {
-            "structurally_robust": 0,
+            "tested_set_unanimous": 0,
             "conditional_majority": 1,
             "mixed_or_sensitive": 3,
         },
@@ -103,7 +103,7 @@ def test_integrated_validation_keeps_direction_support_separate_from_calibration
     assert report["integrated_verdict"] == {
         "part_i_regime_map": "reproduced",
         "channel_sign_validation": "limited_restricted_support_only",
-        "regime_level_empirical_validation": "not_evaluable_from_current_single-route_records",
+        "regime_level_empirical_validation": "not_evaluable_from_current_single_route_records",
         "parameter_magnitude_calibration": "not_ready",
         "prohibited_claims": [
             "No universal attraction–barrier sign is validated.",
