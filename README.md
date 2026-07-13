@@ -1,59 +1,77 @@
 # Biotic Interaction Trait Architecture
 
-Reproducible supplementary code and evidence for a conditional theory of floral attraction (A) and flower-specific defence/access limitation (D).
+Reproducible supplementary code and evidence for a local theory of one focal floral attraction trait (`A`) and one focal flower-specific barrier/defence trait (`D`).
 
 ## Submission claim
 
-The repository supports two linked claims:
+The repository supports two linked but unequal claims.
 
-1. **Theory:** under a locally regime-scaled model, stronger antagonist pressure shifts the local attraction–defence fitness interaction toward complementarity, whereas stronger mutualist service shifts it toward substitutability when defence interferes with attraction-mediated mutualist return.
-2. **Literature support:** verified route-level evidence shows that defence/access traits can reduce pollinator use in at least some systems. This supports the biological plausibility of one ingredient of the mutualist-interference pathway; it does not identify the complete mixed partial or test the regime comparative statics.
+1. **Theory:** for a declared `A`–`D` pair, the local mixed partial separates antagonist relief, mutualist interference, and direct joint cost. Environmental directional predictions require explicit assumptions about how ecological regime variables scale those channels.
+2. **Literature support:** source-adjudicated route records show that flower-specific defence/barrier traits can reduce pollinator use in some systems. This supports mechanism plausibility only; it does not estimate the complete mixed partial or validate the regime comparative statics.
 
-The theoretical result concerns the local mixed partial `d2W / dA dD`. A positive value means local fitness complementarity and a negative value local fitness substitutability. Neither sign, by itself, predicts population-level trait covariance, genetic correlation, or an evolutionary endpoint.
-
-## Core theoretical result
-
-The diagnostic decomposition is
+The core quantity is
 
 ```text
-local A x D fitness interaction
+W_AD = d2W / dA dD
+```
+
+for a declared, twice-differentiable fitness or fitness-score surface. A positive value means that one focal trait raises the other's local marginal fitness return; a negative value means that it lowers that return. The result does not by itself predict trait covariance, genetic correlation, an evolved environmental cline, or an evolutionary endpoint.
+
+## Focal-trait rule
+
+`A` and `D` are not omnibus trait categories.
+
+```text
+A = one biologically defined floral attraction trait
+D = one biologically defined flower-specific barrier/defence trait
+```
+
+A concrete application must declare the focal traits and their scales. `D` is defined by a flower-specific antagonist-reduction role; a pollinator-use cost is a possible collateral effect of that same trait.
+
+## Core theoretical structure
+
+The diagnostic channel balance is
+
+```text
+local A x D marginal-fitness interaction
 = antagonist relief
 - mutualist interference
 - direct joint cost.
 ```
 
-The predictive restriction is that mutualist service `P` and antagonist pressure `H` scale locally comparable channel sensitivities:
+Thus local complementarity requires antagonist relief to exceed mutualist interference plus direct joint cost.
+
+Environmental predictions need an additional regime-scaling layer. In the general local form
 
 ```text
-W_AD = H * relief_rate - P * interference_rate - joint_cost.
+W_AD = a(H) * relief_rate
+     - b(P) * interference_rate
+     - joint_cost(P, H)
 ```
 
-This yields the conditional comparative statics
+stronger antagonist pressure shifts the interaction toward complementarity only when the local increase in relief scaling exceeds any countervailing change in direct cross-cost. The mutualist-service prediction is likewise conditional on its derivative inequality.
+
+The linear expression
 
 ```text
-more H -> W_AD increases -> toward local complementarity
-more P -> W_AD decreases -> toward local substitutability
+W_AD = H * relief_rate - P * interference_rate - joint_cost
 ```
 
-with break-even boundary
+is one special case, not a universal law.
 
-```text
-H* = (P * interference_rate + joint_cost) / relief_rate.
-```
-
-These predictions are conditional on the local channel rates and phenotype neighbourhood remaining comparable across the regime contrast. See `docs/GENERAL_SIGN_CRITERION.md` for assumptions and derivation, and `docs/NOVELTY_POSITIONING.md` for the novelty boundary.
+See `docs/GENERAL_SIGN_CRITERION.md` for assumptions and derivation and `docs/NOVELTY_POSITIONING.md` for the claim boundary.
 
 ## Supplement structure
 
 ```text
-configs/                         predeclared robustness configuration
-theory/                          mathematical definitions and interpretation
-trait_architecture/              criterion, robustness, and evidence-validation code
+configs/                         declared robustness configuration
+ theory/                         mathematical definitions and interpretation
+trait_architecture/              active criterion, robustness, and validation code
 scripts/                         command-line reproduction entry points
-empirical/broad_reality_evidence verified route-level literature records
-empirical/part_i_robustness/     locked protocols and manuscript-facing outputs
-docs/                            theory, scope, methods, claim boundaries, and readouts
-tests/                           regression and integrity tests
+empirical/broad_reality_evidence route-level literature records and readout
+empirical/part_i_robustness/     manuscript-facing theory outputs
+ docs/                           scope, methods, assumptions, and claim boundaries
+ tests/                          regression and integrity tests
 .github/workflows/               automated reproduction and validation
 ```
 
@@ -90,16 +108,14 @@ python scripts/run_broad_meta_analysis.py \
   empirical/broad_reality_evidence/broad_effect_extractions.csv \
   empirical/broad_reality_evidence/broad_meta_analysis_strata.csv \
   artifacts/supplement/literature
-
-python scripts/validate_part_b_integrity.py
 ```
 
-The GitHub Actions workflows run the same theory, evidence, and boundary checks automatically.
+The GitHub Actions workflows reproduce the theory outputs and validate the theory–literature inference boundary.
 
 ## Data policy
 
-Only derived, aggregate, or bibliographic evidence required for the stated claims is committed. Exploratory search queues, abandoned linked-system analyses, transient repository probes, and raw third-party observations are excluded from the active tree. Git history remains the archive of earlier exploration.
+Only derived, aggregate, or bibliographic evidence required for the stated claims is committed. Exploratory search queues, abandoned matched-study and network-audit machinery, obsolete optimum/covariance analyses, repository probes, and raw third-party observations are outside the active supplement. Git history remains the archive of earlier exploration.
 
 ## Interpretation boundary
 
-The theory grid is a conditional sensitivity analysis, not an empirical frequency distribution. The literature layer is route-level support, not a pooled universal meta-analysis. Evidence for a defence -> pollination cost narrows the plausible mechanism space but does not by itself establish local complementarity, local substitutability, an observed attraction--defence correlation, or the predicted response to changing `P` or `H` in nature.
+The theory grid is a conditional sensitivity analysis, not an empirical frequency distribution. The literature layer is route-level mechanism support, not a pooled universal meta-analysis. It does not establish the complete local `A`–`D` interaction, an observed attraction–defence correlation, or the response of that interaction to changing ecological regimes in nature.
