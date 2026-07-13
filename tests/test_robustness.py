@@ -114,10 +114,11 @@ def test_nonfinite_functional_form_values_are_rejected() -> None:
         FunctionalForm("bad", defence_half_saturation=math.inf)
 
 
-def test_nonfinite_mixed_partial_is_rejected() -> None:
-    case = RobustnessCase("finite", 0.5, 0.5, 0.0, 0.5, 0.5)
-    with pytest.raises(ValueError, match="mixed partial must be finite"):
-        mixed_partial(case, ModelParameters(attraction_tracking=math.inf))
+def test_nonfinite_model_parameters_are_rejected_before_the_sweep() -> None:
+    with pytest.raises(ValueError, match="finite and non-negative"):
+        ModelParameters(attraction_tracking=math.inf)
+    with pytest.raises(ValueError, match="finite and non-negative"):
+        ModelParameters(attraction_gain=math.nan)
 
 
 def test_default_forms_cover_baseline_and_three_nonlinear_variants() -> None:
