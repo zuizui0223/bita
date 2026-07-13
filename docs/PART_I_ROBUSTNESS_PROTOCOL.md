@@ -23,20 +23,21 @@ with local mixed partial
 -c_{AD}.
 \]
 
-A positive value is **local complementarity**, a negative value **local substitutability**, and a near-zero value **locally neutral**. These labels refer to the declared trait coordinates and score surface. They do not assert observed trait covariance or an evolutionary endpoint.
+A positive value is **local complementarity**, a negative value **local substitutability**, and an exact zero is mathematically neutral on the declared score scale. The numerical sweep additionally uses a predeclared absolute zero tolerance to prevent floating-point residue from creating spurious signs. That tolerance is a numerical classification rule, not a biologically invariant neutrality band.
 
-## Focal-trait and regime rules
+## Focal-trait, outcome-scale, and regime rules
 
 Each application must declare:
 
 ```text
 A  one focal floral attraction trait and its scale
 D  one focal flower-specific barrier/defence trait and its scale
+W  the biological outcome or score and its scale
 P  exogenous reference intensity of pollinator service
 H  exogenous reference intensity of floral-antagonist pressure
 ```
 
-Different attraction or defence traits are alternative applications, not interchangeable measurements of one universal axis.
+Different attraction or defence traits are alternative applications, not interchangeable measurements of one universal axis. Likewise, fitness, relative fitness, log fitness, and an additive qualitative score are not interchangeable mixed-curvature scales.
 
 `P` and `H` must not be defined as realised visitation or realised damage after the focal traits act, because that would reuse trait-mediated outcomes as exogenous regime variables.
 
@@ -99,7 +100,7 @@ b_A   attraction-mediated mutualist response
 d_A   attraction-mediated antagonist tracking
 e_F   defence-mediated antagonist reduction
 c_D   defence-mediated pollinator obstruction
-c_AD  direct A x D cross-cost
+c_AD  direct A x D cross-cost curvature
 q_A   attraction saturation
 h_D   defence half-saturation
 k_AD  shared-cost curvature
@@ -121,17 +122,31 @@ mixed_or_sensitive otherwise
 
 An exact tie between complementary and substitutable evaluations is reported with `modal_sign = mixed`; it is not broken in favour of either sign.
 
-The neutral tolerance must be fixed before classification and recorded in the generated metadata.
+The configuration key `neutral_tolerance` is an **absolute numerical zero threshold on the declared `W` scale**. An evaluation is classified as numerically neutral when
+
+```text
+abs(W_AD) <= neutral_tolerance
+```
+
+for the declared score parameterisation. Because this rule is scale dependent, the tolerance must:
+
+- be finite and non-negative;
+- be fixed before classification;
+- be recorded in generated metadata as `neutral_tolerance`;
+- be accompanied by `neutral_tolerance_scale = absolute_on_declared_score_scale`;
+- not be interpreted as a transformation-invariant biological equivalence region.
+
+A positive rescaling of `W` preserves the mathematical sign of a nonzero mixed partial but can change whether an absolute numerical tolerance calls that value neutral. Comparisons across different `W` scales therefore require a separately justified tolerance convention.
 
 ## Empirical bridge
 
 The active literature layer has a narrower purpose than parameter calibration. It asks whether declared biological pathways occur in real systems.
 
-At present, the route-level evidence supports the plausibility that a flower-specific defence/barrier can reduce pollinator use in some systems. This is relevant to the mutualist-interference mechanism, but it does not estimate:
+At present, the route-level evidence provides abstract-level directional consistency with the possibility that a flower-specific defence/barrier can reduce pollinator preference or foraging in some systems. This is relevant to the mutualist-interference mechanism, but it does not estimate:
 
 - the full local mutualist curvature for one focal `A`–`D` pair;
 - antagonist relief for that same pair;
-- direct joint cost;
+- direct joint-cost curvature;
 - any baseline parameter magnitude;
 - the complete mixed partial or its environmental derivative.
 
@@ -148,12 +163,15 @@ part_i_robustness_envelope.csv
 
 part_i_functional_form_summary.csv
   within-scenario summaries across the declared functional-form family
+
+part_i_robustness_report.json
+  run dimensions, classification counts, neutral_tolerance, and its declared scale
 ```
 
 ## Interpretation boundary
 
 A `tested_set_unanimous` region means only:
 
-> under every score function and parameter variant actually included in the stated finite tested set, the local `A x D` mixed partial has the same non-neutral sign.
+> under every score function and parameter variant actually included in the stated finite tested set, the local `A x D` mixed partial has the same non-neutral numerical classification on the declared score scale and tolerance.
 
-It does not establish that the region is common in nature, that parameter values are universal, that a measured trait covariance is adaptive, that the sign survives every admissible functional form, or that the same sign survives a different nonlinear parameterisation of the focal traits.
+It does not establish that the region is common in nature, that parameter values are universal, that a measured trait covariance is adaptive, that the sign survives every admissible functional form, that the same sign survives a different nonlinear parameterisation of the focal traits or output, or that an absolute tolerance would have the same meaning after rescaling the score.
