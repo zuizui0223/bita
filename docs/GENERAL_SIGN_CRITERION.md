@@ -11,7 +11,7 @@ Examples such as display size, scent, reward, trichomes, floral chemistry, or a 
 
 `D` is defined by a flower-specific role in reducing antagonist exposure or damage. A pollinator cost is a possible collateral effect of that **same focal trait**. A trait that only obstructs pollinators but has no declared antagonist-reduction role does not, by itself, instantiate the complete `D` mechanism.
 
-The local fitness or fitness-score surface `W(A,D)` is assumed to be twice continuously differentiable in the focal neighbourhood. This smoothness assumption is required when writing
+The local outcome surface `W(A,D)` is assumed to be twice continuously differentiable in the focal neighbourhood. The biological meaning and scale of `W` must be declared.
 
 \[
 W_{AD}
@@ -21,7 +21,7 @@ W_{AD}
 
 ## 2. What the mixed partial means
 
-`W_AD` is a local change in a **marginal fitness gradient on the declared `W` scale**:
+`W_AD` is a local change in a **marginal effect on the declared `W` scale**:
 
 - `W_AD > 0`: increasing one focal trait raises the local marginal return to the other on that scale;
 - `W_AD < 0`: increasing one focal trait lowers that local marginal return;
@@ -31,29 +31,56 @@ The term *selection gradient* is avoided unless `W` has been defined and scaled 
 
 These statements do not, by themselves, imply trait covariance, a genetic correlation, an evolutionary trajectory, a stable equilibrium, or a global optimum.
 
-## 3. Diagnostic channel decomposition and the orientation gate
+## 3. Diagnostic channel decomposition, identifiability, and orientation
 
-For bookkeeping, write
+For mechanistic bookkeeping, write
 
 \[
 W(A,D)=M(A,D)-G(A,D)-C(A,D),
 \]
 
-where `M` is the mutualist-mediated contribution, `G` is antagonist-mediated loss, and `C` is direct investment or other joint cost. Then
+where `M` is a declared mutualist-mediated contribution, `G` a declared antagonist-mediated loss, and `C` a declared direct investment or other joint-cost contribution. Then
 
 \[
 W_{AD}=M_{AD}-G_{AD}-C_{AD}.
 \]
 
-This unrestricted identity is algebra and is **not** the novelty.
+This identity is algebra and is **not** the novelty.
 
-The biological roles of `A` and `D` do **not** by themselves determine the signs of these mixed curvatures. In particular:
+### The decomposition is not identified by total `W` alone
 
-- a defence trait reducing antagonist damage does not automatically imply `G_AD <= 0`; that sign additionally requires defence to reduce the antagonist loss specifically associated with a marginal increase in `A` in the focal neighbourhood;
-- a defence trait reducing pollinator use does not automatically imply `M_AD <= 0`; that sign additionally requires the defence effect to reduce the mutualist return associated with a marginal increase in `A`;
-- positive single-trait construction costs do not automatically imply `C_AD >= 0`; additive costs have `C_AD = 0`, and economies of joint construction could in principle give `C_AD < 0`.
+A total response surface does not uniquely determine `M`, `G`, and `C`. For any sufficiently smooth function `K(A,D)`, for example,
 
-Therefore the sign-oriented magnitude decomposition is applied only after an explicit biological model or local derivative argument establishes the relevant signs. In the oriented local hypothesis class used for the baseline mechanism,
+\[
+M'=M+K,\qquad C'=C+K
+\]
+
+leaves
+
+\[
+M'-G-C'=M-G-C=W
+\]
+
+unchanged while reallocating mixed curvature between the named channels.
+
+Therefore:
+
+- `W_AD` can be estimated from a sufficiently specified total response surface without identifying the three mechanism terms separately;
+- `M_AD`, `G_AD`, and `C_AD` are **model- and measurement-dependent attributions** unless the corresponding channels are operationally defined and independently constrained;
+- the three-term mechanism balance must not be presented as uniquely recoverable from total fitness data alone;
+- empirical attribution requires channel-specific outcomes, manipulations, or additional structural assumptions.
+
+The framework's mechanistic value lies in making those assumptions and missing measurements explicit, not in claiming that the decomposition is uniquely identified by algebra.
+
+### Orientation gate
+
+The biological roles of `A` and `D` do **not** by themselves determine the signs of the channel mixed curvatures. In particular:
+
+- a defence trait reducing antagonist damage does not automatically imply `G_AD <= 0`; that sign additionally requires defence to reduce antagonist loss specifically associated with a marginal increase in `A`;
+- a defence trait reducing pollinator use does not automatically imply `M_AD <= 0`; that sign additionally requires defence to reduce the mutualist return associated with a marginal increase in `A`;
+- positive single-trait construction costs do not automatically imply `C_AD >= 0`; additive costs have `C_AD = 0`, and economies of joint construction could give `C_AD < 0`.
+
+The sign-oriented magnitude decomposition is therefore applied only after an explicit biological model or local derivative argument establishes the relevant signs. In the oriented local hypothesis class used for the baseline mechanism,
 
 \[
 M_{AD}\le0,\qquad G_{AD}\le0,\qquad C_{AD}\ge0.
@@ -65,19 +92,19 @@ Define
 I_P=-M_{AD}\ge0
 \]
 
-as the magnitude of **mutualist interference**, and
+as **mutualist interference**, and
 
 \[
 R_H=-G_{AD}\ge0
 \]
 
-as the magnitude of **antagonist relief**. Then
+as **antagonist relief**. Then
 
 \[
 W_{AD}=R_H-I_P-C_{AD}.
 \]
 
-The diagnostic break-even condition is therefore
+The diagnostic break-even condition is
 
 \[
 W_{AD}>0
@@ -85,21 +112,19 @@ W_{AD}>0
 R_H>I_P+C_{AD}.
 \]
 
-This condition organizes the oriented local mechanism class. It must not be used by forcing an empirically or mechanistically opposite-signed curvature into a non-negative magnitude label. If any sign condition fails, retain the original signed terms `M_AD`, `G_AD`, and `C_AD` or derive a different biologically appropriate orientation.
-
-The sign assumptions alone do not predict how the interaction changes across environments.
+This condition organizes the oriented local mechanism class. It must not be used by forcing an opposite-signed curvature into a non-negative magnitude label. If an orientation condition fails, retain the original signed terms or derive a different biological model.
 
 ## 4. Where environmental predictions enter
 
-Let `P` and `H` denote **exogenous reference-regime indices** for mutualist service and floral-antagonist pressure. They are not realised visitation or realised damage after `A` and `D` act; using those realised outcomes as `P` or `H` would double-count the focal trait effects.
+Let `P` and `H` denote **exogenous reference-regime indices** for mutualist service and floral-antagonist pressure. They are not realised visitation or realised damage after `A` and `D` act; using those realised outcomes as `P` or `H` would double-count focal trait effects.
 
-A general local regime-scaled form is
+A local regime-scaled form is
 
 \[
 W_{AD}=a(H)r-b(P)i-C_{AD}(P,H),
 \]
 
-where `r>=0` and `i>=0` are local channel sensitivities for the declared focal trait pair after the orientation gate has been satisfied. At fixed focal `A` and `D`,
+where `r>=0` and `i>=0` are local channel sensitivities for the declared focal pair after the orientation gate has been satisfied. At fixed focal `A` and `D`,
 
 \[
 \frac{\partial W_{AD}}{\partial H}
@@ -116,24 +141,24 @@ and
 Therefore stronger antagonist pressure shifts the local interaction toward complementarity only when
 
 \[
-a'(H)r>\frac{\partial C_{AD}}{\partial H}.
+a'(H)r>\frac{\partial C_{AD}}{\partial H},
 \]
 
-Stronger mutualist service shifts it toward substitutability only when
+and stronger mutualist service shifts it toward substitutability only when
 
 \[
 b'(P)i+\frac{\partial C_{AD}}{\partial P}>0.
 \]
 
-These are partial derivatives at the **same focal phenotype neighbourhood**. They are not derivatives along an environmental cline of evolved optima or observed population means.
+These are partial derivatives at the **same focal phenotype neighbourhood and outcome scale**. They are not derivatives along an environmental cline of evolved optima or observed population means.
 
-The linear model
+The linear special case is
 
 \[
-W_{AD}=Hr-Pi-C_{AD}
+W_{AD}=Hr-Pi-C_{AD},
 \]
 
-is the special case `a(H)=H`, `b(P)=P`, and regime-invariant direct cross-cost curvature.
+with `a(H)=H`, `b(P)=P`, and regime-invariant direct cross-cost curvature.
 
 ## 5. Break-even boundaries
 
@@ -179,11 +204,11 @@ and
 R_H=-H F'(A)S'(D).
 \]
 
-This product form is an interpretable sufficient construction that passes the orientation gate. It is not a necessary assumption.
+This product form is an interpretable sufficient construction that operationally defines the channels and passes the orientation gate. It is not a necessary assumption.
 
 ## 7. Implemented baseline corollary
 
-For the implemented score,
+For the implemented additive score,
 
 \[
 W(A,D,R)=
@@ -202,7 +227,7 @@ W_{AD}
 -c_{AD}.
 \]
 
-The three terms are the baseline instances of antagonist relief, mutualist interference, and direct joint-cost curvature. Their signs follow from the explicit baseline functional form and non-negative parameter restrictions, not merely from naming `A` as attraction and `D` as defence.
+The three terms are baseline instances of antagonist relief, mutualist interference, and direct joint-cost curvature because the baseline model explicitly assigns the corresponding processes. Their signs and attribution follow from that model, not merely from the names of `A` and `D` and not from total `W` alone.
 
 `R` is an auxiliary moderator in this corollary because it changes the pollination-mediated channel. It is not a third focal trait in the attraction–defence claim.
 
@@ -212,15 +237,11 @@ The sign of a mixed partial belongs to both the declared trait coordinates and t
 
 ### Trait coordinates
 
-Positive affine rescaling of `A` or `D` preserves the sign, but arbitrary nonlinear reparameterisation can change a cross-partial away from special cases such as stationary points. Therefore:
-
-- the biological trait definition and scale must be declared;
-- raw mixed-partial magnitudes should not be compared across differently transformed trait scales;
-- the framework should be applied to interpretable focal traits rather than an unspecified latent composite.
+Positive affine rescaling of `A` or `D` preserves the sign, but arbitrary nonlinear reparameterisation can change a cross-partial away from special cases. Therefore the biological trait definitions and scales must be declared, and raw mixed-partial magnitudes should not be compared across arbitrary transformations.
 
 ### Fitness or score scale
 
-A nonlinear transformation of the outcome can also alter the cross curvature. If
+If
 
 \[
 \widetilde W=f(W),
@@ -233,21 +254,32 @@ then
 =f'(W)W_{AD}+f''(W)W_AW_D.
 \]
 
-Thus an arbitrary monotone transformation such as taking log fitness does **not** generally preserve the sign of `W_AD`. A positive affine transformation of `W` does preserve the sign.
+Thus an arbitrary monotone transformation such as taking log fitness does **not** generally preserve the sign of `W_AD`. A positive affine transformation of `W` does preserve the sign of a nonzero mixed partial.
 
 Consequently:
 
 - the biological outcome and its scale must be declared together with `A` and `D`;
-- `fitness`, `relative fitness`, `log fitness`, and a qualitative score must not be treated as interchangeable curvature scales;
+- `fitness`, `relative fitness`, `log fitness`, and a qualitative score are not interchangeable curvature scales;
 - a result derived for the implemented additive score is a property of that score formulation unless a stronger invariance argument is supplied;
-- empirical comparison with correlational-selection coefficients requires the corresponding relative-fitness and trait-standardisation conventions to be stated explicitly.
+- empirical comparison with correlational-selection coefficients requires the corresponding relative-fitness and trait-standardisation conventions.
 
-This output-scale boundary is another reason the supplement does not claim a transformation-free universal sign.
+## 9. Numerical sign classification
 
-## 9. Empirical bridge
+The mathematical neutral boundary is `W_AD = 0`. The numerical sweep uses an absolute `neutral_tolerance` only to classify values near zero on the declared score scale.
 
-The current literature layer is narrower than the theory. It asks whether flower-specific defence/barrier traits can reduce pollinator use in some systems. That supports the plausibility of one ingredient of mutualist interference.
+Because an absolute tolerance is scale dependent, generated metadata records both:
 
-A negative `D -> pollinator use` effect alone does **not** identify `M_AD < 0`, because the mixed curvature additionally depends on how that defence effect changes the marginal mutualist return to the particular focal attraction trait `A`. Likewise, evidence that `D` reduces antagonist damage does not by itself identify `G_AD < 0` without the corresponding attraction-linked interaction.
+```text
+neutral_tolerance
+neutral_tolerance_scale = absolute_on_declared_score_scale
+```
 
-The literature layer therefore does **not** estimate the full `M_AD` curvature, the antagonist-relief curvature, the direct joint-cost curvature, the complete mixed partial, or the environmental derivatives of the mixed partial. A full empirical test would require the relevant channel responses for the same focal `A`–`D` pair and biological context, measured on compatible trait and outcome scales.
+The tolerance is not a biological equivalence interval and is not invariant to rescaling `W`.
+
+## 10. Empirical bridge
+
+The current literature layer is narrower than the theory. It provides abstract-level directional evidence that flower-specific defence/barrier traits can reduce pollinator preference or foraging in some systems.
+
+A negative `D -> pollinator use` effect alone does **not** identify `M_AD < 0`, because the mixed curvature additionally depends on how that defence effect changes the marginal mutualist return to the particular focal `A`. Likewise, evidence that `D` reduces antagonist damage does not by itself identify `G_AD < 0` without the corresponding attraction-linked interaction.
+
+Most importantly, separate route records do not identify the three-term decomposition from total fitness. A full empirical mechanism test would require the relevant channel responses for the same focal `A`–`D` pair and biological context, measured on compatible trait and outcome scales, with enough design structure to distinguish mutualist, antagonist, and direct-cost contributions.
