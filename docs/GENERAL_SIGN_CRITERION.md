@@ -44,64 +44,94 @@ and
 W_{AD}>0\iff R_H>I_P+C_{AD}.
 \]
 
-This is a **diagnostic break-even criterion**. By itself it classifies competing local channel curvatures; it does not yet generate a directional environmental prediction. Treating the sign assumptions alone as a prediction would be circular.
+This is a **diagnostic break-even criterion**. By itself it classifies competing local channel curvatures; it does not yet generate a directional environmental prediction.
 
 ## Where predictive content enters
 
-A stronger model class specifies how ecological regime variables scale the local channel curvatures. Let
+The linear regime-scaled model used previously,
 
 \[
-M(A,D;P)=P\,m(A,D),\qquad G(A,D;H)=H\,g(A,D),
+W_{AD}=Hr-Pi-C_{AD},
 \]
 
-with locally oriented per-unit curvatures
+is transparent but stronger than necessary. The more general local predictive form is
 
 \[
-m_{AD}<0,\qquad g_{AD}<0.
+W_{AD}=a(H)r-b(P)i-C_{AD}(P,H),
 \]
 
-Define
+where:
+
+- `a(H)` scales antagonist relief with antagonist pressure;
+- `b(P)` scales mutualist interference with mutualist service;
+- `r>0` and `i>0` are local per-unit channel sensitivities at the focal phenotype neighbourhood;
+- the direct cross-cost may itself vary with the ecological regime.
+
+The local comparative statics are
 
 \[
-i=-m_{AD}>0,\qquad r=-g_{AD}>0.
+\frac{\partial W_{AD}}{\partial H}
+=
+a'(H)r-\frac{\partial C_{AD}}{\partial H},
 \]
 
-Then
+and
 
 \[
-W_{AD}=Hr-Pi-C_{AD}.
+\frac{\partial W_{AD}}{\partial P}
+=
+-b'(P)i-\frac{\partial C_{AD}}{\partial P}.
 \]
 
-This yields conditional comparative statics:
+Therefore, increasing antagonist pressure pushes the interaction toward complementarity only when
+
+\[
+a'(H)r>\frac{\partial C_{AD}}{\partial H}.
+\]
+
+Likewise, increasing mutualist service pushes the interaction toward substitutability when
+
+\[
+b'(P)i+\frac{\partial C_{AD}}{\partial P}>0.
+\]
+
+The linear model is the special case `a(H)=H`, `b(P)=P`, and regime-invariant `C_AD`. Under that restriction,
 
 \[
 \frac{\partial W_{AD}}{\partial H}=r>0,
+\qquad
+\frac{\partial W_{AD}}{\partial P}=-i<0.
 \]
 
-so greater antagonist pressure pushes the local interaction toward complementarity, whereas
+Thus the previous directional predictions are **not** consequences of the diagnostic sign criterion alone. They require monotone regime scaling and sufficiently weak countervailing change in the direct cross-cost.
+
+## Break-even boundaries under nonlinear scaling
+
+A break-even antagonist pressure satisfies
 
 \[
-\frac{\partial W_{AD}}{\partial P}=-i<0,
+a(H^*)r=b(P)i+C_{AD}(P,H^*).
 \]
 
-so greater mutualist service pushes it toward substitutability when defence interferes with the attraction-mediated mutualist return.
-
-For fixed local rates and direct cross-cost, the break-even antagonist pressure is
+Unlike the linear special case,
 
 \[
-H^*=\frac{Pi+C_{AD}}{r}.
+H^*=\frac{Pi+C_{AD}}{r},
 \]
 
-These are the actual directional predictions of the framework. They are conditional on the local response rates and phenotype neighbourhood remaining comparable as `P` or `H` changes. If those rates themselves vary strongly with the regime, the derivative must include those dependencies explicitly.
+the nonlinear equation need not have a closed-form solution. A unique threshold requires additional conditions, for example that the left-minus-right side is continuous and strictly increasing in `H` over the domain of interest.
+
+If that monotonicity fails, there may be no threshold, one threshold, or multiple sign switches. Multiple thresholds are therefore a possible prediction of richer nonlinear models rather than a numerical pathology.
 
 ## Why this is not just a tautology
 
-The arithmetic decomposition alone is tautological. The biologically substantive content is layered:
+The theoretical content is layered:
 
-1. **diagnostic layer:** declare and estimate the signs and magnitudes of the local channel curvatures;
-2. **predictive layer:** specify how ecological regime variables scale those curvatures, yielding comparative statics and a break-even boundary.
+1. **diagnostic layer:** define and estimate the local channel curvatures;
+2. **predictive layer:** specify how ecological regime variables change those curvatures or their scaling;
+3. **threshold layer:** add monotonicity conditions if a unique break-even boundary is claimed.
 
-The first layer organizes mechanisms. The second produces falsifiable directional predictions.
+The first layer organizes mechanisms. The second produces local directional predictions. The third is needed before speaking of a unique ecological threshold.
 
 ## A transparent sufficient construction
 
@@ -120,22 +150,10 @@ B'(A)\ge 0,\quad Q'(D)\le 0,\quad F'(A)\ge 0,\quad S'(D)\le 0.
 Then
 
 \[
-M_{AD}=P B'(A)Q'(D)\le 0,
-\]
-
-and
-
-\[
-G_{AD}=H F'(A)S'(D)\le 0.
-\]
-
-Thus
-
-\[
 I_P=-P B'(A)Q'(D),\qquad R_H=-H F'(A)S'(D),
 \]
 
-and the same break-even condition follows. This product structure is an interpretable sufficient construction, not a necessary assumption.
+and the linear comparative statics follow if the local response derivatives and direct cross-cost are held fixed. This product structure is an interpretable sufficient construction, not a necessary assumption.
 
 ## Interpretation
 
@@ -181,12 +199,10 @@ and
 C_{AD}=c_{AD}.
 \]
 
-Thus the baseline directly exhibits the comparative statics above when the local rates are held fixed.
-
-The numerical robustness sweep varies curvature around this corollary. It is a sensitivity analysis over selected functional forms, not a proof of the criterion and not an estimate of regime frequencies in nature.
+Thus the baseline is the linear, regime-invariant-cost special case. The numerical robustness sweep varies selected response-function curvature around this corollary; it is not a proof of the general monotone conditions and not an estimate of regime frequencies in nature.
 
 ## Empirical bridge
 
 The literature layer currently supports only a narrower statement: defence/access limitation can reduce pollinator use in at least some systems. Under the product special case, this supports the plausibility of `Q'(D)<0`, one ingredient of the per-unit interference rate `i`.
 
-It does **not** estimate `i`, `r`, the direct joint cost, or the complete mixed partial. A direct empirical test of the regime prediction would require comparable estimates across variation in `P` and/or `H`, ideally with the relevant local trait responses measured in the same biological context.
+It does **not** estimate `i`, `r`, the regime-scaling functions, the regime dependence of direct joint cost, or the complete mixed partial. A direct empirical test of the environmental predictions would require comparable estimates across variation in `P` and/or `H`, ideally with the relevant local trait responses measured in the same biological context.
