@@ -32,7 +32,7 @@ Automated guard:
 
 The primary directional prediction is conditional: with locally comparable positive relief and interference rates, increasing antagonist pressure raises `W_AD`, while increasing mutualist service lowers `W_AD` when defence interferes with attraction-mediated mutualist return.
 
-## Claim 2: a D -> P pollination cost occurs in at least some defence systems
+## Claim 2: a defence/access -> pollination cost occurs in at least some systems
 
 Registered evidence and outputs:
 
