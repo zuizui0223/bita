@@ -41,9 +41,12 @@ def test_committed_part_i_report_matches_current_config_and_code() -> None:
     assert committed["functional_form_class_counts"] == reproduced["functional_form_class_counts"]
     assert committed["parameter_envelope_class_counts"] == reproduced["parameter_envelope_class_counts"]
 
-    assert committed["evaluation_sign_counts"] == dict(
-        Counter(row["sign"] for row in rows)
-    )
+    sign_counts = Counter(row["sign"] for row in rows)
+    reproduced_sign_counts = {
+        sign: sign_counts.get(sign, 0)
+        for sign in ("complementary", "substitutable", "neutral")
+    }
+    assert committed["evaluation_sign_counts"] == reproduced_sign_counts
 
 
 def test_committed_scenario_readout_matches_current_modal_and_sign_counts() -> None:
