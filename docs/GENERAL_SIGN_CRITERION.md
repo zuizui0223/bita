@@ -21,10 +21,10 @@ W_{AD}
 
 ## 2. What the mixed partial means
 
-`W_AD` is a local change in a **marginal fitness gradient**:
+`W_AD` is a local change in a **marginal fitness gradient on the declared `W` scale**:
 
-- `W_AD > 0`: increasing one focal trait raises the local marginal fitness return to the other;
-- `W_AD < 0`: increasing one focal trait lowers the local marginal fitness return to the other;
+- `W_AD > 0`: increasing one focal trait raises the local marginal return to the other on that scale;
+- `W_AD < 0`: increasing one focal trait lowers that local marginal return;
 - `W_AD = 0`: the two local marginal effects are independent to first order at the evaluated point.
 
 The term *selection gradient* is avoided unless `W` has been defined and scaled as the relevant relative-fitness quantity for a specific evolutionary model.
@@ -133,7 +133,7 @@ The linear model
 W_{AD}=Hr-Pi-C_{AD}
 \]
 
-is the special case `a(H)=H`, `b(P)=P`, and regime-invariant direct cross-cost.
+is the special case `a(H)=H`, `b(P)=P`, and regime-invariant direct cross-cost curvature.
 
 ## 5. Break-even boundaries
 
@@ -202,17 +202,47 @@ W_{AD}
 -c_{AD}.
 \]
 
-The three terms are the baseline instances of antagonist relief, mutualist interference, and direct joint cost. Their signs follow from the explicit baseline functional form and non-negative parameter restrictions, not merely from naming `A` as attraction and `D` as defence.
+The three terms are the baseline instances of antagonist relief, mutualist interference, and direct joint-cost curvature. Their signs follow from the explicit baseline functional form and non-negative parameter restrictions, not merely from naming `A` as attraction and `D` as defence.
 
 `R` is an auxiliary moderator in this corollary because it changes the pollination-mediated channel. It is not a third focal trait in the attraction–defence claim.
 
-## 8. Trait scale and parameterisation
+## 8. Trait scale and fitness/output scale
 
-The sign of a mixed partial is defined on the declared trait coordinates. Positive affine rescaling of `A` or `D` preserves the sign, but arbitrary nonlinear reparameterisation can change a cross-partial away from special cases such as stationary points. Therefore:
+The sign of a mixed partial belongs to both the declared trait coordinates and the declared `W` scale.
+
+### Trait coordinates
+
+Positive affine rescaling of `A` or `D` preserves the sign, but arbitrary nonlinear reparameterisation can change a cross-partial away from special cases such as stationary points. Therefore:
 
 - the biological trait definition and scale must be declared;
 - raw mixed-partial magnitudes should not be compared across differently transformed trait scales;
 - the framework should be applied to interpretable focal traits rather than an unspecified latent composite.
+
+### Fitness or score scale
+
+A nonlinear transformation of the outcome can also alter the cross curvature. If
+
+\[
+\widetilde W=f(W),
+\]
+
+then
+
+\[
+\widetilde W_{AD}
+=f'(W)W_{AD}+f''(W)W_AW_D.
+\]
+
+Thus an arbitrary monotone transformation such as taking log fitness does **not** generally preserve the sign of `W_AD`. A positive affine transformation of `W` does preserve the sign.
+
+Consequently:
+
+- the biological outcome and its scale must be declared together with `A` and `D`;
+- `fitness`, `relative fitness`, `log fitness`, and a qualitative score must not be treated as interchangeable curvature scales;
+- a result derived for the implemented additive score is a property of that score formulation unless a stronger invariance argument is supplied;
+- empirical comparison with correlational-selection coefficients requires the corresponding relative-fitness and trait-standardisation conventions to be stated explicitly.
+
+This output-scale boundary is another reason the supplement does not claim a transformation-free universal sign.
 
 ## 9. Empirical bridge
 
@@ -220,4 +250,4 @@ The current literature layer is narrower than the theory. It asks whether flower
 
 A negative `D -> pollinator use` effect alone does **not** identify `M_AD < 0`, because the mixed curvature additionally depends on how that defence effect changes the marginal mutualist return to the particular focal attraction trait `A`. Likewise, evidence that `D` reduces antagonist damage does not by itself identify `G_AD < 0` without the corresponding attraction-linked interaction.
 
-The literature layer therefore does **not** estimate the full `M_AD` curvature, the antagonist-relief curvature, the direct joint cost, the complete mixed partial, or the environmental derivatives of the mixed partial. A full empirical test would require the relevant channel responses for the same focal `A`–`D` pair and biological context, measured on compatible scales.
+The literature layer therefore does **not** estimate the full `M_AD` curvature, the antagonist-relief curvature, the direct joint-cost curvature, the complete mixed partial, or the environmental derivatives of the mixed partial. A full empirical test would require the relevant channel responses for the same focal `A`–`D` pair and biological context, measured on compatible trait and outcome scales.
