@@ -29,7 +29,7 @@ antagonist relief - mutualist interference - joint cost.
 
 The sign switches when antagonist relief crosses the sum of the two opposing terms. The implemented exponential/linear score is one explicit corollary; the robustness grid tests selected nonlinear alternatives rather than serving as the proof itself.
 
-See `docs/GENERAL_SIGN_CRITERION.md` for the theorem-level statement and inference boundary.
+The novelty claim is deliberately narrower than the biological background: it is **not** new that mutualists and antagonists can both shape floral traits. The contribution is the explicit local sign criterion that separates the mechanisms producing fitness complementarity from those producing fitness substitutability and identifies their break-even boundary. See `docs/GENERAL_SIGN_CRITERION.md` and `docs/NOVELTY_POSITIONING.md`.
 
 ## Supplement structure
 
