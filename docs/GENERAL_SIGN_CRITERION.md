@@ -31,7 +31,7 @@ The term *selection gradient* is avoided unless `W` has been defined and scaled 
 
 These statements do not, by themselves, imply trait covariance, a genetic correlation, an evolutionary trajectory, a stable equilibrium, or a global optimum.
 
-## 3. Diagnostic channel decomposition
+## 3. Diagnostic channel decomposition and the orientation gate
 
 For bookkeeping, write
 
@@ -47,7 +47,13 @@ W_{AD}=M_{AD}-G_{AD}-C_{AD}.
 
 This unrestricted identity is algebra and is **not** the novelty.
 
-In the biologically oriented local hypothesis class used here,
+The biological roles of `A` and `D` do **not** by themselves determine the signs of these mixed curvatures. In particular:
+
+- a defence trait reducing antagonist damage does not automatically imply `G_AD <= 0`; that sign additionally requires defence to reduce the antagonist loss specifically associated with a marginal increase in `A` in the focal neighbourhood;
+- a defence trait reducing pollinator use does not automatically imply `M_AD <= 0`; that sign additionally requires the defence effect to reduce the mutualist return associated with a marginal increase in `A`;
+- positive single-trait construction costs do not automatically imply `C_AD >= 0`; additive costs have `C_AD = 0`, and economies of joint construction could in principle give `C_AD < 0`.
+
+Therefore the sign-oriented magnitude decomposition is applied only after an explicit biological model or local derivative argument establishes the relevant signs. In the oriented local hypothesis class used for the baseline mechanism,
 
 \[
 M_{AD}\le0,\qquad G_{AD}\le0,\qquad C_{AD}\ge0.
@@ -79,7 +85,9 @@ W_{AD}>0
 R_H>I_P+C_{AD}.
 \]
 
-This condition organizes local mechanisms. The sign assumptions alone do not predict how the interaction changes across environments.
+This condition organizes the oriented local mechanism class. It must not be used by forcing an empirically or mechanistically opposite-signed curvature into a non-negative magnitude label. If any sign condition fails, retain the original signed terms `M_AD`, `G_AD`, and `C_AD` or derive a different biologically appropriate orientation.
+
+The sign assumptions alone do not predict how the interaction changes across environments.
 
 ## 4. Where environmental predictions enter
 
@@ -91,7 +99,7 @@ A general local regime-scaled form is
 W_{AD}=a(H)r-b(P)i-C_{AD}(P,H),
 \]
 
-where `r>0` and `i>0` are local channel sensitivities for the declared focal trait pair. At fixed focal `A` and `D`,
+where `r>=0` and `i>=0` are local channel sensitivities for the declared focal trait pair after the orientation gate has been satisfied. At fixed focal `A` and `D`,
 
 \[
 \frac{\partial W_{AD}}{\partial H}
@@ -171,7 +179,7 @@ and
 R_H=-H F'(A)S'(D).
 \]
 
-This product form is an interpretable sufficient construction, not a necessary assumption.
+This product form is an interpretable sufficient construction that passes the orientation gate. It is not a necessary assumption.
 
 ## 7. Implemented baseline corollary
 
@@ -194,7 +202,7 @@ W_{AD}
 -c_{AD}.
 \]
 
-The three terms are the baseline instances of antagonist relief, mutualist interference, and direct joint cost.
+The three terms are the baseline instances of antagonist relief, mutualist interference, and direct joint cost. Their signs follow from the explicit baseline functional form and non-negative parameter restrictions, not merely from naming `A` as attraction and `D` as defence.
 
 `R` is an auxiliary moderator in this corollary because it changes the pollination-mediated channel. It is not a third focal trait in the attraction–defence claim.
 
@@ -210,4 +218,6 @@ The sign of a mixed partial is defined on the declared trait coordinates. Positi
 
 The current literature layer is narrower than the theory. It asks whether flower-specific defence/barrier traits can reduce pollinator use in some systems. That supports the plausibility of one ingredient of mutualist interference.
 
-It does **not** estimate the full `M_AD` curvature, the antagonist-relief curvature, the direct joint cost, the complete mixed partial, or the environmental derivatives of the mixed partial. A full empirical test would require the relevant channel responses for the same focal `A`–`D` pair and biological context, measured on compatible scales.
+A negative `D -> pollinator use` effect alone does **not** identify `M_AD < 0`, because the mixed curvature additionally depends on how that defence effect changes the marginal mutualist return to the particular focal attraction trait `A`. Likewise, evidence that `D` reduces antagonist damage does not by itself identify `G_AD < 0` without the corresponding attraction-linked interaction.
+
+The literature layer therefore does **not** estimate the full `M_AD` curvature, the antagonist-relief curvature, the direct joint cost, the complete mixed partial, or the environmental derivatives of the mixed partial. A full empirical test would require the relevant channel responses for the same focal `A`–`D` pair and biological context, measured on compatible scales.
