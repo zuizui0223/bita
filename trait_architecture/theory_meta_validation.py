@@ -1,7 +1,7 @@
 """Validate the current theory-to-meta-analysis evidence boundary.
 
 This module does not estimate new biological parameters. It checks that the
-predeclared Part I robustness run reproduces from its configuration, then reads
+predeclared Part I sensitivity run reproduces from its configuration, then reads
 the existing broad direction map and quantitative synthesis outputs to state
 exactly which empirical checks are presently supported.
 """
@@ -100,7 +100,7 @@ def validate_part_i_run(config: dict[str, object], report: dict[str, object]) ->
     if not isinstance(classes, dict):
         raise ValueError("Part I report lacks parameter_envelope_class_counts")
     class_total = sum(_int(classes.get(name), f"parameter_envelope_class_counts.{name}") for name in (
-        "structurally_robust", "conditional_majority", "mixed_or_sensitive",
+        "tested_set_unanimous", "conditional_majority", "mixed_or_sensitive",
     ))
     if class_total != expected["case_count"]:
         mismatches["parameter_envelope_class_total"] = {
@@ -231,7 +231,7 @@ def build_validation_report(
             "channel_sign_validation": (
                 "limited_restricted_support_only" if aligned else "no_directional_stratum_reaches_minimum"
             ),
-            "regime_level_empirical_validation": "not_evaluable_from_current_single-route_records",
+            "regime_level_empirical_validation": "not_evaluable_from_current_single_route_records",
             "parameter_magnitude_calibration": (
                 "not_ready" if quantitative["status"] == "quantitative_synthesis_not_ready" else "available_for_review"
             ),

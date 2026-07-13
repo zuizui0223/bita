@@ -1,4 +1,4 @@
-from trait_architecture.regime_discrimination_audit import audit
+from trait_architecture.regime_discrimination_audit import audit, functional_signature
 
 
 def config(*, zero_cost: bool = False) -> dict[str, object]:
@@ -12,7 +12,11 @@ def config(*, zero_cost: bool = False) -> dict[str, object]:
 
 
 def summary(scenario_id: str, modal: str) -> dict[str, str]:
-    return {"parameter_scenario_id": scenario_id, "modal_sign": modal, "functional_form_class": "structurally_robust"}
+    return {
+        "parameter_scenario_id": scenario_id,
+        "modal_sign": modal,
+        "functional_form_class": "tested_set_unanimous",
+    }
 
 
 def b_to_p_constraint(**overrides: str) -> dict[str, str]:
@@ -74,3 +78,18 @@ def test_unresolved_strata_are_not_promoted_to_empirical_constraints() -> None:
     assert report["resolved_empirical_constraints"] == 0
     assert constraints == []
     assert {row["scenario_empirical_status"] for row in scenarios} == {"no_resolved_empirical_constraint"}
+
+
+def test_functional_signature_preserves_mixed_modal_cases() -> None:
+    signature = functional_signature([
+        summary("one", "mixed"),
+        summary("one", "complementary"),
+    ])
+
+    assert signature["one"] == {
+        "total": 2,
+        "complementary": 1,
+        "substitutable": 0,
+        "mixed": 1,
+        "unanimous": 2,
+    }

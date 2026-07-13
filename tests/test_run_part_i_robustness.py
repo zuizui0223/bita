@@ -1,6 +1,9 @@
 import importlib.util
+import math
 import sys
 from pathlib import Path
+
+import pytest
 
 
 SCRIPT = Path(__file__).parents[1] / "scripts" / "run_part_i_robustness.py"
@@ -29,13 +32,13 @@ def minimal_config() -> dict:
             {
                 "form_id": "baseline",
                 "attraction_saturation": 0.0,
-                "defence_half_saturation": None,
+                "defence_saturation": 0.0,
                 "shared_cost_curvature": 0.0,
             },
             {
                 "form_id": "saturated",
                 "attraction_saturation": 1.0,
-                "defence_half_saturation": 0.35,
+                "defence_saturation": 2.0,
                 "shared_cost_curvature": 1.0,
             },
         ],
@@ -43,7 +46,8 @@ def minimal_config() -> dict:
 
 
 def test_run_emits_case_form_and_parameter_envelope_summaries() -> None:
-    rows, form_summaries, envelope_summaries = MODULE.run(minimal_config())
+    config = minimal_config()
+    rows, form_summaries, envelope_summaries = MODULE.run(config)
 
     assert len(rows) == 4
     assert len(form_summaries) == 2
@@ -53,15 +57,23 @@ def test_run_emits_case_form_and_parameter_envelope_summaries() -> None:
     assert {row["parameter_scenario_id"] for row in rows} == {"baseline", "high_damage"}
     assert {row["parameter_scenario_id"] for row in form_summaries} == {"baseline", "high_damage"}
     assert {row["form_id"] for row in rows} == {"baseline", "saturated"}
+    assert {row["defence_saturation"] for row in rows} == {0.0, 2.0}
+
+    report = MODULE.build_report(config, rows, form_summaries, envelope_summaries)
+    assert report["neutral_tolerance"] == 1e-12
+    assert report["neutral_tolerance_scale"] == "absolute_on_declared_score_scale"
+    assert report["response_shape_normalization"] == "common_endpoints_on_unit_trait_domain"
 
 
 def test_rejects_unknown_model_parameter_override() -> None:
     config = minimal_config()
     config["parameter_scenarios"][0]["overrides"] = {"not_a_parameter": 1.0}
-
-    try:
+    with pytest.raises(ValueError, match="unknown ModelParameters field"):
         MODULE.run(config)
-    except ValueError as error:
-        assert "unknown ModelParameters field" in str(error)
-    else:
-        raise AssertionError("unknown model parameter should fail validation")
+
+
+def test_rejects_nonfinite_neutral_tolerance() -> None:
+    config = minimal_config()
+    config["neutral_tolerance"] = math.nan
+    with pytest.raises(ValueError, match="finite and non-negative"):
+        MODULE.run(config)

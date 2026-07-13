@@ -2,17 +2,17 @@
 
 This map links each submission claim to the files needed to inspect or reproduce it.
 
-## Claim 1: attraction and defence have a general local sign-switch criterion
+## Claim 1: local attraction–defence interaction theory
 
-The theorem-level claim is about the local fitness mixed partial, not an observed trait correlation.
-
-Primary theorem and implementation:
+Primary theory and assumptions:
 
 - `docs/GENERAL_SIGN_CRITERION.md`
+- `docs/NOVELTY_POSITIONING.md`
+- `theory/README.md`
 - `trait_architecture/sign_criterion.py`
 - `tests/test_sign_criterion.py`
 
-Baseline corollary and robustness analysis:
+Implemented baseline corollary and finite-set sensitivity analysis:
 
 - `trait_architecture/model.py`
 - `trait_architecture/robustness.py`
@@ -20,7 +20,7 @@ Baseline corollary and robustness analysis:
 - `scripts/run_part_i_robustness.py`
 - `docs/PART_I_ROBUSTNESS_PROTOCOL.md`
 
-Manuscript-facing outputs:
+Manuscript-facing theory outputs:
 
 - `scripts/build_part_i_manuscript_readout.py`
 - `scripts/build_part_i_regime_figure_svg.py`
@@ -31,32 +31,39 @@ Automated guard:
 - `.github/workflows/validate-current-theory-meta.yml`
 - theory and figure tests under `tests/`
 
-## Claim 2: a defence/access -> pollination cost occurs in at least some systems
+The environmental comparative statics are conditional. `P` and `H` are exogenous reference-regime indices, and the directional effect of changing them depends on the local derivatives of the ecological channel scaling and any regime dependence of direct cross-cost.
 
-Registered evidence and outputs:
+The non-negative mechanism-magnitude decomposition is also conditional on an orientation gate. The focal trait labels alone do not guarantee `M_AD <= 0`, `G_AD <= 0`, or `C_AD >= 0`.
+
+## Claim 2: abstract-level directional consistency with a collateral pollinator-cost route
+
+Active route-level evidence:
 
 - `empirical/broad_reality_evidence/broad_route_records.csv`
 - `empirical/broad_reality_evidence/broad_effect_extractions.csv`
 - `empirical/broad_reality_evidence/broad_meta_analysis_strata.csv`
-- `empirical/broad_reality_evidence/part_b_arrow_effects.csv`
-- `empirical/broad_reality_evidence/PART_B_RESULTS_READOUT_v1.md`
+- `empirical/broad_reality_evidence/LITERATURE_EVIDENCE_READOUT.md`
 
-Validation:
+Reproduction and validation:
 
 - `scripts/run_broad_meta_analysis.py`
-- `scripts/validate_part_b_integrity.py`
-- `.github/workflows/part-b-integrity.yml`
+- `scripts/validate_current_theory_meta.py`
+- `trait_architecture/broad_meta_analysis.py`
+- `trait_architecture/theory_meta_validation.py`
+- `.github/workflows/validate-current-theory-meta.yml`
+
+All currently active directional records are coded from `crossref_deposited_abstract`. The relevant predeclared `B_to_pollination × chemical_barrier × pollinator_preference_or_foraging × manipulation` stratum contains three independent primary clusters, all coded negative. A separate `visitation_rate` stratum contains one mixed record and is not pooled into that three-cluster directional fraction.
+
+The current quantitative extraction table contains no eligible effect rows, so the evidence layer does **not** calibrate effect magnitudes or model parameters. Its present contribution is restricted abstract-level directional consistency with a route-level biological premise.
 
 ## Boundary between the two claims
 
-- `scripts/validate_current_theory_meta.py`
-- `scripts/audit_current_regime_discrimination.py`
-- `trait_architecture/theory_meta_validation.py`
-- `trait_architecture/regime_discrimination_audit.py`
 - `docs/SUBMISSION_SCOPE.md`
+- `scripts/validate_current_theory_meta.py`
+- `trait_architecture/theory_meta_validation.py`
 
-The literature records establish the existence and direction of specific biological pathways. They do not estimate the complete theoretical mixed partial, identify an attraction--defence covariance, or estimate the prevalence of local complementarity versus substitutability in nature.
+A negative `D -> pollinator use` route does not by itself identify the focal mutualist mixed curvature `M_AD < 0`; that would require showing how `D` changes the marginal mutualist return to the same focal `A`. Route records from different traits and taxa also do not jointly estimate one system-specific `D` axis, the complete local `A`–`D` mixed partial, its environmental derivative, trait covariance, or an evolutionary endpoint.
 
 ## Deliberately absent
 
-Raw third-party observations, the former *Impatiens capensis* case-study pipeline, exploratory candidate discovery, repository-access probes, and superseded manuscript drafts are not part of this supplement.
+Raw third-party observations, the former *Impatiens capensis* case-study pipeline, optimum/covariance analyses, matched-study discovery architecture, network/trait-coverage audits, exploratory candidate scouting, repository-access probes, and superseded manuscript-planning machinery are not part of this supplement.

@@ -26,10 +26,10 @@ CHANNELS = {
 SCENARIO_FIELDS = (
     "scenario_id", "attraction_gain", "attraction_tracking", "floral_defence_efficacy",
     "defence_pollinator_cost", "attraction_defence_shared_cost", "functional_summary_cases",
-    "modal_complementary_cases", "modal_substitutable_cases", "functional_form_robust_cases",
-    "empirical_constraints_considered", "empirical_constraints_matched",
-    "empirical_constraints_contradicted", "scenario_empirical_status",
-    "regime_discrimination_status",
+    "modal_complementary_cases", "modal_substitutable_cases", "modal_mixed_cases",
+    "functional_form_unanimous_cases", "empirical_constraints_considered",
+    "empirical_constraints_matched", "empirical_constraints_contradicted",
+    "scenario_empirical_status", "regime_discrimination_status",
 )
 CONSTRAINT_FIELDS = (
     "scenario_id", "route", "trait_class", "outcome_class", "design_class",
@@ -124,24 +124,27 @@ def scenario_sign(value: float, active_sign: str) -> str:
 
 
 def functional_signature(rows: Iterable[dict[str, str]]) -> dict[str, dict[str, int]]:
+    """Count modal signs without forcing exact positive/negative ties to one side."""
+
     counts: dict[str, Counter[str]] = {}
     for row in rows:
         scenario_id = _text(row.get("parameter_scenario_id"))
         modal = _text(row.get("modal_sign"))
-        robustness = _text(row.get("functional_form_class"))
-        if not scenario_id or modal not in {"complementary", "substitutable", "neutral"}:
+        stability_class = _text(row.get("functional_form_class"))
+        if not scenario_id or modal not in {"complementary", "substitutable", "neutral", "mixed"}:
             raise ValueError("functional summary has invalid scenario or modal sign")
         tally = counts.setdefault(scenario_id, Counter())
         tally["total"] += 1
         tally[modal] += 1
-        if robustness == "structurally_robust":
-            tally["robust"] += 1
+        if stability_class == "tested_set_unanimous":
+            tally["unanimous"] += 1
     return {
         key: {
             "total": value["total"],
             "complementary": value["complementary"],
             "substitutable": value["substitutable"],
-            "robust": value["robust"],
+            "mixed": value["mixed"],
+            "unanimous": value["unanimous"],
         }
         for key, value in counts.items()
     }
@@ -183,7 +186,8 @@ def audit(
             "functional_summary_cases": signature["total"],
             "modal_complementary_cases": signature["complementary"],
             "modal_substitutable_cases": signature["substitutable"],
-            "functional_form_robust_cases": signature["robust"],
+            "modal_mixed_cases": signature["mixed"],
+            "functional_form_unanimous_cases": signature["unanimous"],
             "empirical_constraints_considered": len(constraints),
             "empirical_constraints_matched": matched,
             "empirical_constraints_contradicted": contradicted,

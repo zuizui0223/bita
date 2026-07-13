@@ -1,5 +1,5 @@
 {
-  "purpose": "Qualitative robustness sweep before empirical parameter calibration",
+  "purpose": "Qualitative sensitivity sweep before empirical parameter calibration",
   "neutral_tolerance": 1e-10,
   "phenotype_and_regime_grid": {
     "attraction": [0.2, 0.5, 0.8],
@@ -48,31 +48,37 @@
     {
       "form_id": "baseline",
       "attraction_saturation": 0.0,
-      "defence_half_saturation": null,
+      "defence_saturation": 0.0,
       "shared_cost_curvature": 0.0
     },
     {
       "form_id": "saturating_attraction",
       "attraction_saturation": 1.0,
-      "defence_half_saturation": null,
+      "defence_saturation": 0.0,
       "shared_cost_curvature": 0.0
     },
     {
       "form_id": "saturating_defence",
       "attraction_saturation": 0.0,
-      "defence_half_saturation": 0.35,
+      "defence_saturation": 2.857142857142857,
       "shared_cost_curvature": 0.0
     },
     {
       "form_id": "saturating_both_curved_cost",
       "attraction_saturation": 1.0,
-      "defence_half_saturation": 0.35,
+      "defence_saturation": 2.857142857142857,
       "shared_cost_curvature": 1.0
     }
   ],
+  "normalization": {
+    "trait_domain": "A,D in [0,1]",
+    "attraction": "all attraction response shapes equal attraction_gain at A=1",
+    "defence": "all defence response shapes equal floral_defence_efficacy at D=1",
+    "joint_cost": "all joint-cost shapes equal attraction_defence_shared_cost at A=D=1"
+  },
   "interpretation": {
-    "structurally_robust": "One sign across every parameter scenario and functional-form variant at the local case.",
-    "conditional_majority": "At least 80% sign agreement among non-neutral evaluations, but not every evaluation agrees.",
-    "mixed_or_sensitive": "No stable modal sign or any large dependence on assumptions."
+    "tested_set_unanimous": "Every evaluation in the summarized finite predeclared tested set has the same non-neutral sign. This is tested-set unanimity, not a proof of mathematical structural robustness.",
+    "conditional_majority": "At least 80% sign agreement among non-neutral evaluations in the summarized tested set, without full unanimity.",
+    "mixed_or_sensitive": "No stable modal sign within the summarized tested set, or substantial dependence on the tested assumptions."
   }
 }

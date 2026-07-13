@@ -1,23 +1,28 @@
-"""Robustness evaluator for the Part I floral attraction–barrier score.
+"""Sensitivity evaluator for the Part I floral attraction–barrier score.
 
 The baseline model in :mod:`trait_architecture.model` is intentionally
-qualitative. This module does not calibrate it from data. Instead, it evaluates
-whether the *sign* of the local A×D mixed partial remains stable when three
-biologically motivated nonlinearities are varied:
+qualitative. This module does not calibrate it from data. It evaluates whether
+the sign of the local A×D mixed partial remains stable across a finite,
+predeclared family of nonlinear response shapes and biological parameter
+scenarios.
 
-* saturation of pollination benefit from attraction;
-* saturation of defence efficacy against floral antagonists; and
-* curvature in the shared attraction–defence allocation cost.
+The nonlinear response shapes are endpoint-normalized on the declared 0–1 trait
+range. For fixed biological parameters:
 
-The outputs are regime-map diagnostics. They must not be interpreted as observed
-trait covariance or direct evidence of adaptation.
+* attraction-mediated gain at ``A=1`` matches the linear baseline;
+* antagonist protection at ``D=1`` matches the linear baseline; and
+* direct joint cost at ``A=D=1`` matches the baseline corner cost.
+
+This normalization reduces confounding between response-shape sensitivity and a
+simple change in endpoint effect scale. It does not make the functions identical
+in local derivatives or prove structural robustness.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 from itertools import product
-from math import exp
+from math import exp, isfinite
 from typing import Iterable, Sequence
 
 from .model import ModelParameters
@@ -25,29 +30,42 @@ from .model import ModelParameters
 
 @dataclass(frozen=True)
 class FunctionalForm:
-    """Curvature choices that preserve the biological interpretation of Part I.
+    """Endpoint-normalized response-shape choices for the Part I sensitivity set.
 
-    ``attraction_saturation`` is ``q_A`` in
-    ``b_A A / (1 + q_A A)``.  ``defence_half_saturation`` is ``h_D`` in
-    ``e_F D / (h_D + D)``.  A value of ``None`` retains the baseline linear
-    defence effect. ``shared_cost_curvature`` is ``k_AD`` in
-    ``c_AD A D [1 + k_AD(A + D)]``.
+    For attraction, ``q_A = attraction_saturation`` gives
+
+        b_A (1 + q_A) A / (1 + q_A A).
+
+    For defence, ``q_D = defence_saturation`` gives
+
+        e_F (1 + q_D) D / (1 + q_D D).
+
+    Both reduce to the linear baseline when the corresponding saturation
+    parameter is zero and match the linear endpoint at trait value one.
+
+    ``shared_cost_curvature = k_AD`` gives
+
+        c_AD A D [1 + k_AD(A + D)] / (1 + 2 k_AD),
+
+    which preserves the baseline corner cost at ``A=D=1`` while changing local
+    cross-cost curvature.
     """
 
     form_id: str
     attraction_saturation: float = 0.0
-    defence_half_saturation: float | None = None
+    defence_saturation: float = 0.0
     shared_cost_curvature: float = 0.0
 
     def __post_init__(self) -> None:
         if not self.form_id.strip():
             raise ValueError("form_id must be non-empty")
-        if self.attraction_saturation < 0:
-            raise ValueError("attraction_saturation must be non-negative")
-        if self.defence_half_saturation is not None and self.defence_half_saturation <= 0:
-            raise ValueError("defence_half_saturation must be positive when provided")
-        if self.shared_cost_curvature < 0:
-            raise ValueError("shared_cost_curvature must be non-negative")
+        for name, value in (
+            ("attraction_saturation", self.attraction_saturation),
+            ("defence_saturation", self.defence_saturation),
+            ("shared_cost_curvature", self.shared_cost_curvature),
+        ):
+            if not isfinite(value) or value < 0:
+                raise ValueError(f"{name} must be finite and non-negative")
 
 
 @dataclass(frozen=True)
@@ -71,8 +89,8 @@ class RobustnessCase:
             ("pollinator_service", self.pollinator_service),
             ("floral_damage_pressure", self.floral_damage_pressure),
         ):
-            if not 0.0 <= value <= 1.0:
-                raise ValueError(f"{name} must lie in [0, 1]")
+            if not isfinite(value) or not 0.0 <= value <= 1.0:
+                raise ValueError(f"{name} must be finite and lie in [0, 1]")
 
 
 @dataclass(frozen=True)
@@ -90,7 +108,7 @@ class MixedPartialResult:
 
 @dataclass(frozen=True)
 class RobustnessSummary:
-    """Sign stability across functional forms for one local regime case."""
+    """Sign stability across the finite set of evaluations supplied for one case."""
 
     case_id: str
     modal_sign: str
@@ -104,24 +122,26 @@ BASELINE_FORM = FunctionalForm(form_id="baseline")
 
 
 def default_functional_forms() -> tuple[FunctionalForm, ...]:
-    """Return a compact, predeclared family of baseline and nonlinear variants."""
+    """Return the baseline and three predeclared endpoint-normalized variants."""
 
     return (
         BASELINE_FORM,
         FunctionalForm(form_id="saturating_attraction", attraction_saturation=1.0),
-        FunctionalForm(form_id="saturating_defence", defence_half_saturation=0.35),
+        FunctionalForm(form_id="saturating_defence", defence_saturation=1.0 / 0.35),
         FunctionalForm(
             form_id="saturating_both_curved_cost",
             attraction_saturation=1.0,
-            defence_half_saturation=0.35,
+            defence_saturation=1.0 / 0.35,
             shared_cost_curvature=1.0,
         ),
     )
 
 
 def _sign(value: float, tolerance: float) -> str:
-    if tolerance < 0:
-        raise ValueError("tolerance must be non-negative")
+    if not isfinite(value):
+        raise ValueError("mixed partial must be finite")
+    if not isfinite(tolerance) or tolerance < 0:
+        raise ValueError("tolerance must be finite and non-negative")
     if value > tolerance:
         return "complementary"
     if value < -tolerance:
@@ -129,20 +149,38 @@ def _sign(value: float, tolerance: float) -> str:
     return "neutral"
 
 
-def _attraction_marginal_gain(parameters: ModelParameters, attraction: float, form: FunctionalForm) -> float:
-    """Return d/dA of the chosen pollination attraction-benefit function."""
+def _attraction_marginal_gain(
+    parameters: ModelParameters, attraction: float, form: FunctionalForm
+) -> float:
+    """Return the derivative of endpoint-normalized attraction benefit."""
 
-    denominator = 1.0 + form.attraction_saturation * attraction
-    return parameters.attraction_gain / (denominator * denominator)
+    q = form.attraction_saturation
+    denominator = 1.0 + q * attraction
+    return parameters.attraction_gain * (1.0 + q) / (denominator * denominator)
 
 
-def _defence_marginal_efficacy(parameters: ModelParameters, defence: float, form: FunctionalForm) -> float:
-    """Return d/dD of the chosen protection function, bounded by model efficacy."""
+def _defence_marginal_efficacy(
+    parameters: ModelParameters, defence: float, form: FunctionalForm
+) -> float:
+    """Return the derivative of endpoint-normalized antagonist protection."""
 
-    if form.defence_half_saturation is None:
-        return parameters.floral_defence_efficacy
-    half = form.defence_half_saturation
-    return parameters.floral_defence_efficacy * half / ((half + defence) * (half + defence))
+    q = form.defence_saturation
+    denominator = 1.0 + q * defence
+    return parameters.floral_defence_efficacy * (1.0 + q) / (denominator * denominator)
+
+
+def _shared_cost_cross_curvature(
+    parameters: ModelParameters,
+    attraction: float,
+    defence: float,
+    form: FunctionalForm,
+) -> float:
+    """Return local C_AD for the endpoint-normalized curved joint-cost family."""
+
+    k = form.shared_cost_curvature
+    return parameters.attraction_defence_shared_cost * (
+        1.0 + 2.0 * k * (attraction + defence)
+    ) / (1.0 + 2.0 * k)
 
 
 def mixed_partial(
@@ -152,12 +190,7 @@ def mixed_partial(
     *,
     tolerance: float = 1e-12,
 ) -> MixedPartialResult:
-    """Evaluate the local A×D mixed partial under one functional-form family.
-
-    The decomposition is retained explicitly because empirical effect-size
-    synthesis can inform the first two terms but not the allocation-cost term
-    without independent cost evidence.
-    """
+    """Evaluate the local A×D mixed partial under one response-shape variant."""
 
     attraction_gain = _attraction_marginal_gain(parameters, case.attraction, form)
     defence_efficacy = _defence_marginal_efficacy(parameters, case.defence, form)
@@ -173,8 +206,8 @@ def mixed_partial(
         * exp(-parameters.defence_pollinator_cost * case.defence)
         * (1.0 - parameters.assurance_outcross_dilution * case.assurance)
     )
-    shared_cost_term = parameters.attraction_defence_shared_cost * (
-        1.0 + 2.0 * form.shared_cost_curvature * (case.attraction + case.defence)
+    shared_cost_term = _shared_cost_cross_curvature(
+        parameters, case.attraction, case.defence, form
     )
     value = antagonism_term - pollination_obstruction_term - shared_cost_term
     return MixedPartialResult(
@@ -195,16 +228,19 @@ def evaluate_forms(
     *,
     tolerance: float = 1e-12,
 ) -> tuple[MixedPartialResult, ...]:
-    """Evaluate a fixed set of response-function families for one regime case."""
+    """Evaluate a fixed set of response-shape variants for one regime case."""
 
     chosen_forms = tuple(forms) if forms is not None else default_functional_forms()
     if not chosen_forms:
         raise ValueError("at least one functional form is required")
-    return tuple(mixed_partial(case, parameters, form, tolerance=tolerance) for form in chosen_forms)
+    return tuple(
+        mixed_partial(case, parameters, form, tolerance=tolerance)
+        for form in chosen_forms
+    )
 
 
 def summarise_case(results: Sequence[MixedPartialResult]) -> RobustnessSummary:
-    """Classify whether one case retains a sign across all chosen forms."""
+    """Summarize sign agreement across a finite tested set for one local case."""
 
     if not results:
         raise ValueError("cannot summarise an empty result set")
@@ -224,11 +260,16 @@ def summarise_case(results: Sequence[MixedPartialResult]) -> RobustnessSummary:
         )
     complementary = non_neutral.count("complementary")
     substitutable = non_neutral.count("substitutable")
-    modal_sign = "complementary" if complementary >= substitutable else "substitutable"
+    if complementary > substitutable:
+        modal_sign = "complementary"
+    elif substitutable > complementary:
+        modal_sign = "substitutable"
+    else:
+        modal_sign = "mixed"
     agreement = max(complementary, substitutable) / len(non_neutral)
     has_neutral = len(non_neutral) != total
     if agreement == 1.0 and not has_neutral:
-        robustness = "structurally_robust"
+        robustness = "tested_set_unanimous"
     elif agreement >= 0.80:
         robustness = "conditional_majority"
     else:

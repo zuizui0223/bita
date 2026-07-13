@@ -11,7 +11,7 @@ assert SPEC and SPEC.loader
 SPEC.loader.exec_module(MODULE)
 
 
-def test_build_readout_reports_conditional_regimes() -> None:
+def test_build_readout_derives_results_without_hard_coded_manuscript_numbers() -> None:
     case_rows = [
         {
             "sign": "complementary",
@@ -29,7 +29,7 @@ def test_build_readout_reports_conditional_regimes() -> None:
         },
     ]
     form_summary_rows = [
-        {"functional_form_class": "structurally_robust"},
+        {"functional_form_class": "tested_set_unanimous"},
         {"functional_form_class": "mixed_or_sensitive"},
     ]
     envelope_rows = [
@@ -40,6 +40,13 @@ def test_build_readout_reports_conditional_regimes() -> None:
     text = MODULE.build_readout(case_rows, form_summary_rows, envelope_rows)
 
     assert "conditional attraction-defence regimes" in text
-    assert "High attraction tracking" in text
+    assert "endpoint-normalized response-shape" in text
     assert "theoretical sign frequencies" in text
     assert "not an empirical parameter calibration" in text
+    assert "tested_set_unanimous" in text
+    assert "mathematical structural robustness" in text
+    assert "`high_tracking`" in text
+    assert "100.0%" in text
+    assert "92.1%" not in text
+    assert "395 of 648" not in text
+    assert "Impatiens" not in text
