@@ -2,20 +2,28 @@
 
 This map links each submission claim to the files needed to inspect or reproduce it.
 
-## Claim 1: attraction and defence are conditionally complementary or substitutable
+## Claim 1: attraction and defence have a general local sign-switch criterion
 
-Primary implementation:
+The theorem-level claim is about the local fitness mixed partial, not an observed trait correlation.
+
+Primary theorem and implementation:
+
+- `docs/GENERAL_SIGN_CRITERION.md`
+- `trait_architecture/sign_criterion.py`
+- `tests/test_sign_criterion.py`
+
+Baseline corollary and robustness analysis:
 
 - `trait_architecture/model.py`
 - `trait_architecture/robustness.py`
 - `configs/part_i_robustness_grid.json`
 - `scripts/run_part_i_robustness.py`
+- `docs/PART_I_ROBUSTNESS_PROTOCOL.md`
 
 Manuscript-facing outputs:
 
 - `scripts/build_part_i_manuscript_readout.py`
 - `scripts/build_part_i_regime_figure_svg.py`
-- `docs/PART_I_ROBUSTNESS_PROTOCOL.md`
 - `empirical/part_i_robustness/`
 
 Automated guard:
@@ -23,7 +31,7 @@ Automated guard:
 - `.github/workflows/validate-current-theory-meta.yml`
 - theory and figure tests under `tests/`
 
-## Claim 2: a B -> P pollination cost occurs in at least some defence systems
+## Claim 2: a defence/access -> pollination cost occurs in at least some systems
 
 Registered evidence and outputs:
 
@@ -47,7 +55,7 @@ Validation:
 - `trait_architecture/regime_discrimination_audit.py`
 - `docs/SUBMISSION_SCOPE.md`
 
-The literature records support the plausibility and direction of specific routes. They do not estimate the complete theoretical mixed partial or the prevalence of complementarity versus substitutability in nature.
+The literature records establish the existence and direction of specific biological pathways. They do not estimate the complete theoretical mixed partial, identify an attraction--defence covariance, or estimate the prevalence of local complementarity versus substitutability in nature.
 
 ## Deliberately absent
 
