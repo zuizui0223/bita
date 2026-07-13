@@ -32,5 +32,6 @@ def test_build_svg_contains_three_manuscript_panels() -> None:
     assert svg.startswith("<svg")
     assert "A  Biological parameter scenarios" in svg
     assert "B  Interaction environment" in svg
-    assert "C  Functional-form sensitivity" in svg
+    assert "C  Endpoint-normalized response shapes" in svg
+    assert "common endpoint scales" in svg
     assert "not empirical probabilities" in svg
