@@ -1,4 +1,4 @@
-"""Build a manuscript-facing readout from the declared Part I robustness sweep.
+"""Build a manuscript-facing readout from the declared Part I sensitivity sweep.
 
 This script does not run a new model and does not introduce new parameters. It reads
 outputs produced by ``scripts/run_part_i_robustness.py`` and summarizes the predeclared
@@ -96,7 +96,7 @@ def build_readout(
     envelope_rows: list[dict[str, str]],
 ) -> str:
     if not case_rows or not form_summary_rows or not envelope_rows:
-        raise ValueError("all three robustness outputs must contain rows")
+        raise ValueError("all three sensitivity outputs must contain rows")
 
     evaluation_counts = _sign_counts(case_rows)
     form_classes = Counter(row["functional_form_class"] for row in form_summary_rows)
@@ -107,9 +107,10 @@ def build_readout(
         "",
         "## Scope",
         "",
-        "This readout summarizes the predeclared Part I sign-robustness sweep. It is a",
+        "This readout summarizes the predeclared Part I sign-sensitivity sweep. It is a",
         "qualitative theoretical result, not an empirical parameter calibration and not an",
-        "estimate of observed trait covariance.",
+        "estimate of observed trait covariance. Agreement labels refer only to the finite",
+        "predeclared tested set and are not claims of mathematical structural robustness.",
         "",
         "## Overall sweep",
         "",
@@ -156,10 +157,10 @@ def build_readout(
 
     lines += [
         "",
-        "The central regime pattern is monotonic in the expected direction over this declared grid:",
-        "raising floral damage pressure shifts evaluations toward complementarity, whereas raising",
-        "pollinator service shifts evaluations toward substitutability when defence carries a",
-        "pollination cost.",
+        "Within this declared grid and scenario family, raising floral damage pressure shifts",
+        "evaluations toward complementarity, whereas raising pollinator service shifts evaluations",
+        "toward substitutability when defence carries a pollination cost. This is a property of the",
+        "tested model family, not an unconditional theorem for arbitrary regime scalings.",
         "",
         "## Functional-form sensitivity",
         "",
@@ -174,16 +175,16 @@ def build_readout(
     lines += [
         "",
         "Functional-form changes alter the location and prevalence of signs, but they do not erase",
-        "the conditional-regime result. Saturating attraction weakens the pollination-obstruction",
-        "term locally, whereas saturating defence and curved shared cost make positive mixed partials",
-        "harder to sustain in parts of phenotype space.",
+        "the conditional-regime result within the tested family. Saturating attraction weakens the",
+        "pollination-obstruction term locally, whereas saturating defence and curved shared cost make",
+        "positive mixed partials harder to sustain in parts of phenotype space.",
         "",
-        "## Robustness classes",
+        "## Tested-set agreement classes",
         "",
-        "Within biological parameter scenarios, sign stability across the four functional forms was:",
+        "Within biological parameter scenarios, sign agreement across the four tested functional forms was:",
         "",
     ]
-    for label in ("structurally_robust", "conditional_majority", "mixed_or_sensitive"):
+    for label in ("tested_set_unanimous", "conditional_majority", "mixed_or_sensitive"):
         count = form_classes.get(label, 0)
         lines.append(f"- `{label}`: **{count}** / {len(form_summary_rows)} ({_pct(count, len(form_summary_rows))})")
 
@@ -192,17 +193,19 @@ def build_readout(
         "Across the entire parameter × functional-form envelope, local cases were:",
         "",
     ]
-    for label in ("structurally_robust", "conditional_majority", "mixed_or_sensitive"):
+    for label in ("tested_set_unanimous", "conditional_majority", "mixed_or_sensitive"):
         count = envelope_classes.get(label, 0)
         lines.append(f"- `{label}`: **{count}** / {len(envelope_rows)} ({_pct(count, len(envelope_rows))})")
 
     lines += [
         "",
-        "No local case was structurally robust across the full biological-parameter envelope. This is",
-        "not a failure of the model: biological parameter changes are the hypothesized mechanism that",
-        "switches attraction-defence regimes. The more relevant robustness result is that 395 of 648",
-        "case × parameter-scenario combinations retained one sign across every predeclared functional",
-        "form, while the full envelope still contained both regimes.",
+        "No local case was unanimous across every tested parameter-scenario × functional-form",
+        "evaluation in the full envelope. This is not a failure of the model: biological parameter",
+        "changes are the hypothesized mechanism that switches attraction-defence regimes. The more",
+        "relevant sensitivity result is that 395 of 648 case × parameter-scenario combinations retained",
+        "one sign across every predeclared functional form, while the full envelope still contained",
+        "both regimes. Unanimity over those four tested forms is not a proof that all admissible",
+        "functional forms would preserve the sign.",
         "",
         "## Manuscript-ready Results statement",
         "",
@@ -212,19 +215,20 @@ def build_readout(
         "> direction with the balance between antagonist-mediated benefit and pollination/shared costs.",
         "> The high-tracking, low-obstruction, low-shared-cost scenario was complementary in 92.1% of",
         "> evaluations, whereas the high-obstruction, high-shared-cost scenario was substitutable in",
-        "> 93.5%. Across the declared pollinator-service × floral-damage grid, increasing floral damage",
+        "> 93.5%. Within the declared pollinator-service × floral-damage grid, increasing floral damage",
         "> pressure shifted evaluations toward complementarity, whereas increasing pollinator service",
-        "> shifted them toward substitutability. These qualitative regime shifts persisted despite",
-        "> changes in attraction saturation, defence saturation, and shared-cost curvature, although the",
-        "> precise sign boundary remained assumption-sensitive.",
+        "> shifted them toward substitutability. These qualitative regime shifts persisted across the",
+        "> four predeclared functional forms, although the precise sign boundary remained assumption-sensitive.",
         "",
         "## Inference boundary",
         "",
         "- These are theoretical sign frequencies over a declared grid, not empirical event probabilities.",
-        "- The sweep does not estimate model parameters from the Impatiens data or literature synthesis.",
+        "- The sweep does not estimate model parameters from the retained route-level literature evidence.",
         "- Parameter sensitivity is part of the causal hypothesis: changing route strengths is expected to",
         "  change the regime.",
-        "- Functional-form robustness and biological parameter sensitivity must remain reported separately.",
+        "- Agreement across the tested functional forms is finite-set sensitivity evidence, not proof of",
+        "  mathematical structural robustness.",
+        "- Functional-form sensitivity and biological parameter sensitivity must remain reported separately.",
     ]
     return "\n".join(lines) + "\n"
 
