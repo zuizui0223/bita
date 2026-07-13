@@ -39,9 +39,9 @@ Its direct interpretation is a change in a **local marginal effect on the declar
 
 This is not automatically a quantitative-genetic selection gradient, trait covariance, genetic correlation, evolutionary trajectory, stable equilibrium, or global optimum.
 
-## Diagnostic and predictive layers
+## Mechanistic decomposition is an explicit model, not an automatic identification
 
-For bookkeeping,
+For mechanistic bookkeeping, write
 
 \[
 W(A,D)=M(A,D)-G(A,D)-C(A,D),
@@ -53,7 +53,15 @@ so algebraically
 W_{AD}=M_{AD}-G_{AD}-C_{AD}.
 \]
 
-The manuscript does not claim novelty for that identity.
+The manuscript does not claim novelty for that identity, and total `W(A,D)` does not uniquely identify the three named channels. A smooth cross term can be reallocated between `M`, `G`, and `C` while leaving total `W` unchanged.
+
+Therefore:
+
+- `W_AD` may be estimable from a total response surface without identifying the mechanism terms;
+- `M_AD`, `G_AD`, and `C_AD` require operational channel definitions, channel-specific observations or manipulations, or additional structural assumptions;
+- the three-term balance is a mechanistic attribution under a declared model, not a unique decomposition forced by algebra.
+
+## Orientation gate
 
 The three non-negative magnitude labels are used only after an **orientation gate** has been passed. The focal biological roles alone do not guarantee the required mixed-curvature signs. The active orientation requires locally
 
@@ -81,15 +89,69 @@ iff antagonist relief > mutualist interference + direct joint-cost curvature.
 
 If an explicit model or empirical response surface gives the opposite sign for one of those curvatures, that result must remain signed. It must not be forced into a non-negative mechanism magnitude merely because `A` was called attraction or `D` was called defence.
 
-Environmental prediction requires more structure. `P` and `H` are treated as **exogenous reference-regime indices**, not realised visitation or damage after the focal traits act. In the general local form
+## Environmental comparative statics
+
+`P` and `H` are treated as **exogenous reference-regime indices**, not realised visitation or damage after the focal traits act.
+
+After the oriented channels have been operationally defined, allow all three contributions to depend on both regime variables:
 
 \[
-W_{AD}=a(H)r-b(P)i-C_{AD}(P,H),
+W_{AD}(P,H)=R(P,H)-I(P,H)-C_{AD}(P,H).
 \]
 
-stronger antagonist pressure shifts the interaction toward complementarity only when the increase in relief scaling exceeds any countervailing increase in direct cross-cost curvature. The mutualist-service prediction is likewise conditional on its local derivative inequality.
+The general local derivatives at the same focal `A,D` coordinates and `W` scale are
 
-These are partial derivatives at the same focal `A,D` coordinates and `W` scale, not changes traced along an evolving optimum or an observed environmental trait cline.
+\[
+\frac{\partial W_{AD}}{\partial H}
+=\frac{\partial R}{\partial H}
+-\frac{\partial I}{\partial H}
+-\frac{\partial C_{AD}}{\partial H},
+\]
+
+and
+
+\[
+\frac{\partial W_{AD}}{\partial P}
+=\frac{\partial R}{\partial P}
+-\frac{\partial I}{\partial P}
+-\frac{\partial C_{AD}}{\partial P}.
+\]
+
+Thus more antagonist pressure shifts the local interaction toward complementarity only when `dW_AD/dH > 0`, and more pollinator service shifts it toward substitutability only when `dW_AD/dP < 0`.
+
+This general form retains possible cross-environment effects: antagonist pressure may change mutualist interference, and pollinator service may change antagonist relief.
+
+### Separable nonlinear special case
+
+A restricted local model assumes
+
+\[
+R(P,H)=a(H)r,
+\qquad
+I(P,H)=b(P)i,
+\]
+
+which imposes `dI/dH = 0` and `dR/dP = 0` locally. Then
+
+\[
+W_{AD}=a(H)r-b(P)i-C_{AD}(P,H).
+\]
+
+### Linear special case
+
+The implemented linear criterion further assumes
+
+\[
+a(H)=H,\qquad b(P)=P,
+\]
+
+and regime-invariant direct cross-cost curvature:
+
+\[
+W_{AD}=Hr-Pi-C_{AD}.
+\]
+
+The separable and linear forms are useful special cases, not the general environmental derivative law.
 
 ## Baseline corollary
 
@@ -110,7 +172,7 @@ P b_A c_D exp(-c_D D) (1 - c_R R)         mutualist interference
 c_AD                                       direct joint-cost curvature
 ```
 
-Here the orientation follows from the explicit baseline functional form and non-negative parameter restrictions; it does not follow from the trait names alone.
+Here the channel attribution and orientation follow from the explicit baseline functional form and parameter restrictions. They do not follow from the trait names or from total `W` alone.
 
 `R` is retained only as an auxiliary moderator of the pollination-mediated channel. It is not a third focal trait in the submission claim.
 
@@ -150,20 +212,21 @@ The numerical sweep varies biological parameter scenarios and a finite family of
 
 The nonlinear response shapes are **endpoint-normalized on the declared `A,D in [0,1]` domain** so that attraction gain at `A=1`, antagonist protection at `D=1`, and direct joint-cost scale at `A=D=1` match the corresponding baseline endpoints. This reduces confounding between response shape and a simple change in endpoint effect magnitude.
 
-`tested_set_unanimous` means unanimity across that finite predeclared set only. It is not a proof of mathematical structural robustness. The configured `neutral_tolerance` is an absolute numerical zero threshold on the declared score scale and is recorded in run metadata; it is not a biologically invariant neutrality band.
+`tested_set_unanimous` means unanimity across that finite declared set only. It is not a proof of mathematical structural robustness. The configured `neutral_tolerance` is an absolute numerical zero threshold on the declared score scale and is recorded in run metadata; it is not a biologically invariant neutrality band.
 
 ## Model-family implications and empirical failure conditions
 
-1. The oriented magnitude decomposition is applicable only when the local mixed curvatures satisfy the declared sign conditions. Opposite-signed curvatures are evidence that the active orientation is incomplete or inappropriate for that focal pair.
-2. A negative `D -> pollinator use` effect alone does not identify mutualist interference `M_AD < 0`; the test must determine whether `D` changes the marginal mutualist return to the specific focal `A`.
-3. A protective `D -> antagonist damage` effect alone does not identify antagonist relief `G_AD < 0`; the test must determine whether `D` changes the antagonist loss associated with marginal `A`.
-4. Environmental effects are conditional on how the regime changes the channel contributions; more antagonists or more mutualists do not have universal effects without the derivative conditions.
-5. A sign switch occurs only where the regime-dependent channel balance crosses zero; nonlinear models may have no crossing, one crossing, or multiple crossings.
-6. A direct empirical test of the focal theory requires a compatible response surface or factorial design for the same `A`–`D` pair, biological context, trait scales, and outcome scale; separate route records from different systems cannot identify the complete mixed partial.
-7. A claim that the sign is invariant to transformation requires an explicit invariance argument. Neither arbitrary nonlinear trait transformations nor arbitrary nonlinear `W` transformations are automatically sign preserving.
+1. The mechanistic decomposition is not uniquely identified by total `W`; channel-specific attribution requires additional structure or data.
+2. The oriented magnitude decomposition is applicable only when the local mixed curvatures satisfy the declared sign conditions. Opposite-signed curvatures are evidence that the active orientation is incomplete or inappropriate for that focal pair.
+3. A negative `D -> pollinator use` effect alone does not identify mutualist interference `M_AD < 0`; the test must determine whether `D` changes the marginal mutualist return to the specific focal `A`.
+4. A protective `D -> antagonist damage` effect alone does not identify antagonist relief `G_AD < 0`; the test must determine whether `D` changes the antagonist loss associated with marginal `A`.
+5. Environmental effects follow the full derivative balance. Cross-environment effects can reverse the direction predicted by a separable model.
+6. A sign switch occurs only where the regime-dependent channel balance crosses zero; nonlinear models may have no crossing, one crossing, or multiple crossings.
+7. A direct empirical test requires a compatible response surface or factorial design for the same `A`–`D` pair, biological context, trait scales, and outcome scale, with enough design structure to distinguish the relevant channels.
+8. A claim that the sign is invariant to transformation requires an explicit invariance argument. Neither arbitrary nonlinear trait transformations nor arbitrary nonlinear `W` transformations are automatically sign preserving.
 
 ## Link to literature evidence
 
-The literature layer supports only a narrower abstract-level mechanism-plausibility statement: one predeclared three-cluster manipulation stratum is directionally consistent with flower-associated chemical barriers reducing pollinator preference or foraging.
+The literature layer supports only a narrower abstract-level mechanism-plausibility statement: one declared three-cluster manipulation stratum is directionally consistent with flower-associated chemical barriers reducing pollinator preference or foraging.
 
-That evidence does not identify `M_AD < 0` by itself and does not estimate the complete `A`–`D` mixed partial or its environmental derivative, because the full channel interactions are not measured for the same focal trait pair on compatible trait and outcome scales.
+That evidence does not identify `M_AD < 0` by itself, does not uniquely identify the three mechanism terms, and does not estimate the complete `A`–`D` mixed partial or its environmental derivatives, because the full channel interactions are not measured for the same focal trait pair on compatible trait and outcome scales.
