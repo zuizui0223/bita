@@ -1,15 +1,17 @@
-"""Run the predeclared Part I functional-form robustness sweep.
+"""Run the predeclared Part I functional-form sensitivity sweep.
 
 The runner produces three linked outputs:
 
 1. every local mixed-partial evaluation;
-2. within-scenario sign stability across alternative functional forms; and
+2. within-scenario sign agreement across alternative functional forms; and
 3. the sign envelope across all predeclared biological parameter scenarios.
 
-This separation matters. Changing a response curve tests functional-form
-robustness, whereas changing tracking, obstruction, or shared-cost coefficients
-tests genuine biological parameter sensitivity. The outputs are qualitative and
-must not be interpreted as empirical parameter estimates.
+This separation matters. Changing a response curve tests sensitivity to the
+selected functional-form family, whereas changing tracking, obstruction, or
+shared-cost coefficients tests biological parameter sensitivity. Unanimity means
+only unanimity across the finite predeclared tested set; it is not a proof of
+mathematical structural robustness. The outputs are qualitative and must not be
+interpreted as empirical parameter estimates.
 
 Usage:
     python scripts/run_part_i_robustness.py \
@@ -85,7 +87,7 @@ ENVELOPE_SUMMARY_FIELDS = [
     "total_evaluation_count",
     "modal_sign_agreement",
     "envelope_class",
-    "functional_form_robust_scenario_count",
+    "functional_form_unanimous_scenario_count",
     "parameter_scenario_count",
 ]
 
@@ -257,8 +259,8 @@ def run(
                 "total_evaluation_count": summary.total_form_count,
                 "modal_sign_agreement": summary.modal_sign_agreement,
                 "envelope_class": summary.robustness_class,
-                "functional_form_robust_scenario_count": sum(
-                    scenario_classes[(case_id, scenario_id)] == "structurally_robust"
+                "functional_form_unanimous_scenario_count": sum(
+                    scenario_classes[(case_id, scenario_id)] == "tested_set_unanimous"
                     for scenario_id, _ in scenarios
                 ),
                 "parameter_scenario_count": len(scenarios),
@@ -276,7 +278,7 @@ def _write_csv(path: Path, fields: Iterable[str], rows: Iterable[dict[str, objec
 
 
 def _class_counts(rows: list[dict[str, object]], column: str) -> dict[str, int]:
-    labels = ("structurally_robust", "conditional_majority", "mixed_or_sensitive")
+    labels = ("tested_set_unanimous", "conditional_majority", "mixed_or_sensitive")
     return {label: sum(row[column] == label for row in rows) for label in labels}
 
 
@@ -307,7 +309,11 @@ def main(argv: list[str] | None = None) -> int:
         "functional_form_summary_count": len(form_summaries),
         "functional_form_class_counts": _class_counts(form_summaries, "functional_form_class"),
         "parameter_envelope_class_counts": _class_counts(envelope_summaries, "envelope_class"),
-        "warning": "Outputs are qualitative diagnostics. Functional-form robustness and biological parameter sensitivity are reported separately.",
+        "warning": (
+            "Outputs are qualitative diagnostics over a finite predeclared tested set. "
+            "Tested-set unanimity is not proof of structural robustness; functional-form "
+            "sensitivity and biological parameter sensitivity are reported separately."
+        ),
     }
     (out_dir / "part_i_robustness_report.json").write_text(
         json.dumps(report, indent=2, sort_keys=True), encoding="utf-8"
