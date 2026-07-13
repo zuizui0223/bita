@@ -1,24 +1,21 @@
-"""Local sign criterion for a mechanistically oriented attraction--defence model.
+"""Local sign criteria for mechanistically oriented attraction--defence models.
 
-The arithmetic implemented here is used after ecological channels have been derived
-from an explicit model such as
+The arithmetic here is used only after ecological channels have been derived from
+an explicit model. ``SignCriterion`` evaluates already-oriented channel
+magnitudes. ``RegimeScaledCriterion`` adds a stronger, predictive restriction:
+mutualist service and antagonist pressure scale fixed local channel sensitivities.
 
-    W(A, D) = P B(A) Q(D) - H F(A) S(D) - C(A, D).
+Under that restriction,
 
-In the oriented region B' >= 0, Q' <= 0, F' >= 0, and S' <= 0, define
+    W_AD = H * relief_rate - P * interference_rate - joint_cost,
 
-    antagonist_relief      = -H F'(A) S'(D),
-    mutualist_interference = -P B'(A) Q'(D),
-    joint_cost             = C_AD.
+so increasing antagonist pressure pushes the local interaction toward
+complementarity, while increasing mutualist service pushes it toward
+substitutability. These comparative statics are conditional predictions, unlike
+the bare arithmetic decomposition.
 
-The mixed partial is then antagonist relief minus mutualist interference minus
-joint cost. The class does not turn an arbitrary fitness decomposition into a new
-theorem; callers are responsible for establishing the mechanistic mapping and
-local derivative signs before supplying non-negative channel magnitudes.
-
-A positive mixed partial means local fitness complementarity and a negative mixed
-partial local fitness substitutability. Neither sign alone predicts population-
-level trait covariance, genetic correlation, or an evolutionary endpoint.
+Neither class by itself predicts population-level trait covariance, genetic
+correlation, or an evolutionary endpoint.
 """
 
 from __future__ import annotations
@@ -28,20 +25,7 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class SignCriterion:
-    """Evaluate oriented channel magnitudes for the local A x D mixed partial.
-
-    ``antagonist_relief`` is the non-negative magnitude ``-H F' S'`` when
-    attraction increases antagonist exposure and defence reduces residual damage.
-
-    ``mutualist_interference`` is the non-negative magnitude ``-P B' Q'`` when
-    attraction increases mutualist return and defence/access limitation reduces the
-    retained return.
-
-    ``joint_cost`` is ``C_AD`` when the local direct cross-cost is non-negative.
-
-    If those derivative signs do not hold, the affected channel must be reoriented
-    rather than forced into these labels.
-    """
+    """Evaluate oriented channel magnitudes for the local A x D mixed partial."""
 
     antagonist_relief: float
     mutualist_interference: float
@@ -58,13 +42,9 @@ class SignCriterion:
 
     @property
     def mixed_partial(self) -> float:
-        """Return the local A x D mixed partial for the oriented model region."""
-
         return self.antagonist_relief - self.mutualist_interference - self.joint_cost
 
     def classify(self, *, tolerance: float = 1e-12) -> str:
-        """Classify the local fitness interaction without implying trait covariance."""
-
         if tolerance < 0:
             raise ValueError("tolerance must be non-negative")
         value = self.mixed_partial
@@ -76,6 +56,61 @@ class SignCriterion:
 
     @property
     def break_even_antagonist_relief(self) -> float:
-        """Return antagonist relief required for a zero mixed partial."""
-
         return self.mutualist_interference + self.joint_cost
+
+
+@dataclass(frozen=True)
+class RegimeScaledCriterion:
+    """Evaluate a regime-scaled local criterion with testable comparative statics.
+
+    ``relief_rate`` is antagonist-relief curvature per unit antagonist pressure H.
+    ``interference_rate`` is mutualist-interference curvature per unit mutualist
+    service P. Both are non-negative local sensitivities after biological
+    orientation. ``joint_cost`` is a non-negative direct cross-cost.
+
+    The model is
+
+        W_AD = H * relief_rate - P * interference_rate - joint_cost.
+
+    The resulting directional predictions are conditional on the rates and local
+    phenotype neighbourhood remaining comparable while P or H changes.
+    """
+
+    pollinator_service: float
+    antagonist_pressure: float
+    relief_rate: float
+    interference_rate: float
+    joint_cost: float
+
+    def __post_init__(self) -> None:
+        for name, value in self.__dict__.items():
+            if value < 0:
+                raise ValueError(f"{name} must be non-negative")
+
+    @property
+    def antagonist_relief(self) -> float:
+        return self.antagonist_pressure * self.relief_rate
+
+    @property
+    def mutualist_interference(self) -> float:
+        return self.pollinator_service * self.interference_rate
+
+    @property
+    def mixed_partial(self) -> float:
+        return self.antagonist_relief - self.mutualist_interference - self.joint_cost
+
+    @property
+    def d_mixed_partial_d_antagonist_pressure(self) -> float:
+        return self.relief_rate
+
+    @property
+    def d_mixed_partial_d_pollinator_service(self) -> float:
+        return -self.interference_rate
+
+    @property
+    def break_even_antagonist_pressure(self) -> float:
+        if self.relief_rate == 0:
+            return float("inf")
+        return (
+            self.pollinator_service * self.interference_rate + self.joint_cost
+        ) / self.relief_rate
