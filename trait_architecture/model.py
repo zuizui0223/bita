@@ -25,12 +25,12 @@ marginal effects without changing that mixed partial.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from math import exp
+from math import exp, isfinite
 
 
 def _unit_interval(value: float, name: str) -> None:
-    if not 0.0 <= value <= 1.0:
-        raise ValueError(f"{name} must lie in [0, 1]")
+    if not isfinite(value) or not 0.0 <= value <= 1.0:
+        raise ValueError(f"{name} must be finite and lie in [0, 1]")
 
 
 @dataclass(frozen=True)
@@ -83,8 +83,8 @@ class ModelParameters:
 
     def __post_init__(self) -> None:
         for name, value in self.__dict__.items():
-            if value < 0:
-                raise ValueError(f"{name} must be non-negative")
+            if not isfinite(value) or value < 0:
+                raise ValueError(f"{name} must be finite and non-negative")
         if self.floral_defence_efficacy > 1:
             raise ValueError("floral_defence_efficacy must lie in [0, 1]")
         if self.assurance_outcross_dilution > 1:
