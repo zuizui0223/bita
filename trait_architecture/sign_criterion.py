@@ -1,19 +1,32 @@
-"""Local sign criteria for mechanistically oriented attraction--defence models.
+"""Local sign criteria for a declared pair of floral traits.
 
-The arithmetic here is used only after ecological channels have been derived from
-an explicit model. ``SignCriterion`` evaluates already-oriented channel
-magnitudes. ``RegimeScaledCriterion`` is the linear special case in which
-mutualist service and antagonist pressure scale fixed local channel sensitivities.
-``MonotoneRegimeCriterion`` records the more general local comparative statics for
-nonlinear regime scalings.
+The focal variables are one attraction trait ``A`` and one flower-specific
+barrier/defence trait ``D``.  The classes below evaluate local mixed-partial
+bookkeeping after the biological channels and trait parameterisation have been
+specified.  They do not turn broad trait categories into a common quantitative
+axis and they do not predict population-level covariance or evolutionary
+endpoints.
 
-Neither class by itself predicts population-level trait covariance, genetic
-correlation, or an evolutionary endpoint.
+``SignCriterion`` evaluates already-oriented channel magnitudes.
+``RegimeScaledCriterion`` is the linear special case in which exogenous regime
+indices scale fixed local channel sensitivities. ``LocalRegimeCriterion`` stores
+more general local regime scalings and their derivatives.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
+from math import isfinite
+
+
+def _require_nonnegative_finite(value: float, name: str) -> None:
+    if not isfinite(value) or value < 0:
+        raise ValueError(f"{name} must be finite and non-negative")
+
+
+def _require_finite(value: float, name: str) -> None:
+    if not isfinite(value):
+        raise ValueError(f"{name} must be finite")
 
 
 @dataclass(frozen=True)
@@ -30,16 +43,15 @@ class SignCriterion:
             ("mutualist_interference", self.mutualist_interference),
             ("joint_cost", self.joint_cost),
         ):
-            if value < 0:
-                raise ValueError(f"{name} must be non-negative after orientation")
+            _require_nonnegative_finite(value, name)
 
     @property
     def mixed_partial(self) -> float:
         return self.antagonist_relief - self.mutualist_interference - self.joint_cost
 
     def classify(self, *, tolerance: float = 1e-12) -> str:
-        if tolerance < 0:
-            raise ValueError("tolerance must be non-negative")
+        if not isfinite(tolerance) or tolerance < 0:
+            raise ValueError("tolerance must be finite and non-negative")
         value = self.mixed_partial
         if value > tolerance:
             return "locally_complementary"
@@ -54,14 +66,17 @@ class SignCriterion:
 
 @dataclass(frozen=True)
 class RegimeScaledCriterion:
-    """Linear special case with testable local comparative statics.
+    """Linear local special case with conditional comparative statics.
 
-    The model is
+    ``P`` and ``H`` are exogenous reference-regime indices, not realised
+    visitation or damage after the focal traits act.  At fixed focal ``A`` and
+    ``D`` and fixed local rates,
 
         W_AD = H * relief_rate - P * interference_rate - joint_cost.
 
-    The resulting directional predictions are conditional on the rates, joint cost,
-    and local phenotype neighbourhood remaining comparable while P or H changes.
+    The resulting directional statements are partial derivatives at the same
+    phenotype neighbourhood.  They are not derivatives along an optimum or an
+    observed environmental trait cline.
     """
 
     pollinator_service: float
@@ -72,8 +87,7 @@ class RegimeScaledCriterion:
 
     def __post_init__(self) -> None:
         for name, value in self.__dict__.items():
-            if value < 0:
-                raise ValueError(f"{name} must be non-negative")
+            _require_nonnegative_finite(value, name)
 
     @property
     def antagonist_relief(self) -> float:
@@ -96,36 +110,37 @@ class RegimeScaledCriterion:
         return -self.interference_rate
 
     @property
-    def break_even_antagonist_pressure(self) -> float:
+    def break_even_antagonist_pressure(self) -> float | None:
+        """Return the unique finite linear threshold, or ``None`` if none exists.
+
+        With zero relief rate the equation is independent of antagonist pressure:
+        either no pressure can reach break-even or every pressure is neutral.
+        Neither case has a unique finite threshold.
+        """
+
         if self.relief_rate == 0:
-            return float("inf")
+            return None
         return (
             self.pollinator_service * self.interference_rate + self.joint_cost
         ) / self.relief_rate
 
 
 @dataclass(frozen=True)
-class MonotoneRegimeCriterion:
+class LocalRegimeCriterion:
     """Local nonlinear regime scaling and its directional derivatives.
 
-    Around a focal environment, write
+    Around a focal environment and fixed focal phenotype, write
 
         W_AD = a(H) * relief_rate
              - b(P) * interference_rate
              - joint_cost(P, H).
 
-    ``antagonist_scale`` and ``mutualist_scale`` are the local values of ``a(H)``
-    and ``b(P)``. Their slopes are the local derivatives ``a'(H)`` and ``b'(P)``.
-    ``joint_cost_h_slope`` and ``joint_cost_p_slope`` allow the direct cross-cost to
-    vary with the two regime variables.
-
-    The local comparative statics are therefore
-
-        dW_AD/dH = a'(H) * relief_rate - dC_AD/dH
-        dW_AD/dP = -b'(P) * interference_rate - dC_AD/dP.
-
-    This class deliberately does not require the scale slopes to be positive. The
-    signs of the returned derivatives are the actual local predictions.
+    ``antagonist_scale`` and ``mutualist_scale`` are the local values of
+    ``a(H)`` and ``b(P)``. Their slopes are the local derivatives ``a'(H)`` and
+    ``b'(P)``.  Joint-cost slopes allow the direct cross-cost to vary with the
+    regime.  Scale slopes are allowed to be negative because the returned
+    derivatives, rather than the class name, determine the actual local
+    prediction.
     """
 
     antagonist_scale: float
@@ -146,8 +161,14 @@ class MonotoneRegimeCriterion:
             "interference_rate",
             "joint_cost",
         ):
-            if getattr(self, name) < 0:
-                raise ValueError(f"{name} must be non-negative")
+            _require_nonnegative_finite(getattr(self, name), name)
+        for name in (
+            "antagonist_scale_slope",
+            "mutualist_scale_slope",
+            "joint_cost_h_slope",
+            "joint_cost_p_slope",
+        ):
+            _require_finite(getattr(self, name), name)
 
     @property
     def mixed_partial(self) -> float:
