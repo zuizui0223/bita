@@ -9,15 +9,17 @@ biologically motivated nonlinearities are varied:
 * saturation of defence efficacy against floral antagonists; and
 * curvature in the shared attraction–defence allocation cost.
 
-The outputs are regime-map diagnostics. They must not be interpreted as observed
-trait covariance or direct evidence of adaptation.
+The outputs are regime-map diagnostics over a finite, predeclared tested set.
+Agreement across that set is not a proof of mathematical structural robustness
+and must not be interpreted as observed trait covariance or direct evidence of
+adaptation.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 from itertools import product
-from math import exp
+from math import exp, isfinite
 from typing import Iterable, Sequence
 
 from .model import ModelParameters
@@ -42,12 +44,14 @@ class FunctionalForm:
     def __post_init__(self) -> None:
         if not self.form_id.strip():
             raise ValueError("form_id must be non-empty")
-        if self.attraction_saturation < 0:
-            raise ValueError("attraction_saturation must be non-negative")
-        if self.defence_half_saturation is not None and self.defence_half_saturation <= 0:
-            raise ValueError("defence_half_saturation must be positive when provided")
-        if self.shared_cost_curvature < 0:
-            raise ValueError("shared_cost_curvature must be non-negative")
+        if not isfinite(self.attraction_saturation) or self.attraction_saturation < 0:
+            raise ValueError("attraction_saturation must be finite and non-negative")
+        if self.defence_half_saturation is not None and (
+            not isfinite(self.defence_half_saturation) or self.defence_half_saturation <= 0
+        ):
+            raise ValueError("defence_half_saturation must be finite and positive when provided")
+        if not isfinite(self.shared_cost_curvature) or self.shared_cost_curvature < 0:
+            raise ValueError("shared_cost_curvature must be finite and non-negative")
 
 
 @dataclass(frozen=True)
@@ -71,8 +75,8 @@ class RobustnessCase:
             ("pollinator_service", self.pollinator_service),
             ("floral_damage_pressure", self.floral_damage_pressure),
         ):
-            if not 0.0 <= value <= 1.0:
-                raise ValueError(f"{name} must lie in [0, 1]")
+            if not isfinite(value) or not 0.0 <= value <= 1.0:
+                raise ValueError(f"{name} must be finite and lie in [0, 1]")
 
 
 @dataclass(frozen=True)
@@ -90,7 +94,7 @@ class MixedPartialResult:
 
 @dataclass(frozen=True)
 class RobustnessSummary:
-    """Sign stability across functional forms for one local regime case."""
+    """Sign stability across the finite set of evaluations supplied for one case."""
 
     case_id: str
     modal_sign: str
@@ -120,8 +124,10 @@ def default_functional_forms() -> tuple[FunctionalForm, ...]:
 
 
 def _sign(value: float, tolerance: float) -> str:
-    if tolerance < 0:
-        raise ValueError("tolerance must be non-negative")
+    if not isfinite(value):
+        raise ValueError("mixed partial must be finite")
+    if not isfinite(tolerance) or tolerance < 0:
+        raise ValueError("tolerance must be finite and non-negative")
     if value > tolerance:
         return "complementary"
     if value < -tolerance:
@@ -204,7 +210,11 @@ def evaluate_forms(
 
 
 def summarise_case(results: Sequence[MixedPartialResult]) -> RobustnessSummary:
-    """Classify whether one case retains a sign across all chosen forms."""
+    """Summarize sign agreement across a finite tested set for one local case.
+
+    ``tested_set_unanimous`` means only that every supplied evaluation has the
+    same non-neutral sign. It is deliberately not called structural robustness.
+    """
 
     if not results:
         raise ValueError("cannot summarise an empty result set")
@@ -224,11 +234,16 @@ def summarise_case(results: Sequence[MixedPartialResult]) -> RobustnessSummary:
         )
     complementary = non_neutral.count("complementary")
     substitutable = non_neutral.count("substitutable")
-    modal_sign = "complementary" if complementary >= substitutable else "substitutable"
+    if complementary > substitutable:
+        modal_sign = "complementary"
+    elif substitutable > complementary:
+        modal_sign = "substitutable"
+    else:
+        modal_sign = "mixed"
     agreement = max(complementary, substitutable) / len(non_neutral)
     has_neutral = len(non_neutral) != total
     if agreement == 1.0 and not has_neutral:
-        robustness = "structurally_robust"
+        robustness = "tested_set_unanimous"
     elif agreement >= 0.80:
         robustness = "conditional_majority"
     else:
