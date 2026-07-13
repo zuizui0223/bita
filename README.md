@@ -6,8 +6,8 @@ Reproducible supplementary code and evidence for a mechanistically oriented loca
 
 The repository supports two linked but unequal claims.
 
-1. **Theory:** for a declared `A`–`D` pair and declared `W` scale, the local mixed partial can be organized into antagonist relief, mutualist interference, and direct joint-cost curvature **after the required mixed-curvature signs have been established for that focal model**. Environmental directional predictions require explicit assumptions about how ecological regime variables scale those channels.
-2. **Literature context:** the current registry contains abstract-coded directional records. One predeclared three-cluster manipulation stratum for chemical barriers and pollinator preference/foraging is uniformly negative. This is restricted abstract-level directional consistency with a collateral pollinator-cost pathway; it does not identify the focal mutualist mixed curvature, estimate the complete mixed partial, or validate the regime comparative statics.
+1. **Theory:** for a declared `A`–`D` pair and declared `W` scale, the local mixed partial can be organized into antagonist relief, mutualist interference, and direct joint-cost curvature **after the channel decomposition and required mixed-curvature signs have been established for that focal model**. Environmental directional predictions depend on the local derivatives of all three channel contributions with respect to the ecological regime.
+2. **Literature context:** the current registry contains abstract-coded directional records. One declared three-cluster manipulation stratum for chemical barriers and pollinator preference/foraging is uniformly negative. This is restricted abstract-level directional consistency with a collateral pollinator-cost pathway; it does not identify the focal mutualist mixed curvature, estimate the complete mixed partial, or validate the regime comparative statics.
 
 The core quantity is
 
@@ -33,13 +33,15 @@ The mixed-partial sign is not transformation free. Positive affine rescaling of 
 
 ## Core theoretical structure
 
-For bookkeeping,
+For mechanistic bookkeeping,
 
 ```text
 W_AD = M_AD - G_AD - C_AD
 ```
 
-is always the unrestricted signed decomposition. The non-negative magnitude form
+but the channel decomposition is **not identified by total W alone**. Different allocations of the same smooth cross term among `M`, `G`, and `C` can leave the total surface unchanged. Channel-specific curvatures therefore require operational definitions, channel-specific measurements, manipulations, or additional structural assumptions.
+
+The non-negative magnitude form
 
 ```text
 local A x D marginal interaction
@@ -56,27 +58,41 @@ G_AD <= 0
 C_AD >= 0.
 ```
 
-The trait names alone do not guarantee those mixed-curvature signs. For example, a negative `D -> pollinator use` effect does not by itself identify `M_AD < 0`; it must show that `D` reduces the marginal mutualist return to the particular focal `A`.
+The trait names alone do not guarantee those mixed-curvature signs. A negative `D -> pollinator use` effect does not by itself identify `M_AD < 0`; it must show that `D` reduces the marginal mutualist return to the particular focal `A`.
 
-Under the oriented mechanism class, local complementarity requires antagonist relief to exceed mutualist interference plus direct joint-cost curvature.
+## Environmental comparative statics
 
-Environmental predictions need an additional regime-scaling layer. In the general local form
+After the oriented channel contributions have been defined, allow all three to depend on both regime variables:
 
 ```text
-W_AD = a(H) * relief_rate
-     - b(P) * interference_rate
-     - C_AD(P, H)
+W_AD(P,H) = R(P,H) - I(P,H) - C_AD(P,H)
 ```
 
-stronger antagonist pressure shifts the interaction toward complementarity only when the local increase in relief scaling exceeds any countervailing change in direct cross-cost curvature. The mutualist-service prediction is likewise conditional on its derivative inequality.
+The general local derivatives are
 
-The linear expression
+```text
+dW_AD/dH = dR/dH - dI/dH - dC_AD/dH
+dW_AD/dP = dR/dP - dI/dP - dC_AD/dP
+```
+
+Thus stronger antagonist pressure shifts the interaction toward complementarity only when `dW_AD/dH > 0`, and stronger pollinator service shifts it toward substitutability only when `dW_AD/dP < 0`.
+
+This general balance retains cross-environment effects: `H` may alter mutualist interference, and `P` may alter antagonist relief.
+
+A separable nonlinear special case assumes
+
+```text
+R(P,H) = a(H) * relief_rate
+I(P,H) = b(P) * interference_rate
+```
+
+and the linear special case further uses `a(H)=H`, `b(P)=P`, and regime-invariant direct cross-cost curvature:
 
 ```text
 W_AD = H * relief_rate - P * interference_rate - joint_cost_curvature
 ```
 
-is one special case, not a universal law.
+The separable and linear expressions are special cases, not the general environmental derivative law.
 
 See `docs/GENERAL_SIGN_CRITERION.md` for assumptions and derivation and `docs/NOVELTY_POSITIONING.md` for the claim boundary and prior-art positioning.
 
@@ -92,7 +108,7 @@ defence response at D=1                       matched across variants
 direct joint-cost scale at A=D=1              matched across variants
 ```
 
-This reduces the earlier confounding between changing response shape and simply changing endpoint effect magnitude. The variants still differ in local derivatives and represent only a finite tested family.
+This reduces confounding between changing response shape and simply changing endpoint effect magnitude. The variants still differ in local derivatives and represent only a finite tested family.
 
 `tested_set_unanimous` means unanimity across that finite set, not mathematical structural robustness. Exact complementary/substitutable modal ties are reported as `mixed`, not assigned to one sign. The configured `neutral_tolerance` is recorded as an absolute numerical zero threshold on the declared score scale; it is not a biologically invariant neutrality band.
 
@@ -153,4 +169,4 @@ Only derived, aggregate, or bibliographic evidence required for the stated claim
 
 ## Interpretation boundary
 
-The theory grid is a finite, predeclared sensitivity analysis, not an empirical frequency distribution and not proof of mathematical structural robustness. Its signs and numerical zero classifications are properties of the declared trait coordinates, score scale, and tolerance convention. The literature layer is abstract-level route coding, not a full-text systematic review or pooled universal meta-analysis. It does not establish the focal `M_AD` curvature, the complete local `A`–`D` interaction, an observed attraction–defence correlation, or the response of that interaction to changing ecological regimes in nature.
+The theory grid is a finite, declared sensitivity analysis, not an empirical frequency distribution and not proof of mathematical structural robustness. Its signs and numerical zero classifications are properties of the declared trait coordinates, score scale, and tolerance convention. The literature layer is abstract-level route coding, not a full-text systematic review or pooled universal meta-analysis. It does not establish the focal `M_AD` curvature, uniquely identify the three mechanism terms, estimate the complete local `A`–`D` interaction, or validate its environmental derivatives in nature.
