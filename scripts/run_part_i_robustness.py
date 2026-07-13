@@ -1,17 +1,12 @@
 """Run the predeclared Part I functional-form sensitivity sweep.
 
-The runner produces three linked outputs:
+The runner produces every local mixed-partial evaluation, within-scenario sign
+agreement across alternative functional forms, and the sign envelope across all
+predeclared biological parameter scenarios.
 
-1. every local mixed-partial evaluation;
-2. within-scenario sign agreement across alternative functional forms; and
-3. the sign envelope across all predeclared biological parameter scenarios.
-
-This separation matters. Changing a response curve tests sensitivity to the
-selected functional-form family, whereas changing tracking, obstruction, or
-shared-cost coefficients tests biological parameter sensitivity. Unanimity means
-only unanimity across the finite predeclared tested set; it is not a proof of
-mathematical structural robustness. The outputs are qualitative and must not be
-interpreted as empirical parameter estimates.
+The configured ``neutral_tolerance`` is an absolute numerical zero threshold on
+the declared score scale. It is not a biologically invariant neutrality band.
+Unanimity means only unanimity across the finite predeclared tested set.
 
 Usage:
     python scripts/run_part_i_robustness.py \
@@ -24,6 +19,7 @@ import argparse
 import csv
 import json
 from dataclasses import asdict, replace
+from math import isfinite
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -39,56 +35,24 @@ from trait_architecture.robustness import (
 
 
 CASE_FIELDS = [
-    "case_id",
-    "parameter_scenario_id",
-    "form_id",
-    "attraction",
-    "defence",
-    "assurance",
-    "pollinator_service",
-    "floral_damage_pressure",
-    "attraction_gain",
-    "attraction_tracking",
-    "floral_defence_efficacy",
-    "defence_pollinator_cost",
-    "attraction_defence_shared_cost",
-    "attraction_saturation",
-    "defence_half_saturation",
-    "shared_cost_curvature",
-    "antagonism_term",
-    "pollination_obstruction_term",
-    "shared_cost_term",
-    "mixed_partial",
-    "sign",
+    "case_id", "parameter_scenario_id", "form_id", "attraction", "defence",
+    "assurance", "pollinator_service", "floral_damage_pressure", "attraction_gain",
+    "attraction_tracking", "floral_defence_efficacy", "defence_pollinator_cost",
+    "attraction_defence_shared_cost", "attraction_saturation", "defence_half_saturation",
+    "shared_cost_curvature", "antagonism_term", "pollination_obstruction_term",
+    "shared_cost_term", "mixed_partial", "sign",
 ]
 FUNCTIONAL_FORM_SUMMARY_FIELDS = [
-    "case_id",
-    "parameter_scenario_id",
-    "attraction",
-    "defence",
-    "assurance",
-    "pollinator_service",
-    "floral_damage_pressure",
-    "modal_sign",
-    "non_neutral_form_count",
-    "total_form_count",
-    "modal_sign_agreement",
+    "case_id", "parameter_scenario_id", "attraction", "defence", "assurance",
+    "pollinator_service", "floral_damage_pressure", "modal_sign",
+    "non_neutral_form_count", "total_form_count", "modal_sign_agreement",
     "functional_form_class",
 ]
 ENVELOPE_SUMMARY_FIELDS = [
-    "case_id",
-    "attraction",
-    "defence",
-    "assurance",
-    "pollinator_service",
-    "floral_damage_pressure",
-    "modal_sign",
-    "non_neutral_evaluation_count",
-    "total_evaluation_count",
-    "modal_sign_agreement",
-    "envelope_class",
-    "functional_form_unanimous_scenario_count",
-    "parameter_scenario_count",
+    "case_id", "attraction", "defence", "assurance", "pollinator_service",
+    "floral_damage_pressure", "modal_sign", "non_neutral_evaluation_count",
+    "total_evaluation_count", "modal_sign_agreement", "envelope_class",
+    "functional_form_unanimous_scenario_count", "parameter_scenario_count",
 ]
 
 
@@ -98,9 +62,12 @@ def _as_float_list(value: object, name: str) -> list[float]:
     values: list[float] = []
     for item in value:
         try:
-            values.append(float(item))
+            number = float(item)
         except (TypeError, ValueError) as error:
             raise ValueError(f"{name} contains a non-numeric value") from error
+        if not isfinite(number):
+            raise ValueError(f"{name} contains a non-finite value")
+        values.append(number)
     return values
 
 
@@ -109,6 +76,16 @@ def _read_config(path: str | Path) -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise ValueError("robustness config must be a JSON object")
     return payload
+
+
+def _neutral_tolerance(config: dict[str, Any]) -> float:
+    try:
+        tolerance = float(config.get("neutral_tolerance", 1e-12))
+    except (TypeError, ValueError) as error:
+        raise ValueError("neutral_tolerance must be numeric") from error
+    if not isfinite(tolerance) or tolerance < 0:
+        raise ValueError("neutral_tolerance must be finite and non-negative")
+    return tolerance
 
 
 def _functional_forms(config: dict[str, Any]) -> tuple[FunctionalForm, ...]:
@@ -191,9 +168,7 @@ def run(
 ) -> tuple[list[dict[str, object]], list[dict[str, object]], list[dict[str, object]]]:
     """Return evaluations, within-scenario summaries, and full-envelope summaries."""
 
-    tolerance = float(config.get("neutral_tolerance", 1e-12))
-    if tolerance < 0:
-        raise ValueError("neutral_tolerance must be non-negative")
+    tolerance = _neutral_tolerance(config)
     forms = _functional_forms(config)
     scenarios = _parameter_scenarios(config)
     cases = _cases(config)
@@ -208,26 +183,24 @@ def run(
                 result = mixed_partial(case, parameters, form, tolerance=tolerance)
                 scenario_results.append(result)
                 grouped_by_case[case.case_id].append(result)
-                case_rows.append(
-                    {
-                        **_case_dimensions(case),
-                        "parameter_scenario_id": scenario_id,
-                        "form_id": form.form_id,
-                        "attraction_gain": parameters.attraction_gain,
-                        "attraction_tracking": parameters.attraction_tracking,
-                        "floral_defence_efficacy": parameters.floral_defence_efficacy,
-                        "defence_pollinator_cost": parameters.defence_pollinator_cost,
-                        "attraction_defence_shared_cost": parameters.attraction_defence_shared_cost,
-                        "attraction_saturation": form.attraction_saturation,
-                        "defence_half_saturation": "" if form.defence_half_saturation is None else form.defence_half_saturation,
-                        "shared_cost_curvature": form.shared_cost_curvature,
-                        "antagonism_term": result.antagonism_term,
-                        "pollination_obstruction_term": result.pollination_obstruction_term,
-                        "shared_cost_term": result.shared_cost_term,
-                        "mixed_partial": result.mixed_partial,
-                        "sign": result.sign,
-                    }
-                )
+                case_rows.append({
+                    **_case_dimensions(case),
+                    "parameter_scenario_id": scenario_id,
+                    "form_id": form.form_id,
+                    "attraction_gain": parameters.attraction_gain,
+                    "attraction_tracking": parameters.attraction_tracking,
+                    "floral_defence_efficacy": parameters.floral_defence_efficacy,
+                    "defence_pollinator_cost": parameters.defence_pollinator_cost,
+                    "attraction_defence_shared_cost": parameters.attraction_defence_shared_cost,
+                    "attraction_saturation": form.attraction_saturation,
+                    "defence_half_saturation": "" if form.defence_half_saturation is None else form.defence_half_saturation,
+                    "shared_cost_curvature": form.shared_cost_curvature,
+                    "antagonism_term": result.antagonism_term,
+                    "pollination_obstruction_term": result.pollination_obstruction_term,
+                    "shared_cost_term": result.shared_cost_term,
+                    "mixed_partial": result.mixed_partial,
+                    "sign": result.sign,
+                })
             grouped_by_scenario[(case.case_id, scenario_id)] = scenario_results
 
     by_id = {case.case_id: case for case in cases}
@@ -236,36 +209,32 @@ def run(
     for (case_id, scenario_id), results in sorted(grouped_by_scenario.items()):
         summary = summarise_case(results)
         scenario_classes[(case_id, scenario_id)] = summary.robustness_class
-        functional_form_summaries.append(
-            {
-                **_case_dimensions(by_id[case_id]),
-                "parameter_scenario_id": scenario_id,
-                "modal_sign": summary.modal_sign,
-                "non_neutral_form_count": summary.non_neutral_form_count,
-                "total_form_count": summary.total_form_count,
-                "modal_sign_agreement": summary.modal_sign_agreement,
-                "functional_form_class": summary.robustness_class,
-            }
-        )
+        functional_form_summaries.append({
+            **_case_dimensions(by_id[case_id]),
+            "parameter_scenario_id": scenario_id,
+            "modal_sign": summary.modal_sign,
+            "non_neutral_form_count": summary.non_neutral_form_count,
+            "total_form_count": summary.total_form_count,
+            "modal_sign_agreement": summary.modal_sign_agreement,
+            "functional_form_class": summary.robustness_class,
+        })
 
     envelope_summaries: list[dict[str, object]] = []
     for case_id, results in sorted(grouped_by_case.items()):
         summary = summarise_case(results)
-        envelope_summaries.append(
-            {
-                **_case_dimensions(by_id[case_id]),
-                "modal_sign": summary.modal_sign,
-                "non_neutral_evaluation_count": summary.non_neutral_form_count,
-                "total_evaluation_count": summary.total_form_count,
-                "modal_sign_agreement": summary.modal_sign_agreement,
-                "envelope_class": summary.robustness_class,
-                "functional_form_unanimous_scenario_count": sum(
-                    scenario_classes[(case_id, scenario_id)] == "tested_set_unanimous"
-                    for scenario_id, _ in scenarios
-                ),
-                "parameter_scenario_count": len(scenarios),
-            }
-        )
+        envelope_summaries.append({
+            **_case_dimensions(by_id[case_id]),
+            "modal_sign": summary.modal_sign,
+            "non_neutral_evaluation_count": summary.non_neutral_form_count,
+            "total_evaluation_count": summary.total_form_count,
+            "modal_sign_agreement": summary.modal_sign_agreement,
+            "envelope_class": summary.robustness_class,
+            "functional_form_unanimous_scenario_count": sum(
+                scenario_classes[(case_id, scenario_id)] == "tested_set_unanimous"
+                for scenario_id, _ in scenarios
+            ),
+            "parameter_scenario_count": len(scenarios),
+        })
     return case_rows, functional_form_summaries, envelope_summaries
 
 
@@ -273,13 +242,38 @@ def _write_csv(path: Path, fields: Iterable[str], rows: Iterable[dict[str, objec
     with path.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(fields))
         writer.writeheader()
-        for row in rows:
-            writer.writerow(row)
+        writer.writerows(rows)
 
 
 def _class_counts(rows: list[dict[str, object]], column: str) -> dict[str, int]:
     labels = ("tested_set_unanimous", "conditional_majority", "mixed_or_sensitive")
     return {label: sum(row[column] == label for row in rows) for label in labels}
+
+
+def build_report(
+    config: dict[str, Any],
+    rows: list[dict[str, object]],
+    form_summaries: list[dict[str, object]],
+    envelope_summaries: list[dict[str, object]],
+) -> dict[str, object]:
+    """Build reproducibility metadata for the sensitivity outputs."""
+
+    tolerance = _neutral_tolerance(config)
+    return {
+        "case_count": len(envelope_summaries),
+        "evaluation_count": len(rows),
+        "functional_form_summary_count": len(form_summaries),
+        "neutral_tolerance": tolerance,
+        "neutral_tolerance_scale": "absolute_on_declared_score_scale",
+        "functional_form_class_counts": _class_counts(form_summaries, "functional_form_class"),
+        "parameter_envelope_class_counts": _class_counts(envelope_summaries, "envelope_class"),
+        "warning": (
+            "Outputs are qualitative diagnostics over a finite predeclared tested set. "
+            "The neutral tolerance is an absolute numerical zero threshold on the declared "
+            "score scale, not a biologically invariant neutrality band. Tested-set unanimity "
+            "is not proof of structural robustness."
+        ),
+    }
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -293,28 +287,9 @@ def main(argv: list[str] | None = None) -> int:
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     _write_csv(out_dir / "part_i_robustness_cases.csv", CASE_FIELDS, rows)
-    _write_csv(
-        out_dir / "part_i_functional_form_summary.csv",
-        FUNCTIONAL_FORM_SUMMARY_FIELDS,
-        form_summaries,
-    )
-    _write_csv(
-        out_dir / "part_i_robustness_envelope.csv",
-        ENVELOPE_SUMMARY_FIELDS,
-        envelope_summaries,
-    )
-    report = {
-        "case_count": len(envelope_summaries),
-        "evaluation_count": len(rows),
-        "functional_form_summary_count": len(form_summaries),
-        "functional_form_class_counts": _class_counts(form_summaries, "functional_form_class"),
-        "parameter_envelope_class_counts": _class_counts(envelope_summaries, "envelope_class"),
-        "warning": (
-            "Outputs are qualitative diagnostics over a finite predeclared tested set. "
-            "Tested-set unanimity is not proof of structural robustness; functional-form "
-            "sensitivity and biological parameter sensitivity are reported separately."
-        ),
-    }
+    _write_csv(out_dir / "part_i_functional_form_summary.csv", FUNCTIONAL_FORM_SUMMARY_FIELDS, form_summaries)
+    _write_csv(out_dir / "part_i_robustness_envelope.csv", ENVELOPE_SUMMARY_FIELDS, envelope_summaries)
+    report = build_report(config, rows, form_summaries, envelope_summaries)
     (out_dir / "part_i_robustness_report.json").write_text(
         json.dumps(report, indent=2, sort_keys=True), encoding="utf-8"
     )
