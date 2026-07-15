@@ -13,13 +13,13 @@ RETIRED_PATHS = [
     "trait_architecture/impatiens_models.py",
     "trait_architecture/impatiens_response_scale_models.py",
     "trait_architecture/impatiens_factorial_fitness_models.py",
-    # Optimum/covariance branch, which exceeds the current local inference target.
+    # Optimum/covariance branch.
     "trait_architecture/regime_map.py",
     "trait_architecture/stability.py",
     "tests/test_regime_map.py",
     "tests/test_stability.py",
     "examples/regime_map.py",
-    # Superseded duplicate and matched-study theory/evidence architectures.
+    # Superseded duplicate and matched-study architectures.
     "trait_architecture/ad_interaction_condition.py",
     "tests/test_ad_interaction_condition.py",
     "trait_architecture/matched_regime_registry.py",
@@ -59,6 +59,15 @@ RETIRED_PATHS = [
     "configs/part_b_arrow_literature_seeds.json",
     "docs/PART_B_MECHANISM_META_STRATEGY_v1.md",
     "docs/PART_B_C0_CURRENT_READOUT_V1.md",
+    # Retired attempt to use abstract-level direction records to discriminate regimes.
+    "scripts/audit_current_regime_discrimination.py",
+    "trait_architecture/regime_discrimination_audit.py",
+    "tests/test_regime_discrimination_audit.py",
+    "empirical/part_i_robustness/CURRENT_EVIDENCE_REGIME_DISCRIMINATION_PROTOCOL.md",
+    # Superseded Part I V1 artifacts.
+    "docs/PART_I_MANUSCRIPT_READOUT_V1.md",
+    "empirical/part_i_robustness/INITIAL_GRID_READOUT.md",
+    "empirical/part_i_robustness/initial_grid_report.json",
 ]
 
 
@@ -68,6 +77,8 @@ REQUIRED_ACTIVE_PATHS = [
     "docs/SUBMISSION_SCOPE.md",
     "docs/GENERAL_SIGN_CRITERION.md",
     "docs/NOVELTY_POSITIONING.md",
+    "docs/BACKGROUND_NOVELTY_GAP_REVIEW.md",
+    "docs/PART_I_ROBUSTNESS_PROTOCOL.md",
     "theory/README.md",
     "configs/part_i_robustness_grid.json",
     "trait_architecture/model.py",
@@ -76,6 +87,8 @@ REQUIRED_ACTIVE_PATHS = [
     "scripts/run_part_i_robustness.py",
     "scripts/build_part_i_manuscript_readout.py",
     "scripts/build_part_i_regime_figure_svg.py",
+    "empirical/part_i_robustness/endpoint_normalized_grid_v2_report.json",
+    "empirical/part_i_robustness/PART_I_SENSITIVITY_READOUT_V2.md",
     "empirical/broad_reality_evidence/broad_route_records.csv",
     "empirical/broad_reality_evidence/broad_effect_extractions.csv",
     "empirical/broad_reality_evidence/broad_meta_analysis_strata.csv",
@@ -85,11 +98,11 @@ REQUIRED_ACTIVE_PATHS = [
 ]
 
 
-def test_retired_exploratory_paths_do_not_return():
+def test_retired_exploratory_paths_do_not_return() -> None:
     for relative in RETIRED_PATHS:
         assert not (ROOT / relative).exists(), relative
 
 
-def test_current_submission_spine_is_present():
+def test_current_submission_spine_is_present() -> None:
     for relative in REQUIRED_ACTIVE_PATHS:
         assert (ROOT / relative).exists(), relative
