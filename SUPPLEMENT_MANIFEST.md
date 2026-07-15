@@ -4,10 +4,11 @@ This map links the one primary submission claim and its preliminary supporting c
 
 ## Primary claim: local attraction–defence interaction theory
 
-Primary theory and assumptions:
+Primary theory, assumptions, and positioning:
 
 - `docs/GENERAL_SIGN_CRITERION.md`
 - `docs/NOVELTY_POSITIONING.md`
+- `docs/BACKGROUND_NOVELTY_GAP_REVIEW.md`
 - `theory/README.md`
 - `trait_architecture/sign_criterion.py`
 - `tests/test_sign_criterion.py`
@@ -68,6 +69,7 @@ The current quantitative extraction table contains no eligible effect rows, and 
 - `README.md`
 - `docs/SUBMISSION_SCOPE.md`
 - `docs/FINAL_SUBMISSION_AUDIT.md`
+- `docs/BACKGROUND_NOVELTY_GAP_REVIEW.md`
 - `scripts/validate_current_theory_meta.py`
 - `trait_architecture/theory_meta_validation.py`
 - `tests/test_submission_scope.py`
