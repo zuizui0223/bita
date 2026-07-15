@@ -2,9 +2,8 @@
 
 The baseline model in :mod:`trait_architecture.model` is intentionally
 qualitative. This module does not calibrate it from data. It evaluates whether
-the sign of the local A×D mixed partial remains stable across a finite,
-predeclared family of nonlinear response shapes and biological parameter
-scenarios.
+the sign of the local A×D mixed partial remains stable across a finite declared
+family of nonlinear response shapes and biological parameter scenarios.
 
 The nonlinear response shapes are endpoint-normalized on the declared 0–1 trait
 range. For fixed biological parameters:
@@ -43,7 +42,7 @@ class FunctionalForm:
     Both reduce to the linear baseline when the corresponding saturation
     parameter is zero and match the linear endpoint at trait value one.
 
-    ``shared_cost_curvature = k_AD`` gives
+    ``joint_cost_curvature = k_AD`` gives
 
         c_AD A D [1 + k_AD(A + D)] / (1 + 2 k_AD),
 
@@ -54,7 +53,7 @@ class FunctionalForm:
     form_id: str
     attraction_saturation: float = 0.0
     defence_saturation: float = 0.0
-    shared_cost_curvature: float = 0.0
+    joint_cost_curvature: float = 0.0
 
     def __post_init__(self) -> None:
         if not self.form_id.strip():
@@ -62,7 +61,7 @@ class FunctionalForm:
         for name, value in (
             ("attraction_saturation", self.attraction_saturation),
             ("defence_saturation", self.defence_saturation),
-            ("shared_cost_curvature", self.shared_cost_curvature),
+            ("joint_cost_curvature", self.joint_cost_curvature),
         ):
             if not isfinite(value) or value < 0:
                 raise ValueError(f"{name} must be finite and non-negative")
@@ -95,20 +94,20 @@ class RobustnessCase:
 
 @dataclass(frozen=True)
 class MixedPartialResult:
-    """Mixed-partial decomposition for one case and functional form."""
+    """Mixed-partial decomposition for one case and response shape."""
 
     case_id: str
     form_id: str
     antagonism_term: float
     pollination_obstruction_term: float
-    shared_cost_term: float
+    joint_cost_curvature_term: float
     mixed_partial: float
     sign: str
 
 
 @dataclass(frozen=True)
 class RobustnessSummary:
-    """Sign stability across the finite set of evaluations supplied for one case."""
+    """Sign agreement across the finite set of evaluations supplied for one case."""
 
     case_id: str
     modal_sign: str
@@ -122,7 +121,7 @@ BASELINE_FORM = FunctionalForm(form_id="baseline")
 
 
 def default_functional_forms() -> tuple[FunctionalForm, ...]:
-    """Return the baseline and three predeclared endpoint-normalized variants."""
+    """Return the baseline and three declared endpoint-normalized variants."""
 
     return (
         BASELINE_FORM,
@@ -132,7 +131,7 @@ def default_functional_forms() -> tuple[FunctionalForm, ...]:
             form_id="saturating_both_curved_cost",
             attraction_saturation=1.0,
             defence_saturation=1.0 / 0.35,
-            shared_cost_curvature=1.0,
+            joint_cost_curvature=1.0,
         ),
     )
 
@@ -169,7 +168,7 @@ def _defence_marginal_efficacy(
     return parameters.floral_defence_efficacy * (1.0 + q) / (denominator * denominator)
 
 
-def _shared_cost_cross_curvature(
+def _joint_cost_cross_curvature(
     parameters: ModelParameters,
     attraction: float,
     defence: float,
@@ -177,7 +176,7 @@ def _shared_cost_cross_curvature(
 ) -> float:
     """Return local C_AD for the endpoint-normalized curved joint-cost family."""
 
-    k = form.shared_cost_curvature
+    k = form.joint_cost_curvature
     return parameters.attraction_defence_shared_cost * (
         1.0 + 2.0 * k * (attraction + defence)
     ) / (1.0 + 2.0 * k)
@@ -206,16 +205,16 @@ def mixed_partial(
         * exp(-parameters.defence_pollinator_cost * case.defence)
         * (1.0 - parameters.assurance_outcross_dilution * case.assurance)
     )
-    shared_cost_term = _shared_cost_cross_curvature(
+    joint_cost_curvature_term = _joint_cost_cross_curvature(
         parameters, case.attraction, case.defence, form
     )
-    value = antagonism_term - pollination_obstruction_term - shared_cost_term
+    value = antagonism_term - pollination_obstruction_term - joint_cost_curvature_term
     return MixedPartialResult(
         case_id=case.case_id,
         form_id=form.form_id,
         antagonism_term=antagonism_term,
         pollination_obstruction_term=pollination_obstruction_term,
-        shared_cost_term=shared_cost_term,
+        joint_cost_curvature_term=joint_cost_curvature_term,
         mixed_partial=value,
         sign=_sign(value, tolerance),
     )
@@ -268,12 +267,11 @@ def summarise_case(results: Sequence[MixedPartialResult]) -> RobustnessSummary:
         modal_sign = "mixed"
     agreement = max(complementary, substitutable) / len(non_neutral)
     has_neutral = len(non_neutral) != total
-    if agreement == 1.0 and not has_neutral:
-        robustness = "tested_set_unanimous"
-    elif agreement >= 0.80:
-        robustness = "conditional_majority"
-    else:
-        robustness = "mixed_or_sensitive"
+    robustness = (
+        "tested_set_unanimous"
+        if agreement == 1.0 and not has_neutral
+        else "mixed_or_sensitive"
+    )
     return RobustnessSummary(
         case_id=results[0].case_id,
         modal_sign=modal_sign,

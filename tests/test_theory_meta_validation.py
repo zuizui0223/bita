@@ -25,10 +25,9 @@ def part_i_report() -> dict[str, object]:
         "case_count": 4,
         "evaluation_count": 16,
         "functional_form_summary_count": 8,
-        "parameter_envelope_class_counts": {
+        "full_tested_set_class_counts": {
             "tested_set_unanimous": 0,
-            "conditional_majority": 1,
-            "mixed_or_sensitive": 3,
+            "mixed_or_sensitive": 4,
         },
     }
 
@@ -77,7 +76,7 @@ def test_part_i_validation_reproduces_dimensions_from_declared_config() -> None:
         "evaluation_count": 16,
         "functional_form_summary_count": 8,
     }
-    assert result["parameter_envelope_class_total"] == 4
+    assert result["full_tested_set_class_total"] == 4
 
 
 def test_part_i_validation_marks_dimension_mismatch_without_hiding_it() -> None:
@@ -90,7 +89,7 @@ def test_part_i_validation_marks_dimension_mismatch_without_hiding_it() -> None:
     assert result["mismatches"]["evaluation_count"] == {"expected": 16, "actual": 15}
 
 
-def test_integrated_validation_keeps_direction_support_separate_from_calibration() -> None:
+def test_integrated_validation_keeps_literature_context_separate_from_calibration() -> None:
     report, checks = build_validation_report(
         part_i_config=config(),
         part_i_report=part_i_report(),
@@ -99,20 +98,21 @@ def test_integrated_validation_keeps_direction_support_separate_from_calibration
     )
 
     assert checks[0]["channel_validation_status"] == "directionally_consistent_in_restricted_stratum"
-    assert checks[0]["parameter_calibration_status"] == "not_calibrated_from_direction_only_evidence"
-    assert report["integrated_verdict"] == {
-        "part_i_regime_map": "reproduced",
-        "channel_sign_validation": "limited_restricted_support_only",
-        "regime_level_empirical_validation": "not_evaluable_from_current_single_route_records",
-        "parameter_magnitude_calibration": "not_ready",
-        "prohibited_claims": [
-            "No universal attraction–barrier sign is validated.",
-            "No model mixed-partial regime is empirically estimated from the current records.",
-            "No Part I parameter magnitude is calibrated from direction-only evidence.",
-        ],
-    }
-    assert report["quantitative_meta_analysis"]["eligible_effect_count"] == 0
-    assert report["quantitative_meta_analysis"]["pooled_strata_count"] == 0
+    assert checks[0]["parameter_calibration_status"] == (
+        "not_calibrated_from_abstract_direction_only_context"
+    )
+    verdict = report["integrated_verdict"]
+    assert verdict["part_i_sensitivity"] == "reproduced"
+    assert verdict["literature_context_status"] == "limited_abstract_level_directional_context"
+    assert verdict["regime_level_empirical_validation"] == (
+        "not_evaluable_from_current_abstract_level_route_records"
+    )
+    assert verdict["parameter_magnitude_calibration"] == "not_ready"
+    assert "The literature layer is preliminary context, not a second independent submission claim." in verdict[
+        "prohibited_claims"
+    ]
+    assert report["quantitative_readiness"]["eligible_effect_count"] == 0
+    assert report["quantitative_readiness"]["pooled_strata_count"] == 0
 
 
 def test_integrated_validation_preserves_contradictory_direction_stratum() -> None:
@@ -133,4 +133,6 @@ def test_integrated_validation_preserves_contradictory_direction_stratum() -> No
     )
 
     assert checks[0]["channel_validation_status"] == "directionally_contradictory_in_restricted_stratum"
-    assert report["broad_direction_map"]["restricted_directional_contradiction_strata"] == 1
+    assert report["preliminary_literature_direction_map"][
+        "restricted_directional_contradiction_strata"
+    ] == 1

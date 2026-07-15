@@ -1,5 +1,6 @@
 {
-  "purpose": "Qualitative sensitivity sweep before empirical parameter calibration",
+  "run_id": "endpoint_normalized_grid_v2",
+  "purpose": "Finite endpoint-normalized sensitivity sweep before empirical parameter calibration",
   "neutral_tolerance": 1e-10,
   "phenotype_and_regime_grid": {
     "attraction": [0.2, 0.5, 0.8],
@@ -49,25 +50,25 @@
       "form_id": "baseline",
       "attraction_saturation": 0.0,
       "defence_saturation": 0.0,
-      "shared_cost_curvature": 0.0
+      "joint_cost_curvature": 0.0
     },
     {
       "form_id": "saturating_attraction",
       "attraction_saturation": 1.0,
       "defence_saturation": 0.0,
-      "shared_cost_curvature": 0.0
+      "joint_cost_curvature": 0.0
     },
     {
       "form_id": "saturating_defence",
       "attraction_saturation": 0.0,
       "defence_saturation": 2.857142857142857,
-      "shared_cost_curvature": 0.0
+      "joint_cost_curvature": 0.0
     },
     {
       "form_id": "saturating_both_curved_cost",
       "attraction_saturation": 1.0,
       "defence_saturation": 2.857142857142857,
-      "shared_cost_curvature": 1.0
+      "joint_cost_curvature": 1.0
     }
   ],
   "normalization": {
@@ -77,8 +78,8 @@
     "joint_cost": "all joint-cost shapes equal attraction_defence_shared_cost at A=D=1"
   },
   "interpretation": {
-    "tested_set_unanimous": "Every evaluation in the summarized finite predeclared tested set has the same non-neutral sign. This is tested-set unanimity, not a proof of mathematical structural robustness.",
-    "conditional_majority": "At least 80% sign agreement among non-neutral evaluations in the summarized tested set, without full unanimity.",
-    "mixed_or_sensitive": "No stable modal sign within the summarized tested set, or substantial dependence on the tested assumptions."
+    "tested_set_unanimous": "Every evaluation in the summarized finite declared tested set has the same non-neutral sign. This is tested-set unanimity, not proof of mathematical structural robustness.",
+    "mixed_or_sensitive": "The finite tested set is not fully unanimous because signs differ, neutral evaluations occur, or an exact complementary/substitutable tie occurs.",
+    "modal_sign_agreement": "Continuous descriptive agreement among non-neutral evaluations; it is reported without an arbitrary majority classification threshold."
   }
 }

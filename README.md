@@ -35,17 +35,24 @@ The result is local. It does not by itself imply trait covariance, genetic corre
 
 ## Environmental comparative statics
 
-Allow the oriented channel contributions to depend on both exogenous regime variables `P` and `H`:
+Within a neighbourhood where the orientation gate remains valid, let
 
 ```text
-W_AD(P,H) = R(P,H) - I(P,H) - C_AD(P,H)
+rho(P,H)  = antagonist-relief contribution
+iota(P,H) = mutualist-interference contribution
 ```
 
 Then
 
 ```text
-dW_AD/dH = dR/dH - dI/dH - dC_AD/dH
-dW_AD/dP = dR/dP - dI/dP - dC_AD/dP
+W_AD(P,H) = rho(P,H) - iota(P,H) - C_AD(P,H)
+```
+
+and
+
+```text
+dW_AD/dH = d rho/dH - d iota/dH - dC_AD/dH
+dW_AD/dP = d rho/dP - d iota/dP - dC_AD/dP
 ```
 
 The separable and linear expressions used in the implemented corollary are special cases, not universal environmental laws.
@@ -57,13 +64,15 @@ See `docs/GENERAL_SIGN_CRITERION.md` and `docs/NOVELTY_POSITIONING.md` for assum
 The active numerical sweep evaluates the implemented corollary across:
 
 - declared local `A` and `D` coordinates;
-- exogenous pollinator-service and floral-antagonist-pressure regimes;
+- exogenous pollinator-service (`P`) and floral-antagonist-pressure (`H`) regimes;
 - biological parameter scenarios;
 - endpoint-normalized nonlinear response-shape variants.
 
 Reproductive assurance `R` is retained only as an **auxiliary background moderator** of the pollination-mediated channel in the implemented corollary. It is not a third focal trait and is not part of the primary submission claim.
 
-The response-shape variants are normalized on the declared 0–1 focal-trait domain so that endpoint effect scales match while local derivatives may differ. `tested_set_unanimous` means unanimity only across the finite tested set; it is not proof of mathematical structural robustness. The configured neutral tolerance is an absolute numerical zero threshold on the declared score scale, not a biologically invariant neutrality band.
+The response-shape variants are normalized on the declared 0–1 focal-trait domain so that endpoint effect scales match while local derivatives may differ. `tested_set_unanimous` means unanimity only across the finite tested set; it is not proof of mathematical structural robustness. All other cases are `mixed_or_sensitive`, while `modal_sign_agreement` remains a continuous descriptive quantity. No arbitrary majority threshold is converted into a separate robustness class.
+
+The canonical committed run is `endpoint_normalized_grid_v2`. Its reported percentages are unweighted occupancy fractions over the declared finite grid, not empirical probabilities or estimates of prevalence in nature.
 
 ## Preliminary literature context
 
@@ -86,7 +95,7 @@ configs/                         declared sensitivity configuration
 theory/                          mathematical definitions and interpretation
 trait_architecture/              active theory, sensitivity, and validation code
 scripts/                         command-line reproduction entry points
-empirical/part_i_robustness/     manuscript-facing theory outputs
+empirical/part_i_robustness/     canonical theory outputs
 empirical/broad_reality_evidence preliminary route-level literature context
 docs/                            scope, assumptions, methods, and claim boundaries
 tests/                           regression and integrity tests
@@ -112,13 +121,13 @@ python scripts/run_part_i_robustness.py \
   artifacts/supplement/part_i
 
 python scripts/build_part_i_manuscript_readout.py \
-  artifacts/supplement/part_i/part_i_robustness_cases.csv \
-  artifacts/supplement/part_i/part_i_functional_form_summary.csv \
-  artifacts/supplement/part_i/part_i_robustness_envelope.csv \
-  artifacts/supplement/part_i/PART_I_MANUSCRIPT_READOUT.md
+  artifacts/supplement/part_i/part_i_sensitivity_evaluations.csv \
+  artifacts/supplement/part_i/part_i_response_shape_summary.csv \
+  artifacts/supplement/part_i/part_i_full_tested_set_summary.csv \
+  artifacts/supplement/part_i/PART_I_SENSITIVITY_READOUT_V2.md
 
 python scripts/build_part_i_regime_figure_svg.py \
-  artifacts/supplement/part_i/part_i_robustness_cases.csv \
+  artifacts/supplement/part_i/part_i_sensitivity_evaluations.csv \
   artifacts/supplement/part_i/FIGURE_2_THEORY_REGIME_MAP.svg
 
 python scripts/run_broad_meta_analysis.py \
@@ -126,6 +135,13 @@ python scripts/run_broad_meta_analysis.py \
   empirical/broad_reality_evidence/broad_effect_extractions.csv \
   empirical/broad_reality_evidence/broad_meta_analysis_strata.csv \
   artifacts/supplement/literature
+```
+
+The canonical committed Part I metadata are in:
+
+```text
+empirical/part_i_robustness/endpoint_normalized_grid_v2_report.json
+empirical/part_i_robustness/PART_I_SENSITIVITY_READOUT_V2.md
 ```
 
 ## Data policy

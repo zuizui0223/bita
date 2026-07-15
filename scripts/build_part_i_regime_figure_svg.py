@@ -2,11 +2,12 @@
 
 The dependency-free SVG contains three panels:
 
-A. Complementary fraction by biological parameter scenario.
-B. Complementary fraction across pollinator-service × floral-damage pressure.
-C. Complementary fraction across endpoint-normalized response-shape variants.
+A. Complementary occupancy by biological parameter scenario.
+B. Complementary occupancy across pollinator-service × floral-damage pressure.
+C. Complementary occupancy across endpoint-normalized response-shape variants.
 
-Input rows must come from ``scripts/run_part_i_robustness.py``.
+Input rows must come from ``scripts/run_part_i_robustness.py``. Percentages are
+unweighted occupancies of the declared finite grid, not empirical probabilities.
 """
 from __future__ import annotations
 
@@ -41,13 +42,13 @@ def _text(x: float, y: float, value: str, *, size: int = 14, anchor: str = "star
 
 def build_svg(rows: list[dict[str, str]]) -> str:
     if not rows:
-        raise ValueError("sensitivity cases are empty")
+        raise ValueError("sensitivity evaluations are empty")
 
     width, height = 1320, 760
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
         '<rect width="100%" height="100%" fill="white"/>',
-        _text(40, 42, "Figure 2. Conditional attraction–defence regimes across the declared theoretical envelope", size=22, weight="bold"),
+        _text(40, 42, "Figure 2. Conditional attraction–defence regimes across the declared finite tested set", size=22, weight="bold"),
     ]
 
     scen = grouped_fraction(rows, ("parameter_scenario_id",))
@@ -95,7 +96,7 @@ def build_svg(rows: list[dict[str, str]]) -> str:
         parts.append(f'<rect x="{x2+12}" y="{y}" width="{pw2-24}" height="54" fill="none" stroke="black"/>')
         parts.append(_text(x2 + pw2 - 18, y + 35, f"{100*frac:.1f}% complementary", size=13, anchor="end"))
 
-    parts.append(_text(55, 682, "Bars and cells show theoretical sign frequencies over the predeclared grid; they are not empirical probabilities.", size=14))
+    parts.append(_text(55, 682, "Bars and cells show unweighted occupancy fractions of the declared finite grid; they are not empirical probabilities.", size=14))
     parts.append(_text(55, 708, "Panel C compares response shapes normalized to common endpoint scales on the declared 0–1 trait domain.", size=14))
     parts.append("</svg>")
     return "\n".join(parts) + "\n"
@@ -103,10 +104,10 @@ def build_svg(rows: list[dict[str, str]]) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("case_csv")
+    parser.add_argument("evaluation_csv")
     parser.add_argument("output_svg")
     args = parser.parse_args(argv)
-    svg = build_svg(read_rows(args.case_csv))
+    svg = build_svg(read_rows(args.evaluation_csv))
     output = Path(args.output_svg)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(svg, encoding="utf-8")

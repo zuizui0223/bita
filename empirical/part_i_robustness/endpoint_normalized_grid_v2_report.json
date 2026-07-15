@@ -1,5 +1,5 @@
 {
-  "run_id": "initial_qualitative_grid_v1",
+  "run_id": "endpoint_normalized_grid_v2",
   "config_path": "configs/part_i_robustness_grid.json",
   "runner_path": "scripts/run_part_i_robustness.py",
   "case_count": 162,
@@ -10,6 +10,10 @@
   "neutral_tolerance": 1e-10,
   "neutral_tolerance_scale": "absolute_on_declared_score_scale",
   "response_shape_normalization": "common_endpoints_on_unit_trait_domain",
+  "finite_design_measure": "unweighted_count_over_declared_grid",
+  "minimum_absolute_mixed_partial": 1.7318900435991935e-06,
+  "neutral_evaluation_count": 0,
+  "near_tolerance_evaluation_count": 0,
   "evaluation_sign_counts": {
     "complementary": 1342,
     "substitutable": 1250,
@@ -17,23 +21,21 @@
   },
   "functional_form_class_counts": {
     "tested_set_unanimous": 480,
-    "conditional_majority": 0,
     "mixed_or_sensitive": 168
   },
-  "parameter_envelope_class_counts": {
+  "full_tested_set_class_counts": {
     "tested_set_unanimous": 0,
-    "conditional_majority": 42,
-    "mixed_or_sensitive": 120
+    "mixed_or_sensitive": 162
   },
   "scenario_readout": {
-    "high_tracking_low_obstruction_low_shared_cost": {
-      "functional_form_tested_set_unanimous": 144,
-      "functional_form_mixed_or_sensitive": 18,
-      "modal_complementary": 149,
-      "modal_substitutable": 0,
-      "modal_mixed": 13,
-      "evaluation_complementary": 617,
-      "evaluation_substitutable": 31
+    "baseline": {
+      "functional_form_tested_set_unanimous": 97,
+      "functional_form_mixed_or_sensitive": 65,
+      "modal_complementary": 65,
+      "modal_substitutable": 56,
+      "modal_mixed": 41,
+      "evaluation_complementary": 344,
+      "evaluation_substitutable": 304
     },
     "high_obstruction_high_shared_cost": {
       "functional_form_tested_set_unanimous": 138,
@@ -44,14 +46,14 @@
       "evaluation_complementary": 38,
       "evaluation_substitutable": 610
     },
-    "baseline": {
-      "functional_form_tested_set_unanimous": 97,
-      "functional_form_mixed_or_sensitive": 65,
-      "modal_complementary": 65,
-      "modal_substitutable": 56,
-      "modal_mixed": 41,
-      "evaluation_complementary": 344,
-      "evaluation_substitutable": 304
+    "high_tracking_low_obstruction_low_shared_cost": {
+      "functional_form_tested_set_unanimous": 144,
+      "functional_form_mixed_or_sensitive": 18,
+      "modal_complementary": 149,
+      "modal_substitutable": 0,
+      "modal_mixed": 13,
+      "evaluation_complementary": 617,
+      "evaluation_substitutable": 31
     },
     "low_tracking_low_obstruction_low_shared_cost": {
       "functional_form_tested_set_unanimous": 101,
@@ -63,6 +65,6 @@
       "evaluation_substitutable": 305
     }
   },
-  "interpretation": "After endpoint normalization of the nonlinear response shapes and explicit mixed handling for exact modal ties, the tested envelope still contains both complementary and substitutable regimes. Within fixed biological scenarios, 480 of 648 case-by-scenario combinations retain one non-neutral sign across all four tested response shapes. Across deliberately contrasting biological scenarios, no local case is unanimous over the full tested envelope, as expected for a conditional-regime theory.",
+  "interpretation": "The endpoint-normalized V2 finite tested set contains both complementary and substitutable evaluations. Within fixed biological scenarios, 480 of 648 case-by-scenario combinations are unanimous across all four tested response shapes. Across deliberately contrasting biological scenarios, no local case is unanimous across the full tested set. Reported fractions are unweighted occupancies of the declared grid, not empirical probabilities or estimates of prevalence in nature.",
   "warning": "This is a qualitative finite tested-set and parameter-scenario sensitivity diagnostic. Endpoint normalization reduces confounding between response shape and endpoint effect scale but does not exhaust all functional forms. The neutral tolerance is an absolute numerical zero threshold on the declared score scale, not a biologically invariant neutrality band."
 }

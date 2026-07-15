@@ -1,18 +1,18 @@
-"""Run the predeclared Part I response-shape sensitivity sweep.
+"""Run the declared Part I response-shape sensitivity sweep.
 
 The runner produces every local mixed-partial evaluation, within-scenario sign
-agreement across alternative response shapes, and the sign envelope across all
-predeclared biological parameter scenarios.
+agreement across alternative response shapes, and sign agreement across the full
+finite tested set of biological parameter scenarios and response shapes.
 
-Nonlinear response shapes are normalized to common endpoint scales on the
-0–1 focal-trait domain. The configured ``neutral_tolerance`` is an absolute
-numerical zero threshold on the declared score scale, not a biologically
-invariant neutrality band. Unanimity means only unanimity across the finite
-predeclared tested set.
+Nonlinear response shapes are normalized to common endpoint scales on the 0–1
+focal-trait domain. The configured ``neutral_tolerance`` is an absolute numerical
+zero threshold on the declared score scale, not a biologically invariant
+neutrality band. Unanimity means only unanimity across the finite declared tested
+set.
 
 Usage:
     python scripts/run_part_i_robustness.py \
-      configs/part_i_robustness_grid.json artifacts/part_i_robustness
+      configs/part_i_robustness_grid.json artifacts/part_i_sensitivity
 """
 
 from __future__ import annotations
@@ -41,8 +41,8 @@ CASE_FIELDS = [
     "assurance", "pollinator_service", "floral_damage_pressure", "attraction_gain",
     "attraction_tracking", "floral_defence_efficacy", "defence_pollinator_cost",
     "attraction_defence_shared_cost", "attraction_saturation", "defence_saturation",
-    "shared_cost_curvature", "antagonism_term", "pollination_obstruction_term",
-    "shared_cost_term", "mixed_partial", "sign",
+    "joint_cost_curvature", "antagonism_term", "pollination_obstruction_term",
+    "joint_cost_curvature_term", "mixed_partial", "sign",
 ]
 FUNCTIONAL_FORM_SUMMARY_FIELDS = [
     "case_id", "parameter_scenario_id", "attraction", "defence", "assurance",
@@ -50,10 +50,10 @@ FUNCTIONAL_FORM_SUMMARY_FIELDS = [
     "non_neutral_form_count", "total_form_count", "modal_sign_agreement",
     "functional_form_class",
 ]
-ENVELOPE_SUMMARY_FIELDS = [
+FULL_TESTED_SET_SUMMARY_FIELDS = [
     "case_id", "attraction", "defence", "assurance", "pollinator_service",
     "floral_damage_pressure", "modal_sign", "non_neutral_evaluation_count",
-    "total_evaluation_count", "modal_sign_agreement", "envelope_class",
+    "total_evaluation_count", "modal_sign_agreement", "full_tested_set_class",
     "functional_form_unanimous_scenario_count", "parameter_scenario_count",
 ]
 
@@ -76,7 +76,7 @@ def _as_float_list(value: object, name: str) -> list[float]:
 def _read_config(path: str | Path) -> dict[str, Any]:
     payload = json.loads(Path(path).read_text(encoding="utf-8"))
     if not isinstance(payload, dict):
-        raise ValueError("robustness config must be a JSON object")
+        raise ValueError("sensitivity config must be a JSON object")
     return payload
 
 
@@ -103,7 +103,7 @@ def _functional_forms(config: dict[str, Any]) -> tuple[FunctionalForm, ...]:
             form_id=str(raw.get("form_id") or "").strip(),
             attraction_saturation=float(raw.get("attraction_saturation", 0.0)),
             defence_saturation=float(raw.get("defence_saturation", 0.0)),
-            shared_cost_curvature=float(raw.get("shared_cost_curvature", 0.0)),
+            joint_cost_curvature=float(raw.get("joint_cost_curvature", 0.0)),
         )
         if form.form_id in seen:
             raise ValueError(f"duplicate functional-form id: {form.form_id}")
@@ -165,7 +165,7 @@ def _case_dimensions(case: RobustnessCase) -> dict[str, float | str]:
 def run(
     config: dict[str, Any],
 ) -> tuple[list[dict[str, object]], list[dict[str, object]], list[dict[str, object]]]:
-    """Return evaluations, within-scenario summaries, and full-envelope summaries."""
+    """Return evaluations, within-scenario summaries, and full-tested-set summaries."""
 
     tolerance = _neutral_tolerance(config)
     forms = _functional_forms(config)
@@ -193,10 +193,10 @@ def run(
                     "attraction_defence_shared_cost": parameters.attraction_defence_shared_cost,
                     "attraction_saturation": form.attraction_saturation,
                     "defence_saturation": form.defence_saturation,
-                    "shared_cost_curvature": form.shared_cost_curvature,
+                    "joint_cost_curvature": form.joint_cost_curvature,
                     "antagonism_term": result.antagonism_term,
                     "pollination_obstruction_term": result.pollination_obstruction_term,
-                    "shared_cost_term": result.shared_cost_term,
+                    "joint_cost_curvature_term": result.joint_cost_curvature_term,
                     "mixed_partial": result.mixed_partial,
                     "sign": result.sign,
                 })
@@ -218,23 +218,23 @@ def run(
             "functional_form_class": summary.robustness_class,
         })
 
-    envelope_summaries: list[dict[str, object]] = []
+    full_tested_set_summaries: list[dict[str, object]] = []
     for case_id, results in sorted(grouped_by_case.items()):
         summary = summarise_case(results)
-        envelope_summaries.append({
+        full_tested_set_summaries.append({
             **_case_dimensions(by_id[case_id]),
             "modal_sign": summary.modal_sign,
             "non_neutral_evaluation_count": summary.non_neutral_form_count,
             "total_evaluation_count": summary.total_form_count,
             "modal_sign_agreement": summary.modal_sign_agreement,
-            "envelope_class": summary.robustness_class,
+            "full_tested_set_class": summary.robustness_class,
             "functional_form_unanimous_scenario_count": sum(
                 scenario_classes[(case_id, scenario_id)] == "tested_set_unanimous"
                 for scenario_id, _ in scenarios
             ),
             "parameter_scenario_count": len(scenarios),
         })
-    return case_rows, functional_form_summaries, envelope_summaries
+    return case_rows, functional_form_summaries, full_tested_set_summaries
 
 
 def _write_csv(path: Path, fields: Iterable[str], rows: Iterable[dict[str, object]]) -> None:
@@ -245,7 +245,7 @@ def _write_csv(path: Path, fields: Iterable[str], rows: Iterable[dict[str, objec
 
 
 def _class_counts(rows: list[dict[str, object]], column: str) -> dict[str, int]:
-    labels = ("tested_set_unanimous", "conditional_majority", "mixed_or_sensitive")
+    labels = ("tested_set_unanimous", "mixed_or_sensitive")
     return {label: sum(row[column] == label for row in rows) for label in labels}
 
 
@@ -253,25 +253,34 @@ def build_report(
     config: dict[str, Any],
     rows: list[dict[str, object]],
     form_summaries: list[dict[str, object]],
-    envelope_summaries: list[dict[str, object]],
+    full_tested_set_summaries: list[dict[str, object]],
 ) -> dict[str, object]:
     """Build reproducibility metadata for the sensitivity outputs."""
 
     tolerance = _neutral_tolerance(config)
+    absolute_values = [abs(float(row["mixed_partial"])) for row in rows]
     return {
-        "case_count": len(envelope_summaries),
+        "run_id": "endpoint_normalized_grid_v2",
+        "case_count": len(full_tested_set_summaries),
         "evaluation_count": len(rows),
         "functional_form_summary_count": len(form_summaries),
         "neutral_tolerance": tolerance,
         "neutral_tolerance_scale": "absolute_on_declared_score_scale",
         "response_shape_normalization": "common_endpoints_on_unit_trait_domain",
+        "finite_design_measure": "unweighted_count_over_declared_grid",
+        "minimum_absolute_mixed_partial": min(absolute_values) if absolute_values else None,
+        "neutral_evaluation_count": sum(row["sign"] == "neutral" for row in rows),
+        "near_tolerance_evaluation_count": sum(value <= 10.0 * tolerance for value in absolute_values),
         "functional_form_class_counts": _class_counts(form_summaries, "functional_form_class"),
-        "parameter_envelope_class_counts": _class_counts(envelope_summaries, "envelope_class"),
+        "full_tested_set_class_counts": _class_counts(
+            full_tested_set_summaries, "full_tested_set_class"
+        ),
         "warning": (
-            "Outputs are qualitative diagnostics over a finite predeclared tested set. "
-            "Nonlinear response shapes share declared endpoint scales but differ in local "
-            "derivatives. The neutral tolerance is an absolute numerical zero threshold on "
-            "the declared score scale, not a biologically invariant neutrality band."
+            "Outputs are qualitative diagnostics over an unweighted finite declared tested set. "
+            "Changing the grid measure can change reported occupancy fractions. Nonlinear response "
+            "shapes share declared endpoint scales but differ in local derivatives. The neutral "
+            "tolerance is an absolute numerical zero threshold on the declared score scale, not a "
+            "biologically invariant neutrality band."
         ),
     }
 
@@ -283,14 +292,22 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     config = _read_config(args.config_json)
-    rows, form_summaries, envelope_summaries = run(config)
+    rows, form_summaries, full_tested_set_summaries = run(config)
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    _write_csv(out_dir / "part_i_robustness_cases.csv", CASE_FIELDS, rows)
-    _write_csv(out_dir / "part_i_functional_form_summary.csv", FUNCTIONAL_FORM_SUMMARY_FIELDS, form_summaries)
-    _write_csv(out_dir / "part_i_robustness_envelope.csv", ENVELOPE_SUMMARY_FIELDS, envelope_summaries)
-    report = build_report(config, rows, form_summaries, envelope_summaries)
-    (out_dir / "part_i_robustness_report.json").write_text(
+    _write_csv(out_dir / "part_i_sensitivity_evaluations.csv", CASE_FIELDS, rows)
+    _write_csv(
+        out_dir / "part_i_response_shape_summary.csv",
+        FUNCTIONAL_FORM_SUMMARY_FIELDS,
+        form_summaries,
+    )
+    _write_csv(
+        out_dir / "part_i_full_tested_set_summary.csv",
+        FULL_TESTED_SET_SUMMARY_FIELDS,
+        full_tested_set_summaries,
+    )
+    report = build_report(config, rows, form_summaries, full_tested_set_summaries)
+    (out_dir / "part_i_sensitivity_report.json").write_text(
         json.dumps(report, indent=2, sort_keys=True), encoding="utf-8"
     )
     print(json.dumps(report, indent=2, sort_keys=True))

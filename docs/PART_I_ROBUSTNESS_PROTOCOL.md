@@ -2,9 +2,9 @@
 
 ## Purpose
 
-Part I is a qualitative local sensitivity analysis for a declared focal floral trait pair. It is not a calibrated fitness estimator, a distribution over natural systems, an evolutionary-optimum analysis, or a proof of mathematical structural robustness.
+Part I is a qualitative local sensitivity analysis for one declared floral attraction trait `A`, one declared flower-specific barrier/defence trait `D`, and one declared outcome scale `W`. It is not a calibrated fitness estimator, a distribution over natural systems, an evolutionary-optimum analysis, or a proof of mathematical structural robustness.
 
-The baseline corollary is
+The implemented corollary is
 
 \[
 W(A,D,R)=
@@ -17,168 +17,107 @@ P(b_0+b_AA)e^{-c_DD}(1-c_RR)
 with local mixed partial
 
 \[
-\frac{\partial^2W}{\partial A\partial D}
-=H d_Ae_F
--Pb_Ac_De^{-c_DD}(1-c_RR)
--c_{AD}.
+W_{AD}=H d_Ae_F-Pb_Ac_De^{-c_DD}(1-c_RR)-c_{AD}.
 \]
 
-A positive value is **local complementarity**, a negative value **local substitutability**, and an exact zero is mathematically neutral on the declared score scale. The numerical sweep additionally uses a predeclared absolute zero tolerance to prevent floating-point residue from creating spurious signs. That tolerance is a numerical classification rule, not a biologically invariant neutrality band.
+`R` is an auxiliary reproductive-assurance moderator in this corollary. It is not a third focal trait in the manuscript claim.
 
-## Focal-trait, outcome-scale, and regime rules
+## Interpretation
 
-Each application must declare:
+- `W_AD > 0`: local complementarity on the declared `W` scale.
+- `W_AD < 0`: local substitutability on the declared `W` scale.
+- `W_AD = 0`: mathematical neutrality on that scale.
+
+The numerical sweep additionally uses an absolute `neutral_tolerance` to avoid floating-point residue. This threshold is a numerical convention on the declared score scale, not a biological equivalence interval.
+
+## Declared variables
+
+Each application must define:
 
 ```text
 A  one focal floral attraction trait and its scale
 D  one focal flower-specific barrier/defence trait and its scale
-W  the biological outcome or score and its scale
+W  one biological outcome or score and its scale
 P  exogenous reference intensity of pollinator service
 H  exogenous reference intensity of floral-antagonist pressure
+R  optional auxiliary background moderator in the implemented corollary
 ```
 
-Different attraction or defence traits are alternative applications, not interchangeable measurements of one universal axis. Likewise, fitness, relative fitness, log fitness, and an additive qualitative score are not interchangeable mixed-curvature scales.
+`P` and `H` must not be realised visitation or realised damage measured after the focal traits act, because that would reuse trait-mediated outcomes as exogenous regime variables.
 
-`P` and `H` must not be defined as realised visitation or realised damage after the focal traits act, because that would reuse trait-mediated outcomes as exogenous regime variables.
+## Finite tested set
 
-## Sensitivity question
+For every local phenotype/regime case, the analysis asks whether the sign remains the same across the declared finite set of biological parameter scenarios and endpoint-normalized response shapes.
 
-For each declared local phenotype and regime case, ask:
-
-```text
-Does the sign of the A x D mixed partial remain the same across
-this finite, predeclared set of response-shape and parameter variants?
-```
-
-The answer is summarized as:
+The only categorical agreement labels are:
 
 ```text
 tested_set_unanimous
-conditional_majority
 mixed_or_sensitive
 ```
 
-`tested_set_unanimous` means exactly what its name says: every evaluation in the summarized finite tested set has the same non-neutral sign. It must not be described as a proof that the sign is structurally robust to all admissible model formulations.
+`tested_set_unanimous` requires the same non-neutral sign in every evaluation supplied to that summary. All other cases, including exact sign ties and any neutral evaluation, are `mixed_or_sensitive`. The continuous field `modal_sign_agreement` retains the descriptive fraction of non-neutral evaluations carrying the modal sign.
 
-## Endpoint-normalized response-shape families
+No intermediate majority threshold is used.
 
-The active sweep varies three response-shape choices while preserving comparable endpoint scales on the declared `A,D in [0,1]` domain. This avoids the earlier confounding in which a nominal “curvature” change also changed the endpoint effect magnitude.
+## Endpoint-normalized response shapes
 
-### 1. Pollination return to attraction
+On `A,D in [0,1]`, the nonlinear variants preserve common endpoint scales while changing local derivatives.
 
-```text
-baseline:      b_A A
-saturating:    b_A (1 + q_A) A / (1 + q_A A)
-```
-
-Both equal `b_A` at `A=1`. `q_A=0` recovers the baseline.
-
-### 2. Defence reduction of floral-antagonist damage
+### Attraction response
 
 ```text
-baseline:      e_F D
-saturating:    e_F (1 + q_D) D / (1 + q_D D)
+baseline:    b_A A
+saturating:  b_A (1 + q_A) A / (1 + q_A A)
 ```
 
-Both equal `e_F` at `D=1`. `q_D=0` recovers the baseline.
-
-### 3. Direct attraction–defence joint cost
+### Defence reduction of antagonist damage
 
 ```text
-baseline:      c_AD A D
-curved:        c_AD A D [1 + k_AD(A + D)] / (1 + 2 k_AD)
+baseline:    e_F D
+saturating:  e_F (1 + q_D) D / (1 + q_D D)
 ```
 
-Both equal `c_AD` at `A=D=1`. `k_AD=0` recovers the baseline.
-
-The nonlinear variants therefore share the declared endpoint scales while redistributing local derivatives and mixed curvature across trait space. They still represent only a finite family of possible biological functions and do not isolate every conceivable notion of “curvature” from every other local property.
-
-## Required dimensions
-
-The sweep varies at minimum:
+### Direct joint cost
 
 ```text
-P     exogenous reference pollinator service
-H     exogenous reference floral-antagonist pressure
-R     auxiliary reproductive-assurance moderator
-A,D   local focal-trait coordinates
-b_A   endpoint scale of attraction-mediated mutualist response
-d_A   attraction-mediated antagonist tracking
-e_F   endpoint scale of defence-mediated antagonist reduction
-c_D   defence-mediated pollinator obstruction
-c_AD  baseline/corner scale of direct A x D joint cost
-q_A   attraction-response saturation
-q_D   defence-response saturation
-k_AD  joint-cost curvature
+baseline:    c_AD A D
+curved:      c_AD A D [1 + k_AD(A + D)] / (1 + 2 k_AD)
 ```
 
-The parameter names describe mechanisms in the baseline corollary and their normalized nonlinear variants. Current literature records do not calibrate their magnitudes.
+The variants match at `A=1`, `D=1`, and `A=D=1`, respectively. This reduces—but does not eliminate—confounding between response shape and effect magnitude.
 
 ## Numerical procedure
 
-For every parameter-regime case, evaluate the analytic mixed partial for each predeclared response-shape variant.
+For each case, scenario, and response shape:
+
+1. evaluate the analytic mixed partial;
+2. classify its sign using the declared absolute tolerance;
+3. write the three mechanism contributions and total mixed partial;
+4. summarize sign agreement within each scenario;
+5. summarize sign agreement across the full finite tested set.
+
+The analytic expressions are regression-tested against independently written finite-difference derivatives of the explicit score functions.
+
+## Canonical V2 outputs
 
 ```text
-sign agreement = non-neutral evaluations with modal sign / non-neutral evaluations
-
-tested_set_unanimous agreement = 1.00 and no neutral/discordant evaluation
-conditional_majority agreement >= 0.80 without full unanimity
-mixed_or_sensitive otherwise
+part_i_sensitivity_cases.csv
+part_i_response_shape_summary.csv
+part_i_full_tested_set_summary.csv
+part_i_sensitivity_report.json
+PART_I_MANUSCRIPT_READOUT_V2.md
+FIGURE_2_THEORY_REGIME_MAP.svg
 ```
 
-An exact tie between complementary and substitutable evaluations is reported with `modal_sign = mixed`; it is not broken in favour of either sign.
+The canonical run identifier is `endpoint_normalized_grid_v2`.
 
-The configuration key `neutral_tolerance` is an **absolute numerical zero threshold on the declared `W` scale**. An evaluation is classified as numerically neutral when
+## Literature boundary
 
-```text
-abs(W_AD) <= neutral_tolerance
-```
+The retained literature registry provides preliminary abstract-level context that a flower-associated defence/barrier can reduce pollinator use in some systems. It does not identify the focal `M_AD` curvature, calibrate any model coefficient, estimate the complete `W_AD`, or validate environmental regime derivatives.
 
-for the declared score parameterisation. Because this rule is scale dependent, the tolerance must:
+## Permitted manuscript claim
 
-- be finite and non-negative;
-- be fixed before classification;
-- be recorded in generated metadata as `neutral_tolerance`;
-- be accompanied by `neutral_tolerance_scale = absolute_on_declared_score_scale`;
-- not be interpreted as a transformation-invariant biological equivalence region.
+> Within the declared model family and score parameterization, the local attraction–defence interaction is complementary when antagonist relief exceeds mutualist interference and direct joint-cost curvature, and substitutable when the opposing contributions dominate. The boundary is conditional on the declared traits, score scale, ecological regime, and mechanism strengths.
 
-A positive rescaling of `W` preserves the mathematical sign of a nonzero mixed partial but can change whether an absolute numerical tolerance calls that value neutral. Comparisons across different `W` scales therefore require a separately justified tolerance convention.
-
-## Empirical bridge
-
-The active literature layer has a narrower purpose than parameter calibration. It asks whether declared biological pathways occur in real systems.
-
-At present, the route-level evidence provides abstract-level directional consistency with the possibility that a flower-specific defence/barrier can reduce pollinator preference or foraging in some systems. This is relevant to the mutualist-interference mechanism, but it does not estimate:
-
-- the full local mutualist curvature for one focal `A`–`D` pair;
-- antagonist relief for that same pair;
-- direct joint-cost curvature;
-- any baseline parameter magnitude;
-- the complete mixed partial or its environmental derivative.
-
-No direction-only record or heterogeneous cross-system record is inserted as a raw model parameter.
-
-## Primary deliverables
-
-```text
-part_i_robustness_cases.csv
-  one row per response-shape / parameter / regime case
-
-part_i_robustness_envelope.csv
-  modal sign, agreement, and tested-set classification by local case
-
-part_i_functional_form_summary.csv
-  within-scenario summaries across the declared response-shape family
-
-part_i_robustness_report.json
-  run dimensions, classification counts, normalization rule,
-  neutral_tolerance, and its declared scale
-```
-
-## Interpretation boundary
-
-A `tested_set_unanimous` region means only:
-
-> under every score function and parameter variant actually included in the stated finite tested set, the local `A x D` mixed partial has the same non-neutral numerical classification on the declared score scale and tolerance.
-
-It does not establish that the region is common in nature, that parameter values are universal, that a measured trait covariance is adaptive, that the sign survives every admissible response function, that the same sign survives a different nonlinear parameterisation of the focal traits or output, or that an absolute tolerance would have the same meaning after rescaling the score.
+The analysis does not establish universal trait covariance, a universal trade-off, a universal complementarity law, an evolutionary endpoint, or prevalence in nature.

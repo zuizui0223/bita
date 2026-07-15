@@ -39,14 +39,13 @@ def test_baseline_mixed_partial_matches_declared_analytic_expression() -> None:
     expected_cost = 0.10
     assert result.antagonism_term == pytest.approx(expected_antagonism)
     assert result.pollination_obstruction_term == pytest.approx(expected_pollination)
-    assert result.shared_cost_term == pytest.approx(expected_cost)
+    assert result.joint_cost_curvature_term == pytest.approx(expected_cost)
     assert result.mixed_partial == pytest.approx(expected_antagonism - expected_pollination - expected_cost)
 
 
 def test_endpoint_normalized_saturating_attraction_changes_local_slope_not_endpoint_scale() -> None:
     parameters = ModelParameters()
     q = 1.0
-    # b_A (1+q) A / (1+q A) equals b_A at A=1 and 0 at A=0.
     assert parameters.attraction_gain * (1 + q) / (1 + q) == pytest.approx(parameters.attraction_gain)
 
     case = RobustnessCase("saturating", 0.8, 0.5, 0.0, 0.8, 0.2)
@@ -58,7 +57,6 @@ def test_endpoint_normalized_saturating_attraction_changes_local_slope_not_endpo
 def test_endpoint_normalized_saturating_defence_changes_local_slope_not_endpoint_scale() -> None:
     parameters = ModelParameters()
     q = 1.0 / 0.35
-    # e_F (1+q) D / (1+q D) equals e_F at D=1.
     assert parameters.floral_defence_efficacy * (1 + q) / (1 + q) == pytest.approx(
         parameters.floral_defence_efficacy
     )
@@ -76,8 +74,8 @@ def test_curved_joint_cost_preserves_corner_cost_scale() -> None:
     assert corner_cost == pytest.approx(parameters.attraction_defence_shared_cost)
 
     case = RobustnessCase("cost", 0.5, 0.5, 0.0, 0.5, 0.5)
-    curved = mixed_partial(case, parameters, FunctionalForm("curved", shared_cost_curvature=k))
-    assert curved.shared_cost_term == pytest.approx(parameters.attraction_defence_shared_cost)
+    curved = mixed_partial(case, parameters, FunctionalForm("curved", joint_cost_curvature=k))
+    assert curved.joint_cost_curvature_term == pytest.approx(parameters.attraction_defence_shared_cost)
 
 
 def test_summary_calls_unanimity_only_over_the_supplied_tested_set() -> None:
@@ -102,11 +100,26 @@ def test_summary_preserves_an_exact_sign_tie_as_mixed() -> None:
     assert summary.modal_sign_agreement == 0.5
 
 
+def test_non_unanimous_majority_is_not_promoted_to_a_separate_class() -> None:
+    results = [
+        MixedPartialResult("case", "one", 1.0, 0.0, 0.0, 1.0, "complementary"),
+        MixedPartialResult("case", "two", 1.0, 0.0, 0.0, 1.0, "complementary"),
+        MixedPartialResult("case", "three", 1.0, 0.0, 0.0, 1.0, "complementary"),
+        MixedPartialResult("case", "four", 0.0, 1.0, 0.0, -1.0, "substitutable"),
+    ]
+    summary = summarise_case(results)
+    assert summary.modal_sign == "complementary"
+    assert summary.modal_sign_agreement == pytest.approx(0.75)
+    assert summary.robustness_class == "mixed_or_sensitive"
+
+
 def test_nonfinite_functional_form_values_are_rejected() -> None:
     with pytest.raises(ValueError, match="finite and non-negative"):
         FunctionalForm("bad", attraction_saturation=math.nan)
     with pytest.raises(ValueError, match="finite and non-negative"):
         FunctionalForm("bad", defence_saturation=math.inf)
+    with pytest.raises(ValueError, match="finite and non-negative"):
+        FunctionalForm("bad", joint_cost_curvature=math.inf)
 
 
 def test_nonfinite_model_parameters_are_rejected_before_the_sweep() -> None:

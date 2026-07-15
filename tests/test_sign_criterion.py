@@ -36,7 +36,7 @@ def test_baseline_result_is_a_corollary_of_oriented_local_criterion() -> None:
     criterion = OrientedSignCriterion(
         result.antagonism_term,
         result.pollination_obstruction_term,
-        result.shared_cost_term,
+        result.joint_cost_curvature_term,
     )
     assert criterion.mixed_partial == pytest.approx(result.mixed_partial)
 

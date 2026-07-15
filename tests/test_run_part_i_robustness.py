@@ -33,36 +33,51 @@ def minimal_config() -> dict:
                 "form_id": "baseline",
                 "attraction_saturation": 0.0,
                 "defence_saturation": 0.0,
-                "shared_cost_curvature": 0.0,
+                "joint_cost_curvature": 0.0,
             },
             {
                 "form_id": "saturated",
                 "attraction_saturation": 1.0,
                 "defence_saturation": 2.0,
-                "shared_cost_curvature": 1.0,
+                "joint_cost_curvature": 1.0,
             },
         ],
     }
 
 
-def test_run_emits_case_form_and_parameter_envelope_summaries() -> None:
+def test_run_emits_evaluation_response_shape_and_full_tested_set_summaries() -> None:
     config = minimal_config()
-    rows, form_summaries, envelope_summaries = MODULE.run(config)
+    rows, form_summaries, full_tested_set_summaries = MODULE.run(config)
 
     assert len(rows) == 4
     assert len(form_summaries) == 2
-    assert len(envelope_summaries) == 1
-    assert envelope_summaries[0]["total_evaluation_count"] == 4
-    assert envelope_summaries[0]["parameter_scenario_count"] == 2
+    assert len(full_tested_set_summaries) == 1
+    assert full_tested_set_summaries[0]["total_evaluation_count"] == 4
+    assert full_tested_set_summaries[0]["parameter_scenario_count"] == 2
     assert {row["parameter_scenario_id"] for row in rows} == {"baseline", "high_damage"}
     assert {row["parameter_scenario_id"] for row in form_summaries} == {"baseline", "high_damage"}
     assert {row["form_id"] for row in rows} == {"baseline", "saturated"}
     assert {row["defence_saturation"] for row in rows} == {0.0, 2.0}
+    assert {row["joint_cost_curvature"] for row in rows} == {0.0, 1.0}
+    assert "joint_cost_curvature_term" in rows[0]
+    assert "shared_cost_term" not in rows[0]
+    assert "full_tested_set_class" in full_tested_set_summaries[0]
+    assert "envelope_class" not in full_tested_set_summaries[0]
 
-    report = MODULE.build_report(config, rows, form_summaries, envelope_summaries)
+    report = MODULE.build_report(config, rows, form_summaries, full_tested_set_summaries)
+    assert report["run_id"] == "endpoint_normalized_grid_v2"
     assert report["neutral_tolerance"] == 1e-12
     assert report["neutral_tolerance_scale"] == "absolute_on_declared_score_scale"
     assert report["response_shape_normalization"] == "common_endpoints_on_unit_trait_domain"
+    assert report["finite_design_measure"] == "unweighted_count_over_declared_grid"
+    assert set(report["functional_form_class_counts"]) == {
+        "tested_set_unanimous",
+        "mixed_or_sensitive",
+    }
+    assert set(report["full_tested_set_class_counts"]) == {
+        "tested_set_unanimous",
+        "mixed_or_sensitive",
+    }
 
 
 def test_rejects_unknown_model_parameter_override() -> None:
