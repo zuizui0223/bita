@@ -1,1 +1,0 @@
-receipt_id,provider,request_or_dataset_id,request_manifest_path,received_date,raw_export_path,raw_export_sha256,provider_version,license_or_terms,trait_ids_requested,taxonomic_reconciliation_status,normalised_receipt_path,direct_record_policy,notes
