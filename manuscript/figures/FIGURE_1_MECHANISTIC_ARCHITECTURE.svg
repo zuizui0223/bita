@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Mechanistic architecture of the local attraction-defence interaction</title>
+  <desc id="desc">A conceptual diagram linking attraction and defence to mutualist service, antagonist loss, and direct joint-cost curvature, ending in the local mixed-partial balance.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333"/>
+    </marker>
+    <style>
+      .box { fill:#ffffff; stroke:#333333; stroke-width:2.2; rx:18; ry:18; }
+      .soft { fill:#f4f4f4; }
+      .title { font:700 28px Arial, Helvetica, sans-serif; fill:#111; }
+      .head { font:700 22px Arial, Helvetica, sans-serif; fill:#111; }
+      .body { font:400 18px Arial, Helvetica, sans-serif; fill:#222; }
+      .small { font:400 15px Arial, Helvetica, sans-serif; fill:#333; }
+      .eq { font:700 25px Arial, Helvetica, sans-serif; fill:#111; }
+      .arrow { stroke:#333; stroke-width:2.4; fill:none; marker-end:url(#arrow); }
+      .dash { stroke-dasharray:8 7; }
+    </style>
+  </defs>
+
+  <text x="600" y="42" text-anchor="middle" class="title">Local attraction-defence interaction</text>
+
+  <rect x="55" y="105" width="260" height="115" class="box soft"/>
+  <text x="185" y="145" text-anchor="middle" class="head">Attraction trait A</text>
+  <text x="185" y="178" text-anchor="middle" class="body">one declared floral signal,</text>
+  <text x="185" y="202" text-anchor="middle" class="body">reward, display, or interface</text>
+
+  <rect x="55" y="505" width="260" height="135" class="box soft"/>
+  <text x="185" y="545" text-anchor="middle" class="head">Defence trait D</text>
+  <text x="185" y="578" text-anchor="middle" class="body">flower-specific trait with</text>
+  <text x="185" y="602" text-anchor="middle" class="body">declared antagonist-reduction</text>
+  <text x="185" y="626" text-anchor="middle" class="body">role</text>
+
+  <rect x="435" y="90" width="320" height="130" class="box"/>
+  <text x="595" y="132" text-anchor="middle" class="head">Mutualist contribution M</text>
+  <text x="595" y="168" text-anchor="middle" class="body">pollinator service, pollen transfer,</text>
+  <text x="595" y="194" text-anchor="middle" class="body">or another declared benefit</text>
+
+  <rect x="435" y="315" width="320" height="130" class="box"/>
+  <text x="595" y="357" text-anchor="middle" class="head">Antagonist loss G</text>
+  <text x="595" y="393" text-anchor="middle" class="body">florivory, robbery, disease,</text>
+  <text x="595" y="419" text-anchor="middle" class="body">or another declared damage</text>
+
+  <rect x="435" y="540" width="320" height="130" class="box"/>
+  <text x="595" y="582" text-anchor="middle" class="head">Direct cost channel C</text>
+  <text x="595" y="618" text-anchor="middle" class="body">construction, allocation, or</text>
+  <text x="595" y="644" text-anchor="middle" class="body">physiological interaction cost</text>
+
+  <path d="M315 150 C360 145 385 145 435 150" class="arrow"/>
+  <text x="372" y="129" text-anchor="middle" class="small">mutualist return</text>
+
+  <path d="M315 180 C370 230 390 300 435 345" class="arrow"/>
+  <text x="367" y="265" text-anchor="middle" class="small">antagonist exposure</text>
+
+  <path d="M315 555 C365 515 390 447 435 405" class="arrow"/>
+  <text x="365" y="485" text-anchor="middle" class="small">antagonist reduction</text>
+
+  <path d="M315 525 C355 420 390 265 435 185" class="arrow dash"/>
+  <text x="352" y="352" text-anchor="middle" class="small">possible pollinator interference</text>
+
+  <path d="M315 605 C355 605 390 605 435 605" class="arrow"/>
+  <text x="372" y="586" text-anchor="middle" class="small">joint cost</text>
+
+  <path d="M315 205 C370 340 395 520 435 585" class="arrow"/>
+  <text x="355" y="446" text-anchor="middle" class="small">joint cost</text>
+
+  <rect x="840" y="210" width="305" height="340" class="box soft"/>
+  <text x="992" y="253" text-anchor="middle" class="head">Oriented local balance</text>
+  <text x="992" y="304" text-anchor="middle" class="eq">W_AD = rho - iota - kappa</text>
+  <text x="876" y="356" class="body">rho</text>
+  <text x="925" y="356" class="body">antagonist relief</text>
+  <text x="876" y="402" class="body">iota</text>
+  <text x="925" y="402" class="body">mutualist interference</text>
+  <text x="876" y="448" class="body">kappa</text>
+  <text x="925" y="448" class="body">direct joint-cost curvature</text>
+  <text x="992" y="500" text-anchor="middle" class="small">valid only after the orientation gate</text>
+  <text x="992" y="524" text-anchor="middle" class="small">is justified for the focal application</text>
+
+  <path d="M755 155 C820 175 820 250 840 300" class="arrow"/>
+  <path d="M755 380 C800 380 815 380 840 380" class="arrow"/>
+  <path d="M755 605 C820 580 820 510 840 470" class="arrow"/>
+
+  <text x="600" y="728" text-anchor="middle" class="small">Positive W_AD means local complementarity on the declared coordinates and outcome scale; it does not imply positive first derivatives or mechanism identification from total fitness alone.</text>
+</svg>
