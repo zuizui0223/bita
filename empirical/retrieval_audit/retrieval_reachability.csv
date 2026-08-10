@@ -1,0 +1,32 @@
+host,role,needed_for,http_status,reachable,note
+api.crossref.org,bibliographic_api,DOI metadata and abstract retrieval for screening,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+api.openalex.org,bibliographic_api,corpus-scale candidate discovery and citation graph,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+api.semanticscholar.org,bibliographic_api,candidate discovery and reference resolution,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+api.unpaywall.org,bibliographic_api,open-access full-text location,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+www.ebi.ac.uk,fulltext_archive,Europe PMC search and full text,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+europepmc.org,fulltext_archive,Europe PMC full text,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+eutils.ncbi.nlm.nih.gov,fulltext_archive,PubMed and PMC programmatic access,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+datadryad.org,data_repository,deposited primary datasets for extraction,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+zenodo.org,data_repository,deposited primary datasets and supplements,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+figshare.com,data_repository,deposited primary datasets and supplements,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+osf.io,data_repository,deposited primary datasets and preregistrations,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+dataverse.harvard.edu,data_repository,deposited primary datasets,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+api.datacite.org,data_repository,dataset DOI metadata,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+onlinelibrary.wiley.com,publisher,article and supplementary tables,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+esajournals.onlinelibrary.wiley.com,publisher,Ecology and Ecological Monographs,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+besjournals.onlinelibrary.wiley.com,publisher,Functional Ecology and Journal of Ecology,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+academic.oup.com,publisher,Annals of Botany,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+link.springer.com,publisher,Oecologia,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+journals.plos.org,publisher,PLOS ONE,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+www.nature.com,publisher,Scientific Reports and Nature Communications,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+peerj.com,publisher,PeerJ,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+www.biorxiv.org,preprint,preprint full text,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+archive.org,archive,archived copies of withdrawn or moved sources,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+cran.r-project.org,package_index,R packages shipping published meta-analysis data,000,false,egress proxy answered 403 to CONNECT (organization policy denial)
+github.com,code_hosting,author-deposited data and analysis code (web and search),400,true,origin answered; network path is open
+api.github.com,code_hosting,repository metadata and code search,200,true,origin answered; network path is open
+raw.githubusercontent.com,code_hosting,direct file download from public repositories,301,true,origin answered; network path is open
+codeload.github.com,code_hosting,repository archive download,400,true,origin answered; network path is open
+gitlab.com,code_hosting,author-deposited data and analysis code,301,true,origin answered; network path is open
+bitbucket.org,code_hosting,author-deposited data and analysis code,200,true,origin answered; network path is open
+pypi.org,package_index,Python packages shipping datasets,200,true,origin answered; network path is open

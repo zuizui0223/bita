@@ -165,6 +165,10 @@ REQUIRED_ACTIVE_PATHS = [
     "scripts/run_channel_leverage.py",
     "empirical/channel_leverage/CHANNEL_LEVERAGE_READOUT_V1.md",
     "empirical/channel_leverage/channel_leverage_ranking.csv",
+    # Evidence for why the extraction layer is empty.
+    "scripts/audit_data_retrieval_reachability.py",
+    "empirical/retrieval_audit/RETRIEVAL_REACHABILITY_READOUT_V1.md",
+    "empirical/retrieval_audit/retrieval_reachability.csv",
 ]
 
 

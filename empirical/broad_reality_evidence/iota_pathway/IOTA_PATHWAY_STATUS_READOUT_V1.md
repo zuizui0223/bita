@@ -84,10 +84,15 @@ candidate studies must be read at full text and their treatment/comparator respo
 sample sizes, concentrations, natural-range citations, assay contexts, and pollinator groups
 recorded with locators.
 
-That work was not possible in the session that committed this layer. Outbound network access was
-refused by the environment's egress policy for every bibliographic and full-text service required
-— Crossref, OpenAlex, Europe PMC, PubMed Central, Dryad, and publisher domains all returned a
-policy denial at the proxy. Candidate identifiers in the reading queue were recorded from search
+That work was not possible in the session that committed this layer, and the constraint is now
+measured rather than asserted: `empirical/retrieval_audit/RETRIEVAL_REACHABILITY_READOUT_V1.md`
+probes 31 declared hosts and finds 7 reachable, all of them code hosting or PyPI. Zero
+bibliographic APIs, zero full-text archives, zero data repositories, and zero publishers answer.
+Anonymous `git clone` of a *named* public repository does work — verified end to end against the
+deposited data for doi:10.1111/oik.09708, a study already in this registry — but GitHub search is
+refused, so a repository can only be reached when its owner and name are already known. That
+channel can confirm a specific deposit; it cannot assemble a stratum. The manipulative
+nectar-chemistry literature of the target stratum deposits to Dryad, which is blocked. Candidate identifiers in the reading queue were recorded from search
 results and are flagged accordingly; they must be verified against the source before any number
 is extracted.
 

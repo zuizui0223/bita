@@ -1,0 +1,51 @@
+{
+  "bibliographic_api_reachable": false,
+  "blocked": 24,
+  "by_role": {
+    "archive": {
+      "blocked": 1,
+      "reachable": 0
+    },
+    "bibliographic_api": {
+      "blocked": 4,
+      "reachable": 0
+    },
+    "code_hosting": {
+      "blocked": 0,
+      "reachable": 6
+    },
+    "data_repository": {
+      "blocked": 6,
+      "reachable": 0
+    },
+    "fulltext_archive": {
+      "blocked": 3,
+      "reachable": 0
+    },
+    "package_index": {
+      "blocked": 1,
+      "reachable": 1
+    },
+    "preprint": {
+      "blocked": 1,
+      "reachable": 0
+    },
+    "publisher": {
+      "blocked": 8,
+      "reachable": 0
+    }
+  },
+  "data_repository_reachable": false,
+  "hosts_probed": 31,
+  "interpretation_boundary": "This audit records the network reachability of declared hosts at the time it was run. It is a property of the execution environment's egress policy, not of the literature. A blocked host says nothing about whether the data exist.",
+  "reachable": 7,
+  "reachable_hosts": [
+    "github.com",
+    "api.github.com",
+    "raw.githubusercontent.com",
+    "codeload.github.com",
+    "gitlab.com",
+    "bitbucket.org",
+    "pypi.org"
+  ]
+}
