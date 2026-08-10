@@ -21,9 +21,9 @@ That estimate still inherited three paper-level mixtures:
 
 1. **Adler and Irwin (2005)** pooled a supra-natural 2002 treatment year with the source-audited natural-range 2004 year.
 2. **Jones and Agrawal (2016)** pooled the legitimate bumblebee response with a Lepidoptera antagonist response.
-3. **Manson et al. (2013)** collapsed four dose contrasts into one paper effect even though pollinator responses change strongly across the reported dose order.
+3. **Manson et al. (2013)** collapsed the 0.1, 1, 2 and 4 μg/μL contrasts into one paper effect even though the source reports no behavioural difference at 0, 0.1 and 1 μg/μL and strong reductions at 2 and 4 μg/μL.
 
-The present analysis corrects the first two choices and exposes the third as a sensitivity rather than hiding it inside one estimate.
+The present analysis corrects the first two choices and exposes the third as a dose sensitivity rather than hiding it inside one estimate.
 
 ## 2. Fixed route corrections
 
@@ -31,23 +31,23 @@ The three independent papers are retained, but their roles are restricted as fol
 
 - **Adler and Irwin (2005):** only the 2004 natural-range visit-number row is used.
 - **Jones and Agrawal (2016):** only the legitimate Bee visit-number row is used; the Lepidoptera antagonist row is excluded from the pollinator pathway.
-- **Manson et al. (2013):** the four visit-number rows remain one study cluster. Four separate three-paper syntheses are reported, one for each source-order contrast. A fifth all-dose within-paper summary is retained only as a diagnostic comparison.
+- **Manson et al. (2013):** the four visit-number rows remain one study cluster. Four separate three-paper syntheses are reported for 0.1, 1, 2 and 4 μg/μL versus the 0 μg/μL control. A fifth all-dose within-paper summary is retained only as a diagnostic comparison.
 
 No Manson dose row is counted as an independent replication.
 
 ## 3. Results
 
-| Manson choice | Random-effects Hedges g | 95% CI | I² |
+| Manson contrast | Random-effects Hedges g | 95% CI | I² |
 |---|---:|---:|---:|
-| Source-order contrast 1 | +0.030 | -0.218 to +0.279 | 0.0% |
-| Source-order contrast 2 | -0.183 | -0.456 to +0.090 | 15.6% |
-| Source-order contrast 3 | -0.307 | -0.882 to +0.269 | 80.4% |
-| Source-order contrast 4 | -0.354 | -1.037 to +0.328 | 86.0% |
+| 0.1 vs 0 μg/μL | +0.030 | -0.218 to +0.279 | 0.0% |
+| 1 vs 0 μg/μL | -0.183 | -0.456 to +0.090 | 15.6% |
+| 2 vs 0 μg/μL | -0.307 | -0.882 to +0.269 | 80.4% |
+| 4 vs 0 μg/μL | -0.354 | -1.037 to +0.328 | 86.0% |
 | All four Manson rows, fixed within paper (diagnostic) | -0.242 | -0.636 to +0.152 | 69.4% |
 
 Every corrected interval includes zero.
 
-The direction becomes more negative as the selected Manson contrast moves through the source order, while the lower-source-order contrast produces a pooled estimate near zero. This agrees with the primary-source audit: the Manson response is weak at the lower treatments and becomes strongly negative at the higher treatments. It is therefore not defensible to represent that study by one universal negative pollinator-cost effect without carrying dose choice explicitly.
+The pooled direction is near zero at 0.1 μg/μL and becomes increasingly negative at 1, 2 and 4 μg/μL. This matches the primary-source result: the source detected no difference among 0, 0.1 and 1 μg/μL, whereas 2 and 4 μg/μL produced at least 45% fewer flowers visited. It is therefore not defensible to represent that study by one universal negative pollinator-cost effect without carrying dose explicitly.
 
 ## 4. What changed scientifically
 
@@ -57,9 +57,9 @@ The earlier negative visit-number estimate was not fabricated, but its nominal e
 - retaining the supra-natural Adler year;
 - averaging dose-dependent Manson contrasts.
 
-After those decisions are corrected or exposed, the three-paper evidence supports **heterogeneous, context-dependent pollinator interference**, not a stable negative mean for legitimate-pollinator visit number.
+After those decisions are corrected or exposed, the three-paper evidence supports **heterogeneous, dose- and context-dependent pollinator interference**, not a stable negative mean for legitimate-pollinator visit number.
 
-This does not imply that floral defence never reduces pollinator use. Adler and Irwin provide a same-system weak negative field contrast, and the higher Manson contrasts are negative. It means that the current three-study lane cannot yet identify a general direction independently of dose and route coding.
+This does not imply that floral defence never reduces pollinator use. Adler and Irwin provide a same-system weak negative field contrast, and the 2 and 4 μg/μL Manson contrasts are strongly negative at the study level. It means that the current three-study lane cannot yet identify a general direction independently of dose and route coding.
 
 ## 5. Consequence for the empirical completion gate
 
