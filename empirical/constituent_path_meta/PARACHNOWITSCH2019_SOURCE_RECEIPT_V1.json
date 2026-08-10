@@ -1,0 +1,32 @@
+{
+  "article_doi": "10.1093/aob/mcy132",
+  "article_title": "Evolutionary ecology of nectar",
+  "retrieval_date": "2026-08-10",
+  "repository_branch": "analysis/complete-constituent-path-meta-v1",
+  "github_actions_run_id": 31427065101,
+  "github_actions_artifact_id": 9077593035,
+  "github_actions_artifact_digest": "sha256:d467851332544233584e5d09c418cba424e57f567a1cb02a88c6636adca39efb",
+  "xlsx": {
+    "published_filename": "mcy132_suppl_aob-18212-s03.xlsx",
+    "sha256": "411f7a62e208895a1388e3a31a8d2bd254b4786d34ff00cd1bbf67c81bcf8647",
+    "bytes": 43814,
+    "worksheet_count": 6,
+    "pollinator_preferences_rows_including_header": 128
+  },
+  "pptx": {
+    "published_filename": "mcy132_suppl_aob-18212-s01.pptx",
+    "sha256": "d442322fa8ed313731b5f8470ea754789978cc99e1997a893047ce103891d6bd",
+    "bytes": 22920565,
+    "slide_count": 7,
+    "chart_count": 2,
+    "embedded_workbook_count": 2,
+    "media_file_count": 9
+  },
+  "source_findings": {
+    "published_secondary_metabolite_summary": "63 effect sizes from 9 studies",
+    "worksheet_rows_labelled_secondary_metabolites": 72,
+    "exact_difference": "Nine Good et al. 2014 rows account for the 72-versus-63 discrepancy; worksheet factor labels alone therefore do not establish inclusion in the published secondary-metabolite pool.",
+    "orientation_warning": "The worksheet headers Mean Control and Mean Treatment are not a safe biological orientation. For Adler and Irwin 2005, comparison with the primary source shows that the values under Mean Control are the high-gelsemine groups and the repeated values under Mean Treatment are the lower-gelsemine reference groups. Every row must be re-oriented from the primary study before reuse."
+  },
+  "interpretation_boundary": "The published workbook is a source-recovery benchmark, not a canonical strict-B effect table. No row is promoted until the focal trait passes the flower-specific antagonist-reduction role gate, the legitimate-pollinator outcome lane is fixed, biological treatment orientation is verified from the primary source, and study dependence is audited."
+}
