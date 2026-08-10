@@ -102,10 +102,18 @@ therefore `sign(iota)` — under a declared bridge assumption stated in
 `docs/IOTA_PATHWAY_EMPIRICAL_TARGET.md`. The stratum, the four context moderators, the capacity
 thresholds, and the extraction rules are pre-registered before any number is extracted.
 
-The extraction table is currently empty, so every declared moderator analysis returns
-`insufficient_moderator_capacity`. Nothing about direction or context dependence in this pathway
-has been estimated yet. See
-`empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_STATUS_READOUT_V1.md`.
+**There is no meta-analysis yet: zero effect rows, zero independent clusters, zero pooled
+estimates.** The declared search ran and produced 15 include-candidates, roughly 14 independent
+clusters, which clears the declared thresholds of 5 for pooling and 10 for the primary moderator.
+Only 4 of those 15 have a PMC record; the other 11 — including every field-pollination candidate,
+in *Ecology*, *Ecology Letters*, *Oecologia*, and *Current Biology* — are unreachable from this
+environment. The shortfall is access, not the size of the literature. See
+`empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_FEASIBILITY_V1.md` and
+`IOTA_PATHWAY_STATUS_READOUT_V1.md`.
+
+Nothing else in this repository is a substitute for those effect sizes. The search log, screening
+decisions, exclusion classification, design power analysis, and value-of-information ranking are
+preparatory or diagnostic, and must not be reported as partial progress toward a pooled estimate.
 
 Two properties of that design are established without data and bound what the extraction can
 deliver:

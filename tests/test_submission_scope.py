@@ -155,6 +155,7 @@ REQUIRED_ACTIVE_PATHS = [
     "empirical/broad_reality_evidence/iota_pathway/search_log_v1.csv",
     "empirical/broad_reality_evidence/iota_pathway/screening_decisions_v1.csv",
     "empirical/broad_reality_evidence/iota_pathway/SCREENING_ENDPOINT_MISMATCH_V1.md",
+    "empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_FEASIBILITY_V1.md",
     "scripts/audit_screening_endpoint_mismatch.py",
     "empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_STATUS_READOUT_V1.md",
     "empirical/broad_reality_evidence/iota_pathway/iota_moderator_registry.csv",
