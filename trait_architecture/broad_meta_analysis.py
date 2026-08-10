@@ -22,18 +22,31 @@ DIRECT_ROUTES = frozenset({
     "A_to_antagonism",
     "B_to_antagonism",
     "B_to_pollination",
+    # Antagonist-exposure routes. The four routes above all measure a *trait*
+    # slope. None of them measures floral-antagonist pressure H itself, which
+    # gates the antagonist-relief channel multiplicatively (rho = H * d_A * e_F)
+    # and therefore decides whether that channel can be non-zero at all.
+    "H_to_fitness",
+    "H_to_pollination",
+    "H_to_reward",
 })
 ROUTE_TRAIT_ROLE = {
     "A_to_pollination": "A",
     "A_to_antagonism": "A",
     "B_to_antagonism": "B",
     "B_to_pollination": "B",
+    "H_to_fitness": "H",
+    "H_to_pollination": "H",
+    "H_to_reward": "H",
 }
 ROUTE_EXPECTED_SIGN = {
     "A_to_pollination": "positive",
     "A_to_antagonism": "positive",
     "B_to_antagonism": "negative",
     "B_to_pollination": "negative",
+    "H_to_fitness": "negative",
+    "H_to_pollination": "negative",
+    "H_to_reward": "negative",
 }
 DIRECTION_CODES = frozenset({"positive", "negative", "mixed", "null", "not_reported"})
 DESIGN_CLASSES = frozenset({"observational", "manipulation", "comparative"})
