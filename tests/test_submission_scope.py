@@ -174,7 +174,18 @@ REQUIRED_ACTIVE_PATHS = [
     "scripts/run_channel_leverage.py",
     "empirical/channel_leverage/CHANNEL_LEVERAGE_READOUT_V1.md",
     "empirical/channel_leverage/channel_leverage_ranking.csv",
-    # Evidence for why the extraction layer is empty.
+    # Completed constituent-pathway synthesis: the antagonist-relief gate.
+    "trait_architecture/deposited_effect_ingest.py",
+    "scripts/ingest_deposited_larceny_dataset.py",
+    "scripts/run_larceny_gate.py",
+    "empirical/broad_reality_evidence/larceny_gate/LARCENY_GATE_PROTOCOL_V1.md",
+    "empirical/broad_reality_evidence/larceny_gate/LARCENY_GATE_READOUT_V1.md",
+    "empirical/broad_reality_evidence/larceny_gate/larceny_effect_rows.csv",
+    "empirical/broad_reality_evidence/larceny_gate/larceny_moderator_coding.csv",
+    "empirical/broad_reality_evidence/larceny_gate/larceny_moderator_registry.csv",
+    "empirical/broad_reality_evidence/larceny_gate/larceny_recomputation_audit.csv",
+    "empirical/broad_reality_evidence/larceny_gate/results/larceny_pooled_summary.csv",
+    # Evidence for why the iota extraction layer is empty.
     "scripts/audit_data_retrieval_reachability.py",
     "empirical/retrieval_audit/RETRIEVAL_REACHABILITY_READOUT_V1.md",
     "empirical/retrieval_audit/retrieval_reachability.csv",

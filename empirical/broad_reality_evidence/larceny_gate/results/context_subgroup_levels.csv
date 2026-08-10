@@ -1,0 +1,14 @@
+analysis_id,stratum_id,moderator_name,moderator_level,independent_clusters,effect_count,pooled_effect,pooled_standard_error,ci_low,ci_high,tau_squared_DL,I_squared_percent,pooled_direction,level_status
+larceny_type_female,HF_larceny_female_lrr_comparative,larcenist_type,nectar_robbing,41,41,-0.1726629526,0.07611737319,-0.3218502627,-0.02347564259,0.2129642863,99.49236997,negative,pooled_random_effects
+larceny_type_female,HF_larceny_female_lrr_comparative,larcenist_type,nectar_theft,7,7,-0.4049659807,0.1490782976,-0.6971540749,-0.1127778866,0.08857172025,90.14385279,negative,pooled_random_effects
+larceny_assurance_female,HF_larceny_female_lrr_comparative,reproductive_assurance,self_compatible,31,31,-0.2936435472,0.0970100842,-0.4837798184,-0.1035072761,0.2587491848,99.46747601,negative,pooled_random_effects
+larceny_assurance_female,HF_larceny_female_lrr_comparative,reproductive_assurance,self_incompatible,16,16,-0.06212547814,0.1187445528,-0.294860525,0.1706095687,0.1890152392,99.44509796,negative,pooled_random_effects
+larceny_assignment_female,HF_larceny_female_lrr_comparative,larceny_assignment,experimental_manipulation,17,17,-0.2604197937,0.1201747652,-0.4959580053,-0.02488158204,0.2345759724,99.76740199,negative,pooled_random_effects
+larceny_assignment_female,HF_larceny_female_lrr_comparative,larceny_assignment,observational_contrast,27,27,-0.1634479993,0.04716869904,-0.2558969506,-0.07099904796,0.03345780915,84.33262973,negative,pooled_random_effects
+larceny_players_female,HF_larceny_female_lrr_comparative,interaction_players,bird_bird,7,7,-0.1388013815,0.06560583377,-0.2673864529,-0.01021631014,0.02002366608,93.78956491,negative,pooled_random_effects
+larceny_players_female,HF_larceny_female_lrr_comparative,interaction_players,insect_bird,10,10,-0.1828530118,0.1530379644,-0.4828019103,0.1170958867,0.2220743763,99.56628446,negative,pooled_random_effects
+larceny_players_female,HF_larceny_female_lrr_comparative,interaction_players,insect_insect,20,20,-0.164186388,0.1456201603,-0.4495966575,0.1212238815,0.3668190801,99.6057339,negative,pooled_random_effects
+larceny_type_visitation,HP_larceny_visitation_lrr_comparative,larcenist_type,nectar_robbing,15,15,-0.2006267653,0.1433774678,-0.4816414384,0.08038790772,0.2657394123,97.9758236,negative,pooled_random_effects
+larceny_type_visitation,HP_larceny_visitation_lrr_comparative,larcenist_type,nectar_theft,6,6,-0.4086285273,0.2145974161,-0.8292317341,0.01197467951,0.1723843148,80.36032359,negative,pooled_random_effects
+larceny_type_nectar,HR_larceny_nectar_lrr_comparative,larcenist_type,nectar_robbing,22,22,-0.5557325852,0.2166414558,-0.9803420362,-0.1311231342,0.8873350416,99.18199921,negative,pooled_random_effects
+larceny_type_nectar,HR_larceny_nectar_lrr_comparative,larcenist_type,nectar_theft,6,6,-0.3572750952,0.2296642935,-0.8074088389,0.09285864858,0.2968774138,99.56071593,negative,pooled_random_effects

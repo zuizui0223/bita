@@ -95,30 +95,59 @@ is a quantitative meta-analysis, over multiple independent studies, of **one con
 of the three-channel balance, reporting its realised direction and whether that direction is
 context dependent.
 
-The declared pathway is `D -> legitimate pollinator use`, which feeds the mutualist-interference
-magnitude `iota`. Within the implemented corollary the pollinator-access term is multiplicatively
-separable in `D`, so an oriented log response ratio of this route identifies `sign(c_D)` and
-therefore `sign(iota)` — under a declared bridge assumption stated in
-`docs/IOTA_PATHWAY_EMPIRICAL_TARGET.md`. The stratum, the four context moderators, the capacity
-thresholds, and the extraction rules are pre-registered before any number is extracted.
+### The completed synthesis: the antagonist-relief gate
 
-**There is no meta-analysis yet: zero effect rows, zero independent clusters, zero pooled
-estimates.** The declared search ran and produced 15 include-candidates, roughly 14 independent
-clusters, which clears the declared thresholds of 5 for pooling and 10 for the primary moderator.
-Only 4 of those 15 have a PMC record; the other 11 — including every field-pollination candidate,
-in *Ecology*, *Ecology Letters*, *Oecologia*, and *Current Biology* — are unreachable from this
-environment. The shortfall is access, not the size of the literature. See
-`empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_FEASIBILITY_V1.md` and
-`IOTA_PATHWAY_STATUS_READOUT_V1.md`.
+The pathway with a pooled estimate is **floral antagonist pressure `H`**, the multiplicative gate on
+the antagonist-relief channel `rho = H · d_A · e_F`. Every other declared route measures a trait
+slope; none measures whether antagonists impose any realised cost at all. That gate decides whether
+the project's central claim is even askable: **if `H = 0` then `rho = 0`, so `W_AD = −iota − kappa
+≤ 0` and attraction and defence are unconditionally substitutable, with no conditionality to
+explain.**
 
-The constraint is a property of the web execution environment, not of this repository. On a
-machine with ordinary network access the pipeline runs end to end: `docs/LOCAL_EXECUTION_RUNBOOK.md`
-gives the path from clone to pooled estimate, and `scripts/fetch_declared_search.py` executes the
-declared query against Europe PMC **undecomposed**, since that API imposes no boolean-operator cap.
+Oriented log response ratios of larcenist-exposed against unexposed flowers, one aggregated effect
+per independent study cluster, DerSimonian–Laird random effects:
 
-Nothing else in this repository is a substitute for those effect sizes. The search log, screening
-decisions, exclusion classification, design power analysis, and value-of-information ranking are
-preparatory or diagnostic, and must not be reported as partial progress toward a pooled estimate.
+| route | clusters | pooled LRR | 95% CI | % change |
+|---|---|---|---|---|
+| `H_to_fitness` (female reproductive success) | **48** | −0.210 | −0.351, −0.070 | −19.0% |
+| `H_to_reward` (nectar standing crop) | 28 | −0.483 | −0.757, −0.210 | −38.3% |
+| `H_to_pollination` (legitimate visitation) | 22 | −0.291 | −0.523, −0.059 | −25.2% |
+| `H_to_fitness` (male reproductive success) | 11 | −0.148 | −1.154, +0.857 | uninformative |
+
+The gate is open, and the mechanism chain — reward depletion, then visitation loss, then fitness
+loss — is intact link by link with monotonically attenuating magnitudes. All six pre-registered
+context moderators return **no detected context dependence**, and the more telling number is that
+they explain 0–8% of a heterogeneity running at *I*² = 97–99.5%: the effect varies enormously and
+none of the declared ecological axes captures it.
+
+This is **constituent-path evidence only**. It does not estimate `rho`, `iota`, `kappa`, or `W_AD`,
+and it does not identify `M_AD`; that needs a design varying `A` and `D` jointly. Bridge assumption
+B2 is an interpretive assumption in the analysis layer, not part of the fixed theory. The result is
+also a **secondary analysis of a deposited effect-size table** (Leal et al. 2025, *Ecology*,
+doi:10.1002/ecy.70036), not an independent literature search, and it inherits that synthesis's
+inclusion criteria. Funnel asymmetry is detected on the primary stratum and reported. See
+`empirical/broad_reality_evidence/larceny_gate/LARCENY_GATE_READOUT_V1.md`, pre-registered in
+`LARCENY_GATE_PROTOCOL_V1.md` and committed before any estimate was computed.
+
+### The blocked pathway: `D -> legitimate pollinator use`
+
+The originally declared pathway feeds the mutualist-interference magnitude `iota`, under a bridge
+assumption stated in `docs/IOTA_PATHWAY_EMPIRICAL_TARGET.md`. **It still has zero effect rows, zero
+independent clusters, and zero pooled estimates.** The declared search produced 15
+include-candidates, roughly 14 independent clusters, which clears the declared thresholds — but
+only 4 have a PMC record. The other 11, including every field-pollination candidate in *Ecology*,
+*Ecology Letters*, *Oecologia*, and *Current Biology*, are unreachable from this environment. The
+shortfall is access, not the size of the literature. Its search and screening are also themselves
+incomplete: several logged sub-queries are unscreened and six records were never retrieved. See
+`empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_FEASIBILITY_V1.md`.
+
+`docs/LOCAL_EXECUTION_RUNBOOK.md` gives the path from clone to pooled estimate on a machine with
+ordinary network access, and `scripts/fetch_declared_search.py` executes the declared query against
+Europe PMC **undecomposed**, since that API imposes no boolean-operator cap.
+
+The search log, screening decisions, exclusion classification, design power analysis, and
+value-of-information ranking are preparatory or diagnostic for that pathway, and must not be
+reported as partial progress toward its pooled estimate.
 
 Two properties of that design are established without data and bound what the extraction can
 deliver:

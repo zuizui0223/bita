@@ -74,6 +74,18 @@ Under B2:
 
 B2 is an assumption. It is not tested here and it is not implied by the corollary.
 
+**B2 lives in the analysis layer only.** It is an interpretive and sensitivity assumption attached
+to this readout. It is not part of the fixed theory, it is not added to the manuscript, and the
+fixed theory is not modified to accommodate it. A pooled marginal route effect does **not** identify
+`M_AD`, `rho`, `iota`, `kappa`, or `W_AD`; identifying a cross-curvature needs a design that varies
+`A` and `D` jointly, which no study in this dataset does. The strongest form of the claim available
+here is a **necessary condition**: `H > 0` is required for `rho` to be non-zero, so a fitness arrow
+that excludes zero removes one specific way the conditional regime could have been ruled out. It
+establishes nothing about the magnitude or sign of `rho` itself.
+
+Adding the `H_to_*` routes extends the empirical **route vocabulary** to admit an exposure that is
+not a plant trait. It does not change the corollary, the mixed partial, or any declared claim.
+
 ### Declared routes and strata
 
 Three routes are added to the declared route vocabulary, because no existing route has an
