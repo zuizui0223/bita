@@ -1,0 +1,35 @@
+name: Recover Villalona 2020 sources
+
+on:
+  push:
+    branches:
+      - analysis/complete-constituent-path-meta-v1
+    paths:
+      - "scripts/recover_villalona2020_sources.py"
+      - ".github/workflows/recover-villalona2020-sources.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recover-sources:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Recover primary and supplementary source files
+        run: |
+          python scripts/recover_villalona2020_sources.py artifacts/villalona2020
+
+      - name: Upload recovered source files and receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: villalona2020-sources
+          path: artifacts/villalona2020
+          if-no-files-found: error
+          retention-days: 30
