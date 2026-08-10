@@ -14,10 +14,13 @@ import argparse
 import csv
 import hashlib
 import html
+import io
 import json
 import re
+import tarfile
 import urllib.parse
 import urllib.request
+import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
@@ -26,65 +29,221 @@ ARTICLE_URLS = (
     "https://academic.oup.com/aob/article/123/2/247/5055672",
     "https://pmc.ncbi.nlm.nih.gov/articles/PMC6344224/",
 )
+PMC_ATTACHMENT_URLS = (
+    "https://pmc.ncbi.nlm.nih.gov/articles/instance/6344224/bin/mcy132_suppl_aob-18212-s03.xlsx",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC6344224/bin/mcy132_suppl_aob-18212-s03.xlsx",
+)
+PMC_OA_API = "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC6344224"
 FALLBACK_XLSX = (
     "https://oup.silverchair-cdn.com/oup/backfile/Content_public/Journal/aob/123/2/"
     "10.1093_aob_mcy132/1/mcy132_suppl_aob-18212-s03.xlsx"
 )
-USER_AGENT = "bita-source-recovery/1.0 (+https://github.com/zuizui0223/bita)"
+USER_AGENT = "bita-source-recovery/1.1 (+https://github.com/zuizui0223/bita)"
 
 
-def _request(url: str) -> bytes:
-    request = urllib.request.Request(
-        url,
-        headers={
-            "User-Agent": USER_AGENT,
-            "Accept": "text/html,application/xhtml+xml,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,*/*",
-        },
-    )
+def _request(url: str, *, referer: str | None = None) -> bytes:
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Accept": (
+            "text/html,application/xhtml+xml,application/xml,application/gzip,"
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,*/*"
+        ),
+    }
+    if referer:
+        headers["Referer"] = referer
+    request = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(request, timeout=60) as response:
         return response.read()
 
 
 def _candidate_links(page_url: str, body: bytes) -> list[str]:
     text = html.unescape(body.decode("utf-8", errors="replace"))
-    hrefs = re.findall(r"href=[\"']([^\"']+)[\"']", text, flags=re.IGNORECASE)
+    raw_links: list[str] = []
+    raw_links.extend(re.findall(r"(?:href|src)=[\"']([^\"']+)[\"']", text, flags=re.IGNORECASE))
+    raw_links.extend(
+        re.findall(
+            r"https?://[^\s\"'<>]+(?:\.xlsx(?:\?[^\s\"'<>]*)?|mcy132[^\s\"'<>]*s03[^\s\"'<>]*)",
+            text,
+            flags=re.IGNORECASE,
+        )
+    )
+    for match in re.findall(r"content=[\"']([^\"']+)[\"']", text, flags=re.IGNORECASE):
+        if "url=" in match.lower():
+            raw_links.append(re.split(r"url=", match, flags=re.IGNORECASE, maxsplit=1)[1].strip())
+
     candidates: list[str] = []
-    for href in hrefs:
-        absolute = urllib.parse.urljoin(page_url, href)
+    for href in raw_links:
+        absolute = urllib.parse.urljoin(page_url, href.replace("\\/", "/"))
         lowered = absolute.lower()
-        if lowered.endswith(".xlsx") or ("mcy132" in lowered and "s03" in lowered):
+        if (
+            ".xlsx" in lowered
+            or ("mcy132" in lowered and "s03" in lowered)
+            or "cdn.ncbi.nlm.nih.gov/pmc/blobs" in lowered
+        ):
             candidates.append(absolute)
-    # Preserve discovery order while removing duplicates.
     return list(dict.fromkeys(candidates))
 
 
-def discover_xlsx() -> tuple[str, list[dict[str, object]]]:
+def _html_preview(payload: bytes, limit: int = 280) -> str:
+    text = html.unescape(payload.decode("utf-8", errors="replace"))
+    text = re.sub(r"\s+", " ", text).strip()
+    return text[:limit]
+
+
+def _follow_candidate(
+    url: str,
+    *,
+    attempts: list[dict[str, object]],
+    referer: str | None = None,
+    seen: set[str] | None = None,
+    depth: int = 0,
+) -> tuple[str, bytes] | None:
+    if seen is None:
+        seen = set()
+    if url in seen or depth > 3:
+        return None
+    seen.add(url)
+
+    variants = [url]
+    if "pmc.ncbi.nlm.nih.gov" in url and "download=1" not in url:
+        separator = "&" if "?" in url else "?"
+        variants.append(f"{url}{separator}download=1")
+
+    for candidate in variants:
+        if candidate in seen and candidate != url:
+            continue
+        seen.add(candidate)
+        try:
+            payload = _request(candidate, referer=referer)
+        except Exception as error:  # pragma: no cover - network dependent
+            attempts.append({"url": candidate, "status": "download_failed", "error": repr(error)})
+            continue
+        if payload[:2] == b"PK":
+            attempts.append({"url": candidate, "status": "xlsx_recovered", "bytes": len(payload)})
+            return candidate, payload
+
+        nested = _candidate_links(candidate, payload)
+        attempts.append(
+            {
+                "url": candidate,
+                "status": "not_xlsx",
+                "bytes": len(payload),
+                "nested_candidate_links": nested,
+                "body_preview": _html_preview(payload),
+            }
+        )
+        for link in nested:
+            recovered = _follow_candidate(
+                link,
+                attempts=attempts,
+                referer=candidate,
+                seen=seen,
+                depth=depth + 1,
+            )
+            if recovered:
+                return recovered
+    return None
+
+
+def _recover_from_pmc_package(attempts: list[dict[str, object]]) -> tuple[str, bytes] | None:
+    try:
+        payload = _request(PMC_OA_API)
+    except Exception as error:  # pragma: no cover - network dependent
+        attempts.append({"url": PMC_OA_API, "status": "oa_api_failed", "error": repr(error)})
+        return None
+
+    attempts.append(
+        {
+            "url": PMC_OA_API,
+            "status": "oa_api_retrieved",
+            "bytes": len(payload),
+            "body_preview": _html_preview(payload),
+        }
+    )
+    try:
+        root = ET.fromstring(payload)
+    except ET.ParseError as error:
+        attempts.append({"url": PMC_OA_API, "status": "oa_api_invalid_xml", "error": repr(error)})
+        return None
+
+    package_urls: list[str] = []
+    for element in root.iter():
+        href = element.attrib.get("href", "")
+        if href and (element.attrib.get("format") in {"tgz", "tar.gz"} or href.endswith((".tar.gz", ".tgz"))):
+            package_urls.append(href.replace("ftp://", "https://"))
+
+    for package_url in package_urls:
+        try:
+            package = _request(package_url, referer=PMC_OA_API)
+        except Exception as error:  # pragma: no cover - network dependent
+            attempts.append({"url": package_url, "status": "oa_package_failed", "error": repr(error)})
+            continue
+        attempts.append({"url": package_url, "status": "oa_package_retrieved", "bytes": len(package)})
+        try:
+            with tarfile.open(fileobj=io.BytesIO(package), mode="r:*") as archive:
+                members = [
+                    member
+                    for member in archive.getmembers()
+                    if member.isfile()
+                    and (
+                        member.name.lower().endswith(".xlsx")
+                        or ("mcy132" in member.name.lower() and "s03" in member.name.lower())
+                    )
+                ]
+                for member in members:
+                    handle = archive.extractfile(member)
+                    if handle is None:
+                        continue
+                    workbook = handle.read()
+                    if workbook[:2] == b"PK":
+                        source = f"{package_url}#{member.name}"
+                        attempts.append({"url": source, "status": "xlsx_recovered_from_oa_package", "bytes": len(workbook)})
+                        return source, workbook
+        except (tarfile.TarError, OSError) as error:
+            attempts.append({"url": package_url, "status": "oa_package_invalid", "error": repr(error)})
+    return None
+
+
+def discover_xlsx() -> tuple[str, bytes, list[dict[str, object]]]:
     attempts: list[dict[str, object]] = []
+
     for page_url in ARTICLE_URLS:
         try:
             body = _request(page_url)
-            links = _candidate_links(page_url, body)
-            attempts.append({"url": page_url, "status": "retrieved", "candidate_links": links})
-            for link in links:
-                try:
-                    payload = _request(link)
-                except Exception as error:  # pragma: no cover - network dependent
-                    attempts.append({"url": link, "status": "download_failed", "error": repr(error)})
-                    continue
-                if payload[:2] == b"PK":
-                    attempts.append({"url": link, "status": "xlsx_recovered", "bytes": len(payload)})
-                    return link, attempts
-                attempts.append({"url": link, "status": "not_xlsx", "bytes": len(payload)})
         except Exception as error:  # pragma: no cover - network dependent
             attempts.append({"url": page_url, "status": "page_failed", "error": repr(error)})
+            continue
+        links = _candidate_links(page_url, body)
+        attempts.append({"url": page_url, "status": "retrieved", "candidate_links": links})
+        for link in links:
+            recovered = _follow_candidate(link, attempts=attempts, referer=page_url)
+            if recovered:
+                source_url, payload = recovered
+                return source_url, payload, attempts
 
-    try:
-        payload = _request(FALLBACK_XLSX)
-        attempts.append({"url": FALLBACK_XLSX, "status": "fallback_retrieved", "bytes": len(payload)})
-        if payload[:2] == b"PK":
-            return FALLBACK_XLSX, attempts
-    except Exception as error:  # pragma: no cover - network dependent
-        attempts.append({"url": FALLBACK_XLSX, "status": "fallback_failed", "error": repr(error)})
+    for attachment_url in PMC_ATTACHMENT_URLS:
+        recovered = _follow_candidate(
+            attachment_url,
+            attempts=attempts,
+            referer="https://pmc.ncbi.nlm.nih.gov/articles/PMC6344224/",
+        )
+        if recovered:
+            source_url, payload = recovered
+            return source_url, payload, attempts
+
+    recovered_package = _recover_from_pmc_package(attempts)
+    if recovered_package:
+        source_url, payload = recovered_package
+        return source_url, payload, attempts
+
+    recovered = _follow_candidate(
+        FALLBACK_XLSX,
+        attempts=attempts,
+        referer="https://academic.oup.com/aob/article/123/2/247/5055672",
+    )
+    if recovered:
+        source_url, payload = recovered
+        return source_url, payload, attempts
 
     raise RuntimeError(json.dumps({"message": "XLSX supplement not recovered", "attempts": attempts}, indent=2))
 
@@ -162,8 +321,7 @@ def main(argv: list[str] | None = None) -> int:
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    source_url, attempts = discover_xlsx()
-    payload = _request(source_url)
+    source_url, payload, attempts = discover_xlsx()
     if payload[:2] != b"PK":
         raise RuntimeError("Recovered supplement does not have XLSX/ZIP magic bytes")
 
