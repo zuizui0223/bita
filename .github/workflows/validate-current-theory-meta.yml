@@ -8,16 +8,20 @@ on:
       - "scripts/build_part_i_manuscript_readout.py"
       - "scripts/build_part_i_regime_figure_svg.py"
       - "scripts/run_broad_meta_analysis.py"
+      - "scripts/run_context_dependence.py"
       - "scripts/validate_current_theory_meta.py"
       - "trait_architecture/model.py"
       - "trait_architecture/robustness.py"
       - "trait_architecture/sign_criterion.py"
       - "trait_architecture/broad_meta_analysis.py"
+      - "trait_architecture/context_dependence.py"
       - "trait_architecture/theory_meta_validation.py"
       - "empirical/broad_reality_evidence/broad_route_records.csv"
       - "empirical/broad_reality_evidence/broad_effect_extractions.csv"
       - "empirical/broad_reality_evidence/broad_meta_analysis_strata.csv"
       - "empirical/broad_reality_evidence/LITERATURE_EVIDENCE_READOUT.md"
+      - "empirical/broad_reality_evidence/iota_pathway/iota_moderator_registry.csv"
+      - "empirical/broad_reality_evidence/iota_pathway/iota_moderator_coding.csv"
       - "tests/test_robustness.py"
       - "tests/test_run_part_i_robustness.py"
       - "tests/test_build_part_i_manuscript_readout.py"
@@ -54,7 +58,9 @@ jobs:
             tests/test_build_part_i_regime_figure_svg.py \
             tests/test_sign_criterion.py \
             tests/test_theory_meta_validation.py \
-            tests/test_committed_part_i_results_current.py
+            tests/test_committed_part_i_results_current.py \
+            tests/test_context_dependence.py \
+            tests/test_iota_pathway_declaration.py
 
       - name: Reproduce Part I sensitivity analysis
         run: |
@@ -83,6 +89,15 @@ jobs:
             empirical/broad_reality_evidence/broad_effect_extractions.csv \
             empirical/broad_reality_evidence/broad_meta_analysis_strata.csv \
             artifacts/current_theory_literature_validation/literature
+
+      - name: Run declared constituent-pathway moderator analyses
+        run: |
+          python scripts/run_context_dependence.py \
+            empirical/broad_reality_evidence/broad_effect_extractions.csv \
+            empirical/broad_reality_evidence/iota_pathway/iota_moderator_coding.csv \
+            empirical/broad_reality_evidence/broad_meta_analysis_strata.csv \
+            empirical/broad_reality_evidence/iota_pathway/iota_moderator_registry.csv \
+            artifacts/current_theory_literature_validation/iota_pathway
 
       - name: Validate current theory-to-literature inference boundary
         run: |

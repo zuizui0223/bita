@@ -88,6 +88,25 @@ The literature layer therefore does not:
 - estimate the complete local `A`–`D` mixed partial;
 - validate environmental derivatives or the regime map in nature.
 
+## Declared empirical target
+
+The preliminary literature layer above is context, not the project's empirical target. The target
+is a quantitative meta-analysis, over multiple independent studies, of **one constituent pathway**
+of the three-channel balance, reporting its realised direction and whether that direction is
+context dependent.
+
+The declared pathway is `D -> legitimate pollinator use`, which feeds the mutualist-interference
+magnitude `iota`. Within the implemented corollary the pollinator-access term is multiplicatively
+separable in `D`, so an oriented log response ratio of this route identifies `sign(c_D)` and
+therefore `sign(iota)` — under a declared bridge assumption stated in
+`docs/IOTA_PATHWAY_EMPIRICAL_TARGET.md`. The stratum, the four context moderators, the capacity
+thresholds, and the extraction rules are pre-registered before any number is extracted.
+
+The extraction table is currently empty, so every declared moderator analysis returns
+`insufficient_moderator_capacity`. Nothing about direction or context dependence in this pathway
+has been estimated yet. See
+`empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_STATUS_READOUT_V1.md`.
+
 ## Supplement structure
 
 ```text
@@ -135,6 +154,13 @@ python scripts/run_broad_meta_analysis.py \
   empirical/broad_reality_evidence/broad_effect_extractions.csv \
   empirical/broad_reality_evidence/broad_meta_analysis_strata.csv \
   artifacts/supplement/literature
+
+python scripts/run_context_dependence.py \
+  empirical/broad_reality_evidence/broad_effect_extractions.csv \
+  empirical/broad_reality_evidence/iota_pathway/iota_moderator_coding.csv \
+  empirical/broad_reality_evidence/broad_meta_analysis_strata.csv \
+  empirical/broad_reality_evidence/iota_pathway/iota_moderator_registry.csv \
+  artifacts/supplement/iota_pathway
 ```
 
 The canonical committed Part I metadata are in:

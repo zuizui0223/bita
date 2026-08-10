@@ -64,6 +64,42 @@ All currently active directional records are coded from `crossref_deposited_abst
 
 The current quantitative extraction table contains no eligible effect rows, and the abstract-level registry has not undergone full-text verification and independent duplicate coding or documented adjudication. The literature layer is therefore **preliminary mechanism context only**. It is not a second independent submission claim, does not calibrate model parameters, and does not validate the regime map.
 
+## Declared empirical target: the mutualist-interference constituent pathway
+
+The literature layer above is preliminary context. It is not the project's empirical target. The
+target is a quantitative meta-analysis, over multiple independent studies, of **one constituent
+pathway** of the three-channel balance, reporting both its realised direction and whether that
+direction is context dependent.
+
+Declared target, theory bridge, and inference boundary:
+
+- `docs/IOTA_PATHWAY_EMPIRICAL_TARGET.md`
+- `empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_EXTRACTION_PROTOCOL_v1.md`
+
+Declared machine-readable inputs:
+
+- `empirical/broad_reality_evidence/iota_pathway/iota_moderator_registry.csv`
+- `empirical/broad_reality_evidence/iota_pathway/iota_moderator_coding.csv`
+- `empirical/broad_reality_evidence/iota_pathway/iota_reading_queue.csv`
+- the `BP_chemical_pollinator_use_lrr_manipulation` row of `broad_meta_analysis_strata.csv`
+
+Analysis and reproduction:
+
+- `trait_architecture/context_dependence.py`
+- `scripts/run_context_dependence.py`
+- `tests/test_context_dependence.py`
+- `empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_STATUS_READOUT_V1.md`
+
+The pathway is `D -> legitimate pollinator use`, which feeds the mutualist-interference magnitude
+`iota`. Under bridge assumption B1 (the effect of `D` on pollinator access is multiplicatively
+separable from `A`), the oriented log response ratio of this route identifies `sign(c_D)` and
+therefore `sign(iota)` in the implemented corollary. B1 is declared, not demonstrated; without it
+the pooled arrow stays a marginal-route statement.
+
+The effect table currently holds no eligible rows, so all four declared moderator analyses return
+`insufficient_moderator_capacity` and the verdict `not_evaluated`. No pooled effect and no
+context-dependence verdict exists for this pathway yet.
+
 ## Boundary between theory and literature context
 
 - `README.md`

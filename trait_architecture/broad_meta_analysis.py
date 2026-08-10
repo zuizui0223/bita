@@ -411,6 +411,12 @@ def _der_simonian_laird(estimates: list[EffectEstimate]) -> dict[str, float]:
     }
 
 
+def random_effects_pool(estimates: list[EffectEstimate]) -> dict[str, float]:
+    """Public DerSimonian-Laird pooling for one already-compatible effect set."""
+
+    return _der_simonian_laird(estimates)
+
+
 def _matches_stratum(row: dict[str, str], stratum: dict[str, str]) -> bool:
     return all(row.get(field, "") == stratum[field] for field in (
         "route", "trait_class", "outcome_class", "effect_metric", "design_class",

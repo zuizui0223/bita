@@ -76,3 +76,17 @@ Before the literature layer is described as stronger than abstract-level mechani
 - numerical effect and uncertainty, when recoverable.
 
 Until then, the abstract-coded direction map remains a transparent preliminary evidence layer rather than a parameter-validation result.
+
+## Relation to the declared empirical target
+
+This readout describes the preliminary layer only. The project's empirical target is separate and
+stricter: a quantitative meta-analysis, over multiple independent studies, of one constituent
+pathway of the three-channel balance, reporting both its realised direction and whether that
+direction is context dependent.
+
+That target is declared for the `D -> legitimate pollinator use` pathway feeding mutualist
+interference, with its stratum, moderators, thresholds, bridge assumption, and extraction rules
+pre-registered in `docs/IOTA_PATHWAY_EMPIRICAL_TARGET.md` and
+`iota_pathway/IOTA_PATHWAY_EXTRACTION_PROTOCOL_v1.md`. The three abstract-level direction records
+described above are the candidate seed for that stratum. They are not its result, and promoting
+them without full-text extraction would violate the declared protocol.

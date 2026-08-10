@@ -145,6 +145,15 @@ REQUIRED_ACTIVE_PATHS = [
     "empirical/broad_reality_evidence/LITERATURE_EVIDENCE_READOUT.md",
     "scripts/run_broad_meta_analysis.py",
     "scripts/validate_current_theory_meta.py",
+    # Declared constituent-pathway empirical target.
+    "docs/IOTA_PATHWAY_EMPIRICAL_TARGET.md",
+    "trait_architecture/context_dependence.py",
+    "scripts/run_context_dependence.py",
+    "empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_EXTRACTION_PROTOCOL_v1.md",
+    "empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_STATUS_READOUT_V1.md",
+    "empirical/broad_reality_evidence/iota_pathway/iota_moderator_registry.csv",
+    "empirical/broad_reality_evidence/iota_pathway/iota_moderator_coding.csv",
+    "empirical/broad_reality_evidence/iota_pathway/iota_reading_queue.csv",
 ]
 
 
