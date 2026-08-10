@@ -182,8 +182,12 @@ def main(argv: list[str] | None = None) -> int:
                 f"Recomputed as ln(mean_larcenist/mean_control) from deposited group means; "
                 f"{cluster_effect['source_row_count']} deposited effect(s) aggregated to one "
                 f"cluster effect at within-cluster correlation rho_w="
-                f"{args.within_cluster_correlation:g}. Secondary analysis of a deposited table; "
-                f"not an independent extraction from the primary article."
+                f"{args.within_cluster_correlation:g}. Experimental unit is the unit the source "
+                f"study reported n over; n_treatment/n_control are means across the constituent "
+                f"contrasts, which may share plants, so they are not summed. Secondary analysis "
+                f"of a deposited table; not an independent extraction from the primary article. "
+                f"Primary-study DOI unresolved: Crossref and OpenAlex are refused by this "
+                f"environment's egress policy, so no identifier is guessed."
             )
             effect_rows.append(declared_effect_row(
                 cluster_effect,

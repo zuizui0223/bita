@@ -267,6 +267,7 @@ def build_cluster_effects(
 
     audit_rows: list[dict[str, object]] = []
     usable: dict[str, list[tuple[str, float, float]]] = defaultdict(list)
+    group_sizes: dict[str, tuple[float, float]] = {}
 
     for contrast in contrasts:
         audit = verify_deposited_effect(contrast)
@@ -291,6 +292,7 @@ def build_cluster_effects(
             audit["handling"] = "included:recomputed_from_group_means"
         audit_rows.append(audit)
         usable[contrast.study_cluster_id].append((contrast.source_row_id, value, variance))
+        group_sizes[contrast.source_row_id] = (contrast.n_treatment, contrast.n_control)
 
     cluster_effects: list[dict[str, object]] = []
     for cluster, members in sorted(usable.items()):
@@ -300,12 +302,23 @@ def build_cluster_effects(
             [member[2] for member in members],
             correlation,
         )
+        # Experimental-unit counts are carried as metadata so the canonical row
+        # records sample size and not only its standard error. For a cluster
+        # aggregating several contrasts these are means across contrasts, not
+        # sums: the contrasts may share plants, so summing would overstate the
+        # units observed.
+        sizes = [group_sizes[row_id] for row_id, _, _ in members]
+        mean_treatment_n = sum(size[0] for size in sizes) / len(sizes)
+        mean_control_n = sum(size[1] for size in sizes) / len(sizes)
         cluster_effects.append({
             "study_cluster_id": cluster,
             "effect_value": value,
             "standard_error": math.sqrt(variance),
             "source_row_count": len(members),
             "source_row_ids": ";".join(member[0] for member in members),
+            "n_treatment": mean_treatment_n,
+            "n_control": mean_control_n,
+            "n_total": mean_treatment_n + mean_control_n,
         })
     return cluster_effects, audit_rows
 
@@ -338,9 +351,12 @@ def declared_effect_row(
         "effect_metric": stratum["effect_metric"],
         "effect_value": f"{cluster_effect['effect_value']:.10g}",
         "standard_error": f"{cluster_effect['standard_error']:.10g}",
-        "n_treatment": "", "n_control": "", "mean_treatment": "", "sd_treatment": "",
+        "n_treatment": f"{cluster_effect['n_treatment']:.10g}",
+        "n_control": f"{cluster_effect['n_control']:.10g}",
+        "n_total": f"{cluster_effect['n_total']:.10g}",
+        "mean_treatment": "", "sd_treatment": "",
         "mean_control": "", "sd_control": "", "event_treatment": "", "non_event_treatment": "",
-        "event_control": "", "non_event_control": "", "correlation_r": "", "n_total": "",
+        "event_control": "", "non_event_control": "", "correlation_r": "",
         "effect_orientation": ORIENTATION,
         "is_primary_effect": "true",
         "analysis_status": "eligible_for_quantitative_synthesis",
