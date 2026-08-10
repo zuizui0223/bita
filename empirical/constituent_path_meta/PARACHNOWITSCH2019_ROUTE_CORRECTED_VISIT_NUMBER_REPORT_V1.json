@@ -1,0 +1,11 @@
+{
+  "all_scenario_intervals_include_zero": true,
+  "article_doi": "10.1093/aob/mcy132",
+  "corrections": [
+    "Adler and Irwin: retain the audited 2004 natural-range year only.",
+    "Jones and Agrawal: retain the legitimate Bee row and exclude the Lepidoptera antagonist row.",
+    "Manson et al.: retain one study cluster and expose dose-row choice as sensitivity."
+  ],
+  "independent_papers": 3,
+  "interpretation_boundary": "This is an exploratory route-correction sensitivity for a defence-associated visit-number lane. It does not estimate iota or W_AD, and the Manson all-dose summary is diagnostic rather than a dependence-corrected canonical effect."
+}
