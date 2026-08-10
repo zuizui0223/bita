@@ -1,0 +1,13 @@
+scenario_id,moderator_name,clusters_per_level,level_contrast,between_cluster_sd,standard_error_low,standard_error_high,replicates,q_between_fixed_effect_rejection_rate,meta_regression_contrast_power,direction_reversal_detection_rate,estimable_fraction,design_verdict
+null_k3_tau0p00,dose_realism,3,0,0,0.1,0.3,2000,0.0535,0.0025,0.0005,1.0000,declared_design_cannot_answer
+null_k3_tau0p25,dose_realism,3,0,0.25,0.1,0.3,2000,0.2815,0.0350,0.0070,1.0000,declared_design_cannot_answer
+null_k3_tau0p50,dose_realism,3,0,0.5,0.1,0.3,2000,0.5335,0.0390,0.0135,1.0000,declared_design_cannot_answer
+null_k5_tau0p00,dose_realism,5,0,0,0.1,0.3,2000,0.0455,0.0135,0.0010,1.0000,declared_design_cannot_answer
+null_k5_tau0p25,dose_realism,5,0,0.25,0.1,0.3,2000,0.3065,0.0615,0.0095,1.0000,declared_design_cannot_answer
+null_k5_tau0p50,dose_realism,5,0,0.5,0.1,0.3,2000,0.5490,0.0470,0.0065,1.0000,declared_design_cannot_answer
+null_k8_tau0p00,dose_realism,8,0,0,0.1,0.3,2000,0.0435,0.0210,0.0015,1.0000,declared_design_cannot_answer
+null_k8_tau0p25,dose_realism,8,0,0.25,0.1,0.3,2000,0.3035,0.0605,0.0075,1.0000,declared_design_cannot_answer
+null_k8_tau0p50,dose_realism,8,0,0.5,0.1,0.3,2000,0.5960,0.0570,0.0050,1.0000,declared_design_cannot_answer
+null_k12_tau0p00,dose_realism,12,0,0,0.1,0.3,2000,0.0420,0.0255,0.0005,1.0000,declared_design_cannot_answer
+null_k12_tau0p25,dose_realism,12,0,0.25,0.1,0.3,2000,0.3130,0.0510,0.0040,1.0000,declared_design_cannot_answer
+null_k12_tau0p50,dose_realism,12,0,0.5,0.1,0.3,2000,0.5860,0.0480,0.0020,1.0000,declared_design_cannot_answer

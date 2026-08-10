@@ -97,8 +97,9 @@ SUBGROUP_OUTPUT_FIELDS = (
 )
 SUBGROUP_TEST_FIELDS = (
     "analysis_id", "stratum_id", "moderator_name", "moderator_type", "analysis_status",
-    "levels_analysed", "independent_clusters", "effect_count", "Q_between", "Q_between_df",
-    "Q_between_p_value", "context_dependence_verdict", "licensed_statement",
+    "levels_analysed", "independent_clusters", "effect_count", "Q_between_fixed_effect",
+    "Q_between_df", "Q_between_fixed_effect_p_value", "inferential_role",
+    "context_dependence_verdict", "licensed_statement",
 )
 META_REGRESSION_FIELDS = (
     "analysis_id", "stratum_id", "moderator_name", "moderator_type", "analysis_status",
@@ -421,7 +422,22 @@ def subgroup_analysis(
     effects: Sequence[ModeratedEffect],
     registry_row: dict[str, str],
 ) -> tuple[list[dict[str, object]], dict[str, object]]:
-    """Pool each declared level separately and test between-level heterogeneity."""
+    """Pool each declared moderator level separately, descriptively.
+
+    The classic between-level statistic ``Q_between`` is computed here from
+    fixed-effect weights, which treat all within-level scatter as sampling
+    noise. Simulation through this same code
+    (:mod:`trait_architecture.design_power`) shows the consequence: its
+    false-positive rate rises from 5% at zero between-cluster heterogeneity to
+    roughly 28% at tau = 0.25 and 55% at tau = 0.50 on the declared effect
+    scale. Any realistic value of tau for this literature therefore makes it
+    unusable as an inferential test.
+
+    It is retained as a descriptive partition of heterogeneity and explicitly
+    marked as such. The inferential verdict for a categorical moderator comes
+    from :func:`meta_regression`, whose contrast test is calibrated at or below
+    nominal size across the same simulations.
+    """
 
     analysis_id = registry_row["analysis_id"]
     stratum_id = registry_row["stratum_id"]
@@ -482,7 +498,9 @@ def subgroup_analysis(
     if len(analysable) < min_levels or len(all_clusters) < total_min:
         return level_rows, {
             **test_base, "analysis_status": "insufficient_moderator_capacity",
-            "Q_between": "", "Q_between_df": "", "Q_between_p_value": "",
+            "Q_between_fixed_effect": "", "Q_between_df": "",
+            "Q_between_fixed_effect_p_value": "",
+            "inferential_role": "descriptive_only_not_used_for_inference",
             "context_dependence_verdict": "not_evaluated",
         }
 
@@ -492,22 +510,14 @@ def subgroup_analysis(
     q_between = max(0.0, q_total - q_within)
     df = len(analysable) - 1
     p_value = chi_square_upper_p(q_between, df)
-    directions = {
-        row["pooled_direction"] for row in level_rows if row["level_status"] == "pooled_random_effects"
-    }
-    if p_value < 0.05 and len(directions) > 1:
-        verdict = "context_dependent_direction_reversal"
-    elif p_value < 0.05:
-        verdict = "context_dependent_magnitude_only"
-    else:
-        verdict = "no_detected_context_dependence"
     return level_rows, {
         **test_base,
         "analysis_status": "subgroup_random_effects",
-        "Q_between": f"{q_between:.10g}",
+        "Q_between_fixed_effect": f"{q_between:.10g}",
         "Q_between_df": df,
-        "Q_between_p_value": f"{p_value:.10g}",
-        "context_dependence_verdict": verdict,
+        "Q_between_fixed_effect_p_value": f"{p_value:.10g}",
+        "inferential_role": "descriptive_only_not_used_for_inference",
+        "context_dependence_verdict": "see_meta_regression_verdict",
     }
 
 
@@ -546,9 +556,36 @@ def _weighted_least_squares(
     return _matvec(inverse, xtwy), inverse
 
 
+def _sign_reversal_between_levels(level_rows: Sequence[dict[str, object]]) -> bool:
+    """True only when two pooled levels have opposite signs *and* exclude zero.
+
+    Requiring the confidence intervals to exclude zero is not decoration. With
+    a true level effect of exactly zero, pooled level directions differ by
+    chance about half the time, so a sign-only rule reports a direction
+    reversal in roughly a third of null simulations. Gating on the intervals
+    removes that failure mode.
+    """
+
+    signed: list[int] = []
+    for row in level_rows:
+        if row.get("level_status") != "pooled_random_effects":
+            continue
+        try:
+            low = float(row["ci_low"])
+            high = float(row["ci_high"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if low > 0:
+            signed.append(1)
+        elif high < 0:
+            signed.append(-1)
+    return 1 in signed and -1 in signed
+
+
 def meta_regression(
     effects: Sequence[ModeratedEffect],
     registry_row: dict[str, str],
+    level_summaries: Sequence[dict[str, object]] | None = None,
 ) -> tuple[list[dict[str, object]], dict[str, object]]:
     """Fit a random-effects meta-regression on one predeclared moderator.
 
@@ -712,10 +749,14 @@ def meta_regression(
 
     if not omnibus_estimable:
         verdict = "omnibus_moderator_test_not_estimable"
-    elif q_moderator_p < 0.05:
-        verdict = "moderator_changes_route_effect"
-    else:
+    elif q_moderator_p >= 0.05:
         verdict = "no_detected_context_dependence"
+    elif level_summaries is None:
+        verdict = "moderator_changes_route_effect"
+    elif _sign_reversal_between_levels(level_summaries):
+        verdict = "context_dependent_direction_reversal"
+    else:
+        verdict = "context_dependent_magnitude_only"
 
     model_row = {
         **model_base,
@@ -840,11 +881,12 @@ def run_context_dependence(
             registry_row["moderator_name"],
             registry_row["moderator_type"],
         )
+        levels: list[dict[str, object]] | None = None
         if registry_row["moderator_type"] == "categorical":
             levels, test = subgroup_analysis(effects, registry_row)
             subgroup_levels.extend(levels)
             subgroup_tests.append(test)
-        terms, model = meta_regression(effects, registry_row)
+        terms, model = meta_regression(effects, registry_row, levels)
         regression_terms.extend(terms)
         regression_models.append(model)
         influence.extend(leave_one_cluster_out(effects, registry_row["analysis_id"], stratum_id))

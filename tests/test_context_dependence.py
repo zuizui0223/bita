@@ -157,23 +157,28 @@ def test_collection_ignores_uncoded_and_out_of_stratum_effects() -> None:
 
 
 def _reversal_effects() -> list:
+    # Both levels are individually well separated from zero, which is what the
+    # direction-reversal verdict requires.
     effects = [
         effect_row(f"high-{index}", f"cluster-h{index}", -0.80, 0.10) for index in range(1, 4)
     ] + [
-        effect_row(f"natural-{index}", f"cluster-n{index}", 0.05, 0.10) for index in range(1, 4)
+        effect_row(f"natural-{index}", f"cluster-n{index}", 0.25, 0.05) for index in range(1, 4)
     ]
     coding = [coding_row(f"high-{index}", "above_natural_range") for index in range(1, 4)]
     coding += [coding_row(f"natural-{index}", "within_natural_range") for index in range(1, 4)]
     return collect_moderated_effects(effects, coding, IOTA_STRATUM, "dose_realism", "categorical")
 
 
-def test_subgroup_analysis_detects_a_designed_direction_reversal() -> None:
+def test_subgroup_analysis_pools_levels_but_issues_no_verdict() -> None:
     levels, test = subgroup_analysis(_reversal_effects(), registry_row())
 
     assert test["analysis_status"] == "subgroup_random_effects"
     assert test["levels_analysed"] == 2
-    assert float(test["Q_between_p_value"]) < 0.001
-    assert test["context_dependence_verdict"] == "context_dependent_direction_reversal"
+    assert float(test["Q_between_fixed_effect_p_value"]) < 0.001
+    # The fixed-effect Q_between rejects far too often under heterogeneity, so
+    # it is reported descriptively and never converted into a verdict here.
+    assert test["inferential_role"] == "descriptive_only_not_used_for_inference"
+    assert test["context_dependence_verdict"] == "see_meta_regression_verdict"
 
     by_level = {row["moderator_level"]: row for row in levels}
     assert by_level["above_natural_range"]["pooled_direction"] == "negative"
@@ -181,19 +186,31 @@ def test_subgroup_analysis_detects_a_designed_direction_reversal() -> None:
     assert math.isclose(float(by_level["above_natural_range"]["pooled_effect"]), -0.80, abs_tol=1e-9)
 
 
-def test_subgroup_analysis_reports_magnitude_only_context_dependence() -> None:
+def test_verdict_is_direction_reversal_only_when_both_levels_exclude_zero() -> None:
+    effects = _reversal_effects()
+    levels, _ = subgroup_analysis(effects, registry_row())
+
+    _, model = meta_regression(effects, registry_row(), levels)
+
+    assert model["context_dependence_verdict"] == "context_dependent_direction_reversal"
+
+
+def test_verdict_falls_back_to_magnitude_only_when_a_level_straddles_zero() -> None:
+    # The reference level is centred on zero with wide intervals, so its sign is
+    # not established even though the level contrast itself is large.
     effects_rows = [
         effect_row(f"high-{index}", f"cluster-h{index}", -0.80, 0.05) for index in range(1, 4)
     ] + [
-        effect_row(f"natural-{index}", f"cluster-n{index}", -0.20, 0.05) for index in range(1, 4)
+        effect_row(f"natural-{index}", f"cluster-n{index}", 0.02, 0.30) for index in range(1, 4)
     ]
     coding = [coding_row(f"high-{index}", "above_natural_range") for index in range(1, 4)]
     coding += [coding_row(f"natural-{index}", "within_natural_range") for index in range(1, 4)]
     effects = collect_moderated_effects(effects_rows, coding, IOTA_STRATUM, "dose_realism", "categorical")
+    levels, _ = subgroup_analysis(effects, registry_row())
 
-    _, test = subgroup_analysis(effects, registry_row())
+    _, model = meta_regression(effects, registry_row(), levels)
 
-    assert test["context_dependence_verdict"] == "context_dependent_magnitude_only"
+    assert model["context_dependence_verdict"] == "context_dependent_magnitude_only"
 
 
 def test_subgroup_analysis_withholds_verdict_below_declared_capacity() -> None:
@@ -222,9 +239,9 @@ def test_categorical_meta_regression_recovers_the_designed_level_contrast() -> N
     assert model["analysis_status"] == "random_effects_meta_regression"
     assert model["independent_clusters"] == 6
     by_term = {row["term"]: row for row in terms}
-    assert math.isclose(float(by_term["intercept"]["coefficient"]), 0.05, abs_tol=1e-9)
+    assert math.isclose(float(by_term["intercept"]["coefficient"]), 0.25, abs_tol=1e-9)
     contrast = by_term["level[above_natural_range]-vs-[within_natural_range]"]
-    assert math.isclose(float(contrast["coefficient"]), -0.85, abs_tol=1e-9)
+    assert math.isclose(float(contrast["coefficient"]), -1.05, abs_tol=1e-9)
     assert float(model["Q_moderator_p_value"]) < 0.001
     assert model["context_dependence_verdict"] == "moderator_changes_route_effect"
     assert contrast["standard_error_basis"] == "model_based_random_effects"
@@ -390,14 +407,15 @@ def test_run_context_dependence_executes_every_declared_analysis() -> None:
     effects_rows = [
         effect_row(f"high-{index}", f"cluster-h{index}", -0.80, 0.10) for index in range(1, 4)
     ] + [
-        effect_row(f"natural-{index}", f"cluster-n{index}", 0.05, 0.10) for index in range(1, 4)
+        effect_row(f"natural-{index}", f"cluster-n{index}", 0.25, 0.05) for index in range(1, 4)
     ]
     coding = [coding_row(f"high-{index}", "above_natural_range") for index in range(1, 4)]
     coding += [coding_row(f"natural-{index}", "within_natural_range") for index in range(1, 4)]
 
     tables = run_context_dependence(effects_rows, coding, [IOTA_STRATUM], [registry_row()])
 
-    assert tables["subgroup_tests"][0]["context_dependence_verdict"] == "context_dependent_direction_reversal"
+    assert tables["subgroup_tests"][0]["context_dependence_verdict"] == "see_meta_regression_verdict"
+    assert tables["meta_regression_models"][0]["context_dependence_verdict"] == "context_dependent_direction_reversal"
     assert tables["meta_regression_models"][0]["analysis_status"] == "random_effects_meta_regression"
     assert len(tables["influence"]) == 6
     assert tables["small_study"][0]["analysis_status"] == "withheld_below_declared_cluster_minimum"

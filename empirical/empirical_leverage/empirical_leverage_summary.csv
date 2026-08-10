@@ -1,0 +1,5 @@
+scenario_id,grid_points,settled_complementary,settled_substitutable,unsettled_by_interval,always_substitutable,always_complementary,settled_fraction
+low_tracking_low_obstruction_low_shared_cost,54,7,23,16,0,8,0.703704
+baseline,54,9,12,15,0,18,0.722222
+high_tracking_low_obstruction_low_shared_cost,54,11,0,10,0,33,0.814815
+high_obstruction_high_shared_cost,54,2,6,8,36,2,0.851852

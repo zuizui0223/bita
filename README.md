@@ -107,6 +107,21 @@ The extraction table is currently empty, so every declared moderator analysis re
 has been estimated yet. See
 `empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_STATUS_READOUT_V1.md`.
 
+Two properties of that design are established without data and bound what the extraction can
+deliver:
+
+- **Design power.** Simulating the declared design through the deployed code sets a declared
+  detectable effect: at 5 clusters per moderator level it reaches 80% power against a halving of
+  pollinator use, and does not reach it against a 30% shift. The fixed-effect `Q_between`
+  statistic is reported descriptively only — its false-positive rate reaches 0.60 under realistic
+  heterogeneity — and inference comes from the random-effects meta-regression contrast. See
+  `empirical/design_power/DECLARED_DESIGN_POWER_READOUT_V1.md`.
+- **Empirical leverage.** 97 of the 216 declared regime points are insensitive to `c_D`
+  altogether, and settling 80% of the remainder would need a `c_D` interval half-width of 0.20.
+  The pathway meta-analysis can therefore anchor one channel's direction and context dependence;
+  it cannot resolve the regime map. See
+  `empirical/empirical_leverage/EMPIRICAL_LEVERAGE_READOUT_V1.md`.
+
 ## Supplement structure
 
 ```text
@@ -161,6 +176,11 @@ python scripts/run_context_dependence.py \
   empirical/broad_reality_evidence/broad_meta_analysis_strata.csv \
   empirical/broad_reality_evidence/iota_pathway/iota_moderator_registry.csv \
   artifacts/supplement/iota_pathway
+
+python scripts/run_declared_design_power.py artifacts/supplement/design_power 2000
+
+python scripts/run_empirical_leverage.py \
+  configs/part_i_robustness_grid.json 0.45 0.25 artifacts/supplement/leverage
 ```
 
 The canonical committed Part I metadata are in:

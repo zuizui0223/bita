@@ -11,11 +11,13 @@ command in §3 after any change to the effect table or the moderator coding tabl
 | Compatibility stratum | `empirical/broad_reality_evidence/broad_meta_analysis_strata.csv` | `BP_chemical_pollinator_use_lrr_manipulation` declared |
 | Theory bridge | `docs/IOTA_PATHWAY_EMPIRICAL_TARGET.md` | bridge assumption B1 stated |
 | Extraction protocol | `IOTA_PATHWAY_EXTRACTION_PROTOCOL_v1.md` | pre-registered |
-| Moderator registry | `iota_moderator_registry.csv` | 4 analyses declared |
+| Moderator registry | `iota_moderator_registry.csv` | 4 analyses declared, primary thresholds raised to 5 clusters/level |
 | Moderator coding | `iota_moderator_coding.csv` | header only |
 | Reading queue | `iota_reading_queue.csv` | 15 candidates, none retrieved |
 | Pooled analysis | `trait_architecture/broad_meta_analysis.py` | implemented, tested |
 | Moderator analysis | `trait_architecture/context_dependence.py` | implemented, tested |
+| Design power | `trait_architecture/design_power.py` | simulated; thresholds revised |
+| Empirical leverage | `trait_architecture/empirical_leverage.py` | evaluated on the declared grid |
 
 ## 2. Current result
 
@@ -38,6 +40,27 @@ holds three independent primary clusters, all coded negative from Crossref-depos
 Three abstract-level direction codes are not a quantitative meta-analysis and do not satisfy the
 project's empirical target.
 
+## 2a. What the design can and cannot deliver
+
+Two analyses were run in place of the blocked extraction, because both are answerable without
+data and both change what the extraction should aim for.
+
+**Design power** (`empirical/design_power/DECLARED_DESIGN_POWER_READOUT_V1.md`). Simulating the
+declared design through the deployed code exposed two defects in the analysis committed earlier
+on this branch: the fixed-effect `Q_between` test rejects a true null up to 60% of the time under
+realistic heterogeneity, and the direction-reversal verdict fired on noise in 21-35% of null
+replicates. Both are fixed and guarded by tests. The corrected design reaches 80% power against a
+halving of pollinator use at 5 clusters per level, and cannot reach it against a 30% shift, so
+the primary moderator thresholds were raised from 3 to 5 and a declared detectable effect was
+added to the protocol.
+
+**Empirical leverage** (`empirical/empirical_leverage/EMPIRICAL_LEVERAGE_READOUT_V1.md`). Of the
+216 declared regime points, 97 are insensitive to `c_D` altogether — their sign is fixed by the
+other two channels. For the remainder, settling 80% of the sign classifications would need a
+`c_D` interval half-width of 0.20, which is out of reach at the cluster counts this literature
+plausibly supports. The empirical half of the project should therefore be stated as one channel's
+direction and context dependence, not as an empirically resolved complementarity map.
+
 ## 3. Reproduction
 
 ```bash
@@ -47,6 +70,11 @@ python scripts/run_context_dependence.py \
   empirical/broad_reality_evidence/broad_meta_analysis_strata.csv \
   empirical/broad_reality_evidence/iota_pathway/iota_moderator_registry.csv \
   artifacts/supplement/iota_pathway
+
+python scripts/run_declared_design_power.py artifacts/supplement/design_power 2000
+
+python scripts/run_empirical_leverage.py \
+  configs/part_i_robustness_grid.json 0.45 0.25 artifacts/supplement/leverage
 ```
 
 ## 4. The remaining blocker

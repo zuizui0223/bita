@@ -1,0 +1,18 @@
+{
+  "interpretation_boundary": "Detection rates are properties of the declared design and the deployed code under a declared generative model. They are not evidence about nature and do not estimate any route effect.",
+  "max_false_direction_reversal_rate": 0.0135,
+  "max_fixed_effect_q_between_false_positive_rate": 0.596,
+  "max_meta_regression_false_positive_rate": 0.0615,
+  "minimum_adequate_clusters_per_level": {
+    "contrast_-0.35_tau_0.0": 8,
+    "contrast_-0.35_tau_0.25": null,
+    "contrast_-0.35_tau_0.5": null,
+    "contrast_-0.69_tau_0.0": 3,
+    "contrast_-0.69_tau_0.25": 5,
+    "contrast_-0.69_tau_0.5": 12,
+    "contrast_-1.1_tau_0.0": 3,
+    "contrast_-1.1_tau_0.25": 3,
+    "contrast_-1.1_tau_0.5": 5
+  },
+  "replicates": 2000
+}

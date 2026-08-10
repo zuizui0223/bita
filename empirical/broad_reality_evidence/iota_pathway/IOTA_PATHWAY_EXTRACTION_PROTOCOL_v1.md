@@ -109,21 +109,47 @@ Coding is single-coder until a second coder is available. Every row carries `cod
 `coding_date`, and the `coding_status` field distinguishes `coded` from `needs_coding`, so the
 evidence level of the moderator layer is never overstated.
 
-## 7. Capacity thresholds
+## 7. Capacity thresholds and the declared detectable effect
 
 Fixed in advance and enforced by the code, not by judgement after the fact:
 
 ```text
-pooled stratum        3 independent clusters   exploratory
-                      5 independent clusters   stability eligible
-categorical moderator 2 levels, 3 clusters per level, 6 clusters total
-continuous moderator  4 distinct values, 8 clusters total
-Egger asymmetry test  10 independent clusters
+pooled stratum          3 independent clusters   exploratory
+                        5 independent clusters   stability eligible
+primary categorical     2 levels, 5 clusters per level, 10 clusters total
+  (dose_realism, assay_context)
+exploratory categorical 2 levels, 3 clusters per level, 6 clusters total
+  (pollinator_functional_group)
+continuous moderator    4 distinct values, 8 clusters total
+Egger asymmetry test    10 independent clusters
 ```
+
+The primary categorical thresholds were raised from 3 to 5 clusters per level after simulating
+this design through the deployed code (`empirical/design_power/DECLARED_DESIGN_POWER_READOUT_V1.md`).
+The declared detectable effect follows from that simulation:
+
+> At 5 clusters per level the design reaches 80% power against a level contrast of about 0.69 on
+> the log-response-ratio scale — a halving of pollinator use — when between-cluster heterogeneity
+> is moderate (`tau` = 0.25). It does **not** reach 80% power against a contrast of 0.35 at any
+> cluster count in the simulated range. A null result at these thresholds must therefore be
+> reported as "no context dependence detected at a design powered for a halving", never as
+> evidence that no context dependence exists.
 
 Below a threshold the analysis reports `insufficient_moderator_capacity` and no estimate. A
 withheld analysis is a result: it says the published record cannot answer the question at the
 declared resolution.
+
+## 7a. Which test carries the inference
+
+The fixed-effect `Q_between` statistic is computed and reported, but it is **descriptive only**.
+Simulation shows its false-positive rate rises to 0.60 under between-cluster heterogeneity of
+0.50, so it cannot support a verdict. Inference for a categorical moderator comes from the
+random-effects meta-regression contrast, whose false-positive rate stays at or below 0.062 across
+the same null grid.
+
+A `context_dependent_direction_reversal` verdict additionally requires both level intervals to
+exclude zero with opposite signs. A sign difference alone is not sufficient, because pooled level
+directions differ by chance roughly half the time when the true level effect is zero.
 
 ## 8. Analyses that will be run
 
@@ -138,8 +164,10 @@ Executed by `scripts/run_context_dependence.py` over the declared registry:
 5. Weighted Egger regression for funnel asymmetry, withheld below 10 clusters.
 
 The verdict vocabulary is fixed: `context_dependent_direction_reversal`,
-`context_dependent_magnitude_only`, `no_detected_context_dependence`,
-`omnibus_moderator_test_not_estimable`, `not_evaluated`.
+`context_dependent_magnitude_only`, `moderator_changes_route_effect` (continuous moderators),
+`no_detected_context_dependence`, `omnibus_moderator_test_not_estimable`, `not_evaluated`. Every
+verdict is issued on the meta-regression model row; the subgroup row carries
+`see_meta_regression_verdict`.
 
 ## 9. Current status and the retrieval blocker
 
@@ -164,6 +192,14 @@ The empirical half of the project's target is met when, for this stratum:
 - the pooled random-effects estimate and its heterogeneity are reported;
 - at least one declared moderator reaches capacity and returns a verdict, whichever verdict it is;
 - leave-one-cluster-out shows whether the pooled direction depends on a single cluster.
+
+The target is **direction and context dependence**, not a resolved regime map. The leverage
+analysis (`empirical/empirical_leverage/EMPIRICAL_LEVERAGE_READOUT_V1.md`) shows why: 45% of the
+declared regime grid is insensitive to `c_D` altogether, and settling 80% of the remainder would
+need a `c_D` interval half-width of 0.20, which is out of reach at the cluster counts this
+literature plausibly supports. Reaching the completion criterion above therefore anchors one
+channel's sign and its context dependence; it does not empirically resolve where the
+complementarity boundary lies.
 
 Reaching capacity is not required for the project to be reportable. If the published record
 cannot supply five clusters with recoverable uncertainty, the correct output is the withheld

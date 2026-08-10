@@ -100,6 +100,30 @@ The effect table currently holds no eligible rows, so all four declared moderato
 `insufficient_moderator_capacity` and the verdict `not_evaluated`. No pooled effect and no
 context-dependence verdict exists for this pathway yet.
 
+### Design adequacy and empirical leverage of that target
+
+Both questions are answerable without data and both constrain what the extraction should aim for.
+
+- `trait_architecture/design_power.py`, `scripts/run_declared_design_power.py`,
+  `tests/test_design_power.py`, `empirical/design_power/DECLARED_DESIGN_POWER_READOUT_V1.md`
+- `trait_architecture/empirical_leverage.py`, `scripts/run_empirical_leverage.py`,
+  `tests/test_empirical_leverage.py`,
+  `empirical/empirical_leverage/EMPIRICAL_LEVERAGE_READOUT_V1.md`
+
+Simulating the declared design through the deployed code showed that the fixed-effect `Q_between`
+statistic rejects a true null up to 60% of the time under realistic heterogeneity, so it is now
+reported descriptively and issues no verdict; inference comes from the random-effects
+meta-regression contrast, whose null rate stays at or below 0.062. The direction-reversal verdict
+now additionally requires both level intervals to exclude zero with opposite signs, which cut its
+null rate from 21–35% to at most 0.014. The primary moderator thresholds were raised from 3 to 5
+clusters per level, and the protocol carries a declared detectable effect.
+
+The leverage analysis shows that 97 of 216 declared regime points are insensitive to `c_D`
+altogether, and that settling 80% of the remainder needs a `c_D` interval half-width of 0.20 —
+out of reach at plausible cluster counts. The empirical half of the project is therefore scoped
+to one channel's direction and context dependence, not to an empirically resolved
+complementarity map.
+
 ## Boundary between theory and literature context
 
 - `README.md`

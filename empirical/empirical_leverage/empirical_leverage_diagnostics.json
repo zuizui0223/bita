@@ -1,0 +1,8 @@
+{
+  "grid_points": 216,
+  "interpretation_boundary": "This is a property of the declared corollary and the declared finite grid. It states which sign classifications a given precision on c_D would settle. It is not an estimate of c_D, not evidence about nature, and not a prevalence statement.",
+  "interval_high": 0.7,
+  "interval_low": 0.2,
+  "points_insensitive_to_c_D": 97,
+  "unsettled_points": 49
+}

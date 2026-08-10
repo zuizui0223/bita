@@ -154,6 +154,13 @@ REQUIRED_ACTIVE_PATHS = [
     "empirical/broad_reality_evidence/iota_pathway/iota_moderator_registry.csv",
     "empirical/broad_reality_evidence/iota_pathway/iota_moderator_coding.csv",
     "empirical/broad_reality_evidence/iota_pathway/iota_reading_queue.csv",
+    # Design adequacy and empirical leverage of that declared target.
+    "trait_architecture/design_power.py",
+    "scripts/run_declared_design_power.py",
+    "empirical/design_power/DECLARED_DESIGN_POWER_READOUT_V1.md",
+    "trait_architecture/empirical_leverage.py",
+    "scripts/run_empirical_leverage.py",
+    "empirical/empirical_leverage/EMPIRICAL_LEVERAGE_READOUT_V1.md",
 ]
 
 
