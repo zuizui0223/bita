@@ -4,108 +4,126 @@
 
 **Not ready for manuscript use. The manuscript remains frozen.**
 
-This readout records source-audited quantitative and source-complete evidence for the `B_to_pollination` constituent pathway and the current independent-study gates. It is an analysis checkpoint, not a manuscript result section.
+This readout records source-audited quantitative evidence for the `B_to_pollination` constituent pathway and the current independent-study gates. It is an analysis checkpoint, not a manuscript result section.
 
-## What was already supported before this extraction
+## Preference/choice lane: Gegear, Manson & Thomson 2007
 
-The current `main` directional registry contains a restricted manipulation stratum for flower chemical barriers and pollinator preference/foraging with several directional records, but the canonical quantitative effect table on `main` is empty. Historical branches also contain one observational `Impatiens capensis` floral-tannin coefficient. These records are inputs for re-audit, not a completed meta-analysis.
+DOI: `10.1111/j.1461-0248.2007.01027.x`
 
-## Preference/choice lane: Baracchi et al. 2017
+The author-hosted primary PDF is recovered and Table 1/Table 2 provide five bee-level choice assays. The study uses the same `Gelsemium sempervirens` nectar-defence system linked to Adler and Irwin and therefore passes the linked-primary B-role gate.
+
+Effects are re-oriented so negative values mean that the higher-gelsemine option received fewer visits:
+
+| Assay | Reward contrast | Hedges g | Approx. 95% CI |
+|---|---|---:|---:|
+| 1A | 0 vs 50 ng/uL; 30% sucrose in both | -2.060 | -3.028 to -1.091 |
+| 1B | 0 vs 50 ng/uL; 50% sucrose in both | -0.707 | -1.334 to -0.080 |
+| 1C | 0 vs 5 ng/uL; 30% sucrose in both | -1.472 | -2.404 to -0.540 |
+| 2 | 0 ng/uL at 30% sucrose vs 50 ng/uL at 50% sucrose | +0.041 | -0.504 to +0.587 |
+| 3 | 50 vs 125 ng/uL; 30% sucrose in both | -2.120 | -3.314 to -0.925 |
+
+All five rows are dependent effects from one study cluster. Equal-sugar assays show strong deterrence, whereas increasing sugar in the higher-gelsemine option removes the preference difference. The source therefore supports a conditional defence-to-pollinator-use route, not a fixed negative trait effect.
+
+No single primary Gegear contrast is selected after inspecting the results. The reported tests used arcsine-transformed proportions, so cross-study metric compatibility also remains to be fixed.
+
+## Preference/choice context outside the strict B pool: Baracchi et al. 2017
 
 DOI: `10.1038/s41598-017-01980-1`
 
-The source reports a controlled bumblebee preference experiment with 20 bees per nicotine concentration and 100 consecutive choices per bee. The experimental unit is the bee, not the individual choice. The three dose groups belong to **one independent study cluster**.
+The source reports a controlled bumblebee preference experiment with 20 bees per nicotine concentration and 100 consecutive choices per bee. The three dose groups belong to one independent study cluster.
 
-The source directly reports one-sample t statistics against the neutral 50% choice benchmark (`t=5.3`, `0.96`, and `-6.1`, each with `df=19`). Preliminary standardized effects are reconstructed from those reported t statistics rather than rounded mean±SEM values.
+| Nicotine dose | Source context | Preliminary Hedges g vs 50% | Approx. 95% CI | Direction |
+|---|---|---:|---:|---|
+| 1 ppm | low natural range | +1.138 | +0.583 to +1.693 | preference for higher-nicotine option |
+| 2.5 ppm | high natural range | +0.206 | -0.220 to +0.632 | near-neutral |
+| 50 ppm | supra-natural | -1.309 | -1.901 to -0.718 | deterrence by higher-nicotine option |
 
-| Nicotine dose | Source context | Mean preference | Reported t | Preliminary Hedges g vs 50% | Approx. 95% CI | Direction |
-|---|---|---:|---:|---:|---:|---|
-| 1 ppm | low natural range | 55.65% | 5.3 | +1.138 | 0.580 to 1.697 | preference for higher-nicotine option |
-| 2.5 ppm | high natural range | 51.05% | 0.96 | +0.206 | -0.219 to 0.632 | near-neutral |
-| 50 ppm | supra-natural | 41.35% | -6.1 | -1.309 | -1.900 to -0.718 | deterrence by higher-nicotine option |
+Baracchi is not primary-pool eligible because its focal experiment does not itself establish the required flower-specific antagonist-reduction role for nicotine. It remains quantitative concentration-dependent context.
 
-The important biological feature is not a single pooled sign. Within one study, nicotine changes from positive preference at low natural concentration to approximately neutral at the higher natural-range treatment and negative preference at a supra-natural treatment.
-
-The Baracchi study is **not primary-pool eligible** under the strict focal-trait rule. It demonstrates a flower-chemistry-to-pollinator response, but its focal experiment does not itself establish the required flower-specific antagonist-reduction role for nicotine. It remains a quantitative context study, not a strict `B` effect.
-
-## Manipulated visitation lane: Adler & Irwin 2005
+## Manipulated field visitation: Adler & Irwin 2005
 
 DOI: `10.1890/05-0118`
 
-This study passes the strict role gate more directly. The authors experimentally manipulated gelsemine as a nectar defence and measured both nectar robbers and pollinators in the same `Gelsemium sempervirens` field system. High gelsemine altered robber and pollinator behaviour, so the source itself establishes the defence/interference conflict rather than requiring a defensive label to be imported from another system.
+The authors experimentally manipulated gelsemine as nectar defence and measured nectar robbers and pollinators in the same field system.
 
-The total-pollinator-visit response can be reconstructed as a log response ratio from source-reported means, SEs, randomization, and reported deaths.
-
-| Year | Dose context | High gelsemine | Low gelsemine | lnRR high/low | Approx. 95% CI | Primary status |
+| Year | Dose context | High gelsemine | Low gelsemine | lnRR high/low | Approx. 95% CI | Status |
 |---|---|---:|---:|---:|---:|---|
-| 2002 | supra-natural | 8.9 ± 1.0 visits, n=40 | 11.4 ± 1.1 visits, n=40 | -0.248 | -0.538 to 0.043 | within-study sensitivity |
-| 2004 | natural range | 1.71 ± 0.25 visits, n=38 | 2.00 ± 0.31 visits, n=37 | -0.157 | -0.574 to 0.261 | primary visitation effect |
+| 2002 | supra-natural | 8.9 ± 1.0 visits, n=40 | 11.4 ± 1.1 visits, n=40 | -0.248 | -0.538 to +0.043 | within-study sensitivity |
+| 2004 | natural range | 1.71 ± 0.25 visits, n=38 | 2.00 ± 0.31 visits, n=37 | -0.157 | -0.574 to +0.261 | primary visitation effect |
 
-The natural-range 2004 effect is retained as the primary effect for this independence cluster. The 2002 effect is retained but not counted as separate replication. Proportion of flowers probed, residence time, and pollen-analogue transfer remain separate outcome lanes.
+The 2004 effect is the primary row for this independence cluster. Residence time, proportion probed and pollen transfer remain separate outcomes.
+
+## Route-corrected 2019 visit-number sensitivity
+
+The broad 2019 outcome-lane reconstruction initially yielded three papers and a negative mean (`g=-0.315`, 95% CI `-0.592` to `-0.038`). That paper-level estimate mixed the Adler supra-natural year, the Jones Lepidoptera antagonist response and four Manson doses.
+
+After retaining Adler 2004, retaining only the Jones Bee row and exposing Manson's 0.1, 1, 2 and 4 ug/uL contrasts separately, every three-paper interval includes zero:
+
+| Manson contrast | Random-effects Hedges g | 95% CI | I² |
+|---|---:|---:|---:|
+| 0.1 vs 0 ug/uL | +0.030 | -0.218 to +0.279 | 0.0% |
+| 1 vs 0 ug/uL | -0.183 | -0.456 to +0.090 | 15.6% |
+| 2 vs 0 ug/uL | -0.307 | -0.882 to +0.269 | 80.4% |
+| 4 vs 0 ug/uL | -0.354 | -1.037 to +0.328 | 86.0% |
+
+The primary source reports no behavioural difference at 0, 0.1 and 1 ug/uL and strong reductions at 2 and 4 ug/uL. The corrected synthesis therefore supports dose-dependent heterogeneity, not a stable universal negative visit-number mean.
+
+This three-paper lane is defence-associated rather than a canonical strict-B pool because Manson does not identify same-system antagonist reduction and the studies remain heterogeneous in assay structure.
 
 ## Strict-B observational source: Barlow et al. 2017
 
 DOI: `10.1016/j.cub.2017.07.012`
 
-This is currently the strongest source-level demonstration of the exact biological conflict. In `Aconitum`, nectar alkaloids deter nectar-robbing `Bombus terrestris` at substantially lower concentrations than those tolerated by the legitimate pollinator `Bombus hortorum`, while field pollinator visitation declines with increasing nectar alkaloid concentration. The source explicitly concludes that nectar toxins function as defence against robbery but can impose a cost through fewer pollinator visits.
-
-The field pollinator relationship is observational rather than a high/low manipulation, so it is **not pooled with the Adler manipulation lnRR**. The accepted manuscript reports `n=12`, adjusted `R²=0.27`, and `F=5.8` for the negative total-alkaloid–pollinator-visitation model, and the article identifies public Figshare data (`10.6084/m9.figshare.5165350`). Raw-data recovery remains the preferred route before fixing a standardized association effect.
+In `Aconitum`, nectar alkaloids deter nectar-robbing `Bombus terrestris` at lower concentrations than those tolerated by the legitimate pollinator `Bombus hortorum`, while field pollinator visitation declines with increasing alkaloid concentration. The field relationship is observational and is not pooled with manipulation effects. The accepted manuscript reports `n=12`, adjusted `R²=0.27` and `F=5.8`; raw Figshare data remain the preferred route to a fixed standardized association.
 
 ## Current pooling gates
 
 ```text
+strict-B preference/choice lane:
+    source-complete independent clusters:       1  (Gegear 2007)
+    dependent numerical effect rows:            5
+    single primary contrast fixed:              no
+    status:                                     NOT POOLABLE
+
 strict-B manipulation visitation lane:
     source-complete independent clusters:       1  (Adler & Irwin 2005)
     primary pool-eligible independent clusters: 1
-    exploratory threshold:                      3
-    stability threshold:                        5
     status:                                     NOT POOLABLE
+
+defence-associated route-corrected visit-number lane:
+    independent papers:                         3
+    exploratory threshold:                      reached
+    stable direction after route correction:    no
+    canonical strict-B status:                  no
 
 strict-B observational visitation lane:
     source-complete independent clusters:       1  (Barlow et al. 2017)
-    primary pool-eligible independent clusters: 0 until raw association effect is fixed
-    status:                                     NOT POOLABLE
-
-preference/choice lane:
-    numerical independent clusters:             1  (Baracchi et al. 2017)
-    strict-B primary pool-eligible clusters:     0
+    fixed raw association effect:               pending
     status:                                     NOT POOLABLE
 ```
 
 ## Why outcome lanes remain separate
 
-Source auditing now gives a direct reason not to create a generic `pollinator response` meta-analysis. Kessler & Baldwin (2007), for example, report that nectar repellents decrease nectaring time and nectar volume removed but can increase visit number. Adler & Irwin (2005) likewise separate total visits, proportion probed, residence time, and pollen-analogue transfer. These constructs are therefore not silently combined.
-
-Separate lanes remain:
-
-- binary preference/choice;
-- visitation rate/count;
-- residence time or consumption;
-- pollen transfer;
-- reproductive outcome;
-- learning/memory or physiological performance.
+The source audit gives a direct reason not to create one generic `pollinator response` meta-analysis. Visit frequency, choice proportion, residence time, nectar consumption, pollen transfer, reproduction and learning can move in different directions within the same study. They remain separate lanes.
 
 ## High-priority next recovery queue
 
-1. **Gegear et al. 2007, `Gelsemium sempervirens`** — obtain numerical choice/visitation contrasts while preserving alternative-flower context.
-2. **Jones, Warburton & Martin 2023** — recover the listed supporting CSV and extract natural-range ouabain choice effects without figure digitization.
-3. **Villalona et al. 2020** — recover species-specific choice effects while retaining bee species as dependent effects within one study.
-4. **Barlow et al. 2017 Figshare data** — recover raw field visitation/alkaloid data to fix the exact standardized association rather than infer it from rounded model statistics.
-5. **Kessler & Baldwin 2007** — retain as a same-source defence/filter case, but separate visitation frequency from residence/consumption and verify the compound-specific antagonist link before primary pooling.
-6. **Jones & Agrawal 2016** — audit the same-system mutualist-bee and antagonist-butterfly responses for compatible direct `B_to_P` and `B_to_H` effects.
-
-Parachnowitsch, Manson & Sletvold (2019; doi:10.1093/aob/mcy132) remains a verified external benchmark. It reports a meta-analysis in which nectar secondary metabolites generally reduced pollinator preference while explicitly noting concentration dependence and positive/neutral low-dose responses. Its study-level effects are useful for source recovery but must be re-audited against the stricter `B`-role, outcome-lane, and independence rules here before reuse.
+1. **Jones, Warburton & Martin 2023** — recover the supporting data or an exact model contrast for natural-range ouabain choice/consumption.
+2. **Villalona et al. 2020** — convert the source-reported dose-by-species model results into one dependence-aware study record if a common preference contrast can be recovered.
+3. **Köhler, Pirk & Nicolson 2012** — identify one source-supported primary feeding contrast without counting dose-by-sugar rows as replication.
+4. **Barlow et al. 2017** — recover the Figshare field data to fix the observational association.
+5. **Kessler & Baldwin 2007** — keep visit number separate from residence and consumption and retain only compound-specific defence-linked outcomes.
 
 ## Current scientific interpretation
 
-The current source audit now supports three distinct statements without overclaiming:
+The current source audit supports three statements:
 
-1. a strict flower-defence-to-pollinator interference conflict is demonstrably real in at least some systems (Adler & Irwin 2005; Barlow et al. 2017);
-2. the sign and magnitude of pollinator response are context- and concentration-dependent, and different pollinator-response constructs can move in opposite directions;
-3. the repository still lacks enough independent, effect-compatible strict-B studies for a quantitative pooled estimate under its existing thresholds.
+1. a flower-defence-to-pollinator conflict is demonstrably real in some systems;
+2. its observed sign and magnitude depend on concentration, alternative reward quality, pollinator-response construct and route coding;
+3. the repository still lacks enough independent, effect-compatible strict-B studies for a stable pooled estimate.
 
 These observations are consistent with the fixed conditional theory, but they do not estimate `iota`, `rho`, `kappa`, or the full `W_AD` criterion.
 
 ## Manuscript decision
 
-No manuscript text, manuscript figures, journal framing, or submission materials should be updated from this readout. Return to manuscript work only after `ANALYSIS_COMPLETION_GATE.md` is satisfied.
+No manuscript text, manuscript figures, journal framing or submission materials are updated. Return to manuscript work only after `ANALYSIS_COMPLETION_GATE.md` is satisfied.
