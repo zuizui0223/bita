@@ -1,0 +1,26 @@
+{
+  "article_doi": "10.1007/s00442-020-04701-0",
+  "article_title": "The role of toxic nectar secondary compounds in driving differential bumble bee preferences for milkweed flowers",
+  "github_actions_artifact": {
+    "artifact_id": 9079986537,
+    "artifact_name": "villalona2020-sources",
+    "workflow_run_id": 31433342111,
+    "workflow_conclusion": "success"
+  },
+  "recovered_source": {
+    "filename": "villalona2020_esm1.docx",
+    "publisher_url": "https://static-content.springer.com/esm/art%3A10.1007%2Fs00442-020-04701-0/MediaObjects/442_2020_4701_MOESM1_ESM.docx",
+    "bytes": 599716,
+    "sha256": "e65bfacb6359a94143d2bb8280fcf51550232e6a6abf99a7c4c829b62d9ce815",
+    "paragraphs": 61,
+    "tables": 4,
+    "inline_images": 3,
+    "rendered_pages": 7
+  },
+  "relevant_content": [
+    "Table S3: measured Asclepias syriaca nectar cardenolide concentrations",
+    "Table S4: species-specific ANOVA and Tukey results for three consumption-choice trials",
+    "Table S5: species-specific survival comparisons across ouabain doses"
+  ],
+  "interpretation_boundary": "The supplement provides source-complete model and post-hoc results but not the group means and uncertainty needed for a common cross-study effect. No Villalona row is promoted to the canonical meta-analysis from omnibus F tests alone."
+}
