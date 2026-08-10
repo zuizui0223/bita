@@ -1,0 +1,6 @@
+parameter,channel,relative_half_width,grid_points,prior_sensitive_fraction,settled_fraction,value_of_information,rank
+attraction_tracking,antagonist_relief_rho,0.25,2592,0.862269,0.854938,0.717207,1
+attraction_defence_shared_cost,direct_joint_cost_kappa,0.25,2592,0.611883,0.932099,0.543981,2
+floral_defence_efficacy,antagonist_relief_rho,0.25,2592,0.670910,0.856867,0.527778,3
+defence_pollinator_cost,mutualist_interference_iota,0.25,2592,0.553241,0.926312,0.479552,4
+attraction_gain,mutualist_interference_iota,0.25,2592,0.508873,0.909336,0.418210,5

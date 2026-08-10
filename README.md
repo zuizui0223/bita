@@ -121,6 +121,14 @@ deliver:
   The pathway meta-analysis can therefore anchor one channel's direction and context dependence;
   it cannot resolve the regime map. See
   `empirical/empirical_leverage/EMPIRICAL_LEVERAGE_READOUT_V1.md`.
+- **Channel value of information.** Ranking every parameter of the three-channel balance by how
+  much of the declared grid its measurement would settle puts `c_D` **fourth of five**. The
+  leading parameter is `attraction_tracking` — how strongly floral antagonists track the focal
+  attraction trait — in the antagonist-relief channel, and it leads in all four response-shape
+  variants. The declared target stands, because it is the only channel with a manipulative
+  literature that measures the channel directly, but the tractable channel is not the decisive
+  one and the repository says so. See
+  `empirical/channel_leverage/CHANNEL_LEVERAGE_READOUT_V1.md`.
 
 ## Supplement structure
 
@@ -181,6 +189,9 @@ python scripts/run_declared_design_power.py artifacts/supplement/design_power 20
 
 python scripts/run_empirical_leverage.py \
   configs/part_i_robustness_grid.json 0.45 0.25 artifacts/supplement/leverage
+
+python scripts/run_channel_leverage.py \
+  configs/part_i_robustness_grid.json artifacts/supplement/channel_leverage 0.25
 ```
 
 The canonical committed Part I metadata are in:

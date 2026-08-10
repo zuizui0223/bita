@@ -11,6 +11,7 @@ on:
       - "scripts/run_context_dependence.py"
       - "scripts/run_declared_design_power.py"
       - "scripts/run_empirical_leverage.py"
+      - "scripts/run_channel_leverage.py"
       - "scripts/validate_current_theory_meta.py"
       - "trait_architecture/model.py"
       - "trait_architecture/robustness.py"
@@ -19,6 +20,7 @@ on:
       - "trait_architecture/context_dependence.py"
       - "trait_architecture/design_power.py"
       - "trait_architecture/empirical_leverage.py"
+      - "trait_architecture/channel_leverage.py"
       - "trait_architecture/theory_meta_validation.py"
       - "empirical/broad_reality_evidence/broad_route_records.csv"
       - "empirical/broad_reality_evidence/broad_effect_extractions.csv"
@@ -66,7 +68,9 @@ jobs:
             tests/test_context_dependence.py \
             tests/test_iota_pathway_declaration.py \
             tests/test_design_power.py \
-            tests/test_empirical_leverage.py
+            tests/test_empirical_leverage.py \
+            tests/test_channel_leverage.py \
+            tests/test_committed_channel_leverage_current.py
 
       - name: Reproduce Part I sensitivity analysis
         run: |

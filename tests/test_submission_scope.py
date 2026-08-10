@@ -161,6 +161,10 @@ REQUIRED_ACTIVE_PATHS = [
     "trait_architecture/empirical_leverage.py",
     "scripts/run_empirical_leverage.py",
     "empirical/empirical_leverage/EMPIRICAL_LEVERAGE_READOUT_V1.md",
+    "trait_architecture/channel_leverage.py",
+    "scripts/run_channel_leverage.py",
+    "empirical/channel_leverage/CHANNEL_LEVERAGE_READOUT_V1.md",
+    "empirical/channel_leverage/channel_leverage_ranking.csv",
 ]
 
 

@@ -124,6 +124,19 @@ out of reach at plausible cluster counts. The empirical half of the project is t
 to one channel's direction and context dependence, not to an empirically resolved
 complementarity map.
 
+### Which channel is worth measuring
+
+- `trait_architecture/channel_leverage.py`, `scripts/run_channel_leverage.py`,
+  `tests/test_channel_leverage.py`, `tests/test_committed_channel_leverage_current.py`,
+  `empirical/channel_leverage/CHANNEL_LEVERAGE_READOUT_V1.md`
+
+Ranking every parameter of the three-channel balance by how much of the declared grid its
+measurement would settle places `c_D` fourth of five. `attraction_tracking` leads, in all four
+endpoint-normalized response-shape variants. The declared target is retained on feasibility
+grounds — it is the only channel with a manipulative literature that measures the channel
+directly — but the repository states plainly that the tractable channel is not the decisive one,
+and records `d_A` in the `A_to_antagonism` route as the highest-leverage next target.
+
 ## Boundary between theory and literature context
 
 - `README.md`

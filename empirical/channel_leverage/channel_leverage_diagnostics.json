@@ -1,0 +1,37 @@
+{
+  "declared_prior_ranges": {
+    "attraction_defence_shared_cost": [
+      0.0,
+      1.0
+    ],
+    "attraction_gain": [
+      0.0,
+      3.0
+    ],
+    "attraction_tracking": [
+      0.0,
+      3.0
+    ],
+    "defence_pollinator_cost": [
+      0.0,
+      3.0
+    ],
+    "floral_defence_efficacy": [
+      0.0,
+      1.0
+    ]
+  },
+  "declared_target_parameter": "defence_pollinator_cost",
+  "declared_target_rank": 4,
+  "interpretation_boundary": "Value of information is a property of the declared corollary, the declared finite grid, and the declared prior ranges. It ranks which measurement would change sign classifications. It estimates no parameter and says nothing about nature.",
+  "parameters_evaluated": [
+    "attraction_defence_shared_cost",
+    "attraction_gain",
+    "attraction_tracking",
+    "defence_pollinator_cost",
+    "floral_defence_efficacy"
+  ],
+  "ranking_relative_half_width": 0.25,
+  "top_channel": "antagonist_relief_rho",
+  "top_parameter": "attraction_tracking"
+}
