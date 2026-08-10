@@ -61,18 +61,37 @@ channel does not scale. It can confirm a specific known deposit. It cannot assem
 
 ## 4. What would unblock the extraction
 
-In rough order of directness:
+The four candidate routes were checked rather than listed, and they are not equally live.
 
-1. **Widen the environment's network policy** to permit the bibliographic and data-repository
-   hosts listed in section 1. This is chosen when the execution environment is created and is
-   documented at https://code.claude.com/docs/en/claude-code/claude-code-on-the-web. This is the
-   only change that restores large-scale retrieval.
-2. **Authorize the pending connector.** One MCP server in this session is unauthenticated and
-   cannot be authorized from a non-interactive session; if it provides literature or document
-   access, authorizing it may open a retrieval route.
-3. **Supply the sources directly.** Full texts, supplementary tables, or deposited datasets placed
-   in the repository can be extracted under the declared protocol with no network at all.
-4. **Run retrieval where the network is open** and commit the extracted rows.
+**Route A — enable the PubMed connector in this chat. Live, and by far the cheapest.**
+A PubMed MCP connector is already installed for this account, requires no OAuth
+(`isAuthless: true`), and exposes `search_articles`, `get_article_metadata`,
+`find_related_articles`, `lookup_article_by_citation`, `convert_article_ids`,
+`get_full_text_article`, and `get_copyright_status`. It is simply toggled off for this
+conversation (`enabledInChat: false`), so its tools are not loaded. Turning it on in the chat's
+connector settings restores declared-query candidate discovery, screening, and open-access full
+text **without any change to the network policy**, because connector traffic does not traverse
+this session's egress proxy. The pre-registered search strategy that would then execute is in
+`empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_SEARCH_STRATEGY_v1.md`.
+
+**Route B — widen the environment's network policy.** Permitting the bibliographic and
+data-repository hosts in section 1 is the only change that restores *everything*, including Dryad
+and Zenodo deposits that no literature connector can reach. The policy is chosen when the
+execution environment is created and is documented at
+https://code.claude.com/docs/en/claude-code/claude-code-on-the-web. This is the route for the
+declared target stratum specifically, whose manipulative literature deposits to Dryad.
+
+**Route C — authorize the pending connector. Dead end.** The unauthenticated MCP server in this
+session is Canva. It has no bearing on literature retrieval, and authorizing it would not help.
+
+**Route D — run retrieval in another environment. Not available.** The account has exactly one
+environment (`rach`, Anthropic cloud). Egress policy is a property of the environment, so a
+session spawned there inherits the same denials; there is no second environment with a different
+policy to move the work to.
+
+**Route E — supply the sources directly.** Full texts, supplementary tables, or deposited datasets
+placed in the repository can be extracted under the declared protocol with no network at all.
+This remains available regardless of the others.
 
 ## 5. Boundary
 

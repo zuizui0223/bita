@@ -27,6 +27,14 @@ records are screened into `BP_physical_visitation_lrr_manipulation` and are anal
 if and only if that stratum independently reaches capacity. Trait classes are never merged to
 manufacture capacity.
 
+## 1a. Search strategy
+
+How candidates are found is declared separately, before the search runs, in
+`IOTA_PATHWAY_SEARCH_STRATEGY_v1.md`: the databases, the exact query strings for this stratum
+and for the highest-leverage `d_A` route, the limits, the supplementary searching, the
+screening counts to record, and the coverage limitation the available database imposes. This
+document covers what happens to a candidate once found.
+
 ## 2. Inclusion criteria
 
 A record enters the quantitative layer only when all of the following hold.

@@ -150,6 +150,7 @@ REQUIRED_ACTIVE_PATHS = [
     "trait_architecture/context_dependence.py",
     "scripts/run_context_dependence.py",
     "empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_EXTRACTION_PROTOCOL_v1.md",
+    "empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_SEARCH_STRATEGY_v1.md",
     "empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_STATUS_READOUT_V1.md",
     "empirical/broad_reality_evidence/iota_pathway/iota_moderator_registry.csv",
     "empirical/broad_reality_evidence/iota_pathway/iota_moderator_coding.csv",
