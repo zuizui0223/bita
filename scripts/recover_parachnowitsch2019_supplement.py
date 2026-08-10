@@ -17,6 +17,7 @@ import html
 import io
 import json
 import re
+import subprocess
 import tarfile
 import urllib.parse
 import urllib.request
@@ -38,22 +39,60 @@ FALLBACK_XLSX = (
     "https://oup.silverchair-cdn.com/oup/backfile/Content_public/Journal/aob/123/2/"
     "10.1093_aob_mcy132/1/mcy132_suppl_aob-18212-s03.xlsx"
 )
-USER_AGENT = "bita-source-recovery/1.1 (+https://github.com/zuizui0223/bita)"
+USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 bita-source-recovery/1.2"
+
+
+def _request_with_curl(url: str, *, referer: str | None = None) -> bytes:
+    command = [
+        "curl",
+        "--fail",
+        "--location",
+        "--silent",
+        "--show-error",
+        "--compressed",
+        "--retry",
+        "3",
+        "--connect-timeout",
+        "20",
+        "--max-time",
+        "120",
+        "--user-agent",
+        USER_AGENT,
+        "--header",
+        (
+            "Accept: text/html,application/xhtml+xml,application/xml,application/gzip,"
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,*/*"
+        ),
+    ]
+    if referer:
+        command.extend(["--referer", referer])
+    command.append(url)
+    completed = subprocess.run(command, check=False, capture_output=True)
+    if completed.returncode != 0:
+        error = completed.stderr.decode("utf-8", errors="replace").strip()
+        raise RuntimeError(f"curl exit {completed.returncode}: {error}")
+    return completed.stdout
 
 
 def _request(url: str, *, referer: str | None = None) -> bytes:
-    headers = {
-        "User-Agent": USER_AGENT,
-        "Accept": (
-            "text/html,application/xhtml+xml,application/xml,application/gzip,"
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,*/*"
-        ),
-    }
-    if referer:
-        headers["Referer"] = referer
-    request = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(request, timeout=60) as response:
-        return response.read()
+    # PMC currently serves a browser proof-of-work page to urllib-style clients.
+    # curl is attempted first because it follows the supported attachment route
+    # without treating that HTML challenge as the source file.
+    try:
+        return _request_with_curl(url, referer=referer)
+    except (FileNotFoundError, RuntimeError):
+        headers = {
+            "User-Agent": USER_AGENT,
+            "Accept": (
+                "text/html,application/xhtml+xml,application/xml,application/gzip,"
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,*/*"
+            ),
+        }
+        if referer:
+            headers["Referer"] = referer
+        request = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(request, timeout=60) as response:
+            return response.read()
 
 
 def _candidate_links(page_url: str, body: bytes) -> list[str]:
