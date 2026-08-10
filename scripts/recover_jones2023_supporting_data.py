@@ -82,6 +82,14 @@ def candidate_urls(filename: str) -> list[tuple[str, str | None]]:
         candidates.extend(
             [
                 (
+                    f"https://{host}/doi/suppl/{DOI}/supinfo/{filename}",
+                    article_url,
+                ),
+                (
+                    f"https://{host}/doi/supinfo/{DOI}/{filename}",
+                    article_url,
+                ),
+                (
                     f"https://{host}/action/downloadSupplement?doi={encoded_doi}&file={encoded_file}",
                     article_url,
                 ),
