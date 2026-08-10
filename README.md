@@ -111,6 +111,11 @@ environment. The shortfall is access, not the size of the literature. See
 `empirical/broad_reality_evidence/iota_pathway/IOTA_PATHWAY_FEASIBILITY_V1.md` and
 `IOTA_PATHWAY_STATUS_READOUT_V1.md`.
 
+The constraint is a property of the web execution environment, not of this repository. On a
+machine with ordinary network access the pipeline runs end to end: `docs/LOCAL_EXECUTION_RUNBOOK.md`
+gives the path from clone to pooled estimate, and `scripts/fetch_declared_search.py` executes the
+declared query against Europe PMC **undecomposed**, since that API imposes no boolean-operator cap.
+
 Nothing else in this repository is a substitute for those effect sizes. The search log, screening
 decisions, exclusion classification, design power analysis, and value-of-information ranking are
 preparatory or diagnostic, and must not be reported as partial progress toward a pooled estimate.
