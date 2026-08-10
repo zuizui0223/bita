@@ -46,11 +46,12 @@ exclude_from_c_D_flag_for_d_A       1
 metadata_not_retrieved              6
 ```
 
-Exclusion reasons cluster into four kinds, and the largest is the one the pre-registration
-predicted: **outcome is not legitimate pollinator use.** Studies of parasite load, mortality,
-detoxification physiology, and digestive performance dominate the PubMed-indexed subset of this
-literature. They manipulate the right compounds in the right context but measure bee health
-rather than flower use, so they cannot supply a barrier-to-use contrast.
+Exclusion reasons are classified into a declared taxonomy in
+`SCREENING_ENDPOINT_MISMATCH_V1.md`, and the largest class is the one the pre-registration
+predicted: **outcome is not legitimate pollinator use** (7 of 21 exclusions, the largest single
+class though not a majority). Those studies of parasite load, mortality, detoxification
+physiology, and digestive performance manipulate the right compounds in the right context but
+measure bee health rather than flower use, so they cannot supply a barrier-to-use contrast.
 
 One record was excluded at full text rather than abstract: Thorburn et al. 2015
 ([10.12688/f1000research.6870.2](https://doi.org/10.12688/f1000research.6870.2)). Its title and

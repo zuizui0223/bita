@@ -1,0 +1,7 @@
+exclusion_class,records,share_of_exclusions,meaning
+endpoint_measures_the_consumer,7,0.333333,"right trait, right context, wrong endpoint: the study measures parasite load, mortality, detoxification, or digestive physiology rather than use of the flower"
+not_primary_research,4,0.190476,review or commentary without primary data
+trait_is_not_a_barrier,4,0.190476,"the manipulated or measured trait has no declared antagonist-reduction role, so it is not the focal barrier trait"
+descriptive_no_contrast,3,0.142857,descriptive anatomy or chemistry with no treatment and comparator
+off_topic,2,0.095238,outside the subject area entirely
+endpoint_is_the_trait_itself,1,0.047619,the response variable is nectar chemistry rather than pollinator use

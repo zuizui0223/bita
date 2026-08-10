@@ -70,7 +70,8 @@ jobs:
             tests/test_design_power.py \
             tests/test_empirical_leverage.py \
             tests/test_channel_leverage.py \
-            tests/test_committed_channel_leverage_current.py
+            tests/test_committed_channel_leverage_current.py \
+            tests/test_screening_endpoint_mismatch.py
 
       - name: Reproduce Part I sensitivity analysis
         run: |

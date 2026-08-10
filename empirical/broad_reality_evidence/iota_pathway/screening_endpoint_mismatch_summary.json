@@ -1,0 +1,19 @@
+{
+  "endpoint_measures_the_consumer_share_of_exclusions": "0.333333",
+  "endpoint_measures_the_consumer_share_of_screened": "0.194444",
+  "exclusions": 21,
+  "exclusions_by_class": {
+    "descriptive_no_contrast": 3,
+    "endpoint_is_the_trait_itself": 1,
+    "endpoint_measures_the_consumer": 7,
+    "not_primary_research": 4,
+    "off_topic": 2,
+    "trait_is_not_a_barrier": 4
+  },
+  "include_candidates": 15,
+  "interpretation_boundary": "These are properties of the screened set, which came predominantly from one high-precision sub-query of one database. They describe what this search returned. They are not an estimate of the composition of the wider literature, and they are not evidence about nature.",
+  "records_not_screened": 6,
+  "records_screened": 36,
+  "records_with_a_decision": 42,
+  "unclassified_reasons": []
+}
