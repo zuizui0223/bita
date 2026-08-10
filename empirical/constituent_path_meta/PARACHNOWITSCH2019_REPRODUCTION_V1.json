@@ -1,0 +1,24 @@
+{
+  "article_doi": "10.1093/aob/mcy132",
+  "effect_metric": "Hedges_g_first_worksheet_mean_minus_second_worksheet_mean",
+  "excluded_labelled_rows": {
+    "paper": "Good et al 2014",
+    "reason": "The published forest plot reports 63 secondary-metabolite effects from nine studies; retaining these labelled rows would produce 72 effects from ten studies.",
+    "row_count": 9
+  },
+  "interpretation_boundary": "This reproduces the broad published secondary-metabolite synthesis. Worksheet labels and headers do not establish bita's strict flower-defence role or safe biological treatment orientation. No row is canonical until re-audited against the primary study, outcome lane, and independence rules.",
+  "published_independent_studies": 9,
+  "published_secondary_metabolite_effect_rows": 63,
+  "result": {
+    "I_squared_percent": 85.90030778096313,
+    "Q": 56.738827172402445,
+    "Q_df": 8.0,
+    "ci_high": -0.2225891764097188,
+    "ci_low": -0.6661554921219796,
+    "fixed_effect_mean": -0.5183173415058684,
+    "random_effects_mean": -0.44437233426584916,
+    "random_effects_standard_error": 0.1131567516574425,
+    "tau_squared_DL": 0.0889189700581509
+  },
+  "study_dependence_handling": "Inverse-variance fixed pooling within each paper, followed by a DerSimonian-Laird random-effects synthesis across paper-level summaries."
+}
