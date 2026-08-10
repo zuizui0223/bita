@@ -6,6 +6,7 @@ on:
       - analysis/complete-constituent-path-meta-v1
     paths:
       - "scripts/recover_parachnowitsch2019_supplement.py"
+      - "scripts/recover_parachnowitsch2019_signed_url.py"
       - ".github/workflows/recover-parachnowitsch2019-supplement.yml"
   workflow_dispatch:
 
@@ -27,7 +28,7 @@ jobs:
 
       - name: Recover and inventory the published supplement
         run: |
-          python scripts/recover_parachnowitsch2019_supplement.py \
+          python scripts/recover_parachnowitsch2019_signed_url.py \
             artifacts/parachnowitsch2019
 
       - name: Upload source workbook and lossless worksheet exports
