@@ -1,0 +1,43 @@
+pmid,doi,journal,year,pmc,screen_stage,decision,reason,note
+22011842,10.1007/s00442-011-2153-3,Oecologia,2011,-,title_and_abstract,include_candidate,manipulation_of_floral_chemical_with_pollination_outcome,Gelsemine manipulated in wild plants; pollen deposition and removal measured. Outcome class may be pollen_transfer rather than preference.
+17498136,10.1111/j.1461-0248.2007.01027.x,Ecol Lett,2007,-,title_and_abstract,include_candidate,pollinator_deterrence_by_nectar_alkaloids,Title states ecological context dependence; directly addresses the declared assay_context moderator.
+18724731,10.1890/07-1359.1,Ecology,2008,-,title_and_abstract,include_candidate,nectar_secondary_compounds_with_pollen_transfer_outcome,Outcome is self-pollen transfer; belongs to a pollen_transfer stratum if extracted.
+24526720,10.1242/jeb.097543,J Exp Biol,2014,PMC4006588,title_and_abstract,include_candidate,deterrence_thresholds_against_reported_natural_concentrations,Primary source for the declared dose_realism moderator.
+16365705,10.1007/s10886-005-8394-z,J Chem Ecol,2005,-,title_and_abstract,include_candidate,free_flying_honeybee_feeding_response_to_nectar_mimicking_secondary_compounds,
+22185936,10.1016/j.jinsphys.2011.12.002,J Insect Physiol,2011,-,title_and_abstract,include_candidate,nectar_nicotine_deterrence_in_honeybees,
+19777310,10.1007/s10886-009-9690-9,J Chem Ecol,2009,-,title_and_abstract,include_candidate,feeding_deterrence_of_pyrrolizidine_alkaloids_in_honey_bees,
+36745328,10.1007/s10886-023-01408-3,J Chem Ecol,2023,-,title_and_abstract,include_candidate,behavioural_resistance_to_nectar_cardenolides_in_a_bumblebee,
+27459772,10.1890/15-0858.1,Ecology,2016,-,title_and_abstract,include_candidate,nectar_metabolite_manipulation_altering_pollinator_consumption,Microbial context is manipulated alongside the compound; a within-study context contrast.
+27145608,10.1890/15-0263.1,Ecology,2016,-,title_and_abstract,include_candidate,nectar_chemistry_mediating_bee_behaviour,Parasite status is a within-study context.
+38590050,10.1002/ecy.4306,Ecology,2024,-,title_and_abstract,include_candidate,pollen_defence_compounds_with_pollinator_and_antagonist_responses,
+28803876,10.1016/j.cub.2017.07.012,Curr Biol,2017,-,title_and_abstract,include_candidate,nectar_alkaloid_concentration_with_pollinator_and_robber_responses,Pollinator visitation correlated with concentration; robber deterrence assayed. Legitimate-visitor separation must be checked at full text.
+25949807,10.12688/f1000research.6262.3,F1000Res,2015,PMC4406194,title_and_abstract,include_candidate,preference_for_alkaloid_containing_nectar_measured,
+28512323,10.1038/s41598-017-01980-1,Sci Rep,2017,PMC5434031,title_and_abstract,include_candidate,nectar_nicotine_effect_on_bumblebee_foraging_behaviour,Primary outcome is learning of floral features; usable only if a use or preference endpoint is reported.
+23471406,10.1126/science.1228806,Science,2013,PMC4521368,title_and_abstract,include_candidate,nectar_caffeine_effect_on_pollinator_foraging_memory,Same caveat as the nicotine learning study.
+26998225,10.12688/f1000research.6870.2,F1000Res,2015,PMC4786900,title_and_abstract,exclude,outcome_is_parasite_load_and_mortality_not_pollinator_use,"Full text retrieved and read. The consumption experiment manipulates temperature, not the alkaloid, so it does not supply a barrier-to-use contrast."
+19711104,10.1007/s00442-009-1431-9,Oecologia,2009,-,title_and_abstract,exclude,outcome_is_pathogen_load_not_pollinator_use,
+37212661,10.1128/spectrum.00520-23,Microbiol Spectr,2023,PMC10269917,title_and_abstract,exclude,outcome_is_pathogen_not_pollinator_use,
+28832668,10.1371/journal.pone.0183729,PLoS One,2017,PMC5568382,title_and_abstract,exclude,outcome_is_parasite_load_and_toxicity_not_pollinator_use,
+28150179,10.1007/s00360-016-1055-4,J Comp Physiol B,2017,-,title_and_abstract,exclude,physiological_detoxification_outcome,
+27840286,10.1016/j.jinsphys.2016.10.017,J Insect Physiol,2016,-,title_and_abstract,exclude,physiological_metabolism_outcome,
+26348126,10.1016/j.cbpa.2015.08.015,Comp Biochem Physiol A Mol Integr Physiol,2015,-,title_and_abstract,exclude,digestive_physiology_outcome,
+35733788,10.1016/j.isci.2022.104499,iScience,2022,PMC9207677,title_and_abstract,exclude,gustatory_neuron_response_to_sugars_not_a_barrier_trait,
+34083559,10.1038/s41598-021-90895-z,Sci Rep,2021,PMC8175726,title_and_abstract,exclude,non_protein_amino_acids_lack_a_declared_antagonist_reduction_role,"Reports a null palatability effect; retained in the log because the exclusion is on trait role, not on result."
+16913940,10.1111/j.1461-0248.2006.00944.x,Ecol Lett,2006,-,title_and_abstract,exclude,outcome_is_nectar_chemistry_not_pollinator_use,
+37220889,10.1093/aob/mcad064,Ann Bot,2023,PMC10550281,title_and_abstract,exclude_from_c_D_flag_for_d_A,floral_volatiles_are_an_attraction_signal_not_a_barrier_trait,Reports responses of both florivores and pollinators to floral volatiles; a candidate for the A_to_antagonism route instead.
+20671428,10.4161/psb.5.8.12289,Plant Signal Behav,2010,PMC3115183,title_and_abstract,exclude,floral_scent_is_an_attraction_signal_not_a_barrier_trait,
+38797382,10.1016/j.plantsci.2024.112135,Plant Sci,2024,-,title_and_abstract,exclude,descriptive_nectary_anatomy_and_chemistry,
+26344026,10.1556/018.66.2015.3.6,Acta Biol Hung,2015,-,title_and_abstract,exclude,descriptive_nectar_chemistry,
+29862424,10.1007/s00709-018-1269-2,Protoplasma,2018,PMC6208823,title_and_abstract,exclude,descriptive_floral_micromorphology,
+33214040,10.1016/j.foodchem.2020.128384,Food Chem,2020,-,title_and_abstract,exclude,review_without_primary_data,
+36976451,10.1002/cbdv.202201139,Chem Biodivers,2023,-,title_and_abstract,exclude,review_without_primary_data,
+29695974,10.3389/fphys.2018.00364,Front Physiol,2018,PMC5904355,title_and_abstract,exclude,review_without_primary_data,
+19847105,10.4161/psb.4.9.9393,Plant Signal Behav,2009,PMC2802787,title_and_abstract,exclude,commentary_without_primary_data,
+12169302,10.1016/s0031-9422(02)00185-1,Phytochemistry,2002,-,title_and_abstract,exclude,off_topic_plant_molecular_regulation,
+27200002,10.3389/fpls.2016.00509,Front Plant Sci,2016,PMC4844611,title_and_abstract,exclude,off_topic_plant_metabolism,
+27489584,,,,,not_screened,metadata_not_retrieved,connector_returned_20_of_26_requested_records,Returned by query C_D_D1 but no metadata was served before the connector disconnected. Must be screened when retrieval resumes.
+30158303,,,,,not_screened,metadata_not_retrieved,connector_returned_20_of_26_requested_records,Returned by query C_D_D1 but no metadata was served before the connector disconnected. Must be screened when retrieval resumes.
+27500630,,,,,not_screened,metadata_not_retrieved,connector_returned_20_of_26_requested_records,Returned by query C_D_D1 but no metadata was served before the connector disconnected. Must be screened when retrieval resumes.
+11336806,,,,,not_screened,metadata_not_retrieved,connector_returned_20_of_26_requested_records,Returned by query C_D_D1 but no metadata was served before the connector disconnected. Must be screened when retrieval resumes.
+21129969,,,,,not_screened,metadata_not_retrieved,connector_returned_20_of_26_requested_records,Returned by query C_D_D1 but no metadata was served before the connector disconnected. Must be screened when retrieval resumes.
+42282777,,,,,not_screened,metadata_not_retrieved,connector_returned_20_of_26_requested_records,Returned by query C_D_D1 but no metadata was served before the connector disconnected. Must be screened when retrieval resumes.
