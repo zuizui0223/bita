@@ -76,7 +76,7 @@ def run(output_path: str | Path) -> dict[str, Any]:
     headers_raw = next(rows)
     headers = ["" if value is None else str(value).strip() for value in headers_raw]
     index = {name: i for i, name in enumerate(headers) if name}
-    missing_required = [name for name in (*DOMAIN_COLUMNS, REFERENCE_COLUMN, "Genus", "Insect species") if name not in index]
+    missing_required = [name for name in (*DOMAIN_COLUMNS, REFERENCE_COLUMN, "Compound", "Genus", "Insect species") if name not in index]
     if missing_required:
         raise RuntimeError(f"missing expected S1 columns: {missing_required}; headers={headers}")
 
@@ -170,7 +170,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("output")
     args = parser.parse_args()
-    result = run(args.output)
+    try:
+        result = run(args.output)
+    except Exception as error:
+        safe = f"{type(error).__name__}: {error}".replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+        print(f"::error title=Sasidharan S1 domain audit failure::{safe}")
+        raise
     print(json.dumps({
         "analyzed_test_rows": result["analyzed_test_rows"],
         "publication_dependence": result["publication_dependence"],
