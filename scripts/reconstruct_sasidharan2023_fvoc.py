@@ -1,8 +1,8 @@
 """Reproduce and dependence-audit Sasidharan et al. (2023) FVOC synthesis.
 
-The source unit is categorical (detected/not detected; attractive/repellent/no response).
-This script intentionally does not invent a common continuous effect size across assays.
-Only aggregate results and anonymized publication-cluster summaries are persisted.
+The article defines the total Table 2 unit as an unrepeated FVOC x insect-species
+combination, irrespective of plant genus. Responses remain categorical. The script
+persists aggregate results and anonymized publication-cluster summaries only.
 """
 
 from __future__ import annotations
@@ -28,14 +28,8 @@ PMCID = "PMC10550281"
 SHEET = "S1"
 REFERENCE_COLUMN = "Reference (doi TBA)"
 ELIGIBLE_GENERA = {
-    "Brassica",
-    "Cirsium",
-    "Cucurbita",
-    "Daucus",
-    "Dichaea",
-    "Fragaria",
-    "Helianthus",
-    "Nicotiana",
+    "Brassica", "Cirsium", "Cucurbita", "Daucus",
+    "Dichaea", "Fragaria", "Helianthus", "Nicotiana",
 }
 ROLES = ("Pollinator", "Florivore")
 DOI_RE = re.compile(r"10\.\d{4,9}/[-._;()/:A-Za-z0-9]+", re.I)
@@ -48,11 +42,31 @@ SOURCE_BEHAVIOUR = {
     "Pollinator": {"attractive": 37, "repellent": 9, "no_response": 66},
     "Florivore": {"attractive": 35, "repellent": 9, "no_response": 115},
 }
+SOURCE_TABLE2_GENUS_N = {
+    "Brassica": {"Pollinator": {"detection": 23, "behaviour": 25}, "Florivore": {"detection": 8, "behaviour": 4}},
+    "Cirsium": {"Pollinator": {"detection": 81, "behaviour": 54}, "Florivore": {"detection": 11, "behaviour": 66}},
+    "Cucurbita": {"Pollinator": {"detection": 2, "behaviour": 3}, "Florivore": {"detection": 29, "behaviour": 65}},
+    "Daucus": {"Pollinator": {"detection": 13, "behaviour": 3}, "Florivore": {"detection": 8, "behaviour": 0}},
+    "Dichaea": {"Pollinator": {"detection": 0, "behaviour": 1}, "Florivore": {"detection": 1, "behaviour": 1}},
+    "Fragaria": {"Pollinator": {"detection": 13, "behaviour": 4}, "Florivore": {"detection": 36, "behaviour": 2}},
+    "Helianthus": {"Pollinator": {"detection": 54, "behaviour": 2}, "Florivore": {"detection": 1, "behaviour": 1}},
+    "Nicotiana": {"Pollinator": {"detection": 50, "behaviour": 23}, "Florivore": {"detection": 10, "behaviour": 21}},
+}
 SOURCE_SHARED = {
     "behavioural_fvocs": 102,
     "shared_both_roles": 32,
     "shared_attractive": 8,
     "shared_repellent": 1,
+}
+SOURCE_SHARED_BY_GENUS = {
+    "Brassica": {"behavioural_fvocs": 22, "shared_both_roles": 3, "shared_attractive": 2, "shared_repellent": 0},
+    "Cirsium": {"behavioural_fvocs": 14, "shared_both_roles": 9, "shared_attractive": 3, "shared_repellent": 0},
+    "Cucurbita": {"behavioural_fvocs": 31, "shared_both_roles": 3, "shared_attractive": 1, "shared_repellent": 0},
+    "Daucus": {"behavioural_fvocs": 3, "shared_both_roles": 0, "shared_attractive": 0, "shared_repellent": 0},
+    "Dichaea": {"behavioural_fvocs": 1, "shared_both_roles": 1, "shared_attractive": 0, "shared_repellent": 0},
+    "Fragaria": {"behavioural_fvocs": 6, "shared_both_roles": 0, "shared_attractive": 0, "shared_repellent": 0},
+    "Helianthus": {"behavioural_fvocs": 5, "shared_both_roles": 0, "shared_attractive": 0, "shared_repellent": 0},
+    "Nicotiana": {"behavioural_fvocs": 20, "shared_both_roles": 16, "shared_attractive": 1, "shared_repellent": 1},
 }
 
 
@@ -106,14 +120,14 @@ def _chisq(table: list[list[int]], yates: bool = False) -> tuple[float, int, flo
             delta = abs(table[r][c] - expected)
             if yates and rows == 2 and cols == 2:
                 delta = max(0.0, delta - 0.5)
-            statistic += (delta * delta) / expected
+            statistic += delta * delta / expected
     df = (rows - 1) * (cols - 1)
     if df == 1:
         p = math.erfc(math.sqrt(statistic / 2.0))
     elif df == 2:
         p = math.exp(-statistic / 2.0)
     else:
-        raise RuntimeError("this bounded reproduction only needs chi-square df 1 or 2")
+        raise RuntimeError("bounded reproduction only needs chi-square df 1 or 2")
     return statistic, df, p
 
 
@@ -130,6 +144,164 @@ def _median(values: list[float]) -> float | None:
     return statistics.median(values) if values else None
 
 
+def _choice_label(choice: str) -> str:
+    return {"+": "attractive", "-": "repellent", "0": "no_response"}[choice]
+
+
+def _collapse_groups(
+    rows: list[dict[str, Any]],
+    include_genus: bool,
+) -> tuple[dict[str, Counter[str]], dict[str, Counter[str]], dict[str, Any]]:
+    groups: dict[tuple[str, ...], list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        base = (row["compound"].casefold(), row["insect"].casefold(), row["role"])
+        key = (row["genus"], *base) if include_genus else base
+        groups[key].append(row)
+
+    detection = {role: Counter() for role in ROLES}
+    behaviour = {role: Counter() for role in ROLES}
+    detection_conflicts = 0
+    behaviour_conflicts = 0
+    detection_units = 0
+    behaviour_units = 0
+    duplicate_groups = 0
+
+    for values in groups.values():
+        if len(values) > 1:
+            duplicate_groups += 1
+        role = values[0]["role"]
+        det_states = set()
+        for row in values:
+            if row["physio_resp"]:
+                det_states.add("detected")
+            if row["physio_no_resp"]:
+                det_states.add("not_detected")
+        if det_states:
+            detection_units += 1
+            if len(det_states) == 1:
+                detection[role][next(iter(det_states))] += 1
+            else:
+                detection_conflicts += 1
+
+        choices = {row["behaviour"] for row in values if row["behaviour"] in {"+", "-", "0"}}
+        if choices:
+            behaviour_units += 1
+            if len(choices) == 1:
+                behaviour[role][_choice_label(next(iter(choices)))] += 1
+            else:
+                behaviour_conflicts += 1
+
+    audit = {
+        "group_count": len(groups),
+        "duplicate_groups": duplicate_groups,
+        "detection_units": detection_units,
+        "behaviour_units": behaviour_units,
+        "detection_conflicts": detection_conflicts,
+        "behaviour_conflicts": behaviour_conflicts,
+    }
+    return detection, behaviour, audit
+
+
+def _genus_source_unit_audit(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    output: dict[str, Any] = {}
+    for genus in sorted(ELIGIBLE_GENERA):
+        output[genus] = {}
+        for role in ROLES:
+            subset = [row for row in rows if row["genus"] == genus and row["role"] == role]
+            det, beh, audit = _collapse_groups(subset, include_genus=False)
+            observed = {
+                "detection": sum(det[role].values()),
+                "behaviour": sum(beh[role].values()),
+                "detection_categories": dict(det[role]),
+                "behaviour_categories": dict(beh[role]),
+                "conflicts": {
+                    "detection": audit["detection_conflicts"],
+                    "behaviour": audit["behaviour_conflicts"],
+                },
+            }
+            expected = SOURCE_TABLE2_GENUS_N[genus][role]
+            observed["published_n"] = expected
+            observed["n_match"] = {
+                "detection": observed["detection"] == expected["detection"],
+                "behaviour": observed["behaviour"] == expected["behaviour"],
+            }
+            output[genus][role] = observed
+    return output
+
+
+def _table3_candidate(rows: list[dict[str, Any]], mode: str) -> dict[str, Any]:
+    role_compounds: dict[tuple[str, str], set[str]] = defaultdict(set)
+    role_choices: dict[tuple[str, str, str], set[str]] = defaultdict(set)
+
+    def included(row: dict[str, Any]) -> bool:
+        coded = row["behaviour"] in {"+", "-", "0"}
+        named = bool(row["behaviour_test"])
+        detection_mentions = "behaviour" in row["detection_label"].casefold()
+        if mode == "choice_coded":
+            return coded
+        if mode == "behaviour_test_named":
+            return named
+        if mode == "detection_mentions_behaviour":
+            return detection_mentions
+        if mode == "choice_or_named_test":
+            return coded or named
+        if mode == "choice_or_detection_mentions":
+            return coded or detection_mentions
+        raise ValueError(mode)
+
+    for row in rows:
+        compound = row["compound"].casefold()
+        if included(row):
+            role_compounds[(row["genus"], row["role"])].add(compound)
+        if row["behaviour"] in {"+", "-", "0"}:
+            role_choices[(row["genus"], compound, row["role"])].add(row["behaviour"])
+
+    by_genus: dict[str, Any] = {}
+    totals = Counter()
+    for genus in sorted(ELIGIBLE_GENERA):
+        poll = role_compounds[(genus, "Pollinator")]
+        flor = role_compounds[(genus, "Florivore")]
+        union = poll | flor
+        shared = poll & flor
+        attr = 0
+        repel = 0
+        for compound in shared:
+            poll_choices = role_choices[(genus, compound, "Pollinator")]
+            flor_choices = role_choices[(genus, compound, "Florivore")]
+            attr += int("+" in poll_choices and "+" in flor_choices)
+            repel += int("-" in poll_choices and "-" in flor_choices)
+        observed = {
+            "behavioural_fvocs": len(union),
+            "shared_both_roles": len(shared),
+            "shared_attractive": attr,
+            "shared_repellent": repel,
+        }
+        expected = SOURCE_SHARED_BY_GENUS[genus]
+        observed["published"] = expected
+        observed["matches_published"] = {
+            key: observed[key] == expected[key] for key in expected
+        }
+        by_genus[genus] = observed
+        for key in ("behavioural_fvocs", "shared_both_roles", "shared_attractive", "shared_repellent"):
+            totals[key] += observed[key]
+
+    total_dict = dict(totals)
+    total_dict["published"] = SOURCE_SHARED
+    total_dict["matches_published"] = {
+        key: totals[key] == SOURCE_SHARED[key] for key in SOURCE_SHARED
+    }
+    exact_genus_denominators = all(
+        by_genus[g]["behavioural_fvocs"] == SOURCE_SHARED_BY_GENUS[g]["behavioural_fvocs"]
+        for g in ELIGIBLE_GENERA
+    )
+    return {
+        "mode": mode,
+        "by_genus": by_genus,
+        "total": total_dict,
+        "exact_genus_denominators": exact_genus_denominators,
+    }
+
+
 def run(output_path: str | Path) -> dict[str, Any]:
     import openpyxl  # type: ignore
 
@@ -141,8 +313,8 @@ def run(output_path: str | Path) -> dict[str, Any]:
     index, row_iter, header_absolute_row = _find_header(ws.iter_rows(values_only=True))
 
     required = {
-        "Compound", "Genus", "Insect species", "Insect function",
-        "Physio_resp", "Physio_No_resp", "Behaviour choice", REFERENCE_COLUMN,
+        "Compound", "Genus", "Insect species", "Insect function", "Detection",
+        "Physio_resp", "Physio_No_resp", "Behaviour_test", "Behaviour choice", REFERENCE_COLUMN,
     }
     missing = sorted(required - set(index))
     if missing:
@@ -161,108 +333,51 @@ def run(output_path: str | Path) -> dict[str, Any]:
             "genus": genus,
             "insect": insect,
             "role": role,
+            "detection_label": _text(source_row[index["Detection"]]),
             "physio_resp": _is_one(source_row[index["Physio_resp"]]),
             "physio_no_resp": _is_one(source_row[index["Physio_No_resp"]]),
+            "behaviour_test": _text(source_row[index["Behaviour_test"]]),
             "behaviour": _text(source_row[index["Behaviour choice"]]),
             "cluster": _cluster_key(source_row[index[REFERENCE_COLUMN]]),
         })
 
     eligible = [row for row in rows if row["genus"] in ELIGIBLE_GENERA]
 
-    # Source-unit reconstruction from deposited S1 rows.
-    detection = {role: Counter() for role in ROLES}
-    behaviour = {role: Counter() for role in ROLES}
-    physio_conflicts = 0
-    for row in eligible:
-        role = row["role"]
-        if row["physio_resp"] and row["physio_no_resp"]:
-            physio_conflicts += 1
-        elif row["physio_resp"]:
-            detection[role]["detected"] += 1
-        elif row["physio_no_resp"]:
-            detection[role]["not_detected"] += 1
-        choice = row["behaviour"]
-        if choice == "+":
-            behaviour[role]["attractive"] += 1
-        elif choice == "-":
-            behaviour[role]["repellent"] += 1
-        elif choice == "0":
-            behaviour[role]["no_response"] += 1
+    # Article Table 2 total: unique FVOC x insect, not unique within plant genus.
+    unique_detection, unique_behaviour, unit_audit = _collapse_groups(eligible, include_genus=False)
+    genus_audit = _genus_source_unit_audit(eligible)
 
-    # Check whether duplicate FVOC x insect-species rows alter the source-unit totals.
-    groups: dict[tuple[str, str, str, str], list[dict[str, Any]]] = defaultdict(list)
-    for row in eligible:
-        key = (row["genus"], row["compound"].casefold(), row["insect"].casefold(), row["role"])
-        groups[key].append(row)
-    duplicate_groups = {key: values for key, values in groups.items() if len(values) > 1}
-    unique_detection = {role: Counter() for role in ROLES}
-    unique_behaviour = {role: Counter() for role in ROLES}
-    unique_behaviour_conflicts = 0
-    for values in groups.values():
-        role = values[0]["role"]
-        if any(row["physio_resp"] for row in values):
-            unique_detection[role]["detected"] += 1
-        elif any(row["physio_no_resp"] for row in values):
-            unique_detection[role]["not_detected"] += 1
-        choices = {row["behaviour"] for row in values if row["behaviour"] in {"+", "-", "0"}}
-        if len(choices) == 1:
-            choice = next(iter(choices))
-            unique_behaviour[role][{"+": "attractive", "-": "repellent", "0": "no_response"}[choice]] += 1
-        elif len(choices) > 1:
-            unique_behaviour_conflicts += 1
+    detection_table = [
+        [unique_detection["Pollinator"]["detected"], unique_detection["Pollinator"]["not_detected"]],
+        [unique_detection["Florivore"]["detected"], unique_detection["Florivore"]["not_detected"]],
+    ]
+    behaviour_table = [
+        [unique_behaviour["Pollinator"]["attractive"], unique_behaviour["Pollinator"]["repellent"], unique_behaviour["Pollinator"]["no_response"]],
+        [unique_behaviour["Florivore"]["attractive"], unique_behaviour["Florivore"]["repellent"], unique_behaviour["Florivore"]["no_response"]],
+    ]
+    det_chi, det_df, det_p = _chisq(detection_table, yates=True)
+    beh_chi, beh_df, beh_p = _chisq(behaviour_table, yates=False)
 
-    # Shared compound tracking at genus x FVOC level, preserving categorical response sets.
-    role_choices: dict[tuple[str, str, str], set[str]] = defaultdict(set)
-    behavioural_fvocs: set[tuple[str, str]] = set()
-    for row in eligible:
-        if row["behaviour"] not in {"+", "-", "0"}:
-            continue
-        compound_key = row["compound"].casefold()
-        behavioural_fvocs.add((row["genus"], compound_key))
-        role_choices[(row["genus"], compound_key, row["role"])].add(row["behaviour"])
+    table3_candidates = [
+        _table3_candidate(eligible, mode)
+        for mode in (
+            "choice_coded",
+            "behaviour_test_named",
+            "detection_mentions_behaviour",
+            "choice_or_named_test",
+            "choice_or_detection_mentions",
+        )
+    ]
+    exact_table3_modes = [candidate["mode"] for candidate in table3_candidates if candidate["exact_genus_denominators"]]
+    preferred_table3 = next(
+        (candidate for candidate in table3_candidates if candidate["mode"] in exact_table3_modes),
+        table3_candidates[0],
+    )
+    shared_attr = preferred_table3["total"]["shared_attractive"]
+    shared_rep = preferred_table3["total"]["shared_repellent"]
+    shared_binom_p = _two_sided_sign_p(shared_attr, shared_rep)
 
-    shared_keys = sorted({
-        (genus, compound)
-        for genus, compound in behavioural_fvocs
-        if (genus, compound, "Pollinator") in role_choices
-        and (genus, compound, "Florivore") in role_choices
-    })
-    shared_counts = Counter()
-    genus_shared: dict[str, Counter[str]] = defaultdict(Counter)
-    for genus, compound in shared_keys:
-        poll = role_choices[(genus, compound, "Pollinator")]
-        flor = role_choices[(genus, compound, "Florivore")]
-        flags = {
-            "shared_attractive": "+" in poll and "+" in flor,
-            "shared_repellent": "-" in poll and "-" in flor,
-            "pollinator_attractive_florivore_repellent": "+" in poll and "-" in flor,
-            "pollinator_repellent_florivore_attractive": "-" in poll and "+" in flor,
-        }
-        if any(flags.values()):
-            for label, present in flags.items():
-                if present:
-                    shared_counts[label] += 1
-                    genus_shared[genus][label] += 1
-        else:
-            shared_counts["role_specific_or_null"] += 1
-            genus_shared[genus]["role_specific_or_null"] += 1
-        genus_shared[genus]["shared_both_roles"] += 1
-
-    genus_behavioural_fvocs = Counter(genus for genus, _ in behavioural_fvocs)
-    genus_table = {
-        genus: {
-            "behavioural_fvocs": genus_behavioural_fvocs[genus],
-            "shared_both_roles": genus_shared[genus]["shared_both_roles"],
-            "shared_attractive": genus_shared[genus]["shared_attractive"],
-            "shared_repellent": genus_shared[genus]["shared_repellent"],
-            "pollinator_attractive_florivore_repellent": genus_shared[genus]["pollinator_attractive_florivore_repellent"],
-            "pollinator_repellent_florivore_attractive": genus_shared[genus]["pollinator_repellent_florivore_attractive"],
-            "role_specific_or_null": genus_shared[genus]["role_specific_or_null"],
-        }
-        for genus in sorted(ELIGIBLE_GENERA)
-    }
-
-    # Publication-cluster sensitivity on source-unit categorical rows.
+    # Publication-cluster sensitivity. Keep source rows within publications and treat each publication equally.
     cluster_rows: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for row in eligible:
         cluster_rows[row["cluster"]].append(row)
@@ -273,39 +388,39 @@ def run(output_path: str | Path) -> dict[str, Any]:
     for cluster, values in cluster_rows.items():
         anon = _anon_cluster(cluster)
         roles = sorted({row["role"] for row in values})
-        genera = {row["genus"] for row in values}
-        fvocs = {row["compound"].casefold() for row in values}
         role_metrics = {}
         for role in ROLES:
             subset = [row for row in values if row["role"] == role]
-            det_rows = [row for row in subset if row["physio_resp"] or row["physio_no_resp"]]
-            beh_rows = [row for row in subset if row["behaviour"] in {"+", "-", "0"}]
-            if det_rows:
-                fraction = sum(row["physio_resp"] for row in det_rows) / len(det_rows)
-                detection_fractions[(cluster, role)] = fraction
-            else:
-                fraction = None
-            if beh_rows:
-                fractions = {
-                    "attractive": sum(row["behaviour"] == "+" for row in beh_rows) / len(beh_rows),
-                    "repellent": sum(row["behaviour"] == "-" for row in beh_rows) / len(beh_rows),
-                    "no_response": sum(row["behaviour"] == "0" for row in beh_rows) / len(beh_rows),
+            det, beh, audit = _collapse_groups(subset, include_genus=False)
+            det_n = sum(det[role].values())
+            beh_n = sum(beh[role].values())
+            det_fraction = det[role]["detected"] / det_n if det_n else None
+            beh_fractions = None
+            if beh_n:
+                beh_fractions = {
+                    category: beh[role][category] / beh_n
+                    for category in ("attractive", "repellent", "no_response")
                 }
-                behaviour_fractions[(cluster, role)] = fractions
-            else:
-                fractions = None
+            if det_fraction is not None:
+                detection_fractions[(cluster, role)] = det_fraction
+            if beh_fractions is not None:
+                behaviour_fractions[(cluster, role)] = beh_fractions
             role_metrics[role] = {
-                "detection_tests": len(det_rows),
-                "detected_fraction": fraction,
-                "behaviour_tests": len(beh_rows),
-                "behaviour_fractions": fractions,
+                "detection_tests": det_n,
+                "detected_fraction": det_fraction,
+                "behaviour_tests": beh_n,
+                "behaviour_fractions": beh_fractions,
+                "within_publication_conflicts": {
+                    "detection": audit["detection_conflicts"],
+                    "behaviour": audit["behaviour_conflicts"],
+                },
             }
         publication_summary.append({
             "publication_cluster": anon,
             "response_rows": len(values),
-            "genera": len(genera),
+            "genera": len({row["genus"] for row in values}),
             "consumer_roles": roles,
-            "fvocs": len(fvocs),
+            "fvocs": len({row["compound"].casefold() for row in values}),
             "role_metrics": role_metrics,
         })
     publication_summary.sort(key=lambda item: item["publication_cluster"])
@@ -334,38 +449,17 @@ def run(output_path: str | Path) -> dict[str, Any]:
             "median_no_response_fraction": _median([value["no_response"] for value in role_values]),
         }
 
-    detection_table = [
-        [detection["Pollinator"]["detected"], detection["Pollinator"]["not_detected"]],
-        [detection["Florivore"]["detected"], detection["Florivore"]["not_detected"]],
-    ]
-    behaviour_table = [
-        [behaviour["Pollinator"]["attractive"], behaviour["Pollinator"]["repellent"], behaviour["Pollinator"]["no_response"]],
-        [behaviour["Florivore"]["attractive"], behaviour["Florivore"]["repellent"], behaviour["Florivore"]["no_response"]],
-    ]
-    det_chi, det_df, det_p = _chisq(detection_table, yates=True)
-    beh_chi, beh_df, beh_p = _chisq(behaviour_table, yates=False)
-    shared_binom_p = _two_sided_sign_p(shared_counts["shared_attractive"], shared_counts["shared_repellent"])
-
     detection_exact = all(
-        detection[role][category] == expected
+        unique_detection[role][category] == expected
         for role, values in SOURCE_DETECTION.items()
         for category, expected in values.items()
-    )
+    ) and unit_audit["detection_conflicts"] == 0
     behaviour_exact = all(
-        behaviour[role][category] == expected
+        unique_behaviour[role][category] == expected
         for role, values in SOURCE_BEHAVIOUR.items()
         for category, expected in values.items()
-    )
-    behaviour_denominators_exact = all(
-        sum(behaviour[role].values()) == sum(SOURCE_BEHAVIOUR[role].values())
-        for role in ROLES
-    )
-    shared_exact = (
-        len(behavioural_fvocs) == SOURCE_SHARED["behavioural_fvocs"]
-        and len(shared_keys) == SOURCE_SHARED["shared_both_roles"]
-        and shared_counts["shared_attractive"] == SOURCE_SHARED["shared_attractive"]
-        and shared_counts["shared_repellent"] == SOURCE_SHARED["shared_repellent"]
-    )
+    ) and unit_audit["behaviour_conflicts"] == 0
+    table3_exact = bool(exact_table3_modes) and all(preferred_table3["total"]["matches_published"].values())
 
     report = {
         "source": {
@@ -377,26 +471,26 @@ def run(output_path: str | Path) -> dict[str, Any]:
             "sheet": SHEET,
             "header_absolute_row": header_absolute_row,
             "eligible_genera": sorted(ELIGIBLE_GENERA),
+            "article_unit_definition": "Table 2 total is every unique FVOC x insect combination; genus is not part of the total-level deduplication key.",
         },
-        "source_unit_reconstruction": {
+        "table2_reconstruction": {
             "eligible_s1_rows": len(eligible),
-            "physiology_conflict_rows": physio_conflicts,
-            "detection": {role: dict(detection[role]) for role in ROLES},
-            "behaviour": {role: dict(behaviour[role]) for role in ROLES},
+            "global_unique_unit_audit": unit_audit,
+            "detection": {role: dict(unique_detection[role]) for role in ROLES},
+            "behaviour": {role: dict(unique_behaviour[role]) for role in ROLES},
             "detection_chisq_yates": {"statistic": det_chi, "df": det_df, "p": det_p},
             "behaviour_chisq": {"statistic": beh_chi, "df": beh_df, "p": beh_p},
-            "duplicate_fvoc_insect_groups": len(duplicate_groups),
-            "unique_group_detection": {role: dict(unique_detection[role]) for role in ROLES},
-            "unique_group_behaviour": {role: dict(unique_behaviour[role]) for role in ROLES},
-            "unique_group_behaviour_conflicts": unique_behaviour_conflicts,
+            "published_detection": SOURCE_DETECTION,
+            "published_behaviour_implied_by_percentages": SOURCE_BEHAVIOUR,
+            "by_genus_n_audit": genus_audit,
         },
-        "shared_tracking": {
-            "behavioural_fvocs": len(behavioural_fvocs),
-            "shared_both_roles": len(shared_keys),
-            **dict(shared_counts),
+        "table3_reconstruction": {
+            "candidate_denominator_definitions": table3_candidates,
+            "exact_genus_denominator_modes": exact_table3_modes,
+            "preferred_mode": preferred_table3["mode"],
+            "preferred_total": preferred_table3["total"],
             "shared_attractive_vs_shared_repellent_two_sided_sign_p": shared_binom_p,
-            "by_genus": genus_table,
-            "classification_note": "Directional categories are recurrence flags within genus x FVOC context and need not be mutually exclusive when different insect tests disagree within a role.",
+            "published": SOURCE_SHARED,
         },
         "publication_dependence": {
             "unique_publication_clusters": len(cluster_rows),
@@ -411,25 +505,21 @@ def run(output_path: str | Path) -> dict[str, Any]:
             "behaviour_publication_medians": behaviour_role_medians,
         },
         "checkpoints": {
-            "published_detection_counts": SOURCE_DETECTION,
-            "published_behaviour_counts_implied_by_reported_percentages": SOURCE_BEHAVIOUR,
-            "published_shared_counts": SOURCE_SHARED,
-            "detection_counts_exact": detection_exact,
-            "behaviour_counts_exact": behaviour_exact,
-            "behaviour_role_denominators_exact": behaviour_denominators_exact,
-            "shared_counts_exact": shared_exact,
-            "publication_identifier_recovered": bool(cluster_rows) and all(row["cluster"] != "ref:" for row in eligible),
+            "table2_detection_exact": detection_exact,
+            "table2_behaviour_exact": behaviour_exact,
+            "table3_exact": table3_exact,
+            "publication_identifier_recovered": bool(cluster_rows),
             "publication_cluster_sensitivity_executed": bool(paired_detection),
         },
         "gate_c": {
-            "automatic_status": "PASS_CANDIDATE" if detection_exact and behaviour_exact and shared_exact and paired_detection else "ADJUDICATION_REQUIRED",
-            "reason": "Gate C is finalized in the source-audit readout. Any paper-versus-deposit discrepancy must be explicitly adjudicated rather than hidden.",
+            "automatic_status": "PASS_CANDIDATE" if detection_exact and behaviour_exact and table3_exact and paired_detection else "ADJUDICATION_REQUIRED",
+            "reason": "Gate C is finalized only after source-paper/deposit discrepancies, if any, are explicitly adjudicated in the readout.",
         },
         "guardrails": [
             "No observation-level source rows or literal references are persisted.",
-            "Publication identifiers are anonymized by a stable SHA-256 prefix in persisted summaries.",
+            "Publication identifiers are anonymized by a stable SHA-256 prefix.",
             "Categorical response structure is retained; no cross-assay continuous effect is fabricated.",
-            "Counts across this information-rich deposited synthesis are coverage, not prevalence in nature.",
+            "Counts from this information-rich synthesis are coverage, not prevalence in nature.",
         ],
     }
 
@@ -452,8 +542,8 @@ if __name__ == "__main__":
         print(f"::error title=Sasidharan FVOC reconstruction failure::{safe}")
         raise
     print(json.dumps({
-        "source_unit_reconstruction": result["source_unit_reconstruction"],
-        "shared_tracking": {k: v for k, v in result["shared_tracking"].items() if k != "by_genus"},
+        "table2_reconstruction": result["table2_reconstruction"],
+        "table3_reconstruction": result["table3_reconstruction"],
         "publication_dependence": {
             k: v for k, v in result["publication_dependence"].items()
             if k not in {"publication_cluster_summaries", "paired_detection_differences"}
