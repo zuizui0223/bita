@@ -38,7 +38,25 @@ jobs:
           import json
           from pathlib import Path
           report = json.loads(Path('artifacts/sasidharan2023_pmc_supplement_schema.json').read_text())
-          print('::notice title=Sasidharan 2023 schema::' + json.dumps(report, separators=(',', ':')))
+          source = {
+              'source_doi': report['source_doi'],
+              'pmcid': report['pmcid'],
+              'supplement_name': report['supplement_name'],
+              'sheet_count': report['workbook']['sheet_count'],
+          }
+          print('::notice title=Sasidharan 2023 source::' + json.dumps(source, separators=(',', ':')))
+          for index, sheet in enumerate(report['workbook']['sheets'], start=1):
+              concise = {
+                  'index': index,
+                  'sheet_name': sheet['sheet_name'],
+                  'max_row': sheet['max_row'],
+                  'max_column': sheet['max_column'],
+                  'nonempty_row_count': sheet['nonempty_row_count'],
+                  'header_row': sheet['detected_header_row_within_first_10_nonempty'],
+                  'headers': sheet['headers'],
+                  'candidate_columns': sheet['candidate_columns'],
+              }
+              print(f'::notice title=Sasidharan 2023 sheet {index}::' + json.dumps(concise, separators=(',', ':')))
           PY
       - uses: actions/upload-artifact@v4
         with:
