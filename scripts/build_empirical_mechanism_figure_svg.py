@@ -1,10 +1,10 @@
 """Build manuscript Figure 3 from committed mechanism-synthesis evidence states.
 
 The figure is intentionally an evidence-architecture diagram, not a prevalence
-plot and not an estimate of the theoretical mixed partial. Counts are derived
-from committed study-cluster ledgers; quantitative-module summaries are parsed
-from the canonical module registry. The direct A×D and joint-cost states are
-checked against their saturation receipts before rendering.
+plot and not an estimate of the theoretical mixed partial. Coverage counts use
+the same five-ledger universe and cluster logic as build_mechanism_coverage_audit.py;
+quantitative-module summaries are parsed from the canonical module registry.
+The direct A×D and joint-cost states are checked against their saturation receipts.
 """
 
 from __future__ import annotations
@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import csv
 import re
+from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -20,12 +21,20 @@ ROOT = Path(__file__).resolve().parents[1]
 SYNTHESIS = ROOT / "empirical" / "mechanism_pattern_synthesis"
 DEFAULT_OUTPUT = ROOT / "manuscript" / "figures" / "FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg"
 
-ROUTES = (
+LEDGER_NAMES = (
+    "MASTER_LEDGER_V1.csv",
+    "LEDGER_BATCH_2_V1.csv",
+    "LEDGER_BATCH_3_V1.csv",
+    "LEDGER_BATCH_4_V1.csv",
+    "LEDGER_BATCH_5_V1.csv",
+)
+MARGINAL_ROUTES = (
     "A_to_pollination",
     "A_to_antagonism",
     "D_to_antagonism",
     "D_to_pollination",
 )
+DIRECT_ROUTE = "direct_AxD"
 
 
 @dataclass(frozen=True)
@@ -49,9 +58,51 @@ class FigureStats:
     joint_cost_estimates: int
 
 
+def _text(value: object) -> str:
+    return str(value or "").strip()
+
+
+def _bool(value: object) -> bool:
+    return _text(value).lower() == "true"
+
+
 def _read_csv(path: Path) -> list[dict[str, str]]:
     with path.open(newline="", encoding="utf-8") as handle:
-        return list(csv.DictReader(handle))
+        return [{key: _text(value) for key, value in row.items()} for row in csv.DictReader(handle)]
+
+
+def _coverage_rows(synthesis: Path) -> list[dict[str, str]]:
+    rows: list[dict[str, str]] = []
+    for name in LEDGER_NAMES:
+        rows.extend(_read_csv(synthesis / name))
+
+    ids = [row.get("record_id", "") for row in rows]
+    duplicates = sorted({rid for rid in ids if rid and ids.count(rid) > 1})
+    missing_ids = sum(not rid for rid in ids)
+    missing_clusters = sum(not row.get("independence_cluster", "") for row in rows)
+    known_routes = set(MARGINAL_ROUTES) | {DIRECT_ROUTE}
+    unknown_routes = sorted({row.get("route", "") for row in rows if row.get("route", "") not in known_routes})
+    if duplicates or missing_ids or missing_clusters or unknown_routes:
+        raise ValueError(
+            "Coverage-ledger validation failed: "
+            f"duplicates={duplicates}, missing_ids={missing_ids}, "
+            f"missing_clusters={missing_clusters}, unknown_routes={unknown_routes}"
+        )
+    return rows
+
+
+def _same_system_count(rows: list[dict[str, str]]) -> int:
+    routes_by_cluster: dict[str, set[str]] = defaultdict(set)
+    explicit: set[str] = set()
+    for row in rows:
+        cluster = row["independence_cluster"]
+        route = row.get("route", "")
+        if route in MARGINAL_ROUTES:
+            routes_by_cluster[cluster].add(route)
+        if _bool(row.get("is_same_system_multi_route")):
+            explicit.add(cluster)
+    inferred = {cluster for cluster, routes in routes_by_cluster.items() if len(routes) >= 2}
+    return len(explicit | inferred)
 
 
 def _required_match(pattern: str, text: str, label: str) -> re.Match[str]:
@@ -63,33 +114,16 @@ def _required_match(pattern: str, text: str, label: str) -> re.Match[str]:
 
 def collect_stats(root: Path = ROOT) -> FigureStats:
     synthesis = root / "empirical" / "mechanism_pattern_synthesis"
-    ledger = _read_csv(synthesis / "MASTER_LEDGER_V1.csv")
-    if not ledger:
-        raise ValueError("MASTER_LEDGER_V1.csv is empty")
+    ledger = _coverage_rows(synthesis)
 
-    clusters = {row["independence_cluster"] for row in ledger if row.get("independence_cluster")}
+    clusters = {row["independence_cluster"] for row in ledger}
     route_counts = {
-        route: len(
-            {
-                row["independence_cluster"]
-                for row in ledger
-                if row.get("route") == route and row.get("independence_cluster")
-            }
-        )
-        for route in ROUTES
+        route: len({row["independence_cluster"] for row in ledger if row.get("route") == route})
+        for route in MARGINAL_ROUTES
     }
-    same_system = {
-        row["independence_cluster"]
-        for row in ledger
-        if row.get("is_same_system_multi_route", "").strip().lower() == "true"
-        and row.get("independence_cluster")
-    }
-    direct = {
-        row["independence_cluster"]
-        for row in ledger
-        if row.get("is_direct_AxD", "").strip().lower() == "true"
-        and row.get("independence_cluster")
-    }
+    direct_clusters = len(
+        {row["independence_cluster"] for row in ledger if row.get("route") == DIRECT_ROUTE}
+    )
 
     switches = _read_csv(synthesis / "SIGN_SWITCH_LEDGER_V1.csv")
     switch_clusters = {row["study_id"] for row in switches if row.get("study_id")}
@@ -113,6 +147,8 @@ def collect_stats(root: Path = ROOT) -> FigureStats:
     direct_receipt = (synthesis / "DIRECT_AXD_SATURATION_RECEIPT_V1.md").read_text(encoding="utf-8")
     if "strict direct sign resolved: no" not in direct_receipt:
         raise ValueError("Direct A×D saturation receipt no longer records an unresolved sign")
+    if direct_clusters != 1:
+        raise ValueError(f"Canonical direct A×D cluster count changed: {direct_clusters}")
 
     joint_receipt = (synthesis / "JOINT_COST_SATURATION_RECEIPT_V1.md").read_text(encoding="utf-8")
     joint = _required_match(
@@ -125,9 +161,9 @@ def collect_stats(root: Path = ROOT) -> FigureStats:
         record_count=len(ledger),
         independent_clusters=len(clusters),
         route_counts=route_counts,
-        same_system_clusters=len(same_system),
+        same_system_clusters=_same_system_count(ledger),
         sign_switch_clusters=len(switch_clusters),
-        direct_clusters=len(direct),
+        direct_clusters=direct_clusters,
         leal_female_lrr=female.group(1),
         leal_female_k=int(female.group(2)),
         leal_nectar_lrr=nectar.group(1),
