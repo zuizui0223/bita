@@ -1,0 +1,32 @@
+name: Audit Sasidharan 2023 PMC supplement
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit_sasidharan2023_pmc_supplement.py"
+      - ".github/workflows/audit-sasidharan2023-pmc-supplement.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install bounded workbook parser
+        run: python -m pip install "openpyxl>=3.1,<4"
+      - name: Audit article-declared Tables S1-S5 workbook
+        run: |
+          python scripts/audit_sasidharan2023_pmc_supplement.py \
+            artifacts/sasidharan2023_pmc_supplement_schema.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sasidharan2023-pmc-supplement-schema
+          path: artifacts/sasidharan2023_pmc_supplement_schema.json
+          if-no-files-found: error
