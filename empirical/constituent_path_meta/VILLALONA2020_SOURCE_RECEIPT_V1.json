@@ -1,26 +1,133 @@
 {
-  "article_doi": "10.1007/s00442-020-04701-0",
-  "article_title": "The role of toxic nectar secondary compounds in driving differential bumble bee preferences for milkweed flowers",
-  "github_actions_artifact": {
-    "artifact_id": 9079986537,
-    "artifact_name": "villalona2020-sources",
-    "workflow_run_id": 31433342111,
-    "workflow_conclusion": "success"
-  },
-  "recovered_source": {
-    "filename": "villalona2020_esm1.docx",
-    "publisher_url": "https://static-content.springer.com/esm/art%3A10.1007%2Fs00442-020-04701-0/MediaObjects/442_2020_4701_MOESM1_ESM.docx",
-    "bytes": 599716,
-    "sha256": "e65bfacb6359a94143d2bb8280fcf51550232e6a6abf99a7c4c829b62d9ce815",
-    "paragraphs": 61,
-    "tables": 4,
-    "inline_images": 3,
-    "rendered_pages": 7
-  },
-  "relevant_content": [
-    "Table S3: measured Asclepias syriaca nectar cardenolide concentrations",
-    "Table S4: species-specific ANOVA and Tukey results for three consumption-choice trials",
-    "Table S5: species-specific survival comparisons across ouabain doses"
+  "archival_csv_inventory": [
+    {
+      "bytes": 3639,
+      "columns_in_header": 18,
+      "data_rows": 57,
+      "filename": "Raw_Data_FieldVisitation_2018-2019.csv",
+      "rows_including_header": 58,
+      "sha256": "71d748e0451d65dbaf4f81d10a906bc69b1723b9b8e59b7581a83d77f528e264"
+    },
+    {
+      "bytes": 13476,
+      "columns_in_header": 6,
+      "data_rows": 360,
+      "filename": "Raw_Data_PreferenceTrial_2018.csv",
+      "rows_including_header": 361,
+      "sha256": "8f221161845b081b2b66d9306a802efd4c352f9ba20c1b917b7f2a9d65177ee7"
+    },
+    {
+      "bytes": 4324,
+      "columns_in_header": 6,
+      "data_rows": 120,
+      "filename": "Raw_Data_PreferenceTrial_II_2019.csv",
+      "rows_including_header": 121,
+      "sha256": "ad81793103ce028f7f0ac4410880c59f9812d14e5dd262cc1b1e92aa7605b3c4"
+    },
+    {
+      "bytes": 8432,
+      "columns_in_header": 6,
+      "data_rows": 216,
+      "filename": "Raw_Data_PreferenceTrial_I_2019.csv",
+      "rows_including_header": 217,
+      "sha256": "61f7001d17b7c33e6c731f17b3f09f0edd4815529b9ef283f3ffb31d456cfcde"
+    },
+    {
+      "bytes": 21162,
+      "columns_in_header": 27,
+      "data_rows": 400,
+      "filename": "Raw_Data_ToxicityData_2018-2019.csv",
+      "rows_including_header": 401,
+      "sha256": "a5bba8be67ecf89b73a0eca4cc557427a3403b08bad5a536b5270cc91c8bcda5"
+    },
+    {
+      "bytes": 2290,
+      "columns_in_header": 10,
+      "data_rows": 61,
+      "filename": "iNaturalistRecords.csv",
+      "rows_including_header": 62,
+      "sha256": "2289437676410e4db0004e65160692b4ef2ee7bb2bb90cdfc77d00b89bba5bb8"
+    }
   ],
-  "interpretation_boundary": "The supplement provides source-complete model and post-hoc results but not the group means and uncertainty needed for a common cross-study effect. No Villalona row is promoted to the canonical meta-analysis from omnibus F tests alone."
+  "article_doi": "10.1007/s00442-020-04701-0",
+  "data_doi": "10.26207/pgeq-he51",
+  "design_inventory": {
+    "trial_1": {
+      "data_rows": 360,
+      "doses_ng_per_uL": [0, 25, 100, 1000],
+      "individuals_per_species": 10,
+      "measurement_endpoints_hr": [24, 48, 72],
+      "source_file": "Raw_Data_PreferenceTrial_2018.csv",
+      "species": [
+        "Bombus griseocollis",
+        "Bombus impatiens",
+        "Bombus bimaculatus"
+      ],
+      "year": 2018
+    },
+    "trial_2": {
+      "data_rows": 216,
+      "doses_ng_per_uL": [0, 25, 100],
+      "individuals_per_species": 8,
+      "measurement_endpoints_hr": [24, 48, 72],
+      "source_file": "Raw_Data_PreferenceTrial_I_2019.csv",
+      "species": [
+        "Bombus griseocollis",
+        "Bombus impatiens",
+        "Bombus bimaculatus"
+      ],
+      "year": 2019
+    },
+    "trial_3": {
+      "data_rows": 120,
+      "doses_ng_per_uL": [0, 1000],
+      "individuals_per_species": 10,
+      "measurement_endpoints_hr": [24, 48, 72],
+      "source_file": "Raw_Data_PreferenceTrial_II_2019.csv",
+      "species": [
+        "Bombus griseocollis",
+        "Bombus impatiens"
+      ],
+      "year": 2019
+    }
+  },
+  "files": [
+    {
+      "bytes": 12106,
+      "filename": "OECO-D-20-00056R1_AssociatedData_Archival.zip",
+      "sha256": "81071cd5385438eeb44de0d02c43d6e477c952d2413c2394633926e942aaa662"
+    },
+    {
+      "bytes": 52254,
+      "filename": "Raw_Data_Files_FieldPreferenceToxicity.xlsx",
+      "sha256": "6b6bf17bd77ca6c6fe08eb2a5e64be1a25987e532e0d92abd6ea76da2e028a13"
+    },
+    {
+      "bytes": 15453,
+      "filename": "iNaturalistRecords.xlsx",
+      "sha256": "700fc7aaea2a098cec5b5e46ff324facb166f68c7dba76bb4b75f370db012592"
+    }
+  ],
+  "github_actions_artifact_digest": "sha256:5509f06f2893b74fb458edc5f63ca852e6dd1bb2f6f20c74c70b799e59fedc65",
+  "github_actions_artifact_id": 9086314724,
+  "github_actions_run_id": 31450988558,
+  "interpretation_boundary": "The recovered data establish one source-complete consumption-lane study cluster. They are not pooled with choice proportion, visit number, residence time, pollen transfer, reproduction, or health outcomes. Descriptive dose contrasts do not estimate iota, rho, kappa, or W_AD.",
+  "publisher_supplement": {
+    "artifact_id": 9085903505,
+    "artifact_digest": "sha256:b01812ff0f3f246aeacc897651026234f769c383faddfef94ac2c56d981e78ca",
+    "docx_bytes": 599716,
+    "docx_sha256": "e65bfacb6359a94143d2bb8280fcf51550232e6a6abf99a7c4c829b62d9ce815",
+    "table_count": 4,
+    "workflow_run_id": 31449830207
+  },
+  "repository_branch": "analysis/complete-constituent-path-meta-v1",
+  "retrieval_date": "2026-08-11",
+  "scholarsphere_work_version": "243b68c4-968d-4e53-b699-4dc884e31804",
+  "source_findings": {
+    "dose_context": "The source places 25 and 100 ng/uL within the reported milkweed range and 1000 ng/uL in an elevated range that produces sickness or mortality.",
+    "independence_cluster": "Villalona_2020_milkweed",
+    "outcome_lane": "nectar volume consumed under simultaneous dose choice",
+    "primary_preference_pool_status": "excluded by the pre-existing protocol because nectar volume consumed is a separate outcome lane",
+    "raw_data_recovery": "All three preference-trial tables and the toxicity table were recovered. No figure digitization or workbook-header inference is used."
+  }
 }
