@@ -34,14 +34,28 @@ jobs:
               "444a06ba-9d41-4920-b91f-5222f675a065"
           )
 
-          # ScholarSphere's public source explicitly exempts user agents containing
-          # "bot" as good bots from the interactive Turnstile challenge. This uses
-          # that documented machine-download path rather than attempting to solve
-          # or bypass the challenge.
-          recovery.USER_AGENT = (
+          browser_ua = (
+              "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+              "Chrome/131 Safari/537.36"
+          )
+          good_bot_ua = (
               "bita-research-bot/1.0 "
               "(+https://github.com/zuizui0223/bita)"
           )
+
+          # The public ScholarSphere application challenges ordinary anonymous
+          # download requests but explicitly exempts user agents containing
+          # "bot" as good bots. The landing page itself is obtained with the
+          # ordinary browser agent; only /downloads/ requests use that documented
+          # machine-download path.
+          original_retrieve = recovery._retrieve
+
+          def routed_retrieve(url, *, accept="text/html,*/*", referer=None):
+              recovery.USER_AGENT = good_bot_ua if "/downloads/" in url else browser_ua
+              return original_retrieve(url, accept=accept, referer=referer)
+
+          recovery._retrieve = routed_retrieve
+          recovery.USER_AGENT = browser_ua
           recovery.MAX_CANDIDATES = 30
 
           raise SystemExit(
