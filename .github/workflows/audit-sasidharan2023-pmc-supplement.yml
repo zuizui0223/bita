@@ -5,6 +5,7 @@ on:
     paths:
       - "scripts/audit_sasidharan2023_pmc_supplement.py"
       - "scripts/audit_sasidharan2023_s1_domains.py"
+      - "scripts/audit_sasidharan2023_citation_topology.py"
       - "scripts/reconstruct_sasidharan2023_fvoc.py"
       - ".github/workflows/audit-sasidharan2023-pmc-supplement.yml"
   workflow_dispatch:
@@ -31,6 +32,10 @@ jobs:
         run: |
           python scripts/audit_sasidharan2023_s1_domains.py \
             artifacts/sasidharan2023_s1_domains.json
+      - name: Audit conservative citation topology and discordant units
+        run: |
+          python scripts/audit_sasidharan2023_citation_topology.py \
+            artifacts/sasidharan2023_citation_topology.json
       - name: Reconstruct source counts and publication-cluster sensitivity
         run: |
           python scripts/reconstruct_sasidharan2023_fvoc.py \
@@ -50,6 +55,12 @@ jobs:
             cat artifacts/sasidharan2023_s1_domains.json
             echo '```'
             echo
+            echo '## Citation topology and discordant source units'
+            echo
+            echo '```json'
+            cat artifacts/sasidharan2023_citation_topology.json
+            echo '```'
+            echo
             echo '## FVOC reproduction and dependence sensitivity'
             echo
             echo '```json'
@@ -61,6 +72,7 @@ jobs:
           from pathlib import Path
           schema = json.loads(Path('artifacts/sasidharan2023_pmc_supplement_schema.json').read_text())
           domains = json.loads(Path('artifacts/sasidharan2023_s1_domains.json').read_text())
+          topology = json.loads(Path('artifacts/sasidharan2023_citation_topology.json').read_text())
           result = json.loads(Path('artifacts/sasidharan2023_fvoc_reconstruction.json').read_text())
           source = {
               'source_doi': schema['source_doi'],
@@ -69,6 +81,11 @@ jobs:
               'sheet_count': schema['workbook']['sheet_count'],
               'sheet_names': [sheet['sheet_name'] for sheet in schema['workbook']['sheets']],
           }
+          citation = {
+              k: v for k, v in topology['citation_topology'].items()
+              if k not in {'component_summaries', 'fallback_similarity_candidates_diagnostic_only'}
+          }
+          citation['fallback_similarity_candidates_diagnostic_only'] = topology['citation_topology']['fallback_similarity_candidates_diagnostic_only']
           table2 = result['table2_reconstruction']
           table3 = result['table3_reconstruction']
           reproduction = {
@@ -89,6 +106,8 @@ jobs:
           }
           print('::notice title=Sasidharan 2023 source::' + json.dumps(source, separators=(',', ':')))
           print('::notice title=Sasidharan 2023 dependence::' + json.dumps(domains['publication_dependence'], separators=(',', ':')))
+          print('::notice title=Sasidharan citation topology::' + json.dumps(citation, separators=(',', ':')))
+          print('::notice title=Sasidharan behaviour conflicts::' + json.dumps(topology['behaviour_conflicts'], separators=(',', ':')))
           print('::notice title=Sasidharan 2023 reconstruction::' + json.dumps(reproduction, separators=(',', ':')))
           PY
       - uses: actions/upload-artifact@v4
@@ -98,5 +117,6 @@ jobs:
           path: |
             artifacts/sasidharan2023_pmc_supplement_schema.json
             artifacts/sasidharan2023_s1_domains.json
+            artifacts/sasidharan2023_citation_topology.json
             artifacts/sasidharan2023_fvoc_reconstruction.json
           if-no-files-found: warn
