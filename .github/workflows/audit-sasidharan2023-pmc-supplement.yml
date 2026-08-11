@@ -49,29 +49,21 @@ jobs:
           import json
           from pathlib import Path
           schema = json.loads(Path('artifacts/sasidharan2023_pmc_supplement_schema.json').read_text())
+          domains = json.loads(Path('artifacts/sasidharan2023_s1_domains.json').read_text())
           source = {
               'source_doi': schema['source_doi'],
               'pmcid': schema['pmcid'],
               'supplement_name': schema['supplement_name'],
               'sheet_count': schema['workbook']['sheet_count'],
+              'sheet_names': [sheet['sheet_name'] for sheet in schema['workbook']['sheets']],
+          }
+          coding = {
+              'analyzed_test_rows': domains['analyzed_test_rows'],
+              'domains': domains['domains'],
           }
           print('::notice title=Sasidharan 2023 source::' + json.dumps(source, separators=(',', ':')))
-          for index, sheet in enumerate(schema['workbook']['sheets'], start=1):
-              concise = {
-                  'index': index,
-                  'sheet_name': sheet['sheet_name'],
-                  'max_row': sheet['max_row'],
-                  'max_column': sheet['max_column'],
-                  'nonempty_row_count': sheet['nonempty_row_count'],
-                  'header_row': sheet['detected_header_row_within_first_10_nonempty'],
-                  'headers': sheet['headers'],
-                  'candidate_columns': sheet['candidate_columns'],
-              }
-              print(f'::notice title=Sasidharan 2023 sheet {index}::' + json.dumps(concise, separators=(',', ':')))
-          domains = json.loads(Path('artifacts/sasidharan2023_s1_domains.json').read_text())
           print('::notice title=Sasidharan 2023 dependence::' + json.dumps(domains['publication_dependence'], separators=(',', ':')))
-          for column, counts in domains['domains'].items():
-              print(f'::notice title=Sasidharan S1 domain {column}::' + json.dumps(counts, separators=(',', ':')))
+          print('::notice title=Sasidharan 2023 S1 coding::' + json.dumps(coding, separators=(',', ':')))
           PY
       - uses: actions/upload-artifact@v4
         with:
