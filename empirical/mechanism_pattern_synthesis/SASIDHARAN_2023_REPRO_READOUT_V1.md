@@ -164,6 +164,8 @@ It is independent of the antagonist-pressure/larceny module and targets a differ
 - explicit behavior-state heterogeneity;
 - explicit source-version uncertainty rather than forced reconciliation.
 
+The machine-readable canonical adjudication is `PASS_AS_DEPOSITED_REANALYSIS`. The older DOI-first `publication_dependence` block produced by `reconstruct_sasidharan2023_fvoc.py` is retained only as a low-level **noncanonical legacy diagnostic** because it splits citation variants into 34 clusters. Canonical dependence comes from `audit_sasidharan2023_citation_topology.py`, which recovers 32 study components.
+
 ### What this PASS does not mean
 
 Gate C passing does **not** mean all Gates A–H pass, and it does not unfreeze manuscript reconstruction by itself.
@@ -197,13 +199,16 @@ Canonical audit code on the PR branch:
 - `scripts/audit_sasidharan2023_s1_domains.py`
 - `scripts/audit_sasidharan2023_citation_topology.py`
 - `scripts/reconstruct_sasidharan2023_fvoc.py`
+- `scripts/adjudicate_sasidharan2023_gate_c.py`
 - `.github/workflows/audit-sasidharan2023-pmc-supplement.yml`
 
-Successful canonical workflow run at this adjudication point:
+Successful canonical workflow validation:
 
-- workflow run: `31485010244`
-- artifact: `9098738194`
-- artifact ZIP SHA-256: `479429244e4489868d54e9eae842f028a576484bc2af459b48246e39ce693235`
-- PR branch head used for the 32-study sensitivity: `d671532b004818d064959867d7acc9b892c32918`
+- validated head: `ab969f510c35a35e6baceb7a99e62b6e7d5c28dd`
+- workflow run: `31485414190`
+- result: `success`
+- canonical adjudication: `PASS_AS_DEPOSITED_REANALYSIS`
+- artifact: `9098889748`
+- artifact ZIP SHA-256: `631f3e2c2063094a6ec6b1052d0c200457a9607be407283827c51d923c4a5164`
 
-The artifact contains aggregate/schema audit outputs only. Literal observation rows and source references are not persisted by the audit scripts.
+The canonical artifact contains five aggregate/schema products, including `sasidharan2023_gate_c_canonical.json`. Literal observation rows and source references are not persisted by the audit scripts.
