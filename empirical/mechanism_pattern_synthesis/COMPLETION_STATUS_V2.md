@@ -89,6 +89,18 @@ fixed sign criterion
 
 No new theorem, trait, mechanism, or model parameter was introduced to perform the reconstruction.
 
+## Figure 3 — reproducible empirical architecture
+
+The manuscript-facing empirical architecture is now committed as:
+
+- `manuscript/figures/FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg`
+- `scripts/build_empirical_mechanism_figure_svg.py`
+- `tests/test_build_empirical_mechanism_figure_svg.py`
+
+The builder derives the mechanism-route, independence-cluster, same-system, sign-switch, direct-interaction, and joint-cost counts from committed ledgers/receipts and parses the two quantitative-module summaries from `SECONDARY_SYNTHESIS_MODULES_V1.csv`. The regression test requires the generated SVG to be byte-identical to the committed figure.
+
+The visual makes the inference boundary explicit: marginal and same-system evidence appear above the boundary as mechanism-recurrence/conditionality evidence, while only the sparse direct `A x D` and direct joint-cost layers appear below it. This prevents the figure from implying that route counts or marginal effects algebraically estimate `W_AD`.
+
 ## Submission-support integration — completed for scientific narrative
 
 The following have been updated from theory-only / preliminary-literature framing to the integrated paper:
@@ -129,7 +141,7 @@ Audit Sasidharan 2023 PMC supplement     31540017244
 Audit Garcia 2024 JPE appendices         31540017250
 ```
 
-Core CI passed on Python 3.10, 3.11, and 3.12.
+Core CI passed on Python 3.10, 3.11, and 3.12. The later status-integration head also passed core CI before Figure 3 was added; the final figure-integration head must pass once more before the submission package is called fully green.
 
 ### García 2024 transport hardening
 
@@ -140,7 +152,7 @@ urllib: RemoteDisconnected
 curl:   HTTP/2 PROTOCOL_ERROR
 ```
 
-Because this recurred after an earlier transient success, `scripts/audit_garcia2024_appendices.py` was hardened at the transport layer only: curl fallback is forced to HTTP/1.1, closes connections, and uses bounded retries. Article-declared source URLs, parsed content, and scientific adjudication logic were not changed. The audit then passed at the validated checkpoint above.
+Because this recurred after an earlier transient success, `scripts/audit_garcia2024_appendices.py` was hardened at the transport layer only: curl fallback is forced to HTTP/1.1, closes connections, and uses bounded retries. Article-declared source URLs, parsed content, and scientific adjudication logic were not changed. The audit passed after the transport change.
 
 ## Theory/empiricism boundary after manuscript reconstruction
 
@@ -160,14 +172,13 @@ The two quantitative synthesis modules support the biological reality and condit
 
 ## Remaining work before portal submission
 
-Scientific evidence hunting is no longer the default next task. Remaining work is presentation/reproducibility packaging:
+Scientific evidence hunting is no longer the default next task. Remaining work is final presentation/reproducibility packaging:
 
-1. build the manuscript-facing Figure 3 empirical mechanism-pattern architecture;
-2. regenerate final Figure 2 and produce final vector exports for Figures 1-3;
-3. complete primary-source/reference metadata verification and journal formatting;
-4. supply author order, affiliations, ORCIDs, CRediT, funding, acknowledgements, and conflict confirmation;
-5. create the exact submission release and archival DOI;
-6. run final CI on the final figure/reference/archive-preparation commit.
+1. regenerate final Figure 2 and produce publication-ready vector exports for Figures 1-3;
+2. complete primary-source/reference metadata verification and journal formatting;
+3. supply author order, affiliations, ORCIDs, CRediT, funding, acknowledgements, and conflict confirmation;
+4. create the exact submission release and archival DOI;
+5. run final CI on the final figure/reference/archive-preparation commit.
 
 If final source verification exposes a specific material evidence error or a genuinely new strict direct-design candidate, the corresponding evidence gate can be reopened. Otherwise, additional broad searching should not displace final manuscript preparation.
 
@@ -176,11 +187,12 @@ If final source verification exposes a specific material evidence error or a gen
 ```text
 scientific A-H gate:        PASS
 manuscript reconstruction:  COMPLETE
+Figure 3:                   COMPLETE / REPRODUCIBLE
 submission narrative:       INTEGRATED
-validated CI checkpoint:    GREEN 13/13
-PR #126:                    KEEP DRAFT during final figure/reference packaging
+validated CI checkpoint:    GREEN 13/13 before final Figure 3 integration
+PR #126:                    KEEP DRAFT during final vector/reference packaging
 merge to main:              technically defensible after final package check
-portal submission:          not yet; author metadata + figures + references + archive DOI remain
+portal submission:          not yet; final vectors + author metadata + references + archive DOI remain
 ```
 
 Keeping PR #126 draft is now a workflow choice for final package consolidation, not an unresolved scientific gate.
