@@ -1,0 +1,38 @@
+name: Build mechanism coverage audit
+
+on:
+  pull_request:
+    paths:
+      - "empirical/mechanism_pattern_synthesis/MASTER_LEDGER_V1.csv"
+      - "empirical/mechanism_pattern_synthesis/LEDGER_BATCH_2_V1.csv"
+      - "empirical/mechanism_pattern_synthesis/LEDGER_BATCH_3_V1.csv"
+      - "empirical/mechanism_pattern_synthesis/LEDGER_BATCH_4_V1.csv"
+      - "empirical/mechanism_pattern_synthesis/LEDGER_BATCH_5_V1.csv"
+      - "empirical/mechanism_pattern_synthesis/SIGN_SWITCH_LEDGER_V1.csv"
+      - "empirical/mechanism_pattern_synthesis/MECHANISM_COVERAGE_AUDIT_PROTOCOL_V1.md"
+      - "scripts/build_mechanism_coverage_audit.py"
+      - ".github/workflows/build-mechanism-coverage-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build source-adjudicated coverage state
+        run: |
+          python scripts/build_mechanism_coverage_audit.py \
+            artifacts/mechanism_coverage_audit.json \
+            artifacts/MECHANISM_COVERAGE_AUDIT_V1.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mechanism-coverage-audit
+          path: artifacts/
+          if-no-files-found: error
