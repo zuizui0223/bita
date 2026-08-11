@@ -20,7 +20,7 @@ from urllib.request import Request, urlopen
 DRYAD = "https://datadryad.org"
 DATASET_DOI = "10.5061/dryad.1h189"
 LANDING_PAGE = f"https://doi.org/{DATASET_DOI}"
-USER_AGENT = "bita-theis2014-dryad-audit/1.1"
+USER_AGENT = "bita-theis2014-dryad-audit/1.2"
 MAX_ARCHIVE_BYTES = 100 * 1024 * 1024
 TARGET_FILES = {
     "Volatiles ngflowerh.csv",
@@ -155,11 +155,13 @@ def _audit_csv(name: str, archive: zipfile.ZipFile, member: zipfile.ZipInfo) -> 
 
 def run(output_path: str | Path) -> dict[str, object]:
     manifest, version_url = _manifest_and_version()
-    missing_manifest = sorted(TARGET_FILES.difference({name.rsplit("/", 1)[-1] for name in manifest}))
+    manifest_basenames = {name.rsplit("/", 1)[-1] for name in manifest}
+    missing_manifest = sorted(TARGET_FILES.difference(manifest_basenames))
     if missing_manifest:
         raise RuntimeError(f"declared Dryad files missing from manifest: {missing_manifest}")
     archive = _archive(version_url)
     members = _member_map(archive)
+    archive_member_names = sorted(m.filename for m in archive.infolist() if not m.is_dir())
     missing_archive = sorted(TARGET_FILES.difference(members))
     if missing_archive:
         raise RuntimeError(f"declared Dryad files missing from version archive: {missing_archive}")
@@ -170,7 +172,9 @@ def run(output_path: str | Path) -> dict[str, object]:
         "archive_url": f"{version_url}/download",
         "target_files": sorted(TARGET_FILES),
         "manifest_file_count": len(manifest),
-        "archive_member_count": len([m for m in archive.infolist() if not m.is_dir()]),
+        "manifest_file_names": sorted(manifest),
+        "archive_member_count": len(archive_member_names),
+        "archive_member_names": archive_member_names,
         "audits": [_audit_csv(name, archive, members[name]) for name in sorted(TARGET_FILES)],
         "guardrail": "Schema/linkage audit only; public version archive read in memory, no observation rows retained, and no effect estimated.",
     }
