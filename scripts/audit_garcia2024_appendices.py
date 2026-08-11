@@ -4,6 +4,11 @@ The JPE article exposes Appendix I and Appendix II through stable article-view
 endpoints. This script retrieves both on GitHub Actions, records content type and
 size, and inspects Appendix II only when it is a structured text/spreadsheet file.
 PDF content is not parsed here; the PDF appendix is only classified by format.
+
+The JPE/OJS host intermittently closes Python urllib connections without a response.
+Retrieval therefore falls back to curl with redirects/retries against the same fixed
+public URLs. Raw appendix files are held only in memory / temporary files during the
+workflow and are never committed.
 """
 
 from __future__ import annotations
@@ -12,16 +17,19 @@ import csv
 import io
 import json
 import math
+import subprocess
+import tempfile
 import zipfile
 from pathlib import Path
 from urllib.request import Request, urlopen
 
 ARTICLE_DOI = "10.26786/1920-7603(2024)758"
+ARTICLE_URL = "https://www.pollinationecology.org/index.php/jpe/article/view/758"
 APPENDICES = {
     "Appendix_I": "https://www.pollinationecology.org/index.php/jpe/article/view/758/477",
     "Appendix_II": "https://www.pollinationecology.org/index.php/jpe/article/view/758/478",
 }
-USER_AGENT = "bita-garcia2024-appendix-audit/1.0"
+USER_AGENT = "bita-garcia2024-appendix-audit/1.1"
 MAX_BYTES = 50 * 1024 * 1024
 KEY_TOKENS = (
     "id", "plant", "petal", "latex", "pollin", "fruit", "nectar", "inflores", "flower",
@@ -29,12 +37,8 @@ KEY_TOKENS = (
 )
 
 
-def _download(url: str) -> tuple[bytes, dict[str, str], str]:
-    req = Request(url, headers={
-        "User-Agent": USER_AGENT,
-        "Accept": "*/*",
-        "Referer": "https://www.pollinationecology.org/index.php/jpe/article/view/758",
-    })
+def _urllib_download(url: str) -> tuple[bytes, dict[str, str], str]:
+    req = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "*/*", "Referer": ARTICLE_URL})
     with urlopen(req, timeout=45) as response:  # nosec B310: fixed public journal endpoints
         data = response.read(MAX_BYTES + 1)
         headers = {k.lower(): v for k, v in response.headers.items()}
@@ -42,6 +46,54 @@ def _download(url: str) -> tuple[bytes, dict[str, str], str]:
     if len(data) > MAX_BYTES:
         raise ValueError("appendix exceeds configured byte limit")
     return data, headers, final_url
+
+
+def _curl_download(url: str) -> tuple[bytes, dict[str, str], str]:
+    with tempfile.TemporaryDirectory(prefix="garcia-jpe-") as tmp:
+        body = Path(tmp) / "body.bin"
+        headers_path = Path(tmp) / "headers.txt"
+        effective_path = Path(tmp) / "effective.txt"
+        command = [
+            "curl", "--fail", "--location", "--silent", "--show-error",
+            "--retry", "5", "--retry-all-errors", "--retry-delay", "2",
+            "--connect-timeout", "30", "--max-time", "240",
+            "--user-agent", USER_AGENT,
+            "--header", f"Referer: {ARTICLE_URL}",
+            "--header", "Accept: */*",
+            "--dump-header", str(headers_path),
+            "--output", str(body),
+            "--write-out", "%{url_effective}",
+            url,
+        ]
+        completed = subprocess.run(command, capture_output=True, text=True)
+        effective_path.write_text(completed.stdout or url, encoding="utf-8")
+        if completed.returncode != 0:
+            raise RuntimeError(f"curl failed ({completed.returncode}): {completed.stderr[-600:]}")
+        data = body.read_bytes()
+        if len(data) > MAX_BYTES:
+            raise ValueError("appendix exceeds configured byte limit")
+        # Multiple redirect header blocks may be present. Keep the final non-empty
+        # values for the small set of headers used by the audit.
+        headers: dict[str, str] = {}
+        for line in headers_path.read_text(encoding="latin-1", errors="replace").splitlines():
+            if ":" not in line:
+                continue
+            key, value = line.split(":", 1)
+            headers[key.strip().lower()] = value.strip()
+        return data, headers, effective_path.read_text(encoding="utf-8").strip() or url
+
+
+def _download(url: str) -> tuple[bytes, dict[str, str], str]:
+    try:
+        return _urllib_download(url)
+    except Exception as urllib_error:
+        try:
+            return _curl_download(url)
+        except Exception as curl_error:
+            raise RuntimeError(
+                f"JPE appendix retrieval failed via urllib ({type(urllib_error).__name__}: {urllib_error}) "
+                f"and curl ({type(curl_error).__name__}: {curl_error})"
+            ) from curl_error
 
 
 def _kind(data: bytes, content_type: str, final_url: str) -> str:
@@ -105,8 +157,6 @@ def _audit_csv(data: bytes) -> dict[str, object]:
 
 
 def _audit_xlsx(data: bytes) -> dict[str, object]:
-    # openpyxl is installed explicitly in the workflow. It is imported lazily so
-    # this module remains importable in the base package environment.
     import openpyxl  # type: ignore
 
     workbook = openpyxl.load_workbook(io.BytesIO(data), read_only=True, data_only=True)
@@ -156,14 +206,12 @@ def _audit_appendix(label: str, url: str) -> dict[str, object]:
         if kind == "xlsx":
             result["structured_audit"] = _audit_xlsx(data)
         elif kind in {"csv", "text_or_html"}:
-            # Only parse text as a table when it visibly contains delimiters.
             prefix = data[:4096].decode("utf-8-sig", errors="replace")
             if "," in prefix or "\t" in prefix:
                 result["structured_audit"] = _audit_csv(data)
             else:
                 result["structured_audit"] = {"format": kind, "table_not_detected": True}
         elif kind == "zip_or_office":
-            # Attempt xlsx only when the ZIP contains the standard workbook marker.
             with zipfile.ZipFile(io.BytesIO(data)) as archive:
                 names = set(archive.namelist())
             if "xl/workbook.xml" in names:
@@ -183,6 +231,7 @@ def run(output_path: str | Path) -> dict[str, object]:
             "No observation-level rows are written to the report.",
             "Appendix I PDF content is not parsed by this workflow; only file metadata are recorded.",
             "No A x D model is fitted until the source model/variable definitions are independently fixed.",
+            "curl fallback changes transport only; the fixed article-declared appendix URLs are unchanged.",
         ],
     }
     path = Path(output_path)
