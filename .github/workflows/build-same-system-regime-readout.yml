@@ -1,0 +1,33 @@
+name: Build same-system regime readout
+
+on:
+  pull_request:
+    paths:
+      - "empirical/mechanism_pattern_synthesis/SAME_SYSTEM_REGIME_PROTOCOL_V1.md"
+      - "empirical/mechanism_pattern_synthesis/SAME_SYSTEM_REGIME_LEDGER_V1.csv"
+      - "scripts/build_same_system_regime_readout.py"
+      - ".github/workflows/build-same-system-regime-readout.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate and summarize same-system regimes
+        run: |
+          python scripts/build_same_system_regime_readout.py \
+            artifacts/same_system_regime_report.json \
+            artifacts/SAME_SYSTEM_REGIME_READOUT_V1.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: same-system-regime-readout
+          path: artifacts/
+          if-no-files-found: error
