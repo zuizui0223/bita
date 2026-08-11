@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "scripts/audit_sasidharan2023_pmc_supplement.py"
+      - "scripts/audit_sasidharan2023_s1_domains.py"
       - ".github/workflows/audit-sasidharan2023-pmc-supplement.yml"
   workflow_dispatch:
 
@@ -25,7 +26,11 @@ jobs:
         run: |
           python scripts/audit_sasidharan2023_pmc_supplement.py \
             artifacts/sasidharan2023_pmc_supplement_schema.json
-      - name: Publish schema-only audit summary
+      - name: Audit S1 coding domains and publication dependence
+        run: |
+          python scripts/audit_sasidharan2023_s1_domains.py \
+            artifacts/sasidharan2023_s1_domains.json
+      - name: Publish aggregate audit summaries
         run: |
           {
             echo '## Sasidharan 2023 supplement schema audit'
@@ -33,19 +38,25 @@ jobs:
             echo '```json'
             cat artifacts/sasidharan2023_pmc_supplement_schema.json
             echo '```'
+            echo
+            echo '## S1 coding-domain and publication-dependence audit'
+            echo
+            echo '```json'
+            cat artifacts/sasidharan2023_s1_domains.json
+            echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
           python - <<'PY'
           import json
           from pathlib import Path
-          report = json.loads(Path('artifacts/sasidharan2023_pmc_supplement_schema.json').read_text())
+          schema = json.loads(Path('artifacts/sasidharan2023_pmc_supplement_schema.json').read_text())
           source = {
-              'source_doi': report['source_doi'],
-              'pmcid': report['pmcid'],
-              'supplement_name': report['supplement_name'],
-              'sheet_count': report['workbook']['sheet_count'],
+              'source_doi': schema['source_doi'],
+              'pmcid': schema['pmcid'],
+              'supplement_name': schema['supplement_name'],
+              'sheet_count': schema['workbook']['sheet_count'],
           }
           print('::notice title=Sasidharan 2023 source::' + json.dumps(source, separators=(',', ':')))
-          for index, sheet in enumerate(report['workbook']['sheets'], start=1):
+          for index, sheet in enumerate(schema['workbook']['sheets'], start=1):
               concise = {
                   'index': index,
                   'sheet_name': sheet['sheet_name'],
@@ -57,9 +68,15 @@ jobs:
                   'candidate_columns': sheet['candidate_columns'],
               }
               print(f'::notice title=Sasidharan 2023 sheet {index}::' + json.dumps(concise, separators=(',', ':')))
+          domains = json.loads(Path('artifacts/sasidharan2023_s1_domains.json').read_text())
+          print('::notice title=Sasidharan 2023 dependence::' + json.dumps(domains['publication_dependence'], separators=(',', ':')))
+          for column, counts in domains['domains'].items():
+              print(f'::notice title=Sasidharan S1 domain {column}::' + json.dumps(counts, separators=(',', ':')))
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: sasidharan2023-pmc-supplement-schema
-          path: artifacts/sasidharan2023_pmc_supplement_schema.json
+          name: sasidharan2023-pmc-supplement-audit
+          path: |
+            artifacts/sasidharan2023_pmc_supplement_schema.json
+            artifacts/sasidharan2023_s1_domains.json
           if-no-files-found: error
