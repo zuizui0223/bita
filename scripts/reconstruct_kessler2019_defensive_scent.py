@@ -22,12 +22,13 @@ SOURCE_DOI = "10.1111/1365-2435.13332"
 DATASET_DOI = "10.17617/3.24"
 FILE_NAME = "FIGURE 1. Diabrotica presence 2011. 2014. 2016.xlsx"
 YEARS = ("2011", "2014", "2016")
-USER_AGENT = "bita-kessler2019-defensive-scent-reconstruction/1.0"
+USER_AGENT = "bita-kessler2019-defensive-scent-reconstruction/1.1"
 MAX_FILE_BYTES = 5 * 1024 * 1024
 NS_MAIN = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 NS_REL_DOC = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
 NS_REL_PKG = "http://schemas.openxmlformats.org/package/2006/relationships"
 SOURCE_P = {"2011": 0.035, "2014": 0.013, "2016": 0.098}
+ALLOWED_LINES = {"EV", "CHAL"}
 
 
 def _get(url: str) -> bytes:
@@ -98,6 +99,33 @@ def _normalise_header(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
 
 
+def _row_values(row: ET.Element, shared: list[str]) -> dict[str, str]:
+    return {_cell_col(cell): _cell_value(cell, shared) for cell in row.findall(f"{{{NS_MAIN}}}c")}
+
+
+def _discover_unlabelled_line_col(rows: list[ET.Element], header_index: int, shared: list[str]) -> str:
+    """Find an unlabeled genotype column whose non-empty values are exactly EV/CHAL.
+
+    This is a structural fallback for the deposited 2014 sheet, whose genotype
+    values occupy a column without a header. It does not inspect the outcome when
+    deciding which predictor column to use.
+    """
+    by_column: dict[str, set[str]] = {}
+    for row in rows[header_index + 1 :]:
+        for col, raw in _row_values(row, shared).items():
+            value = raw.strip().upper()
+            if not value:
+                continue
+            by_column.setdefault(col, set()).add(value)
+    candidates = [
+        col for col, values in by_column.items()
+        if values and values.issubset(ALLOWED_LINES) and values == ALLOWED_LINES
+    ]
+    if len(candidates) != 1:
+        raise ValueError(f"unlabelled genotype column ambiguous or absent: candidates={candidates}")
+    return candidates[0]
+
+
 def _parse_sheet(book: zipfile.ZipFile, path: str, shared: list[str], year: str) -> list[dict[str, str]]:
     root = ET.fromstring(book.read(path))
     data = root.find(f"{{{NS_MAIN}}}sheetData")
@@ -107,26 +135,27 @@ def _parse_sheet(book: zipfile.ZipFile, path: str, shared: list[str], year: str)
     header_map: dict[str, str] | None = None
     header_index = -1
     for index, row in enumerate(rows[:15]):
-        by_col = {_cell_col(cell): _cell_value(cell, shared) for cell in row.findall(f"{{{NS_MAIN}}}c")}
+        by_col = _row_values(row, shared)
         normal = {col: _normalise_header(value) for col, value in by_col.items() if value}
-        line_cols = [col for col, value in normal.items() if value == "line"]
         presence_cols = [col for col, value in normal.items() if value.startswith("presence")]
-        if line_cols and presence_cols:
-            header_map = {col: value for col, value in normal.items()}
+        # Presence is mandatory. The genotype header may legitimately be blank in 2014.
+        if presence_cols:
+            header_map = normal
             header_index = index
             break
     if header_map is None:
-        raise ValueError(f"{year}: required line/presence header row not found")
+        raise ValueError(f"{year}: required presence header row not found")
 
-    named_col = {name: col for col, name in header_map.items()}
-    line_col = named_col["line"]
+    line_col = next((col for col, name in header_map.items() if name == "line"), None)
+    if line_col is None:
+        line_col = _discover_unlabelled_line_col(rows, header_index, shared)
     presence_col = next(col for col, name in header_map.items() if name.startswith("presence"))
     beetle_col = next((col for col, name in header_map.items() if name == "number_of_beetles"), None)
     plant_col = next((col for col, name in header_map.items() if name == "plant_number"), None)
 
     output: list[dict[str, str]] = []
     for row in rows[header_index + 1 :]:
-        values = {_cell_col(cell): _cell_value(cell, shared) for cell in row.findall(f"{{{NS_MAIN}}}c")}
+        values = _row_values(row, shared)
         line = values.get(line_col, "").strip().upper()
         presence = values.get(presence_col, "").strip()
         if not line and not presence:
@@ -145,9 +174,9 @@ def _fisher_probability(a: int, row1: int, col1: int, total: int) -> float:
 
 
 def _fisher_two_sided(a: int, b: int, c: int, d: int) -> float:
-    row1, row2 = a + b, c + d
+    row1 = a + b
     col1 = a + c
-    total = row1 + row2
+    total = a + b + c + d
     observed = _fisher_probability(a, row1, col1, total)
     lower = max(0, row1 - (total - col1))
     upper = min(row1, col1)
