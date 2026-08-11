@@ -3,7 +3,9 @@
 EDMOND is a Dataverse deployment. The article declares persistent DOI
 10.17617/3.24. This script retrieves dataset metadata through the public Dataverse
 API and inspects bounded public tabular files in memory. It writes file/schema
-summaries only; observation-level rows and non-header Excel values are never emitted.
+summaries only; observation-level rows are never emitted. For Figure 1 only, it
+also reports bounded structural profiles of unlabeled columns to resolve a source-
+data counting discrepancy without exposing plant identifiers or outcome rows.
 """
 
 from __future__ import annotations
@@ -21,9 +23,10 @@ from xml.etree import ElementTree as ET
 BASE = "https://edmond.mpg.de"
 PERSISTENT_ID = "doi:10.17617/3.24"
 SOURCE_DOI = "10.1111/1365-2435.13332"
-USER_AGENT = "bita-kessler2019-edmond-audit/1.1"
+USER_AGENT = "bita-kessler2019-edmond-audit/1.2"
 MAX_FILE_BYTES = 50 * 1024 * 1024
 TABULAR_SUFFIXES = {".csv", ".tsv", ".txt"}
+FIGURE1_NAME = "FIGURE 1. Diabrotica presence 2011. 2014. 2016.xlsx"
 TOKENS = (
     "year", "genotype", "chal", "ev", "plant", "flower", "damage", "beetle", "diabrotica",
     "infest", "choice", "feeding", "time", "ba", "benzyl", "eag", "dose", "concentration",
@@ -102,6 +105,11 @@ def _cell_text(cell: ET.Element, shared: list[str]) -> str:
     return value.text.strip()
 
 
+def _cell_col(cell: ET.Element) -> str:
+    match = re.match(r"([A-Z]+)", cell.attrib.get("r", ""))
+    return match.group(1) if match else ""
+
+
 def _sheet_targets(book: zipfile.ZipFile) -> list[tuple[str, str]]:
     workbook = ET.fromstring(book.read("xl/workbook.xml"))
     rels = ET.fromstring(book.read("xl/_rels/workbook.xml.rels"))
@@ -126,7 +134,53 @@ def _sheet_targets(book: zipfile.ZipFile) -> list[tuple[str, str]]:
     return output
 
 
-def _audit_xlsx(file_id: int) -> list[dict[str, object]]:
+def _figure1_structural_profile(sheet_data: ET.Element | None, shared: list[str]) -> dict[str, object]:
+    """Summarize column structure without emitting row-level combinations.
+
+    Plant identifiers and numeric outcome values are deliberately excluded. String
+    labels such as EV/CHAL or textual notes may be reported as bounded distinct sets.
+    """
+    if sheet_data is None:
+        return {}
+    rows = sheet_data.findall(f"{{{NS_MAIN}}}row")
+    if not rows:
+        return {}
+    header_cells = {
+        _cell_col(cell): _cell_text(cell, shared)
+        for cell in rows[0].findall(f"{{{NS_MAIN}}}c")
+    }
+    profiles: dict[str, dict[str, object]] = {}
+    for row in rows[1:]:
+        for cell in row.findall(f"{{{NS_MAIN}}}c"):
+            col = _cell_col(cell)
+            value = _cell_text(cell, shared).strip()
+            if not value:
+                continue
+            profile = profiles.setdefault(col, {"nonempty": 0, "numeric": 0, "distinct_text": set()})
+            profile["nonempty"] = int(profile["nonempty"]) + 1
+            try:
+                float(value)
+                profile["numeric"] = int(profile["numeric"]) + 1
+            except ValueError:
+                distinct = profile["distinct_text"]
+                if isinstance(distinct, set) and len(distinct) < 20:
+                    # Do not emit likely plant identifiers: only retain biologically/structurally named labels.
+                    upper = value.upper()
+                    if upper in {"EV", "CHAL"} or any(token in value.lower() for token in ("exclude", "omit", "dead", "missing", "note", "control", "treat")):
+                        distinct.add(value)
+    output: dict[str, object] = {}
+    for col, profile in profiles.items():
+        distinct = profile.pop("distinct_text")
+        output[col] = {
+            "header": header_cells.get(col, ""),
+            "nonempty_count": profile["nonempty"],
+            "numeric_count": profile["numeric"],
+            "bounded_structural_text": sorted(distinct) if isinstance(distinct, set) else [],
+        }
+    return output
+
+
+def _audit_xlsx(file_id: int, file_name: str) -> list[dict[str, object]]:
     raw = _get(
         f"{BASE}/api/access/datafile/{file_id}",
         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,*/*",
@@ -143,12 +197,15 @@ def _audit_xlsx(file_id: int) -> list[dict[str, object]]:
         headers: list[str] = []
         if first_row is not None:
             headers = [_cell_text(cell, shared) for cell in first_row.findall(f"{{{NS_MAIN}}}c")]
-        sheets.append({
+        record: dict[str, object] = {
             "sheet_name": sheet_name,
             "dimension": dimension_ref,
             "headers": headers,
             "candidate_columns": _candidate_columns(headers),
-        })
+        }
+        if file_name == FIGURE1_NAME:
+            record["structural_column_profile"] = _figure1_structural_profile(sheet_data, shared)
+        sheets.append(record)
     return sheets
 
 
@@ -189,8 +246,8 @@ def _file_record(item: dict) -> dict[str, object]:
     if not isinstance(file_id, int) or result["restricted"]:
         return result
     if suffix == ".xlsx":
-        result["workbook_sheets"] = _audit_xlsx(file_id)
-        result["schema_guardrail"] = "Only sheet names, dimensions, and first-row headers were read; no non-header Excel values were emitted."
+        result["workbook_sheets"] = _audit_xlsx(file_id, name)
+        result["schema_guardrail"] = "Sheet/header structure plus bounded structural labels only; no observation rows, plant identifiers, or numeric outcome values are emitted."
     elif suffix in TABULAR_SUFFIXES:
         result.update(_audit_text(file_id))
     return result
@@ -209,9 +266,9 @@ def run(output_path: str | Path) -> dict[str, object]:
         "file_count": len(files),
         "files": [_file_record(item) for item in files],
         "guardrails": [
-            "Observation-level rows and non-header Excel values are never written.",
+            "Observation-level rows, plant identifiers, and numeric non-header Excel values are never written.",
+            "Figure-1 structural labels are audited only to adjudicate source/data counting discrepancies.",
             "This audit does not fit biological models.",
-            "A later effect reconstruction requires a predeclared source-aligned outcome and exact treatment/genotype sample counts.",
         ],
     }
     path = Path(output_path)
