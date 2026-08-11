@@ -33,6 +33,17 @@ jobs:
               "https://scholarsphere.psu.edu/resources/"
               "444a06ba-9d41-4920-b91f-5222f675a065"
           )
+
+          # ScholarSphere's public source explicitly exempts user agents containing
+          # "bot" as good bots from the interactive Turnstile challenge. This uses
+          # that documented machine-download path rather than attempting to solve
+          # or bypass the challenge.
+          recovery.USER_AGENT = (
+              "bita-research-bot/1.0 "
+              "(+https://github.com/zuizui0223/bita)"
+          )
+          recovery.MAX_CANDIDATES = 30
+
           raise SystemExit(
               recovery.main(["artifacts/villalona2020_scholarsphere"])
           )
