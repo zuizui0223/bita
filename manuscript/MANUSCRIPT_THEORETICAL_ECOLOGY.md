@@ -348,27 +348,15 @@ The authors declare no competing interests. [Confirm for all authors before subm
 
 ## References
 
-Armbruster WS, Pélabon C, Bolstad GH, Hansen TF (2014) Floral integration, modularity, and accuracy: distinguishing complex adaptations from genetic constraints. *New Phytologist* 204:92–105. https://doi.org/10.1111/nph.12930
-
 Blows MW, Brooks R (2003) Measuring nonlinear selection. *The American Naturalist* 162:815–820. https://doi.org/10.1086/378905
-
-Fenster CB, Armbruster WS, Wilson P, Dudash MR, Thomson JD (2004) Pollination syndromes and floral specialization. *Annual Review of Ecology, Evolution, and Systematics* 35:375–403. https://doi.org/10.1146/annurev.ecolsys.34.011802.132347
-
-Harder LD, Johnson SD (2009) Darwin's beautiful contrivances: evolutionary and functional evidence for floral adaptation. *New Phytologist* 183:530–545. https://doi.org/10.1111/j.1469-8137.2009.02914.x
 
 Herrera CM et al. (2002) Interaction of pollinators and herbivores on plant fitness suggests a pathway for correlated evolution of mutualism- and antagonism-related traits. *Proceedings of the National Academy of Sciences USA* 99:16823–16828. https://doi.org/10.1073/pnas.252362799
 
 Knauer AC, Bakhtiari M, Schiestl FP (2018) Crab spiders impact floral-signal evolution indirectly through removal of florivores. *Nature Communications* 9:1367. https://doi.org/10.1038/s41467-018-03792-x
 
-Krupnick GA, Weis AE, Campbell DR (1999) The consequences of floral herbivory for pollinator service to *Isomeris arborea*. *Ecology* 80:125–134.
-
 Lande R, Arnold SJ (1983) The measurement of selection on correlated characters. *Evolution* 37:1210–1226. https://doi.org/10.2307/2408842
 
 Leal LC et al. (2025) Costs of floral larceny: a meta-analytical evaluation of nectar robbing and nectar theft on animal-pollinated plants. *Ecology* 106:e70036. https://doi.org/10.1002/ecy.70036
-
-McCall AC, Irwin RE (2006) Florivory: the intersection of pollination and herbivory. *Ecology Letters* 9:1351–1365. https://doi.org/10.1111/j.1461-0248.2006.00975.x
-
-Mothershead K, Marquis RJ (2000) Fitness impacts of herbivory through indirect effects on plant-pollinator interactions in *Oenothera macrocarpa*. *Ecology* 81:30–40. https://doi.org/10.1890/0012-9658(2000)081[0030:FIOHTI]2.0.CO;2
 
 Phillips PC, Arnold SJ (1989) Visualizing multivariate selection. *Evolution* 43:1209–1222. https://doi.org/10.2307/2409357
 
@@ -376,11 +364,9 @@ Richardson LL et al. (2015) Secondary metabolites in floral nectar reduce parasi
 
 Sasidharan R, Junker RR, Eilers EJ, Müller C (2023) Floral volatiles evoke partially similar responses in both florivores and pollinators and are correlated with non-volatile reward chemicals. *Annals of Botany* 132:1–14. https://doi.org/10.1093/aob/mcad064
 
-Schiestl FP, Johnson SD (2013) Pollinator-mediated evolution of floral signals. *Trends in Ecology & Evolution* 28:307–315. https://doi.org/10.1016/j.tree.2013.01.019
-
 Soper Gorden NL, Adler LS (2018) Consequences of multiple flower-insect interactions for subsequent plant-insect interactions and plant reproduction. *American Journal of Botany* 105:1835–1846. https://doi.org/10.1002/ajb2.1182
 
-Stevenson PC, Nicolson SW, Wright GA (2017) Plant secondary metabolites in nectar: impacts on pollinators and ecological functions. *Annual Review of Entomology* 62:117–138. https://doi.org/10.1146/annurev-ento-031616-035013
+Stevenson PC, Nicolson SW, Wright GA (2017) Plant secondary metabolites in nectar: impacts on pollinators and ecological functions. *Functional Ecology* 31:65–75. https://doi.org/10.1111/1365-2435.12761
 
 Strauss SY, Siemens DH, Decher MB, Mitchell-Olds T (1999) Ecological costs of plant resistance to herbivores in the currency of pollination. *Evolution* 53:1105–1113. https://doi.org/10.1111/j.1558-5646.1999.tb04525.x
 
