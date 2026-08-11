@@ -22,10 +22,21 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Resolve the data DOI and recover repository files
+      - name: Recover repository files from the verified ScholarSphere landing page
         run: |
-          python scripts/recover_villalona2020_scholarsphere.py \
-            artifacts/villalona2020_scholarsphere
+          python - <<'PY'
+          from scripts import recover_villalona2020_scholarsphere as recovery
+
+          # The DOI resolver intermittently resets connections on hosted runners.
+          # This is the exact landing URL previously resolved from the published DOI.
+          recovery.DOI_URL = (
+              "https://scholarsphere.psu.edu/resources/"
+              "444a06ba-9d41-4920-b91f-5222f675a065"
+          )
+          raise SystemExit(
+              recovery.main(["artifacts/villalona2020_scholarsphere"])
+          )
+          PY
 
       - name: Upload repository data and provenance receipt
         uses: actions/upload-artifact@v4
