@@ -26,24 +26,48 @@ LEDGER_BATCH_2_V1.csv
     direct-interaction and quantitative-route records recovered from
     historical reproducible branches / workflow artifacts
 
-SCREENING_BATCH_1_V1.csv
-    source-screen decisions from the first high-information batch
+LEDGER_BATCH_3_V1.csv
+    expanded quantitative / directional A-to-antagonist and
+    D-to-antagonist records, including Cucurbita, Kessler Nicotiana,
+    slippery-flower experiments and Asclepias cardenolide oviposition
 
-SCREENING_BATCH_1_READOUT_V1.md
-    integrated readout for execution series 1-2
+SIGN_SWITCH_LEDGER_V1.csv
+    within-study dose, reward, exposure, consumer and response-construct
+    switches retained as dependent contrasts
 
 DIRECT_AXD_AUDIT_V1.csv
-    direct-interaction candidate adjudication
+    strict direct-interaction candidate adjudication
+
+DIRECT_AXD_SEARCH_EXPANSION_READOUT_V1.md
+    explicit taxonomy of why near-direct studies fail or pass the A x D gate
 
 IMPATIENS_2018_DIRECT_AXD_REAUDIT_V1.md
     first verified Tier-1 observational direct A x D cluster
+
+THEIS_2014_CUCURBITA_MULTIROUTE_READOUT_V1.md
+    quantitative same-signal A-to-pollinator / A-to-antagonist pair
+
+THEIS_ADLER_2012_FIGSHARE_ROUTE_READOUT_V1.md
+    publisher-linked archive audit and directional main-experiment routes
+
+KESSLER_2015_FACTORIAL_REAUDIT_V1.md
+    closed strict-AxD orientation route plus retained same-system scent tracking
+
+GELSEMIUM_2005_D_TO_ANTAGONISM_READOUT_V1.md
+TAKEDA_2021_SLIPPERY_FLOWER_DEFENCE_READOUT_V1.md
+    chemical and physical D-to-antagonist mechanism readouts
+
+JOINT_COST_AUDIT_V1.csv
+JOINT_COST_READOUT_V1.md
+    direct-kappa search state; trait covariance is not treated as joint cost
 
 SECONDARY_SYNTHESIS_MODULES_V1.csv
     existing published / deposited syntheses retained at their proper
     inferential level rather than pooled into the primary ledger
 
 STATUS_AFTER_BATCH_2_V1.md
-    completion-gate dashboard
+STATUS_AFTER_BATCH_3_V1.md
+    completion-gate dashboards
 
 COMPLETION_GATE_V1.md
     conditions that must be satisfied before manuscript reconstruction
@@ -51,16 +75,25 @@ COMPLETION_GATE_V1.md
 
 ## Current high-level result
 
-The first execution series has established:
+The first three execution batches have established:
 
-- at least six independent same-system or direct-interaction systems;
-- one verified observational direct `A x D` cluster (`Impatiens capensis`), with opposite and individually unresolved point estimates across two reproductive components;
-- one exact-linked quantitative `A -> antagonism` effect in `Gymnadenia odoratissima` (`beta = 0.568`, `SE = 0.269`, `n = 1162`);
-- multiple source-verified examples in which `D -> pollinator` changes with dose, reward, exposure duration, consumer identity, or outcome construct;
-- a retained quantitative `D -> pollinator` natural-range anchor from Adler & Irwin (2005);
-- a transparent set of direct-interaction candidates that were rejected or downgraded because the joint term, D axis, or individual linkage was not identifiable.
+- one strict observational direct `A x D` cluster (`Impatiens capensis`), with opposite and individually unresolved point estimates across two reproductive components;
+- eleven high-information direct-interaction candidates adjudicated under the strict flower-specific D gate, revealing distinct failure modes rather than one generic evidence shortage;
+- two independent quantitative `A -> antagonism` anchors: exact-linked `Gymnadenia odoratissima` (`beta = 0.568`, `SE = 0.269`, `n = 1162`) and the source-reported *Cucurbita* sesquiterpenoid → cucumber-beetle coefficient (`beta = 2.91`, `SE = 1.28`);
+- a same-*Cucurbita* quantitative attraction pair in which the same sesquiterpenoid axis also predicts squash-bee visitation (`beta = 0.096`, `SE = 0.034`);
+- additional experimental attraction-tracking systems in Theis & Adler (2012) and Kessler et al. (2015), retained directionally when public source data do not support a defensible new effect reconstruction;
+- chemical D-to-antagonist mechanisms in `Gelsemium` and `Asclepias` and a flower-specific physical-access mechanism in slippery `Codonopsis` / `Fritillaria` perianths;
+- nine explicitly coded within-study conditionality patterns involving dose, reward, exposure duration, consumer identity, antagonist decision stage, outcome construct, and reproductive-component scale;
+- zero verified studies directly measuring the theory's A+D allocation/construction cost `kappa`, despite several high-information joint-trait audits.
 
-These are execution results, not prevalence estimates. Search saturation and multi-study quantitative modules remain incomplete.
+These are execution results, not prevalence estimates. Search saturation and metric-compatible multi-study quantitative synthesis remain incomplete.
+
+## Active source audits
+
+Two public-data audits are intentionally separated from biological inference:
+
+- García et al. (2024), `Asclepias syriaca`: public Appendix I/II route for a same-individual floral-attraction + floral-latex panel. No `A x D` reanalysis is allowed until the source model and variable definitions are fixed from primary materials.
+- Barlow et al. (2017), `Aconitum`: article-declared Figshare `10.6084/m9.figshare.5165350` for alkaloid and bumblebee bioassay data. This is the next priority for an uncertainty-bearing D-to-antagonist / D-to-pollinator module.
 
 ## Append-only evidence discipline
 
