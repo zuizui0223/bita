@@ -5,7 +5,6 @@ on:
     branches:
       - analysis/complete-constituent-path-meta-v1
     paths:
-      - "scripts/recover_villalona2020_scholarsphere.py"
       - ".github/workflows/recover-villalona2020-scholarsphere.yml"
   workflow_dispatch:
 
@@ -22,45 +21,101 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Recover repository files from the verified ScholarSphere landing page
+      - name: Download the three files declared by the public ScholarSphere record
         run: |
           python - <<'PY'
-          from scripts import recover_villalona2020_scholarsphere as recovery
+          from __future__ import annotations
 
-          # The DOI resolver intermittently resets connections on hosted runners.
-          # This is the exact landing URL previously resolved from the published DOI.
-          recovery.DOI_URL = (
-              "https://scholarsphere.psu.edu/resources/"
-              "444a06ba-9d41-4920-b91f-5222f675a065"
+          import hashlib
+          import json
+          import subprocess
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          output = Path("artifacts/villalona2020_scholarsphere")
+          files_dir = output / "files"
+          files_dir.mkdir(parents=True, exist_ok=True)
+
+          resource = "243b68c4-968d-4e53-b699-4dc884e31804"
+          base = f"https://scholarsphere.psu.edu/resources/{resource}/downloads"
+          user_agent = "bita-research-bot/1.0 (+https://github.com/zuizui0223/bita)"
+          manifest = [
+              (4220, "Raw_Data_Files_FieldPreferenceToxicity.xlsx"),
+              (4221, "OECO-D-20-00056R1_AssociatedData_Archival.zip"),
+              (4222, "iNaturalistRecords.xlsx"),
+          ]
+
+          recovered = []
+          attempts = []
+          for file_id, filename in manifest:
+              destination = files_dir / filename
+              success = False
+              for suffix in ("", "?download=1"):
+                  url = f"{base}/{file_id}{suffix}"
+                  command = [
+                      "curl", "--fail", "--location", "--silent", "--show-error",
+                      "--retry", "5", "--retry-all-errors", "--retry-delay", "2",
+                      "--connect-timeout", "30", "--max-time", "240",
+                      "--user-agent", user_agent,
+                      "--header", "Accept: application/octet-stream,*/*",
+                      "--output", str(destination),
+                      url,
+                  ]
+                  completed = subprocess.run(command, capture_output=True, text=True)
+                  payload = destination.read_bytes() if destination.exists() else b""
+                  valid = payload[:2] == b"PK" and len(payload) > 1000
+                  attempts.append({
+                      "file_id": file_id,
+                      "filename": filename,
+                      "url": url,
+                      "returncode": completed.returncode,
+                      "bytes": len(payload),
+                      "zip_magic": payload[:2] == b"PK",
+                      "stderr": completed.stderr[-500:],
+                      "status": "recovered" if completed.returncode == 0 and valid else "failed_validation",
+                  })
+                  if completed.returncode == 0 and valid:
+                      recovered.append({
+                          "file_id": file_id,
+                          "filename": filename,
+                          "source_url": url,
+                          "bytes": len(payload),
+                          "sha256": hashlib.sha256(payload).hexdigest(),
+                      })
+                      success = True
+                      break
+                  destination.unlink(missing_ok=True)
+              if not success:
+                  raise RuntimeError(
+                      f"Could not recover ScholarSphere file {file_id} ({filename}); "
+                      f"see attempts in console: {json.dumps(attempts, indent=2)}"
+                  )
+
+          receipt = {
+              "article_doi": "10.1007/s00442-020-04701-0",
+              "data_doi": "10.26207/pgeq-he51",
+              "scholarsphere_work_version": resource,
+              "retrieved_at_utc": datetime.now(timezone.utc).isoformat(),
+              "files": recovered,
+              "attempts": attempts,
+              "source_route_basis": (
+                  "File names and file-version IDs were recovered from the public "
+                  "ScholarSphere landing record. The public ScholarSphere source "
+                  "exempts user agents containing 'bot' from its interactive download "
+                  "challenge; the routes then redirect to time-limited object-storage URLs."
+              ),
+              "interpretation_boundary": (
+                  "Files are preserved without selecting observations or effects. "
+                  "Any analysis must still identify trial, bee species, dose, time, "
+                  "experimental unit, repeated-measures structure, outcome lane, "
+                  "treatment orientation and study dependence."
+              ),
+          }
+          (output / "source_receipt.json").write_text(
+              json.dumps(receipt, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
           )
-
-          browser_ua = (
-              "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-              "Chrome/131 Safari/537.36"
-          )
-          good_bot_ua = (
-              "bita-research-bot/1.0 "
-              "(+https://github.com/zuizui0223/bita)"
-          )
-
-          # The public ScholarSphere application challenges ordinary anonymous
-          # download requests but explicitly exempts user agents containing
-          # "bot" as good bots. The landing page itself is obtained with the
-          # ordinary browser agent; only /downloads/ requests use that documented
-          # machine-download path.
-          original_retrieve = recovery._retrieve
-
-          def routed_retrieve(url, *, accept="text/html,*/*", referer=None):
-              recovery.USER_AGENT = good_bot_ua if "/downloads/" in url else browser_ua
-              return original_retrieve(url, accept=accept, referer=referer)
-
-          recovery._retrieve = routed_retrieve
-          recovery.USER_AGENT = browser_ua
-          recovery.MAX_CANDIDATES = 30
-
-          raise SystemExit(
-              recovery.main(["artifacts/villalona2020_scholarsphere"])
-          )
+          print(json.dumps(receipt, indent=2, sort_keys=True))
           PY
 
       - name: Upload repository data and provenance receipt
