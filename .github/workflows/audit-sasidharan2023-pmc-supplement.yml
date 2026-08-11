@@ -69,13 +69,17 @@ jobs:
               'sheet_count': schema['workbook']['sheet_count'],
               'sheet_names': [sheet['sheet_name'] for sheet in schema['workbook']['sheets']],
           }
-          coding = {
-              'analyzed_test_rows': domains['analyzed_test_rows'],
-              'domains': domains['domains'],
-          }
+          table2 = result['table2_reconstruction']
+          table3 = result['table3_reconstruction']
           reproduction = {
-              'source_unit_reconstruction': result['source_unit_reconstruction'],
-              'shared_tracking': {k: v for k, v in result['shared_tracking'].items() if k != 'by_genus'},
+              'table2_global_unique_unit_audit': table2['global_unique_unit_audit'],
+              'table2_detection': table2['detection'],
+              'table2_behaviour': table2['behaviour'],
+              'table2_detection_chisq_yates': table2['detection_chisq_yates'],
+              'table2_behaviour_chisq': table2['behaviour_chisq'],
+              'table3_exact_genus_denominator_modes': table3['exact_genus_denominator_modes'],
+              'table3_preferred_mode': table3['preferred_mode'],
+              'table3_preferred_total': table3['preferred_total'],
               'publication_dependence': {
                   k: v for k, v in result['publication_dependence'].items()
                   if k not in {'publication_cluster_summaries', 'paired_detection_differences'}
@@ -85,14 +89,14 @@ jobs:
           }
           print('::notice title=Sasidharan 2023 source::' + json.dumps(source, separators=(',', ':')))
           print('::notice title=Sasidharan 2023 dependence::' + json.dumps(domains['publication_dependence'], separators=(',', ':')))
-          print('::notice title=Sasidharan 2023 S1 coding::' + json.dumps(coding, separators=(',', ':')))
           print('::notice title=Sasidharan 2023 reconstruction::' + json.dumps(reproduction, separators=(',', ':')))
           PY
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: sasidharan2023-pmc-supplement-audit
           path: |
             artifacts/sasidharan2023_pmc_supplement_schema.json
             artifacts/sasidharan2023_s1_domains.json
             artifacts/sasidharan2023_fvoc_reconstruction.json
-          if-no-files-found: error
+          if-no-files-found: warn
