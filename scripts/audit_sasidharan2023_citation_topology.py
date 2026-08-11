@@ -1,9 +1,8 @@
-"""Audit conservative study clustering and discordant FVOC behaviour units in Sasidharan 2023.
+"""Audit conservative study clustering and discordant FVOC units in Sasidharan 2023.
 
-This script never persists literal citations, insect names, compounds, or observation-level rows.
-It builds an exact bibliographic topology from normalized citation stems and DOI overlap, then
-reports anonymized component diagnostics. Fuzzy similarity is diagnostic only and NEVER merges
-studies automatically.
+The script never persists literal citations, insect names, compounds, or observation-level rows.
+Study components are formed only by exact normalized citation identity or an explicit shared DOI.
+Fuzzy similarity is diagnostic only and NEVER merges studies automatically.
 """
 
 from __future__ import annotations
@@ -41,6 +40,14 @@ def _text(value: Any) -> str:
     return re.sub(r"\s+", " ", str(value).strip())
 
 
+def _is_one(value: Any) -> bool:
+    if isinstance(value, bool):
+        return bool(value)
+    if isinstance(value, (int, float)):
+        return float(value) == 1.0
+    return _text(value) == "1"
+
+
 def _citation_stem(reference: Any) -> str:
     text = _text(reference).lower()
     text = DOI_RE.sub(" ", text)
@@ -57,7 +64,6 @@ def _dois(reference: Any) -> set[str]:
 
 
 def _tokens(stem: str) -> set[str]:
-    # Remove very short tokens and years for conservative title/author-form similarity diagnostics.
     return {
         token for token in stem.split()
         if len(token) >= 3 and not YEAR_RE.fullmatch(token)
@@ -80,7 +86,10 @@ def _find_header(rows: Iterable[tuple[Any, ...]]) -> tuple[dict[str, int], Itera
     for absolute_row, row in enumerate(iterator, start=1):
         headers = [_text(value) for value in row]
         index = {name: i for i, name in enumerate(headers) if name}
-        required = {"Compound", "Genus", "Insect species", "Insect function", "Behaviour choice", REFERENCE_COLUMN}
+        required = {
+            "Compound", "Genus", "Insect species", "Insect function",
+            "Physio_resp", "Physio_No_resp", "Behaviour choice", REFERENCE_COLUMN,
+        }
         if required.issubset(index):
             return index, iterator, absolute_row
     raise RuntimeError("could not locate S1 header")
@@ -124,6 +133,98 @@ def _components(stem_dois: dict[str, set[str]]) -> tuple[list[set[str]], dict[st
     return output, stem_to_component
 
 
+def _collapse_detection(rows: list[dict[str, Any]]) -> tuple[dict[str, Counter[str]], int]:
+    groups: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        groups[(row["compound"], row["insect"], row["role"])].append(row)
+    counts = {role: Counter() for role in ROLES}
+    conflicts = 0
+    for values in groups.values():
+        states: set[str] = set()
+        for row in values:
+            if row["physio_resp"]:
+                states.add("detected")
+            if row["physio_no_resp"]:
+                states.add("not_detected")
+        if not states:
+            continue
+        if len(states) > 1:
+            conflicts += 1
+            continue
+        counts[values[0]["role"]][next(iter(states))] += 1
+    return counts, conflicts
+
+
+def _detection_effect(rows: list[dict[str, Any]]) -> dict[str, Any] | None:
+    counts, conflicts = _collapse_detection(rows)
+    role_stats: dict[str, Any] = {}
+    for role in sorted(ROLES):
+        detected = counts[role]["detected"]
+        not_detected = counts[role]["not_detected"]
+        total = detected + not_detected
+        if total == 0:
+            return None
+        role_stats[role] = {
+            "detected": detected,
+            "not_detected": not_detected,
+            "total": total,
+            "detected_fraction": detected / total,
+        }
+    poll = role_stats["Pollinator"]
+    flor = role_stats["Florivore"]
+    poll_p = poll["detected_fraction"]
+    flor_p = flor["detected_fraction"]
+    odds_ratio = None
+    if all(value > 0 for value in (poll["detected"], poll["not_detected"], flor["detected"], flor["not_detected"])):
+        odds_ratio = (flor["detected"] * poll["not_detected"]) / (flor["not_detected"] * poll["detected"])
+    return {
+        "roles": role_stats,
+        "florivore_minus_pollinator_risk_difference": flor_p - poll_p,
+        "florivore_over_pollinator_risk_ratio": flor_p / poll_p if poll_p else None,
+        "florivore_vs_pollinator_odds_ratio": odds_ratio,
+        "detection_conflicts": conflicts,
+    }
+
+
+def _behaviour_bounds(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    groups: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        if row["behaviour"] in {"+", "-", "0"}:
+            groups[(row["compound"], row["insect"], row["role"])].append(row)
+    uniform = {role: Counter() for role in ROLES}
+    discordant = {role: [] for role in ROLES}
+    for values in groups.values():
+        role = values[0]["role"]
+        choices = {row["behaviour"] for row in values}
+        if len(choices) == 1:
+            uniform[role][next(iter(choices))] += 1
+        else:
+            discordant[role].append(choices)
+    output: dict[str, Any] = {}
+    for role in sorted(ROLES):
+        conflicts = discordant[role]
+        output[role] = {
+            "coded_unique_units": sum(uniform[role].values()) + len(conflicts),
+            "uniform_attractive": uniform[role]["+"],
+            "uniform_repellent": uniform[role]["-"],
+            "uniform_no_response": uniform[role]["0"],
+            "discordant_units": len(conflicts),
+            "attractive_range": [
+                uniform[role]["+"],
+                uniform[role]["+"] + sum("+" in choices for choices in conflicts),
+            ],
+            "repellent_range": [
+                uniform[role]["-"],
+                uniform[role]["-"] + sum("-" in choices for choices in conflicts),
+            ],
+            "no_response_range": [
+                uniform[role]["0"],
+                uniform[role]["0"] + sum("0" in choices for choices in conflicts),
+            ],
+        }
+    return output
+
+
 def run(output_path: str | Path) -> dict[str, Any]:
     import openpyxl  # type: ignore
 
@@ -160,6 +261,8 @@ def run(output_path: str | Path) -> dict[str, Any]:
             "genus": genus,
             "insect": insect.casefold(),
             "role": role,
+            "physio_resp": _is_one(source_row[index["Physio_resp"]]),
+            "physio_no_resp": _is_one(source_row[index["Physio_No_resp"]]),
             "behaviour": _text(source_row[index["Behaviour choice"]]),
             "stem": stem,
         })
@@ -169,6 +272,8 @@ def run(output_path: str | Path) -> dict[str, Any]:
         idx: _hash("||".join(sorted(component)), "study_")
         for idx, component in enumerate(components)
     }
+    for row in rows:
+        row["component"] = stem_to_component[row["stem"]]
 
     component_rows: Counter[int] = Counter()
     component_roles: dict[int, set[str]] = defaultdict(set)
@@ -193,7 +298,6 @@ def run(output_path: str | Path) -> dict[str, Any]:
         })
     component_summaries.sort(key=lambda item: item["study_component"])
 
-    # Diagnostic-only similarity between DOI-free stems and DOI-bearing stems.
     doi_free = [stem for stem, dois in stem_dois.items() if not dois]
     doi_bearing = [stem for stem, dois in stem_dois.items() if dois]
     similarity_candidates = []
@@ -214,7 +318,6 @@ def run(output_path: str | Path) -> dict[str, Any]:
                 "candidate_doi_count": len(stem_dois[target]),
             })
 
-    # Global article source unit is FVOC x insect x role. Audit discordant categorical repeats.
     eligible = [row for row in rows if row["genus"] in ELIGIBLE_GENERA]
     behavior_groups: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
     for row in eligible:
@@ -232,7 +335,7 @@ def run(output_path: str | Path) -> dict[str, Any]:
         if len(choices) <= 1:
             continue
         role = key[2]
-        component_set = {stem_to_component[row["stem"]] for row in values}
+        component_set = {row["component"] for row in values}
         genera = {row["genus"] for row in values}
         choice_label = "|".join(choices)
         conflict_choice_sets[choice_label] += 1
@@ -240,9 +343,8 @@ def run(output_path: str | Path) -> dict[str, Any]:
         conflict_rows_per_unit.append(len(values))
         conflict_component_span["multiple_components" if len(component_set) > 1 else "single_component"] += 1
         conflict_genus_span["multiple_genera" if len(genera) > 1 else "single_genus"] += 1
-        opaque = "||".join(key)
         conflict_summaries.append({
-            "unit": _hash(opaque, "unit_"),
+            "unit": _hash("||".join(key), "unit_"),
             "role": role,
             "choice_set": choices,
             "rows": len(values),
@@ -250,6 +352,49 @@ def run(output_path: str | Path) -> dict[str, Any]:
             "genera": len(genera),
         })
     conflict_summaries.sort(key=lambda item: item["unit"])
+
+    # Study-component sensitivity for the clean physiological-detection endpoint.
+    full_detection = _detection_effect(eligible)
+    leave_one_out = []
+    for idx in range(len(components)):
+        effect = _detection_effect([row for row in eligible if row["component"] != idx])
+        if effect is None:
+            continue
+        leave_one_out.append({
+            "excluded_study_component": component_ids[idx],
+            "risk_difference": effect["florivore_minus_pollinator_risk_difference"],
+            "risk_ratio": effect["florivore_over_pollinator_risk_ratio"],
+        })
+    loo_diffs = [item["risk_difference"] for item in leave_one_out]
+
+    component_role_detection: dict[str, list[float]] = defaultdict(list)
+    paired_component_diffs = []
+    for idx in range(len(components)):
+        subset = [row for row in eligible if row["component"] == idx]
+        counts, conflicts = _collapse_detection(subset)
+        fractions: dict[str, float] = {}
+        for role in sorted(ROLES):
+            n = counts[role]["detected"] + counts[role]["not_detected"]
+            if n:
+                fraction = counts[role]["detected"] / n
+                fractions[role] = fraction
+                component_role_detection[role].append(fraction)
+        if ROLES.issubset(fractions):
+            paired_component_diffs.append({
+                "study_component": component_ids[idx],
+                "florivore_minus_pollinator": fractions["Florivore"] - fractions["Pollinator"],
+                "detection_conflicts": conflicts,
+            })
+
+    equal_weight = {}
+    for role in sorted(ROLES):
+        values = component_role_detection[role]
+        equal_weight[role] = {
+            "study_role_units": len(values),
+            "mean_detected_fraction": statistics.mean(values) if values else None,
+            "median_detected_fraction": statistics.median(values) if values else None,
+        }
+    paired_values = [item["florivore_minus_pollinator"] for item in paired_component_diffs]
 
     doi_cardinality = Counter(len(dois) for dois in stem_dois.values())
     component_size_stems = [len(component) for component in components]
@@ -281,6 +426,29 @@ def run(output_path: str | Path) -> dict[str, Any]:
             "component_summaries": component_summaries,
             "fallback_similarity_candidates_diagnostic_only": similarity_candidates,
         },
+        "detection_study_sensitivity": {
+            "full_current_deposit": full_detection,
+            "leave_one_study_component_out": {
+                "runs": len(leave_one_out),
+                "risk_difference_min": min(loo_diffs) if loo_diffs else None,
+                "risk_difference_median": statistics.median(loo_diffs) if loo_diffs else None,
+                "risk_difference_max": max(loo_diffs) if loo_diffs else None,
+                "positive_direction_runs": sum(value > 0 for value in loo_diffs),
+                "zero_direction_runs": sum(value == 0 for value in loo_diffs),
+                "negative_direction_runs": sum(value < 0 for value in loo_diffs),
+                "anonymized_runs": leave_one_out,
+            },
+            "equal_weight_study_role_fractions": equal_weight,
+            "paired_both_role_components": {
+                "n": len(paired_component_diffs),
+                "median_difference": statistics.median(paired_values) if paired_values else None,
+                "positive": sum(value > 0 for value in paired_values),
+                "zero": sum(value == 0 for value in paired_values),
+                "negative": sum(value < 0 for value in paired_values),
+                "anonymized_components": paired_component_diffs,
+            },
+            "interpretation_guardrail": "Leave-one-study-out stability tests influence of any single study but does not remove study-by-role composition imbalance; paired both-role components are reported separately.",
+        },
         "behaviour_conflicts": {
             "global_fvoc_insect_role_units_with_coded_behaviour": len(behavior_groups),
             "discordant_units": len(conflict_summaries),
@@ -290,6 +458,7 @@ def run(output_path: str | Path) -> dict[str, Any]:
             "genus_span": dict(conflict_genus_span),
             "rows_per_discordant_unit_median": statistics.median(conflict_rows_per_unit) if conflict_rows_per_unit else None,
             "rows_per_discordant_unit_max": max(conflict_rows_per_unit) if conflict_rows_per_unit else None,
+            "current_deposit_category_bounds": _behaviour_bounds(eligible),
             "anonymized_units": conflict_summaries,
         },
         "adjudication_rules": [
@@ -319,7 +488,12 @@ if __name__ == "__main__":
     result = run(args.output)
     compact = {
         "citation_topology": {k: v for k, v in result["citation_topology"].items() if k not in {"component_summaries", "fallback_similarity_candidates_diagnostic_only"}},
-        "fallback_similarity_candidates_diagnostic_only": result["citation_topology"]["fallback_similarity_candidates_diagnostic_only"],
-        "behaviour_conflicts": result["behaviour_conflicts"],
+        "detection_study_sensitivity": {
+            "full_current_deposit": result["detection_study_sensitivity"]["full_current_deposit"],
+            "leave_one_study_component_out": {k: v for k, v in result["detection_study_sensitivity"]["leave_one_study_component_out"].items() if k != "anonymized_runs"},
+            "equal_weight_study_role_fractions": result["detection_study_sensitivity"]["equal_weight_study_role_fractions"],
+            "paired_both_role_components": {k: v for k, v in result["detection_study_sensitivity"]["paired_both_role_components"].items() if k != "anonymized_components"},
+        },
+        "behaviour_conflicts": {k: v for k, v in result["behaviour_conflicts"].items() if k != "anonymized_units"},
     }
     print(json.dumps(compact, indent=2))
