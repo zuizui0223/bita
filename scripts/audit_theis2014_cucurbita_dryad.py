@@ -1,8 +1,10 @@
 """Audit the public Dryad package for Theis et al. (2014) without retaining raw rows.
 
-The script recovers the Dryad API manifest for DOI 10.5061/dryad.1h189, downloads
-only a declared set of source tables in memory, and emits schema/linkage diagnostics.
-It does not fit a biological effect model and does not write observation-level data.
+Dryad file-level download links can reject automated requests even when the public
+version archive is available. This script therefore uses the API only to identify
+the dataset/version and manifest, then downloads the version ZIP in memory. It
+emits schema/linkage diagnostics for a fixed set of source tables and writes no
+observation-level data.
 """
 
 from __future__ import annotations
@@ -10,13 +12,16 @@ from __future__ import annotations
 import csv
 import io
 import json
+import zipfile
 from pathlib import Path
 from urllib.parse import quote, urljoin
 from urllib.request import Request, urlopen
 
 DRYAD = "https://datadryad.org"
 DATASET_DOI = "10.5061/dryad.1h189"
-USER_AGENT = "bita-theis2014-dryad-audit/1.0"
+LANDING_PAGE = f"https://doi.org/{DATASET_DOI}"
+USER_AGENT = "bita-theis2014-dryad-audit/1.1"
+MAX_ARCHIVE_BYTES = 100 * 1024 * 1024
 TARGET_FILES = {
     "Volatiles ngflowerh.csv",
     "Nectar and Flower Size.csv",
@@ -27,10 +32,19 @@ TARGET_FILES = {
 KEY_TOKENS = ("species", "variety", "tax", "code", "plant", "plot", "year", "date", "sex", "flower")
 
 
-def _get(url: str) -> bytes:
-    req = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/json,text/csv,*/*"})
-    with urlopen(req, timeout=30) as response:  # nosec B310: fixed public repository endpoints
-        return response.read()
+def _get(url: str, *, accept: str = "application/json,*/*", referer: str = "") -> bytes:
+    headers = {"User-Agent": USER_AGENT, "Accept": accept}
+    if referer:
+        headers["Referer"] = referer
+    req = Request(url, headers=headers)
+    with urlopen(req, timeout=45) as response:  # nosec B310: fixed public repository endpoints
+        length = response.headers.get("Content-Length")
+        if length and int(length) > MAX_ARCHIVE_BYTES:
+            raise ValueError(f"response exceeds configured byte limit: {length}")
+        content = response.read(MAX_ARCHIVE_BYTES + 1)
+    if len(content) > MAX_ARCHIVE_BYTES:
+        raise ValueError("response exceeded configured byte limit")
+    return content
 
 
 def _json(url: str):
@@ -50,7 +64,7 @@ def _link(payload: dict, relation: str) -> str:
     return _absolute(value)
 
 
-def _manifest() -> dict[str, str]:
+def _manifest_and_version() -> tuple[set[str], str]:
     encoded = quote(f"doi:{DATASET_DOI}", safe="")
     dataset_url = f"{DRYAD}/api/v2/datasets/{encoded}"
     dataset = _json(dataset_url)
@@ -62,7 +76,7 @@ def _manifest() -> dict[str, str]:
     if not files_url:
         raise RuntimeError("Dryad dataset/version has no stash:files link")
 
-    found: dict[str, str] = {}
+    found: set[str] = set()
     visited: set[str] = set()
     while files_url and files_url not in visited:
         visited.add(files_url)
@@ -75,24 +89,34 @@ def _manifest() -> dict[str, str]:
                     items.extend(item for item in value if isinstance(item, dict))
         for item in items:
             name = str(item.get("path") or item.get("filename") or item.get("name") or "").strip()
-            links = item.get("_links") or item.get("links") or {}
-            download = ""
-            if isinstance(links, dict):
-                for key in ("stash:download", "download", "content"):
-                    value = links.get(key, "")
-                    if isinstance(value, dict):
-                        value = value.get("href", "")
-                    if value:
-                        download = _absolute(value)
-                        break
-            if name and download:
-                found[name] = download
+            if name:
+                found.add(name)
         files_url = _link(payload, "next")
-    return found
+    return found, version_url
 
 
-def _audit_csv(name: str, url: str) -> dict[str, object]:
-    text = _get(url).decode("utf-8-sig", errors="replace")
+def _archive(version_url: str) -> zipfile.ZipFile:
+    archive_url = f"{version_url}/download"
+    content = _get(
+        archive_url,
+        accept="application/zip,application/octet-stream,*/*",
+        referer=LANDING_PAGE,
+    )
+    return zipfile.ZipFile(io.BytesIO(content))
+
+
+def _member_map(archive: zipfile.ZipFile) -> dict[str, zipfile.ZipInfo]:
+    result: dict[str, zipfile.ZipInfo] = {}
+    for member in archive.infolist():
+        if member.is_dir():
+            continue
+        basename = member.filename.rsplit("/", 1)[-1]
+        result.setdefault(basename, member)
+    return result
+
+
+def _audit_csv(name: str, archive: zipfile.ZipFile, member: zipfile.ZipInfo) -> dict[str, object]:
+    text = archive.read(member).decode("utf-8-sig", errors="replace")
     reader = csv.DictReader(io.StringIO(text))
     headers = list(reader.fieldnames or [])
     n_rows = 0
@@ -120,6 +144,7 @@ def _audit_csv(name: str, url: str) -> dict[str, object]:
     numeric_summary = {h: v for h, v in numeric.items() if v["n"] > 0}
     return {
         "file": name,
+        "archive_member": member.filename,
         "n_rows": n_rows,
         "headers": headers,
         "nonempty_counts": nonempty,
@@ -129,17 +154,25 @@ def _audit_csv(name: str, url: str) -> dict[str, object]:
 
 
 def run(output_path: str | Path) -> dict[str, object]:
-    manifest = _manifest()
-    missing = sorted(TARGET_FILES.difference(manifest))
-    if missing:
-        raise RuntimeError(f"declared Dryad files missing: {missing}")
+    manifest, version_url = _manifest_and_version()
+    missing_manifest = sorted(TARGET_FILES.difference({name.rsplit("/", 1)[-1] for name in manifest}))
+    if missing_manifest:
+        raise RuntimeError(f"declared Dryad files missing from manifest: {missing_manifest}")
+    archive = _archive(version_url)
+    members = _member_map(archive)
+    missing_archive = sorted(TARGET_FILES.difference(members))
+    if missing_archive:
+        raise RuntimeError(f"declared Dryad files missing from version archive: {missing_archive}")
     report = {
         "study_doi": "10.3732/ajb.1400171",
         "dataset_doi": DATASET_DOI,
+        "dryad_version_url": version_url,
+        "archive_url": f"{version_url}/download",
         "target_files": sorted(TARGET_FILES),
         "manifest_file_count": len(manifest),
-        "audits": [_audit_csv(name, manifest[name]) for name in sorted(TARGET_FILES)],
-        "guardrail": "Schema/linkage audit only; no observation rows retained and no effect estimated.",
+        "archive_member_count": len([m for m in archive.infolist() if not m.is_dir()]),
+        "audits": [_audit_csv(name, archive, members[name]) for name in sorted(TARGET_FILES)],
+        "guardrail": "Schema/linkage audit only; public version archive read in memory, no observation rows retained, and no effect estimated.",
     }
     path = Path(output_path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -154,4 +187,8 @@ if __name__ == "__main__":
     parser.add_argument("output")
     args = parser.parse_args()
     result = run(args.output)
-    print(json.dumps({"manifest_file_count": result["manifest_file_count"], "audited": len(result["audits"])}, indent=2))
+    print(json.dumps({
+        "manifest_file_count": result["manifest_file_count"],
+        "archive_member_count": result["archive_member_count"],
+        "audited": len(result["audits"]),
+    }, indent=2))
