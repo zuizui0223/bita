@@ -15,17 +15,19 @@ An herbivore treatment is not itself `D`. A whole-plant or leaf defence is not s
 
 ## Current high-information audit
 
-Eleven candidate systems have now received a source/model-level decision.
+Twelve candidate systems have now received a source/model-level decision in `DIRECT_AXD_AUDIT_V1.csv`.
 
 ```text
-strict Tier-1 direct A x D:                       1
-factorial floral phenotype but second axis not D: 1
-near-direct but cross-organ / whole-plant D:     1
-flower-specific A + D but AxD term unresolved:   1
-joint/multiroute context but no eligible AxD:     5
-linkage-blocked candidate:                        1
-single-trait dual-function case:                  1
+strict Tier-1 direct A x D:                         1
+factorial floral phenotype but second axis not D:   1
+near-direct / ecological-cost but D outside strict floral organ gate: 3
+flower-specific A + D measured but no eligible AxD term: 2
+joint/multiroute context but no distinct eligible D or AxD: 3
+linkage-blocked candidate:                          1
+single-trait dual-function case:                    1
 ```
+
+The exact category labels above are descriptive summaries of the source decisions, not literature frequencies.
 
 ### Strict Tier 1
 
@@ -35,59 +37,73 @@ single-trait dual-function case:                  1
 
 Kessler et al. (2015), `Nicotiana attenuata`, independently silenced benzylacetone floral scent and nectar production and generated the double-silenced cross. The design therefore contains a genuine 2 x 2 floral-phenotype contrast. However, nectar removal is a **reward restriction**, not an independently justified antagonist-reducing defence/access phenotype. Re-labelling `no nectar` as `D` solely because it reduces hawkmoth oviposition would define the trait role from the response being tested.
 
-The paper also reports four-line Friedman/pairwise comparisons rather than a formal uncertainty-bearing scent x nectar interaction. A public eLife supplementary audit recovered only three TIFF figure supplements and no raw Figure-2 outcome table. This route is now closed as strict Tier 1 and retained instead as high-value same-system `A -> pollination` / `A -> antagonism` evidence.
+The paper also reports four-line Friedman/pairwise comparisons rather than a formal uncertainty-bearing scent x nectar interaction. A public eLife supplementary audit recovered only figure-image supplements and no raw Figure-2 outcome table. This route is closed as strict Tier 1 and retained instead as high-value same-system `A -> pollination` / `A -> antagonism` evidence.
 
-### Direct interaction outside the strict floral-D scope
+## Near-direct designs outside the strict flower-specific D gate
 
-Santangelo et al. (2019), `Trifolium repens`, is a particularly informative near miss. The experiment factorially crossed cyanogenic HCN defence, herbivory and pollination, and the fitted fitness models contain reproductive-trait x HCN and reproductive-trait x HCN x herbivory terms. For banner petal size, the source reports:
+### Trifolium repens
 
-```text
-banner width x HCN x herbivory:  P = 0.014
-banner length x HCN x herbivory: P = 0.046
-```
+Santangelo et al. (2019) is a genuine trait-interaction near miss. The experiment factorially crossed cyanogenic HCN defence, herbivory and pollination, and fitted reproductive-trait x HCN terms including significant banner-petal-size interactions in the herbivory context. However, HCN is a Mendelian **whole-plant** antiherbivore defence rather than a separately established flower-specific D axis. It is retained as cross-organ sensitivity evidence instead of weakening the organ gate.
 
-Thus this is not merely co-measurement. However, HCN is treated as a Mendelian chemical antiherbivore defence of the plant rather than as a separately established flower-specific defence axis. It is retained as a cross-organ/whole-plant sensitivity case instead of weakening the active organ gate.
+### Fragaria vesca
 
-### Flower-specific D present, interaction not located
+Egan et al. (2021) uses a full pollination x herbivory **ecological-agent factorial** and estimates how those agents alter selection on nine attraction/defence traits. The defence-related metabolites are leaf-derived and the fitted interactions are trait x pollination / trait x herbivory, not attraction-trait x defence-trait. This is context-dependent selection evidence, not direct `A x D`.
 
-García et al. (2024), `Asclepias syriaca`, measures floral latex separately from leaf latex together with attractive traits and pollination/fitness proxies. Selection favours increased floral latex even though the study reports no observed florivory. This makes the source unusually well aligned at the organ level, but the accessible primary article record supports parallel phenotypic-selection estimates rather than an `A x D` interaction. The public Appendix I / II route is being audited separately; no reanalysis is permitted until the source model and variable definitions are fixed from primary materials.
+### Brassica rapa resistance-selection experiment
 
-### Ecological-agent interactions are not trait interactions
+Strauss et al. (1999), DOI `10.1111/j.1558-5646.1999.tb04525.x`, used artificial selection to produce high- and low-myrosinase populations with corresponding high and low flea-beetle resistance. Resistance regime and herbivore damage altered floral traits, while pollinator foraging was greater on low-resistance undamaged plants. This is strong **ecological-cost-of-resistance in the currency of pollination** evidence. It is not strict Tier 1 because the focal D is a whole-plant resistance-selection regime rather than a demonstrated flower-specific defence phenotype, and the source does not identify a floral A-trait x D-trait reproductive interaction.
 
-Egan et al. (2021), `Fragaria vesca`, uses a full pollination x herbivory experiment and estimates context-dependent selection on nine attraction/defence traits. The defence-related metabolites are based on **leaf sampling** and were available for 27 genotypes. The model contains each trait's interactions with pollination and herbivory; it does not define an attraction-trait x defence-trait term. This is excellent evidence for diffuse selection but not a direct `A x D` test.
+This source is retained for the cross-organ ecological-cost layer and the joint-cost search context rather than being used to manufacture a floral `A x D` effect.
 
-Knauer & Schiestl (2017), `Brassica rapa`, similarly demonstrates that the floral signals corolla size and phenylacetaldehyde attract both pollinators and an ovipositing herbivore, and that the two animal guilds generate nonadditive selection. No focal defence phenotype `D` is measured, so the source belongs to the attraction/multiroute layer rather than Tier 1.
+## Flower-specific A and D jointly measured, but no eligible interaction term
 
-The remaining joint-context candidates fail for distinct reasons: `Gelsemium` measures A and D but does not fit their interaction; `Gymnadenia` has a quantitative A-to-antagonist route but no D axis; `Raphanus` links signal and defence architecture but not a direct A x D fitness term; and `Dalechampia` remains blocked by individual-level linkage.
+### Asclepias syriaca
+
+García et al. (2024) now has a closed direct-A×D decision. The source measures **floral latex separately from leaf latex** on the same plants as floral attraction/reward traits, so it passes the organ and linkage gates unusually well. However, the published phenotypic-selection model contains the standardized trait **main effects only**; the authors state that they lacked power for nonlinear selection analyses. No florivory was observed.
+
+Adding petal-width x floral-latex or another correlational-selection term now would therefore be a new post-hoc analysis rather than recovery of a source-identified interaction. The source remains a high-information joint-trait selection case, but it is not Tier 1.
+
+### Gelsemium sempervirens
+
+Irwin & Adler (2006) measures pollination-associated floral traits and defensive nectar chemistry on the same plants, but the reported models use separate trait main effects plus trait-by-site/morph terms. No attraction-by-defence interaction is identified.
+
+## Other exclusion classes
+
+- `Gymnadenia odoratissima`: strong quantitative `A_to_antagonism`, but no distinct D axis in the linked panel.
+- `Raphanus sativus`: signal/defence architecture is linked, but no direct A×D reproductive interaction is identified.
+- `Brassica rapa` Knauer & Schiestl: attraction traits mediate both pollinators and ovipositing antagonists, but there is no separately measured D phenotype.
+- `Dalechampia`: plausible joint trait context remains blocked by individual-level cross-file linkage.
+- `Hypericum calycinum`: visual and defensive functions are carried by the same pigment chemistry, leaving one dual-function trait axis rather than A and D.
 
 ## Why the negative classifications matter
 
-The expanding audit reveals that direct evidence is sparse for several **different** reasons, not just because studies lack statistical power:
+The audit now repeatedly identifies **different structural reasons** why seemingly relevant pollinator–herbivore studies fail to identify the theoretical mixed partial:
 
 ```text
-1. the defence is measured on the wrong organ;
-2. the study manipulates antagonists rather than a defence trait;
-3. A and D are measured but no interaction is fitted;
-4. the same molecule is assigned both functions, leaving only one trait axis;
-5. data streams cannot be linked at the claimed biological unit; or
-6. a factorial floral phenotype exists but the second axis fails the D-orientation gate.
+1. defence is measured on the wrong organ;
+2. the experiment manipulates ecological agents rather than a defence phenotype;
+3. A and D are jointly measured but their interaction is not fitted;
+4. signal and defence are the same biological trait, leaving only one axis;
+5. source data streams cannot be linked at the claimed biological unit;
+6. a factorial floral phenotype exists but the second axis fails the D-orientation gate; or
+7. resistance-selection lines create an ecological-cost comparison without identifying a flower-specific A x D trait interaction.
 ```
 
-These failure modes are themselves an evidence-architecture result. They show why a broad keyword search for studies mentioning pollinators, herbivores and defence would drastically overstate the amount of evidence that identifies the theoretical mixed partial.
+A broad keyword search for `pollinator + herbivore + defence + interaction` would therefore dramatically overstate direct evidence.
 
 ## Current interpretation
 
-The direct-interaction search is **not yet saturated**, but the pattern is now stable enough to state provisionally:
+The direct-interaction search is **not yet formally saturated**, but adding further high-information candidates has so far expanded the same exclusion/design classes rather than producing a second strict Tier-1 system.
 
-> Joint pollinator–herbivore selection experiments are much more common than experiments or observational panels that separately identify floral attraction and flower-specific defence and then estimate their interaction.
+The current defensible provisional statement is:
+
+> Joint pollinator–herbivore selection and ecological-cost experiments are substantially easier to locate than empirical designs that separately identify a floral attraction axis and a flower-specific defence axis and then estimate their interaction on a linked biological outcome.
 
 This statement concerns the screened high-information candidates only and is not a prevalence estimate for the literature.
 
-## Next gate
+## Remaining Gate-A work
 
-The immediate remaining actions are:
-
-1. close the García appendix/model route;
-2. screen additional candidate studies specifically for a flower-specific D rather than for the generic coexistence of herbivory and pollination;
-3. retain Kessler as a same-system attraction-tracking study rather than reopening its failed D orientation; and
-4. record a formal search-saturation receipt only after the registered query families cease producing new eligible design classes.
+1. continue the registered `DX01`–`DX06` query families until new batches cease yielding new eligible **design classes**, not merely new papers in already adjudicated exclusion classes;
+2. record query-by-query yields, duplicate/exclusion classes and any new strict candidate;
+3. issue a formal saturation receipt only when the stopping rule is met;
+4. keep cross-organ resistance-cost studies as sensitivity/context evidence rather than weakening the strict flower-specific D definition to increase Tier-1 count.
