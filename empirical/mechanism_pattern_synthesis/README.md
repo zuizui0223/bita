@@ -1,88 +1,91 @@
-# Mechanism-pattern synthesis
+# Mechanism-pattern empirical synthesis
 
-## Objective
+This directory is the active empirical workspace for the theory-driven synthesis defined in `docs/MECHANISM_PATTERN_UNIVERSALITY_PROTOCOL_V1.md`.
 
-Build the empirical half of `bita` as a theory-driven synthesis of mechanism recurrence and context-dependent sign switching, rather than as one route-level meta-analysis.
+The empirical target is **mechanism recurrence, same-system co-occurrence, direct `A x D` evidence, and context-dependent sign switching**. It is not one universal pooled coefficient for all floral attraction and defence traits.
 
-The fixed theory is unchanged. The empirical program asks how broadly its constituent biological mechanisms recur across floral systems and under what contexts their observed signs change.
+## Current execution state
 
-## Immediate execution order
-
-### Phase 1 — preserve and classify existing modules
-
-1. Treat the PR #124 nectar-larceny analysis as an environmental antagonist-pressure module, not as an estimate of `rho` or `W_AD`.
-2. Treat PR #125 as the current source-audited `D_to_pollination` module, preserving outcome lanes, dose realism, reward context, and study dependence.
-3. Keep the broad Crossref corpus as discovery infrastructure only until records are source-adjudicated.
-4. Do not alter the canonical manuscript during this phase.
-
-### Phase 2 — highest-information missing evidence
-
-Priority is determined jointly by theoretical leverage and inferential proximity:
+The workspace now contains both design contracts and source-audited empirical records.
 
 ```text
-1. direct A x D studies
-2. A_to_antagonism / attraction tracking
-3. D_to_antagonism / defence efficacy
-4. same-system multi-route studies
-5. direct joint-cost evidence
-6. deepen D_to_pollination where compatible studies exist
-7. A_to_pollination as the best-established background route
+EVIDENCE_ARCHITECTURE_V1.csv
+    fixed five-tier hierarchy
+
+SEARCH_REGISTRY_V1.csv
+    dedicated search families for direct A x D, same-system routes,
+    each marginal mechanism, context switches and direct joint cost
+
+MASTER_LEDGER_SCHEMA_V1.csv
+    canonical row schema
+
+MASTER_LEDGER_V1.csv
+    first source-adjudicated seed records
+
+LEDGER_BATCH_2_V1.csv
+    direct-interaction and quantitative-route records recovered from
+    historical reproducible branches / workflow artifacts
+
+SCREENING_BATCH_1_V1.csv
+    source-screen decisions from the first high-information batch
+
+SCREENING_BATCH_1_READOUT_V1.md
+    integrated readout for execution series 1-2
+
+DIRECT_AXD_AUDIT_V1.csv
+    direct-interaction candidate adjudication
+
+IMPATIENS_2018_DIRECT_AXD_REAUDIT_V1.md
+    first verified Tier-1 observational direct A x D cluster
+
+SECONDARY_SYNTHESIS_MODULES_V1.csv
+    existing published / deposited syntheses retained at their proper
+    inferential level rather than pooled into the primary ledger
+
+STATUS_AFTER_BATCH_2_V1.md
+    completion-gate dashboard
+
+COMPLETION_GATE_V1.md
+    conditions that must be satisfied before manuscript reconstruction
 ```
 
-The `A_to_antagonism` route receives high priority because the repository's existing value-of-information analysis identifies attraction tracking as the most conclusion-sensitive unmeasured parameter in the implemented corollary. This prioritization does not turn that grid-based ranking into empirical evidence.
+## Current high-level result
 
-### Phase 3 — source adjudication
+The first execution series has established:
 
-For every highest-priority candidate:
+- at least six independent same-system or direct-interaction systems;
+- one verified observational direct `A x D` cluster (`Impatiens capensis`), with opposite and individually unresolved point estimates across two reproductive components;
+- one exact-linked quantitative `A -> antagonism` effect in `Gymnadenia odoratissima` (`beta = 0.568`, `SE = 0.269`, `n = 1162`);
+- multiple source-verified examples in which `D -> pollinator` changes with dose, reward, exposure duration, consumer identity, or outcome construct;
+- a retained quantitative `D -> pollinator` natural-range anchor from Adler & Irwin (2005);
+- a transparent set of direct-interaction candidates that were rejected or downgraded because the joint term, D axis, or individual linkage was not identifiable.
+
+These are execution results, not prevalence estimates. Search saturation and multi-study quantitative modules remain incomplete.
+
+## Append-only evidence discipline
+
+During active screening, new source-audited records are added in versioned batch ledgers. No historical source record is silently overwritten because a later audit changes its interpretation.
+
+Before quantitative synthesis, batch ledgers will be validated and consolidated under the canonical master schema with unique `record_id` and study-independence checks.
+
+## Relationship to existing branches
+
+The workspace does not duplicate or erase earlier analyses.
+
+- PR #124 remains the quantitative floral-antagonist-pressure / nectar-larceny environmental-gate module.
+- PR #125 remains the source-audited `D -> pollinator` constituent-path module.
+- Historical matched-panel and route-extraction branches are re-used only when their source linkage and analysis outputs are reproducible.
+- `main` remains the frozen canonical theory/manuscript baseline until `COMPLETION_GATE_V1.md` is satisfied.
+
+## Non-negotiable boundaries
 
 ```text
-confirm primary empirical study
-confirm floral organ and focal trait role
-confirm legitimate pollinator versus antagonist identity
-confirm direct route rather than co-mention
-recover exact outcome construct
-recover numerical estimate and uncertainty when possible
-record natural versus supra-natural dose
-link repeated papers/panels into one independence cluster
+marginal routes != W_AD
+same-system co-occurrence != direct A x D
+one dual-function trait != two focal A and D axes
+A x D reproductive component != total lifetime fitness
+trait covariance != direct joint cost
+publication count != model parameter
 ```
 
-No candidate is promoted on title or abstract co-mention alone.
-
-### Phase 4 — quantitative modules
-
-Analyze only compatible cells. Expected outputs include:
-
-- forest plots within comparable route/outcome/metric strata;
-- dependence-aware multilevel models where multiple effects per study are retained;
-- sign-switch or dose-response models where sufficient coverage exists;
-- same-system mechanism diagrams or paired route estimates;
-- direct `A x D` interaction synthesis if enough eligible effects exist;
-- explicit evidence-gap results when eligible studies are absent after saturated search.
-
-### Phase 5 — cross-module integration
-
-The integrated empirical result will summarize:
-
-```text
-which mechanisms recur widely
-which route signs are stable
-which route signs reverse with ecological context
-which mechanisms co-occur in the same system
-whether direct A x D evidence matches the mechanism-based expectations
-which theoretically decisive terms remain empirically unidentified
-```
-
-The integration layer compares mechanism patterns. It does not create a common grand effect across incompatible outcomes.
-
-## Current status
-
-At branch creation:
-
-- canonical theory and manuscript remain on `main`;
-- PR #124 contains a strong quantitative antagonist-pressure / nectar-larceny module;
-- PR #125 contains detailed source-audited `D_to_pollination` evidence but no stable strict-B pooled route estimate;
-- `main` retains a large retrieval corpus but its canonical quantitative extraction table is not yet the integrated master evidence ledger.
-
-## Manuscript freeze
-
-The manuscript stays unchanged until `COMPLETION_GATE_V1.md` passes. At that point the paper should be reconstructed around theory-derived empirical predictions rather than patched incrementally from the current theory-only manuscript.
+All subsequent extraction and synthesis work should preserve these boundaries.
