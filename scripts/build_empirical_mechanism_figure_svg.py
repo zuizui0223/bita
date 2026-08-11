@@ -104,7 +104,11 @@ def collect_stats(root: Path = ROOT) -> FigureStats:
 
     roles = _required_match(r"florivore\s*`?(\d+/\d+)`?\s*vs pollinator\s*`?(\d+/\d+)`?", sasidharan, "Sasidharan role counts")
     risk = _required_match(r"risk difference\s*`?([+-]?\d+\.\d+)`?", sasidharan, "Sasidharan risk difference")
-    loco = _required_match(r"positive direction\s*(?:\*\*)?([0-9]+/[0-9]+)(?:\*\*)?", sasidharan, "Sasidharan LOCO")
+    loco = _required_match(
+        r"leave-one-study-component-out.*?positive(?: direction)?\s*(?:\*\*)?([0-9]+/[0-9]+)(?:\*\*)?",
+        sasidharan,
+        "Sasidharan LOCO",
+    )
 
     direct_receipt = (synthesis / "DIRECT_AXD_SATURATION_RECEIPT_V1.md").read_text(encoding="utf-8")
     if "strict direct sign resolved: no" not in direct_receipt:
