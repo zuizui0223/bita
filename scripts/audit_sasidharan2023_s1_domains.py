@@ -73,10 +73,24 @@ def run(output_path: str | Path) -> dict[str, Any]:
     ws = workbook[SHEET]
 
     rows = ws.iter_rows(values_only=True)
-    headers_raw = next(rows)
-    headers = ["" if value is None else str(value).strip() for value in headers_raw]
-    index = {name: i for i, name in enumerate(headers) if name}
-    missing_required = [name for name in (*DOMAIN_COLUMNS, REFERENCE_COLUMN, "Compound", "Genus", "Insect species") if name not in index]
+    headers: list[str] | None = None
+    index: dict[str, int] | None = None
+    header_absolute_row: int | None = None
+    for absolute_row, candidate in enumerate(rows, start=1):
+        cleaned = ["" if value is None else str(value).strip() for value in candidate]
+        candidate_index = {name: i for i, name in enumerate(cleaned) if name}
+        if {"Compound", "Insect function", REFERENCE_COLUMN}.issubset(candidate_index):
+            headers = cleaned
+            index = candidate_index
+            header_absolute_row = absolute_row
+            break
+    if headers is None or index is None:
+        raise RuntimeError("could not locate the S1 header row")
+
+    missing_required = [
+        name for name in (*DOMAIN_COLUMNS, REFERENCE_COLUMN, "Compound", "Genus", "Insect species")
+        if name not in index
+    ]
     if missing_required:
         raise RuntimeError(f"missing expected S1 columns: {missing_required}; headers={headers}")
 
@@ -132,6 +146,7 @@ def run(output_path: str | Path) -> dict[str, Any]:
             "oa_package_url_used": package_url,
             "oa_package_attempts": package_attempts,
             "sheet": SHEET,
+            "header_absolute_row": header_absolute_row,
         },
         "analyzed_test_rows": analyzed_rows,
         "domains": {column: dict(counter.most_common()) for column, counter in domains.items()},
