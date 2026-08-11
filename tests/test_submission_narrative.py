@@ -10,7 +10,7 @@ def test_readme_declares_integrated_theory_and_empirical_synthesis() -> None:
     assert "mechanism-pattern empirical synthesis" in text
     assert "what is recurrent, what is context dependent, and what remains unidentified" in text
     assert "prevalence in nature" in text
-    assert "empirically calibrated regime map" not in text
+    assert "is not an empirically calibrated regime map" in text
 
 
 def test_manifest_pins_both_quantitative_modules_and_boundaries() -> None:
