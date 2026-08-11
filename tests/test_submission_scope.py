@@ -159,10 +159,13 @@ REQUIRED_ACTIVE_PATHS = [
     "empirical/mechanism_pattern_synthesis/SECONDARY_SYNTHESIS_MODULES_V1.csv",
     "empirical/mechanism_pattern_synthesis/SYNTHESIS_ROBUSTNESS_AUDIT_V1.md",
     "empirical/mechanism_pattern_synthesis/THEORY_EMPIRICISM_BOUNDARY_AUDIT_V1.md",
-    # Canonical manuscript integration.
+    # Canonical manuscript integration and Figure 3 evidence architecture.
     "manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md",
     "manuscript/TABLES_THEORETICAL_ECOLOGY.md",
     "manuscript/README.md",
+    "manuscript/figures/FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg",
+    "scripts/build_empirical_mechanism_figure_svg.py",
+    "tests/test_build_empirical_mechanism_figure_svg.py",
     # Retained earlier broad layer used by current validation scripts.
     "empirical/broad_reality_evidence/broad_route_records.csv",
     "empirical/broad_reality_evidence/broad_effect_extractions.csv",
