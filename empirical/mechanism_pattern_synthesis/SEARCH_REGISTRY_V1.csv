@@ -1,0 +1,33 @@
+query_id,evidence_target,route_family,query_text,primary_empirical_question,priority
+DX01,direct_AxD,direct_interaction,"floral attraction defence interaction pollination florivory","Do attraction and flower defence jointly affect pollination, antagonism, or reproduction?",highest
+DX02,direct_AxD,direct_interaction,"flower signal defence interaction fitness","Is there a reported interaction between a floral signal and a defence trait on fitness or reproduction?",highest
+DX03,direct_AxD,direct_interaction,"floral display resistance interaction pollinator herbivore","Do floral display and resistance jointly alter pollinator and herbivore outcomes?",highest
+DX04,direct_AxD,direct_interaction,"flower colour chemical defence interaction pollinator herbivore","Are visual attraction and chemical defence jointly measured or manipulated?",highest
+DX05,direct_AxD,direct_interaction,"floral scent defence interaction florivory pollination","Are scent and floral defence jointly related to mutualists and antagonists?",highest
+DX06,direct_AxD,direct_interaction,"nectar reward defence interaction pollinator antagonist","Are reward and defensive chemistry/access jointly tested?",highest
+MR01,same_system_multi_route,joint_channels,"floral trait pollinator florivore same experiment","Are attraction traits linked to both pollinator and florivore responses in one experiment?",highest
+MR02,same_system_multi_route,joint_channels,"floral defence pollinator florivore same experiment","Does one floral defence affect both legitimate pollinators and floral antagonists?",highest
+MR03,same_system_multi_route,joint_channels,"nectar chemistry pollinator nectar robber experiment","Does nectar chemistry jointly affect pollinators and nectar robbers/thieves?",highest
+MR04,same_system_multi_route,joint_channels,"floral volatile pollinator florivore experiment","Do floral volatiles jointly mediate mutualist attraction and antagonist attack?",high
+AP01,single_route,A_to_pollination,"flower colour pollinator visitation","Do visual attraction differences alter pollinator visitation?",standard
+AP02,single_route,A_to_pollination,"floral scent pollinator visitation","Do scent differences alter pollinator visitation?",standard
+AP03,single_route,A_to_pollination,"floral display size pollinator visitation","Do display or flower-size differences alter visitation?",standard
+AP04,single_route,A_to_pollination,"nectar reward pollinator preference","Do reward differences alter pollinator preference or foraging?",standard
+AH01,single_route,A_to_antagonism,"flower colour florivory floral damage","Do visual attraction traits alter floral antagonist attack or damage?",highest
+AH02,single_route,A_to_antagonism,"floral scent florivore attraction damage","Do floral scents attract floral antagonists or increase damage?",highest
+AH03,single_route,A_to_antagonism,"floral display florivory floral damage","Do larger/more conspicuous displays increase floral antagonist exposure?",highest
+AH04,single_route,A_to_antagonism,"nectar reward nectar robber flower trait","Do floral rewards or reward signals increase robber/thief use?",high
+DH01,single_route,D_to_antagonism,"floral defence florivory experiment","Do flower-specific defences reduce florivory or floral damage?",highest
+DH02,single_route,D_to_antagonism,"nectar secondary metabolite nectar robber experiment","Does floral chemistry deter robbers/thieves or other floral antagonists?",highest
+DH03,single_route,D_to_antagonism,"floral trichome florivory experiment","Do physical floral barriers reduce antagonist access or damage?",highest
+DH04,single_route,D_to_antagonism,"floral volatile defence florivore experiment","Do defensive floral volatiles reduce floral antagonist attack?",high
+DP01,single_route,D_to_pollination,"floral defence pollinator visitation experiment","Do flower-specific defences alter legitimate pollinator visitation?",high
+DP02,single_route,D_to_pollination,"nectar secondary metabolite pollinator preference experiment","Does defensive floral chemistry alter pollinator preference/foraging?",high
+DP03,single_route,D_to_pollination,"floral physical barrier pollinator access experiment","Do physical access barriers alter legitimate pollinator use?",high
+DP04,single_route,D_to_pollination,"floral defence pollen transfer experiment","Do flower-specific defences alter pollen transfer?",high
+JC01,direct_joint_cost,joint_cost,"floral attraction defence allocation cost","Is there direct evidence for shared allocation/construction costs of attraction and defence?",highest
+JC02,direct_joint_cost,joint_cost,"flower signal resistance tradeoff allocation","Are floral signalling and resistance jointly constrained by allocation?",highest
+JC03,direct_joint_cost,joint_cost,"floral display chemical defence covariance resource cost","Are display and chemical defence measured together with resource or fitness costs?",high
+CTX01,context_switch,moderator,"nectar secondary metabolite pollinator dose response natural concentration","Does defence-to-pollinator direction switch across realistic dose ranges?",highest
+CTX02,context_switch,moderator,"floral defence pollinator reward context choice","Does alternative reward quality modify defence-associated pollinator response?",highest
+CTX03,context_switch,moderator,"floral trait pollinator antagonist specialization interaction","Does consumer specialization explain route sign or magnitude?",high
