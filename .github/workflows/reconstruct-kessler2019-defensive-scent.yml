@@ -1,0 +1,30 @@
+name: Reconstruct Kessler 2019 defensive scent
+
+on:
+  pull_request:
+    paths:
+      - "empirical/mechanism_pattern_synthesis/KESSLER_2019_QUANT_PROTOCOL_V1.md"
+      - "scripts/reconstruct_kessler2019_defensive_scent.py"
+      - ".github/workflows/reconstruct-kessler2019-defensive-scent.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reconstruct:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Reconstruct predeclared BA-defence effect
+        run: |
+          python scripts/reconstruct_kessler2019_defensive_scent.py artifacts/kessler2019_defensive_scent_reconstruction.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kessler2019-defensive-scent-reconstruction
+          path: artifacts/kessler2019_defensive_scent_reconstruction.json
+          if-no-files-found: error
