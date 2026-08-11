@@ -19,12 +19,12 @@ artifact id:        9077197711
 artifact sha256:    5bbabc25826bd5e51a26bdd6f9a0cbe7e1acc38b92028c396bdbc072337cead7
 source head:        ed33b25593c0d90ad6657753f6f5501d9efc7b82
 builder blob sha:   85c90ec986a47743850c5b7a11e6a70e037b9414
-config blob sha:    8a47c0383da29ce2dc8cc2db72f5ea7
+config blob sha:    8a47c0383da8cab6db5e6cd2fd16eae6fe1465c8
 ```
 
-The abbreviated config SHA above refers to `configs/part_i_robustness_grid.json`; GitHub's full blob SHA is `8a47c0383da29ce2dc8cc2db72f5ea7` only if displayed by a client in abbreviated form. The repository source of truth is the file at the integration branch and its canonical `run_id`/report. The Figure 2 builder blob is unchanged between the source workflow head and the current integration branch.
+The Figure 2 builder and sensitivity config blobs are unchanged between the source workflow head and the current integration line. The repository source of truth for the run-level numerical contract is `empirical/part_i_robustness/endpoint_normalized_grid_v2_report.json`.
 
-The committed regression test `tests/test_committed_figure2.py` checks the figure against the current canonical `endpoint_normalized_grid_v2_report.json`, including the 2,592-evaluation run identity, sign totals, scenario-level complementary occupancies, and the non-probability guardrail.
+The committed regression test `tests/test_committed_figure2.py` checks the figure against that canonical report, including the 2,592-evaluation run identity, sign totals, scenario-level complementary occupancies, and the non-probability guardrail.
 
 **Interpretation boundary:** percentages in Figure 2 are unweighted occupancies of a declared finite tested set. They are not empirical probabilities, posterior probabilities, or estimates of complementarity prevalence in nature.
 
