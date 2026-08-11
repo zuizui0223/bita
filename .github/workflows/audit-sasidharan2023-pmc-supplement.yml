@@ -25,6 +25,15 @@ jobs:
         run: |
           python scripts/audit_sasidharan2023_pmc_supplement.py \
             artifacts/sasidharan2023_pmc_supplement_schema.json
+      - name: Publish schema-only audit summary
+        run: |
+          {
+            echo '## Sasidharan 2023 supplement schema audit'
+            echo
+            echo '```json'
+            cat artifacts/sasidharan2023_pmc_supplement_schema.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         with:
           name: sasidharan2023-pmc-supplement-schema
