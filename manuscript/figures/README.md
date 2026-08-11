@@ -2,7 +2,28 @@
 
 ## Figure 1
 
-`FIGURE_1_MECHANISTIC_ARCHITECTURE.svg` is the conceptual source for the local attraction-defence mechanism diagram. Its interpretation is governed by the manuscript orientation gate and by the rule that total `W_AD` does not identify component mechanisms from total fitness alone.
+`FIGURE_1_MECHANISTIC_ARCHITECTURE.svg` is the conceptual source for the local attraction-defence mechanism diagram.
+
+The current strengthened version makes the theoretical inference sequence explicit in the figure itself:
+
+```text
+signed identity
+W_AD = M_AD - G_AD - C_AD
+        |
+        v
+ORIENTATION GATE
+M_AD <= 0, G_AD <= 0, C_AD >= 0
+        |
+        v
+W_AD = rho - iota - kappa
+        |
+        v
+INFERENCE BOUNDARY
+```
+
+The lower inference boundary states that even exact total `W` or `W_AD` does not uniquely identify the channel-specific mixed curvatures without channel-specific measurement, intervention, or justified structural restriction.
+
+`tests/test_figure1_inference_boundary.py` protects the signed identity, orientation gate, oriented balance, sign inequality, and inference-boundary text.
 
 ## Figure 2
 
@@ -35,3 +56,21 @@ The committed regression test `tests/test_committed_figure2.py` checks the figur
 `tests/test_build_empirical_mechanism_figure_svg.py` requires regenerated Figure 3 SVG to be byte-identical to the committed manuscript figure.
 
 **Interpretation boundary:** route counts, same-system counts, quantitative module results, and evidence gaps are shown as an evidence architecture. They are not algebraically combined into `W_AD`, and no count is interpreted as prevalence in nature.
+
+## Current EPS export validation
+
+The three committed SVG sources have passed a reproducible EPS vector-export workflow using Inkscape CLI with text converted to paths to prevent font substitution.
+
+Latest validated export containing the strengthened Figure 1:
+
+```text
+source head:      51d75c8c8f02525430d7e369c1d9eeeb86964e99
+workflow run:     31542777226
+artifact:         manuscript-figures-eps
+artifact id:      9121336188
+artifact sha256:  ec4752ee35b32448f75935a2866e55527cefcc1e99051e651c1030dc17c6cbf5
+```
+
+The canonical submission-level receipt is `submission/FIGURE_EXPORT_RECEIPT_V1.md`.
+
+The Actions artifact is a transient validation product. The exact same export workflow must be rerun from the final submission commit and the final EPS files retained with the archived release/submission package.
