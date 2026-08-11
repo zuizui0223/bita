@@ -18,22 +18,24 @@ An herbivore treatment is not itself `D`. A whole-plant or leaf defence is not s
 Eleven candidate systems have now received a source/model-level decision.
 
 ```text
-strict Tier-1 direct A x D:                    1
-factorial candidate awaiting D orientation:   1
-near-direct but cross-organ / whole-plant D:  1
-flower-specific A + D but AxD term unresolved:1
-joint A+D context but no AxD term/axis:        5
-linkage-blocked candidate:                     1
-single-trait dual-function case:               1
+strict Tier-1 direct A x D:                       1
+factorial floral phenotype but second axis not D: 1
+near-direct but cross-organ / whole-plant D:     1
+flower-specific A + D but AxD term unresolved:   1
+joint/multiroute context but no eligible AxD:     5
+linkage-blocked candidate:                        1
+single-trait dual-function case:                  1
 ```
 
 ### Strict Tier 1
 
 `Impatiens capensis` (Soper Gorden & Adler 2018) remains the only strict current cluster. The deposited individual-plant panel contains pre-treatment flower redness and floral condensed tannins and supports explicit `A_z:D_z` terms on two reproductive components. Both interaction confidence intervals include zero, and the point estimates differ in sign between fruit and seed components. The result is direct but unresolved.
 
-### Structurally factorial but not yet eligible
+### Factorial floral phenotype that fails the D-orientation gate
 
-Kessler et al. (2015), `Nicotiana attenuata`, independently silenced benzylacetone floral scent and nectar production and generated the double-silenced cross. This is a genuine 2 x 2 phenotype design, but nectar absence is a reward-restriction phenotype rather than an a priori antagonist-reducing defence trait. The paper also reports four-line contrasts rather than a formal uncertainty-bearing `A x D` term. It therefore remains a candidate pending the orientation and source-data gates.
+Kessler et al. (2015), `Nicotiana attenuata`, independently silenced benzylacetone floral scent and nectar production and generated the double-silenced cross. The design therefore contains a genuine 2 x 2 floral-phenotype contrast. However, nectar removal is a **reward restriction**, not an independently justified antagonist-reducing defence/access phenotype. Re-labelling `no nectar` as `D` solely because it reduces hawkmoth oviposition would define the trait role from the response being tested.
+
+The paper also reports four-line Friedman/pairwise comparisons rather than a formal uncertainty-bearing scent x nectar interaction. A public eLife supplementary audit recovered only three TIFF figure supplements and no raw Figure-2 outcome table. This route is now closed as strict Tier 1 and retained instead as high-value same-system `A -> pollination` / `A -> antagonism` evidence.
 
 ### Direct interaction outside the strict floral-D scope
 
@@ -48,13 +50,15 @@ Thus this is not merely co-measurement. However, HCN is treated as a Mendelian c
 
 ### Flower-specific D present, interaction not located
 
-García et al. (2024), `Asclepias syriaca`, measures floral latex separately from leaf latex together with attractive traits and pollination/fitness proxies. Selection favours increased floral latex even though the study reports no observed florivory. This makes the source unusually well aligned at the organ level, but the accessible primary article record supports parallel phenotypic-selection estimates rather than an `A x D` interaction. The appendices remain the final model-audit route before closing this candidate.
+García et al. (2024), `Asclepias syriaca`, measures floral latex separately from leaf latex together with attractive traits and pollination/fitness proxies. Selection favours increased floral latex even though the study reports no observed florivory. This makes the source unusually well aligned at the organ level, but the accessible primary article record supports parallel phenotypic-selection estimates rather than an `A x D` interaction. The public Appendix I / II route is being audited separately; no reanalysis is permitted until the source model and variable definitions are fixed from primary materials.
 
 ### Ecological-agent interactions are not trait interactions
 
 Egan et al. (2021), `Fragaria vesca`, uses a full pollination x herbivory experiment and estimates context-dependent selection on nine attraction/defence traits. The defence-related metabolites are based on **leaf sampling** and were available for 27 genotypes. The model contains each trait's interactions with pollination and herbivory; it does not define an attraction-trait x defence-trait term. This is excellent evidence for diffuse selection but not a direct `A x D` test.
 
 Knauer & Schiestl (2017), `Brassica rapa`, similarly demonstrates that the floral signals corolla size and phenylacetaldehyde attract both pollinators and an ovipositing herbivore, and that the two animal guilds generate nonadditive selection. No focal defence phenotype `D` is measured, so the source belongs to the attraction/multiroute layer rather than Tier 1.
+
+The remaining joint-context candidates fail for distinct reasons: `Gelsemium` measures A and D but does not fit their interaction; `Gymnadenia` has a quantitative A-to-antagonist route but no D axis; `Raphanus` links signal and defence architecture but not a direct A x D fitness term; and `Dalechampia` remains blocked by individual-level linkage.
 
 ## Why the negative classifications matter
 
@@ -66,7 +70,7 @@ The expanding audit reveals that direct evidence is sparse for several **differe
 3. A and D are measured but no interaction is fitted;
 4. the same molecule is assigned both functions, leaving only one trait axis;
 5. data streams cannot be linked at the claimed biological unit; or
-6. a factorial phenotype exists but the D orientation itself is not defensible yet.
+6. a factorial floral phenotype exists but the second axis fails the D-orientation gate.
 ```
 
 These failure modes are themselves an evidence-architecture result. They show why a broad keyword search for studies mentioning pollinators, herbivores and defence would drastically overstate the amount of evidence that identifies the theoretical mixed partial.
@@ -84,6 +88,6 @@ This statement concerns the screened high-information candidates only and is not
 The immediate remaining actions are:
 
 1. close the García appendix/model route;
-2. close the Kessler source-data/orientation route;
-3. screen additional candidate studies specifically for a flower-specific D rather than for the generic coexistence of herbivory and pollination; and
+2. screen additional candidate studies specifically for a flower-specific D rather than for the generic coexistence of herbivory and pollination;
+3. retain Kessler as a same-system attraction-tracking study rather than reopening its failed D orientation; and
 4. record a formal search-saturation receipt only after the registered query families cease producing new eligible design classes.
