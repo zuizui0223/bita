@@ -1,10 +1,28 @@
-# Manuscript audit v2: implementation-to-claim check
+# Manuscript audit v3: integrated theory-to-evidence claim check
 
 ## Scope
 
-This audit compares the canonical manuscript against the active theory API, canonical sensitivity readout, submission scope, and supplement manifest. It is a pre-submission claim audit, not a new analysis.
+This audit compares the reconstructed canonical manuscript against the active theory API, canonical finite-sensitivity readout, mechanism-pattern synthesis protocol, completion-gate receipts, quantitative-module readouts, submission scope, and supplement manifest. It is a pre-submission claim audit, not a new analysis.
 
-## Verified alignments
+## Overall verdict
+
+**Scientific architecture: coherent and manuscript-ready for final presentation work. Portal package: not yet complete.**
+
+The major former inconsistency — a manuscript describing the literature as abstract-only preliminary context while the branch contained source-adjudicated mechanism evidence and two quantitative modules — has been removed. The current manuscript now tells one integrated story:
+
+```text
+fixed local sign criterion
+-> mechanism non-identifiability
+-> finite theory sensitivity
+-> mechanism recurrence
+-> same-system conditionality
+-> direct A x D scarcity
+-> two quantitative mechanism modules
+-> direct joint-cost identification gap
+-> factorial empirical test
+```
+
+## Verified theoretical alignments
 
 ### Focal quantity
 
@@ -14,9 +32,9 @@ The manuscript definition
 W_AD = d2W / dA dD
 ```
 
-matches the active theory contract. It is correctly treated as a local mixed curvature on declared trait and outcome coordinates, not as a covariance, genetic correlation, optimum, or evolutionary trajectory.
+matches the active theory contract. It is treated as local mixed curvature on declared trait and outcome coordinates, not as covariance, genetic correlation, optimum, or evolutionary trajectory.
 
-### Signed decomposition
+### Signed decomposition and orientation gate
 
 The manuscript identity
 
@@ -24,11 +42,9 @@ The manuscript identity
 W_AD = M_AD - G_AD - C_AD
 ```
 
-matches the signed bookkeeping layer. The text correctly states that biological labels do not determine component signs and that total `W` does not identify the channel curvatures.
+matches the signed bookkeeping layer. Biological labels do not determine component signs.
 
-### Orientation gate
-
-The manuscript conditions
+The orientation conditions
 
 ```text
 M_AD <= 0
@@ -36,7 +52,7 @@ G_AD <= 0
 C_AD >= 0
 ```
 
-match the active `OrientedSignCriterion`. The corresponding magnitudes are
+precede the non-negative magnitudes
 
 ```text
 iota  = -M_AD
@@ -44,90 +60,124 @@ rho   = -G_AD
 kappa =  C_AD
 ```
 
-and the implemented criterion is
+and the oriented criterion
 
 ```text
 W_AD = rho - iota - kappa.
 ```
 
+The manuscript also states that `W_AD > 0` need not imply positive `W_A` or `W_D`.
+
+### Mechanism non-identifiability
+
+Proposition 1 is retained and correctly interpreted as structural non-identifiability from total `W`, even with noiseless observation of the total surface. The manuscript explicitly limits the claim: channel-specific measurements, interventions, or structural restrictions may add identification.
+
+The proposition remains mathematically straightforward. Its reviewer-facing value is ecological rather than algebraic: it explains why neither a better total-fitness surface nor a pile of unrelated marginal studies identifies the biological channel allocation.
+
 ### Environmental derivatives
 
-The manuscript equations match `RegimeDerivativeBalance`:
+The unrestricted derivative identities and explicit directional inequalities remain in the manuscript:
 
 ```text
 dW_AD/dH = rho_H - iota_H - kappa_H
-dW_AD/dP = rho_P - iota_P - kappa_P.
+dW_AD/dP = rho_P - iota_P - kappa_P
 ```
 
-The manuscript must state the explicit directional inequalities, not only refer to a corresponding condition:
-
-```text
-dW_AD/dH > 0 iff rho_H > iota_H + kappa_H
-dW_AD/dP < 0 iff iota_P + kappa_P > rho_P.
-```
-
-Equalities define local environmental break-even conditions. Reverse inequalities reverse the direction.
+with the relevant break-even inequalities stated rather than replaced by verbal intuition.
 
 ### Finite sensitivity results
 
-The manuscript numbers agree with the canonical `endpoint_normalized_grid_v2` readout:
+The manuscript retains the canonical `endpoint_normalized_grid_v2` results unchanged:
 
 - 2,592 total evaluations;
 - 1,342 complementary;
 - 1,250 substitutable;
 - 0 numerically neutral;
-- 480 of 648 fixed case × scenario summaries unanimous across the four response shapes;
-- 168 mixed or sensitive;
+- 480 of 648 fixed case × scenario summaries unanimous across four response shapes;
+- 168 mixed/sensitive;
 - 0 of 162 local cases unanimous across the deliberately heterogeneous full tested set.
 
-The current wording correctly treats these values as finite-design diagnostics rather than empirical frequencies.
+The text consistently treats the percentages as unweighted finite-grid occupancies, not empirical frequencies.
 
-## Required manuscript corrections before submission
+## Verified empirical-synthesis alignments
 
-### 1. Define the admissible scope of `D`
+### Evidence hierarchy
 
-The phrase “defence or access-limitation trait” is too broad unless qualified. A focal `D` is admissible only when it has a declared flower-specific antagonist-reduction role. A structure that only obstructs pollinators is not sufficient to instantiate the complete defence mechanism.
+The manuscript distinguishes:
 
-Recommended sentence:
+1. direct joint `A x D` evidence;
+2. same-system multi-route evidence;
+3. compatible single-route quantitative evidence;
+4. source-adjudicated directional evidence;
+5. candidate/access-limited evidence.
 
-> We use defence/access limitation only for a focal flower-specific trait with an operationally defined antagonist-reduction role; collateral obstruction of legitimate pollinators is a possible effect of that same trait, not the definition of defence.
+This preserves inferential proximity to the theoretical mixed partial rather than treating every publication as equivalent evidence.
 
-### 2. Use one cost term consistently
+### Mechanism coverage
 
-Use **direct joint-cost curvature** throughout. Avoid switching among “shared cost”, “joint cost”, “allocation trade-off”, and “construction cost” as if they were interchangeable. Direct construction, allocation, and physiological costs are possible biological sources of the mathematical term, but the theoretical object is `C_AD`.
+The manuscript records 38 source-adjudicated effect/directional records across 14 independent biological study clusters and gives explicit states for all four marginal mechanism families. Route counts are correctly described as overlapping evidence-capacity counts rather than an additive study total or prevalence estimate.
 
-### 3. State environmental inequalities explicitly
+### Same-system and conditionality layers
 
-The present prose correctly rejects universal pressure effects but should display the exact inequalities above. This is a core analytical contribution and should not be hidden in prose.
+Ten same-system multi-route clusters and eleven independent context/sign-switch clusters are integrated. Fine-grained contexts are collapsed into five theory-facing classes without manufacturing a cross-outcome meta-regression.
 
-### 4. Distinguish local complementarity from positive marginal effects
+### Direct interaction
 
-`W_AD > 0` means that one trait increases the marginal effect of the other. It does not require either first derivative, `W_A` or `W_D`, to be positive. Add this sentence to prevent “complementary” from being read as “both beneficial”.
+The direct `A x D` search is correctly described as saturated under the registered stopping rule with one strict sign-unresolved cluster. The manuscript does not generalize the two `Impatiens` reproductive-component point estimates.
 
-### 5. Tighten the non-identifiability claim
+### Direct joint cost
 
-Proposition 1 is valid. The manuscript should emphasize that the reallocation argument proves structural non-identifiability from total `W`, even with noiseless and complete observation of the total surface. It does not prove that mechanisms are unidentifiable after channel-specific interventions or structural restrictions.
+The direct A+D intrinsic-cost search is correctly described as saturated at zero strict eligible estimates. The manuscript states that `kappa` is **unidentified**, not zero, and does not substitute covariance, separate marginal costs, or ecological pollinator interference for the joint-cost curvature.
 
-### 6. Limit the literature claim
+### Quantitative module 1 — Leal et al. 2025
 
-The active literature registry is abstract-level, single-coder, and has no eligible quantitative effect rows. It may motivate route plausibility only. Do not call it a systematic review, meta-analysis result, empirical validation, or calibration dataset in the manuscript or cover letter.
+The manuscript reports the canonical pooled LRRs and cluster counts, keeps the very high heterogeneity visible, and limits the inference to a realised floral-antagonist-pressure gate and `H`–pollinator-use coupling. The completed module remains pinned to immutable repository commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`.
 
-### 7. Clarify the role of reproductive assurance `R`
+### Quantitative module 2 — Sasidharan et al. 2023
 
-`R` is an auxiliary background moderator in the implemented corollary. It must remain outside the title, abstract claim, primary theorem, and keywords. Methods may document it transparently.
+The manuscript uses the canonical 32-study-component topology, reports the current-deposit physiological contrast and 32/32 leave-one-component-out direction, and explicitly states the critical paired-data limitation: only three study components contain both consumer roles and all three paired differences are zero. Behavioral `+/0` disagreement and source-version discrepancies remain visible.
 
-## Reviewer-facing risk register
+### Theory/empiricism boundary
 
-| Risk | Current status | Required defence |
+The manuscript never equates either quantitative module, marginal routes, same-system regimes, or publication counts with `rho`, `iota`, `kappa`, or `W_AD`.
+
+## Reviewer-facing risk register after reconstruction
+
+| Risk | Current status | Remaining action |
 |---|---|---|
-| “This is correlational selection with new labels” | Partly addressed | Lead with mechanism non-identifiability, orientation gate, and environmental derivative conditions |
-| “The decomposition is a tautology” | Partly addressed | State that algebra is not the contribution; the contribution is the inference architecture and experimentally testable separation |
-| “Complementarity means both traits are favoured” | Not explicit enough | State that the mixed sign does not determine first derivatives |
-| “Defence is defined by the desired result” | Needs tightening | Require an operational antagonist-reduction role independent of pollinator obstruction |
-| “The numerical grid is arbitrary” | Addressed in part | Keep it as finite sensitivity; report coordinates, scenarios, normalization, and no prevalence claim |
-| “The literature validates only one pathway” | Correctly bounded | Keep all literature evidence subordinate to theory and route plausibility |
-| “No evolutionary model is presented” | Correctly bounded | Present this as a local ecological diagnostic, not an evolutionary endpoint model |
+| “This is correlational selection with new labels” | Substantially addressed | Figure 1 should visually foreground orientation gate + mechanism identification boundary, not just arrows |
+| “The decomposition is a tautology” | Addressed in prose | Keep Proposition 1 framed as an ecological inference result; avoid overselling algebraic novelty |
+| “The empirical synthesis validates the model” | Addressed | Preserve constituent-mechanism / `W_AD` boundary in Abstract, Figure 3, Tables 3-4, and cover letter |
+| “The evidence map is a cherry-picked prevalence survey” | Addressed conceptually, presentation still important | Describe it as a registered mechanism-pattern synthesis/evidence architecture; do not claim PRISMA-style prevalence unless a database-complete review is separately documented |
+| “Route counts are pseudo-replication” | Addressed | Figure 3 and Table 3 must show overlap and independence-cluster logic explicitly |
+| “The Leal module has huge heterogeneity” | Addressed | Keep heterogeneity and underpowered moderator nulls visible; do not turn pooled mean into universality |
+| “Sasidharan florivore > pollinator is compositional” | Addressed | Keep three paired-component zeros adjacent to assembled +0.129 result in figure/table text |
+| “No direct A x D synthesis exists” | Turned into bounded evidence-gap result | Avoid language implying the one `Impatiens` cluster confirms either sign |
+| “No kappa data means kappa is dispensable” | Addressed | Figure 3 must display `kappa: unidentified`, not a zero bar |
+| “Environmental P and H are unrealistic independent axes” | Improved by Leal result | Keep exogenous-index interpretation and note empirical coupling; do not silently recalibrate Part I grid |
+| “The empirical methods are not a conventional systematic review” | Correctly bounded if language remains careful | Use “registered mechanism-pattern synthesis” or “source-adjudicated evidence architecture”; avoid claiming population prevalence or exhaustive database coverage |
+| “Paper is too broad for one narrative” | Improved but still a presentation risk | Figures 1 and 3 must share the same channel grammar so empirical sections visibly answer the theory |
 
-## Submission decision after audit
+## Remaining manuscript/package work
 
-The manuscript is suitable for continued preparation as a *Theoretical Ecology* Research Article. It is not yet portal-ready because final figures, author metadata, archive DOI, full reference verification, and the explicit manuscript corrections above remain incomplete.
+### Required before submission
+
+1. **Figure 3 production.** Build a reproducible empirical architecture figure showing four route families, same-system/conditionality layers, direct `A x D` scarcity, quantitative modules, and the inference boundary.
+2. **Final figure exports.** Regenerate Figure 2 from final code and produce final vector exports for Figures 1-3.
+3. **Reference audit.** Verify every central citation and complete final bibliographic metadata/formatting.
+4. **Author-controlled metadata.** Author order, affiliations, corresponding author, ORCIDs, CRediT, funding, acknowledgements, and conflict confirmation remain incomplete.
+5. **Archive.** Create a release corresponding exactly to the submitted manuscript and mint the archival DOI.
+6. **Final CI.** Require green repository CI on the final manuscript/figure/reference commit.
+
+### Editorial tightening after the above
+
+- reduce repetition between Results 3.4-3.8 and Discussion 4.1-4.3 without deleting inference boundaries;
+- check Abstract length against the final journal requirement;
+- decide whether Table 3 or part of Figure 3 can move to Supplement if main-text density is too high;
+- ensure every named empirical system in Discussion earns its space by illustrating a distinct mechanism class.
+
+## Submission decision
+
+The former scientific blocker — incomplete empirical architecture — is closed. The manuscript can now be prepared as an integrated *Theoretical Ecology* theory + mechanism-pattern synthesis paper.
+
+**Current decision:** scientific GO; editorial/reproducibility package still incomplete. Do not submit until Figure 3, final reference audit, final CI, author metadata, and archive DOI are complete.
