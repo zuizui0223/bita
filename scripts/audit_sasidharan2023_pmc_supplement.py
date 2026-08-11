@@ -5,6 +5,12 @@ that Tables S1-S5 are the datasets used for its meta-analyses. This script resol
 the NCBI PMC Open Access package, recovers the declared supplementary XLSX in
 memory, and writes sheet/header/row-count metadata only. Observation-level values
 are never written to repository files or workflow artifacts.
+
+PMC changed its article-dataset distribution in 2026. Legacy `oa_package` objects
+were moved under `deprecated/oa_package` in April 2026 ahead of their final removal.
+The OA API can therefore expose a legacy-looking package URL whose HTTPS object has
+moved. This audit tries the API-declared HTTPS route first and the documented 2026
+`deprecated` equivalent second, without changing the requested PMCID or package.
 """
 
 from __future__ import annotations
@@ -20,7 +26,7 @@ from xml.etree import ElementTree as ET
 PMCID = "PMC10550281"
 SOURCE_DOI = "10.1093/aob/mcad064"
 OA_API = f"https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id={PMCID}"
-USER_AGENT = "bita-sasidharan2023-pmc-supplement-audit/1.0"
+USER_AGENT = "bita-sasidharan2023-pmc-supplement-audit/1.1"
 MAX_PACKAGE_BYTES = 30 * 1024 * 1024
 TARGET_TOKEN = "mcad064_suppl_Supplementary_Data"
 KEY_TOKENS = (
@@ -56,6 +62,32 @@ def _normalise_ftp(url: str) -> str:
     if url.startswith("ftp://ftp.ncbi.nlm.nih.gov/"):
         return "https://ftp.ncbi.nlm.nih.gov/" + url[len("ftp://ftp.ncbi.nlm.nih.gov/"):]
     return url
+
+
+def _package_candidates(api_url: str) -> list[str]:
+    """Return current and documented-2026 legacy package routes in priority order."""
+    https_url = _normalise_ftp(api_url)
+    candidates = [https_url]
+    legacy_token = "/pub/pmc/oa_package/"
+    deprecated_token = "/pub/pmc/deprecated/oa_package/"
+    if legacy_token in https_url:
+        candidates.append(https_url.replace(legacy_token, deprecated_token, 1))
+    elif deprecated_token in https_url:
+        candidates.append(https_url.replace(deprecated_token, legacy_token, 1))
+    # Stable de-duplication preserves API route first.
+    return list(dict.fromkeys(candidates))
+
+
+def _download_package(api_url: str) -> tuple[bytes, str, list[dict[str, str]]]:
+    attempts: list[dict[str, str]] = []
+    for url in _package_candidates(api_url):
+        try:
+            package = _get(url, accept="application/gzip,application/octet-stream,*/*")
+            attempts.append({"url": url, "status": "success"})
+            return package, url, attempts
+        except Exception as error:
+            attempts.append({"url": url, "status": f"{type(error).__name__}: {error}"})
+    raise RuntimeError(f"all PMC package routes failed: {attempts}")
 
 
 def _supplement_from_package(package: bytes) -> tuple[str, bytes, list[str]]:
@@ -145,14 +177,15 @@ def _detect_header(rows: list[list[str]]) -> tuple[int | None, list[str]]:
 
 def run(output_path: str | Path) -> dict[str, object]:
     oa_url = _oa_package_url()
-    package_url = _normalise_ftp(oa_url)
-    package = _get(package_url, accept="application/gzip,application/octet-stream,*/*")
+    package, package_url, package_attempts = _download_package(oa_url)
     supplement_name, supplement, member_names = _supplement_from_package(package)
     report = {
         "source_doi": SOURCE_DOI,
         "pmcid": PMCID,
         "oa_api": OA_API,
-        "oa_package_url": package_url,
+        "oa_api_declared_package_url": oa_url,
+        "oa_package_url_used": package_url,
+        "oa_package_attempts": package_attempts,
         "package_member_count": len(member_names),
         "supplement_name": supplement_name,
         "supplement_size_bytes": len(supplement),
@@ -161,6 +194,7 @@ def run(output_path: str | Path) -> dict[str, object]:
             "The article identifies Tables S1-S5 as datasets used in the meta-analyses.",
             "No observation-level numeric values are emitted by this schema audit.",
             "No bita re-analysis is fit until the response unit, dependence structure, and theory-facing estimands are predeclared from the primary article and audited headers.",
+            "The package fallback follows NCBI's documented 2026 migration of legacy oa_package objects under deprecated/oa_package; it does not substitute a different article or dataset.",
         ],
     }
     path = Path(output_path)
@@ -178,4 +212,5 @@ if __name__ == "__main__":
     print(json.dumps({
         "supplement_name": result["supplement_name"],
         "sheet_count": result["workbook"]["sheet_count"],
+        "package_url_used": result["oa_package_url_used"],
     }, indent=2))
