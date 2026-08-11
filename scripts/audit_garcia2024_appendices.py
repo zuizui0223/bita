@@ -5,10 +5,12 @@ endpoints. This script retrieves both on GitHub Actions, records content type an
 size, and inspects Appendix II only when it is a structured text/spreadsheet file.
 PDF content is not parsed here; the PDF appendix is only classified by format.
 
-The JPE/OJS host intermittently closes Python urllib connections without a response.
-Retrieval therefore falls back to curl with redirects/retries against the same fixed
-public URLs. Raw appendix files are held only in memory / temporary files during the
-workflow and are never committed.
+The JPE/OJS host intermittently closes Python urllib connections without a response
+and has repeatedly produced HTTP/2 PROTOCOL_ERROR failures on GitHub-hosted runners.
+Retrieval therefore falls back to curl forced to HTTP/1.1, with redirects/retries
+against the same fixed public URLs. This changes transport only; source identity and
+scientific adjudication are unchanged. Raw appendix files are held only in memory /
+temporary files during the workflow and are never committed.
 """
 
 from __future__ import annotations
@@ -29,7 +31,7 @@ APPENDICES = {
     "Appendix_I": "https://www.pollinationecology.org/index.php/jpe/article/view/758/477",
     "Appendix_II": "https://www.pollinationecology.org/index.php/jpe/article/view/758/478",
 }
-USER_AGENT = "bita-garcia2024-appendix-audit/1.1"
+USER_AGENT = "bita-garcia2024-appendix-audit/1.2"
 MAX_BYTES = 50 * 1024 * 1024
 KEY_TOKENS = (
     "id", "plant", "petal", "latex", "pollin", "fruit", "nectar", "inflores", "flower",
@@ -55,11 +57,16 @@ def _curl_download(url: str) -> tuple[bytes, dict[str, str], str]:
         effective_path = Path(tmp) / "effective.txt"
         command = [
             "curl", "--fail", "--location", "--silent", "--show-error",
-            "--retry", "5", "--retry-all-errors", "--retry-delay", "2",
-            "--connect-timeout", "30", "--max-time", "240",
+            # The JPE/OJS endpoint repeatedly resets HTTP/2 streams on hosted
+            # runners. Force HTTP/1.1 and close each connection; this is a
+            # transport-only workaround against the same article-declared URLs.
+            "--http1.1", "--no-keepalive",
+            "--retry", "8", "--retry-all-errors", "--retry-delay", "2",
+            "--connect-timeout", "30", "--max-time", "300",
             "--user-agent", USER_AGENT,
             "--header", f"Referer: {ARTICLE_URL}",
             "--header", "Accept: */*",
+            "--header", "Connection: close",
             "--dump-header", str(headers_path),
             "--output", str(body),
             "--write-out", "%{url_effective}",
