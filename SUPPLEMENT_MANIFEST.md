@@ -28,11 +28,13 @@ Boundary: finite-grid occupancies are declared-set sensitivities, not probabilit
 
 Canonical empirical architecture:
 
-- `empirical/mechanism_pattern_synthesis/PROTOCOL_V1.md`
+- `docs/MECHANISM_PATTERN_UNIVERSALITY_PROTOCOL_V1.md`
 - `empirical/mechanism_pattern_synthesis/COMPLETION_GATE_V1.md`
 - `empirical/mechanism_pattern_synthesis/COMPLETION_STATUS_V2.md`
 - `empirical/mechanism_pattern_synthesis/SEARCH_REGISTRY_V1.csv`
-- `empirical/mechanism_pattern_synthesis/LEDGER_SCHEMA_V1.csv`
+- `empirical/mechanism_pattern_synthesis/MASTER_LEDGER_SCHEMA_V1.csv`
+- `empirical/mechanism_pattern_synthesis/MASTER_LEDGER_V1.csv`
+- `empirical/mechanism_pattern_synthesis/MECHANISM_COVERAGE_AUDIT_PROTOCOL_V1.md`
 - `empirical/mechanism_pattern_synthesis/MECHANISM_COVERAGE_AUDIT_V1.md`
 
 The scientific completion gate is A–H PASS. The empirical endpoint is a map of what is recurrent, what is context dependent, and what remains unidentified; it is not a meta-analytic estimate of the mixed partial.
@@ -42,10 +44,13 @@ The scientific completion gate is A–H PASS. The empirical endpoint is a map of
 Direct `A x D` search and bounded evidence gap:
 
 - `empirical/mechanism_pattern_synthesis/DIRECT_AXD_AUDIT_V1.csv`
+- `empirical/mechanism_pattern_synthesis/DIRECT_AXD_SEARCH_EXPANSION_READOUT_V1.md`
 - `empirical/mechanism_pattern_synthesis/DIRECT_AXD_SATURATION_RECEIPT_V1.md`
 
 Same-system architecture:
 
+- `empirical/mechanism_pattern_synthesis/SAME_SYSTEM_REGIME_PROTOCOL_V1.md`
+- `empirical/mechanism_pattern_synthesis/SAME_SYSTEM_REGIME_LEDGER_V1.csv`
 - `empirical/mechanism_pattern_synthesis/SAME_SYSTEM_REGIME_READOUT_V1.md`
 
 The one strict current direct cluster (`Impatiens capensis`) is direct but sign-unresolved across reproductive components. Same-system marginal co-occurrence is never relabelled as direct interaction evidence.
@@ -61,6 +66,7 @@ Eleven independent study clusters are mapped into five theory-facing classes: tr
 
 - `empirical/mechanism_pattern_synthesis/JOINT_COST_SEARCH_PROTOCOL_V1.md`
 - `empirical/mechanism_pattern_synthesis/JOINT_COST_AUDIT_V1.csv`
+- `empirical/mechanism_pattern_synthesis/JOINT_COST_READOUT_V1.md`
 - `empirical/mechanism_pattern_synthesis/JOINT_COST_SATURATION_RECEIPT_V1.md`
 
 Strict simultaneous A+D intrinsic-cost estimates: zero under the saturated registered search. `kappa` is therefore unidentified, not estimated as zero.
@@ -99,12 +105,13 @@ Canonical files at commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`:
 
 Reproduction is intentionally pinned to that commit so later changes on PR #126 cannot alter the completed module by accident.
 
-Key admitted results are summarized, with limitations, in `empirical/mechanism_pattern_synthesis/SYNTHESIS_ROBUSTNESS_AUDIT_V1.md` and registered in `SECONDARY_SYNTHESIS_MODULES_V1.csv`.
+Key admitted results are summarized, with limitations, in `empirical/mechanism_pattern_synthesis/SYNTHESIS_ROBUSTNESS_AUDIT_V1.md` and registered in `empirical/mechanism_pattern_synthesis/SECONDARY_SYNTHESIS_MODULES_V1.csv`.
 
 ## 7. Quantitative synthesis module 2 — Sasidharan et al. 2023 FVOCs
 
 Canonical current-branch readout:
 
+- `empirical/mechanism_pattern_synthesis/SASIDHARAN_2023_REPRO_PROTOCOL_V1.md`
 - `empirical/mechanism_pattern_synthesis/SASIDHARAN_2023_REPRO_READOUT_V1.md`
 - `empirical/mechanism_pattern_synthesis/SECONDARY_SYNTHESIS_MODULES_V1.csv`
 
@@ -133,13 +140,21 @@ Required boundaries:
 - incompatible outcomes are not averaged into a grand mean;
 - absence of a joint-cost study does not imply `kappa = 0`.
 
-## 9. Source-specific public-data audits
+## 9. Canonical manuscript and manuscript-facing tables
+
+- `manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md`
+- `manuscript/TABLES_THEORETICAL_ECOLOGY.md`
+- `manuscript/README.md`
+
+The manuscript now integrates the unchanged theoretical equations and finite sensitivity results with the completed mechanism-pattern synthesis. Tables 3-4 provide the manuscript-facing empirical architecture and quantitative-module summary.
+
+## 10. Source-specific public-data audits
 
 The integration branch contains bounded source audits/reconstructions for high-information systems including `Impatiens`, `Aconitum`, `Nicotiana`, `Cucurbita`, García 2024, and others under `empirical/mechanism_pattern_synthesis/` plus matching scripts/workflows.
 
 A failed external download is treated as source availability, not as biological evidence. The García 2024 JPE appendix workflow showed one transient transport failure on run `31485544283` and then passed unchanged on run `31537763971`, so no scientific or transport-code change was made in response to that one-off failure.
 
-## 10. Deliberately not promoted
+## 11. Deliberately not promoted
 
 The following are not primary submission claims:
 
