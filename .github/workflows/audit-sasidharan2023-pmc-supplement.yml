@@ -5,6 +5,7 @@ on:
     paths:
       - "scripts/audit_sasidharan2023_pmc_supplement.py"
       - "scripts/audit_sasidharan2023_s1_domains.py"
+      - "scripts/reconstruct_sasidharan2023_fvoc.py"
       - ".github/workflows/audit-sasidharan2023-pmc-supplement.yml"
   workflow_dispatch:
 
@@ -30,6 +31,10 @@ jobs:
         run: |
           python scripts/audit_sasidharan2023_s1_domains.py \
             artifacts/sasidharan2023_s1_domains.json
+      - name: Reconstruct source counts and publication-cluster sensitivity
+        run: |
+          python scripts/reconstruct_sasidharan2023_fvoc.py \
+            artifacts/sasidharan2023_fvoc_reconstruction.json
       - name: Publish aggregate audit summaries
         run: |
           {
@@ -44,12 +49,19 @@ jobs:
             echo '```json'
             cat artifacts/sasidharan2023_s1_domains.json
             echo '```'
+            echo
+            echo '## FVOC reproduction and dependence sensitivity'
+            echo
+            echo '```json'
+            cat artifacts/sasidharan2023_fvoc_reconstruction.json
+            echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
           python - <<'PY'
           import json
           from pathlib import Path
           schema = json.loads(Path('artifacts/sasidharan2023_pmc_supplement_schema.json').read_text())
           domains = json.loads(Path('artifacts/sasidharan2023_s1_domains.json').read_text())
+          result = json.loads(Path('artifacts/sasidharan2023_fvoc_reconstruction.json').read_text())
           source = {
               'source_doi': schema['source_doi'],
               'pmcid': schema['pmcid'],
@@ -61,9 +73,20 @@ jobs:
               'analyzed_test_rows': domains['analyzed_test_rows'],
               'domains': domains['domains'],
           }
+          reproduction = {
+              'source_unit_reconstruction': result['source_unit_reconstruction'],
+              'shared_tracking': {k: v for k, v in result['shared_tracking'].items() if k != 'by_genus'},
+              'publication_dependence': {
+                  k: v for k, v in result['publication_dependence'].items()
+                  if k not in {'publication_cluster_summaries', 'paired_detection_differences'}
+              },
+              'checkpoints': result['checkpoints'],
+              'gate_c': result['gate_c'],
+          }
           print('::notice title=Sasidharan 2023 source::' + json.dumps(source, separators=(',', ':')))
           print('::notice title=Sasidharan 2023 dependence::' + json.dumps(domains['publication_dependence'], separators=(',', ':')))
           print('::notice title=Sasidharan 2023 S1 coding::' + json.dumps(coding, separators=(',', ':')))
+          print('::notice title=Sasidharan 2023 reconstruction::' + json.dumps(reproduction, separators=(',', ':')))
           PY
       - uses: actions/upload-artifact@v4
         with:
@@ -71,4 +94,5 @@ jobs:
           path: |
             artifacts/sasidharan2023_pmc_supplement_schema.json
             artifacts/sasidharan2023_s1_domains.json
+            artifacts/sasidharan2023_fvoc_reconstruction.json
           if-no-files-found: error
