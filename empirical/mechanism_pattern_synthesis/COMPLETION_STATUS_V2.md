@@ -4,15 +4,15 @@
 
 This file reconciles the gate status after the later Gate A, C, E, and F receipts superseded older intermediate status notes.
 
-Canonical integration line at adjudication start:
+Canonical integration line at first A–H adjudication:
 
 ```text
 PR:     #126
 branch: agent/mechanism-pattern-universality-v1
-head:   ec8e531c82678bfb0ec895d79bf498613910ed10
+head:   5b4b877bf3c601f0f4ccad8fb35c65f1b99bc605
 ```
 
-The fixed theory and existing manuscript are not changed by this adjudication.
+The fixed theory and existing manuscript were not changed to obtain the gate decisions.
 
 ## A–H gate matrix
 
@@ -20,11 +20,11 @@ The fixed theory and existing manuscript are not changed by this adjudication.
 |---|---|---|---|
 | **A — direct `A x D` search** | **PASS** | `DIRECT_AXD_SATURATION_RECEIPT_V1.md` | none; one strict direct cluster remains unresolved, which is itself the bounded evidence state |
 | **B — four marginal mechanism families** | **PASS** | `MECHANISM_COVERAGE_AUDIT_V1.md` | none; all four routes have explicit source-adjudicated empirical states |
-| **C — two quantitative modules** | **PASS** | Leal 2025 larceny module pinned to PR #124 + `SASIDHARAN_2023_REPRO_READOUT_V1.md` | none; modules are biologically distinct and independently audited |
+| **C — two quantitative modules** | **PASS** | Leal 2025 larceny module pinned to immutable commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82` + `SASIDHARAN_2023_REPRO_READOUT_V1.md` | none |
 | **D — sign switching / conditionality** | **PASS** | `SIGN_SWITCH_LEDGER_V1.csv` + `CONDITIONALITY_ONTOLOGY_V1.md` | none at current evidence capacity; cross-outcome meta-regression is intentionally not manufactured |
 | **E — same-system multi-route evidence** | **PASS** | `SAME_SYSTEM_REGIME_READOUT_V1.md` | none; linkage and dependence are explicit |
 | **F — direct joint cost** | **PASS as documented gap** | `JOINT_COST_SATURATION_RECEIPT_V1.md` | none; `kappa` remains empirically unidentified, not zero |
-| **G — synthesis robustness/bias** | **PASS** | `SYNTHESIS_ROBUSTNESS_AUDIT_V1.md` | none scientifically; module-1 assets still need final repository packaging/consolidation |
+| **G — synthesis robustness/bias** | **PASS** | `SYNTHESIS_ROBUSTNESS_AUDIT_V1.md` | none |
 | **H — theory/empiricism boundary** | **PASS** | `THEORY_EMPIRICISM_BOUNDARY_AUDIT_V1.md` | none for current synthesis; future manuscript text must preserve the boundary |
 
 ## Overall scientific decision
@@ -33,55 +33,58 @@ The fixed theory and existing manuscript are not changed by this adjudication.
 Gates A-H:                   PASS
 scientific completion gate: PASS
 manuscript resumption:      ALLOWED
-PR #126 merge readiness:    NOT YET
 ```
 
-The manuscript freeze condition defined in `COMPLETION_GATE_V1.md` is now scientifically satisfied. This does **not** mean PR #126 should be merged immediately or that the manuscript should be edited before repository hygiene is restored.
+The empirical endpoint is now a map of **what is recurrent, what is context dependent, and what remains empirically unidentified**, rather than an attempt to estimate the mixed partial by pooling marginal studies.
 
-## What the integrated empirical result now is
+## Integrated empirical result
 
-The empirical half no longer rests on the claim that one marginal route has a universal sign.
-
-Instead it supports a layered result:
-
-1. **mechanism recurrence** — all four theory-facing marginal families are source-adjudicated across multiple systems;
-2. **same-system architecture** — guarded, interference, shared-tracking, antagonist-biased, and context-switching states co-occur in linked biological systems;
+1. **mechanism recurrence** — all four theory-facing marginal families have source-adjudicated states across multiple systems;
+2. **same-system architecture** — guarded, interference, shared-tracking, antagonist-biased, unresolved, and context-switching states occur in linked systems;
 3. **direct evidence scarcity** — the dedicated direct `A x D` search saturates with one strict, sign-unresolved cluster;
-4. **conditionality recurrence** — 11 independent sign-switch/context clusters map onto five theory-facing classes without mixing incompatible outcomes into a grand mean;
+4. **conditionality recurrence** — 11 independent context/sign-switch clusters map onto five theory-facing classes without mixing incompatible outcomes into a grand mean;
 5. **joint-cost identification gap** — the direct A+D intrinsic-cost search saturates at zero eligible estimates, so `kappa` remains unidentified;
-6. **quantitative breadth** — Leal 2025 and Sasidharan 2023 provide two biologically distinct source-audited quantitative synthesis modules with appropriate dependence/influence/robustness limits.
+6. **quantitative breadth** — Leal 2025 and Sasidharan 2023 provide two biologically distinct source-audited quantitative synthesis modules with module-appropriate dependence, influence, and robustness checks.
 
-That architecture is sufficient for the intended theory + empirical-synthesis paper because the empirical claim is now **what is general, what is context dependent, and what remains unidentified**, rather than a claim that the mixed partial itself has been meta-analytically estimated.
+## Operational cleanup status
 
-## Operational work still required before merging #126
+### CI — resolved
 
-These tasks are deliberately separated from the A–H scientific gate.
+At head `5b4b877bf3c601f0f4ccad8fb35c65f1b99bc605`, all 13 pull-request workflow runs completed successfully, including:
 
-### 1. Restore green CI for the García 2024 appendix audit
+- core `CI` run `31537763981`;
+- `submission-scope` run `31537764053`;
+- `Build mechanism coverage audit` run `31537764032`;
+- `Build same-system regime readout` run `31537763969`;
+- `Audit Sasidharan 2023 PMC supplement` run `31537763989`;
+- `Audit Garcia 2024 JPE appendices` run `31537763971`.
 
-Current head has one failing workflow, `Audit Garcia 2024 JPE appendices`. The failure is transport-level, not a failed scientific assertion:
+The preceding García run `31485544283` failed only because the external JPE host closed the connection / produced an HTTP/2 protocol error. The unchanged audit passed on the next PR run, so the failure is treated as transient external transport rather than a code or scientific-audit defect. No transport workaround is added solely to make a one-off network failure disappear.
+
+### Leal module packaging — resolved by immutable pin
+
+`SUPPLEMENT_MANIFEST.md` now fixes the completed Leal larceny module to repository commit:
 
 ```text
-urllib: RemoteDisconnected
-curl:   HTTP/2 PROTOCOL_ERROR after retries
+ed33b25593c0d90ad6657753f6f5501d9efc7b82
 ```
 
-The focused repair should harden transport (prefer HTTP/1.1 and bounded retry/backoff) without changing source URLs, biological filters, or adjudication logic.
+and enumerates its canonical protocol, readout, effect rows, recomputation audit, results, scripts, modules, and tests. This avoids duplicating or silently changing the completed analysis while making its exact dependency auditable from the #126 integration line.
 
-### 2. Package the Leal quantitative module on the final integration line
+## Manuscript-entry decision
 
-The Leal implementation is currently pinned to PR #124. Before final merge/submission, either:
+The original freeze condition in `COMPLETION_GATE_V1.md` is satisfied.
 
-- port the canonical larceny analysis/readout assets into the final integration branch; or
-- preserve the immutable source commit/path as an explicit supplemental dependency.
+```text
+scientific A-H gate:       PASS
+CI state:                  GREEN at adjudicated head
+quantitative-module pin:   FIXED
+manuscript reconstruction: GO
+```
 
-Do not recompute a new effect merely for packaging consistency.
+The next task is therefore no longer additional evidence hunting by default. It is manuscript reconstruction around the completed evidence architecture, while retaining the Gate H claim boundary.
 
-### 3. Rebuild the manuscript around the completed evidence architecture
-
-Once operational checks are green, manuscript reconstruction may resume under `THEORY_EMPIRICISM_BOUNDARY_AUDIT_V1.md`.
-
-The new Results/Discussion spine should be:
+Recommended Results/Discussion spine:
 
 ```text
 fixed sign criterion
@@ -91,14 +94,12 @@ fixed sign criterion
 -> five-class conditionality map
 -> quantitative module 1: antagonist-pressure gate
 -> quantitative module 2: FVOC mutualist/antagonist response architecture
--> joint-cost evidence gap
+-> direct joint-cost evidence gap
 -> identification boundary and empirical predictions
 ```
 
 No new theory term or parameter is required for this reconstruction.
 
-## Current stop/go decision
+## Merge decision
 
-**GO for manuscript reconstruction after operational cleanup.**
-
-**NO-GO for merging PR #126 while the García audit workflow is red and module-1 packaging remains unresolved.**
+PR #126 remains draft while manuscript reconstruction begins on the integration line. This is a workflow choice, not an unresolved scientific gate. Merging the empirical integration alone would now be technically defensible, but keeping the PR draft avoids splitting the final theory+synthesis narrative across another branch before the manuscript is rebuilt.

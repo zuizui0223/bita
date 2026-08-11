@@ -1,10 +1,10 @@
-# Supplement manifest
+# Supplement manifest — theory + mechanism-pattern synthesis
 
-This map links the one primary submission claim and its preliminary supporting context to the files needed to inspect or reproduce them.
+This manifest is the canonical map for the integrated theory + empirical-synthesis line in PR #126 (`agent/mechanism-pattern-universality-v1`). It supersedes the older manifest framing in which the literature layer was only preliminary collateral context.
 
-## Primary claim: local attraction–defence interaction theory
+## 1. Fixed theoretical core
 
-Primary theory, assumptions, and positioning:
+Primary local sign criterion, assumptions, and positioning:
 
 - `docs/GENERAL_SIGN_CRITERION.md`
 - `docs/NOVELTY_POSITIONING.md`
@@ -13,70 +13,141 @@ Primary theory, assumptions, and positioning:
 - `trait_architecture/sign_criterion.py`
 - `tests/test_sign_criterion.py`
 
-Implemented corollary and finite-set sensitivity analysis:
+Implemented corollary and finite-set sensitivity:
 
 - `trait_architecture/model.py`
 - `trait_architecture/robustness.py`
 - `configs/part_i_robustness_grid.json`
 - `scripts/run_part_i_robustness.py`
 - `docs/PART_I_ROBUSTNESS_PROTOCOL.md`
-- `tests/test_robustness.py`
-- `tests/test_run_part_i_robustness.py`
-- `tests/test_committed_part_i_results_current.py`
-
-Canonical V2 outputs and manuscript-facing builders:
-
-- `empirical/part_i_robustness/endpoint_normalized_grid_v2_report.json`
 - `empirical/part_i_robustness/PART_I_SENSITIVITY_READOUT_V2.md`
-- `scripts/build_part_i_manuscript_readout.py`
-- `scripts/build_part_i_regime_figure_svg.py`
-- `tests/test_build_part_i_manuscript_readout.py`
-- `tests/test_build_part_i_regime_figure_svg.py`
 
-Interpretive boundary:
+Boundary: finite-grid occupancies are declared-set sensitivities, not probabilities or prevalence in nature.
 
-- `P` and `H` are exogenous reference-regime indices.
-- Environmental directional predictions depend on derivatives of all channel contributions, not on `P` or `H` alone.
-- The non-negative relief/interference decomposition requires an explicit local orientation gate.
-- Reproductive assurance `R` is an auxiliary background moderator in the implemented corollary, not a third focal trait.
-- Reported percentages are unweighted occupancies of the declared finite grid, not empirical probabilities or prevalence estimates.
-- `tested_set_unanimous` and `mixed_or_sensitive` are the only categorical finite-set agreement labels; `modal_sign_agreement` is continuous and no arbitrary majority threshold defines a third class.
+## 2. Mechanism-pattern empirical protocol and completion gate
 
-## Preliminary literature context: collateral pollinator-cost route
+Canonical empirical architecture:
 
-Active route-level context:
+- `empirical/mechanism_pattern_synthesis/PROTOCOL_V1.md`
+- `empirical/mechanism_pattern_synthesis/COMPLETION_GATE_V1.md`
+- `empirical/mechanism_pattern_synthesis/COMPLETION_STATUS_V2.md`
+- `empirical/mechanism_pattern_synthesis/SEARCH_REGISTRY_V1.csv`
+- `empirical/mechanism_pattern_synthesis/LEDGER_SCHEMA_V1.csv`
+- `empirical/mechanism_pattern_synthesis/MECHANISM_COVERAGE_AUDIT_V1.md`
 
-- `empirical/broad_reality_evidence/broad_route_records.csv`
-- `empirical/broad_reality_evidence/broad_effect_extractions.csv`
-- `empirical/broad_reality_evidence/broad_meta_analysis_strata.csv`
-- `empirical/broad_reality_evidence/LITERATURE_EVIDENCE_READOUT.md`
+The scientific completion gate is A–H PASS. The empirical endpoint is a map of what is recurrent, what is context dependent, and what remains unidentified; it is not a meta-analytic estimate of the mixed partial.
 
-Reproduction and validation:
+## 3. Direct interaction and same-system evidence
 
-- `scripts/run_broad_meta_analysis.py`
-- `scripts/validate_current_theory_meta.py`
-- `trait_architecture/broad_meta_analysis.py`
-- `trait_architecture/theory_meta_validation.py`
-- `tests/test_theory_meta_validation.py`
-- `.github/workflows/validate-current-theory-meta.yml`
+Direct `A x D` search and bounded evidence gap:
 
-All currently active directional records are coded from `crossref_deposited_abstract`. The relevant declared `B_to_pollination × chemical_barrier × pollinator_preference_or_foraging × manipulation` stratum contains three independent primary clusters, all coded negative. A separate `visitation_rate` stratum contains one mixed record and is not pooled into that three-cluster directional fraction.
+- `empirical/mechanism_pattern_synthesis/DIRECT_AXD_AUDIT_V1.csv`
+- `empirical/mechanism_pattern_synthesis/DIRECT_AXD_SATURATION_RECEIPT_V1.md`
 
-The current quantitative extraction table contains no eligible effect rows, and the abstract-level registry has not undergone full-text verification and independent duplicate coding or documented adjudication. The literature layer is therefore **preliminary mechanism context only**. It is not a second independent submission claim, does not calibrate model parameters, and does not validate the regime map.
+Same-system architecture:
 
-## Boundary between theory and literature context
+- `empirical/mechanism_pattern_synthesis/SAME_SYSTEM_REGIME_READOUT_V1.md`
 
-- `README.md`
-- `docs/SUBMISSION_SCOPE.md`
-- `docs/FINAL_SUBMISSION_AUDIT.md`
-- `docs/BACKGROUND_NOVELTY_GAP_REVIEW.md`
-- `scripts/validate_current_theory_meta.py`
-- `trait_architecture/theory_meta_validation.py`
-- `tests/test_submission_scope.py`
-- `tests/test_submission_narrative_contract.py`
+The one strict current direct cluster (`Impatiens capensis`) is direct but sign-unresolved across reproductive components. Same-system marginal co-occurrence is never relabelled as direct interaction evidence.
 
-A negative `D -> pollinator use` route does not by itself identify the focal mutualist mixed curvature `M_AD < 0`; that would require showing how `D` changes the marginal mutualist return to the same focal `A`. Route records from different traits and taxa also do not jointly estimate one system-specific `D` axis, the complete local `A`–`D` mixed partial, its environmental derivative, trait covariance, or an evolutionary endpoint.
+## 4. Conditionality / sign-switch layer
 
-## Deliberately absent
+- `empirical/mechanism_pattern_synthesis/SIGN_SWITCH_LEDGER_V1.csv`
+- `empirical/mechanism_pattern_synthesis/CONDITIONALITY_ONTOLOGY_V1.md`
 
-Raw third-party observations, the former *Impatiens capensis* case-study pipeline, optimum/covariance analyses, matched-study discovery architecture, network/trait-coverage audits, regime-discrimination audits based on abstract-level direction records, exploratory candidate scouting, repository-access probes, broad candidate-harvesting machinery, and superseded manuscript-planning files are not part of this supplement. Git history is the archive for those earlier branches.
+Eleven independent study clusters are mapped into five theory-facing classes: trait intensity/expression, resource/exposure context, consumer identity/role, response definition/stage/scale, and compound identity/mechanism partition. The project does not manufacture a cross-outcome moderator coefficient.
+
+## 5. Direct joint-cost evidence state
+
+- `empirical/mechanism_pattern_synthesis/JOINT_COST_SEARCH_PROTOCOL_V1.md`
+- `empirical/mechanism_pattern_synthesis/JOINT_COST_AUDIT_V1.csv`
+- `empirical/mechanism_pattern_synthesis/JOINT_COST_SATURATION_RECEIPT_V1.md`
+
+Strict simultaneous A+D intrinsic-cost estimates: zero under the saturated registered search. `kappa` is therefore unidentified, not estimated as zero.
+
+## 6. Quantitative synthesis module 1 — Leal et al. 2025 floral larceny
+
+To avoid silently reimplementing a completed analysis, the exact canonical module is pinned to an immutable commit in this repository:
+
+```text
+PR:                 #124
+branch at creation: claude/attraction-defense-conditional-olom0x
+canonical commit:   ed33b25593c0d90ad6657753f6f5501d9efc7b82
+preregistration:    0e36eac
+first results:      965d657
+source synthesis:   Leal et al. 2025, Ecology, doi:10.1002/ecy.70036
+```
+
+Canonical files at commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`:
+
+- `empirical/broad_reality_evidence/larceny_gate/LARCENY_GATE_PROTOCOL_V1.md`
+- `empirical/broad_reality_evidence/larceny_gate/LARCENY_GATE_READOUT_V1.md`
+- `empirical/broad_reality_evidence/larceny_gate/larceny_effect_rows.csv`
+- `empirical/broad_reality_evidence/larceny_gate/larceny_ingest_diagnostics.json`
+- `empirical/broad_reality_evidence/larceny_gate/larceny_recomputation_audit.csv`
+- `empirical/broad_reality_evidence/larceny_gate/larceny_moderator_registry.csv`
+- `empirical/broad_reality_evidence/larceny_gate/larceny_moderator_coding.csv`
+- `empirical/broad_reality_evidence/larceny_gate/results/`
+- `scripts/ingest_deposited_larceny_dataset.py`
+- `scripts/run_larceny_gate.py`
+- `scripts/run_context_dependence.py`
+- `trait_architecture/deposited_effect_ingest.py`
+- `trait_architecture/context_dependence.py`
+- `tests/test_deposited_effect_ingest.py`
+- `tests/test_context_dependence.py`
+- `tests/test_larceny_gate_declaration.py`
+
+Reproduction is intentionally pinned to that commit so later changes on PR #126 cannot alter the completed module by accident.
+
+Key admitted results are summarized, with limitations, in `empirical/mechanism_pattern_synthesis/SYNTHESIS_ROBUSTNESS_AUDIT_V1.md` and registered in `SECONDARY_SYNTHESIS_MODULES_V1.csv`.
+
+## 7. Quantitative synthesis module 2 — Sasidharan et al. 2023 FVOCs
+
+Canonical current-branch readout:
+
+- `empirical/mechanism_pattern_synthesis/SASIDHARAN_2023_REPRO_READOUT_V1.md`
+- `empirical/mechanism_pattern_synthesis/SECONDARY_SYNTHESIS_MODULES_V1.csv`
+
+Canonical audit/reconstruction code:
+
+- `scripts/audit_sasidharan2023_pmc_supplement.py`
+- `scripts/audit_sasidharan2023_s1_domains.py`
+- `scripts/audit_sasidharan2023_citation_topology.py`
+- `scripts/reconstruct_sasidharan2023_fvoc.py`
+- `scripts/adjudicate_sasidharan2023_gate_c.py`
+- `.github/workflows/audit-sasidharan2023-pmc-supplement.yml`
+
+Canonical adjudication: `PASS_AS_DEPOSITED_REANALYSIS`. The 32-component citation topology is the dependence source of record; current-deposit vs printed-source discrepancies remain explicit.
+
+## 8. Robustness and theory–empiricism boundary
+
+- `empirical/mechanism_pattern_synthesis/SYNTHESIS_ROBUSTNESS_AUDIT_V1.md`
+- `empirical/mechanism_pattern_synthesis/THEORY_EMPIRICISM_BOUNDARY_AUDIT_V1.md`
+
+Required boundaries:
+
+- marginal routes do not estimate `W_AD`;
+- module counts do not estimate model parameters;
+- screened-set/deposit proportions are not prevalence;
+- the single direct interaction is not generalized;
+- incompatible outcomes are not averaged into a grand mean;
+- absence of a joint-cost study does not imply `kappa = 0`.
+
+## 9. Source-specific public-data audits
+
+The integration branch contains bounded source audits/reconstructions for high-information systems including `Impatiens`, `Aconitum`, `Nicotiana`, `Cucurbita`, García 2024, and others under `empirical/mechanism_pattern_synthesis/` plus matching scripts/workflows.
+
+A failed external download is treated as source availability, not as biological evidence. The García 2024 JPE appendix workflow showed one transient transport failure on run `31485544283` and then passed unchanged on run `31537763971`, so no scientific or transport-code change was made in response to that one-off failure.
+
+## 10. Deliberately not promoted
+
+The following are not primary submission claims:
+
+- abstract-only broad-route directional fractions from the earlier preliminary literature layer;
+- publication counts as biological parameter estimates;
+- finite-grid regime percentages as empirical frequencies;
+- cross-organ defence substituted for flower-specific D;
+- dual-function single traits substituted for an independently varied A+D design;
+- unrelated marginal studies algebraically combined into a mixed partial.
+
+Raw third-party observation files that are not licensed or necessary to retain are not committed merely for convenience. Source-audit workflows prefer aggregate/schema products and immutable external/source identifiers where appropriate.
