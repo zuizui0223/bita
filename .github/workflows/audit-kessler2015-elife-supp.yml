@@ -1,0 +1,29 @@
+name: Audit Kessler 2015 eLife supplement
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit_kessler2015_elife_supp.py"
+      - ".github/workflows/audit-kessler2015-elife-supp.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Audit public eLife supplementary package
+        run: |
+          python scripts/audit_kessler2015_elife_supp.py artifacts/kessler2015_elife_supp_audit.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kessler2015-elife-supp-audit
+          path: artifacts/kessler2015_elife_supp_audit.json
+          if-no-files-found: error
