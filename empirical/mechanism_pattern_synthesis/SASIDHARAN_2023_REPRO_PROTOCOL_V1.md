@@ -32,33 +32,45 @@ The article reports unique FVOC × insect-species tests for the eight eligible p
 ```text
 pollinator tests: 220
 pollinator detected responses: 151 (68.6%)
+pollinator not detected:        69
 
 florivore tests: 102
 florivore detected responses: 83 (81.4%)
+florivore not detected:        19
 
-reported Pearson chi-square: 5.069
+reported chi-square: 5.069
 reported P: 0.024
 ```
 
 The supplement reconstruction must reproduce the exact integer numerator/denominator totals by consumer role and the genus-level counts in published Table 2.
 
-### Behavioural attractive / repellent table
+The published `chi-square = 5.069` is exactly the 2 × 2 Pearson chi-square **with Yates continuity correction**, i.e. the default correction used by R's `chisq.test` for a 2 × 2 table. The uncorrected statistic is different and must not be substituted silently.
 
-The article reports:
+### Behavioural attractive / repellent / no-response table
+
+The rounded percentages and denominators in published Table 2 imply the exact source-total count table:
 
 ```text
-pollinator behavioural tests: 112
-pollinator attractive: 33.0%
-pollinator repellent: 8.0%
-
-florivore behavioural tests: 159
-florivore attractive: 22.0%
-florivore repellent: 5.7%
-
-reported pollinator-vs-florivore attractiveness test: P=0.07
+                    attractive   repellent   no response   total
+pollinator              37           9           66        112
+florivore               35           9          115        159
 ```
 
-`no response` remains an explicit category exactly as described by the source; it is not silently dropped when reconstructing denominators.
+These reproduce the published percentages:
+
+```text
+pollinator attractive: 33.0%
+pollinator repellent:   8.0%
+
+florivore attractive:  22.0%
+florivore repellent:     5.7%
+```
+
+The source explicitly states that `no response` was included as a category in the attractive/repellent statistical test even though those no-response counts were not printed in Table 2.
+
+The source's reported behavioural comparison (`chi-square = 5.33`, `P = 0.07`) is reproduced by the **2 visitor roles × 3 response categories** Pearson chi-square table above (`df=2`), not by a 2 × 2 attractive-versus-not-attractive comparison.
+
+`no response` therefore remains an explicit category throughout the reproduction and is never silently dropped from the source-unit test.
 
 ### Shared-compound table
 
@@ -82,15 +94,17 @@ shared repellent:           1 of 32 = 3.1%
 reported two-sided binomial test attractive vs repellent: P=0.04
 ```
 
+Among the nine concordant shared-attractive/shared-repellent cases, an exact two-sided binomial test with null probability 0.5 gives `P = 0.0390625`, reproducing the rounded published `P=0.04`.
+
 The primary bita mechanism statement from this source is based on these counts, not on a fabricated continuous effect size.
 
 ## Stage 2 — source-unit statistical checks
 
-Recompute only the tests explicitly corresponding to published summaries:
+Recompute only the tests corresponding exactly to published summaries:
 
-1. Pearson 2 × 2 chi-square for detected vs not-detected by visitor role;
-2. Pearson 2 × 2 chi-square for attractive vs not-attractive by visitor role using the source denominators;
-3. exact two-sided binomial test for shared-attractive vs shared-repellent FVOCs among compounds that are one of those two concordant categories.
+1. **Detection:** 2 × 2 Pearson chi-square with Yates continuity correction on visitor role × detected/not-detected. Expected checkpoint: `chi-square = 5.0687`, `P = 0.02436`, rounded by the source to `5.069`, `0.024`.
+2. **Behaviour:** 2 × 3 Pearson chi-square without continuity correction on visitor role × `{attractive, repellent, no_response}`. Expected checkpoint from the source-implied integer table: `chi-square = 5.32977`, `df = 2`, `P = 0.06961`, rounded by the source to `5.33`, `0.07`.
+3. **Shared concordant behaviour:** exact two-sided binomial test on `8 shared_attractive` versus `1 shared_repellent`. Expected checkpoint: `P = 0.0390625`, rounded to `0.04`.
 
 The reconstructed statistics are integrity checks. The published source analysis remains separately reported so discrepancies cannot be hidden by reimplementation choices.
 
