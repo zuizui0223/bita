@@ -7,6 +7,9 @@ on:
       - "scripts/audit_sasidharan2023_s1_domains.py"
       - "scripts/audit_sasidharan2023_citation_topology.py"
       - "scripts/reconstruct_sasidharan2023_fvoc.py"
+      - "scripts/adjudicate_sasidharan2023_gate_c.py"
+      - "empirical/mechanism_pattern_synthesis/SASIDHARAN_2023_REPRO_READOUT_V1.md"
+      - "empirical/mechanism_pattern_synthesis/SECONDARY_SYNTHESIS_MODULES_V1.csv"
       - ".github/workflows/audit-sasidharan2023-pmc-supplement.yml"
   workflow_dispatch:
 
@@ -36,23 +39,29 @@ jobs:
         run: |
           python scripts/audit_sasidharan2023_citation_topology.py \
             artifacts/sasidharan2023_citation_topology.json
-      - name: Reconstruct source counts and publication-cluster sensitivity
+      - name: Reconstruct source counts
         run: |
           python scripts/reconstruct_sasidharan2023_fvoc.py \
             artifacts/sasidharan2023_fvoc_reconstruction.json
+      - name: Adjudicate canonical Gate C module
+        run: |
+          python scripts/adjudicate_sasidharan2023_gate_c.py \
+            artifacts/sasidharan2023_fvoc_reconstruction.json \
+            artifacts/sasidharan2023_citation_topology.json \
+            artifacts/sasidharan2023_gate_c_canonical.json
       - name: Publish aggregate audit summaries
         run: |
           {
-            echo '## Sasidharan 2023 supplement schema audit'
+            echo '## Sasidharan 2023 canonical Gate C adjudication'
+            echo
+            echo '```json'
+            cat artifacts/sasidharan2023_gate_c_canonical.json
+            echo '```'
+            echo
+            echo '## Source/schema audit'
             echo
             echo '```json'
             cat artifacts/sasidharan2023_pmc_supplement_schema.json
-            echo '```'
-            echo
-            echo '## S1 coding-domain and publication-dependence audit'
-            echo
-            echo '```json'
-            cat artifacts/sasidharan2023_s1_domains.json
             echo '```'
             echo
             echo '## Citation topology and discordant source units'
@@ -61,7 +70,9 @@ jobs:
             cat artifacts/sasidharan2023_citation_topology.json
             echo '```'
             echo
-            echo '## FVOC reproduction and dependence sensitivity'
+            echo '## Low-level reconstruction diagnostics'
+            echo
+            echo 'The publication-dependence block in this low-level file is legacy/noncanonical; use the 32-component citation-topology audit above.'
             echo
             echo '```json'
             cat artifacts/sasidharan2023_fvoc_reconstruction.json
@@ -70,45 +81,18 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-          schema = json.loads(Path('artifacts/sasidharan2023_pmc_supplement_schema.json').read_text())
-          domains = json.loads(Path('artifacts/sasidharan2023_s1_domains.json').read_text())
+          canonical = json.loads(Path('artifacts/sasidharan2023_gate_c_canonical.json').read_text())
           topology = json.loads(Path('artifacts/sasidharan2023_citation_topology.json').read_text())
-          result = json.loads(Path('artifacts/sasidharan2023_fvoc_reconstruction.json').read_text())
-          source = {
-              'source_doi': schema['source_doi'],
-              'pmcid': schema['pmcid'],
-              'supplement_name': schema['supplement_name'],
-              'sheet_count': schema['workbook']['sheet_count'],
-              'sheet_names': [sheet['sheet_name'] for sheet in schema['workbook']['sheets']],
+          compact = {
+              'status': canonical['canonical_status'],
+              'study_topology': canonical['canonical_study_topology'],
+              'detection': canonical['physiological_detection_current_deposit'],
+              'behaviour_context_dependence': canonical['behaviour_context_dependence'],
+              'shared_fvoc_audit': canonical['shared_fvoc_audit'],
+              'legacy_output_boundary': canonical['legacy_output_boundary'],
           }
-          citation = {
-              k: v for k, v in topology['citation_topology'].items()
-              if k not in {'component_summaries', 'fallback_similarity_candidates_diagnostic_only'}
-          }
-          citation['fallback_similarity_candidates_diagnostic_only'] = topology['citation_topology']['fallback_similarity_candidates_diagnostic_only']
-          table2 = result['table2_reconstruction']
-          table3 = result['table3_reconstruction']
-          reproduction = {
-              'table2_global_unique_unit_audit': table2['global_unique_unit_audit'],
-              'table2_detection': table2['detection'],
-              'table2_behaviour': table2['behaviour'],
-              'table2_detection_chisq_yates': table2['detection_chisq_yates'],
-              'table2_behaviour_chisq': table2['behaviour_chisq'],
-              'table3_exact_genus_denominator_modes': table3['exact_genus_denominator_modes'],
-              'table3_preferred_mode': table3['preferred_mode'],
-              'table3_preferred_total': table3['preferred_total'],
-              'publication_dependence': {
-                  k: v for k, v in result['publication_dependence'].items()
-                  if k not in {'publication_cluster_summaries', 'paired_detection_differences'}
-              },
-              'checkpoints': result['checkpoints'],
-              'gate_c': result['gate_c'],
-          }
-          print('::notice title=Sasidharan 2023 source::' + json.dumps(source, separators=(',', ':')))
-          print('::notice title=Sasidharan 2023 dependence::' + json.dumps(domains['publication_dependence'], separators=(',', ':')))
-          print('::notice title=Sasidharan citation topology::' + json.dumps(citation, separators=(',', ':')))
-          print('::notice title=Sasidharan behaviour conflicts::' + json.dumps(topology['behaviour_conflicts'], separators=(',', ':')))
-          print('::notice title=Sasidharan 2023 reconstruction::' + json.dumps(reproduction, separators=(',', ':')))
+          print('::notice title=Sasidharan canonical Gate C::' + json.dumps(compact, separators=(',', ':')))
+          print('::notice title=Sasidharan behaviour conflict units::' + json.dumps({k: v for k, v in topology['behaviour_conflicts'].items() if k != 'anonymized_units'}, separators=(',', ':')))
           PY
       - uses: actions/upload-artifact@v4
         if: always()
@@ -119,4 +103,5 @@ jobs:
             artifacts/sasidharan2023_s1_domains.json
             artifacts/sasidharan2023_citation_topology.json
             artifacts/sasidharan2023_fvoc_reconstruction.json
+            artifacts/sasidharan2023_gate_c_canonical.json
           if-no-files-found: warn
