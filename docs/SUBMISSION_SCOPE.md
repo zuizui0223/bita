@@ -7,7 +7,7 @@ Part I — Mechanism
 mathematical theory / local principle / sign criterion
 
 Part II — Pattern
-meta-analysis and cross-study synthesis of recurrent empirical patterns
+meta-analysis and saturated cross-study synthesis of recurrent empirical patterns
 ```
 
 The paper is not framed as “theory plus illustrative literature.” The mathematical part derives the mechanism and its conditional sign boundary; the empirical part asks which theory-predicted mechanisms recur across independent systems, which cross-study patterns are robust, which are context dependent, and which quantities remain unidentified.
@@ -36,19 +36,17 @@ Part I contains:
 6. unrestricted environmental derivative conditions;
 7. the endpoint-normalized finite sensitivity analysis.
 
-The finite design is a theory robustness diagnostic. Its 2,592 evaluations and their occupancy fractions are not empirical frequencies and are never interpreted as prevalence in nature.
+The finite design is a theory robustness diagnostic. Its 2,592 evaluations and occupancy fractions are not empirical frequencies and are never interpreted as prevalence in nature.
 
 **Auxiliary moderator:** reproductive assurance `R` remains a background moderator in the implemented corollary. It is not a third focal trait and must not be promoted into a three-trait theory.
 
-## Part II — Pattern: meta-analysis and cross-study synthesis
+## Part II — Pattern: quantitative synthesis plus saturated theory-facing evidence architecture
 
 Part II uses the theory as a prediction/classification framework. It does **not** calibrate the theoretical mixed partial.
 
-The empirical side has two deliberately different quantitative layers.
+### Reproduced quantitative meta-analysis 1 — floral larceny
 
-### Quantitative meta-analysis 1 — floral larceny
-
-The Leal et al. 2025 deposited data are reanalysed as study-cluster random-effects meta-analyses on compatible log-response-ratio scales. Canonical results include:
+The Leal et al. (2025) deposited data are reanalysed as study-cluster random-effects meta-analyses on compatible log-response-ratio scales:
 
 ```text
 female reproductive success  LRR -0.210  (48 independent clusters)
@@ -56,36 +54,43 @@ nectar standing crop          LRR -0.483  (28)
 legitimate visitation         LRR -0.291  (22)
 ```
 
-This estimates a recurrent cross-study antagonist-cost pattern while retaining extreme heterogeneity, influence diagnostics, and sensitivity analyses. It does not estimate `rho`, `iota`, `kappa`, or `W_AD`.
+This establishes a recurrent antagonist-cost Pattern while retaining extreme heterogeneity, influence diagnostics, and sensitivity analyses. It does not estimate `rho`, `iota`, `kappa`, or `W_AD`.
 
-### Quantitative cross-study synthesis 2 — floral volatiles
+### Reproduced quantitative synthesis 2 — floral volatiles
 
-The Sasidharan et al. 2023 deposited synthesis is reconstructed with a conservative 32-study-component dependence topology. The current-deposit physiological contrast and leave-one-study-component-out analysis quantify a recurrent consumer-response pattern, while the sparse paired both-role data and behavioral disagreements expose composition and context dependence.
+The Sasidharan et al. (2023) deposited synthesis is reconstructed with a conservative 32-study-component dependence topology. Physiological detections are 84/103 for florivore components and 151/220 for pollinator components; the assembled risk difference is `+0.129` and remains positive in 32/32 leave-one-study-component-out refits. Only three components contain both physiological roles and all three paired differences are zero, so the assembled contrast is not presented as a causal paired consumer-role effect.
 
-This module is meta-analytic in its cross-study pattern objective but is not presented as a causal within-study pollinator-versus-florivore effect or as a common continuous effect size where the source data do not support one.
+### Secondary contextual syntheses
 
-### Theory-to-pattern evidence scaffold
+Three additional syntheses independently test Pattern recurrence but are not pooled with the two reproduced modules:
 
-The source-adjudicated route ledger is **not itself a grand meta-analysis**. Its role is to map the quantitative and directional evidence onto the mechanism classes derived in Part I and to preserve dependence, same-system linkage, conditionality, and identification gaps.
+- **Haas-Desmarais et al. 2026:** published multilevel synthesis of 171 studies / 1,348 study cases; publisher supplement package independently verified; herbivory treatment is not equated with focal floral `D`.
+- **Caruso et al. 2019:** published selection synthesis; main analysis 755 directional gradients with SE from 36 articles; Dryad record/workbook identities verified but file-byte access currently blocked; selection gradients are not `W_AD`.
+- **Junker & Blüthgen 2010:** 18 publications / 425 floral-scent response observations; visitor dependence on floral resources is not equated with pollinator-versus-antagonist identity.
 
-Canonical pattern scaffold:
+Their study/observation counts are not added to the source-adjudicated route-ledger N.
+
+### Saturated theory-to-Pattern scaffold
+
+The source-adjudicated route ledger is **not itself a grand meta-analysis**. It maps quantitative and directional evidence onto Part I mechanism classes while preserving dependence, same-system linkage, conditionality, organ boundaries, and identification gaps.
 
 ```text
-38 source-adjudicated effect/directional records
-14 independent biological study clusters
-A_to_pollination:   4 clusters
-A_to_antagonism:    5
-D_to_antagonism:   10
-D_to_pollination:   7
-10 same-system multi-route clusters
-11 independent context/sign-switch clusters
-1 strict direct A x D cluster, sign unresolved
-0 strict direct joint-cost estimates; kappa unidentified
+56 source-adjudicated effect/directional records
+25 independent biological study clusters
+A_to_pollination:    5 clusters
+A_to_antagonism:     8
+D_to_antagonism:    18
+D_to_pollination:   10
+same-system:        14 clusters
+context/sign switch: 17 clusters
+context-only programs: 7, excluded from route-ledger N
+direct A x D:        1 strict cluster, sign unresolved
+direct joint cost:   0 strict estimates; kappa unidentified
 ```
 
-These are evidence-capacity and recurrence diagnostics, not prevalence estimates. Incompatible outcomes are not averaged into a synthetic grand effect.
+The registered expansion stopped after two consecutive targeted screening batches yielded no new admissible theory-facing Pattern class. These counts are evidence-capacity and recurrence diagnostics, not prevalence estimates. Route counts overlap and are not additive independent-study totals.
 
-## Scientific endpoint: mechanism explains pattern
+## Scientific endpoint: mechanism explains Pattern
 
 The paper’s final logic is:
 
@@ -95,9 +100,10 @@ W_AD = rho - iota - kappa
       ↓ predicts conditional sign/state changes
 PATTERN
 recurrent constituent mechanisms
-+ cross-study antagonist costs
-+ shared but context-dependent consumer responses
-+ same-system sign/state switching
++ recurrent antagonist costs and shared signal tracking
++ guarded defence and spatial/temporal/attack-mode filtering
++ visitor functional-mode and lifecycle-stage role switching
++ response, population, trait-class, resource and consumer dependence
 + sparse direct A x D and joint-cost identification
 ```
 
@@ -105,7 +111,7 @@ The exact cross-system synthesis is:
 
 > **recurrent constituent mechanisms + context-dependent balance**
 
-Equivalently, the general pattern is recurrent mechanism plus context-dependent balance, not a universal sign of attraction–defence interaction. That is the empirical pattern predicted by the mathematical mechanism.
+Equivalently, the general Pattern is recurrent mechanisms plus context-dependent balance, not a universal sign of attraction–defence interaction.
 
 ## Required inference boundary
 
@@ -121,19 +127,21 @@ marginal route evidence
 Accordingly:
 
 - no marginal-route result is called an estimate of `W_AD`;
+- context-only programs are not added to route-ledger N;
+- secondary-synthesis study counts are not added to route-ledger N;
 - no study/publication count becomes a model parameter;
 - no screened-set, deposited-data, or finite-grid proportion becomes prevalence in nature;
 - one strict direct interaction is not generalized to a universal sign;
 - incompatible outcomes are not averaged merely to create a meta-analysis;
+- herbivory or simulated damage is not relabelled as focal `D`;
+- broader reproductive-module defence is not relabelled flower-specific `D` unless the organ gate passes;
 - separate attraction and defence costs are not combined to manufacture `kappa`;
 - zero eligible joint-cost studies means `kappa` is unidentified, not `kappa = 0`.
 
 ## Active submission package
 
-The submission package must therefore visibly preserve the two-part structure in the manuscript, figures, tables, cover letter, and portal description:
-
 1. **Part I: Mechanistic theory** — Figures 1–2 and Tables 1–2.
-2. **Part II: Meta-analytic patterns** — Figure 3 and Tables 3–4, with robustness in Supplementary Figure S4.
-3. **Integration** — mechanism-derived predictions are compared with recurrent cross-study patterns without claiming empirical calibration of the mixed partial.
+2. **Part II: Meta-analytic Pattern** — Figure 3 and Tables 3–4, with quantitative robustness in Supplementary Figure S4 and full route/context ledgers in supplementary tables.
+3. **Integration** — mechanism-derived predictions are compared with recurrent cross-study Patterns without claiming empirical calibration of the mixed partial.
 
 Historical exploratory branches, abstract-only direction maps, and analyses that do not serve this Mechanism → Pattern spine are not submission claims.
