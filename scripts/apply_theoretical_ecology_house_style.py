@@ -3,7 +3,7 @@
 This script changes presentation/metadata structure only. It does not alter Part I
 mathematics, the saturated Pattern evidence counts, or any quantitative result.
 Author-controlled declarations remain explicit placeholders rather than being
-invented.
+invented. The transformation is intentionally idempotent for CI re-runs.
 """
 
 from __future__ import annotations
@@ -36,13 +36,11 @@ def replace_between(text: str, start: str, end: str, replacement: str) -> str:
 
 
 def normalize_manuscript(text: str) -> str:
-    # Abstract and keywords: journal requires 150–250 words and 4–6 keywords.
     text = replace_between(text, "## Abstract\n\n", "\n\n**Keywords:**", ABSTRACT)
     keyword_start = text.index("**Keywords:**")
     keyword_end = text.index("\n\n## 1. Introduction", keyword_start)
     text = text[:keyword_start] + f"**Keywords:** {KEYWORDS}" + text[keyword_end:]
 
-    # Make missing title-page information explicit without inventing author data.
     title_line_end = text.index("\n", 2)
     title_meta = (
         "\n\n**Authors and affiliations:** [Author-controlled; insert final publication names and affiliations before submission.]\n\n"
@@ -52,7 +50,6 @@ def normalize_manuscript(text: str) -> str:
     if "**Authors and affiliations:**" not in text[: text.index("## Abstract")]:
         text = text[:title_line_end] + title_meta + text[title_line_end:]
 
-    # Required disclosure because LLM use here extends beyond copy editing.
     disclosure_heading = "### 4.3 Computational and AI-assisted workflow transparency"
     if disclosure_heading not in text:
         marker = "## 5. Part II results — meta-analytic patterns across systems"
@@ -62,8 +59,6 @@ def normalize_manuscript(text: str) -> str:
         )
         text = text.replace(marker, disclosure + marker, 1)
 
-    # Springer caption form: bold "Fig." + bold number, no punctuation after number
-    # and no punctuation at the end of the caption.
     caption_map = {
         "**Figure 1. Mechanistic architecture of the local attraction-defence interaction.** Attraction may increase mutualist service and antagonist exposure. A focal flower-specific defence trait is defined by an operational antagonist-reduction role, but the same trait may interfere with legitimate pollinator use. Attraction and defence may also interact through direct joint-cost curvature. After the orientation gate is established, the local mixed partial is \\(W_{AD}=\\rho-\\iota-\\kappa\\), where \\(\\rho\\) is antagonist relief, \\(\\iota\\) is mutualist interference, and \\(\\kappa\\) is direct joint-cost curvature. The diagram does not imply that every route occurs in every system or that the components are identifiable from total fitness alone.":
         "**Fig. 1** Mechanistic architecture of the local attraction-defence interaction. Attraction may increase mutualist service and antagonist exposure. A focal flower-specific defence trait is defined by an operational antagonist-reduction role, but the same trait may interfere with legitimate pollinator use. Attraction and defence may also interact through direct joint-cost curvature. After the orientation gate is established, the local mixed partial is \\(W_{AD}=\\rho-\\iota-\\kappa\\), where \\(\\rho\\) is antagonist relief, \\(\\iota\\) is mutualist interference, and \\(\\kappa\\) is direct joint-cost curvature. The diagram does not imply that every route occurs in every system or that the components are identifiable from total fitness alone",
@@ -76,26 +71,28 @@ def normalize_manuscript(text: str) -> str:
         if old in text:
             text = text.replace(old, new, 1)
 
-    # Remove pre-reference declarations and move the required statements after References.
-    pre_start = text.index("## Data and code availability\n")
-    refs_start = text.index("## References\n", pre_start)
-    data_block = text[pre_start: text.index("## Author contributions\n", pre_start)].strip()
-    text = text[:pre_start] + text[refs_start:]
-
-    # Append required Statements and Declarations after the complete reference list.
-    if "## Statements and Declarations" not in text:
-        statements = (
-            "\n\n## Statements and Declarations\n\n"
-            "### Funding\n\n"
-            "[Author confirmation required. State all funding agencies and grant numbers, or explicitly state that no funds, grants, or other support were received.]\n\n"
-            "### Competing interests\n\n"
-            "[Author confirmation required. Provide the final financial and non-financial competing-interest statement for all authors through both the manuscript and submission interface.]\n\n"
-            "### Author contributions\n\n"
-            "[Author-controlled. Complete the contribution statement after the final author list and CRediT roles are approved.]\n\n"
-            "### Data and code availability\n\n"
-            + data_block.replace("## Data and code availability\n\n", "")
-        )
-        text = text.rstrip() + statements + "\n"
+    refs_pos = text.index("## References\n")
+    data_heading = "## Data and code availability\n"
+    if data_heading in text:
+        data_pos = text.index(data_heading)
+        # Only migrate the old pre-reference declaration block. Once the journal-
+        # compliant post-reference Statements section exists, leave it in place.
+        if data_pos < refs_pos:
+            data_block = text[data_pos: text.index("## Author contributions\n", data_pos)].strip()
+            text = text[:data_pos] + text[refs_pos:]
+            if "## Statements and Declarations" not in text:
+                statements = (
+                    "\n\n## Statements and Declarations\n\n"
+                    "### Funding\n\n"
+                    "[Author confirmation required. State all funding agencies and grant numbers, or explicitly state that no funds, grants, or other support were received.]\n\n"
+                    "### Competing interests\n\n"
+                    "[Author confirmation required. Provide the final financial and non-financial competing-interest statement for all authors through both the manuscript and submission interface.]\n\n"
+                    "### Author contributions\n\n"
+                    "[Author-controlled. Complete the contribution statement after the final author list and CRediT roles are approved.]\n\n"
+                    "### Data and code availability\n\n"
+                    + data_block.replace("## Data and code availability\n\n", "")
+                )
+                text = text.rstrip() + statements + "\n"
     return text
 
 
@@ -112,8 +109,6 @@ def normalize_portal(text: str) -> str:
 
 
 def normalize_cover(text: str) -> str:
-    # Replace the long old abstract-like quantitative sentence only if needed? No:
-    # cover letter can stay narrative. Add the journal-required 5-reviewer section.
     if "## Potential reviewers" not in text:
         marker = "\nThank you for considering our manuscript.\n"
         reviewers = (
