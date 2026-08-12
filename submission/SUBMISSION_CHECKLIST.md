@@ -62,27 +62,46 @@
 
 ## Figures, tables, and reproducibility
 
-- [x] Figures 1–3 have canonical SVG sources
+- [x] Figures 1–3 have canonical SVG scientific sources
 - [x] Figure 2 is protected against `endpoint_normalized_grid_v2_report.json`
 - [x] Expanded Figure 3 is byte-reproducible from its builder and saturated evidence inputs
 - [x] Pattern-expansion readout regenerates `56 / 25 / 14 / 17` from committed ledgers
 - [x] Tables 1–4 follow the Part I Mechanism / Part II Pattern split
-- [x] Saturated Figure 1–3 EPS export passed from figure-content head `8d0df837535efaf2d31a9909e9dac5cbbf492ea1`
-- [x] At that same figure-content head, CI passed on Python 3.10/3.11/3.12 and `submission-scope` passed
-- [x] EPS artifact provenance is recorded: run `31566025924`, artifact `9129476142`, SHA-256 `014cc4f7d17541fb91d3637201013ccc391d7858a4d26779214294829e7cd27f`
-- [x] Source-specific audits changed by the expansion are separately statused: Haas supplement retrieval passed; Caruso access-layer state is recorded without a false reanalysis claim
-- [x] Canonical source-specific audit machinery inherited from PR #126 was not altered by the Pattern promotion
+- [x] Submission EPS filenames follow `Fig1.eps`, `Fig2.eps`, `Fig3.eps`
+- [x] Submission exporter deterministically strips the visible outer title from each canonical SVG while retaining panel/scientific content
+- [x] EPS output remains vector and converts text to paths to prevent font substitution
+- [x] Submission-form EPS export passed from source head `417ee8ce97269f07207d824f8950cbc275c9115a`
+- [x] Submission-form EPS artifact provenance: run `31567045329`, artifact `9129851593`, SHA-256 `ac255025840465dce4fd22e645e823ea80a09af7cbcc8770aeec7be27c35722f`
+- [x] Candidate CI passed on Python 3.10/3.11/3.12 after the saturated manuscript promotion and house-style migration
+- [x] Candidate `submission-scope` and dedicated Pattern/house-style workflows passed
+
+## Theoretical Ecology / Springer structural formatting
+
+- [x] Abstract is automatically constrained to **150–250 words**
+- [x] Abstract defines “log response ratio” rather than using unexplained `LRR`
+- [x] Keywords are automatically constrained to **6** (within the journal's 4–6 range)
+- [x] Title-page placeholders explicitly reserve authors, affiliations, corresponding-author e-mail, and ORCID fields without inventing values
+- [x] Non-copyediting LLM use is disclosed in Methods as AI-assisted code generation, structured literature triage, and manuscript drafting; authors retain responsibility
+- [x] Figure captions use `**Fig. n**` outside illustrations, with no punctuation after the number or at caption end
+- [x] `Statements and Declarations` follows `References`
+- [x] Funding, competing interests, author contributions, and data/code availability have required post-reference headings
+- [x] Funding/competing-interest text remains author-confirmation placeholders rather than fabricated declarations
+- [x] Cover-letter/package templates reserve **exactly five** conflict-checked reviewer slots
+- [x] House-style transformation is idempotent and regression-tested
+- [ ] Render the final author-approved manuscript in the chosen journal upload format after author/title-page/declaration fields are supplied
+- [ ] If submitting a Word manuscript, include the journal-requested companion PDF of the manuscript
+- [ ] Package supplementary text/presentation material as PDF and tabular supplements in appropriate CSV/XLSX files after final numbering is frozen
 
 ## Literature and references
 
 - [x] Expanded **20-reference** scientific spine is citation-presence regression-tested
 - [x] New representative Pattern references are included for Page 2014, Sun & Huang 2015, Wu & Gao 2024, and Zhou et al. 2020
-- [x] Secondary-synthesis references are included for Haas-Desmarais 2026, Caruso 2019, and Junker & Blüthgen 2010
+- [x] Secondary-synthesis references are included for Haas-Desmarais 2026, Caruso 2019, and Junker–Blüthgen 2010
 - [x] Stevenson 2017 metadata correction is preserved
 - [x] Erroneous/uncited legacy references remain pruned
 - [x] Bibliography is alphabetically ordered
-- [ ] Apply final *Theoretical Ecology*/Springer house formatting/full-author convention where required
-- [ ] Run final citation/reference consistency pass after any author-controlled final wording edit
+- [x] Current name-year/DOI structure is compatible with Springer guidance and is regression-tested
+- [ ] Run the final rendered-file citation/reference consistency pass after any author-controlled wording or author-list edit
 
 ## Submission support
 
@@ -92,8 +111,8 @@
 - [x] Manuscript README explicitly defines Mechanism → Pattern
 - [x] Portal title, abstract, keywords, and framing are synchronized to the saturated manuscript
 - [x] Figure/Table plan assigns Figures/Tables to Mechanism versus Pattern roles and uses saturated Part II counts
-- [x] Final audit, manuscript audit, supplement manifest, and reference audit are synchronized to the 25-system candidate
-- [x] Saturated Figure 3 EPS export is validated and its digest recorded
+- [x] Final audit, manuscript audit, supplement manifest, reference audit, and figure-export receipt are synchronized to the 25-system candidate
+- [x] Final submission-form EPS export is validated and its digest recorded
 - [ ] Exact repository release/tag and archival DOI
 - [ ] Repository licence/licence statement chosen by the author(s)
 
@@ -104,14 +123,15 @@
 - [ ] Corresponding author and email
 - [ ] ORCIDs
 - [ ] CRediT roles
-- [ ] Funding/grant information
+- [ ] Funding/grant information or explicit no-funding confirmation
 - [ ] Acknowledgements
 - [ ] Competing-interest confirmation
-- [ ] Suggested reviewers/exclusions if requested by the portal
+- [ ] Exactly five potential reviewer names, institutions, e-mails, expertise notes, and conflict checks
+- [ ] Suggested reviewer exclusions if any are genuinely justified
 - [ ] Confirmation that all authors approve the exact submitted version and that it is not under consideration elsewhere
 
 ## Submission decision
 
-**Scientific structure: GO. Saturated Pattern package: GO. Evidence-expansion gate: CLOSED/SATURATED. Figure-content CI/EPS: GREEN. Actual journal submission remains blocked only by author-controlled metadata/licence, final target-journal house formatting, release/archive DOI, and the authenticated external portal.**
+**Scientific structure: GO. Saturated Pattern package: GO. Evidence-expansion gate: CLOSED/SATURATED. Journal structural house style: PASS. Submission-form EPS: GREEN. Actual journal submission remains blocked only by author-controlled metadata/declarations/reviewers/licence, final rendered manuscript/supplement files, release/archive DOI, all-author approval, and the authenticated external portal.**
 
 Do not add another broad meta-analysis merely to make Part II look larger. The registered expansion has saturated its current theory-facing Pattern classes. The intended result remains recurrent constituent mechanisms plus context-dependent balance while preserving the direct-identification gaps.
