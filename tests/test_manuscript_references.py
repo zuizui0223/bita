@@ -39,6 +39,13 @@ def test_core_empirical_reference_identities_remain_present() -> None:
         "10.1002/ecy.70036",
         "10.1093/aob/mcad064",
         "10.1002/ajb2.1182",
+        "10.1093/aob/mcaf258",
+        "10.1111/evo.13639",
+        "10.1093/aob/mcq045",
+        "10.1371/journal.pone.0098755",
+        "10.1093/aobpla/plv019",
+        "10.1093/jpe/rtad036",
+        "10.1111/evo.13965",
     ):
         assert doi in text
 
@@ -59,6 +66,13 @@ def test_cited_reference_spine_is_present_in_body_and_bibliography() -> None:
         "Leal et al. (2025)": "Leal LC et al. (2025)",
         "Sasidharan et al. (2023)": "Sasidharan R, Junker RR, Eilers EJ, Müller C (2023)",
         "Gorden and Adler's (2018)": "Soper Gorden NL, Adler LS (2018)",
+        "Haas-Desmarais et al. (2026)": "Haas-Desmarais S, Castagneyrol B, Abdala-Roberts L, Lortie CJ, Traveset A, Moreira X (2026)",
+        "Caruso et al. (2019)": "Caruso CM, Eisen KE, Martin RA, Sletvold N (2019)",
+        "Junker and Blüthgen (2010)": "Junker RR, Blüthgen N (2010)",
+        "Page et al. 2014": "Page P, Favre A, Schiestl FP, Karrenberg S (2014)",
+        "Sun and Huang 2015": "Sun SG, Huang SQ (2015)",
+        "Wu and Gao 2024": "Wu SM, Gao JY (2024)",
+        "Zhou et al. 2020": "Zhou J, Reynolds RJ, Zimmer EA, Dudash MR, Fenster CB (2020)",
     }
     for in_text, reference in cited.items():
         assert in_text in body, in_text
@@ -68,4 +82,6 @@ def test_cited_reference_spine_is_present_in_body_and_bibliography() -> None:
 def test_bibliography_has_only_the_cited_reference_spine() -> None:
     _, refs = _split_manuscript()
     entries = [block for block in refs.strip().split("\n\n") if block.strip()]
-    assert len(entries) == 13
+    assert len(entries) == 20
+    first_authors = [entry.split()[0] for entry in entries]
+    assert first_authors == sorted(first_authors, key=str.casefold)
