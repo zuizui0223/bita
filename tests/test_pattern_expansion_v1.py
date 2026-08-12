@@ -27,15 +27,17 @@ def all_switch_rows():
     return out
 
 
-def test_expansion_ledger_has_five_new_independent_systems_and_no_direct_axd():
+def test_expansion_ledger_has_seven_new_independent_systems_and_no_direct_axd():
     data = all_expansion_rows()
-    assert len(data) == 10
+    assert len(data) == 13
     assert {r["independence_cluster"] for r in data} == {
         "Sun_Huang_2015_Pedicularis_rex",
         "Perez_Barrales_2013_Dalechampia_scandens",
         "McCall_2013_Raphanus_sativus",
         "Chauta_2022_Bejaria_resinosa",
         "Stephenson_1982_Catalpa_speciosa",
+        "McCarren_2021_Erica",
+        "Takeda_2021_slippery_perianths",
     }
     assert all(r["is_direct_AxD"].lower() == "false" for r in data)
 
@@ -81,6 +83,24 @@ def test_catalpa_is_same_system_chemical_guarded_state():
     assert "no_detected_reduction" in poll["effect_orientation"]
 
 
+def test_erica_adds_one_experimental_surface_defence_cluster():
+    data = [r for r in all_expansion_rows() if r["independence_cluster"] == "McCarren_2021_Erica"]
+    assert len(data) == 1
+    row = data[0]
+    assert row["route"] == "D_to_antagonism"
+    assert row["trait_D_class"] == "corolla_surface_stickiness"
+    assert row["study_design"].startswith("within_species_experimental")
+
+
+def test_slippery_perianths_count_two_species_as_one_study_cluster():
+    data = [r for r in all_expansion_rows() if r["independence_cluster"] == "Takeda_2021_slippery_perianths"]
+    assert len(data) == 2
+    assert {r["plant_taxon"] for r in data} == {"Codonopsis lanceolata", "Fritillaria koidzumiana"}
+    assert {r["route"] for r in data} == {"D_to_antagonism"}
+    assert all(r["trait_D_class"] == "epicuticular_wax_slippery_perianth" for r in data)
+    assert sum(r["is_primary_effect"].lower() == "true" for r in data) == 1
+
+
 def test_expansion_switch_rows_have_four_unique_new_context_clusters():
     data = all_switch_rows()
     assert len(data) == 8
@@ -90,17 +110,17 @@ def test_expansion_switch_rows_have_four_unique_new_context_clusters():
         "Stephenson_1982_Catalpa_speciosa",
         "Saabna_et_al_2025_Anemone_coronaria",
     }
-    assert sum(r["study_id"] == "Stephenson_1982_Catalpa_speciosa" for r in data) == 1
-    assert sum(r["study_id"] == "Saabna_et_al_2025_Anemone_coronaria" for r in data) == 2
 
 
 def test_context_programs_are_explicitly_excluded_from_route_N():
     data = rows("EXPANSION_CONTEXT_PROGRAMS_V1.csv")
-    assert len(data) == 4
-    assert {r["program_id"] for r in data} == {"CTX001", "CTX002", "CTX003", "CTX004"}
+    assert len(data) == 5
+    assert {r["program_id"] for r in data} == {"CTX001", "CTX002", "CTX003", "CTX004", "CTX005"}
     assert all(r["route_ledger_counted"].lower() == "false" for r in data)
     anemone = next(r for r in data if r["program_id"] == "CTX004")
     assert "mutualist and antagonist roles" in anemone["admitted_inference"]
+    slippery = next(r for r in data if r["program_id"] == "CTX005")
+    assert "pollinator-handling pathway" in slippery["admitted_inference"]
 
 
 def test_module_registry_keeps_distinct_inference_boundaries():
