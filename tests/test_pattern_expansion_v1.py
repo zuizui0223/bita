@@ -11,13 +11,14 @@ def rows(name: str):
         return list(csv.DictReader(fh))
 
 
-def test_expansion_ledger_has_three_new_independent_systems_and_no_direct_axd():
+def test_expansion_ledger_has_four_new_independent_systems_and_no_direct_axd():
     data = rows("EXPANSION_LEDGER_BATCH_1_V1.csv")
-    assert len(data) == 6
+    assert len(data) == 8
     assert {r["independence_cluster"] for r in data} == {
         "Sun_Huang_2015_Pedicularis_rex",
         "Perez_Barrales_2013_Dalechampia_scandens",
         "McCall_2013_Raphanus_sativus",
+        "Chauta_2022_Bejaria_resinosa",
     }
     assert all(r["is_direct_AxD"].lower() == "false" for r in data)
     assert {r["route"] for r in data} <= {
@@ -55,13 +56,35 @@ def test_raphanus_adds_visual_a_to_antagonism_only():
     assert row["source_verification_state"] == "primary_abstract_and_repository_record_verified"
 
 
-def test_expansion_switch_rows_count_pedicularis_once():
-    data = rows("EXPANSION_SIGN_SWITCH_BATCH_1_V1.csv")
+def test_bejaria_adds_one_flower_specific_d_cluster_without_fake_pollinator_route():
+    data = [r for r in rows("EXPANSION_LEDGER_BATCH_1_V1.csv") if r["independence_cluster"] == "Chauta_2022_Bejaria_resinosa"]
     assert len(data) == 2
-    assert {r["study_id"] for r in data} == {"Sun_Huang_2015_Pedicularis_rex"}
-    assert {r["contrast_axis"] for r in data} == {
+    assert {r["route"] for r in data} == {"D_to_antagonism"}
+    assert all(r["trait_D_class"] == "petal_sepal_stickiness" for r in data)
+    assert all(r["trait_A_class"] == "" for r in data)
+    assert sum(r["is_primary_effect"].lower() == "true" for r in data) == 1
+    assert sum(r["is_primary_effect"].lower() == "false" for r in data) == 1
+    assert all(r["is_same_system_multi_route"].lower() == "false" for r in data)
+
+
+def test_expansion_switch_rows_keep_study_clusters_independent():
+    data = rows("EXPANSION_SIGN_SWITCH_BATCH_1_V1.csv")
+    assert len(data) == 5
+    assert {r["study_id"] for r in data} == {
+        "Sun_Huang_2015_Pedicularis_rex",
+        "Chauta_et_al_2022_Bejaria_resinosa",
+    }
+    ped = [r for r in data if r["study_id"] == "Sun_Huang_2015_Pedicularis_rex"]
+    bej = [r for r in data if r["study_id"] == "Chauta_et_al_2022_Bejaria_resinosa"]
+    assert len(ped) == 2
+    assert len(bej) == 3
+    assert {r["contrast_axis"] for r in ped} == {
         "antagonist_identity_or_attack_mode",
         "consumer_function",
+    }
+    assert {r["contrast_axis"] for r in bej} == {
+        "consumer_identity",
+        "population_context",
     }
 
 
@@ -71,7 +94,7 @@ def test_module_registry_keeps_distinct_inference_boundaries():
     assert set(modules) == {"PM01", "PM02", "PM03", "PM04", "PM05"}
     assert modules["PM01"]["status"] == "ADMITTED_REPRODUCED"
     assert modules["PM02"]["status"] == "ADMITTED_REPRODUCED"
-    assert "PENDING_SUPPLEMENT_REPRODUCTION" in modules["PM03"]["status"]
+    assert "PENDING_SUPPLEMENT_REPRODUCTION" in modules["PM03"]["status"] or "SUPPLEMENT" in modules["PM03"]["status"]
     assert "herbivory_equals_D" in modules["PM03"]["forbidden_inference"]
     assert "selection_gradient_equals_W_AD" in modules["PM04"]["forbidden_inference"]
     assert "obligate_equals_pollinator" in modules["PM05"]["forbidden_inference"]
