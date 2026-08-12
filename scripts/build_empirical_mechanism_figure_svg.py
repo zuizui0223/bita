@@ -203,7 +203,7 @@ def build_svg(stats: FigureStats) -> str:
 </marker>
 </defs>
 <rect x="0" y="0" width="1600" height="1100" fill="#ffffff"/>
-<text x="800" y="48" text-anchor="middle" class="title">Empirical mechanism-pattern architecture and identification boundary</text>
+<text x="800" y="48" text-anchor="middle" class="title">Meta-analytic pattern architecture and identification boundary</text>
 <text x="800" y="82" text-anchor="middle" class="body">Constituent mechanisms recur and switch with context; marginal evidence is not an estimate of W_AD</text>
 
 <rect x="490" y="105" width="620" height="92" rx="16" class="direct"/>
@@ -211,7 +211,7 @@ def build_svg(stats: FigureStats) -> str:
 <text x="800" y="179" text-anchor="middle" class="subtitle">W_AD = ρ − ι − κ</text>
 
 <rect x="60" y="235" width="860" height="300" rx="16" class="box"/>
-<text x="490" y="270" text-anchor="middle" class="subtitle">Source-adjudicated mechanism evidence</text>
+<text x="490" y="270" text-anchor="middle" class="subtitle">Cross-study pattern scaffold</text>
 <text x="490" y="300" text-anchor="middle" class="small">{stats.record_count} effect/directional records · {stats.independent_clusters} independent biological study clusters</text>
 
 <rect x="90" y="330" width="380" height="78" rx="14" class="soft"/>
@@ -228,7 +228,7 @@ def build_svg(stats: FigureStats) -> str:
 <text x="700" y="491" text-anchor="middle" class="small">{routes['D_to_pollination']} independent clusters</text>
 
 <rect x="950" y="235" width="590" height="300" rx="16" class="box"/>
-<text x="1245" y="270" text-anchor="middle" class="subtitle">Linked architecture and conditionality</text>
+<text x="1245" y="270" text-anchor="middle" class="subtitle">Recurrence and conditionality</text>
 <text x="985" y="315" class="body">Same-system multi-route: <tspan font-weight="700">{stats.same_system_clusters} clusters</tspan></text>
 <text x="985" y="353" class="body">Context/sign switch: <tspan font-weight="700">{stats.sign_switch_clusters} clusters</tspan></text>
 <text x="985" y="397" class="small">Five theory-facing context classes</text>
@@ -239,14 +239,14 @@ def build_svg(stats: FigureStats) -> str:
 <text x="1005" y="518" class="tiny">5  compound identity / mechanism partition</text>
 
 <rect x="60" y="575" width="690" height="185" rx="16" class="box"/>
-<text x="405" y="610" text-anchor="middle" class="subtitle">Quantitative module 1 · floral larceny</text>
+<text x="405" y="610" text-anchor="middle" class="subtitle">Meta-analysis 1 · floral larceny</text>
 <text x="95" y="648" class="body">Female fitness: LRR {_minus(stats.leal_female_lrr)} · {stats.leal_female_k} clusters</text>
 <text x="95" y="682" class="body">Nectar standing crop: LRR {_minus(stats.leal_nectar_lrr)} · {stats.leal_nectar_k}</text>
 <text x="95" y="716" class="body">Legitimate visitation: LRR {_minus(stats.leal_visitation_lrr)} · {stats.leal_visitation_k}</text>
 <text x="95" y="744" class="tiny">Realised antagonist-pressure costs; high heterogeneity retained</text>
 
 <rect x="790" y="575" width="750" height="185" rx="16" class="box"/>
-<text x="1165" y="610" text-anchor="middle" class="subtitle">Quantitative module 2 · floral volatiles</text>
+<text x="1165" y="610" text-anchor="middle" class="subtitle">Meta-analytic synthesis 2 · floral volatiles</text>
 <text x="825" y="648" class="body">Physiological detection: florivore {stats.sasidharan_florivore} · pollinator {stats.sasidharan_pollinator}</text>
 <text x="825" y="682" class="body">Assembled risk difference {stats.sasidharan_risk_difference} · LOCO positive {stats.sasidharan_loco}</text>
 <text x="825" y="716" class="body">Paired both-role components: 3 · all paired differences = 0</text>
@@ -255,7 +255,7 @@ def build_svg(stats: FigureStats) -> str:
 <line x1="60" y1="812" x2="1540" y2="812" class="dash"/>
 <rect x="520" y="785" width="560" height="62" fill="#ffffff"/>
 <text x="800" y="817" text-anchor="middle" class="subtitle">IDENTIFICATION BOUNDARY</text>
-<text x="800" y="842" text-anchor="middle" class="small">Evidence above supports mechanism recurrence / conditionality, not W_AD</text>
+<text x="800" y="842" text-anchor="middle" class="small">Evidence above supports recurrent patterns / conditionality, not W_AD</text>
 
 <rect x="155" y="885" width="560" height="110" rx="14" class="direct"/>
 <text x="435" y="920" text-anchor="middle" class="subtitle">Direct A × D layer</text>
