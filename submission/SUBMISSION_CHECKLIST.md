@@ -4,10 +4,10 @@
 
 - [x] Canonical manuscript exists: `manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md`
 - [x] Title explicitly states **Mechanistic theory and meta-analytic patterns**
-- [x] Abstract asks the paired questions: what mechanism determines the sign, and what cross-system pattern recurs?
+- [x] Abstract asks the paired questions: what mechanism determines the sign, and what cross-system Pattern recurs?
 - [x] **Part I — Mechanism** contains the mathematical theory and sensitivity analysis
-- [x] **Part II — Pattern** contains meta-analysis and cross-study pattern synthesis
-- [x] Section 6 explicitly integrates mechanism → pattern
+- [x] **Part II — Pattern** contains meta-analysis and saturated cross-study Pattern synthesis
+- [x] Section 6 explicitly integrates mechanism → Pattern
 - [x] Old interleaved theory/evidence section structure is retired and regression-tested
 
 ## Part I — Mechanism
@@ -32,51 +32,66 @@
 - [x] Leal heterogeneity, dependence, influence, and sensitivity diagnostics remain explicit
 - [x] **Meta-analytic synthesis 2 — Sasidharan et al. 2023 FVOCs** retains the conservative 32-study-component topology
 - [x] Sasidharan assembled RD `+0.129`, LOCO positive `32/32`, paired-role limitation, and behavioral context dependence remain explicit
-- [x] 38-record / 14-cluster route ledger is explicitly a **theory-to-pattern scaffold**, not a grand meta-analysis
-- [x] Four mechanism families, 10 same-system clusters, and 11 context/sign-switch clusters map recurrence/conditionality without a fabricated common effect size
+- [x] Saturated route ledger is **56 records / 25 independent biological clusters**, explicitly a theory-to-Pattern scaffold rather than a grand meta-analysis
+- [x] Four route families are synchronized at `5 / 8 / 18 / 10` independent clusters
+- [x] 14 same-system multi-route clusters and 17 context/sign-switch clusters map recurrence/conditionality without a fabricated common effect size
+- [x] Seven context-only programs are tracked separately and excluded from route-ledger N
+- [x] Expansion uses a registered saturation rule; two consecutive targeted batches yielded no new admissible Pattern class
+- [x] Guarded defence, spatial/temporal/attack-mode filtering, visitor functional-mode routing, lifecycle-stage role reversal, and population/trait-class dependence are explicit Pattern states
+- [x] Haas-Desmarais 2026, Caruso 2019, and Junker–Blüthgen 2010 are labelled **secondary contextual/cross-synthesis modules**, not reproduced pooled analyses
+- [x] Haas-Desmarais publisher supplement package was independently retrieved and hashed; no false claim of local raw-effect reanalysis
+- [x] Caruso Dryad landing/API metadata and workbook identities were verified; access-layer block is not relabelled missing data or biological null
 - [x] Direct `A x D` search remains one strict sign-unresolved cluster
 - [x] Direct joint-cost search remains zero strict estimates; `kappa` is unidentified, not zero
-- [x] Cross-system Pattern conclusion is explicit: **recurrent mechanism plus context-dependent balance**, not a universal sign of `W_AD`
-- [x] Figure 3 is relabelled as a meta-analytic pattern architecture and preserves the identification boundary
-- [x] Tables 3–4 are explicitly assigned to Part II — Pattern
+- [x] Cross-system Pattern conclusion is explicit: **recurrent mechanisms plus context-dependent balance**, not a universal sign of `W_AD`
+- [x] Figure 3 is generated from the saturated evidence state and preserves the identification boundary
+- [x] Tables 3–4 are synchronized to the 25-system Pattern candidate
 - [x] Leal/Sasidharan robustness panels are assigned to Supplementary Figure S4 rather than overloading main Figure 3
 
 ## Theory ↔ Pattern inference boundary
 
 - [x] Marginal route evidence is not called `W_AD`
 - [x] Same-system evidence is not called direct `A x D`
+- [x] Context-only programs are not added to route-ledger N
+- [x] Secondary-synthesis study/observation counts are not added to route-ledger N
 - [x] Study/publication counts are not model parameters
 - [x] Screened/deposited fractions are not prevalence estimates
 - [x] Incompatible outcomes are not pooled merely to manufacture a meta-analysis
-- [x] Neither quantitative synthesis is presented as empirical calibration of `rho`, `iota`, `kappa`, or `W_AD`
+- [x] Neither reproduced quantitative synthesis is presented as empirical calibration of `rho`, `iota`, `kappa`, or `W_AD`
+- [x] Secondary contextual syntheses are not presented as empirical calibration of `W_AD`
 
 ## Figures, tables, and reproducibility
 
 - [x] Figures 1–3 have canonical SVG sources
 - [x] Figure 2 is protected against `endpoint_normalized_grid_v2_report.json`
-- [x] Figure 3 is byte-reproducible from its canonical builder and evidence inputs
-- [x] Figures 1–3 have passed reproducible EPS vector export and header/BoundingBox validation
+- [x] Expanded Figure 3 is byte-reproducible from its builder and saturated evidence inputs
+- [x] Pattern-expansion readout regenerates `56 / 25 / 14 / 17` from committed ledgers
 - [x] Tables 1–4 follow the Part I Mechanism / Part II Pattern split
-- [ ] Re-run final EPS export from the exact submission commit
-- [ ] Run final 14+ workflow CI from the exact submission commit
+- [ ] Re-run EPS vector export from the exact final 25-system submission commit
+- [ ] Run the complete PR workflow suite from the exact final 25-system submission commit
+- [ ] Record the final EPS artifact ID/SHA and exact source commit
 
 ## Literature and references
 
-- [x] Central 13-reference scientific spine has been checked
-- [x] Stevenson 2017 metadata corrected
-- [x] Erroneous/uncited legacy references pruned
-- [x] Citation-to-reference presence is regression-tested
-- [ ] Apply final *Theoretical Ecology*/Springer house formatting/full-author convention
-- [ ] Run final citation/reference consistency pass after the final wording edit
+- [x] Expanded **20-reference** scientific spine is citation-presence regression-tested
+- [x] New representative Pattern references are included for Page 2014, Sun & Huang 2015, Wu & Gao 2024, and Zhou et al. 2020
+- [x] Secondary-synthesis references are included for Haas-Desmarais 2026, Caruso 2019, and Junker & Blüthgen 2010
+- [x] Stevenson 2017 metadata correction is preserved
+- [x] Erroneous/uncited legacy references remain pruned
+- [x] Bibliography is alphabetically ordered
+- [ ] Apply final *Theoretical Ecology*/Springer house formatting/full-author convention where required
+- [ ] Run final citation/reference consistency pass after the exact final wording edit
 
 ## Submission support
 
-- [x] Cover letter now presents **Part I Mechanism + Part II Pattern**
+- [x] Cover letter presents **Part I Mechanism + Part II Pattern**
 - [x] Submission scope explicitly defines Mechanism → Pattern
+- [x] Root README is synchronized to the 56/25 saturated Pattern candidate
 - [x] Manuscript README explicitly defines Mechanism → Pattern
-- [x] Portal title, abstract, keywords, and framing are synchronized to the canonical manuscript
-- [x] Figure/Table plan assigns Figures/Tables to Mechanism versus Pattern roles
-- [x] Scientific figure export pipeline is validated
+- [x] Portal title, abstract, keywords, and framing remain synchronized to the canonical manuscript title/claim
+- [x] Figure/Table plan assigns Figures/Tables to Mechanism versus Pattern roles and uses the saturated Part II counts
+- [x] Scientific figure export pipeline exists and was validated before the expansion
+- [ ] Revalidate EPS export after the expanded Figure 3
 - [ ] Exact repository release/tag and archival DOI
 - [ ] Repository licence/licence statement chosen by the author(s)
 
@@ -95,6 +110,6 @@
 
 ## Submission decision
 
-**Scientific structure: GO as Mechanism → Pattern. Quantitative Pattern layer: GO with explicit scale/dependence boundaries. Actual journal submission: blocked only by author-controlled metadata/licence/archive fields and the external submission portal.**
+**Scientific structure: GO as Mechanism → Pattern. Saturated Pattern candidate: GO for full-package validation. Actual journal submission: blocked only by final expanded-vector/full-CI validation, author-controlled metadata/licence/archive fields, and the external submission portal.**
 
-Do not add another broad meta-analysis merely to make Part II look larger. The intended Pattern result is recurrent constituent mechanisms plus context-dependent balance; the current evidence supports that claim while preserving the direct-identification gaps.
+Do not add another broad meta-analysis merely to make Part II look larger. The registered expansion has saturated its current theory-facing Pattern classes. The intended result remains recurrent constituent mechanisms plus context-dependent balance while preserving the direct-identification gaps.
