@@ -415,5 +415,3 @@ Zhou J, Reynolds RJ, Zimmer EA, Dudash MR, Fenster CB (2020) Variable and sexual
 ### Data and code availability
 
 All code, declared configurations, generated readouts, source-adjudication products, saturation receipts, and validation tests required for the fixed theory, finite sensitivity analysis, and saturated mechanism-Pattern synthesis are maintained in the associated repository. The completed Leal et al. (2025) larceny module is pinned to immutable repository commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`; the Sasidharan et al. (2023) module uses the 32-component citation topology as its canonical dependence structure. Pattern-expansion ledgers, context programs, stopping-gate records, the Haas-Desmarais supplement receipt, and the Caruso Dryad access-state receipt are versioned with the manuscript branch. A versioned archival DOI will be added before submission.
-
-
