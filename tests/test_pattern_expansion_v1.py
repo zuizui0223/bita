@@ -27,9 +27,9 @@ def all_switch_rows():
     return out
 
 
-def test_expansion_ledger_has_seven_new_independent_systems_and_no_direct_axd():
+def test_expansion_ledger_has_eight_new_independent_systems_and_no_direct_axd():
     data = all_expansion_rows()
-    assert len(data) == 13
+    assert len(data) == 14
     assert {r["independence_cluster"] for r in data} == {
         "Sun_Huang_2015_Pedicularis_rex",
         "Perez_Barrales_2013_Dalechampia_scandens",
@@ -38,6 +38,7 @@ def test_expansion_ledger_has_seven_new_independent_systems_and_no_direct_axd():
         "Stephenson_1982_Catalpa_speciosa",
         "McCarren_2021_Erica",
         "Takeda_2021_slippery_perianths",
+        "Tagawa_2018_Menyanthes_trifoliata",
     }
     assert all(r["is_direct_AxD"].lower() == "false" for r in data)
 
@@ -99,6 +100,17 @@ def test_slippery_perianths_count_two_species_as_one_study_cluster():
     assert {r["route"] for r in data} == {"D_to_antagonism"}
     assert all(r["trait_D_class"] == "epicuticular_wax_slippery_perianth" for r in data)
     assert sum(r["is_primary_effect"].lower() == "true" for r in data) == 1
+    assert all(r["is_direct_AxD"].lower() == "false" for r in data)
+
+
+def test_menyanthes_is_clean_flower_specific_hair_barrier():
+    data = [r for r in all_expansion_rows() if r["independence_cluster"] == "Tagawa_2018_Menyanthes_trifoliata"]
+    assert len(data) == 1
+    row = data[0]
+    assert row["route"] == "D_to_antagonism"
+    assert row["trait_D_class"] == "dense_petal_hairs"
+    assert "hair_trimming" in row["study_design"]
+    assert row["is_same_system_multi_route"].lower() == "false"
 
 
 def test_expansion_switch_rows_have_four_unique_new_context_clusters():
@@ -114,13 +126,15 @@ def test_expansion_switch_rows_have_four_unique_new_context_clusters():
 
 def test_context_programs_are_explicitly_excluded_from_route_N():
     data = rows("EXPANSION_CONTEXT_PROGRAMS_V1.csv")
-    assert len(data) == 5
-    assert {r["program_id"] for r in data} == {"CTX001", "CTX002", "CTX003", "CTX004", "CTX005"}
+    assert len(data) == 6
+    assert {r["program_id"] for r in data} == {"CTX001", "CTX002", "CTX003", "CTX004", "CTX005", "CTX006"}
     assert all(r["route_ledger_counted"].lower() == "false" for r in data)
     anemone = next(r for r in data if r["program_id"] == "CTX004")
     assert "mutualist and antagonist roles" in anemone["admitted_inference"]
     slippery = next(r for r in data if r["program_id"] == "CTX005")
     assert "pollinator-handling pathway" in slippery["admitted_inference"]
+    aquilegia = next(r for r in data if r["program_id"] == "CTX006")
+    assert "inflorescence_stalk_trichomes_equals_flower_specific_D" in aquilegia["forbidden_inference"]
 
 
 def test_module_registry_keeps_distinct_inference_boundaries():
@@ -136,10 +150,15 @@ def test_module_registry_keeps_distinct_inference_boundaries():
     assert "obligate_equals_pollinator" in modules["PM05"]["forbidden_inference"]
 
 
-def test_cross_module_matrix_preserves_direct_identification_gaps():
+def test_cross_module_matrix_preserves_direct_identification_gaps_and_new_classes():
     data = rows("CROSS_MODULE_PATTERN_MATRIX_V2.csv")
     classes = {r["pattern_class"]: r for r in data}
-    assert "direct_AxD_identification_gap" in classes
-    assert "direct_joint_cost_gap" in classes
+    for required in (
+        "guarded_defence_state",
+        "spatial_or_temporal_filtering",
+        "direct_AxD_identification_gap",
+        "direct_joint_cost_gap",
+    ):
+        assert required in classes
     assert "one_Impatiens_sign_unresolved" in classes["direct_AxD_identification_gap"]["source_level_expansion"]
     assert "no_strict_estimate" in classes["direct_joint_cost_gap"]["source_level_expansion"]
