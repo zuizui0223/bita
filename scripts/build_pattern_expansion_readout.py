@@ -51,9 +51,6 @@ def summarize(rows: list[dict[str, str]]) -> dict[str, object]:
         if row["is_same_system_multi_route"].strip().lower() == "true":
             explicit_same_system.add(cluster)
 
-    # Match the frozen canonical coverage audit exactly: a cluster is same-system
-    # when it is explicitly flagged OR when at least two marginal routes are
-    # source-adjudicated in that biological cluster.
     inferred_same_system = {
         cluster for cluster, routes in routes_by_cluster.items() if len(routes) >= 2
     }
@@ -106,12 +103,12 @@ def main() -> None:
         raise ValueError(f"canonical evidence universe drifted: {canonical!r}")
 
     expected_expansion = {
-        "records": 6,
-        "independent_clusters": 3,
+        "records": 8,
+        "independent_clusters": 4,
         "route_clusters": {
             "A_to_pollination": 1,
             "A_to_antagonism": 2,
-            "D_to_antagonism": 1,
+            "D_to_antagonism": 2,
             "D_to_pollination": 1,
         },
         "same_system_clusters": 2,
@@ -120,20 +117,20 @@ def main() -> None:
         raise ValueError(f"expansion-batch-1 counts unexpected: {expansion!r}")
 
     expected_combined = {
-        "records": 44,
-        "independent_clusters": 17,
+        "records": 46,
+        "independent_clusters": 18,
         "route_clusters": {
             "A_to_pollination": 5,
             "A_to_antagonism": 7,
-            "D_to_antagonism": 11,
+            "D_to_antagonism": 12,
             "D_to_pollination": 8,
         },
         "same_system_clusters": 12,
     }
     if combined != expected_combined:
         raise ValueError(f"provisional expansion counts unexpected: {combined!r}")
-    if context_switch_clusters != 12:
-        raise ValueError(f"expected 12 unique context-switch clusters, got {context_switch_clusters}")
+    if context_switch_clusters != 13:
+        raise ValueError(f"expected 13 unique context-switch clusters, got {context_switch_clusters}")
 
     payload = {
         "status": "PROVISIONAL_EXPANSION_BRANCH_NOT_CANONICAL",
@@ -170,13 +167,14 @@ def main() -> None:
         f"context/sign-switch clusters:      {context_switch_clusters}  (canonical 11)",
         "```",
         "",
-        "Batch 1 adds three independent route-ledger systems:",
+        "Batch 1 adds four independent route-ledger systems:",
         "",
         "- *Pedicularis rex*: manipulated water-filled bract barrier; seed-predator protection, pollinator null, nectar-robber null.",
         "- *Dalechampia scandens*: visual bract attraction axis tracked by both pollinators and seed predators.",
         "- *Raphanus sativus*: petal-colour attraction axis associated with recurrent florivore damage/preference across populations and assays.",
+        "- *Bejaria resinosa*: flower-restricted stickiness directly reduces field florivory, with consumer- and population-dependent efficacy.",
         "",
-        "The Iris environmental-context program and the additional published quantitative syntheses are intentionally excluded from these route-ledger counts. Their study/case Ns are not added to the 17 clusters.",
+        "The Iris environmental-context program and the additional published quantitative syntheses are intentionally excluded from these route-ledger counts. Their study/case Ns are not added to the 18 clusters.",
         "",
         "## Boundary",
         "",
