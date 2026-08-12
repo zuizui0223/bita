@@ -11,23 +11,23 @@
     "same_system_clusters": 10
   },
   "combined_provisional": {
-    "independent_clusters": 24,
-    "records": 55,
+    "independent_clusters": 25,
+    "records": 56,
     "route_clusters": {
-      "A_to_antagonism": 7,
+      "A_to_antagonism": 8,
       "A_to_pollination": 5,
       "D_to_antagonism": 18,
       "D_to_pollination": 10
     },
     "same_system_clusters": 14
   },
-  "context_programs_excluded_from_route_N": 6,
-  "context_switch_clusters_provisional": 16,
+  "context_programs_excluded_from_route_N": 7,
+  "context_switch_clusters_provisional": 17,
   "expansion": {
-    "independent_clusters": 10,
-    "records": 17,
+    "independent_clusters": 11,
+    "records": 18,
     "route_clusters": {
-      "A_to_antagonism": 2,
+      "A_to_antagonism": 3,
       "A_to_pollination": 1,
       "D_to_antagonism": 8,
       "D_to_pollination": 3
@@ -39,7 +39,8 @@
     "EXPANSION_LEDGER_BATCH_2_V1.csv",
     "EXPANSION_LEDGER_BATCH_3_V1.csv",
     "EXPANSION_LEDGER_BATCH_4_V1.csv",
-    "EXPANSION_LEDGER_BATCH_5_V1.csv"
+    "EXPANSION_LEDGER_BATCH_5_V1.csv",
+    "EXPANSION_LEDGER_BATCH_6_V1.csv"
   ],
   "interpretation_boundary": [
     "counts are evidence-capacity / independent-system recurrence diagnostics",
