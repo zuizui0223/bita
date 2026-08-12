@@ -16,7 +16,7 @@ Complete the author-controlled fields before the manuscript is uploaded. Do not 
 
 ### Abstract
 
-Flowers must attract mutualists while remaining exposed to florivores, nectar robbers, pathogens, and other antagonists. We ask two linked questions: **what mechanism determines whether floral attraction and defence are locally complementary or substitutable, and what cross-system patterns recur in the empirical literature?** In Part I, we derive a local mechanistic theory for one declared attraction trait, one flower-specific antagonist-reducing trait, and one declared outcome scale. After an explicit orientation gate, the mixed partial is a balance among antagonist relief, pollinator interference, and direct joint-cost curvature, `W_AD = rho - iota - kappa`. The same total curvature can arise from different channel allocations, so total fitness alone does not identify mechanism. Endpoint-normalized sensitivity analysis produces both complementary and substitutable regimes across 2,592 declared evaluations. In Part II, we use the theory as a prediction and classification framework for a registered cross-study Pattern synthesis, and use quantitative meta-analysis only where outcomes can be placed on defensible common scales. The saturated evidence architecture contains 56 route-level records across 25 independent biological study clusters, including 14 same-system multi-route clusters and 17 independent context/sign-switch clusters; seven additional context programs are tracked without being added to route-ledger N. A random-effects reanalysis of floral-larceny data shows recurrent reductions in female fitness (LRR -0.210, 48 clusters), nectar standing crop (-0.483, 28), and legitimate visitation (-0.291, 22), while retaining extreme heterogeneity. A second 32-study-component synthesis of floral volatiles shows shared pollinator/florivore responsiveness but strong compositional and context dependence. Secondary published syntheses independently reinforce tissue, consumer, trait-class, and selection-context dependence without being pooled with the two reproduced modules. Direct `A x D` evidence remains restricted to one sign-unresolved cluster and direct joint-cost evidence to zero strict estimates. Thus the general cross-system Pattern is **not a universal sign of `W_AD`**: constituent mechanisms recur, but their realised balance changes with context.
+Flowers must attract mutualists while remaining exposed to florivores, nectar robbers, pathogens, and other antagonists. We ask what mechanism determines whether floral attraction and defence are locally complementary or substitutable, and what cross-system patterns recur empirically. In Part I, we derive a local theory for one attraction trait, one flower-specific antagonist-reducing trait, and one outcome scale. After an explicit orientation gate, the mixed partial is the balance between antagonist relief, pollinator interference, and direct joint-cost curvature, \(W_{AD}=\rho-\iota-\kappa\). The same total curvature can arise from different channel allocations, so total fitness alone does not identify mechanism. Across 2,592 endpoint-normalized sensitivity evaluations, both complementary and substitutable regimes occur. In Part II, a registered synthesis yields 56 route-level records from 25 independent biological study clusters, including 14 same-system multi-route and 17 context/sign-switch clusters, while seven context-only programs are kept outside route counts. A random-effects reanalysis of floral larceny shows reductions in female fitness (log response ratio -0.210; 48 clusters), nectar standing crop (-0.483; 28), and legitimate visitation (-0.291; 22), with extreme heterogeneity. A second 32-study-component synthesis shows shared pollinator and florivore responsiveness to floral volatiles but strong context dependence. Direct \(A\times D\) evidence remains one sign-unresolved cluster, and no strict direct joint-cost estimate was found. Thus constituent mechanisms recur across systems, but their realised balance is context dependent rather than universally complementary or substitutable.
 
 ### Keywords
 
@@ -25,9 +25,7 @@ Flowers must attract mutualists while remaining exposed to florivores, nectar ro
 - florivory
 - mechanism
 - meta-analysis
-- mutualism
 - pollination
-- trait integration
 
 ## Authors
 
@@ -103,7 +101,7 @@ Record any journal-required disclosure concerning language editing, coding assis
 
 ## Reviewer suggestions
 
-Provide 4–6 reviewers with relevant expertise in at least two of:
+Provide exactly 5 potential reviewers with relevant expertise in at least two of:
 
 - theoretical ecology;
 - ecological meta-analysis;

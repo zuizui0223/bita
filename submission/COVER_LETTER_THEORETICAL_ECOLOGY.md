@@ -22,6 +22,16 @@ We believe this Mechanism → Pattern architecture fits *Theoretical Ecology*: t
 
 The manuscript is original and is not under consideration elsewhere. Code, declared configurations, source-adjudication products, quantitative synthesis readouts, saturation records, tests, and figure-generation workflows are maintained in the associated repository. The final author-approval, archival DOI, licence, and portal-controlled metadata fields must be completed before the letter is used for actual submission.
 
+## Potential reviewers
+
+*The journal requests five potential reviewers. These must be selected and conflict-checked by the authors before submission; names are intentionally not inferred here.*
+
+1. [Name — institution — e-mail — expertise — conflict check]
+2. [Name — institution — e-mail — expertise — conflict check]
+3. [Name — institution — e-mail — expertise — conflict check]
+4. [Name — institution — e-mail — expertise — conflict check]
+5. [Name — institution — e-mail — expertise — conflict check]
+
 Thank you for considering our manuscript.
 
 Sincerely,

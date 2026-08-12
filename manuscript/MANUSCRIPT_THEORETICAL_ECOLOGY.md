@@ -1,10 +1,16 @@
 # When are floral attraction and defence complementary? Mechanistic theory and meta-analytic patterns across mutualists and antagonists
 
+**Authors and affiliations:** [Author-controlled; insert final publication names and affiliations before submission.]
+
+**Corresponding author:** [Author-controlled; insert name and active e-mail address.]
+
+**ORCID(s):** [Insert available 16-digit ORCID identifiers after author approval.]
+
 ## Abstract
 
-Flowers must attract mutualists while remaining exposed to florivores, nectar robbers, pathogens, and other antagonists. We ask two linked questions: **what mechanism determines whether floral attraction and defence are locally complementary or substitutable, and what cross-system patterns recur in the empirical literature?** In Part I, we derive a local mechanistic theory for one declared attraction trait, one flower-specific antagonist-reducing trait, and one declared outcome scale. After an explicit orientation gate, the mixed partial is a balance among antagonist relief, pollinator interference, and direct joint-cost curvature, \(W_{AD}=\rho-\iota-\kappa\). The same total curvature can arise from different channel allocations, so total fitness alone does not identify mechanism. Endpoint-normalized sensitivity analysis produces both complementary and substitutable regimes across 2,592 declared evaluations. In Part II, we use the theory as a prediction and classification framework for a registered cross-study Pattern synthesis, and use quantitative meta-analysis only where outcomes can be placed on defensible common scales. The saturated evidence architecture contains 56 route-level records across 25 independent biological study clusters, including 14 same-system multi-route clusters and 17 independent context/sign-switch clusters; seven additional context programs are tracked without being added to route-ledger N. A random-effects reanalysis of floral-larceny data shows recurrent reductions in female fitness (LRR \(-0.210\), 48 clusters), nectar standing crop (\(-0.483\), 28), and legitimate visitation (\(-0.291\), 22), while retaining extreme heterogeneity. A second 32-study-component synthesis of floral volatiles shows shared pollinator/florivore responsiveness but strong compositional and context dependence. Secondary published syntheses independently reinforce tissue, consumer, trait-class, and selection-context dependence without being pooled with the two reproduced modules. Direct \(A\times D\) evidence remains restricted to one sign-unresolved cluster and direct joint-cost evidence to zero strict estimates. Thus the general cross-system Pattern is **not a universal sign of \(W_{AD}\)**: constituent mechanisms recur, but their realised balance changes with context.
+Flowers must attract mutualists while remaining exposed to florivores, nectar robbers, pathogens, and other antagonists. We ask what mechanism determines whether floral attraction and defence are locally complementary or substitutable, and what cross-system patterns recur empirically. In Part I, we derive a local theory for one attraction trait, one flower-specific antagonist-reducing trait, and one outcome scale. After an explicit orientation gate, the mixed partial is the balance between antagonist relief, pollinator interference, and direct joint-cost curvature, \(W_{AD}=\rho-\iota-\kappa\). The same total curvature can arise from different channel allocations, so total fitness alone does not identify mechanism. Across 2,592 endpoint-normalized sensitivity evaluations, both complementary and substitutable regimes occur. In Part II, a registered synthesis yields 56 route-level records from 25 independent biological study clusters, including 14 same-system multi-route and 17 context/sign-switch clusters, while seven context-only programs are kept outside route counts. A random-effects reanalysis of floral larceny shows reductions in female fitness (log response ratio -0.210; 48 clusters), nectar standing crop (-0.483; 28), and legitimate visitation (-0.291; 22), with extreme heterogeneity. A second 32-study-component synthesis shows shared pollinator and florivore responsiveness to floral volatiles but strong context dependence. Direct \(A\times D\) evidence remains one sign-unresolved cluster, and no strict direct joint-cost estimate was found. Thus constituent mechanisms recur across systems, but their realised balance is context dependent rather than universally complementary or substitutable.
 
-**Keywords:** attraction-defence interaction; floral defence; florivory; mechanism; meta-analysis; mutualism; pollination; trait integration
+**Keywords:** attraction-defence interaction; floral defence; florivory; mechanism; meta-analysis; pollination
 
 ## 1. Introduction
 
@@ -234,6 +240,10 @@ Three additional syntheses were retained as independent contextual modules rathe
 
 These modules test recurrence of tissue, trait-class, consumer, assay, and selection-context dependence. Their study or observation counts are never added to the route-ledger cluster total, and their effect scales are not pooled with the Leal or Sasidharan modules.
 
+### 4.3 Computational and AI-assisted workflow transparency
+
+During analysis and manuscript development, an OpenAI large language model was used to assist code generation, structured literature triage, and manuscript drafting. AI-generated output was not treated as empirical evidence. Source claims entered the admitted evidence architecture only through source-linked audit records, numerical results were generated or reconstructed from committed code and data products, and manuscript-facing counts and figures were protected by repository regression tests. The authors retain responsibility for the final scientific content and must confirm this disclosure together with the exact submitted version.
+
 ## 5. Part II results — meta-analytic patterns across systems
 
 ### 5.1 Pattern scaffold: mechanism recurrence and same-system architecture
@@ -330,11 +340,11 @@ The literature remains weakest exactly where the theory demands the strongest id
 
 ## Figure captions
 
-**Figure 1. Mechanistic architecture of the local attraction-defence interaction.** Attraction may increase mutualist service and antagonist exposure. A focal flower-specific defence trait is defined by an operational antagonist-reduction role, but the same trait may interfere with legitimate pollinator use. Attraction and defence may also interact through direct joint-cost curvature. After the orientation gate is established, the local mixed partial is \(W_{AD}=\rho-\iota-\kappa\), where \(\rho\) is antagonist relief, \(\iota\) is mutualist interference, and \(\kappa\) is direct joint-cost curvature. The diagram does not imply that every route occurs in every system or that the components are identifiable from total fitness alone.
+**Fig. 1** Mechanistic architecture of the local attraction-defence interaction. Attraction may increase mutualist service and antagonist exposure. A focal flower-specific defence trait is defined by an operational antagonist-reduction role, but the same trait may interfere with legitimate pollinator use. Attraction and defence may also interact through direct joint-cost curvature. After the orientation gate is established, the local mixed partial is \(W_{AD}=\rho-\iota-\kappa\), where \(\rho\) is antagonist relief, \(\iota\) is mutualist interference, and \(\kappa\) is direct joint-cost curvature. The diagram does not imply that every route occurs in every system or that the components are identifiable from total fitness alone
 
-**Figure 2. Conditional sign regimes in the endpoint-normalized implemented corollary.** The declared finite design evaluates focal attraction and defence coordinates, exogenous pollinator-service and antagonist-pressure indices, an auxiliary reproductive-assurance moderator, four biological parameter scenarios, and four endpoint-normalized response-shape variants. Counts and percentages are unweighted occupancies of the declared finite tested set, not estimates of prevalence in nature. Response-shape unanimity is evaluated within fixed biological scenarios, whereas the full tested set deliberately combines scenarios with opposing route strengths.
+**Fig. 2** Conditional sign regimes in the endpoint-normalized implemented corollary. The declared finite design evaluates focal attraction and defence coordinates, exogenous pollinator-service and antagonist-pressure indices, an auxiliary reproductive-assurance moderator, four biological parameter scenarios, and four endpoint-normalized response-shape variants. Counts and percentages are unweighted occupancies of the declared finite tested set, not estimates of prevalence in nature. Response-shape unanimity is evaluated within fixed biological scenarios, whereas the full tested set deliberately combines scenarios with opposing route strengths
 
-**Figure 3. Meta-analytic pattern architecture and identification boundary.** Source-adjudicated evidence is organized as four marginal route families, same-system multi-route regimes, context/sign-switch and context-only programs, two reproduced quantitative synthesis modules, three secondary contextual syntheses, the saturated direct \(A\times D\) layer, and the direct joint-cost search. Counts indicate evidence capacity in the screened architecture rather than prevalence. Guarded defence, spatial/temporal filtering, visitor functional-mode switching, and lifecycle-role reversal are recurrent state classes. Marginal, same-system, and secondary contextual evidence terminate at the inference boundary and are not combined into an estimate of \(W_{AD}\).
+**Fig. 3** Meta-analytic pattern architecture and identification boundary. Source-adjudicated evidence is organized as four marginal route families, same-system multi-route regimes, context/sign-switch and context-only programs, two reproduced quantitative synthesis modules, three secondary contextual syntheses, the saturated direct \(A\times D\) layer, and the direct joint-cost search. Counts indicate evidence capacity in the screened architecture rather than prevalence. Guarded defence, spatial/temporal filtering, visitor functional-mode switching, and lifecycle-role reversal are recurrent state classes. Marginal, same-system, and secondary contextual evidence terminate at the inference boundary and are not combined into an estimate of \(W_{AD}\)
 
 ## Table captions
 
@@ -345,22 +355,6 @@ The literature remains weakest exactly where the theory demands the strongest id
 **Table 3. Cross-study pattern scaffold: source-adjudicated mechanism recurrence, same-system architecture, conditionality, direct-interaction state, and direct joint-cost evidence state.**
 
 **Table 4. Quantitative meta-analytic modules, recurrent patterns, robustness checks, and prohibited interpretations.**
-
-## Data and code availability
-
-All code, declared configurations, generated readouts, source-adjudication products, saturation receipts, and validation tests required for the fixed theory, finite sensitivity analysis, and saturated mechanism-Pattern synthesis are maintained in the associated repository. The completed Leal et al. (2025) larceny module is pinned to immutable repository commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`; the Sasidharan et al. (2023) module uses the 32-component citation topology as its canonical dependence structure. Pattern-expansion ledgers, context programs, stopping-gate records, the Haas-Desmarais supplement receipt, and the Caruso Dryad access-state receipt are versioned with the manuscript branch. A versioned archival DOI will be added before submission.
-
-## Author contributions
-
-[To be completed using CRediT roles after the author list is finalized.]
-
-## Funding
-
-[To be completed.]
-
-## Competing interests
-
-The authors declare no competing interests. [Confirm for all authors before submission.]
 
 ## References
 
@@ -403,3 +397,21 @@ Wright GA et al. (2013) Caffeine in floral nectar enhances a pollinator's memory
 Wu SM, Gao JY (2024) The conspicuously large bracts influence reproductive success in *Thunia alba* (Orchidaceae). *Journal of Plant Ecology* 17:rtad036. https://doi.org/10.1093/jpe/rtad036
 
 Zhou J, Reynolds RJ, Zimmer EA, Dudash MR, Fenster CB (2020) Variable and sexually conflicting selection on *Silene stellata* floral traits by a putative moth pollinator selective agent. *Evolution* 74:1321–1334. https://doi.org/10.1111/evo.13965
+
+## Statements and Declarations
+
+### Funding
+
+[Author confirmation required. State all funding agencies and grant numbers, or explicitly state that no funds, grants, or other support were received.]
+
+### Competing interests
+
+[Author confirmation required. Provide the final financial and non-financial competing-interest statement for all authors through both the manuscript and submission interface.]
+
+### Author contributions
+
+[Author-controlled. Complete the contribution statement after the final author list and CRediT roles are approved.]
+
+### Data and code availability
+
+All code, declared configurations, generated readouts, source-adjudication products, saturation receipts, and validation tests required for the fixed theory, finite sensitivity analysis, and saturated mechanism-Pattern synthesis are maintained in the associated repository. The completed Leal et al. (2025) larceny module is pinned to immutable repository commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`; the Sasidharan et al. (2023) module uses the 32-component citation topology as its canonical dependence structure. Pattern-expansion ledgers, context programs, stopping-gate records, the Haas-Desmarais supplement receipt, and the Caruso Dryad access-state receipt are versioned with the manuscript branch. A versioned archival DOI will be added before submission.
