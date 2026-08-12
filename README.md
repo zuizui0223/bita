@@ -14,6 +14,8 @@ meta-analysis / quantitative cross-study synthesis / recurrence and conditionali
 
 The paper is not “theory + illustrative literature.” Part I derives why and when attraction and defence become locally complementary or substitutable. Part II tests which mechanism-derived patterns recur across independent systems, where their state changes with context, and which quantities remain unidentified.
 
+The **fixed theoretical core** and the **mechanism-pattern empirical synthesis** are kept inferentially separate: the synthesis asks **what is recurrent, what is context dependent, and what remains unidentified**. The finite sensitivity analysis **is not an empirically calibrated regime map**, and none of the route counts estimates prevalence in nature.
+
 ## Part I — Mechanism
 
 For a declared `A`–`D` pair and declared `W` scale, the local mixed partial
@@ -86,24 +88,33 @@ leave-one-study-component-out       positive 32/32
 
 Only three study components contain both physiological consumer roles and all three paired differences are zero, so the assembled contrast is not treated as a causal within-study role effect. Behavioral disagreements remain part of the context-dependence result.
 
+### Secondary contextual syntheses
+
+Three additional published syntheses are retained without pooling their incompatible scales with the two reproduced modules:
+
+- Haas-Desmarais et al. 2026: 171 studies / 1,348 study cases; publisher supplement package independently retrieved and hashed; herbivory is not relabelled as focal `D`.
+- Caruso et al. 2019: main selection analysis of 755 gradients with SE from 36 articles; Dryad landing/API metadata verified, file-byte access currently blocked; selection gradients are not `W_AD`.
+- Junker & Blüthgen 2010: 18 publications / 425 floral-scent response observations; floral-resource dependence is an independent consumer-filtering pattern, not a pollinator/antagonist identity map.
+
 ### Theory-to-pattern scaffold
 
-The heterogeneous route ledger is **not a grand meta-analysis**. It maps the quantitative and directional evidence onto the mechanism classes derived in Part I:
+The heterogeneous route ledger is **not a grand meta-analysis**. It maps quantitative and directional evidence onto the mechanism classes derived in Part I. After the registered saturation expansion:
 
 ```text
-38 source-adjudicated effect/directional records
-14 independent biological study clusters
-A_to_pollination:   4 clusters
-A_to_antagonism:    5
-D_to_antagonism:   10
-D_to_pollination:   7
-same-system:       10 clusters
-context/sign switch: 11 clusters
-direct A x D:       1 strict cluster, sign unresolved
-direct joint cost:  0 strict estimates, kappa unidentified
+56 source-adjudicated effect/directional records
+25 independent biological study clusters
+A_to_pollination:    5 clusters
+A_to_antagonism:     8
+D_to_antagonism:    18
+D_to_pollination:   10
+same-system:        14 clusters
+context/sign switch: 17 clusters
+context-only programs: 7, excluded from route-ledger N
+direct A x D:        1 strict cluster, sign unresolved
+direct joint cost:   0 strict estimates, kappa unidentified
 ```
 
-Incompatible response constructs are not averaged merely to manufacture a pooled effect.
+The expansion adds visual and multidimensional attraction-signal systems, chemically and physically distinct flower-specific defence mechanisms, guarded states, spatial/temporal/attack-mode filtering, visitor functional-mode switching, and lifecycle-stage role reversal. Incompatible response constructs are not averaged merely to manufacture a pooled effect.
 
 ## Cross-system result
 

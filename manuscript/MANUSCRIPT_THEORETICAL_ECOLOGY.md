@@ -366,13 +366,21 @@ The authors declare no competing interests. [Confirm for all authors before subm
 
 Blows MW, Brooks R (2003) Measuring nonlinear selection. *The American Naturalist* 162:815–820. https://doi.org/10.1086/378905
 
+Caruso CM, Eisen KE, Martin RA, Sletvold N (2019) A meta-analysis of the agents of selection on floral traits. *Evolution* 73:4–14. https://doi.org/10.1111/evo.13639
+
+Haas-Desmarais S, Castagneyrol B, Abdala-Roberts L, Lortie CJ, Traveset A, Moreira X (2026) The effect of herbivory on pollinators: a revisited meta-analysis. *Annals of Botany* 137:879–885. https://doi.org/10.1093/aob/mcaf258
+
 Herrera CM et al. (2002) Interaction of pollinators and herbivores on plant fitness suggests a pathway for correlated evolution of mutualism- and antagonism-related traits. *Proceedings of the National Academy of Sciences USA* 99:16823–16828. https://doi.org/10.1073/pnas.252362799
+
+Junker RR, Blüthgen N (2010) Floral scents repel facultative flower visitors, but attract obligate ones. *Annals of Botany* 105:777–782. https://doi.org/10.1093/aob/mcq045
 
 Knauer AC, Bakhtiari M, Schiestl FP (2018) Crab spiders impact floral-signal evolution indirectly through removal of florivores. *Nature Communications* 9:1367. https://doi.org/10.1038/s41467-018-03792-x
 
 Lande R, Arnold SJ (1983) The measurement of selection on correlated characters. *Evolution* 37:1210–1226. https://doi.org/10.2307/2408842
 
 Leal LC et al. (2025) Costs of floral larceny: a meta-analytical evaluation of nectar robbing and nectar theft on animal-pollinated plants. *Ecology* 106:e70036. https://doi.org/10.1002/ecy.70036
+
+Page P, Favre A, Schiestl FP, Karrenberg S (2014) Do flower color and floral scent of *Silene* species affect host preference of *Hadena bicruris*, a seed-eating pollinator, under field conditions? *PLoS ONE* 9:e98755. https://doi.org/10.1371/journal.pone.0098755
 
 Phillips PC, Arnold SJ (1989) Visualizing multivariate selection. *Evolution* 43:1209–1222. https://doi.org/10.2307/2409357
 
@@ -386,13 +394,11 @@ Stevenson PC, Nicolson SW, Wright GA (2017) Plant secondary metabolites in necta
 
 Strauss SY, Siemens DH, Decher MB, Mitchell-Olds T (1999) Ecological costs of plant resistance to herbivores in the currency of pollination. *Evolution* 53:1105–1113. https://doi.org/10.1111/j.1558-5646.1999.tb04525.x
 
+Sun SG, Huang SQ (2015) Rainwater in cupulate bracts repels seed herbivores in a bumblebee-pollinated subalpine flower. *AoB PLANTS* 7:plv019. https://doi.org/10.1093/aobpla/plv019
+
 Theis N, Adler LS (2012) Advertising to the enemy: enhanced floral fragrance increases beetle attraction and reduces plant reproduction. *Ecology* 93:430–435. https://doi.org/10.1890/11-0825.1
 
 Wright GA et al. (2013) Caffeine in floral nectar enhances a pollinator's memory of reward. *Science* 339:1202–1204. https://doi.org/10.1126/science.1228806
-
-Page P, Favre A, Schiestl FP, Karrenberg S (2014) Do flower color and floral scent of *Silene* species affect host preference of *Hadena bicruris*, a seed-eating pollinator, under field conditions? *PLoS ONE* 9:e98755. https://doi.org/10.1371/journal.pone.0098755
-
-Sun SG, Huang SQ (2015) Rainwater in cupulate bracts repels seed herbivores in a bumblebee-pollinated subalpine flower. *AoB PLANTS* 7:plv019. https://doi.org/10.1093/aobpla/plv019
 
 Wu SM, Gao JY (2024) The conspicuously large bracts influence reproductive success in *Thunia alba* (Orchidaceae). *Journal of Plant Ecology* 17:rtad036. https://doi.org/10.1093/jpe/rtad036
 
