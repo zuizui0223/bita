@@ -32,8 +32,9 @@ def read_rows(path: Path) -> list[dict[str, str]]:
 
 def summarize(rows: list[dict[str, str]]) -> dict[str, object]:
     route_clusters: dict[str, set[str]] = defaultdict(set)
+    routes_by_cluster: dict[str, set[str]] = defaultdict(set)
     all_clusters: set[str] = set()
-    same_system: set[str] = set()
+    explicit_same_system: set[str] = set()
     records: set[str] = set()
 
     for row in rows:
@@ -46,8 +47,17 @@ def summarize(rows: list[dict[str, str]]) -> dict[str, object]:
         route = row["route"]
         if route in ROUTES:
             route_clusters[route].add(cluster)
+            routes_by_cluster[cluster].add(route)
         if row["is_same_system_multi_route"].strip().lower() == "true":
-            same_system.add(cluster)
+            explicit_same_system.add(cluster)
+
+    # Match the frozen canonical coverage audit exactly: a cluster is same-system
+    # when it is explicitly flagged OR when at least two marginal routes are
+    # source-adjudicated in that biological cluster.
+    inferred_same_system = {
+        cluster for cluster, routes in routes_by_cluster.items() if len(routes) >= 2
+    }
+    same_system = explicit_same_system | inferred_same_system
 
     return {
         "records": len(records),
