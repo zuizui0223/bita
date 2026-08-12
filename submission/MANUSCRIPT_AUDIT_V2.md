@@ -1,183 +1,183 @@
-# Manuscript audit v3: integrated theory-to-evidence claim check
+# Manuscript audit v4 — Mechanism → Pattern pre-submission check
 
-## Scope
+## Verdict
 
-This audit compares the reconstructed canonical manuscript against the active theory API, canonical finite-sensitivity readout, mechanism-pattern synthesis protocol, completion-gate receipts, quantitative-module readouts, submission scope, and supplement manifest. It is a pre-submission claim audit, not a new analysis.
+**YES: the canonical manuscript is now structurally and inferentially a two-part paper: mathematical Mechanism first, meta-analytic Pattern second.**
 
-## Overall verdict
-
-**Scientific architecture: coherent and manuscript-ready for final presentation work. Portal package: not yet complete.**
-
-The major former inconsistency — a manuscript describing the literature as abstract-only preliminary context while the branch contained source-adjudicated mechanism evidence and two quantitative modules — has been removed. The current manuscript now tells one integrated story:
+It is no longer organized as theory Methods followed by a mixed bag of literature evidence. The current canonical order is:
 
 ```text
-fixed local sign criterion
--> mechanism non-identifiability
--> finite theory sensitivity
--> mechanism recurrence
--> same-system conditionality
--> direct A x D scarcity
--> two quantitative mechanism modules
--> direct joint-cost identification gap
--> factorial empirical test
+1 Introduction
+2 Part I — Mechanistic theory: mechanism and principle
+3 Part I results — mechanistic sign regimes
+4 Part II — Meta-analysis and cross-study pattern synthesis
+5 Part II results — meta-analytic patterns across systems
+6 Integration — from mechanism to pattern
+7 Conclusions
 ```
 
-## Verified theoretical alignments
+This audit checks that the labels correspond to actual scientific content rather than cosmetic section renaming.
 
-### Focal quantity
+## Part I — Mechanism: PASS
 
-The manuscript definition
+Part I contains the fixed mathematical theory and no empirical synthesis.
 
-```text
-W_AD = d2W / dA dD
-```
-
-matches the active theory contract. It is treated as local mixed curvature on declared trait and outcome coordinates, not as covariance, genetic correlation, optimum, or evolutionary trajectory.
-
-### Signed decomposition and orientation gate
-
-The manuscript identity
+### Mechanistic objects retained unchanged
 
 ```text
 W_AD = M_AD - G_AD - C_AD
+orientation gate:
+M_AD <= 0, G_AD <= 0, C_AD >= 0
+W_AD = rho - iota - kappa
+W_AD > 0 iff rho > iota + kappa
 ```
 
-matches the signed bookkeeping layer. Biological labels do not determine component signs.
+Also retained:
 
-The orientation conditions
+- focal `A`, `D`, and outcome-scale declarations;
+- Proposition 1: total `W` does not identify component channel curvatures;
+- unrestricted environmental derivatives for antagonist pressure `H` and pollinator service `P`;
+- explicit break-even inequalities;
+- endpoint-normalized finite sensitivity analysis;
+- canonical 2,592 evaluations with all numerical results unchanged.
+
+### Mechanism conclusion
+
+Part I answers **why and under what conditions the sign changes**. It does not claim a universal direction of attraction–defence interaction.
+
+Figures 1–2 and Tables 1–2 are correctly assigned to this half.
+
+## Part II — Pattern: PASS
+
+Part II asks **which mechanism-derived patterns recur across systems and where context changes the realized balance**.
+
+Crucially, it contains real quantitative cross-study synthesis rather than only a literature map.
+
+### Meta-analysis 1 — Leal et al. 2025: PASS
+
+This is a random-effects meta-analysis on compatible oriented log-response-ratio scales, aggregated by independent study cluster within outcome stratum.
+
+Canonical cross-study patterns:
 
 ```text
-M_AD <= 0
-G_AD <= 0
-C_AD >= 0
+female reproductive success  LRR -0.210  48 independent clusters
+nectar standing crop          LRR -0.483  28
+legitimate visitation         LRR -0.291  22
 ```
 
-precede the non-negative magnitudes
+Direction survives the declared correlation, quarantine, and leave-one-cluster-out sensitivities. Very high heterogeneity remains visible and is part of the Pattern result rather than hidden.
+
+### Meta-analytic synthesis 2 — Sasidharan et al. 2023: PASS with explicit design boundary
+
+This is a quantitative cross-study synthesis using a conservative 32-study-component topology.
+
+Canonical pattern:
 
 ```text
-iota  = -M_AD
-rho   = -G_AD
-kappa =  C_AD
+florivore physiological detection  84/103
+pollinator physiological detection 151/220
+assembled risk difference           +0.129
+LOCO direction positive             32/32
 ```
 
-and the oriented criterion
+The manuscript correctly retains the key limitation: only three study components contain both roles and all three paired differences are zero. Behavioral disagreements remain evidence of context dependence. The synthesis is therefore not mislabeled as a causal within-study role effect.
+
+### Theory-to-pattern scaffold: PASS, not misrepresented as a grand meta-analysis
+
+The 38-record / 14-independent-cluster route architecture maps cross-study recurrence onto the Part I mechanism classes:
 
 ```text
-W_AD = rho - iota - kappa.
+A -> pollination   4 clusters
+A -> antagonism    5
+D -> antagonism   10
+D -> pollination   7
+same-system       10
+context switches  11
+direct A x D       1 strict cluster, sign unresolved
+direct joint cost  0 strict estimates
 ```
 
-The manuscript also states that `W_AD > 0` need not imply positive `W_A` or `W_D`.
+This scaffold is deliberately **not** pooled into one grand effect because the outcome constructs are not commensurable. That choice strengthens the meta-analytic design rather than weakening it.
 
-### Mechanism non-identifiability
+### Pattern conclusion
 
-Proposition 1 is retained and correctly interpreted as structural non-identifiability from total `W`, even with noiseless observation of the total surface. The manuscript explicitly limits the claim: channel-specific measurements, interventions, or structural restrictions may add identification.
+The supported cross-system conclusion is:
 
-The proposition remains mathematically straightforward. Its reviewer-facing value is ecological rather than algebraic: it explains why neither a better total-fitness surface nor a pile of unrelated marginal studies identifies the biological channel allocation.
+> **recurrent constituent mechanisms + context-dependent balance**
 
-### Environmental derivatives
+not:
 
-The unrestricted derivative identities and explicit directional inequalities remain in the manuscript:
+> a universal positive or negative `W_AD`.
+
+This is exactly the kind of Pattern expected from the Part I mechanism: changing relative strength of antagonist relief, pollinator interference, and joint cost changes the sign/state.
+
+Figure 3 and Tables 3–4 are correctly assigned to Part II. Quantitative robustness panels remain Supplementary Figure S4.
+
+## Mechanism → Pattern linkage: PASS
+
+The manuscript now makes the bridge explicit at four levels:
+
+1. **Abstract:** asks a mechanism question and a cross-system pattern question separately.
+2. **Section architecture:** Part I and Part II are physically separated.
+3. **Figures/Tables:** Figures/Tables 1–2 = Mechanism; Figure 3/Tables 3–4 = Pattern.
+4. **Integration:** Section 6 interprets the meta-analytic pattern through the mechanism without calling the pattern an estimate of the mixed partial.
+
+The paper therefore reads as:
 
 ```text
-dW_AD/dH = rho_H - iota_H - kappa_H
-dW_AD/dP = rho_P - iota_P - kappa_P
+derive mechanism
+→ derive conditional predictions
+→ quantify recurrent cross-study patterns
+→ retain heterogeneity/conditionality
+→ identify where direct interaction data are still missing
 ```
 
-with the relevant break-even inequalities stated rather than replaced by verbal intuition.
+## Inference-boundary audit: PASS
 
-### Finite sensitivity results
+The following distinctions remain explicit:
 
-The manuscript retains the canonical `endpoint_normalized_grid_v2` results unchanged:
+```text
+marginal route evidence != W_AD
+same-system evidence != direct A x D
+route counts != prevalence
+finite-grid occupancy != prevalence
+Leal pooled effects != rho/iota/kappa
+Sasidharan assembled contrast != causal paired role effect
+zero joint-cost studies != kappa = 0
+```
 
-- 2,592 total evaluations;
-- 1,342 complementary;
-- 1,250 substitutable;
-- 0 numerically neutral;
-- 480 of 648 fixed case × scenario summaries unanimous across four response shapes;
-- 168 mixed/sensitive;
-- 0 of 162 local cases unanimous across the deliberately heterogeneous full tested set.
+No additional theory, parameter, or biological mechanism was introduced during restructuring.
 
-The text consistently treats the percentages as unweighted finite-grid occupancies, not empirical frequencies.
+## Reviewer-facing assessment
 
-## Verified empirical-synthesis alignments
+The strongest current novelty claim is not “we invented a new mixed partial” and not “the meta-analysis proves the model.” It is the **Mechanism → Pattern connection**:
 
-### Evidence hierarchy
+- a local mathematical mechanism gives a conditional sign principle;
+- quantitative cross-study synthesis shows recurrent constituent effects but large heterogeneity;
+- the pattern scaffold shows repeated context/state switching;
+- direct interaction and joint-cost evidence are sparse exactly where the mathematical decomposition says identification requires them.
 
-The manuscript distinguishes:
+That is coherent with a theoretical-ecology contribution and avoids overclaiming the empirical layer.
 
-1. direct joint `A x D` evidence;
-2. same-system multi-route evidence;
-3. compatible single-route quantitative evidence;
-4. source-adjudicated directional evidence;
-5. candidate/access-limited evidence.
+## Remaining non-scientific submission blockers
 
-This preserves inferential proximity to the theoretical mixed partial rather than treating every publication as equivalent evidence.
+The scientific architecture is no longer a blocker. Remaining items are external/author-controlled:
 
-### Mechanism coverage
+- final author order/publication names and affiliations;
+- corresponding author/email and ORCIDs;
+- CRediT, funding, acknowledgements, competing-interest confirmation;
+- repository licence choice;
+- final house-style references;
+- exact release/tag and archival DOI;
+- final EPS export and full CI from that exact submission commit;
+- authenticated entry into the journal submission portal.
 
-The manuscript records 38 source-adjudicated effect/directional records across 14 independent biological study clusters and gives explicit states for all four marginal mechanism families. Route counts are correctly described as overlapping evidence-capacity counts rather than an additive study total or prevalence estimate.
+## Decision
 
-### Same-system and conditionality layers
-
-Ten same-system multi-route clusters and eleven independent context/sign-switch clusters are integrated. Fine-grained contexts are collapsed into five theory-facing classes without manufacturing a cross-outcome meta-regression.
-
-### Direct interaction
-
-The direct `A x D` search is correctly described as saturated under the registered stopping rule with one strict sign-unresolved cluster. The manuscript does not generalize the two `Impatiens` reproductive-component point estimates.
-
-### Direct joint cost
-
-The direct A+D intrinsic-cost search is correctly described as saturated at zero strict eligible estimates. The manuscript states that `kappa` is **unidentified**, not zero, and does not substitute covariance, separate marginal costs, or ecological pollinator interference for the joint-cost curvature.
-
-### Quantitative module 1 — Leal et al. 2025
-
-The manuscript reports the canonical pooled LRRs and cluster counts, keeps the very high heterogeneity visible, and limits the inference to a realised floral-antagonist-pressure gate and `H`–pollinator-use coupling. The completed module remains pinned to immutable repository commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`.
-
-### Quantitative module 2 — Sasidharan et al. 2023
-
-The manuscript uses the canonical 32-study-component topology, reports the current-deposit physiological contrast and 32/32 leave-one-component-out direction, and explicitly states the critical paired-data limitation: only three study components contain both consumer roles and all three paired differences are zero. Behavioral `+/0` disagreement and source-version discrepancies remain visible.
-
-### Theory/empiricism boundary
-
-The manuscript never equates either quantitative module, marginal routes, same-system regimes, or publication counts with `rho`, `iota`, `kappa`, or `W_AD`.
-
-## Reviewer-facing risk register after reconstruction
-
-| Risk | Current status | Remaining action |
-|---|---|---|
-| “This is correlational selection with new labels” | Substantially addressed | Figure 1 should visually foreground orientation gate + mechanism identification boundary, not just arrows |
-| “The decomposition is a tautology” | Addressed in prose | Keep Proposition 1 framed as an ecological inference result; avoid overselling algebraic novelty |
-| “The empirical synthesis validates the model” | Addressed | Preserve constituent-mechanism / `W_AD` boundary in Abstract, Figure 3, Tables 3-4, and cover letter |
-| “The evidence map is a cherry-picked prevalence survey” | Addressed conceptually, presentation still important | Describe it as a registered mechanism-pattern synthesis/evidence architecture; do not claim PRISMA-style prevalence unless a database-complete review is separately documented |
-| “Route counts are pseudo-replication” | Addressed | Figure 3 and Table 3 must show overlap and independence-cluster logic explicitly |
-| “The Leal module has huge heterogeneity” | Addressed | Keep heterogeneity and underpowered moderator nulls visible; do not turn pooled mean into universality |
-| “Sasidharan florivore > pollinator is compositional” | Addressed | Keep three paired-component zeros adjacent to assembled +0.129 result in figure/table text |
-| “No direct A x D synthesis exists” | Turned into bounded evidence-gap result | Avoid language implying the one `Impatiens` cluster confirms either sign |
-| “No kappa data means kappa is dispensable” | Addressed | Figure 3 must display `kappa: unidentified`, not a zero bar |
-| “Environmental P and H are unrealistic independent axes” | Improved by Leal result | Keep exogenous-index interpretation and note empirical coupling; do not silently recalibrate Part I grid |
-| “The empirical methods are not a conventional systematic review” | Correctly bounded if language remains careful | Use “registered mechanism-pattern synthesis” or “source-adjudicated evidence architecture”; avoid claiming population prevalence or exhaustive database coverage |
-| “Paper is too broad for one narrative” | Improved but still a presentation risk | Figures 1 and 3 must share the same channel grammar so empirical sections visibly answer the theory |
-
-## Remaining manuscript/package work
-
-### Required before submission
-
-1. **Figure 3 production.** Build a reproducible empirical architecture figure showing four route families, same-system/conditionality layers, direct `A x D` scarcity, quantitative modules, and the inference boundary.
-2. **Final figure exports.** Regenerate Figure 2 from final code and produce final vector exports for Figures 1-3.
-3. **Reference audit.** Verify every central citation and complete final bibliographic metadata/formatting.
-4. **Author-controlled metadata.** Author order, affiliations, corresponding author, ORCIDs, CRediT, funding, acknowledgements, and conflict confirmation remain incomplete.
-5. **Archive.** Create a release corresponding exactly to the submitted manuscript and mint the archival DOI.
-6. **Final CI.** Require green repository CI on the final manuscript/figure/reference commit.
-
-### Editorial tightening after the above
-
-- reduce repetition between Results 3.4-3.8 and Discussion 4.1-4.3 without deleting inference boundaries;
-- check Abstract length against the final journal requirement;
-- decide whether Table 3 or part of Figure 3 can move to Supplement if main-text density is too high;
-- ensure every named empirical system in Discussion earns its space by illustrating a distinct mechanism class.
-
-## Submission decision
-
-The former scientific blocker — incomplete empirical architecture — is closed. The manuscript can now be prepared as an integrated *Theoretical Ecology* theory + mechanism-pattern synthesis paper.
-
-**Current decision:** scientific GO; editorial/reproducibility package still incomplete. Do not submit until Figure 3, final reference audit, final CI, author metadata, and archive DOI are complete.
+```text
+Mechanism half:            PASS
+Meta-analytic Pattern half: PASS
+Mechanism -> Pattern link:  PASS
+scientific submission gate: GO
+portal submission:          requires author metadata + authenticated external portal
+```
