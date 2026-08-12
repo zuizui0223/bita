@@ -105,12 +105,12 @@ def main() -> None:
         raise ValueError(f"canonical evidence universe drifted: {canonical!r}")
 
     expected_expansion = {
-        "records": 13,
-        "independent_clusters": 7,
+        "records": 14,
+        "independent_clusters": 8,
         "route_clusters": {
             "A_to_pollination": 1,
             "A_to_antagonism": 2,
-            "D_to_antagonism": 5,
+            "D_to_antagonism": 6,
             "D_to_pollination": 2,
         },
         "same_system_clusters": 3,
@@ -119,12 +119,12 @@ def main() -> None:
         raise ValueError(f"expansion counts unexpected: {expansion!r}")
 
     expected_combined = {
-        "records": 51,
-        "independent_clusters": 21,
+        "records": 52,
+        "independent_clusters": 22,
         "route_clusters": {
             "A_to_pollination": 5,
             "A_to_antagonism": 7,
-            "D_to_antagonism": 15,
+            "D_to_antagonism": 16,
             "D_to_pollination": 9,
         },
         "same_system_clusters": 13,
@@ -141,7 +141,7 @@ def main() -> None:
         "expansion_ledger_files": [p.name for p in EXPANSION],
         "combined_provisional": combined,
         "context_switch_clusters_provisional": context_switch_clusters,
-        "context_programs_excluded_from_route_N": 5,
+        "context_programs_excluded_from_route_N": 6,
         "interpretation_boundary": [
             "counts are evidence-capacity / independent-system recurrence diagnostics",
             "counts are not prevalence estimates",
@@ -158,7 +158,7 @@ def main() -> None:
         "",
         "**Status: PROVISIONAL EXPANSION BRANCH — NOT CANONICAL MANUSCRIPT COUNTS.**",
         "",
-        "This readout combines the frozen five-ledger canonical universe with three source-adjudicated expansion batches.",
+        "This readout combines the frozen five-ledger canonical universe with four source-adjudicated expansion ledgers.",
         "",
         "```text",
         f"route-ledger records:             {combined['records']}  (canonical {canonical['records']})",
@@ -171,7 +171,7 @@ def main() -> None:
         f"context/sign-switch clusters:      {context_switch_clusters}  (canonical 11)",
         "```",
         "",
-        "The expansion currently adds seven independent route-ledger systems:",
+        "The expansion currently adds eight independent route-ledger systems:",
         "",
         "- *Pedicularis rex*: water-filled floral barrier; seed-predator protection, pollinator null, nectar-robber null.",
         "- *Dalechampia scandens*: visual bract attraction axis tracked by both pollinators and seed predators.",
@@ -180,8 +180,9 @@ def main() -> None:
         "- *Catalpa speciosa*: floral nectar iridoids deter potential nectar thieves with no detected tested-pollinator consumption cost.",
         "- *Erica* spp.: experimentally added corolla stickiness reduces nectar robbing.",
         "- *Codonopsis lanceolata* / *Fritillaria koidzumiana*: slippery wax-covered perianths experimentally prevent nectar-thieving ant entry; counted as one study cluster.",
+        "- *Menyanthes trifoliata*: trimmed petal hairs increase nectar-thieving ant entry success and shorten access time.",
         "",
-        "Five environmental/trait-class context programs and the additional published quantitative syntheses are intentionally excluded from the 21 route-ledger clusters.",
+        "Six environmental/reproductive-module/trait-class context programs and the additional published quantitative syntheses are intentionally excluded from the 22 route-ledger clusters.",
         "",
         "## Boundary",
         "",
