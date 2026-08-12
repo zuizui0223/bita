@@ -11,12 +11,13 @@ def rows(name: str):
         return list(csv.DictReader(fh))
 
 
-def test_expansion_ledger_has_two_new_independent_systems_and_no_direct_axd():
+def test_expansion_ledger_has_three_new_independent_systems_and_no_direct_axd():
     data = rows("EXPANSION_LEDGER_BATCH_1_V1.csv")
-    assert len(data) == 5
+    assert len(data) == 6
     assert {r["independence_cluster"] for r in data} == {
         "Sun_Huang_2015_Pedicularis_rex",
         "Perez_Barrales_2013_Dalechampia_scandens",
+        "McCall_2013_Raphanus_sativus",
     }
     assert all(r["is_direct_AxD"].lower() == "false" for r in data)
     assert {r["route"] for r in data} <= {
@@ -41,6 +42,17 @@ def test_dalechampia_is_visual_shared_tracking_not_defence():
     assert {r["route"] for r in data} == {"A_to_pollination", "A_to_antagonism"}
     assert all(r["trait_D_class"] == "" for r in data)
     assert all(r["trait_A_class"] == "showy_involucral_bract_area" for r in data)
+
+
+def test_raphanus_adds_visual_a_to_antagonism_only():
+    data = [r for r in rows("EXPANSION_LEDGER_BATCH_1_V1.csv") if r["independence_cluster"] == "McCall_2013_Raphanus_sativus"]
+    assert len(data) == 1
+    row = data[0]
+    assert row["route"] == "A_to_antagonism"
+    assert row["trait_A_class"] == "petal_color_white_vs_pink"
+    assert row["trait_D_class"] == ""
+    assert row["is_same_system_multi_route"].lower() == "false"
+    assert row["source_verification_state"] == "primary_abstract_and_repository_record_verified"
 
 
 def test_expansion_switch_rows_count_pedicularis_once():
