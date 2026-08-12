@@ -4,76 +4,66 @@
 
 `MANUSCRIPT_THEORETICAL_ECOLOGY.md` is the sole active manuscript source.
 
-The manuscript has now been reconstructed from the former theory-only / preliminary-literature framing into an integrated **fixed local theory + mechanism-pattern empirical synthesis**.
-
-It currently contains:
-
-- title, abstract, and keywords for the integrated paper;
-- Introduction centered on the ecological inference gap and conditional biological hypothesis;
-- unchanged focal-trait definitions, signed decomposition, orientation gate, and local sign criterion;
-- unchanged mechanism non-identifiability Proposition 1;
-- unchanged unrestricted environmental comparative statics;
-- unchanged endpoint-normalized finite sensitivity-analysis design and canonical numerical results;
-- explicit empirical-synthesis methods distinguishing marginal, same-system, and direct `A x D` evidence;
-- a registered direct-interaction saturation rule and a separate direct joint-cost saturation rule;
-- source-adjudicated mechanism recurrence and same-system regime Results;
-- an eleven-cluster conditionality map collapsed into five theory-facing classes;
-- the Leal et al. 2025 floral-larceny quantitative module, pinned to immutable repository commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`;
-- the Sasidharan et al. 2023 deposited FVOC synthesis with a canonical 32-study-component dependence structure;
-- explicit direct-interaction scarcity and direct joint-cost identification-gap Results;
-- Discussion that keeps constituent-path evidence separate from estimation of the theoretical mixed partial;
-- revised empirical-design predictions, figure captions, table captions, declarations, and references.
-
-`TABLES_THEORETICAL_ECOLOGY.md` now contains four manuscript-facing tables: two theory/sensitivity tables and two empirical-synthesis tables.
-
-## Scientific boundary
-
-The paper's theoretical target remains one declared attraction trait `A`, one declared flower-specific antagonist-reducing trait `D`, and one declared outcome scale `W`.
-
-The empirical synthesis is an independent evidentiary layer showing which constituent mechanisms recur, where conditionality appears, and what remains unidentified. It does not calibrate the mixed partial.
-
-The following are **not** manuscript claims:
-
-- empirical prevalence of complementarity or substitutability in nature;
-- trait covariance, genetic correlation, optima, or evolutionary trajectories implied directly by `W_AD`;
-- a universal negative `D -> pollinator` effect;
-- a universal claim that antagonist pressure favours complementarity;
-- marginal-route estimates combined algebraically into `W_AD`;
-- study counts or publication counts used as model parameters;
-- the one strict direct `A x D` cluster generalized to a universal sign;
-- zero eligible joint-cost studies interpreted as `kappa = 0`;
-- a new mathematical category distinct from established cross-trait fitness curvature.
-
-## Current empirical evidence state
-
-The source-adjudicated mechanism architecture currently records:
+The manuscript is organized as an explicit **Mechanism → Pattern** paper:
 
 ```text
-38 effect/directional records
-14 independent biological study clusters
-10 same-system multi-route clusters
-11 independent context/sign-switch clusters
-1 strict direct A x D cluster, sign unresolved
-0 strict direct joint-cost estimates; kappa unidentified
-2 admitted quantitative synthesis modules
+Part I — Mechanism
+mathematical theory, sign principle, non-identifiability, environmental derivatives
+
+Part II — Pattern
+meta-analysis and cross-study synthesis of recurrent empirical patterns
 ```
 
-These are evidence-capacity counts for the screened architecture, not prevalence estimates.
+This separation is substantive, not cosmetic. Part I asks what mechanism determines whether attraction and defence are locally complementary or substitutable. Part II asks which mechanism-derived patterns recur across systems, which are context dependent, and which remain empirically unidentified.
 
-## Remaining manuscript tasks
+## Part I — Mechanism
 
-The manuscript is scientifically re-entered but not yet portal-ready. Remaining work is editorial and presentation-focused:
+The mathematical half contains:
 
-- build Figure 3 from the empirical mechanism-pattern architecture;
-- decide whether the empirical Results are best presented as one or two figures in addition to Tables 3-4;
-- tighten word count and journal-specific section structure;
-- complete author names, order, affiliations, and corresponding-author details;
-- add ORCID identifiers and CRediT contributions;
-- complete funding, acknowledgements, and competing-interest confirmation;
-- verify all references and journal formatting;
-- update cover letter and submission checklist to the integrated paper;
-- mint and insert the archival repository DOI/release identifier.
+- one declared attraction trait `A`, one declared flower-specific antagonist-reducing trait `D`, and one declared outcome scale `W`;
+- the signed identity `W_AD = M_AD - G_AD - C_AD`;
+- the explicit orientation gate;
+- the oriented mechanism criterion `W_AD = rho - iota - kappa`;
+- Proposition 1 on mechanism non-identifiability from total `W` alone;
+- unrestricted environmental comparative statics;
+- the endpoint-normalized finite sensitivity design and canonical 2,592 evaluations.
 
-## Submission-support documents
+Figures 1–2 and Tables 1–2 belong to this half.
 
-Journal strategy, cover letter, figure/table plan, and upload checklist are maintained under `submission/` and should be updated only after the current manuscript/CI state is stable.
+## Part II — Pattern
+
+The empirical half uses quantitative meta-analysis only where compatible effect scales exist and otherwise preserves cross-study pattern structure without manufacturing a grand effect.
+
+Its quantitative cores are:
+
+1. **Leal et al. 2025 floral-larceny random-effects meta-analysis** — pooled log response ratios for female reproductive success, nectar standing crop, and legitimate visitation, with dependence, influence, heterogeneity, and sensitivity checks.
+2. **Sasidharan et al. 2023 floral-volatile cross-study synthesis** — conservative 32-study-component topology, physiological consumer-response contrast, leave-one-component-out analysis, paired-role limitation, and behavioral context dependence.
+
+The source-adjudicated 38-record / 14-cluster mechanism ledger is a **theory-to-pattern scaffold**, not a grand meta-analysis. It maps recurrence, same-system co-occurrence, conditionality, direct `A x D` scarcity, and the joint-cost evidence gap onto the mechanism classes from Part I.
+
+Figure 3 and Tables 3–4 belong to this half; Leal/Sasidharan robustness panels are supplementary.
+
+## Central cross-system result
+
+The empirical result is intentionally not “one universal sign.” It is:
+
+> **recurrent constituent mechanisms + context-dependent balance**.
+
+The required mechanisms recur across independent systems, while dose, resources, exposure, consumer identity, response definition, and compound identity repeatedly alter their realized state. Direct attraction × defence and direct joint-cost evidence remain sparse exactly where Part I says identification is strongest.
+
+## Inference boundary
+
+Part II tests pattern predictions generated by Part I; it does not calibrate the full mixed partial.
+
+The manuscript must never imply:
+
+- marginal-route evidence = `W_AD`;
+- same-system co-occurrence = direct `A x D` evidence;
+- route/study counts = prevalence in nature;
+- finite-grid occupancy = prevalence in nature;
+- zero strict joint-cost estimates = `kappa = 0`;
+- one direct study = universal attraction-defence sign.
+
+## Current submission state
+
+Scientific analyses, Figures 1–3, and reproducible EPS export are available. Remaining portal-level tasks are author-controlled metadata, final journal house style, repository licence choice, exact release/archive DOI, and the final CI/export run from the exact submission commit.
