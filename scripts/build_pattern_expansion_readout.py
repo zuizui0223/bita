@@ -105,11 +105,11 @@ def main() -> None:
         raise ValueError(f"canonical evidence universe drifted: {canonical!r}")
 
     expected_expansion = {
-        "records": 17,
-        "independent_clusters": 10,
+        "records": 18,
+        "independent_clusters": 11,
         "route_clusters": {
             "A_to_pollination": 1,
-            "A_to_antagonism": 2,
+            "A_to_antagonism": 3,
             "D_to_antagonism": 8,
             "D_to_pollination": 3,
         },
@@ -119,11 +119,11 @@ def main() -> None:
         raise ValueError(f"expansion counts unexpected: {expansion!r}")
 
     expected_combined = {
-        "records": 55,
-        "independent_clusters": 24,
+        "records": 56,
+        "independent_clusters": 25,
         "route_clusters": {
             "A_to_pollination": 5,
-            "A_to_antagonism": 7,
+            "A_to_antagonism": 8,
             "D_to_antagonism": 18,
             "D_to_pollination": 10,
         },
@@ -131,8 +131,8 @@ def main() -> None:
     }
     if combined != expected_combined:
         raise ValueError(f"provisional expansion counts unexpected: {combined!r}")
-    if context_switch_clusters != 16:
-        raise ValueError(f"expected 16 unique context-switch clusters, got {context_switch_clusters}")
+    if context_switch_clusters != 17:
+        raise ValueError(f"expected 17 unique context-switch clusters, got {context_switch_clusters}")
 
     payload = {
         "status": "PROVISIONAL_EXPANSION_BRANCH_NOT_CANONICAL",
@@ -141,7 +141,7 @@ def main() -> None:
         "expansion_ledger_files": [p.name for p in EXPANSION],
         "combined_provisional": combined,
         "context_switch_clusters_provisional": context_switch_clusters,
-        "context_programs_excluded_from_route_N": 6,
+        "context_programs_excluded_from_route_N": 7,
         "interpretation_boundary": [
             "counts are evidence-capacity / independent-system recurrence diagnostics",
             "counts are not prevalence estimates",
@@ -158,7 +158,7 @@ def main() -> None:
         "",
         "**Status: PROVISIONAL EXPANSION BRANCH — NOT CANONICAL MANUSCRIPT COUNTS.**",
         "",
-        "This readout combines the frozen five-ledger canonical universe with five source-adjudicated expansion ledgers.",
+        "This readout combines the frozen five-ledger canonical universe with six source-adjudicated expansion ledgers.",
         "",
         "```text",
         f"route-ledger records:             {combined['records']}  (canonical {canonical['records']})",
@@ -171,7 +171,7 @@ def main() -> None:
         f"context/sign-switch clusters:      {context_switch_clusters}  (canonical 11)",
         "```",
         "",
-        "The expansion currently adds ten independent route-ledger systems:",
+        "The expansion currently adds eleven independent route-ledger systems:",
         "",
         "- *Pedicularis rex*: water-filled floral barrier; seed-predator protection, pollinator null, nectar-robber null.",
         "- *Dalechampia scandens*: visual bract attraction axis tracked by both pollinators and seed predators.",
@@ -183,8 +183,9 @@ def main() -> None:
         "- *Menyanthes trifoliata*: trimmed petal hairs increase nectar-thieving ant entry success and shorten access time.",
         "- *Thunia alba*: a spur-enclosing bract suppresses robbery and routes the same *Bombus* visitor toward legitimate pollination without increasing arrival frequency.",
         "- *Chrysothemis friedrichsthaliana*: a water-filled calyx reduces pre-anthesis microlepidopteran infestation; independent liquid-barrier origin.",
+        "- *Silene latifolia × S. dioica* F2: recombinant floral colour/scent dimensions independently predict *Hadena* primary seed predation.",
         "",
-        "Six environmental/reproductive-module/trait-class context programs and the additional published quantitative syntheses are intentionally excluded from the 24 route-ledger clusters.",
+        "Seven environmental/reproductive-module/trait-class context programs and the additional published quantitative syntheses are intentionally excluded from the 25 route-ledger clusters.",
         "",
         "## Boundary",
         "",
