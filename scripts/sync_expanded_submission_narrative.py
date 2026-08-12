@@ -80,7 +80,14 @@ Three additional published syntheses are retained without pooling their incompat
 
 
 def sync_bibliography(text: str) -> str:
-    body, refs = text.split("\n## References\n\n", 1)
+    body, after_refs = text.split("\n## References\n\n", 1)
+    statements_marker = "\n\n## Statements and Declarations\n"
+    if statements_marker in after_refs:
+        refs, suffix = after_refs.split(statements_marker, 1)
+        suffix = statements_marker + suffix
+    else:
+        refs, suffix = after_refs, ""
+
     existing = [block.strip() for block in refs.strip().split("\n\n") if block.strip()]
     new_refs = [
         "Caruso CM, Eisen KE, Martin RA, Sletvold N (2019) A meta-analysis of the agents of selection on floral traits. *Evolution* 73:4–14. https://doi.org/10.1111/evo.13639",
@@ -94,7 +101,7 @@ def sync_bibliography(text: str) -> str:
     if len(by_doi) != 20:
         raise RuntimeError(f"Expected 20 unique bibliography entries after expansion, found {len(by_doi)}")
     ordered = sorted(by_doi.values(), key=lambda block: block.split()[0].casefold())
-    return body.rstrip() + "\n\n## References\n\n" + "\n\n".join(ordered) + "\n"
+    return body.rstrip() + "\n\n## References\n\n" + "\n\n".join(ordered) + suffix + "\n"
 
 
 def main() -> None:
