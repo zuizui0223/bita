@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import re
+import subprocess
+import sys
 from pathlib import Path
 
 
@@ -9,6 +11,8 @@ MANUSCRIPT = ROOT / "manuscript" / "MANUSCRIPT_THEORETICAL_ECOLOGY.md"
 PORTAL = ROOT / "submission" / "AUTHOR_AND_PORTAL_METADATA_TEMPLATE.md"
 COVER = ROOT / "submission" / "COVER_LETTER_THEORETICAL_ECOLOGY.md"
 EXPORTER = ROOT / "scripts" / "export_manuscript_figures.sh"
+PREPARE_SVG = ROOT / "scripts" / "prepare_submission_svg.py"
+FIGURES = ROOT / "manuscript" / "figures"
 
 
 def _abstract(text: str) -> str:
@@ -75,6 +79,21 @@ def test_figure_captions_and_eps_names_match_journal_convention() -> None:
     exporter = EXPORTER.read_text(encoding="utf-8")
     assert 'outputs=("Fig1" "Fig2" "Fig3")' in exporter
     assert "Fig1.eps, Fig2.eps, Fig3.eps" in exporter
+    assert "prepare_submission_svg.py" in exporter
+
+
+def test_submission_svg_preprocessor_removes_only_outer_visible_titles(tmp_path: Path) -> None:
+    cases = (
+        ("FIGURE_1_MECHANISTIC_ARCHITECTURE.svg", "Figure 1. From floral traits to an oriented local interaction", "Attraction trait A"),
+        ("FIGURE_2_THEORY_REGIME_MAP.svg", "Figure 2. Conditional attraction–defence regimes across the declared finite tested set", "A  Biological parameter scenarios"),
+        ("FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg", "Meta-analytic pattern architecture and identification boundary", "Source-adjudicated Pattern scaffold"),
+    )
+    for filename, visible_title, retained_token in cases:
+        out = tmp_path / filename
+        subprocess.run([sys.executable, str(PREPARE_SVG), str(FIGURES / filename), str(out)], check=True)
+        prepared = out.read_text(encoding="utf-8")
+        assert visible_title not in prepared
+        assert retained_token in prepared
 
 
 def test_cover_letter_reserves_exactly_five_conflict_checked_reviewers() -> None:
