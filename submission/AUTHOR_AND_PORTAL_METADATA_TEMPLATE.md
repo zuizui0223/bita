@@ -16,7 +16,7 @@ Complete the author-controlled fields before the manuscript is uploaded. Do not 
 
 ### Abstract
 
-Flowers must attract mutualists while remaining exposed to florivores, nectar robbers, pathogens, and other antagonists. We ask two linked questions: **what mechanism determines whether floral attraction and defence are locally complementary or substitutable, and what cross-system patterns recur in the empirical literature?** In Part I, we derive a local mechanistic theory for one declared attraction trait, one flower-specific antagonist-reducing trait, and one declared outcome scale. After an explicit orientation gate, the mixed partial is a balance among antagonist relief, pollinator interference, and direct joint-cost curvature, `W_AD = rho - iota - kappa`. The same total curvature can arise from different channel allocations, so total fitness alone does not identify mechanism. Endpoint-normalized sensitivity analysis produces both complementary and substitutable regimes across 2,592 declared evaluations. In Part II, we use the theory as a prediction and classification framework for a registered cross-study pattern synthesis, and use quantitative meta-analysis only where outcomes can be placed on defensible common scales. The evidence map contains 38 route-level records across 14 independent biological study clusters, including ten same-system multi-route clusters and eleven independent context/sign-switch clusters. A random-effects reanalysis of floral-larceny data shows recurrent reductions in female fitness (LRR -0.210, 48 clusters), nectar standing crop (-0.483, 28), and legitimate visitation (-0.291, 22), while retaining extreme heterogeneity. A second 32-study-component synthesis of floral volatiles shows shared pollinator/florivore responsiveness but strong compositional and context dependence. Direct `A x D` evidence remains restricted to one sign-unresolved cluster and direct joint-cost evidence to zero strict estimates. Thus the general cross-system pattern is **not a universal sign of `W_AD`**: constituent mechanisms recur, but their realized balance changes with context, exactly where the theory predicts sign switching. The paper therefore links mathematical mechanism to meta-analytic pattern without treating marginal evidence as empirical calibration of the mixed partial.
+Flowers must attract mutualists while remaining exposed to florivores, nectar robbers, pathogens, and other antagonists. We ask two linked questions: **what mechanism determines whether floral attraction and defence are locally complementary or substitutable, and what cross-system patterns recur in the empirical literature?** In Part I, we derive a local mechanistic theory for one declared attraction trait, one flower-specific antagonist-reducing trait, and one declared outcome scale. After an explicit orientation gate, the mixed partial is a balance among antagonist relief, pollinator interference, and direct joint-cost curvature, `W_AD = rho - iota - kappa`. The same total curvature can arise from different channel allocations, so total fitness alone does not identify mechanism. Endpoint-normalized sensitivity analysis produces both complementary and substitutable regimes across 2,592 declared evaluations. In Part II, we use the theory as a prediction and classification framework for a registered cross-study Pattern synthesis, and use quantitative meta-analysis only where outcomes can be placed on defensible common scales. The saturated evidence architecture contains 56 route-level records across 25 independent biological study clusters, including 14 same-system multi-route clusters and 17 independent context/sign-switch clusters; seven additional context programs are tracked without being added to route-ledger N. A random-effects reanalysis of floral-larceny data shows recurrent reductions in female fitness (LRR -0.210, 48 clusters), nectar standing crop (-0.483, 28), and legitimate visitation (-0.291, 22), while retaining extreme heterogeneity. A second 32-study-component synthesis of floral volatiles shows shared pollinator/florivore responsiveness but strong compositional and context dependence. Secondary published syntheses independently reinforce tissue, consumer, trait-class, and selection-context dependence without being pooled with the two reproduced modules. Direct `A x D` evidence remains restricted to one sign-unresolved cluster and direct joint-cost evidence to zero strict estimates. Thus the general cross-system Pattern is **not a universal sign of `W_AD`**: constituent mechanisms recur, but their realised balance changes with context.
 
 ### Keywords
 
@@ -88,7 +88,7 @@ This is a theoretical/computational and literature-synthesis study using no newl
 
 Current draft portal statement:
 
-> Code, declared configurations, generated readouts, source-adjudication products, quantitative synthesis outputs, validation tests, and the canonical manuscript figures are maintained in the public GitHub repository `https://github.com/zuizui0223/bita`. The completed Leal et al. (2025) floral-larceny meta-analysis is pinned to immutable repository commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`, while the Sasidharan et al. (2023) meta-analytic synthesis uses the 32-study-component citation topology recorded on the integration line. The exact submitted repository release and archival DOI will be inserted before portal submission.
+> Code, declared configurations, generated readouts, source-adjudication products, saturation receipts, quantitative-synthesis outputs, validation tests, and canonical manuscript figures are maintained in the public GitHub repository `https://github.com/zuizui0223/bita`. The completed Leal et al. (2025) floral-larceny meta-analysis is pinned to immutable repository commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`, while the Sasidharan et al. (2023) synthesis uses the 32-study-component citation topology recorded on the integration line. The saturated Pattern ledgers/context programs and source-access receipts for the secondary contextual syntheses are versioned with the candidate manuscript. The exact submitted repository release and archival DOI will be inserted before portal submission.
 
 Final statement must add:
 
@@ -128,16 +128,17 @@ List only when there is a specific defensible conflict, not because a reviewer m
 
 ## Portal checks
 
-- [x] title matches canonical Mechanism → Pattern manuscript file;
-- [x] abstract matches canonical manuscript file;
-- [x] keywords match canonical manuscript file;
-- [x] article framing is Part I Mechanism + Part II meta-analytic Pattern;
+- [x] title matches the saturated Mechanism → Pattern manuscript file;
+- [x] abstract matches the saturated manuscript file;
+- [x] keywords match the manuscript file;
+- [x] article framing is Part I Mechanism + Part II saturated meta-analytic Pattern;
+- [x] portal abstract carries 56 / 25 / 14 / 17 / 7 consistently;
 - [ ] author list matches title page and portal;
 - [ ] funding statement matches portal fields;
 - [ ] competing-interest statement matches portal fields;
 - [ ] final code/data release link and archival DOI are public and immutable;
-- [x] figures 1–3 have canonical SVG sources and validated EPS export workflow;
-- [ ] final Figures 1–3 EPS files are regenerated from the exact submission commit;
-- [ ] supplementary files are cited/numbered consistently in the final manuscript package;
-- [x] cover letter names Theoretical Ecology and the Mechanism → Pattern manuscript;
+- [x] Figures 1–3 have canonical SVG sources and an EPS export workflow;
+- [ ] final Figures 1–3 EPS files are regenerated from the exact final expanded commit;
+- [ ] supplementary files are cited/numbered consistently in the final package;
+- [x] cover letter names Theoretical Ecology and the saturated Mechanism → Pattern manuscript;
 - [ ] manuscript is confirmed by all authors as not under consideration elsewhere.
