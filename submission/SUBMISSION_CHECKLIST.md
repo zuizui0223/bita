@@ -67,9 +67,11 @@
 - [x] Expanded Figure 3 is byte-reproducible from its builder and saturated evidence inputs
 - [x] Pattern-expansion readout regenerates `56 / 25 / 14 / 17` from committed ledgers
 - [x] Tables 1–4 follow the Part I Mechanism / Part II Pattern split
-- [ ] Re-run EPS vector export from the exact final 25-system submission commit
-- [ ] Run the complete PR workflow suite from the exact final 25-system submission commit
-- [ ] Record the final EPS artifact ID/SHA and exact source commit
+- [x] Saturated Figure 1–3 EPS export passed from figure-content head `8d0df837535efaf2d31a9909e9dac5cbbf492ea1`
+- [x] At that same figure-content head, CI passed on Python 3.10/3.11/3.12 and `submission-scope` passed
+- [x] EPS artifact provenance is recorded: run `31566025924`, artifact `9129476142`, SHA-256 `014cc4f7d17541fb91d3637201013ccc391d7858a4d26779214294829e7cd27f`
+- [x] Source-specific audits changed by the expansion are separately statused: Haas supplement retrieval passed; Caruso access-layer state is recorded without a false reanalysis claim
+- [x] Canonical source-specific audit machinery inherited from PR #126 was not altered by the Pattern promotion
 
 ## Literature and references
 
@@ -80,18 +82,18 @@
 - [x] Erroneous/uncited legacy references remain pruned
 - [x] Bibliography is alphabetically ordered
 - [ ] Apply final *Theoretical Ecology*/Springer house formatting/full-author convention where required
-- [ ] Run final citation/reference consistency pass after the exact final wording edit
+- [ ] Run final citation/reference consistency pass after any author-controlled final wording edit
 
 ## Submission support
 
-- [x] Cover letter presents **Part I Mechanism + Part II Pattern**
-- [x] Submission scope explicitly defines Mechanism → Pattern
+- [x] Cover letter presents **Part I Mechanism + Part II Pattern** and the saturated 56/25 architecture
+- [x] Submission scope explicitly defines the saturated Mechanism → Pattern package
 - [x] Root README is synchronized to the 56/25 saturated Pattern candidate
 - [x] Manuscript README explicitly defines Mechanism → Pattern
-- [x] Portal title, abstract, keywords, and framing remain synchronized to the canonical manuscript title/claim
-- [x] Figure/Table plan assigns Figures/Tables to Mechanism versus Pattern roles and uses the saturated Part II counts
-- [x] Scientific figure export pipeline exists and was validated before the expansion
-- [ ] Revalidate EPS export after the expanded Figure 3
+- [x] Portal title, abstract, keywords, and framing are synchronized to the saturated manuscript
+- [x] Figure/Table plan assigns Figures/Tables to Mechanism versus Pattern roles and uses saturated Part II counts
+- [x] Final audit, manuscript audit, supplement manifest, and reference audit are synchronized to the 25-system candidate
+- [x] Saturated Figure 3 EPS export is validated and its digest recorded
 - [ ] Exact repository release/tag and archival DOI
 - [ ] Repository licence/licence statement chosen by the author(s)
 
@@ -110,6 +112,6 @@
 
 ## Submission decision
 
-**Scientific structure: GO as Mechanism → Pattern. Saturated Pattern candidate: GO for full-package validation. Actual journal submission: blocked only by final expanded-vector/full-CI validation, author-controlled metadata/licence/archive fields, and the external submission portal.**
+**Scientific structure: GO. Saturated Pattern package: GO. Evidence-expansion gate: CLOSED/SATURATED. Figure-content CI/EPS: GREEN. Actual journal submission remains blocked only by author-controlled metadata/licence, final target-journal house formatting, release/archive DOI, and the authenticated external portal.**
 
 Do not add another broad meta-analysis merely to make Part II look larger. The registered expansion has saturated its current theory-facing Pattern classes. The intended result remains recurrent constituent mechanisms plus context-dependent balance while preserving the direct-identification gaps.
