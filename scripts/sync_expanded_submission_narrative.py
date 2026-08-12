@@ -101,7 +101,8 @@ def sync_bibliography(text: str) -> str:
     if len(by_doi) != 20:
         raise RuntimeError(f"Expected 20 unique bibliography entries after expansion, found {len(by_doi)}")
     ordered = sorted(by_doi.values(), key=lambda block: block.split()[0].casefold())
-    return body.rstrip() + "\n\n## References\n\n" + "\n\n".join(ordered) + suffix + "\n"
+    assembled = body.rstrip() + "\n\n## References\n\n" + "\n\n".join(ordered) + suffix
+    return assembled.rstrip() + "\n"
 
 
 def main() -> None:
