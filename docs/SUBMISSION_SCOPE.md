@@ -1,104 +1,139 @@
 # Submission scope
 
-This repository is the computational and evidentiary supplement for an integrated **fixed local theory + mechanism-pattern empirical synthesis** of floral attraction and flower-specific defence/access limitation.
-
-## Active submission layers
-
-1. **Fixed theoretical core:** for one declared floral attraction trait `A`, one declared flower-specific antagonist-reducing trait `D`, and one declared outcome scale `W`, the local mixed partial `W_AD` is interpreted after explicit channel definitions and orientation conditions.
-2. **Finite-set sensitivity analysis:** the implemented corollary is evaluated across declared phenotype/regime points, biological parameter scenarios, and endpoint-normalized response-shape variants. These finite-grid occupancies are sensitivity diagnostics, not prevalence estimates or empirical calibration.
-3. **Auxiliary moderator:** reproductive assurance `R` is retained only as a background moderator of the pollination-mediated channel in the implemented corollary. It is **not a third focal trait** and must not be promoted into a three-trait theory.
-4. **Mechanism-pattern empirical synthesis:** source-adjudicated evidence covers `A_to_pollination`, `A_to_antagonism`, `D_to_antagonism`, and `D_to_pollination`, plus same-system multi-route architecture, direct `A x D` evidence, context/sign switching, and direct joint-cost search.
-5. **Quantitative synthesis modules:** two biologically distinct deposited-synthesis modules are admitted under explicit boundaries: the Leal et al. 2025 floral-larceny antagonist-pressure gate and the Sasidharan et al. 2023 floral-volatile pollinator/florivore response architecture.
-6. **Identification-gap results:** the saturated direct `A x D` search retains one strict sign-unresolved cluster, and the saturated direct A+D intrinsic-cost search retains zero strict estimates. These are bounded evidence states, not proofs of biological absence.
-7. Reproducible readouts, tests, source audits, provenance records, and inference-boundary checks required for the integrated theory+synthesis paper.
-
-## Scientific endpoint
-
-The empirical endpoint is:
+This repository supports one integrated paper with an explicit **Mechanism → Pattern** architecture.
 
 ```text
-what is recurrent
-+ what is context dependent
-+ what remains empirically unidentified
+Part I — Mechanism
+mathematical theory / local principle / sign criterion
+
+Part II — Pattern
+meta-analysis and cross-study synthesis of recurrent empirical patterns
 ```
 
-It is **not** an attempt to combine unrelated marginal studies into an estimate of the theoretical mixed partial.
+The paper is not framed as “theory plus illustrative literature.” The mathematical part derives the mechanism and its conditional sign boundary; the empirical part asks which theory-predicted mechanisms recur across independent systems, which cross-study patterns are robust, which are context dependent, and which quantities remain unidentified.
+
+## Part I — Mechanism: fixed mathematical theory
+
+For one declared floral attraction trait `A`, one declared flower-specific antagonist-reducing trait `D`, and one declared outcome scale `W`, the local mixed partial is
+
+```text
+W_AD = M_AD - G_AD - C_AD
+```
+
+and, only after the orientation gate,
+
+```text
+W_AD = rho - iota - kappa.
+```
+
+Part I contains:
+
+1. focal-trait and outcome definitions;
+2. signed channel decomposition;
+3. the explicit orientation gate;
+4. the local complementarity/substitutability criterion;
+5. mechanism non-identifiability from total `W` alone;
+6. unrestricted environmental derivative conditions;
+7. the endpoint-normalized finite sensitivity analysis.
+
+The finite design is a theory robustness diagnostic. Its 2,592 evaluations and their occupancy fractions are not empirical frequencies and are never interpreted as prevalence in nature.
+
+Reproductive assurance `R` remains an auxiliary moderator in the implemented corollary, not a third focal trait.
+
+## Part II — Pattern: meta-analysis and cross-study synthesis
+
+Part II uses the theory as a prediction/classification framework. It does **not** calibrate the theoretical mixed partial.
+
+The empirical side has two deliberately different quantitative layers.
+
+### Quantitative meta-analysis 1 — floral larceny
+
+The Leal et al. 2025 deposited data are reanalysed as study-cluster random-effects meta-analyses on compatible log-response-ratio scales. Canonical results include:
+
+```text
+female reproductive success  LRR -0.210  (48 independent clusters)
+nectar standing crop          LRR -0.483  (28)
+legitimate visitation         LRR -0.291  (22)
+```
+
+This estimates a recurrent cross-study antagonist-cost pattern while retaining extreme heterogeneity, influence diagnostics, and sensitivity analyses. It does not estimate `rho`, `iota`, `kappa`, or `W_AD`.
+
+### Quantitative cross-study synthesis 2 — floral volatiles
+
+The Sasidharan et al. 2023 deposited synthesis is reconstructed with a conservative 32-study-component dependence topology. The current-deposit physiological contrast and leave-one-study-component-out analysis quantify a recurrent consumer-response pattern, while the sparse paired both-role data and behavioral disagreements expose composition and context dependence.
+
+This module is meta-analytic in its cross-study pattern objective but is not presented as a causal within-study pollinator-versus-florivore effect or as a common continuous effect size where the source data do not support one.
+
+### Theory-to-pattern evidence scaffold
+
+The source-adjudicated route ledger is **not itself a grand meta-analysis**. Its role is to map the quantitative and directional evidence onto the mechanism classes derived in Part I and to preserve dependence, same-system linkage, conditionality, and identification gaps.
+
+Canonical pattern scaffold:
+
+```text
+38 source-adjudicated effect/directional records
+14 independent biological study clusters
+A_to_pollination:   4 clusters
+A_to_antagonism:    5
+D_to_antagonism:   10
+D_to_pollination:   7
+10 same-system multi-route clusters
+11 independent context/sign-switch clusters
+1 strict direct A x D cluster, sign unresolved
+0 strict direct joint-cost estimates; kappa unidentified
+```
+
+These are evidence-capacity and recurrence diagnostics, not prevalence estimates. Incompatible outcomes are not averaged into a synthetic grand effect.
+
+## Scientific endpoint: mechanism explains pattern
+
+The paper’s final logic is:
+
+```text
+MECHANISM
+W_AD = rho - iota - kappa
+      ↓ predicts conditional sign/state changes
+PATTERN
+recurrent constituent mechanisms
++ cross-study antagonist costs
++ shared but context-dependent consumer responses
++ same-system sign/state switching
++ sparse direct A x D and joint-cost identification
+```
+
+The cross-system generality claim is therefore deliberately specific:
+
+> **The general pattern is recurrent mechanism plus context-dependent balance, not a universal sign of attraction–defence interaction.**
+
+That is the empirical pattern predicted by the mathematical mechanism.
 
 ## Required inference boundary
 
-The active repository must preserve the following distinctions:
+The active repository must preserve:
 
 ```text
 marginal route evidence
 != same-system multi-route evidence
 != direct A x D interaction
 != complete W_AD decomposition
-!= environmental derivative of W_AD
-!= trait covariance or evolutionary endpoint
 ```
 
 Accordingly:
 
-- no marginal-route synthesis is called an estimate of `W_AD`;
-- no study or publication count becomes a model parameter;
-- no screened-set, deposited-data, or finite-grid proportion is described as prevalence in nature;
-- the one strict direct interaction is not generalized beyond its study without additional synthesis support;
-- incompatible biological outcomes are not averaged into one cross-outcome grand mean;
-- separate attraction and defence costs are not combined to manufacture the direct joint-cost curvature `kappa`;
-- zero eligible direct joint-cost estimates means `kappa` is unidentified, not `kappa = 0`.
+- no marginal-route result is called an estimate of `W_AD`;
+- no study/publication count becomes a model parameter;
+- no screened-set, deposited-data, or finite-grid proportion becomes prevalence in nature;
+- one strict direct interaction is not generalized to a universal sign;
+- incompatible outcomes are not averaged merely to create a meta-analysis;
+- separate attraction and defence costs are not combined to manufacture `kappa`;
+- zero eligible joint-cost studies means `kappa` is unidentified, not `kappa = 0`.
 
-## Quantitative-module boundary
+## Active submission package
 
-### Leal et al. 2025
+The submission package must therefore visibly preserve the two-part structure in the manuscript, figures, tables, cover letter, and portal description:
 
-The floral-larceny module is a secondary reanalysis of a deposited synthesis and is pinned to immutable repository commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`. Its pooled log response ratios demonstrate realised costs associated with one floral-antagonist guild and audit coupling between antagonist exposure and pollinator visitation. They do not identify `rho`, `iota`, `kappa`, or `W_AD`.
+1. **Part I: Mechanistic theory** — Figures 1–2 and Tables 1–2.
+2. **Part II: Meta-analytic patterns** — Figure 3 and Tables 3–4, with robustness in Supplementary Figure S4.
+3. **Integration** — mechanism-derived predictions are compared with recurrent cross-study patterns without claiming empirical calibration of the mixed partial.
 
-### Sasidharan et al. 2023
-
-The FVOC module is a deposited-synthesis reanalysis with explicit current-deposit versus printed-source discrepancies. Its assembled physiological contrast is robust to leave-one-study-component-out deletion but is not interpreted as a within-study causal florivore-versus-pollinator effect. Categorical behavioral disagreement is retained as context dependence rather than forced into a common continuous effect.
-
-## Included empirical architecture
-
-Files under `empirical/mechanism_pattern_synthesis/` belong to the active supplement when they document or validate:
-
-- the registered mechanism-pattern protocol and completion gate;
-- source-adjudicated route coverage;
-- direct `A x D` search and saturation;
-- same-system mechanism regimes;
-- context/sign-switch evidence and the five-class ontology;
-- direct joint-cost search and saturation;
-- the Sasidharan deposited-synthesis module;
-- module-level robustness/bias audit;
-- the theory–empiricism claim boundary;
-- bounded public-source audits needed to support high-information study decisions.
-
-The completed Leal module remains an immutable dependency at the pinned commit rather than being silently reimplemented for directory consistency.
-
-## Excluded or non-promoted material
-
-The following are not independent manuscript claims and must not be resurrected as such:
-
-- abstract-only broad-route directional fractions from the earlier preliminary layer;
-- publication counts as biological-effect magnitudes;
-- finite-grid regime percentages as natural frequencies;
-- cross-organ defence silently substituted for flower-specific `D`;
-- a single dual-function trait silently substituted for independently varied `A` and `D`;
-- ecological-agent factorials silently substituted for a defence phenotype interaction;
-- trait covariance or genetic integration silently substituted for direct joint cost;
-- exploratory branches unrelated to the current theory+synthesis spine.
-
-Raw third-party observations that are not licensed or necessary for reproducibility are not retained merely for convenience. Git history remains the archive for retired exploratory implementations.
-
-## Inclusion rule
-
-A file belongs in the active repository only when it does at least one of the following:
-
-- defines or tests the fixed focal-pair theory;
-- generates or validates the finite sensitivity analysis;
-- supplies source-adjudicated evidence for the mechanism-pattern synthesis;
-- reproduces or audits one of the admitted quantitative modules;
-- documents a saturated evidence gap or source discrepancy that affects inference;
-- documents data provenance, reproduction steps, assumptions, or inferential boundaries;
-- prevents superseded scientific claims from re-entering the submission tree.
-
-Historical interest, future usefulness, or a green test alone is not sufficient reason to promote a file into the manuscript spine.
+Historical exploratory branches, abstract-only direction maps, and analyses that do not serve this Mechanism → Pattern spine are not submission claims.
