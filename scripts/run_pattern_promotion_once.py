@@ -7,5 +7,5 @@ marker = "The saturated source-adjudicated route ledger contained 56 effect or d
 if marker in manuscript.read_text(encoding="utf-8"):
     print("Pattern manuscript promotion already applied")
 else:
-    from promote_pattern_expansion_to_manuscript import main
+    from promote_pattern_expansion_to_manuscript_v2 import main
     main()
