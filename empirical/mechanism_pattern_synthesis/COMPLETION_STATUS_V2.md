@@ -1,8 +1,8 @@
-# Mechanism-pattern synthesis completion status v4
+# Mechanism-pattern synthesis completion status v5
 
 ## Scope and source of truth
 
-This file records the scientific state of the fixed Mechanism paper plus the saturated Pattern-expansion candidate.
+This file records the scientific and submission-format state of the fixed Mechanism paper plus the saturated Pattern-expansion candidate.
 
 ```text
 canonical integration PR:   #126
@@ -75,7 +75,7 @@ Batch 9: distinct candidate set, again no new admissible Pattern class
 quantitative expansion search: no sixth synthesis with a distinct theory-facing axis
 ```
 
-Therefore the current Pattern expansion is **saturated for the manuscript’s registered theory-facing purpose**. Additional broad searching is not a default blocker.
+Therefore the current Pattern expansion is **saturated for the manuscript's registered theory-facing purpose**. Additional broad searching is not a default blocker.
 
 ## Quantitative synthesis modules
 
@@ -124,30 +124,51 @@ PR #129 contains a complete candidate canonical integration:
 - `manuscript/TABLES_THEORETICAL_ECOLOGY.md` Tables 3–4 synchronized;
 - `manuscript/figures/FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg` regenerated from the saturated evidence state;
 - bibliography expanded to 20 cited references and alphabetically ordered;
-- cover letter, portal abstract, submission scope, audits, checklist, figure/table plan, and supplement manifest synchronized;
+- cover letter, portal abstract, submission scope, audits, checklist, figure/table plan, upload-package plan, and supplement manifest synchronized;
 - Part I equations and numerical sensitivity outputs unchanged.
 
 The main-text expansion is deliberately selective: representative systems illustrate new Pattern classes while the full study architecture remains in supplement ledgers/context programs.
 
-## Reproducibility and vector-export state
+## Theoretical Ecology structural-format state
 
-The dedicated Pattern-expansion workflow passes the candidate contract, 56/25 readout regeneration, expanded Figure 3 generation, byte-reproducibility, submission narrative/scope checks, and 20-reference regressions.
-
-A full figure-content checkpoint was then validated at:
+The current target-journal structural requirements are encoded and regression-tested:
 
 ```text
-figure-content head: 8d0df837535efaf2d31a9909e9dac5cbbf492ea1
-CI Python 3.10:      PASS
-CI Python 3.11:      PASS
-CI Python 3.12:      PASS
-submission-scope:    PASS
-EPS export:          PASS
-workflow run:        31566025924
-EPS artifact:        9129476142
-artifact sha256:     014cc4f7d17541fb91d3637201013ccc391d7858a4d26779214294829e7cd27f
+abstract:                 150–250 words
+keywords:                 6 (journal range 4–6)
+title-page author fields: explicit author-controlled placeholders
+AI/LLM assistance:        disclosed in Methods beyond copyediting
+figure captions:          Fig. n form, outside illustrations
+Statements/Declarations:  after References
+Funding:                  author-confirmation placeholder
+Competing interests:      author-confirmation placeholder
+Author contributions:     author-controlled placeholder
+Data/code availability:   populated after References
+reviewer slots:            exactly 5, author/conflict-check required
 ```
 
-The export receipt is recorded in `submission/FIGURE_EXPORT_RECEIPT_V1.md`. Subsequent commits after that checkpoint are status/receipt/checklist text only and do not change the manuscript figures or evidence ledgers; they still undergo ordinary PR CI.
+The house-style transformation is idempotent and protected by `tests/test_theoretical_ecology_house_style.py`. It does not invent author, funding, competing-interest, reviewer, or ORCID information.
+
+## Reproducibility and submission-form vector export
+
+The dedicated Pattern-expansion workflow passes the candidate contract, 56/25 readout regeneration, expanded Figure 3 generation, byte-reproducibility, journal house-style checks, submission narrative/scope checks, and 20-reference regressions.
+
+The final submission-form EPS workflow is validated at:
+
+```text
+submission EPS source head: 417ee8ce97269f07207d824f8950cbc275c9115a
+workflow:                   Export manuscript figures
+workflow run:               31567045329
+conclusion:                 PASS
+submission files:           Fig1.eps / Fig2.eps / Fig3.eps
+artifact:                   9129851593
+artifact sha256:            ac255025840465dce4fd22e645e823ea80a09af7cbcc8770aeec7be27c35722f
+artifact size:              759365 bytes
+```
+
+For journal upload only, the exporter deterministically strips exactly one visible outer figure-title line from each canonical SVG before EPS export, while retaining panel labels, equations, and scientific annotations. Canonical scientific SVGs are not rewritten for this purpose.
+
+The Actions artifact is validation rather than permanent archival storage. Re-export is required from the final release commit if canonical figure content or caption requirements change after this checkpoint.
 
 ## Theory/empiricism boundary
 
@@ -167,28 +188,32 @@ whole-reproductive-module defence != flower-specific D unless the organ gate pas
 
 ## Remaining before external submission
 
-Scientific evidence hunting and expanded-vector validation are closed. Remaining items are bounded formatting/archive and author-controlled submission information:
+Scientific evidence hunting, expansion saturation, target-journal structural normalization, and submission-form vector validation are closed. Remaining items require author decisions or the final release render:
 
-1. apply the final target-journal house style and one last citation consistency pass after author-controlled wording is frozen;
-2. supply author order, affiliations, ORCIDs, CRediT, funding, acknowledgements, and competing-interest confirmation;
-3. choose repository licence/licence statement;
-4. create the final release/tag and archival DOI;
-5. obtain all-author approval of the exact submission version;
-6. upload through the authenticated journal portal.
+1. supply final author order/publication names, affiliations, corresponding-author e-mail, and ORCIDs;
+2. finalize CRediT, funding/no-funding statement, acknowledgements, and competing-interest statement;
+3. supply exactly five potential reviewers with institution/e-mail/expertise/conflict checks;
+4. choose repository licence/licence statement;
+5. choose the final manuscript production route and render the author-approved upload files (Word + companion PDF if the Word route is used, or the supported LaTeX route);
+6. freeze supplementary numbering and render supplementary text/presentation material as PDF while retaining machine-readable tabular supplements;
+7. run the final rendered-file citation/equation/table/figure QA;
+8. create the final release/tag and archival DOI;
+9. obtain all-author approval of the exact submission package;
+10. upload through the authenticated journal portal.
 
 ## Merge decision
 
 ```text
-scientific A-H gate:             PASS
-Pattern expansion gate:         PASS / SATURATED
-25-system manuscript package:   COMPLETE
-candidate-specific CI:          GREEN
-figure-content PR checks:        5/5 GREEN
-expanded EPS export:            GREEN / digest recorded
-PR #129:                        KEEP DRAFT pending author/licence/release decisions
-PR #126:                        KEEP DRAFT; it remains the pre-expansion base
-merge to main:                  NOT YET AUTHORIZED
-portal submission:              NOT YET
+scientific A-H gate:              PASS
+Pattern expansion gate:          PASS / SATURATED
+25-system manuscript package:    COMPLETE
+candidate-specific CI:           GREEN
+journal structural house style:  PASS
+submission-form EPS export:      GREEN / digest recorded
+PR #129:                         KEEP DRAFT pending author/licence/release decisions
+PR #126:                         KEEP DRAFT; it remains the pre-expansion base
+merge to main:                   NOT YET AUTHORIZED
+portal submission:               NOT YET
 ```
 
-If final source verification exposes a material evidence error or a genuinely new strict direct-design candidate, the relevant gate can be reopened. Otherwise, additional broad searching should not displace final packaging.
+If final source verification exposes a material evidence error or a genuinely new strict direct-design candidate, the relevant scientific gate can be reopened. Otherwise, additional broad searching should not displace final packaging.
