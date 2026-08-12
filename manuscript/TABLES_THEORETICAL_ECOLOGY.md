@@ -1,6 +1,8 @@
-# Tables for integrated Theoretical Ecology submission
+# Tables for Mechanism → Pattern Theoretical Ecology submission
 
-## Table 1. Definitions, required declarations, and inference boundaries
+## Part I — Mechanism
+
+## Table 1. Mechanistic definitions, required declarations, and inference boundaries
 
 | Symbol | Meaning | Required declaration | Does not imply |
 |---|---|---|---|
@@ -16,7 +18,7 @@
 
 **Note.** The oriented identity \(W_{AD}=\rho-\iota-\kappa\) is used only after the focal application establishes \(M_{AD}\le0\), \(G_{AD}\le0\), and \(C_{AD}\ge0\).
 
-## Table 2. Declared endpoint-normalized finite sensitivity design and canonical results
+## Table 2. Mechanistic finite-sensitivity design and canonical sign regimes
 
 | Quantity | Declared value |
 |---|---|
@@ -41,9 +43,11 @@
 
 **Note.** Percentages are unweighted occupancies of the declared finite design. They are not empirical probabilities, posterior probabilities, or estimates of prevalence in nature. \(R\) is an auxiliary background moderator in the implemented corollary, not a third focal trait.
 
-## Table 3. Source-adjudicated mechanism-pattern evidence architecture
+## Part II — Pattern
 
-| Evidence layer | Current independent study clusters / state | Main empirical information | Inference boundary |
+## Table 3. Cross-study pattern scaffold: mechanism recurrence, conditionality, and identification gaps
+
+| Evidence layer | Current independent study clusters / state | Main empirical pattern | Inference boundary |
 |---|---:|---|---|
 | \(A\rightarrow\)pollination | 4 clusters; 2 quantitative | Attraction can increase pollinator use or pollinator-mediated reproduction, with consumer-specific responses in some systems | Does not identify \(M_{AD}\) without the same focal \(D\) |
 | \(A\rightarrow\)antagonism | 5 clusters; 3 quantitative | Floral signals can also be tracked by antagonists; shared and antagonist-biased tracking both occur | Does not estimate antagonist-relief curvature by itself |
@@ -54,13 +58,13 @@
 | Direct \(A\times D\) | 1 strict cluster | *Impatiens capensis*: two reproductive-component interactions are estimable but both CIs cross zero and point signs differ | No general direct sign is identified |
 | Direct joint cost \(\kappa\) | 0 strict estimates after saturated registered search | Marginal costs, covariance, and ecological interference exist, but no strict simultaneous A+D intrinsic-cost estimate was found | \(\kappa\) is unidentified, not zero |
 
-**Note.** The mechanism-coverage audit contains 38 source-adjudicated effect/directional records across 14 independent biological study clusters. Route-specific cluster counts overlap because the same study may contribute to several linked routes. They must not be summed as independent studies.
+**Pattern-scaffold note.** The mechanism-coverage audit contains 38 source-adjudicated effect/directional records across 14 independent biological study clusters. Route-specific cluster counts overlap because the same study may contribute to several linked routes. This table maps cross-study recurrence onto Part I mechanism classes; it is not itself a grand meta-analysis and its counts are not prevalence estimates.
 
-## Table 4. Quantitative synthesis modules and admitted inference
+## Table 4. Quantitative meta-analytic patterns and admitted inference
 
-| Module | Data structure and scale | Canonical quantitative result | Robustness / limitation | Admitted role in the integrated paper |
+| Module | Data structure and scale | Canonical quantitative pattern | Robustness / limitation | Admitted role in the Mechanism → Pattern paper |
 |---|---|---|---|---|
-| Leal et al. 2025 floral larceny | Secondary reanalysis of deposited study-level group data; one aggregate effect per independent cluster and outcome stratum; log response ratio | Female reproductive success: \(-0.210\), 48 clusters; nectar standing crop: \(-0.483\), 28; legitimate visitation: \(-0.291\), 22 | Direction stable to declared within-cluster correlation, quarantined-row sensitivity, and leave-one-cluster-out; very high heterogeneity; Egger-type asymmetry interpreted cautiously for LRR | Shows that realised floral-antagonist pressure can impose substantial reward, visitation, and female-fitness costs and that \(H\) and pollinator use need not be empirically separable |
-| Sasidharan et al. 2023 FVOCs | Deposited categorical synthesis reconstructed into 32 conservative study components | Current-deposit physiological detection: florivore 84/103 vs pollinator 151/220; assembled risk difference \(+0.129\); positive in 32/32 leave-one-study-component-out refits | Only three study components contain physiological data for both roles and all paired differences are zero; six repeated behavioral units switch between attraction and no response; printed/current-deposit discrepancies retained | Shows shared pollinator/florivore tracking and cross-study context dependence of floral volatile responses without claiming a causal within-study role contrast |
+| **Meta-analysis 1 — Leal et al. 2025 floral larceny** | Secondary reanalysis of deposited study-level group data; one aggregate effect per independent cluster and outcome stratum; log response ratio | Female reproductive success: \(-0.210\), 48 clusters; nectar standing crop: \(-0.483\), 28; legitimate visitation: \(-0.291\), 22 | Direction stable to declared within-cluster correlation, quarantined-row sensitivity, and leave-one-cluster-out; very high heterogeneity; Egger-type asymmetry interpreted cautiously for LRR | Establishes a recurrent antagonist-cost pattern across fitness, reward, and visitation while showing that effect magnitude is strongly heterogeneous among systems |
+| **Meta-analytic synthesis 2 — Sasidharan et al. 2023 FVOCs** | Deposited categorical synthesis reconstructed into 32 conservative study components | Current-deposit physiological detection: florivore 84/103 vs pollinator 151/220; assembled risk difference \(+0.129\); positive in 32/32 leave-one-study-component-out refits | Only three study components contain physiological data for both roles and all paired differences are zero; six repeated behavioral units switch between attraction and no response; printed/current-deposit discrepancies retained | Establishes shared consumer responsiveness plus composition/context dependence without claiming a causal within-study florivore-versus-pollinator effect |
 
-**Boundary for both modules.** Neither module estimates \(\rho\), \(\iota\), \(\kappa\), or \(W_{AD}\). The Leal module is pinned to immutable repository commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`; the Sasidharan module uses the 32-component citation topology as the canonical dependence structure.
+**Boundary for both modules.** Neither module estimates \(\rho\), \(\iota\), \(\kappa\), or \(W_{AD}\). Together with Table 3, the Part II result is **recurrent mechanism plus context-dependent balance**, not a universal sign of `W_AD`. The Leal module is pinned to immutable repository commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`; the Sasidharan module uses the 32-component citation topology as the canonical dependence structure.
