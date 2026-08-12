@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "empirical" / "mechanism_pattern_synthesis" / "CARUSO_2019_DRYAD_RECEIPT_V1.json"
 DOI_TEXT = "doi:10.5061/dryad.2v8c5g0"
 ENCODED_DOI = urllib.parse.quote(DOI_TEXT, safe="")
+DOUBLE_ENCODED_DOI = urllib.parse.quote(ENCODED_DOI, safe="")
 DATASET_URL = f"https://datadryad.org/dataset/{ENCODED_DOI}"
 API_URL = f"https://datadryad.org/api/v2/datasets/{ENCODED_DOI}"
 TARGETS = ("Exp_stud_NOTdup_Dryad.xls", "Exp_stud_dup_Dryad.xlsx")
@@ -39,10 +40,6 @@ def fetch(url: str, *, referer: str | None = None) -> bytes:
 
 def normalize_url(url: str) -> str:
     return urllib.parse.urljoin("https://datadryad.org", url)
-
-
-def office_file(blob: bytes) -> bool:
-    return blob[:8] == b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1" or blob[:4] == b"PK\x03\x04"
 
 
 def inspect_workbook(blob: bytes, filename: str) -> dict[str, object]:
@@ -119,15 +116,22 @@ def discover_api_downloads(obj: object) -> list[str]:
 def retrieve() -> tuple[list[dict[str, object]], list[dict[str, str]]]:
     attempts: list[dict[str, str]] = []
 
-    # Prime cookies and independently verify the human-facing dataset page.
     html = fetch(DATASET_URL).decode("utf-8", errors="ignore")
     if not all(target in html for target in TARGETS):
         raise RuntimeError("Dryad dataset page did not expose both expected filenames")
     attempts.append({"url": DATASET_URL, "state": "dataset_page_verified"})
 
+    # Dryad has changed download routing over time. Test the current documented
+    # API route, the double-encoded route exposed by public aggregators, and the
+    # legacy versioned full-dataset ZIP convention used by older Dryad records.
+    old_zip = "doi_10_5061_dryad_2v8c5g0__v20181026.zip"
     candidates = [
         f"https://datadryad.org/api/v2/datasets/{ENCODED_DOI}/download",
         f"https://datadryad.org/api/v2/datasets/{ENCODED_DOI}/download?download=1",
+        f"https://datadryad.org/api/v2/datasets/{DOUBLE_ENCODED_DOI}/download",
+        f"http://datadryad.org/api/v2/datasets/{DOUBLE_ENCODED_DOI}/download",
+        f"https://datadryad.org/stash/downloadZip/{old_zip}",
+        f"https://datadryad.org/downloadZip/{old_zip}",
     ]
 
     try:
@@ -137,11 +141,10 @@ def retrieve() -> tuple[list[dict[str, object]], list[dict[str, str]]]:
     except Exception as exc:
         attempts.append({"url": API_URL, "state": f"dataset_api_error:{type(exc).__name__}:{exc}"})
 
-    # Human-facing links remain useful fallbacks. Capture only real href values.
     for m in re.finditer(r'href=["\']([^"\']+)["\']', html, re.I):
         href = m.group(1).replace("&amp;", "&")
         decoded = urllib.parse.unquote(href)
-        if "file_stream" in href or any(target in decoded for target in TARGETS):
+        if "file_stream" in href or "downloadZip" in href or any(target in decoded for target in TARGETS):
             candidates.append(urllib.parse.urljoin(DATASET_URL, href))
 
     unique: list[str] = []
@@ -161,7 +164,6 @@ def retrieve() -> tuple[list[dict[str, object]], list[dict[str, str]]]:
             continue
 
         if blob[:4] == b"PK\x03\x04":
-            # This can be the full-dataset archive OR the xlsx target itself.
             try:
                 found, names = extract_targets_from_zip(blob, url)
             except Exception:
@@ -171,7 +173,6 @@ def retrieve() -> tuple[list[dict[str, object]], list[dict[str, str]]]:
                 for item in found:
                     individual[str(item["filename"])] = item
             else:
-                # If the URL identifies the xlsx file, inspect it directly.
                 if "Exp_stud_dup_Dryad.xlsx" in urllib.parse.unquote(url):
                     filename = "Exp_stud_dup_Dryad.xlsx"
                     individual[filename] = {
