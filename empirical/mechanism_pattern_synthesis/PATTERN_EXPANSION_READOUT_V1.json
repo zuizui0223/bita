@@ -11,33 +11,38 @@
     "same_system_clusters": 10
   },
   "combined_provisional": {
-    "independent_clusters": 18,
-    "records": 46,
+    "independent_clusters": 19,
+    "records": 48,
     "route_clusters": {
       "A_to_antagonism": 7,
       "A_to_pollination": 5,
-      "D_to_antagonism": 12,
-      "D_to_pollination": 8
+      "D_to_antagonism": 13,
+      "D_to_pollination": 9
     },
-    "same_system_clusters": 12
+    "same_system_clusters": 13
   },
-  "context_switch_clusters_provisional": 13,
-  "expansion_batch_1": {
-    "independent_clusters": 4,
-    "records": 8,
+  "context_programs_excluded_from_route_N": 4,
+  "context_switch_clusters_provisional": 15,
+  "expansion": {
+    "independent_clusters": 5,
+    "records": 10,
     "route_clusters": {
       "A_to_antagonism": 2,
       "A_to_pollination": 1,
-      "D_to_antagonism": 2,
-      "D_to_pollination": 1
+      "D_to_antagonism": 3,
+      "D_to_pollination": 2
     },
-    "same_system_clusters": 2
+    "same_system_clusters": 3
   },
+  "expansion_ledger_files": [
+    "EXPANSION_LEDGER_BATCH_1_V1.csv",
+    "EXPANSION_LEDGER_BATCH_2_V1.csv"
+  ],
   "interpretation_boundary": [
     "counts are evidence-capacity / independent-system recurrence diagnostics",
     "counts are not prevalence estimates",
     "route counts overlap across study clusters and must not be summed",
-    "environmental-context-only studies and published meta-analysis module study counts are excluded from route-ledger N",
+    "environmental-context-only studies/programs and published meta-analysis module study counts are excluded from route-ledger N",
     "direct A x D and direct joint-cost canonical gaps are unchanged"
   ],
   "status": "PROVISIONAL_EXPANSION_BRANCH_NOT_CANONICAL"
