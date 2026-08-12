@@ -1,0 +1,92 @@
+{
+  "status": "PUBLIC_DRYAD_METADATA_VERIFIED_FILE_BYTES_ACCESS_BLOCKED",
+  "dataset_doi": "10.5061/dryad.2v8c5g0",
+  "article_doi": "10.1111/evo.13639",
+  "landing_metadata": {
+    "dataset_page_verified": true,
+    "expected_files": [
+      "Exp_stud_NOTdup_Dryad.xls",
+      "Exp_stud_dup_Dryad.xlsx"
+    ],
+    "published_nonduplicated_workbook_description": "directional selection gradients with standard errors used in the main meta-analysis; published article reports N=755 records",
+    "published_duplicated_workbook_description": "analysis-duplicated experiment/study workbook supplied with the Dryad record",
+    "api_metadata_verified": true,
+    "api_metadata_keys": [
+      "_links",
+      "abstract",
+      "authors",
+      "changedFields",
+      "curationStatus",
+      "id",
+      "identifier",
+      "keywords",
+      "lastModificationDate",
+      "license",
+      "metrics",
+      "publicationDate",
+      "relatedPublicationISSN",
+      "relatedWorks",
+      "sharingLink",
+      "storageSize",
+      "title",
+      "usageNotes",
+      "versionChanges",
+      "versionNumber",
+      "versionStatus",
+      "visibility"
+    ]
+  },
+  "attempts": [
+    {
+      "url": "https://datadryad.org/dataset/doi%3A10.5061%2Fdryad.2v8c5g0",
+      "state": "dataset_page_verified"
+    },
+    {
+      "url": "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.2v8c5g0",
+      "state": "dataset_api_verified"
+    },
+    {
+      "url": "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.2v8c5g0/download",
+      "state": "error:HTTPError:HTTP Error 401: Unauthorized"
+    },
+    {
+      "url": "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.2v8c5g0/download?download=1",
+      "state": "error:HTTPError:HTTP Error 401: Unauthorized"
+    },
+    {
+      "url": "https://datadryad.org/api/v2/datasets/doi%253A10.5061%252Fdryad.2v8c5g0/download",
+      "state": "error:HTTPError:HTTP Error 401: Unauthorized"
+    },
+    {
+      "url": "http://datadryad.org/api/v2/datasets/doi%253A10.5061%252Fdryad.2v8c5g0/download",
+      "state": "error:HTTPError:HTTP Error 401: Unauthorized"
+    },
+    {
+      "url": "https://datadryad.org/stash/downloadZip/doi_10_5061_dryad_2v8c5g0__v20181026.zip",
+      "state": "error:HTTPError:HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://datadryad.org/downloadZip/doi_10_5061_dryad_2v8c5g0__v20181026.zip",
+      "state": "error:HTTPError:HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://datadryad.org/downloads/file_stream/21863",
+      "state": "not_dataset_or_office_file:b'<!doctype html><html lang=\"en\"'"
+    },
+    {
+      "url": "https://datadryad.org/downloads/file_stream/21862",
+      "state": "not_dataset_or_office_file:b'<!doctype html><html lang=\"en\"'"
+    }
+  ],
+  "files_retrieved": [],
+  "published_main_analysis_record_count": 755,
+  "published_main_analysis_articles": 36,
+  "reproduced_755_record_sheet": false,
+  "boundary": [
+    "public landing page and API metadata are evidence of dataset identity and workbook names, not a local reanalysis",
+    "selection gradients are downstream selection-context evidence, not W_AD",
+    "other-biotic treatment is not automatically antagonist pressure H",
+    "records from this database are not added to source-level route-ledger cluster counts without overlap adjudication",
+    "access-layer failure must not be relabelled as missing data or a biological null result"
+  ]
+}
