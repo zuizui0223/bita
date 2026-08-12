@@ -7,7 +7,8 @@ MANUSCRIPT = ROOT / "manuscript" / "MANUSCRIPT_THEORETICAL_ECOLOGY.md"
 
 def _split_manuscript() -> tuple[str, str]:
     text = MANUSCRIPT.read_text(encoding="utf-8")
-    body, refs = text.split("\n## References\n", 1)
+    body, after_refs = text.split("\n## References\n", 1)
+    refs = after_refs.split("\n## Statements and Declarations\n", 1)[0]
     return body, refs
 
 
