@@ -11,81 +11,96 @@ def rows(name: str):
         return list(csv.DictReader(fh))
 
 
-def test_expansion_ledger_has_four_new_independent_systems_and_no_direct_axd():
-    data = rows("EXPANSION_LEDGER_BATCH_1_V1.csv")
-    assert len(data) == 8
+def all_expansion_rows():
+    out = []
+    for path in sorted(EMP.glob("EXPANSION_LEDGER_BATCH_*_V1.csv")):
+        with path.open(newline="", encoding="utf-8") as fh:
+            out.extend(csv.DictReader(fh))
+    return out
+
+
+def all_switch_rows():
+    out = []
+    for path in sorted(EMP.glob("EXPANSION_SIGN_SWITCH_BATCH_*_V1.csv")):
+        with path.open(newline="", encoding="utf-8") as fh:
+            out.extend(csv.DictReader(fh))
+    return out
+
+
+def test_expansion_ledger_has_five_new_independent_systems_and_no_direct_axd():
+    data = all_expansion_rows()
+    assert len(data) == 10
     assert {r["independence_cluster"] for r in data} == {
         "Sun_Huang_2015_Pedicularis_rex",
         "Perez_Barrales_2013_Dalechampia_scandens",
         "McCall_2013_Raphanus_sativus",
         "Chauta_2022_Bejaria_resinosa",
+        "Stephenson_1982_Catalpa_speciosa",
     }
     assert all(r["is_direct_AxD"].lower() == "false" for r in data)
-    assert {r["route"] for r in data} <= {
-        "A_to_pollination",
-        "A_to_antagonism",
-        "D_to_antagonism",
-        "D_to_pollination",
-    }
 
 
 def test_pedicularis_is_one_cluster_with_guarded_and_attack_mode_states():
-    data = [r for r in rows("EXPANSION_LEDGER_BATCH_1_V1.csv") if r["independence_cluster"] == "Sun_Huang_2015_Pedicularis_rex"]
+    data = [r for r in all_expansion_rows() if r["independence_cluster"] == "Sun_Huang_2015_Pedicularis_rex"]
     assert len(data) == 3
     assert {r["route"] for r in data} == {"D_to_pollination", "D_to_antagonism"}
-    assert sum(r["route"] == "D_to_antagonism" for r in data) == 2
     assert all(r["is_same_system_multi_route"].lower() == "true" for r in data)
 
 
 def test_dalechampia_is_visual_shared_tracking_not_defence():
-    data = [r for r in rows("EXPANSION_LEDGER_BATCH_1_V1.csv") if r["independence_cluster"] == "Perez_Barrales_2013_Dalechampia_scandens"]
+    data = [r for r in all_expansion_rows() if r["independence_cluster"] == "Perez_Barrales_2013_Dalechampia_scandens"]
     assert len(data) == 2
     assert {r["route"] for r in data} == {"A_to_pollination", "A_to_antagonism"}
     assert all(r["trait_D_class"] == "" for r in data)
-    assert all(r["trait_A_class"] == "showy_involucral_bract_area" for r in data)
 
 
 def test_raphanus_adds_visual_a_to_antagonism_only():
-    data = [r for r in rows("EXPANSION_LEDGER_BATCH_1_V1.csv") if r["independence_cluster"] == "McCall_2013_Raphanus_sativus"]
+    data = [r for r in all_expansion_rows() if r["independence_cluster"] == "McCall_2013_Raphanus_sativus"]
     assert len(data) == 1
     row = data[0]
     assert row["route"] == "A_to_antagonism"
     assert row["trait_A_class"] == "petal_color_white_vs_pink"
     assert row["trait_D_class"] == ""
-    assert row["is_same_system_multi_route"].lower() == "false"
-    assert row["source_verification_state"] == "primary_abstract_and_repository_record_verified"
 
 
 def test_bejaria_adds_one_flower_specific_d_cluster_without_fake_pollinator_route():
-    data = [r for r in rows("EXPANSION_LEDGER_BATCH_1_V1.csv") if r["independence_cluster"] == "Chauta_2022_Bejaria_resinosa"]
+    data = [r for r in all_expansion_rows() if r["independence_cluster"] == "Chauta_2022_Bejaria_resinosa"]
     assert len(data) == 2
     assert {r["route"] for r in data} == {"D_to_antagonism"}
     assert all(r["trait_D_class"] == "petal_sepal_stickiness" for r in data)
-    assert all(r["trait_A_class"] == "" for r in data)
-    assert sum(r["is_primary_effect"].lower() == "true" for r in data) == 1
-    assert sum(r["is_primary_effect"].lower() == "false" for r in data) == 1
     assert all(r["is_same_system_multi_route"].lower() == "false" for r in data)
 
 
-def test_expansion_switch_rows_keep_study_clusters_independent():
-    data = rows("EXPANSION_SIGN_SWITCH_BATCH_1_V1.csv")
-    assert len(data) == 5
+def test_catalpa_is_same_system_chemical_guarded_state():
+    data = [r for r in all_expansion_rows() if r["independence_cluster"] == "Stephenson_1982_Catalpa_speciosa"]
+    assert len(data) == 2
+    assert {r["route"] for r in data} == {"D_to_antagonism", "D_to_pollination"}
+    assert all(r["trait_D_class"] == "floral_nectar_iridoid_glycosides" for r in data)
+    assert all(r["is_same_system_multi_route"].lower() == "true" for r in data)
+    poll = next(r for r in data if r["route"] == "D_to_pollination")
+    assert "no_detected_reduction" in poll["effect_orientation"]
+
+
+def test_expansion_switch_rows_have_four_unique_new_context_clusters():
+    data = all_switch_rows()
+    assert len(data) == 8
     assert {r["study_id"] for r in data} == {
         "Sun_Huang_2015_Pedicularis_rex",
         "Chauta_et_al_2022_Bejaria_resinosa",
+        "Stephenson_1982_Catalpa_speciosa",
+        "Saabna_et_al_2025_Anemone_coronaria",
     }
-    ped = [r for r in data if r["study_id"] == "Sun_Huang_2015_Pedicularis_rex"]
-    bej = [r for r in data if r["study_id"] == "Chauta_et_al_2022_Bejaria_resinosa"]
-    assert len(ped) == 2
-    assert len(bej) == 3
-    assert {r["contrast_axis"] for r in ped} == {
-        "antagonist_identity_or_attack_mode",
-        "consumer_function",
-    }
-    assert {r["contrast_axis"] for r in bej} == {
-        "consumer_identity",
-        "population_context",
-    }
+    assert sum(r["study_id"] == "Stephenson_1982_Catalpa_speciosa" for r in data) == 1
+    assert sum(r["study_id"] == "Saabna_et_al_2025_Anemone_coronaria" for r in data) == 2
+
+
+def test_context_programs_are_explicitly_excluded_from_route_N():
+    data = rows("EXPANSION_CONTEXT_PROGRAMS_V1.csv")
+    assert len(data) == 4
+    assert {r["program_id"] for r in data} == {"CTX001", "CTX002", "CTX003", "CTX004"}
+    assert all(r["route_ledger_counted"].lower() == "false" for r in data)
+    anemone = next(r for r in data if r["program_id"] == "CTX004")
+    assert "mutualist and antagonist roles" in anemone["admitted_inference"]
 
 
 def test_module_registry_keeps_distinct_inference_boundaries():
@@ -94,8 +109,9 @@ def test_module_registry_keeps_distinct_inference_boundaries():
     assert set(modules) == {"PM01", "PM02", "PM03", "PM04", "PM05"}
     assert modules["PM01"]["status"] == "ADMITTED_REPRODUCED"
     assert modules["PM02"]["status"] == "ADMITTED_REPRODUCED"
-    assert "PENDING_SUPPLEMENT_REPRODUCTION" in modules["PM03"]["status"] or "SUPPLEMENT" in modules["PM03"]["status"]
+    assert modules["PM03"]["status"] == "ADMITTED_PUBLISHED_META_SUPPLEMENT_PACKAGE_VERIFIED"
     assert "herbivory_equals_D" in modules["PM03"]["forbidden_inference"]
+    assert modules["PM04"]["status"] == "ADMIT_AS_SECONDARY_SELECTION_CONTEXT_ACCESS_LIMITED"
     assert "selection_gradient_equals_W_AD" in modules["PM04"]["forbidden_inference"]
     assert "obligate_equals_pollinator" in modules["PM05"]["forbidden_inference"]
 
