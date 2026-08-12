@@ -38,7 +38,7 @@ Part I contains:
 
 The finite design is a theory robustness diagnostic. Its 2,592 evaluations and their occupancy fractions are not empirical frequencies and are never interpreted as prevalence in nature.
 
-Reproductive assurance `R` remains an auxiliary moderator in the implemented corollary, not a third focal trait.
+**Auxiliary moderator:** reproductive assurance `R` remains a background moderator in the implemented corollary. It is not a third focal trait and must not be promoted into a three-trait theory.
 
 ## Part II — Pattern: meta-analysis and cross-study synthesis
 
@@ -101,11 +101,11 @@ recurrent constituent mechanisms
 + sparse direct A x D and joint-cost identification
 ```
 
-The cross-system generality claim is therefore deliberately specific:
+The exact cross-system synthesis is:
 
-> **The general pattern is recurrent mechanism plus context-dependent balance, not a universal sign of attraction–defence interaction.**
+> **recurrent constituent mechanisms + context-dependent balance**
 
-That is the empirical pattern predicted by the mathematical mechanism.
+Equivalently, the general pattern is recurrent mechanism plus context-dependent balance, not a universal sign of attraction–defence interaction. That is the empirical pattern predicted by the mathematical mechanism.
 
 ## Required inference boundary
 
