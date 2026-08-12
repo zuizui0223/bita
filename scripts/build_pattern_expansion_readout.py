@@ -70,8 +70,6 @@ def main() -> None:
     expansion_rows = read_rows(EXPANSION)
     combined_rows = canonical_rows + expansion_rows
 
-    # Expansion records are Pattern evidence only; none may silently become a
-    # direct A x D estimate.
     for row in expansion_rows:
         if row["is_direct_AxD"].strip().lower() == "true":
             raise ValueError(f"expansion record {row['record_id']} illegally marked direct A x D")
@@ -97,12 +95,26 @@ def main() -> None:
     if canonical != expected_canonical:
         raise ValueError(f"canonical evidence universe drifted: {canonical!r}")
 
+    expected_expansion = {
+        "records": 6,
+        "independent_clusters": 3,
+        "route_clusters": {
+            "A_to_pollination": 1,
+            "A_to_antagonism": 2,
+            "D_to_antagonism": 1,
+            "D_to_pollination": 1,
+        },
+        "same_system_clusters": 2,
+    }
+    if expansion != expected_expansion:
+        raise ValueError(f"expansion-batch-1 counts unexpected: {expansion!r}")
+
     expected_combined = {
-        "records": 43,
-        "independent_clusters": 16,
+        "records": 44,
+        "independent_clusters": 17,
         "route_clusters": {
             "A_to_pollination": 5,
-            "A_to_antagonism": 6,
+            "A_to_antagonism": 7,
             "D_to_antagonism": 11,
             "D_to_pollination": 8,
         },
@@ -135,7 +147,7 @@ def main() -> None:
         "",
         "**Status: PROVISIONAL EXPANSION BRANCH — NOT CANONICAL MANUSCRIPT COUNTS.**",
         "",
-        "This readout combines the frozen five-ledger canonical universe with only the first source-adjudicated expansion batch.",
+        "This readout combines the frozen five-ledger canonical universe with the first source-adjudicated expansion batch.",
         "",
         "```text",
         f"route-ledger records:             {combined['records']}  (canonical {canonical['records']})",
@@ -148,12 +160,13 @@ def main() -> None:
         f"context/sign-switch clusters:      {context_switch_clusters}  (canonical 11)",
         "```",
         "",
-        "Batch 1 adds two independent route-ledger systems:",
+        "Batch 1 adds three independent route-ledger systems:",
         "",
         "- *Pedicularis rex*: manipulated water-filled bract barrier; seed-predator protection, pollinator null, nectar-robber null.",
         "- *Dalechampia scandens*: visual bract attraction axis tracked by both pollinators and seed predators.",
+        "- *Raphanus sativus*: petal-colour attraction axis associated with recurrent florivore damage/preference across populations and assays.",
         "",
-        "The Iris environmental-context program and the additional published quantitative syntheses are intentionally excluded from these route-ledger counts. Their study/case Ns are not added to the 16 clusters.",
+        "The Iris environmental-context program and the additional published quantitative syntheses are intentionally excluded from these route-ledger counts. Their study/case Ns are not added to the 17 clusters.",
         "",
         "## Boundary",
         "",
