@@ -2,20 +2,20 @@
 
 **Status: PROVISIONAL EXPANSION BRANCH — NOT CANONICAL MANUSCRIPT COUNTS.**
 
-This readout combines the frozen five-ledger canonical universe with three source-adjudicated expansion batches.
+This readout combines the frozen five-ledger canonical universe with four source-adjudicated expansion ledgers.
 
 ```text
-route-ledger records:             51  (canonical 38)
-independent biological clusters: 21  (canonical 14)
+route-ledger records:             52  (canonical 38)
+independent biological clusters: 22  (canonical 14)
 A -> pollination clusters:        5  (canonical 4)
 A -> antagonism clusters:         7  (canonical 5)
-D -> antagonism clusters:         15  (canonical 10)
+D -> antagonism clusters:         16  (canonical 10)
 D -> pollination clusters:        9  (canonical 7)
 same-system multi-route clusters: 13  (canonical 10)
 context/sign-switch clusters:      15  (canonical 11)
 ```
 
-The expansion currently adds seven independent route-ledger systems:
+The expansion currently adds eight independent route-ledger systems:
 
 - *Pedicularis rex*: water-filled floral barrier; seed-predator protection, pollinator null, nectar-robber null.
 - *Dalechampia scandens*: visual bract attraction axis tracked by both pollinators and seed predators.
@@ -24,8 +24,9 @@ The expansion currently adds seven independent route-ledger systems:
 - *Catalpa speciosa*: floral nectar iridoids deter potential nectar thieves with no detected tested-pollinator consumption cost.
 - *Erica* spp.: experimentally added corolla stickiness reduces nectar robbing.
 - *Codonopsis lanceolata* / *Fritillaria koidzumiana*: slippery wax-covered perianths experimentally prevent nectar-thieving ant entry; counted as one study cluster.
+- *Menyanthes trifoliata*: trimmed petal hairs increase nectar-thieving ant entry success and shorten access time.
 
-Five environmental/trait-class context programs and the additional published quantitative syntheses are intentionally excluded from the 21 route-ledger clusters.
+Six environmental/reproductive-module/trait-class context programs and the additional published quantitative syntheses are intentionally excluded from the 22 route-ledger clusters.
 
 ## Boundary
 
