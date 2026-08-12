@@ -27,9 +27,9 @@ def all_switch_rows():
     return out
 
 
-def test_expansion_ledger_has_ten_new_independent_systems_and_no_direct_axd():
+def test_expansion_ledger_has_eleven_new_independent_systems_and_no_direct_axd():
     data = all_expansion_rows()
-    assert len(data) == 17
+    assert len(data) == 18
     assert {r["independence_cluster"] for r in data} == {
         "Sun_Huang_2015_Pedicularis_rex",
         "Perez_Barrales_2013_Dalechampia_scandens",
@@ -41,6 +41,7 @@ def test_expansion_ledger_has_ten_new_independent_systems_and_no_direct_axd():
         "Tagawa_2018_Menyanthes_trifoliata",
         "Wu_Gao_2024_Thunia_alba",
         "Carlson_Harms_2007_Chrysothemis",
+        "Page_2014_Silene_signals",
     }
     assert all(r["is_direct_AxD"].lower() == "false" for r in data)
 
@@ -125,7 +126,7 @@ def test_thunia_routes_same_bombus_between_legitimate_and_robbing_modes():
     assert "without_higher_visit_frequency" in poll["effect_orientation"]
 
 
-def test_chrysothemis_is_independent_water_calyx_D_to_antagonism():
+def test_chrysothemis_is_independent_water_calyx_d_to_antagonism():
     data = [r for r in all_expansion_rows() if r["independence_cluster"] == "Carlson_Harms_2007_Chrysothemis"]
     assert len(data) == 1
     row = data[0]
@@ -135,24 +136,37 @@ def test_chrysothemis_is_independent_water_calyx_D_to_antagonism():
     assert row["effect_value"] == "2.18"
 
 
-def test_expansion_switch_rows_have_five_unique_new_context_clusters():
+def test_silene_f2_adds_multidimensional_a_to_antagonism_only():
+    data = [r for r in all_expansion_rows() if r["independence_cluster"] == "Page_2014_Silene_signals"]
+    assert len(data) == 1
+    row = data[0]
+    assert row["route"] == "A_to_antagonism"
+    assert row["trait_A_class"] == "flower_color_and_floral_scent"
+    assert row["trait_D_class"] == ""
+    assert row["is_same_system_multi_route"].lower() == "false"
+
+
+def test_expansion_switch_rows_have_six_unique_new_context_clusters():
     data = all_switch_rows()
-    assert len(data) == 9
+    assert len(data) == 10
     assert {r["study_id"] for r in data} == {
         "Sun_Huang_2015_Pedicularis_rex",
         "Chauta_et_al_2022_Bejaria_resinosa",
         "Stephenson_1982_Catalpa_speciosa",
         "Saabna_et_al_2025_Anemone_coronaria",
         "Wu_Gao_2024_Thunia_alba",
+        "Dudash_et_al_2020_Silene_stellata",
     }
     thunia = next(r for r in data if r["study_id"] == "Wu_Gao_2024_Thunia_alba")
     assert thunia["contrast_axis"] == "defence_state_and_consumer_function"
+    silene = next(r for r in data if r["study_id"] == "Dudash_et_al_2020_Silene_stellata")
+    assert silene["contrast_axis"] == "consumer_lifecycle_stage_and_fitness_pathway"
 
 
-def test_context_programs_are_explicitly_excluded_from_route_N():
+def test_context_programs_are_explicitly_excluded_from_route_n():
     data = rows("EXPANSION_CONTEXT_PROGRAMS_V1.csv")
-    assert len(data) == 6
-    assert {r["program_id"] for r in data} == {"CTX001", "CTX002", "CTX003", "CTX004", "CTX005", "CTX006"}
+    assert len(data) == 7
+    assert {r["program_id"] for r in data} == {"CTX001", "CTX002", "CTX003", "CTX004", "CTX005", "CTX006", "CTX007"}
     assert all(r["route_ledger_counted"].lower() == "false" for r in data)
     anemone = next(r for r in data if r["program_id"] == "CTX004")
     assert "mutualist and antagonist roles" in anemone["admitted_inference"]
@@ -160,6 +174,8 @@ def test_context_programs_are_explicitly_excluded_from_route_N():
     assert "pollinator-handling pathway" in slippery["admitted_inference"]
     aquilegia = next(r for r in data if r["program_id"] == "CTX006")
     assert "inflorescence_stalk_trichomes_equals_flower_specific_D" in aquilegia["forbidden_inference"]
+    lifecycle = next(r for r in data if r["program_id"] == "CTX007")
+    assert "reverse ecological role across its lifecycle" in lifecycle["admitted_inference"]
 
 
 def test_module_registry_keeps_distinct_inference_boundaries():
@@ -175,15 +191,18 @@ def test_module_registry_keeps_distinct_inference_boundaries():
     assert "obligate_equals_pollinator" in modules["PM05"]["forbidden_inference"]
 
 
-def test_cross_module_matrix_preserves_direct_identification_gaps_and_new_classes():
+def test_cross_module_matrix_preserves_direct_gaps_and_new_classes():
     data = rows("CROSS_MODULE_PATTERN_MATRIX_V2.csv")
     classes = {r["pattern_class"]: r for r in data}
     for required in (
         "guarded_defence_state",
         "spatial_or_temporal_filtering",
+        "pollinator_functional_mode_routing",
+        "lifecycle_stage_role_reversal",
         "direct_AxD_identification_gap",
         "direct_joint_cost_gap",
     ):
         assert required in classes
+    assert "Silene_stellata" in classes["lifecycle_stage_role_reversal"]["source_level_expansion"]
     assert "one_Impatiens_sign_unresolved" in classes["direct_AxD_identification_gap"]["source_level_expansion"]
     assert "no_strict_estimate" in classes["direct_joint_cost_gap"]["source_level_expansion"]
