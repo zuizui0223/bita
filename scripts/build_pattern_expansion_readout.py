@@ -16,9 +16,9 @@ CANONICAL = [
     EMP / "LEDGER_BATCH_4_V1.csv",
     EMP / "LEDGER_BATCH_5_V1.csv",
 ]
-EXPANSION = EMP / "EXPANSION_LEDGER_BATCH_1_V1.csv"
+EXPANSION = sorted(EMP.glob("EXPANSION_LEDGER_BATCH_*_V1.csv"))
 CANONICAL_SWITCH = EMP / "SIGN_SWITCH_LEDGER_V1.csv"
-EXPANSION_SWITCH = EMP / "EXPANSION_SIGN_SWITCH_BATCH_1_V1.csv"
+EXPANSION_SWITCH = sorted(EMP.glob("EXPANSION_SIGN_SWITCH_BATCH_*_V1.csv"))
 OUT_JSON = EMP / "PATTERN_EXPANSION_READOUT_V1.json"
 OUT_MD = EMP / "PATTERN_EXPANSION_READOUT_V1.md"
 
@@ -73,8 +73,10 @@ def switch_cluster_count(paths: list[Path]) -> int:
 
 
 def main() -> None:
+    if not EXPANSION:
+        raise ValueError("No expansion ledgers found")
     canonical_rows = [row for path in CANONICAL for row in read_rows(path)]
-    expansion_rows = read_rows(EXPANSION)
+    expansion_rows = [row for path in EXPANSION for row in read_rows(path)]
     combined_rows = canonical_rows + expansion_rows
 
     for row in expansion_rows:
@@ -86,7 +88,7 @@ def main() -> None:
     canonical = summarize(canonical_rows)
     expansion = summarize(expansion_rows)
     combined = summarize(combined_rows)
-    context_switch_clusters = switch_cluster_count([CANONICAL_SWITCH, EXPANSION_SWITCH])
+    context_switch_clusters = switch_cluster_count([CANONICAL_SWITCH, *EXPANSION_SWITCH])
 
     expected_canonical = {
         "records": 38,
@@ -103,46 +105,48 @@ def main() -> None:
         raise ValueError(f"canonical evidence universe drifted: {canonical!r}")
 
     expected_expansion = {
-        "records": 8,
-        "independent_clusters": 4,
+        "records": 10,
+        "independent_clusters": 5,
         "route_clusters": {
             "A_to_pollination": 1,
             "A_to_antagonism": 2,
-            "D_to_antagonism": 2,
-            "D_to_pollination": 1,
+            "D_to_antagonism": 3,
+            "D_to_pollination": 2,
         },
-        "same_system_clusters": 2,
+        "same_system_clusters": 3,
     }
     if expansion != expected_expansion:
-        raise ValueError(f"expansion-batch-1 counts unexpected: {expansion!r}")
+        raise ValueError(f"expansion counts unexpected: {expansion!r}")
 
     expected_combined = {
-        "records": 46,
-        "independent_clusters": 18,
+        "records": 48,
+        "independent_clusters": 19,
         "route_clusters": {
             "A_to_pollination": 5,
             "A_to_antagonism": 7,
-            "D_to_antagonism": 12,
-            "D_to_pollination": 8,
+            "D_to_antagonism": 13,
+            "D_to_pollination": 9,
         },
-        "same_system_clusters": 12,
+        "same_system_clusters": 13,
     }
     if combined != expected_combined:
         raise ValueError(f"provisional expansion counts unexpected: {combined!r}")
-    if context_switch_clusters != 13:
-        raise ValueError(f"expected 13 unique context-switch clusters, got {context_switch_clusters}")
+    if context_switch_clusters != 15:
+        raise ValueError(f"expected 15 unique context-switch clusters, got {context_switch_clusters}")
 
     payload = {
         "status": "PROVISIONAL_EXPANSION_BRANCH_NOT_CANONICAL",
         "canonical": canonical,
-        "expansion_batch_1": expansion,
+        "expansion": expansion,
+        "expansion_ledger_files": [p.name for p in EXPANSION],
         "combined_provisional": combined,
         "context_switch_clusters_provisional": context_switch_clusters,
+        "context_programs_excluded_from_route_N": 4,
         "interpretation_boundary": [
             "counts are evidence-capacity / independent-system recurrence diagnostics",
             "counts are not prevalence estimates",
             "route counts overlap across study clusters and must not be summed",
-            "environmental-context-only studies and published meta-analysis module study counts are excluded from route-ledger N",
+            "environmental-context-only studies/programs and published meta-analysis module study counts are excluded from route-ledger N",
             "direct A x D and direct joint-cost canonical gaps are unchanged",
         ],
     }
@@ -154,7 +158,7 @@ def main() -> None:
         "",
         "**Status: PROVISIONAL EXPANSION BRANCH — NOT CANONICAL MANUSCRIPT COUNTS.**",
         "",
-        "This readout combines the frozen five-ledger canonical universe with the first source-adjudicated expansion batch.",
+        "This readout combines the frozen five-ledger canonical universe with two source-adjudicated expansion batches.",
         "",
         "```text",
         f"route-ledger records:             {combined['records']}  (canonical {canonical['records']})",
@@ -167,14 +171,15 @@ def main() -> None:
         f"context/sign-switch clusters:      {context_switch_clusters}  (canonical 11)",
         "```",
         "",
-        "Batch 1 adds four independent route-ledger systems:",
+        "The expansion currently adds five independent route-ledger systems:",
         "",
         "- *Pedicularis rex*: manipulated water-filled bract barrier; seed-predator protection, pollinator null, nectar-robber null.",
         "- *Dalechampia scandens*: visual bract attraction axis tracked by both pollinators and seed predators.",
         "- *Raphanus sativus*: petal-colour attraction axis associated with recurrent florivore damage/preference across populations and assays.",
         "- *Bejaria resinosa*: flower-restricted stickiness directly reduces field florivory, with consumer- and population-dependent efficacy.",
+        "- *Catalpa speciosa*: floral nectar iridoids deter potential nectar thieves while showing no detected consumption cost in tested legitimate pollinators.",
         "",
-        "The Iris environmental-context program and the additional published quantitative syntheses are intentionally excluded from these route-ledger counts. Their study/case Ns are not added to the 18 clusters.",
+        "Four environmental/trait-class context programs (Iris, Oenothera, Acacia/Vachellia, Anemone) and the additional published quantitative syntheses are intentionally excluded from the 19 route-ledger clusters.",
         "",
         "## Boundary",
         "",
