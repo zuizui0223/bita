@@ -27,9 +27,9 @@ def all_switch_rows():
     return out
 
 
-def test_expansion_ledger_has_eight_new_independent_systems_and_no_direct_axd():
+def test_expansion_ledger_has_ten_new_independent_systems_and_no_direct_axd():
     data = all_expansion_rows()
-    assert len(data) == 14
+    assert len(data) == 17
     assert {r["independence_cluster"] for r in data} == {
         "Sun_Huang_2015_Pedicularis_rex",
         "Perez_Barrales_2013_Dalechampia_scandens",
@@ -39,6 +39,8 @@ def test_expansion_ledger_has_eight_new_independent_systems_and_no_direct_axd():
         "McCarren_2021_Erica",
         "Takeda_2021_slippery_perianths",
         "Tagawa_2018_Menyanthes_trifoliata",
+        "Wu_Gao_2024_Thunia_alba",
+        "Carlson_Harms_2007_Chrysothemis",
     }
     assert all(r["is_direct_AxD"].lower() == "false" for r in data)
 
@@ -113,15 +115,38 @@ def test_menyanthes_is_clean_flower_specific_hair_barrier():
     assert row["is_same_system_multi_route"].lower() == "false"
 
 
-def test_expansion_switch_rows_have_four_unique_new_context_clusters():
+def test_thunia_routes_same_bombus_between_legitimate_and_robbing_modes():
+    data = [r for r in all_expansion_rows() if r["independence_cluster"] == "Wu_Gao_2024_Thunia_alba"]
+    assert len(data) == 2
+    assert {r["route"] for r in data} == {"D_to_antagonism", "D_to_pollination"}
+    assert all(r["trait_D_class"] == "large_spur_enclosing_floral_bract" for r in data)
+    assert all(r["is_same_system_multi_route"].lower() == "true" for r in data)
+    poll = next(r for r in data if r["route"] == "D_to_pollination")
+    assert "without_higher_visit_frequency" in poll["effect_orientation"]
+
+
+def test_chrysothemis_is_independent_water_calyx_D_to_antagonism():
+    data = [r for r in all_expansion_rows() if r["independence_cluster"] == "Carlson_Harms_2007_Chrysothemis"]
+    assert len(data) == 1
+    row = data[0]
+    assert row["route"] == "D_to_antagonism"
+    assert row["trait_D_class"] == "liquid_filled_water_calyx"
+    assert row["source_effect_metric"] == "reported_odds_ratio"
+    assert row["effect_value"] == "2.18"
+
+
+def test_expansion_switch_rows_have_five_unique_new_context_clusters():
     data = all_switch_rows()
-    assert len(data) == 8
+    assert len(data) == 9
     assert {r["study_id"] for r in data} == {
         "Sun_Huang_2015_Pedicularis_rex",
         "Chauta_et_al_2022_Bejaria_resinosa",
         "Stephenson_1982_Catalpa_speciosa",
         "Saabna_et_al_2025_Anemone_coronaria",
+        "Wu_Gao_2024_Thunia_alba",
     }
+    thunia = next(r for r in data if r["study_id"] == "Wu_Gao_2024_Thunia_alba")
+    assert thunia["contrast_axis"] == "defence_state_and_consumer_function"
 
 
 def test_context_programs_are_explicitly_excluded_from_route_N():
