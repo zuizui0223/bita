@@ -30,13 +30,14 @@ jobs:
         run: python scripts/reconstruct_caruso_2019_dryad.py
       - name: Commit reproducibility receipt
         run: |
-          if git diff --quiet -- empirical/mechanism_pattern_synthesis/CARUSO_2019_DRYAD_RECEIPT_V1.json; then
+          path="empirical/mechanism_pattern_synthesis/CARUSO_2019_DRYAD_RECEIPT_V1.json"
+          if [ -z "$(git status --porcelain -- $path)" ]; then
             echo "Caruso Dryad receipt already current"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add empirical/mechanism_pattern_synthesis/CARUSO_2019_DRYAD_RECEIPT_V1.json
+          git add $path
           git commit -m "Record Caruso 2019 Dryad reconstruction receipt"
           git fetch origin analysis/pattern-expansion-v1
           git rebase origin/analysis/pattern-expansion-v1
