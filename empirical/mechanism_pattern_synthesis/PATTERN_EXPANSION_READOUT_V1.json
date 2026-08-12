@@ -11,24 +11,24 @@
     "same_system_clusters": 10
   },
   "combined_provisional": {
-    "independent_clusters": 17,
-    "records": 44,
+    "independent_clusters": 18,
+    "records": 46,
     "route_clusters": {
       "A_to_antagonism": 7,
       "A_to_pollination": 5,
-      "D_to_antagonism": 11,
+      "D_to_antagonism": 12,
       "D_to_pollination": 8
     },
     "same_system_clusters": 12
   },
-  "context_switch_clusters_provisional": 12,
+  "context_switch_clusters_provisional": 13,
   "expansion_batch_1": {
-    "independent_clusters": 3,
-    "records": 6,
+    "independent_clusters": 4,
+    "records": 8,
     "route_clusters": {
       "A_to_antagonism": 2,
       "A_to_pollination": 1,
-      "D_to_antagonism": 1,
+      "D_to_antagonism": 2,
       "D_to_pollination": 1
     },
     "same_system_clusters": 2
