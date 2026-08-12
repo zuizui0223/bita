@@ -1,135 +1,100 @@
-# Theoretical Ecology submission checklist — integrated theory + mechanism-pattern synthesis
+# Theoretical Ecology submission checklist — Mechanism → Pattern paper
 
-## Canonical manuscript package
+## Canonical manuscript architecture
 
 - [x] Canonical manuscript exists: `manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md`
-- [x] Integrated title reflects theory + mechanism-pattern synthesis
-- [x] Abstract and keywords are present
-- [x] Introduction states the ecological inference gap and conditional biological hypothesis
-- [x] Model/analytical framework contains the signed decomposition, orientation gate, local sign criterion, Proposition 1, and environmental derivative identities
-- [x] Finite sensitivity-analysis Methods and canonical numerical Results are integrated
-- [x] Mechanism-pattern synthesis Methods are integrated
-- [x] Empirical Results include mechanism recurrence, same-system architecture, conditionality, direct `A x D` scarcity, joint-cost evidence gap, and two quantitative modules
-- [x] Discussion keeps constituent-path evidence separate from estimation of `W_AD`
-- [x] Figure captions for Figures 1-3 are drafted
-- [x] Main manuscript tables 1-4 are drafted in `manuscript/TABLES_THEORETICAL_ECOLOGY.md`
-- [x] Data/code availability statement is drafted
-- [x] Competing-interests statement placeholder is present
-- [ ] Final title page with all authors, affiliations, emails, ORCIDs, and corresponding author
-- [ ] Final CRediT author-contributions statement
-- [ ] Funding statement with grant identifiers
-- [ ] Acknowledgements
-- [ ] Final author-approved competing-interests confirmation
+- [x] Title explicitly states **Mechanistic theory and meta-analytic patterns**
+- [x] Abstract asks the paired questions: what mechanism determines the sign, and what cross-system pattern recurs?
+- [x] **Part I — Mechanism** contains the mathematical theory and sensitivity analysis
+- [x] **Part II — Pattern** contains meta-analysis and cross-study pattern synthesis
+- [x] Section 6 explicitly integrates mechanism → pattern
+- [x] Old interleaved theory/evidence section structure is retired and regression-tested
 
-## Theory and inference contract
+## Part I — Mechanism
 
-- [x] `W_AD` is defined as a local mixed partial on declared trait/outcome coordinates
-- [x] Signed identity `W_AD = M_AD - G_AD - C_AD` is separated from biological interpretation
-- [x] Orientation gate is stated as an assumption/condition, not inferred from labels
-- [x] Oriented criterion `W_AD = rho - iota - kappa` is explicit
-- [x] `W_AD > 0` is distinguished from positive first derivatives
-- [x] Proposition 1 states structural mechanism non-identifiability from total `W`
-- [x] The proposition is explicitly limited: channel-specific interventions/structural restrictions can add identification
-- [x] Unrestricted environmental derivative identities and directional inequalities are explicit
-- [x] Evolutionary interpretation remains local; no covariance, optimum, ESS, or trajectory is inferred from the mixed partial alone
-- [x] Direct joint-cost curvature is used consistently as the mathematical `kappa` target
-- [x] `kappa` is carried as unidentified rather than zero
+- [x] `W_AD` is a local mixed partial on declared trait/outcome coordinates
+- [x] Signed identity `W_AD = M_AD - G_AD - C_AD` precedes biological orientation
+- [x] Orientation gate is explicit
+- [x] Oriented mechanism criterion `W_AD = rho - iota - kappa` is explicit
+- [x] Proposition 1 preserves structural mechanism non-identifiability from total `W`
+- [x] Environmental derivative balances and directional inequalities are explicit
+- [x] Canonical endpoint-normalized sensitivity analysis retains all 2,592 evaluations
+- [x] Finite-grid occupancy is never interpreted as prevalence in nature
+- [x] Figure 1 communicates signed identity → orientation gate → oriented balance → inference boundary
+- [x] Figure 2 is the canonical mechanistic sign-regime sensitivity figure
+- [x] Tables 1–2 are explicitly assigned to Part I — Mechanism
 
-## Finite sensitivity analysis
+## Part II — Pattern
 
-- [x] Canonical run identity fixed as `endpoint_normalized_grid_v2`
-- [x] 2,592 evaluations reproduced
-- [x] Analytic derivatives checked against independent finite differences
-- [x] Numerical neutrality convention documented
-- [x] Endpoint normalization documented
-- [x] Manuscript-relevant sensitivity summaries selected
-- [x] Finite-grid occupancy language replaces prevalence/probability language
-- [x] Canonical Figure 2 SVG recovered from the successful workflow artifact and committed with provenance
-- [x] Figure 2 is protected against the canonical `endpoint_normalized_grid_v2_report.json` by CI
+- [x] Meta-analysis is used only where outcomes admit a defensible common quantitative scale
+- [x] **Meta-analysis 1 — Leal et al. 2025 floral larceny** uses random-effects synthesis on oriented LRRs
+- [x] Leal canonical patterns retained: female fitness `-0.210` (48 clusters), nectar `-0.483` (28), visitation `-0.291` (22)
+- [x] Leal heterogeneity, dependence, influence, and sensitivity diagnostics remain explicit
+- [x] **Meta-analytic synthesis 2 — Sasidharan et al. 2023 FVOCs** retains the conservative 32-study-component topology
+- [x] Sasidharan assembled RD `+0.129`, LOCO positive `32/32`, paired-role limitation, and behavioral context dependence remain explicit
+- [x] 38-record / 14-cluster route ledger is explicitly a **theory-to-pattern scaffold**, not a grand meta-analysis
+- [x] Four mechanism families, 10 same-system clusters, and 11 context/sign-switch clusters map recurrence/conditionality without a fabricated common effect size
+- [x] Direct `A x D` search remains one strict sign-unresolved cluster
+- [x] Direct joint-cost search remains zero strict estimates; `kappa` is unidentified, not zero
+- [x] Cross-system Pattern conclusion is explicit: **recurrent mechanism plus context-dependent balance**, not a universal sign of `W_AD`
+- [x] Figure 3 is relabelled as a meta-analytic pattern architecture and preserves the identification boundary
+- [x] Tables 3–4 are explicitly assigned to Part II — Pattern
+- [x] Leal/Sasidharan robustness panels are assigned to Supplementary Figure S4 rather than overloading main Figure 3
+
+## Theory ↔ Pattern inference boundary
+
+- [x] Marginal route evidence is not called `W_AD`
+- [x] Same-system evidence is not called direct `A x D`
+- [x] Study/publication counts are not model parameters
+- [x] Screened/deposited fractions are not prevalence estimates
+- [x] Incompatible outcomes are not pooled merely to manufacture a meta-analysis
+- [x] Neither quantitative synthesis is presented as empirical calibration of `rho`, `iota`, `kappa`, or `W_AD`
+
+## Figures, tables, and reproducibility
+
+- [x] Figures 1–3 have canonical SVG sources
+- [x] Figure 2 is protected against `endpoint_normalized_grid_v2_report.json`
+- [x] Figure 3 is byte-reproducible from its canonical builder and evidence inputs
 - [x] Figures 1–3 have passed reproducible EPS vector export and header/BoundingBox validation
-- [x] Strengthened Figure 1 with explicit signed identity → orientation gate → oriented balance → inference boundary has passed EPS export
-- [ ] Re-run the same Figure 1–3 EPS export from the exact final submission commit and retain the final artifact/release files
-
-## Mechanism-pattern empirical synthesis
-
-- [x] Completion gate A-H adjudicated PASS
-- [x] All four marginal mechanism families have explicit source-adjudicated states
-- [x] Same-system multi-route linkage/dependence is retained
-- [x] Direct `A x D` search is saturated to the registered stopping rule
-- [x] Direct joint-cost search is saturated to the registered stopping rule
-- [x] Eleven independent context/sign-switch clusters are mapped to five theory-facing classes
-- [x] No incompatible cross-outcome grand moderator coefficient is manufactured
-- [x] Leal et al. 2025 quantitative module is pinned to immutable commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`
-- [x] Sasidharan et al. 2023 quantitative module uses the canonical 32-study-component dependence topology
-- [x] Module-specific independence/influence/heterogeneity/source-discrepancy limitations are reported
-- [x] Marginal and same-system evidence are explicitly prevented from being called `W_AD`
-- [x] Study/publication counts and deposited-data fractions are prevented from being called prevalence or parameters
-- [x] Figure 3 empirical mechanism-pattern architecture is generated reproducibly from committed evidence states
-- [ ] Decide whether robustness panels belong in main Figure 3 or Supplementary Figure S4
+- [x] Tables 1–4 follow the Part I Mechanism / Part II Pattern split
+- [ ] Re-run final EPS export from the exact submission commit
+- [ ] Run final 14+ workflow CI from the exact submission commit
 
 ## Literature and references
 
-- [x] Central quantitative modules have explicit DOI/source identities and reproducibility boundaries
-- [x] High-information mechanism studies used in the source-adjudicated ledger retain source verification state/locators in repository evidence products
-- [x] Obsolete manuscript claim that the literature layer is abstract-only with zero quantitative effects has been removed
-- [x] Central 13-reference manuscript spine has been checked against authoritative bibliographic sources
-- [x] Known Stevenson 2017 journal/DOI error is corrected in the canonical manuscript
-- [x] Incorrect/uncited Armbruster legacy entry and six other uncited legacy references are pruned
-- [x] Citation-to-reference presence and a 13-entry bibliography are protected by CI
-- [ ] Apply final *Theoretical Ecology* house formatting/full-author-list conventions to the clean 13-reference spine
-- [ ] Run one final citation/reference consistency pass after the last manuscript wording edit
-
-## Repository narrative and reproducibility
-
-- [x] Root `README.md` describes the integrated theory+synthesis paper
-- [x] `docs/SUBMISSION_SCOPE.md` reflects the integrated evidence architecture
-- [x] `docs/FINAL_SUBMISSION_AUDIT.md` records A-H PASS and the theory/empiricism boundary
-- [x] `SUPPLEMENT_MANIFEST.md` pins both quantitative modules and correct canonical paths
-- [x] Submission narrative regression test migrated away from the obsolete preliminary-literature-only contract
-- [x] Submission-scope regression test protects the integrated manuscript/evidence spine
-- [x] Figure 1/2/3 provenance and regression tests are committed
-- [x] Validated manuscript/figure head `51d75c8c8f02525430d7e369c1d9eeeb86964e99` passed 14/14 PR workflows
-- [x] Current EPS export receipt is recorded in `submission/FIGURE_EXPORT_RECEIPT_V1.md`
-- [ ] Regenerate final committed/generated outputs from the exact final submission commit
-- [ ] Create a release corresponding exactly to the submitted manuscript
-- [ ] Archive the release in Zenodo or another DOI-granting repository
-- [ ] Replace repository/archive placeholders in cover letter and manuscript with the archival DOI
-
-## Figures and tables
-
-- [x] Figure 1 explicitly shows the signed identity, orientation gate, oriented sign balance, and inference boundary
-- [x] Figure 2 canonical SVG is committed and provenance-recorded
-- [x] Figure 3 design/specification is fixed in `submission/FIGURE_AND_TABLE_PLAN.md`
-- [x] Tables 1-4 are drafted
-- [x] Figure 3 is generated by `scripts/build_empirical_mechanism_figure_svg.py` and byte-checked against the committed SVG
-- [x] Current Figures 1–3 EPS artifact generated successfully (`submission/FIGURE_EXPORT_RECEIPT_V1.md`)
-- [ ] Check final figure-panel labels against the final manuscript after all author/reference formatting edits
-- [ ] Decide final supplementary figure/table set and numbering
-- [ ] Verify final submitted captions repeat all non-prevalence/inference boundaries needed to avoid misreading
+- [x] Central 13-reference scientific spine has been checked
+- [x] Stevenson 2017 metadata corrected
+- [x] Erroneous/uncited legacy references pruned
+- [x] Citation-to-reference presence is regression-tested
+- [ ] Apply final *Theoretical Ecology*/Springer house formatting/full-author convention
+- [ ] Run final citation/reference consistency pass after the final wording edit
 
 ## Submission support
 
-- [x] Cover letter updated to the integrated theory+synthesis paper
-- [x] Figure/table plan updated to Figures 1-3 and Tables 1-4
-- [x] Bounded scientific reference audit recorded in `submission/REFERENCE_AUDIT_V1.md`
-- [x] Current figure export validation recorded in `submission/FIGURE_EXPORT_RECEIPT_V1.md`
-- [ ] Re-run final manuscript audit after author metadata, final reference style, and release/archive completion
-- [ ] Complete portal metadata template
+- [x] Cover letter now presents **Part I Mechanism + Part II Pattern**
+- [x] Submission scope explicitly defines Mechanism → Pattern
+- [x] Manuscript README explicitly defines Mechanism → Pattern
+- [x] Portal title, abstract, keywords, and framing are synchronized to the canonical manuscript
+- [x] Figure/Table plan assigns Figures/Tables to Mechanism versus Pattern roles
+- [x] Scientific figure export pipeline is validated
+- [ ] Exact repository release/tag and archival DOI
+- [ ] Repository licence/licence statement chosen by the author(s)
 
-## Submission portal information still required from authors
+## Author-controlled portal information still required
 
-- [ ] Full author order
+- [ ] Final author order and publication names
 - [ ] Affiliations
-- [ ] Corresponding author
+- [ ] Corresponding author and email
 - [ ] ORCIDs
-- [ ] Funding sources and grant numbers
-- [ ] Conflicts of interest
-- [ ] Suggested reviewers and exclusions
-- [ ] Confirmation that all authors approve submission
-- [ ] Choice of subscription publication or open access if applicable at submission
+- [ ] CRediT roles
+- [ ] Funding/grant information
+- [ ] Acknowledgements
+- [ ] Competing-interest confirmation
+- [ ] Suggested reviewers/exclusions if requested by the portal
+- [ ] Confirmation that all authors approve the exact submitted version and that it is not under consideration elsewhere
 
 ## Submission decision
 
-**Scientific theory+synthesis architecture: GO. Reproducible figure package: VALIDATED. Portal submission: NOT YET.**
+**Scientific structure: GO as Mechanism → Pattern. Quantitative Pattern layer: GO with explicit scale/dependence boundaries. Actual journal submission: blocked only by author-controlled metadata/licence/archive fields and the external submission portal.**
 
-Do not press submit until final house-style references, author-controlled metadata, the exact submission release/archive DOI, and a final CI/export run from that exact submission commit are complete. Additional literature searching is not a default blocker unless final source verification exposes a specific coverage problem or a new direct-design candidate that materially changes a registered evidence gap.
+Do not add another broad meta-analysis merely to make Part II look larger. The intended Pattern result is recurrent constituent mechanisms plus context-dependent balance; the current evidence supports that claim while preserving the direct-identification gaps.
