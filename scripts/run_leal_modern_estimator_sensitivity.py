@@ -22,6 +22,7 @@ OUT_MD = ROOT / "empirical" / "mechanism_pattern_synthesis" / "LEAL_2025_MODERN_
 OUT_JSON = ROOT / "empirical" / "mechanism_pattern_synthesis" / "LEAL_2025_MODERN_ESTIMATOR_SENSITIVITY_V1.json"
 PINNED_COMMIT = "ed33b25593c0d90ad6657753f6f5501d9efc7b82"
 PINNED_PATH = "empirical/broad_reality_evidence/larceny_gate/results/larceny_contributing_effects.csv"
+BORDERLINE_CI_MARGIN = 0.001
 
 TARGETS = {
     "female_reproductive_success": {
@@ -255,6 +256,7 @@ def main() -> None:
     grouped = _read_effects()
     results: dict[str, dict[str, float | int | str | bool]] = {}
     all_conservative_pass = True
+    borderline_outcomes: list[str] = []
 
     for outcome, effects in grouped.items():
         cfg = TARGETS[outcome]
@@ -266,6 +268,9 @@ def main() -> None:
             )
         modern = _reml_hk(effects)
         conservative_same_negative = modern["mkh_ci_high"] < 0.0 and modern["pooled"] < 0.0
+        borderline = conservative_same_negative and modern["mkh_ci_high"] > -BORDERLINE_CI_MARGIN
+        if borderline:
+            borderline_outcomes.append(outcome)
         all_conservative_pass = all_conservative_pass and conservative_same_negative
         results[outcome] = {
             "label": cfg["label"],
@@ -274,6 +279,7 @@ def main() -> None:
             "canonical_dl_tau2_recomputed": dl["tau2"],
             **modern,
             "modified_hartung_knapp_retains_negative_interval": conservative_same_negative,
+            "modified_hartung_knapp_borderline_zero_margin": borderline,
         }
 
     payload = {
@@ -281,6 +287,8 @@ def main() -> None:
         "canonical_source_commit": PINNED_COMMIT,
         "canonical_results_remain_der_simonian_laird": True,
         "sensitivity_only": True,
+        "borderline_ci_margin": BORDERLINE_CI_MARGIN,
+        "borderline_outcomes": borderline_outcomes,
         "methods": {
             "heterogeneity_estimator": "REML profile likelihood",
             "interval": "modified Hartung-Knapp with Student-t df=k-1",
@@ -290,7 +298,9 @@ def main() -> None:
         "interpretation_boundary": (
             "This is a robustness analysis of the three already admitted Leal arrows. "
             "It does not change the preregistered canonical pooled estimates, search universe, "
-            "mechanism mapping, or any bita model parameter."
+            "mechanism mapping, or any bita model parameter. An interval that remains below zero "
+            "but ends within 0.001 of zero is explicitly flagged as borderline rather than described "
+            "as strongly robust."
         ),
     }
     OUT_JSON.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -303,24 +313,27 @@ def main() -> None:
         "The preregistered canonical Leal module remains the DerSimonian–Laird analysis pinned at "
         f"`{PINNED_COMMIT}`. This sensitivity reuses the same one-effect-per-independent-cluster inputs and asks whether the three informative directions survive REML heterogeneity estimation plus modified Hartung–Knapp inference. It does not replace the canonical estimates.",
         "",
-        "Method motivation: Hartung–Knapp-type intervals account for uncertainty in the mean under random effects; the modified form avoids counterintuitively narrow intervals when the Hartung–Knapp scale factor falls below one. See Röver, Knapp & Friede (2015, DOI `10.1186/s12874-015-0091-1`) and Brockwell & Gordon (2016, DOI `10.1002/sim.7140`) for coverage-focused evaluations.",
+        "Method motivation: Hartung–Knapp-type intervals account for uncertainty in the mean under random effects; the modified form avoids counterintuitively narrow intervals when the Hartung–Knapp scale factor falls below one. See Röver, Knapp & Friede (2015, DOI `10.1186/s12874-015-0091-1`) and Partlett & Riley (2017, DOI `10.1002/sim.7140`) for coverage-focused evaluations.",
         "",
-        "| outcome | k | canonical DL pooled (recomputed) | REML pooled | REML tau² | mHK 95% CI | negative interval retained? |",
-        "|---|---:|---:|---:|---:|---:|---|",
+        "| outcome | k | canonical DL pooled (recomputed) | REML pooled | REML tau² | mHK 95% CI | negative interval retained? | boundary flag |",
+        "|---|---:|---:|---:|---:|---:|---|---|",
     ]
     for outcome in ("female_reproductive_success", "nectar_standing_crop", "visitation_rate"):
         row = results[outcome]
         lines.append(
             f"| {row['label']} | {row['k']} | {row['canonical_dl_pooled_recomputed']:.3f} | "
             f"{row['pooled']:.3f} | {row['tau2_reml']:.3f} | "
-            f"[{row['mkh_ci_low']:.3f}, {row['mkh_ci_high']:.3f}] | "
-            f"{'yes' if row['modified_hartung_knapp_retains_negative_interval'] else 'no'} |"
+            f"[{row['mkh_ci_low']:.4f}, {row['mkh_ci_high']:.4f}] | "
+            f"{'yes' if row['modified_hartung_knapp_retains_negative_interval'] else 'no'} | "
+            f"{'borderline to zero' if row['modified_hartung_knapp_borderline_zero_margin'] else 'not borderline'} |"
         )
     lines.extend([
         "",
         "## Interpretation",
         "",
-        "The decision is deliberately binary only at the robustness level: if all three modified Hartung–Knapp intervals remain below zero, the directional conclusions are robust to a more conservative random-effects inferential convention. If any interval crosses zero, the canonical DL estimate is retained but the corresponding manuscript claim must be qualified as estimator-sensitive.",
+        "All three pooled directions remain negative under REML plus modified Hartung–Knapp inference. Female reproductive success and nectar standing crop retain clearly negative intervals. Legitimate visitation also remains below zero, but its upper limit lies within 0.001 of zero and is therefore treated as **borderline estimator robustness**, not as a strong exclusion of zero.",
+        "",
+        "The decision is deliberately limited to robustness: if an interval crosses zero, the canonical DL estimate is retained but the corresponding manuscript claim must be qualified as estimator-sensitive. An interval that technically excludes zero but approaches it within the declared margin is flagged rather than rounded into an apparently stronger result.",
         "",
         "This sensitivity does **not** estimate `rho`, `iota`, `kappa`, or `W_AD`; does not reduce the extreme heterogeneity; and does not turn the Leal deposit into an independent systematic review.",
     ])
