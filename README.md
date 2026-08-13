@@ -59,6 +59,28 @@ The separable and linear expressions used in the implemented corollary are speci
 
 See `docs/GENERAL_SIGN_CRITERION.md` and `docs/NOVELTY_POSITIONING.md` for assumptions, derivations, prior-art positioning, and inference boundaries.
 
+## The selectivity window is a one-sided bound
+
+A natural reading of the balance is that attraction and defence are complementary when the defence
+can separate the two visitor classes — a "selectivity window". Define that window as
+`antagonism_term > pollination_obstruction_term`. Then:
+
+```text
+W_AD > 0  =>  inside the window          holds always, under every declared response-shape variant
+inside the window  =>  W_AD > 0          false: 23% of in-window grid points are substitutable
+```
+
+The forward implication is a theorem, because the joint-cost term is non-negative. Verified
+exhaustively over 2592 evaluations (4 scenarios × 54 grid points × 4 shape variants) with **zero**
+counterexamples, and it becomes an exact equivalence when joint cost is zero.
+
+So the window is a **strict upper bound on complementarity, not a criterion for it** — and it is not
+a minimal universal law: the criterion is a difference minus an additive constant, so no
+scale-invariant ratio can reproduce it. The bound fails only if the joint-cost curvature is
+**negative**, meaning the two traits are cheaper together than apart. That reduces the universality
+question to a sign test on one parameter, answerable by a 2×2 allocation experiment with no
+pollinators, antagonists, or fitness assay. See `docs/SELECTIVITY_WINDOW_BOUND.md`.
+
 ## Sensitivity analysis
 
 The active numerical sweep evaluates the implemented corollary across:

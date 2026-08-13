@@ -129,6 +129,7 @@ REQUIRED_ACTIVE_PATHS = [
     "docs/BACKGROUND_NOVELTY_GAP_REVIEW.md",
     "docs/INTRODUCTION_BLUEPRINT.md",
     "docs/PART_I_ROBUSTNESS_PROTOCOL.md",
+    "docs/SELECTIVITY_WINDOW_BOUND.md",
     "theory/README.md",
     "configs/part_i_robustness_grid.json",
     "trait_architecture/model.py",
