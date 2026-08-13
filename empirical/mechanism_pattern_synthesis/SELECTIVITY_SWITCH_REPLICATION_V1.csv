@@ -1,0 +1,4 @@
+study_cluster,plant_taxon,defence_axis,switch_axis,low_or_selective_state,high_or_nonselective_state,replication_class,formal_poolable
+Galen_2011_Polemonium,Polemonium viscosum,2PE_floral_volatile,dose,"moderate 2PE: antagonist/resource protection with no detected pollination cost","high 2PE: ant deterrence plus reduced bumblebee visitation/pollination",WITHIN_MECHANISM_DOSE_SWITCH,false
+Barlow_2017_Aconitum,Aconitum spp.,nectar_alkaloids,relative_consumer_threshold,"~20+ ppm: robber deterrence while pollinator sharp-decline threshold not yet reached","~200-380 ppm: legitimate pollinator visitation declines sharply",THRESHOLD_SEPARATION_WINDOW,false
+Rivest_2024_Lupinus,Lupinus argenteus,pollen_alkaloids,consumer_guild_and_response_stage,"field pollen chemistry: no net negative pollinator visitation; negative field bacterial association","pollen thieves null; common bacterial isolate thermopsine assay null",GUILD_TOLERANCE_FALSIFICATION,false
