@@ -1,5 +1,7 @@
 """Synchronize the saturated Pattern package and one-sided selectivity story."""
 
+# Integration entry point: preserve the saturated Pattern generator, then layer the
+# resolved theorem and empirical bridge without changing the evidence architecture.
 from sync_expanded_submission_narrative_base import main as sync_base
 from sync_selectivity_readme import main as sync_readme
 from sync_selectivity_manuscript_part1 import main as sync_part1
