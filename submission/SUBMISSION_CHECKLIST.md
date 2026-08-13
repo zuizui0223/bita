@@ -30,6 +30,10 @@
 - [x] **Meta-analysis 1 — Leal et al. 2025 floral larceny** uses random-effects synthesis on oriented LRRs
 - [x] Leal canonical patterns retained: female fitness `-0.210` (48 clusters), nectar `-0.483` (28), visitation `-0.291` (22)
 - [x] Leal heterogeneity, dependence, influence, and sensitivity diagnostics remain explicit
+- [x] Leal modern-estimator sensitivity uses the same independent-cluster inputs with REML + modified Hartung–Knapp and leaves the canonical DerSimonian–Laird estimates unchanged
+- [x] Female-fitness mHK CI remains below zero: `[-0.3318, -0.0777]`
+- [x] Nectar mHK CI remains below zero: `[-0.7948, -0.1840]`
+- [x] Legitimate-visitation mHK CI remains below zero but **borderline to zero**: `[-0.5756, -0.00018]`
 - [x] **Meta-analytic synthesis 2 — Sasidharan et al. 2023 FVOCs** retains the conservative 32-study-component topology
 - [x] Sasidharan assembled RD `+0.129`, LOCO positive `32/32`, paired-role limitation, and behavioral context dependence remain explicit
 - [x] Saturated route ledger is **56 records / 25 independent biological clusters**, explicitly a theory-to-Pattern scaffold rather than a grand meta-analysis
@@ -46,7 +50,7 @@
 - [x] Cross-system Pattern conclusion is explicit: **recurrent mechanisms plus context-dependent balance**, not a universal sign of `W_AD`
 - [x] Figure 3 is generated from the saturated evidence state and preserves the identification boundary
 - [x] Tables 3–4 are synchronized to the 25-system Pattern candidate
-- [x] Leal/Sasidharan robustness panels are assigned to Supplementary Figure S4 rather than overloading main Figure 3
+- [x] Leal/Sasidharan robustness remains Supplementary Figure S4 rather than overloading main Figure 3
 
 ## Theory ↔ Pattern inference boundary
 
@@ -59,8 +63,11 @@
 - [x] Incompatible outcomes are not pooled merely to manufacture a meta-analysis
 - [x] Neither reproduced quantitative synthesis is presented as empirical calibration of `rho`, `iota`, `kappa`, or `W_AD`
 - [x] Secondary contextual syntheses are not presented as empirical calibration of `W_AD`
+- [x] REML/mHK sensitivity is not presented as a new canonical effect estimate or as stronger biological homogeneity
 
 ## Figures, tables, and reproducibility
+
+### Main figures/tables
 
 - [x] Figures 1–3 have canonical SVG scientific sources
 - [x] Figure 2 is protected against `endpoint_normalized_grid_v2_report.json`
@@ -70,10 +77,24 @@
 - [x] Submission EPS filenames follow `Fig1.eps`, `Fig2.eps`, `Fig3.eps`
 - [x] Submission exporter deterministically strips the visible outer title from each canonical SVG while retaining panel/scientific content
 - [x] EPS output remains vector and converts text to paths to prevent font substitution
-- [x] Submission-form EPS export passed from source head `417ee8ce97269f07207d824f8950cbc275c9115a`
-- [x] Submission-form EPS artifact provenance: run `31567045329`, artifact `9129851593`, SHA-256 `ac255025840465dce4fd22e645e823ea80a09af7cbcc8770aeec7be27c35722f`
-- [x] Candidate CI passed on Python 3.10/3.11/3.12 after the saturated manuscript promotion and house-style migration
-- [x] Candidate `submission-scope` and dedicated Pattern/house-style workflows passed
+- [x] Submission-form EPS export passed from source head `fe274a91349931c08b8d820f99dc7b3ab5d8f725`
+- [x] Submission-form EPS artifact provenance: run `31666278452`, artifact `9168041835`, SHA-256 `f4fb42b7421958a5a5251f24f03c666de2735b28bbded739286e65e9705090fd`
+- [x] Core CI and `submission-scope` passed at that same source head
+
+### Supplementary package
+
+- [x] Reader-facing supplement source exists at `manuscript/supplementary/SUPPLEMENTARY_MATERIAL.md`
+- [x] Figures S1–S4 are generated reproducibly
+- [x] Tables S1–S6 are generated reproducibly from authoritative inputs
+- [x] Fig. S1 checks analytic vs finite-difference mixed partials over all 2,592 evaluations
+- [x] Fig. S2 reports scenario/response-shape sign maps without treating finite-grid occupancy as prevalence
+- [x] Fig. S3 reports the saturated 14-system same-system route matrix without treating cells as effect sizes
+- [x] Fig. S4 retains canonical DL LRRs/I² and Sasidharan LOCO structure
+- [x] Fig. S4 is deterministically augmented from `LEAL_2025_MODERN_ESTIMATOR_SENSITIVITY_V1.json` with REML + modified Hartung–Knapp intervals
+- [x] Fig. S4 augmentation is idempotent and regression-tested
+- [x] Supplement build workflow reproduces Part I evaluations, Figures S1–S4, Tables S1–S6, and validates them before generated-asset commit
+- [x] Current supplementary-package workflow completed successfully after modern-estimator synchronization
+- [ ] Render the final reader-facing supplementary PDF after author/release metadata and archival DOI are frozen
 
 ## Theoretical Ecology / Springer structural formatting
 
@@ -90,13 +111,13 @@
 - [x] House-style transformation is idempotent and regression-tested
 - [ ] Render the final author-approved manuscript in the chosen journal upload format after author/title-page/declaration fields are supplied
 - [ ] If submitting a Word manuscript, include the journal-requested companion PDF of the manuscript
-- [ ] Package supplementary text/presentation material as PDF and tabular supplements in appropriate CSV/XLSX files after final numbering is frozen
+- [ ] Package supplementary text/presentation material as final PDF and tabular supplements in appropriate CSV/XLSX files after release metadata are frozen
 
 ## Literature and references
 
 - [x] Expanded **20-reference** scientific spine is citation-presence regression-tested
 - [x] New representative Pattern references are included for Page 2014, Sun & Huang 2015, Wu & Gao 2024, and Zhou et al. 2020
-- [x] Secondary-synthesis references are included for Haas-Desmarais 2026, Caruso 2019, and Junker–Blüthgen 2010
+- [x] Secondary-synthesis references are included for Haas-Desmarais 2026, Caruso 2019, and Junker & Blüthgen 2010
 - [x] Stevenson 2017 metadata correction is preserved
 - [x] Erroneous/uncited legacy references remain pruned
 - [x] Bibliography is alphabetically ordered
@@ -111,8 +132,9 @@
 - [x] Manuscript README explicitly defines Mechanism → Pattern
 - [x] Portal title, abstract, keywords, and framing are synchronized to the saturated manuscript
 - [x] Figure/Table plan assigns Figures/Tables to Mechanism versus Pattern roles and uses saturated Part II counts
-- [x] Final audit, manuscript audit, supplement manifest, reference audit, and figure-export receipt are synchronized to the 25-system candidate
-- [x] Final submission-form EPS export is validated and its digest recorded
+- [x] Final audit, manuscript audit, supplement manifest, reference audit, figure-export receipt, and Springer upload plan are synchronized to the 25-system candidate
+- [x] Current submission-form EPS export is validated and its digest recorded
+- [x] Supplementary robustness display is synchronized to the modern Gate G estimator sensitivity
 - [ ] Exact repository release/tag and archival DOI
 - [ ] Repository licence/licence statement chosen by the author(s)
 
@@ -132,6 +154,6 @@
 
 ## Submission decision
 
-**Scientific structure: GO. Saturated Pattern package: GO. Evidence-expansion gate: CLOSED/SATURATED. Journal structural house style: PASS. Submission-form EPS: GREEN. Actual journal submission remains blocked only by author-controlled metadata/declarations/reviewers/licence, final rendered manuscript/supplement files, release/archive DOI, all-author approval, and the authenticated external portal.**
+**Scientific structure: GO. Saturated Pattern package: GO. Evidence-expansion gate: CLOSED/SATURATED. Journal structural house style: PASS. Main submission-form EPS: GREEN. Supplementary source package: GREEN/REPRODUCIBLE. Actual journal submission remains blocked only by author-controlled metadata/declarations/reviewers/licence, final rendered manuscript/supplement files, release/archive DOI, all-author approval, and the authenticated external portal.**
 
 Do not add another broad meta-analysis merely to make Part II look larger. The registered expansion has saturated its current theory-facing Pattern classes. The intended result remains recurrent constituent mechanisms plus context-dependent balance while preserving the direct-identification gaps.
