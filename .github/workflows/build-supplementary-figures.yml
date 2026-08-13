@@ -1,4 +1,4 @@
-name: Build supplementary figures
+name: Build supplementary package
 
 on:
   push:
@@ -6,16 +6,23 @@ on:
       - analysis/pattern-expansion-v1
     paths:
       - "scripts/build_supplementary_figures_svg.py"
+      - "scripts/build_supplementary_tables_s1_s3.py"
+      - "scripts/build_supplementary_tables_s4_s6.py"
       - "scripts/run_part_i_robustness.py"
       - "tests/test_build_supplementary_figures_svg.py"
+      - "tests/test_build_supplementary_tables.py"
       - "configs/part_i_robustness_grid.json"
       - "trait_architecture/model.py"
       - "trait_architecture/robustness.py"
       - "empirical/mechanism_pattern_synthesis/*LEDGER*_V1.csv"
       - "empirical/mechanism_pattern_synthesis/EXPANSION_SIGN_SWITCH_BATCH_*_V1.csv"
       - "empirical/mechanism_pattern_synthesis/EXPANSION_CONTEXT_PROGRAMS_V1.csv"
+      - "empirical/mechanism_pattern_synthesis/*PRIORITY_RESCREEN_BATCH_*_V1.csv"
+      - "empirical/mechanism_pattern_synthesis/DIRECT_AXD_AUDIT_V1.csv"
+      - "empirical/mechanism_pattern_synthesis/JOINT_COST_AUDIT_V1.csv"
       - "empirical/mechanism_pattern_synthesis/SECONDARY_SYNTHESIS_MODULES_V1.csv"
       - "empirical/mechanism_pattern_synthesis/SYNTHESIS_ROBUSTNESS_AUDIT_V1.md"
+      - "manuscript/supplementary/SUPPLEMENTARY_MATERIAL.md"
       - ".github/workflows/build-supplementary-figures.yml"
   workflow_dispatch:
 
@@ -40,18 +47,22 @@ jobs:
         run: python scripts/run_part_i_robustness.py configs/part_i_robustness_grid.json artifacts/supplementary/part_i
       - name: Build Supplementary Figures S1-S4
         run: python scripts/build_supplementary_figures_svg.py artifacts/supplementary/part_i/part_i_sensitivity_evaluations.csv manuscript/supplementary/figures
-      - name: Validate supplementary figures
-        run: pytest -q tests/test_build_supplementary_figures_svg.py
-      - name: Commit generated SVGs when changed
+      - name: Build Supplementary Tables S1-S6
         run: |
-          paths="manuscript/supplementary/figures"
+          python scripts/build_supplementary_tables_s1_s3.py artifacts/supplementary/part_i/part_i_full_tested_set_summary.csv manuscript/supplementary/tables
+          python scripts/build_supplementary_tables_s4_s6.py manuscript/supplementary/tables
+      - name: Validate supplementary package
+        run: pytest -q tests/test_build_supplementary_figures_svg.py tests/test_build_supplementary_tables.py
+      - name: Commit generated supplement assets when changed
+        run: |
+          paths="manuscript/supplementary/figures manuscript/supplementary/tables"
           if [ -z "$(git status --porcelain -- $paths)" ]; then
-            echo "Supplementary SVGs already current"
+            echo "Supplementary assets already current"
           else
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add $paths
-            git commit -m "Generate Supplementary Figures S1-S4"
+            git commit -m "Generate Supplementary Figures S1-S4 and Tables S1-S6"
             git fetch origin analysis/pattern-expansion-v1
             git rebase origin/analysis/pattern-expansion-v1
             git push origin HEAD:analysis/pattern-expansion-v1
