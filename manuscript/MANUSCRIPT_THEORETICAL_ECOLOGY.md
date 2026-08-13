@@ -44,11 +44,11 @@ These routes imply neither universal complementarity nor universal antagonism. A
 
 The paper is deliberately organized as two linked but inferentially distinct parts.
 
-**Part I — Mechanism.** We derive the local mathematical principle governing attraction-defence complementarity. The contribution is the mechanism-facing decomposition, orientation gate, non-identifiability result, environmental derivative criterion, and finite sensitivity analysis. This part asks **why and under what conditions the sign changes**.
+**Part I — Mechanism.** We derive the local attraction-defence balance, make its orientation and non-identifiability assumptions explicit, and then ask whether any stronger statement survives response-shape variation. The answer is one-sided: under non-negative joint-cost curvature, complementarity is restricted to a selectivity window where antagonist relief exceeds pollinator interference. The window is necessary but not sufficient. This part asks **why the sign changes, where complementarity is permitted, and what can break that bound**.
 
-**Part II — Pattern.** We then use those mechanism classes to organize cross-study evidence. Quantitative meta-analysis is used where compatible effect scales exist; otherwise source-adjudicated study clusters are used to map recurrence, same-system co-occurrence, conditionality, and identification gaps without manufacturing a common effect size. This part asks **which theory-predicted mechanisms recur across systems, which pattern is general, and where context changes the state**.
+**Part II — Pattern.** We then use those mechanism classes to organize cross-study evidence. Quantitative meta-analysis is used where compatible effect scales exist; otherwise source-adjudicated study clusters map recurrence, same-system co-occurrence, conditionality, and identification gaps without manufacturing a common effect size. This part asks **which theory-predicted pathways recur, whether the exposure gate is open in nature, and why the window moves among systems**.
 
-The key synthesis is therefore Mechanism \(\rightarrow\) Pattern, not theory \(\rightarrow\) validation. Cross-system recurrence is evidence for biological generality of the constituent processes; it is not a prevalence estimate and it does not empirically identify \(W_{AD}\).
+The key synthesis is therefore Mechanism \(\rightarrow\) Pattern, not theory \(\rightarrow\) validation. Cross-system recurrence shows that the constituent processes and switching architecture are biologically real; it does not estimate the prevalence or total sign of \(W_{AD}\).
 
 ### 1.6 Paper organization
 
@@ -188,6 +188,22 @@ The finite design evaluated \(A,D\in\{0.2,0.5,0.8\}\), pollinator-service and an
 
 Analytic mixed partials were checked against independently implemented finite-difference derivatives. The absolute numerical tolerance for classifying zero was \(10^{-10}\) on the declared score scale. Finite-grid percentages are descriptive occupancies under the declared design, not probabilities or estimates of prevalence in nature.
 
+### 2.7 Selectivity window and one-sided bound
+
+For the deployed oriented family, define the **selectivity window** as the region in which antagonist relief exceeds pollinator interference before the direct joint-cost term is charged.
+
+**Theorem 1 (one-sided selectivity bound).** If the three deployed terms are non-negative, then
+
+\[
+W_{AD}>0 \;\Longrightarrow\; \rho>\iota.
+\]
+
+Equivalently, complementarity does not occur outside the selectivity window.
+
+The proof is immediate from \(W_{AD}=\rho-\iota-\kappa\): if \(W_{AD}>0\) and \(\kappa\ge0\), then \(\rho-\iota=W_{AD}+\kappa>0\). The proof uses only the non-negative relief-minus-interference-minus-cost structure, preserved by all four declared endpoint-normalized response-shape variants. When \(\kappa=0\), the implication runs both ways and the window becomes the exact sign criterion.
+
+The converse is not generally true when \(\kappa>0\). Outside the window, complementarity would require \(\kappa<\rho-\iota\le0\). Thus a **negative joint-cost curvature is necessary for the bound to fail, and sufficient when negative enough**. Because the implemented parameterization constrains direct joint cost to be non-negative, this is a structural result of the declared family rather than an empirical statement about joint-cost curvature in nature.
+
 ## 3. Part I results — mechanistic sign regimes
 
 ### 3.1 General sign criterion
@@ -205,6 +221,12 @@ Across the 2,592 declared evaluations, 1,342 were complementary and 1,250 were s
 Across 648 fixed case-by-parameter-scenario summaries, 480 were unanimous across the four response-shape variants and 168 were mixed or sensitive. In the high-antagonism-tracking, low-pollination-obstruction, low-direct-joint-cost scenario, 617 of 648 evaluations were complementary and 144 of 162 local cases were unanimous across response shapes. In the high-pollination-obstruction and high-direct-joint-cost scenario, 610 of 648 evaluations were substitutable and 138 of 162 local cases were unanimous.
 
 After combining all four deliberately contrasting biological scenarios and response shapes, none of the 162 local cases was unanimous across the full tested set. This is expected for a conditional theory in which biologically decisive route strengths are deliberately varied.
+
+### 3.4 Verification of the one-sided selectivity bound
+
+The theorem itself is algebraic; the declared grid verifies that the implementation obeys its premises across the full finite design. Among 2,592 evaluations, all 1,342 complementary evaluations occurred inside the selectivity window, giving **zero false negatives** for the bound. The converse was loose: 397 in-window evaluations were substitutable, so the share of in-window points that were genuinely complementary was 77.2%; approximately 23% of the window therefore failed as a sufficient criterion.
+
+When direct joint cost was forced to zero, the window and the sign criterion coincided exactly across the same declared design. These fractions are unweighted finite-grid occupancies, not estimates of natural prevalence. Their role is to distinguish an exact structural implication from the false two-sided rule that the finite design itself rejects.
 
 ## 4. Part II — Meta-analysis and cross-study pattern synthesis
 
@@ -256,11 +278,11 @@ The same-system panel therefore supports guarded defence, shared signal tracking
 
 ### 5.2 Identification-gap pattern: direct interaction scarcity and joint cost
 
-The registered direct \(A\times D\) search reached its stopping rule with one strict current cluster: Soper Gorden and Adler's (2018) *Impatiens capensis* study. The reconstructed interaction for chasmogamous fruits per plant per day was \(-0.0820\pm0.0548\) SE, whereas the interaction for seeds per chasmogamous fruit was \(+0.1040\pm0.1043\) SE. Both confidence intervals included zero. The direct evidence was therefore estimable but sign-unresolved and reproductive-component dependent in point direction.
+The registered direct \(A\times D\) search reached its stopping rule with one strict total reproductive-outcome cluster: Soper Gorden and Adler's (2018) *Impatiens capensis* study. The reconstructed interaction for chasmogamous fruits per plant per day was \(-0.0820\pm0.0548\) SE, whereas the interaction for seeds per chasmogamous fruit was \(+0.1040\pm0.1043\) SE. Both confidence intervals included zero, so the cleanest total-outcome candidate remained sign-unresolved and reproductive-component dependent in point direction.
 
-Near-direct studies repeatedly failed for a small set of reasons: ecological-agent treatments were substituted for a defence phenotype, defence was measured on the wrong organ, attraction and defence were co-measured without an interaction term, a single dual-function trait replaced two distinct axes, data could not be linked at the required biological unit, or a second factorial axis represented reward rather than an independently justified defence trait. The saturated search thus identified scarcity of the required design itself as an empirical result.
+A higher-specificity crossed floral-trait program nevertheless shows that channel-level interaction signs can reverse with consumer context. Kessler et al. (2015) independently crossed floral benzylacetone emission with floral nectar production. With \(D\) oriented as nectar restriction, source-mean pollination-channel crossed contrasts were \(-0.790\) for the native visitor community, \(-0.432\) under *Manduca sexta*, and \(+0.8699\) under *Hyles lineata*. These values are direct crossed-trait contrasts on a mutualist-mediated outcome, not estimates of total \(W_{AD}\), and the published summaries do not identify an interaction standard error or confidence interval. They therefore strengthen the context-dependence Pattern without resolving total curvature.
 
-The independent direct joint-cost search also reached its stopping rule, but with zero strict eligible estimates of the additional intrinsic cost of simultaneous investment in distinct floral attraction and defence/access axes. Studies commonly measured marginal attraction cost, marginal defence cost, trait integration, or ecological interference; none in the registered search directly identified the strict joint-cost curvature. Consequently, \(\kappa\) remains empirically unidentified rather than estimated as zero.
+The independent direct joint-cost search reached its stopping rule with zero strict eligible estimates of the additional intrinsic cost of simultaneous investment in distinct floral attraction and defence/access axes. The correct empirical state for \(\kappa\) is uncertainty, not zero. After Theorem 1 this gap has sharper meaning: the sign of direct joint-cost curvature is the minimal empirical gate for whether the one-sided selectivity bound applies biologically to a focal trait pair.
 
 ### 5.3 Conditionality pattern: mechanism channels open, close, and change role
 
@@ -270,13 +292,15 @@ The resulting ontology is broader than a list of positive-versus-negative revers
 
 Conditionality therefore occurs as true direction changes, as threshold-like opening or closing of channels, and as changes in the ecological role carried by the same consumer taxon. This is the empirical Pattern most directly aligned with the Part I balance criterion.
 
-### 5.4 Meta-analysis 1: floral larceny imposed recurrent costs with extreme heterogeneity
+### 5.4 Meta-analysis 1: floral larceny opened an average antagonist-pressure gate but not a universal one
 
 The Leal et al. (2025) deposited-synthesis reanalysis recovered a pooled log response ratio of \(-0.210\) for female reproductive success across 48 independent study clusters, \(-0.483\) for nectar standing crop across 28 clusters, and \(-0.291\) for legitimate visitation across 22 clusters. These correspond to approximately 19%, 38%, and 25% reductions on the response-ratio scale, respectively. Male reproductive success was highly heterogeneous and uninformative.
 
-The female-fitness, reward, and visitation effects retained their sign and exclusion of zero across the declared within-cluster correlation choices and when the quarantined sign-discrepant source rows were included. Leave-one-cluster-out refits retained direction throughout. Heterogeneity was nevertheless extreme, with \(I^2\) near 98-100% in the main strata. Six declared moderator analyses detected no statistically resolved context dependence and explained little of that heterogeneity. The synthesis therefore established a realised antagonist-pressure gate while also showing that the available coarse moderators did not explain why larceny costs varied so strongly among systems.
+The female-fitness direction was repeatable but not universal: 35 of 48 clusters (73%) were negative, while the 95% prediction interval was \(-1.13,+0.71\) and significantly positive systems occurred. The female-fitness, reward, and visitation pooled directions survived every leave-one-cluster-out refit, the declared within-cluster correlation choices, and reinstatement of quarantined sign-discrepant source rows. Six declared moderator analyses detected no statistically resolved context dependence and explained only 0-8% of the extreme heterogeneity. The synthesis therefore establishes that the antagonist-pressure gate can be open on average while leaving its realised magnitude and even sign strongly system dependent.
 
-Larceny exposure also reduced legitimate visitation, demonstrating that the environmental indices \(H\) and \(P\) need not be empirically separable. This observation does not alter the general sign criterion; rather, it shows that the separable implementation is a special case whose environmental interpretation must be checked in data.
+The apparent reward-depletion sequence is not treated as a demonstrated mechanism. Only five clusters measured nectar standing crop, legitimate visitation, and female fitness together, and only two of those showed all three arrows negative. Among the eleven clusters measuring both nectar and visitation, the within-study association between reward depletion and visitation loss was \(r=-0.17\), opposite in sign to the simplest reward-depletion prediction and indistinguishable from zero at that sample size. The three pooled arrows are therefore constituent-path evidence, not an end-to-end within-study mechanism chain.
+
+Larceny exposure also reduced legitimate visitation, demonstrating that the environmental indices \(H\) and \(P\) need not be empirically separable. This observation does not estimate \(W_{AD}\); it shows that exposure can move more than one channel at once and that the location of the selectivity window is itself an empirical ecological state.
 
 ### 5.5 Meta-analytic synthesis 2: floral volatile responses were shared but composition-dependent
 
@@ -294,11 +318,13 @@ The two reproduced quantitative syntheses retain their principal direction under
 
 ## 6. Integration — from mechanism to pattern
 
-### 6.1 A conditional sign boundary is biologically necessary, not merely mathematically possible
+### 6.1 A recurrent switching architecture becomes a one-sided window, not a sign criterion
 
-Part I shows that local complementarity requires antagonist relief to exceed pollinator interference plus direct joint-cost curvature. Part II shows why each side of that inequality must remain open. Independent systems include guarded states in which antagonist reduction occurs with little detected pollinator cost, signal axes tracked by both mutualists and antagonists, physical barriers whose efficacy depends on consumer size or attack mode, and cases in which the same visitor changes from legitimate pollinator to robber while its arrival rate stays similar. Consumer role can even reverse across life stages.
+Part I now gives the recurrent route-separation Pattern a precise mathematical role. Under non-negative joint-cost curvature, antagonist relief must exceed pollinator interference before complementarity is possible. Spatial, temporal, chemical, and attack-mode separation can therefore move a system into a **permissive selectivity window**, but they do not determine the sign of \(W_{AD}\) once exposure and joint cost are included.
 
-The combined result is stronger than simply observing literature heterogeneity. The relevant heterogeneity has mechanism structure: ecological conditions determine whether a channel is expressed, how strongly it is expressed, and what ecological function a consumer performs. A universal attraction-defence sign would therefore erase precisely the biological variation that the theory says is decisive.
+Part II supplies the corresponding biology. Independent systems include guarded states in which antagonist reduction occurs with little detected pollinator cost, barriers whose efficacy depends on consumer size or attack mode, and cases in which the same visitor changes from legitimate pollinator to robber while its arrival rate stays similar. These recurrent switching architectures are exactly what can alter \(\rho\) relative to \(\iota\). Their recurrence supports the existence of the window, not the false two-sided claim that every in-window system must be complementary.
+
+The larceny synthesis adds the other half of the story: the exposure gate that loads antagonist relief is non-zero on average but strongly heterogeneous. Thus the window can open, but the current empirical synthesis cannot yet predict where it opens in a new system.
 
 ### 6.2 Constituent-path evidence is not validation of the mixed partial
 
@@ -306,11 +332,11 @@ The empirical synthesis supports the biological reality and recurrence of severa
 
 Same-system studies further show that antagonist relief and pollinator interference can coexist, separate, or be routed through different consumer functions. None of these marginal, same-system, or secondary-synthesis results is algebraically equivalent to the direct attraction-defence mixed partial. That distinction is the empirical version of Proposition 1. More observations of total fitness or more unrelated route studies cannot identify the channel allocation unless the same focal traits and channel outcomes are linked within a design that supports the required cross-curvatures.
 
-### 6.3 Direct evidence scarcity is itself informative
+### 6.3 Direct evidence scarcity identifies two different missing measurements
 
-The saturated direct-interaction search found one strict sign-unresolved cluster despite repeatedly encountering studies that looked superficially close to the desired design. Most near misses were ecological-agent factorials, cross-organ defence studies, dual-function traits, main-effect-only trait models, or unlinked datasets. This pattern explains why broad searches for pollinator-herbivore interaction studies can greatly overstate the amount of evidence that actually estimates an attraction × defence trait interaction.
+The saturated direct-interaction search explains why broad pollinator-herbivore literatures overstate how often the required attraction × defence quantity is actually identified. Ecological-agent factorials, cross-organ defence studies, dual-function traits, main-effect-only models, and unlinked datasets are informative about constituent biology without being total \(A\times D\) curvature estimates. The *Impatiens* total-outcome candidate remains sign-unresolved, while the Kessler floral factorials demonstrate context-dependent channel interactions without decomposing total outcome.
 
-The same problem is sharper for direct joint costs. The search found many discussions of allocation trade-offs and many marginal costs, but no strict estimate of the additional intrinsic cost of simultaneously producing distinct floral attraction and defence/access axes. The correct empirical state for \(\kappa\) is therefore uncertainty, not zero. The theoretical sensitivity analysis is valuable precisely because it keeps this unidentified term visible instead of silently dropping it.
+The direct joint-cost gap is now especially informative. Many studies discuss allocation trade-offs or marginal costs, but the registered search found no strict estimate of the cross-cost of simultaneously producing distinct attraction and defence/access axes. Under the one-sided theorem, this is not merely a missing third term: **a negative direct joint-cost curvature is the only route by which complementarity can escape the selectivity window in the declared family**. The empirical state of \(\kappa\) must therefore remain unidentified, and its sign is a high-leverage target rather than a quantity to set silently to zero.
 
 ### 6.4 Relation to correlational selection and fitness-landscape inference
 
@@ -318,25 +344,31 @@ The framework is related to correlational selection but should not be conflated 
 
 This distinction also limits evolutionary interpretation. Predicting phenotypic covariance, genetic correlation, trajectories, or equilibria additionally requires genetic architecture, constraints, inheritance, and dynamics. Positive local curvature can favour combinations locally without guaranteeing positive population-level covariance. The empirical synthesis similarly documents mechanism recurrence and identification gaps; it does not estimate evolutionary transition frequencies or the prevalence of complementary regimes in nature.
 
-### 6.5 Environmental variables should be treated as joint ecological states
+### 6.5 Environmental variables are joint ecological states that move the window
 
-The theoretical comparative statics require derivatives of all channel contributions, not verbal assumptions that more antagonists must favour defence or that more pollinators must favour attraction. The larceny synthesis adds an empirical reason for this caution: antagonist exposure can itself depress legitimate visitation. Thus \(P\) and \(H\) are useful reference-regime indices, but their empirical implementation may involve coupled ecological processes.
+The theoretical comparative statics require derivatives of all channel contributions, not verbal assumptions that more antagonists must favour defence or that more pollinators must favour attraction. The larceny synthesis gives this caution direct empirical content. Antagonist exposure reduces female fitness on average, but 27% of female-fitness clusters are non-negative and the prediction interval spans both signs; none of the declared coarse moderators explains more than a small fraction of the heterogeneity. The exposure term that helps locate the selectivity window is therefore itself strongly context dependent.
 
-Future applications should therefore measure how antagonist pressure changes pollinator behavior and how pollinator activity changes antagonist exposure where those couplings are plausible. The sign of \(\partial W_{AD}/\partial H\) or \(\partial W_{AD}/\partial P\) is a balance among channel derivatives, not a property of a single environmental axis.
+Larceny exposure also depresses legitimate visitation, so \(P\) and \(H\) cannot always be implemented as independent realised ecological quantities. In the separable corollary, allowing \(P\) to decline with \(H\) adds a positive correction to the derivative of \(W_{AD}\) with respect to antagonist pressure because the interference channel weakens while the relief channel is loaded. For this specific coupling, the separable form is conservative in direction, but the observation does not calibrate the total derivative or rescue any particular regime classification.
 
-### 6.6 A decisive empirical test
+Future applications should therefore measure ecological exposure and channel responses together. The sign of \(\partial W_{AD}/\partial H\) or \(\partial W_{AD}/\partial P\) remains a balance among channel derivatives, and the window's location is a property of the joint ecological state rather than of a single named pressure variable.
 
-A decisive test should manipulate one attraction trait and one distinct flower-specific antagonist-reducing defence/access trait factorially, while varying or measuring pollinator service and antagonist pressure. The same experimental units should provide mutualist contribution, antagonist loss, direct cost, and total fitness outcomes. Such a design would estimate the total \(A\times D\) interaction and directly test whether defence changes the marginal mutualist return to attraction, whether defence protects the marginal value created by attraction from antagonists, and whether simultaneous trait expression has an additional intrinsic cost.
+### 6.6 Two empirical tests now have different jobs
 
-Systems already represented by multiple mechanism routes provide natural starting points because they demonstrate that the relevant ecological channels are experimentally accessible. However, the design criterion is more important than taxon choice: distinct focal \(A\) and \(D\) axes must be manipulated or measured at the same biological unit, and the interaction must be estimated on a common outcome. The current evidence architecture suggests that this design, rather than another broad marginal meta-analysis, is the highest-value next empirical step.
+The one-sided theorem changes the order of the empirical programme. The cheapest first test is not a full field estimate of \(W_{AD}\), but a test of the theorem's biological applicability. A 2 × 2 allocation design — neither focal trait, attraction only, defence only, and both — can ask whether simultaneous expression costs more or less than additivity predicts. Scoring construction, resource, or other appropriately defined direct costs identifies the **sign of joint-cost curvature**. No pollinators, antagonists, or total-fitness assay are required for this first gate. A sufficiently negative cross-cost would falsify the one-sided selectivity bound for that focal trait pair.
+
+A second, harder experiment has a different purpose: estimating the total interaction and its mechanism. That design must manipulate one attraction trait and one distinct flower-specific antagonist-reducing defence/access trait factorially in the same biological units, with compatible mutualist contribution, antagonist loss, direct cost, and total-fitness outcomes. It would estimate the total \(A\times D\) interaction and test whether the observed curvature is allocated to antagonist relief, pollinator interference, or joint cost.
+
+The literature-access problem therefore no longer defines the main theoretical bottleneck. The strongest boundary is controlled by a quantity for which strict direct measurements are largely absent, but whose sign is experimentally much cheaper to obtain than the full mixed partial. The full factorial remains essential for calibration; the 2 × 2 cost design is the faster falsification gate.
 
 ## 7. Conclusions
 
-Floral attraction and defence are locally complementary when antagonist relief exceeds pollinator interference and direct joint-cost curvature, and locally substitutable when the opposing contributions dominate. The value of this criterion lies less in naming a mixed partial than in making its mechanism, orientation assumptions, environmental derivatives, and inference limits explicit.
+The identity \(W_{AD}=\rho-\iota-\kappa\) is bookkeeping, not the main claim. The stronger result is one-sided: under non-negative joint-cost curvature, floral attraction-defence complementarity cannot occur outside the selectivity window in which antagonist relief exceeds pollinator interference. The declared 2,592-evaluation design contains no counterexample to that implication, while approximately 23% of in-window evaluations are substitutable, ruling out the converse as a universal criterion.
 
-The saturated Pattern synthesis shows that the constituent mechanisms are biologically real and recurrent across multiple floral signal modalities and multiple chemical and physical defence mechanisms. It also shows that conditionality is structured: guarded defence, spatial and temporal filtering, attack-mode dependence, visitor functional-mode switching, lifecycle-stage role reversal, and response- or population-level dependence all recur. Two reproduced quantitative synthesis modules strengthen the evidence that antagonist pressure and shared floral signals matter, while three secondary contextual syntheses reinforce tissue, consumer, trait-class, assay, and selection-context dependence without being treated as equivalent effect scales.
+Part II supplies a matching empirical Pattern rather than a validation of total \(W_{AD}\). The constituent pathways and switching architectures recur across independent systems. The floral-larceny synthesis shows that the antagonist-pressure gate is open on average and robust to influence and ingest choices, yet prediction intervals span both signs and the declared context axes explain little of the heterogeneity. The window can therefore open in nature, but its location is not yet predictable from the tested moderators. The within-study reward-mediated mechanism chain is not demonstrated.
 
-The literature remains weakest exactly where the theory demands the strongest identification. Direct attraction × defence interactions remain rare, and direct joint-cost curvature remains unidentified. The integrated result is therefore a division of labour between mechanism and Pattern: Part I identifies the sign boundary and the measurements required to cross it; Part II shows which channels recur, how ecological state reallocates them, and which quantities are still missing. The highest-value next empirical test is a factorial design on distinct focal attraction and flower-specific defence axes with channel-specific outcomes, not another undifferentiated marginal literature average.
+The final unresolved quantity now has a precise role. Direct joint-cost curvature remains unmeasured in the strict evidence layer, and a sufficiently negative value is the only way the strongest one-sided bound can fail within the declared family. Its sign can be tested with a simple 2 × 2 allocation experiment, whereas estimating total \(W_{AD}\) still requires the much harder attraction × defence factorial with channel-specific and total-fitness outcomes.
+
+The integrated result is thus a **one-sided mechanistic theorem plus a recurrent but context-dependent empirical Pattern**. What remains unknown — where the window lies in a new system and whether joint construction is synergistically cheap enough to break the bound — is no longer an unresolved link inside the argument. It is the explicit, falsifiable next experiment generated by the argument.
 
 ## Figure captions
 
