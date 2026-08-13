@@ -1,4 +1,5 @@
 {
+  "candidate_manuscript_counts_active_on_pr129": true,
   "canonical": {
     "independent_clusters": 14,
     "records": 38,
@@ -49,5 +50,6 @@
     "environmental-context-only studies/programs and published meta-analysis module study counts are excluded from route-ledger N",
     "direct A x D and direct joint-cost canonical gaps are unchanged"
   ],
-  "status": "PROVISIONAL_EXPANSION_BRANCH_NOT_CANONICAL"
+  "pr126_remains_pre_expansion_base": true,
+  "status": "ADMITTED_CANDIDATE_INTEGRATION_PR129"
 }
