@@ -1,8 +1,8 @@
-# Figure export receipt v3 — submission-ready Mechanism → Pattern Figures 1–3
+# Figure export receipt v4 — submission-ready Mechanism → Pattern Figures 1–3
 
 ## Decision
 
-The saturated 25-system figure set has passed reproducible vector export in the current *Theoretical Ecology* submission form.
+The saturated 25-system main-figure set has passed reproducible vector export in the current *Theoretical Ecology* submission form at the same checkpoint that also carries the modernized supplementary robustness figure.
 
 Canonical scientific source figures remain:
 
@@ -20,26 +20,24 @@ scripts/export_manuscript_figures.sh
 .github/workflows/export-manuscript-figures.yml
 ```
 
-The canonical SVGs are retained as the reproducible scientific sources. For submission export only, `prepare_submission_svg.py` deterministically removes exactly one visible outer figure-title text element from each illustration, while retaining panel labels, equations, annotations, and accessibility metadata. The exporter then creates vector EPS files with Inkscape, converts text to paths to prevent font substitution, and verifies the PostScript header and BoundingBox.
+The canonical SVGs are retained as the reproducible scientific sources. For submission export only, `prepare_submission_svg.py` deterministically removes exactly one visible outer figure-title text element from each illustration while retaining panel labels, equations, annotations, and accessibility metadata. The exporter then creates vector EPS files with Inkscape, converts text to paths to prevent font substitution, and verifies the PostScript header and BoundingBox.
 
-## Final submission-form export validation
+## Current submission-form export validation
 
 ```text
-source head:       417ee8ce97269f07207d824f8950cbc275c9115a
+source head:       fe274a91349931c08b8d820f99dc7b3ab5d8f725
 workflow:          Export manuscript figures
-workflow run:      31567045329
-run number:        66
+workflow run:      31666278452
+run number:        96
 conclusion:        success
 artifact:          manuscript-figures-eps
-artifact id:       9129851593
-artifact sha256:   ac255025840465dce4fd22e645e823ea80a09af7cbcc8770aeec7be27c35722f
+artifact id:       9168041835
+artifact sha256:   f4fb42b7421958a5a5251f24f03c666de2735b28bbded739286e65e9705090fd
 artifact size:     759365 bytes
 submission files:  Fig1.eps, Fig2.eps, Fig3.eps
 ```
 
-Artifact metadata records the same source head and the artifact was not expired when this receipt was written.
-
-At the same source head, the dedicated Pattern/house-style workflow also passes the expansion contract, readout regeneration, Figure 3 byte-reproducibility, journal-format tests, and manuscript-facing regression tests.
+Artifact metadata records the same source head. At that source head, core CI, submission-scope, and the main EPS workflow all completed successfully. The supplementary package workflow also completed successfully and the committed Fig. S4 displays the registered REML + modified Hartung–Knapp sensitivity while retaining the canonical DerSimonian–Laird estimates.
 
 ## Submission preprocessing contract
 
@@ -97,14 +95,19 @@ direct joint cost: 0 strict estimates; kappa unidentified
 
 The committed scientific SVG is byte-reproducible before the journal-specific title-strip export step.
 
+### Fig. S4 — quantitative robustness companion
+
+The supplementary robustness figure is generated from the canonical module summaries and then deterministically augmented from `LEAL_2025_MODERN_ESTIMATOR_SENSITIVITY_V1.json`. The added inset preserves the canonical DerSimonian–Laird estimates and separately displays REML + modified Hartung–Knapp sensitivity for the same independent-cluster inputs. The legitimate-visitation interval is explicitly flagged borderline to zero rather than strengthened into a more confident claim.
+
 ## Interpretation guardrails
 
-The export changes presentation format only.
+The export and supplementary presentation changes do not alter scientific quantities.
 
 - Fig. 2 percentages remain unweighted finite-grid occupancies, not empirical probabilities or prevalence estimates.
 - Fig. 3 route/context/module counts remain evidence architecture, not prevalence or estimates of `W_AD`.
 - Context-only programs and secondary-synthesis study counts are not added to route-ledger N.
 - Fig. 1's oriented `rho`, `iota`, `kappa` interpretation is valid only after the orientation gate.
+- Fig. S4's REML/mHK inset is a robustness sensitivity, not a replacement of the canonical meta-analysis.
 - `kappa` remains unidentified, not zero.
 
 ## Final-release rule
@@ -112,22 +115,25 @@ The export changes presentation format only.
 This Actions artifact is a validation receipt, not the permanent archive. Before actual portal submission:
 
 1. freeze the exact author-approved manuscript after author/licence/declaration fields are supplied;
-2. rerun the export if any canonical figure or figure caption requirement changes;
+2. rerun the export if any canonical figure or figure-caption requirement changes;
 3. retain the resulting `Fig1.eps`–`Fig3.eps` with the submitted package;
-4. record the final release/tag and archival DOI;
-5. do not treat a transient Actions artifact as the permanent repository archive.
+4. render the reader-facing supplement only after author/release metadata are frozen;
+5. record the final release/tag and archival DOI;
+6. do not treat a transient Actions artifact as the permanent repository archive.
 
 ## Current state
 
 ```text
 canonical SVG scientific sources:      complete
 expanded Fig. 3:                       reproducible
+supplementary Fig. S4 modern sensitivity: synchronized / tested
 journal caption convention:            implemented
 visible outer title stripping:         validated
 submission filenames Fig1-Fig3.eps:   validated
 submission-form EPS export:            GREEN
-submission EPS source head:            417ee8ce97269f07207d824f8950cbc275c9115a
+submission EPS source head:            fe274a91349931c08b8d820f99dc7b3ab5d8f725
 artifact digest recorded:              yes
+core CI / submission-scope at source:  GREEN
 Part I scientific figure content:      unchanged
 final author-approved release:         pending author metadata/licence
 archival DOI:                          pending final release
