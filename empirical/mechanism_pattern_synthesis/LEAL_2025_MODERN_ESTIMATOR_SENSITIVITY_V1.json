@@ -1,7 +1,11 @@
 {
+  "borderline_ci_margin": 0.001,
+  "borderline_outcomes": [
+    "visitation_rate"
+  ],
   "canonical_results_remain_der_simonian_laird": true,
   "canonical_source_commit": "ed33b25593c0d90ad6657753f6f5501d9efc7b82",
-  "interpretation_boundary": "This is a robustness analysis of the three already admitted Leal arrows. It does not change the preregistered canonical pooled estimates, search universe, mechanism mapping, or any bita model parameter.",
+  "interpretation_boundary": "This is a robustness analysis of the three already admitted Leal arrows. It does not change the preregistered canonical pooled estimates, search universe, mechanism mapping, or any bita model parameter. An interval that remains below zero but ends within 0.001 of zero is explicitly flagged as borderline rather than described as strongly robust.",
   "methods": {
     "heterogeneity_estimator": "REML profile likelihood",
     "interval": "modified Hartung-Knapp with Student-t df=k-1",
@@ -18,6 +22,7 @@
       "label": "female reproductive success",
       "mkh_ci_high": -0.0777499698743038,
       "mkh_ci_low": -0.3317680876505704,
+      "modified_hartung_knapp_borderline_zero_margin": false,
       "modified_hartung_knapp_retains_negative_interval": true,
       "pooled": -0.20475902876243712,
       "se_hk": 0.06313391713360639,
@@ -36,6 +41,7 @@
       "label": "nectar standing crop",
       "mkh_ci_high": -0.18395210304433546,
       "mkh_ci_low": -0.7948478496743046,
+      "modified_hartung_knapp_borderline_zero_margin": false,
       "modified_hartung_knapp_retains_negative_interval": true,
       "pooled": -0.48939997635932003,
       "se_hk": 0.1442183535564909,
@@ -54,6 +60,7 @@
       "label": "legitimate visitation",
       "mkh_ci_high": -0.00018326239669563815,
       "mkh_ci_low": -0.5756313225409597,
+      "modified_hartung_knapp_borderline_zero_margin": true,
       "modified_hartung_knapp_retains_negative_interval": true,
       "pooled": -0.2879072924688277,
       "se_hk": 0.1383545463507959,
