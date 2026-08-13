@@ -1,0 +1,68 @@
+{
+  "canonical_results_remain_der_simonian_laird": true,
+  "canonical_source_commit": "ed33b25593c0d90ad6657753f6f5501d9efc7b82",
+  "interpretation_boundary": "This is a robustness analysis of the three already admitted Leal arrows. It does not change the preregistered canonical pooled estimates, search universe, mechanism mapping, or any bita model parameter.",
+  "methods": {
+    "heterogeneity_estimator": "REML profile likelihood",
+    "interval": "modified Hartung-Knapp with Student-t df=k-1",
+    "modification": "variance scale floored at 1.0"
+  },
+  "results": {
+    "female_reproductive_success": {
+      "canonical_dl_pooled_recomputed": -0.21049616762637957,
+      "canonical_dl_tau2_recomputed": 0.215305583133625,
+      "hk_ci_high": -0.0777499698743038,
+      "hk_ci_low": -0.3317680876505704,
+      "hk_scale": 1.113755335092584,
+      "k": 48,
+      "label": "female reproductive success",
+      "mkh_ci_high": -0.0777499698743038,
+      "mkh_ci_low": -0.3317680876505704,
+      "modified_hartung_knapp_retains_negative_interval": true,
+      "pooled": -0.20475902876243712,
+      "se_hk": 0.06313391713360639,
+      "se_mkh": 0.06313391713360639,
+      "se_normal": 0.05982295164789259,
+      "tau2_reml": 0.14349205487216898,
+      "tcrit": 2.011740513729759
+    },
+    "nectar_standing_crop": {
+      "canonical_dl_pooled_recomputed": -0.4834496233426736,
+      "canonical_dl_tau2_recomputed": 0.4540567784692027,
+      "hk_ci_high": -0.19348835749556959,
+      "hk_ci_low": -0.7853115952230705,
+      "hk_scale": 0.9385335983203907,
+      "k": 28,
+      "label": "nectar standing crop",
+      "mkh_ci_high": -0.18395210304433546,
+      "mkh_ci_low": -0.7948478496743046,
+      "modified_hartung_knapp_retains_negative_interval": true,
+      "pooled": -0.48939997635932003,
+      "se_hk": 0.1442183535564909,
+      "se_mkh": 0.14886603491937103,
+      "se_normal": 0.14886603491937103,
+      "tau2_reml": 0.5253012932602001,
+      "tcrit": 2.0518305164802806
+    },
+    "visitation_rate": {
+      "canonical_dl_pooled_recomputed": -0.2907388604653052,
+      "canonical_dl_tau2_recomputed": 0.24630477627913225,
+      "hk_ci_high": -0.00018326239669563815,
+      "hk_ci_low": -0.5756313225409597,
+      "hk_scale": 1.019672895654091,
+      "k": 22,
+      "label": "legitimate visitation",
+      "mkh_ci_high": -0.00018326239669563815,
+      "mkh_ci_low": -0.5756313225409597,
+      "modified_hartung_knapp_retains_negative_interval": true,
+      "pooled": -0.2879072924688277,
+      "se_hk": 0.1383545463507959,
+      "se_mkh": 0.1383545463507959,
+      "se_normal": 0.13701338533846116,
+      "tau2_reml": 0.3458094452570304,
+      "tcrit": 2.0796138447276755
+    }
+  },
+  "sensitivity_only": true,
+  "status": "ROBUSTNESS_PASS"
+}
