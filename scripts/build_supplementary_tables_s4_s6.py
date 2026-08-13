@@ -25,7 +25,7 @@ def s4():
     rows=[]; switch_paths=[SYN/"SIGN_SWITCH_LEDGER_V1.csv"]+sorted(SYN.glob("EXPANSION_SIGN_SWITCH_BATCH_*_V1.csv"))
     for p in switch_paths:
         for r in read(p,p.name.startswith("EXPANSION_")):
-            rows.append({"record_type":"sign_switch","source_file":p.name,"record_id":r.get("switch_id",""),"study_or_system":r.get("study_id",""),"doi_or_sources":r.get("doi",""),"route_or_context_axis":r.get("route","") or r.get("contrast_axis",""),"contrast_axis":r.get("contrast_axis",""),"level_1":r.get("level_1",""),"state_1":r.get("state_1",""),"level_2":r.get("level_2",""),"state_2":r.get("state_2",""),"interpretation":r.get("interpretation",""),"counted_in_route_N":"yes_as_route_cluster_where_applicable"})
+            rows.append({"record_type":"sign_switch","source_file":p.name,"record_id":r.get("switch_id",""),"study_or_system":r.get("study_id",""),"doi_or_sources":r.get("doi",""),"route_or_context_axis":r.get("route","") or r.get("contrast_axis",""),"contrast_axis":r.get("contrast_axis",""),"level_1":r.get("level_1",""),"state_1":r.get("state_1",""),"level_2":r.get("level_2",""),"state_2":r.get("state_2",""),"interpretation":r.get("interpretation",""),"counted_in_route_N":"not_added_as_separate_route_N"})
     if len({r["study_or_system"] for r in rows if r["study_or_system"]})!=17: raise ValueError("S4 switch-cluster count drift")
     ctx=read(SYN/"EXPANSION_CONTEXT_PROGRAMS_V1.csv",True)
     if len(ctx)!=7: raise ValueError("S4 context-program count drift")
