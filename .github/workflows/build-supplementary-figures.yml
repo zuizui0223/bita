@@ -6,6 +6,7 @@ on:
       - analysis/pattern-expansion-v1
     paths:
       - "scripts/build_supplementary_figures_svg.py"
+      - "scripts/augment_supplementary_s4_modern_estimator.py"
       - "scripts/build_supplementary_tables_s1_s3.py"
       - "scripts/build_supplementary_tables_s4_s6.py"
       - "scripts/run_part_i_robustness.py"
@@ -22,6 +23,7 @@ on:
       - "empirical/mechanism_pattern_synthesis/JOINT_COST_AUDIT_V1.csv"
       - "empirical/mechanism_pattern_synthesis/SECONDARY_SYNTHESIS_MODULES_V1.csv"
       - "empirical/mechanism_pattern_synthesis/SYNTHESIS_ROBUSTNESS_AUDIT_V1.md"
+      - "empirical/mechanism_pattern_synthesis/LEAL_2025_MODERN_ESTIMATOR_SENSITIVITY_V1.json"
       - "manuscript/supplementary/SUPPLEMENTARY_MATERIAL.md"
       - ".github/workflows/build-supplementary-figures.yml"
   workflow_dispatch:
@@ -47,6 +49,8 @@ jobs:
         run: python scripts/run_part_i_robustness.py configs/part_i_robustness_grid.json artifacts/supplementary/part_i
       - name: Build Supplementary Figures S1-S4
         run: python scripts/build_supplementary_figures_svg.py artifacts/supplementary/part_i/part_i_sensitivity_evaluations.csv manuscript/supplementary/figures
+      - name: Add REML and modified Hartung-Knapp sensitivity to Figure S4
+        run: python scripts/augment_supplementary_s4_modern_estimator.py manuscript/supplementary/figures/FIGURE_S4_QUANTITATIVE_ROBUSTNESS.svg
       - name: Build Supplementary Tables S1-S6
         run: |
           python scripts/build_supplementary_tables_s1_s3.py artifacts/supplementary/part_i/part_i_full_tested_set_summary.csv manuscript/supplementary/tables
