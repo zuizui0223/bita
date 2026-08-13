@@ -114,11 +114,18 @@ per independent study cluster, DerSimonian–Laird random effects:
 | `H_to_pollination` (legitimate visitation) | 22 | −0.291 | −0.523, −0.059 | −25.2% |
 | `H_to_fitness` (male reproductive success) | 11 | −0.148 | −1.154, +0.857 | uninformative |
 
-The gate is open, and the mechanism chain — reward depletion, then visitation loss, then fitness
-loss — is intact link by link with monotonically attenuating magnitudes. All six pre-registered
-context moderators return **no detected context dependence**, and the more telling number is that
-they explain 0–8% of a heterogeneity running at *I*² = 97–99.5%: the effect varies enormously and
-none of the declared ecological axes captures it.
+The gate is open **on average**, and that is the limit of what is clear. All six pre-registered
+context moderators return **no detected context dependence**, and they explain only 0–8% of a
+heterogeneity running at *I*² = 97–99.5%. Every 95% prediction interval covers zero widely (female:
+−1.13 to +0.71), 64–73% of clusters are negative rather than nearly all, and two to three clusters
+per stratum are *significantly positive*. The direction of the mean is clear; the magnitude and
+even the sign in any particular system are not.
+
+The three arrows attenuate monotonically in the direction a reward-depletion mechanism predicts,
+but they come from largely different study sets: only 5 clusters measured all three outcomes, 2 of
+those show all three negative, and within the 11 clusters measuring both reward and visitation the
+correlation between them is −0.17 — the opposite of what the mechanism predicts, and
+indistinguishable from zero at that size. **The chain is not demonstrated within studies.**
 
 This is **constituent-path evidence only**. It does not estimate `rho`, `iota`, `kappa`, or `W_AD`,
 and it does not identify `M_AD`; that needs a design varying `A` and `D` jointly. Bridge assumption

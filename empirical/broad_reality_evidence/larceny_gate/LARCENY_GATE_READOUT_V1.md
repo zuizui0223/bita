@@ -43,7 +43,7 @@ exposure, leaving the corollary untouched.
 The male arrow is uninformative, not null: `tau²` = 2.69 and *I*² = 99.998% on 11 clusters. It is
 reported because it was declared, and it should not be read as evidence of no effect.
 
-### The mechanism chain is intact end to end
+### The mechanism chain: three arrows, but not a demonstrated chain
 
 ```text
 larceny exposure  ->  nectar standing crop  ->  legitimate visitation  ->  female fitness
@@ -51,9 +51,55 @@ larceny exposure  ->  nectar standing crop  ->  legitimate visitation  ->  femal
                           (28 clusters)            (22 clusters)          (48 clusters)
 ```
 
-Each link is separately estimated, each excludes zero, and the magnitudes attenuate monotonically
-along the chain in the direction the mechanism predicts. The reward arrow is also the only stratum
-with no detected funnel asymmetry (§4).
+Each link is separately estimated and each excludes zero, and the magnitudes attenuate
+monotonically in the direction the mechanism predicts. **That is weaker evidence than it looks,
+and an earlier version of this readout overstated it as "intact end to end."**
+
+The three arrows come from three largely *different* sets of studies. Testing the chain properly
+means asking whether it holds *within* studies that measured more than one link:
+
+```text
+clusters measuring all three outcomes                                5
+of those, all three arrows negative                                  2
+clusters measuring both nectar and visitation                       11
+within-study correlation of reward depletion with visitation loss   r = -0.17
+```
+
+A real reward-depletion mechanism predicts a **positive** correlation there: the studies where
+larcenists strip the most nectar should be the studies where visitation falls most. The observed
+correlation is slightly negative and, at k = 11, indistinguishable from zero. **The chain is not
+demonstrated within studies; it is an alignment of three marginal means across different study
+sets.** No conclusion follows about whether the fitness cost is reward mediated.
+
+The reward arrow is the only stratum with no detected funnel asymmetry (§4).
+
+### The pattern is a weak central tendency, not a general rule
+
+The confidence intervals in the table describe the precision of the *mean*. They say nothing about
+what the next study would find. With `tau` between 0.46 and 1.64, the 95% prediction intervals do:
+
+| stratum | pooled | `tau` | 95% prediction interval | clusters negative | individually significant |
+|---|---|---|---|---|---|
+| female | −0.210 | 0.464 | **−1.13, +0.71** | 35/48 (73%) | 21 neg, 2 **pos**, 25 null |
+| nectar | −0.483 | 0.674 | **−1.83, +0.87** | 20/28 (71%) | 15 neg, 2 **pos**, 11 null |
+| visitation | −0.291 | 0.496 | **−1.29, +0.71** | 14/22 (64%) | 9 neg, 3 **pos**, 10 null |
+| male | −0.148 | 1.640 | −3.52, +3.22 | 8/11 | 4 neg, 1 pos, 6 null |
+
+**Every prediction interval covers zero, and covers it widely.** For female reproductive success a
+new system could plausibly show anything from a 68% loss to a 100% gain. The sign is not universal
+either: two to three clusters per stratum are *significantly positive* — `Irwin & Brody 2000`
+returns significantly positive effects on both visitation and female fitness, so in that system
+larceny measurably **helped**.
+
+This does not weaken the §1 conclusion, which is about the mean and is what the `H` gate needs. It
+sharply bounds everything else. The honest summary is:
+
+> The direction of realised larceny cost is clear. Its magnitude in any particular system is not,
+> and neither is its sign.
+
+That is fully consistent with §3: heterogeneity is enormous and none of the four declared context
+axes explains it. Read together, the two results say the same thing from opposite ends — **`H` is
+itself a strongly context-dependent quantity, and this analysis cannot say what governs it.**
 
 ## 2. The corollary's separability assumption fails
 
