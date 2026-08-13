@@ -130,17 +130,19 @@ def main() -> None:
         "same_system_clusters": 14,
     }
     if combined != expected_combined:
-        raise ValueError(f"provisional expansion counts unexpected: {combined!r}")
+        raise ValueError(f"combined expansion counts unexpected: {combined!r}")
     if context_switch_clusters != 17:
         raise ValueError(f"expected 17 unique context-switch clusters, got {context_switch_clusters}")
 
     payload = {
-        "status": "PROVISIONAL_EXPANSION_BRANCH_NOT_CANONICAL",
+        "status": "ADMITTED_CANDIDATE_INTEGRATION_PR129",
         "canonical": canonical,
         "expansion": expansion,
         "expansion_ledger_files": [p.name for p in EXPANSION],
         "combined_provisional": combined,
         "context_switch_clusters_provisional": context_switch_clusters,
+        "candidate_manuscript_counts_active_on_pr129": True,
+        "pr126_remains_pre_expansion_base": True,
         "context_programs_excluded_from_route_N": 7,
         "interpretation_boundary": [
             "counts are evidence-capacity / independent-system recurrence diagnostics",
@@ -156,22 +158,22 @@ def main() -> None:
     lines = [
         "# Pattern expansion readout v1",
         "",
-        "**Status: PROVISIONAL EXPANSION BRANCH — NOT CANONICAL MANUSCRIPT COUNTS.**",
+        "**Status: ADMITTED CANDIDATE INTEGRATION ON PR #129 — 56/25 COUNTS ARE THE ACTIVE MANUSCRIPT CANDIDATE; PR #126 REMAINS THE PRE-EXPANSION BASE.**",
         "",
-        "This readout combines the frozen five-ledger canonical universe with six source-adjudicated expansion ledgers.",
+        "This readout combines the frozen five-ledger pre-expansion universe with six source-adjudicated expansion ledgers. The combined counts are used by the PR #129 candidate manuscript, Tables 3–4, and Figure 3; they are not yet merged to `main`.",
         "",
         "```text",
-        f"route-ledger records:             {combined['records']}  (canonical {canonical['records']})",
-        f"independent biological clusters: {combined['independent_clusters']}  (canonical {canonical['independent_clusters']})",
-        f"A -> pollination clusters:        {rc['A_to_pollination']}  (canonical 4)",
-        f"A -> antagonism clusters:         {rc['A_to_antagonism']}  (canonical 5)",
-        f"D -> antagonism clusters:         {rc['D_to_antagonism']}  (canonical 10)",
-        f"D -> pollination clusters:        {rc['D_to_pollination']}  (canonical 7)",
-        f"same-system multi-route clusters: {combined['same_system_clusters']}  (canonical 10)",
-        f"context/sign-switch clusters:      {context_switch_clusters}  (canonical 11)",
+        f"route-ledger records:             {combined['records']}  (pre-expansion {canonical['records']})",
+        f"independent biological clusters: {combined['independent_clusters']}  (pre-expansion {canonical['independent_clusters']})",
+        f"A -> pollination clusters:        {rc['A_to_pollination']}  (pre-expansion 4)",
+        f"A -> antagonism clusters:         {rc['A_to_antagonism']}  (pre-expansion 5)",
+        f"D -> antagonism clusters:         {rc['D_to_antagonism']}  (pre-expansion 10)",
+        f"D -> pollination clusters:        {rc['D_to_pollination']}  (pre-expansion 7)",
+        f"same-system multi-route clusters: {combined['same_system_clusters']}  (pre-expansion 10)",
+        f"context/sign-switch clusters:      {context_switch_clusters}  (pre-expansion 11)",
         "```",
         "",
-        "The expansion currently adds eleven independent route-ledger systems:",
+        "The admitted expansion adds eleven independent route-ledger systems:",
         "",
         "- *Pedicularis rex*: water-filled floral barrier; seed-predator protection, pollinator null, nectar-robber null.",
         "- *Dalechampia scandens*: visual bract attraction axis tracked by both pollinators and seed predators.",
