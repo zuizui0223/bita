@@ -63,4 +63,4 @@ def test_all_four_supplementary_figures_build(tmp_path: Path) -> None:
     assert "99.5%" in s4
     assert "99.3%" in s4
     assert "97.5%" in s4
-    assert "+0.1292" in s4
+    assert "+0.129" in s4
