@@ -183,9 +183,9 @@ def build_s2(rows: list[dict[str, str]]) -> str:
     for r in rows:
         key = (r["parameter_scenario_id"], r["form_id"], _f(r, "pollinator_service"), _f(r, "floral_damage_pressure"))
         grouped[key].append(r["sign"])
-    width, height = 2050, 1500
+    width, height = 2200, 1500
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">', '<rect width="100%" height="100%" fill="white"/>']
-    cell = 62; panel_w = 390; panel_h = 330; x_start=360; y_start=115
+    cell = 62; panel_w = 390; panel_h = 330; x_start=460; y_start=115
     for c, form in enumerate(forms):
         parts.append(_svg_text(x_start + c*panel_w + 120, 45, form.replace("_", " "), 16, anchor="middle", weight=700))
     for rr, scenario in enumerate(scenarios):
@@ -316,7 +316,7 @@ def build_s4() -> str:
     parts.append(f'<circle cx="{bs(v["sas"]):.1f}" cy="{by-22}" r="7" fill="#111"/>')
     parts.append(_svg_text(bs(v["sas"]), by-42, f"full {v['sas']:+.3f}", 11, anchor="middle", weight=700))
     parts.append(_svg_text(bs(r["s_min"]), by+42, f"min {r['s_min']:+.4f}", 11, anchor="start"))
-    parts.append(_svg_text(bs(r["s_median"]), by+42, f"median {r['s_median']:+.4f}", 11, anchor="middle"))
+    parts.append(_svg_text(bs(r["s_median"]), by+62, f"median {r['s_median']:+.4f}", 11, anchor="middle"))
     parts.append(_svg_text(bs(r["s_max"]), by+42, f"max {r['s_max']:+.4f}", 11, anchor="end"))
     parts.append(_svg_text(920,300,"32/32 leave-one-study-component-out contrasts remain positive",14,weight=700))
     parts.append(_svg_text(920,333,"Only three study components contain both physiological roles; all three paired differences are zero",12))
