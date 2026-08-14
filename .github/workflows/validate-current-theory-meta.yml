@@ -18,6 +18,7 @@ on:
       - "empirical/broad_reality_evidence/broad_effect_extractions.csv"
       - "empirical/broad_reality_evidence/broad_meta_analysis_strata.csv"
       - "empirical/broad_reality_evidence/LITERATURE_EVIDENCE_READOUT.md"
+      - "manuscript/figures/FIGURE_2_THEORY_REGIME_MAP.svg"
       - "tests/test_robustness.py"
       - "tests/test_run_part_i_robustness.py"
       - "tests/test_build_part_i_manuscript_readout.py"
@@ -25,6 +26,7 @@ on:
       - "tests/test_sign_criterion.py"
       - "tests/test_theory_meta_validation.py"
       - "tests/test_committed_part_i_results_current.py"
+      - "tests/test_committed_figure2.py"
       - ".github/workflows/validate-current-theory-meta.yml"
   workflow_dispatch:
 
@@ -37,14 +39,11 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
       - name: Install package and test dependency
         run: python -m pip install -e '.[dev]'
-
       - name: Run active theory and boundary tests
         run: |
           python -m pytest \
@@ -54,14 +53,13 @@ jobs:
             tests/test_build_part_i_regime_figure_svg.py \
             tests/test_sign_criterion.py \
             tests/test_theory_meta_validation.py \
-            tests/test_committed_part_i_results_current.py
-
+            tests/test_committed_part_i_results_current.py \
+            tests/test_committed_figure2.py
       - name: Reproduce Part I sensitivity analysis
         run: |
           python scripts/run_part_i_robustness.py \
             configs/part_i_robustness_grid.json \
             artifacts/current_theory_literature_validation/part_i
-
       - name: Build manuscript-facing Part I theory readout
         run: |
           python scripts/build_part_i_manuscript_readout.py \
@@ -69,13 +67,13 @@ jobs:
             artifacts/current_theory_literature_validation/part_i/part_i_response_shape_summary.csv \
             artifacts/current_theory_literature_validation/part_i/part_i_full_tested_set_summary.csv \
             artifacts/current_theory_literature_validation/part_i/PART_I_SENSITIVITY_READOUT_V2.md
-
       - name: Build manuscript Figure 2 theory regime map
         run: |
           python scripts/build_part_i_regime_figure_svg.py \
             artifacts/current_theory_literature_validation/part_i/part_i_sensitivity_evaluations.csv \
             artifacts/current_theory_literature_validation/part_i/FIGURE_2_THEORY_REGIME_MAP.svg
-
+      - name: Check committed Figure 2 is current
+        run: diff -u manuscript/figures/FIGURE_2_THEORY_REGIME_MAP.svg artifacts/current_theory_literature_validation/part_i/FIGURE_2_THEORY_REGIME_MAP.svg
       - name: Recompute preliminary literature direction map
         run: |
           python scripts/run_broad_meta_analysis.py \
@@ -83,7 +81,6 @@ jobs:
             empirical/broad_reality_evidence/broad_effect_extractions.csv \
             empirical/broad_reality_evidence/broad_meta_analysis_strata.csv \
             artifacts/current_theory_literature_validation/literature
-
       - name: Validate current theory-to-literature inference boundary
         run: |
           python scripts/validate_current_theory_meta.py \
@@ -92,7 +89,6 @@ jobs:
             artifacts/current_theory_literature_validation/literature/broad_direction_map.csv \
             artifacts/current_theory_literature_validation/literature/broad_meta_analysis_summary.csv \
             artifacts/current_theory_literature_validation/validation
-
       - uses: actions/upload-artifact@v4
         with:
           name: current-theory-literature-validation

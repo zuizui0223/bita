@@ -45,7 +45,7 @@
 <rect x="659" y="329" width="92" height="92" fill="rgb(224,224,224)" stroke="black"/>
 <text x="705.0" y="380.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">18.1%</text>
 <text x="613.0" y="487" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="normal">Pollinator service</text>
-<text x="400" y="283.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="normal">Floral damage pressure</text>
+<text x="427" y="283.0" transform="rotate(-90 427 283.0)" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">Floral damage pressure</text>
 <text x="830" y="73" font-family="Arial, sans-serif" font-size="18" text-anchor="start" font-weight="bold">C  Endpoint-normalized response shapes</text>
 <rect x="830" y="95" width="430" height="520" fill="none" stroke="black"/>
 <text x="842" y="140" font-family="Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal">baseline</text>

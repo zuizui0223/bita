@@ -21,7 +21,7 @@ def _fmt(value: float) -> str:
     return f"{value:.4f}"
 
 
-def _x(value: float, *, x0: float = 300.0, width: float = 390.0, lo: float = -0.85, hi: float = 0.05) -> float:
+def _x(value: float, *, x0: float = 330.0, width: float = 290.0, lo: float = -0.85, hi: float = 0.05) -> float:
     return x0 + (value - lo) / (hi - lo) * width
 
 
@@ -33,7 +33,7 @@ def build_inset(payload: dict) -> str:
 
     parts = [
         START,
-        '<rect x="55" y="474" width="690" height="170" fill="#ffffff" stroke="#aaaaaa" stroke-width="1"/>',
+        '<rect x="55" y="474" width="930" height="170" fill="#ffffff" stroke="#aaaaaa" stroke-width="1"/>',
         '<text x="70" y="500" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">REML + modified Hartung-Knapp sensitivity (same independent-cluster inputs)</text>',
         f'<line x1="{zero_x:.1f}" y1="515" x2="{zero_x:.1f}" y2="632" stroke="#777" stroke-width="1.2" stroke-dasharray="5 4"/>',
     ]
@@ -50,15 +50,15 @@ def build_inset(payload: dict) -> str:
                 f'<text x="70" y="{y + 4:.1f}" font-family="DejaVu Sans,Arial,sans-serif" font-size="11">{label}</text>',
                 f'<line x1="{_x(low):.1f}" y1="{y:.1f}" x2="{_x(high):.1f}" y2="{y:.1f}" stroke="#222" stroke-width="3"/>',
                 f'<circle cx="{_x(pooled):.1f}" cy="{y:.1f}" r="5" fill="#ffffff" stroke="#111" stroke-width="2"/>',
-                f'<text x="700" y="{y + 4:.1f}" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="10">REML {_fmt(pooled)}; mHK [{_fmt(low)}, {_fmt(high)}]{"; borderline to zero" if borderline else ""}</text>',
+                f'<text x="640" y="{y + 4:.1f}" text-anchor="start" font-family="DejaVu Sans,Arial,sans-serif" font-size="9">REML {_fmt(pooled)}; mHK [{_fmt(low)}, {_fmt(high)}]{"; borderline to zero" if borderline else ""}</text>',
             ]
         )
 
     parts.extend(
         [
-            '<text x="300" y="638" font-family="DejaVu Sans,Arial,sans-serif" font-size="9">-0.85</text>',
+            '<text x="330" y="638" font-family="DejaVu Sans,Arial,sans-serif" font-size="9">-0.85</text>',
             f'<text x="{zero_x:.1f}" y="638" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="9">0</text>',
-            '<text x="690" y="638" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="9">0.05</text>',
+            '<text x="620" y="638" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="9">0.05</text>',
             END,
         ]
     )

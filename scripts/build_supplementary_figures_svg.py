@@ -163,7 +163,8 @@ def build_s1(rows: list[dict[str, str]]) -> str:
         maxerr = max(p[2] for p in pts)
         parts.append(_svg_text(x0 + 65, y0 + h - 10, f"max |analytic − finite difference| = {maxerr:.2e}", 13))
         parts.append(_svg_text(x0 + w/2, y0 + h + 18, "analytic mixed partial", 13, anchor="middle"))
-        parts.append(_svg_text(x0 + 10, y0 + 42, "finite-difference mixed partial", 12))
+        axis_x, axis_y = x0 + 12, y0 + 150
+        parts.append(f'<text x="{axis_x:.1f}" y="{axis_y:.1f}" transform="rotate(-90 {axis_x:.1f} {axis_y:.1f})" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="12">finite-difference mixed partial</text>')
         for val in (lo, 0.0, hi):
             if lo <= val <= hi:
                 parts.append(_svg_text(sx(val), y0 + h - 27, f"{val:.2f}", 10, anchor="middle"))
@@ -182,13 +183,13 @@ def build_s2(rows: list[dict[str, str]]) -> str:
     for r in rows:
         key = (r["parameter_scenario_id"], r["form_id"], _f(r, "pollinator_service"), _f(r, "floral_damage_pressure"))
         grouped[key].append(r["sign"])
-    width, height = 1700, 1500
+    width, height = 2200, 1500
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">', '<rect width="100%" height="100%" fill="white"/>']
-    cell = 62; panel_w = 390; panel_h = 330; x_start=105; y_start=115
+    cell = 62; panel_w = 390; panel_h = 330; x_start=460; y_start=115
     for c, form in enumerate(forms):
         parts.append(_svg_text(x_start + c*panel_w + 120, 45, form.replace("_", " "), 16, anchor="middle", weight=700))
     for rr, scenario in enumerate(scenarios):
-        parts.append(_svg_text(15, y_start + rr*panel_h + 115, scenario.replace("_", " "), 13, weight=700))
+        parts.append(_svg_text(x_start - 28, y_start + rr*panel_h + 115, scenario.replace("_", " "), 13, anchor="end", weight=700))
         for cc, form in enumerate(forms):
             x0 = x_start + cc*panel_w
             y0 = y_start + rr*panel_h
@@ -289,11 +290,11 @@ def parse_module_values() -> dict[str, float]:
 
 def build_s4() -> str:
     r=parse_robustness(); v=parse_module_values()
-    width,height=1450,720
+    width,height=1600,720
     parts=[f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">','<rect width="100%" height="100%" fill="white"/>']
     parts.append(_svg_text(70,55,"A  Floral-larceny reproduced meta-analysis",20,weight=700))
     labels=[("female fitness","female","i2_female"),("nectar standing crop","nectar","i2_nectar"),("legitimate visitation","visit","i2_visit")]
-    x0=270; y0=120; scale=760
+    x0=250; y0=120; scale=560
     xmin,xmax=-0.60,0.05
     sx=lambda x:x0+(x-xmin)/(xmax-xmin)*scale
     parts.append(f'<line x1="{sx(0):.1f}" y1="{y0-25}" x2="{sx(0):.1f}" y2="{y0+250}" stroke="#555" stroke-dasharray="6 5"/>')
@@ -307,18 +308,20 @@ def build_s4() -> str:
     parts.append(_svg_text(70,420,"Direction retained in 100% of declared leave-one-cluster-out refits; within-cluster-correlation and quarantined-row sensitivities preserve the three informative conclusions.",12))
     parts.append(_svg_text(70,448,"High heterogeneity is retained as part of the Pattern result; the bars are pooled LRRs, not W_AD or model parameters.",12))
 
-    parts.append(_svg_text(780,55,"B  FVOC reproduced synthesis",20,weight=700))
-    bx0=820; by=190; bscale=500; bmin=0.0; bmax=0.22
+    parts.append(_svg_text(900,55,"B  FVOC reproduced synthesis",20,weight=700))
+    bx0=980; by=190; bscale=430; bmin=0.0; bmax=0.22
     bs=lambda x:bx0+(x-bmin)/(bmax-bmin)*bscale
     parts.append(f'<line x1="{bs(r["s_min"]):.1f}" y1="{by}" x2="{bs(r["s_max"]):.1f}" y2="{by}" stroke="#222" stroke-width="8"/>')
     parts.append(f'<circle cx="{bs(r["s_median"]):.1f}" cy="{by}" r="9" fill="#fff" stroke="#111" stroke-width="3"/>')
-    parts.append(f'<circle cx="{bs(v["sas"]):.1f}" cy="{by}" r="7" fill="#111"/>')
-    for x,label in ((r["s_min"],"min"),(r["s_median"],"median"),(r["s_max"],"max"),(v["sas"],"full")):
-        parts.append(_svg_text(bs(x),by+42,f"{label} {x:+.4f}",11,anchor="middle"))
-    parts.append(_svg_text(790,300,"32/32 leave-one-study-component-out contrasts remain positive",14,weight=700))
-    parts.append(_svg_text(790,333,"Only three study components contain both physiological roles; all three paired differences are zero",12))
-    parts.append(_svg_text(790,365,"The assembled +0.129 pattern is therefore not a causal within-study pollinator-versus-florivore effect",12))
-    parts.append(_svg_text(725,680,"Robustness metrics remain module-specific: continuous LRR influence/heterogeneity for Leal; categorical study-component influence and composition limits for Sasidharan.",13,anchor="middle"))
+    parts.append(f'<circle cx="{bs(v["sas"]):.1f}" cy="{by-22}" r="7" fill="#111"/>')
+    parts.append(_svg_text(bs(v["sas"]), by-42, f"full {v['sas']:+.3f}", 11, anchor="middle", weight=700))
+    parts.append(_svg_text(bs(r["s_min"]), by+42, f"min {r['s_min']:+.4f}", 11, anchor="start"))
+    parts.append(_svg_text(bs(r["s_median"]), by+62, f"median {r['s_median']:+.4f}", 11, anchor="middle"))
+    parts.append(_svg_text(bs(r["s_max"]), by+42, f"max {r['s_max']:+.4f}", 11, anchor="end"))
+    parts.append(_svg_text(920,300,"32/32 leave-one-study-component-out contrasts remain positive",14,weight=700))
+    parts.append(_svg_text(920,333,"Only three study components contain both physiological roles; all three paired differences are zero",12))
+    parts.append(_svg_text(920,365,"The assembled +0.129 pattern is therefore not a causal within-study pollinator-versus-florivore effect",12))
+    parts.append(_svg_text(800,680,"Robustness metrics remain module-specific: continuous LRR influence/heterogeneity for Leal; categorical study-component influence and composition limits for Sasidharan.",13,anchor="middle"))
     parts.append('</svg>')
     return "\n".join(parts)+"\n"
 

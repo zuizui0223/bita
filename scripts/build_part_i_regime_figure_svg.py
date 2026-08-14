@@ -82,7 +82,8 @@ def build_svg(rows: list[dict[str, str]]) -> str:
             parts.append(f'<rect x="{x}" y="{y}" width="{cell}" height="{cell}" fill="{fill}" stroke="black"/>')
             parts.append(_text(x + cell/2, y + cell/2 + 5, f"{100*frac:.1f}%", size=14, anchor="middle", weight="bold"))
     parts.append(_text(x1 + 1.5*cell, y1 + len(damages)*cell + 66, "Pollinator service", size=14, anchor="middle"))
-    parts.append(_text(x1 - 75, y1 + 1.5*cell, "Floral damage pressure", size=14, anchor="middle"))
+    axis_x, axis_y = x1 - 48, y1 + 1.5*cell
+    parts.append(f'<text x="{axis_x}" y="{axis_y}" transform="rotate(-90 {axis_x} {axis_y})" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">Floral damage pressure</text>')
 
     form = grouped_fraction(rows, ("form_id",))
     x2, y2, pw2, ph2 = 830, 95, 430, 520

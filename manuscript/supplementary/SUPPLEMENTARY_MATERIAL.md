@@ -1,6 +1,6 @@
 # Supplementary material — Mechanism → Pattern paper
 
-This reader-facing supplement belongs to the saturated 25-system candidate on PR #129. It preserves the same inference boundary as the main manuscript: finite-grid occupancy is not empirical prevalence; marginal or same-system route evidence is not a direct estimate of `W_AD`; zero strict joint-cost estimates means `kappa` is unidentified, not zero.
+This reader-facing supplement belongs to the canonical 25-system Mechanism → Pattern manuscript. It preserves the same inference boundary as the main manuscript: finite-grid occupancy is not empirical prevalence; marginal or same-system route evidence is not a direct estimate of `W_AD`; zero strict joint-cost estimates means `kappa` is unidentified, not zero.
 
 ## Supplementary Figures
 
@@ -39,7 +39,7 @@ The following numbering is frozen for the submission package. Machine-readable C
 
 ## Quantitative-module source boundary
 
-Leal et al. (2025) is pinned to immutable repository commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`; its REML + modified Hartung–Knapp analysis is a current-branch robustness sensitivity recorded in `LEAL_2025_MODERN_ESTIMATOR_SENSITIVITY_V1.json`, not a replacement of the canonical estimator. Sasidharan et al. (2023) uses the current-branch 32-study-component reconstruction. Haas-Desmarais et al. (2026), Caruso et al. (2019), and Junker & Blüthgen (2010) remain secondary contextual/cross-synthesis modules rather than co-equal locally reproduced meta-analyses.
+Leal et al. (2025) is pinned to immutable repository commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`; its REML + modified Hartung–Knapp analysis is a registered robustness sensitivity recorded in `LEAL_2025_MODERN_ESTIMATOR_SENSITIVITY_V1.json`, not a replacement of the canonical estimator. Sasidharan et al. (2023) uses the canonical 32-study-component reconstruction. Haas-Desmarais et al. (2026), Caruso et al. (2019), and Junker & Blüthgen (2010) remain secondary contextual/cross-synthesis modules rather than co-equal locally reproduced meta-analyses.
 
 ## Final-render rule
 
