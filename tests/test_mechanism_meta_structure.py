@@ -20,10 +20,16 @@ def test_manuscript_is_explicitly_mechanism_then_pattern() -> None:
     positions = [text.index(token) for token in required_in_order]
     assert positions == sorted(positions)
 
-    assert "Mechanistic theory and meta-analytic patterns" in text.splitlines()[0]
+    title = text.splitlines()[0]
+    assert "When are floral attraction and defence complementary?" in title
+    assert "one-sided mechanistic bound" in title
+    assert "cross-system patterns" in title
     assert "what mechanism determines" in text
     assert "what cross-system patterns recur" in text
-    assert "Quantitative meta-analysis is used where compatible effect scales exist" in text
+    assert (
+        "Quantitative meta-analysis is used only where compatible effect scales exist" in text
+        or "We use **meta-analysis** only where study outcomes can be expressed on a defensible common quantitative scale" in text
+    )
     assert "random-effects synthesis" in text
     assert "### 5.4 Meta-analysis 1:" in text
     assert "### 5.5 Meta-analytic synthesis 2:" in text

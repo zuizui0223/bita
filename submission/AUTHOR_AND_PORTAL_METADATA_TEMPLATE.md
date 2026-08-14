@@ -4,10 +4,10 @@ Complete the author-controlled fields before the manuscript is uploaded. Do not 
 
 ## Manuscript
 
-- Final title: **When are floral attraction and defence complementary? Mechanistic theory and meta-analytic patterns across mutualists and antagonists**
+- Final title: **When are floral attraction and defence complementary? A one-sided mechanistic bound and cross-system patterns**
 - Article type: **Regular Article**
 - Target journal: **Theoretical Ecology**
-- Running title: **Mechanism and patterns of attraction–defence complementarity**
+- Running title: **One-sided bound on attraction–defence complementarity**
 - Corresponding author:
 - Corresponding-author email:
 - Repository URL: `https://github.com/zuizui0223/bita`
@@ -16,7 +16,7 @@ Complete the author-controlled fields before the manuscript is uploaded. Do not 
 
 ### Abstract
 
-Flowers must attract mutualists while remaining exposed to florivores, nectar robbers, pathogens, and other antagonists. We ask what mechanism determines whether floral attraction and defence are locally complementary or substitutable, and what cross-system patterns recur empirically. In Part I, after an explicit orientation gate, the mixed partial is the balance between antagonist relief, pollinator interference, and direct joint-cost curvature, \(W_{AD}=\rho-\iota-\kappa\); this identity is bookkeeping, and total fitness alone does not identify its channel allocation. A stronger one-sided result follows: under non-negative joint-cost curvature, complementarity can occur only inside a selectivity window where antagonist relief exceeds pollinator interference. Across 2,592 endpoint-normalized evaluations and four response-shape variants there are no counterexamples, whereas about 23% of in-window evaluations remain substitutable. In Part II, a registered synthesis yields 56 route-level records from 25 independent biological study clusters. Floral larceny reduces female fitness on average (log response ratio -0.210; 48 clusters), but only 35/48 clusters are negative and the 95% prediction interval spans -1.13 to +0.71; declared moderators explain only 0-8% of heterogeneity. Thus antagonist exposure can open the theoretical window but does not locate it reliably across systems. The constituent mechanisms and switching architecture recur, while direct \(A\times D\) evidence remains sparse and direct joint-cost curvature unmeasured. The integrated result is therefore a one-sided mechanistic bound plus a context-dependent empirical Pattern, with the sign of joint-cost curvature as the minimal missing test of the bound's biological applicability.
+Flowers must attract mutualists while limiting exploitation by antagonists, creating the possibility that attraction and defence either reinforce or obstruct one another. We ask what mechanism determines whether one focal attraction trait and one flower-specific antagonist-reducing trait are locally complementary, and what cross-system patterns recur. After an explicit orientation gate, their local mixed fitness effect can be organized as antagonist relief minus pollinator interference minus direct joint-cost curvature, \(W_{AD}=\rho-\iota-\kappa\). The decomposition itself is bookkeeping, but it yields a stronger one-sided result: when joint-cost curvature is non-negative, complementarity can occur only where antagonist relief exceeds pollinator interference. Across 2,592 declared evaluations and four response-shape variants we find no counterexample, whereas about 23% of points inside this selectivity window remain substitutable, so the window is necessary but not sufficient. A mechanism-first synthesis then maps 56 route-level records from 25 independent biological study clusters. Floral larceny reduces female fitness on average (log response ratio -0.210; 48 clusters), yet only 35/48 effects are negative, the 95% prediction interval spans -1.13 to +0.71, and declared moderators explain only 0-8% of heterogeneity. Thus constituent mechanisms and switching architectures recur, but their realised balance is strongly context dependent. Direct \(A\times D\) evidence remains sparse and direct joint-cost curvature unmeasured. The resulting theory is therefore a one-sided mechanistic bound, not a universal sign rule; the sign of joint-cost curvature is the minimal next test of its biological applicability.
 
 ### Keywords
 
@@ -126,17 +126,17 @@ List only when there is a specific defensible conflict, not because a reviewer m
 
 ## Portal checks
 
-- [x] title matches the saturated Mechanism → Pattern manuscript file;
-- [x] abstract matches the saturated manuscript file;
+- [x] title matches the canonical Mechanism → Pattern manuscript file;
+- [x] abstract matches the canonical manuscript file;
 - [x] keywords match the manuscript file;
-- [x] article framing is Part I Mechanism + Part II saturated meta-analytic Pattern;
-- [x] portal abstract carries 56 / 25 / 14 / 17 / 7 consistently;
+- [x] article framing is Part I Mechanism + Part II cross-system Pattern;
+- [x] portal abstract carries the one-sided theorem, 2,592 verification, 56/25 Pattern state, Leal H-gate result, and joint-cost falsification gate;
 - [ ] author list matches title page and portal;
 - [ ] funding statement matches portal fields;
 - [ ] competing-interest statement matches portal fields;
 - [ ] final code/data release link and archival DOI are public and immutable;
 - [x] Figures 1–3 have canonical SVG sources and an EPS export workflow;
-- [ ] final Figures 1–3 EPS files are regenerated from the exact final expanded commit;
+- [ ] final Figures 1–3 EPS files are regenerated from the exact final paperization commit;
 - [ ] supplementary files are cited/numbered consistently in the final package;
-- [x] cover letter names Theoretical Ecology and the saturated Mechanism → Pattern manuscript;
+- [x] cover letter names Theoretical Ecology and the canonical Mechanism → Pattern manuscript;
 - [ ] manuscript is confirmed by all authors as not under consideration elsewhere.
