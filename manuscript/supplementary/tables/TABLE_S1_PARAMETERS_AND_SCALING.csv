@@ -1,0 +1,46 @@
+record_type,group,id,parameter,definition,value,note
+model_parameter,baseline_default,baseline,baseline_outcross,baseline mutualist/outcross contribution before focal attraction gain,0.1,qualitative scaffold; not empirically calibrated
+model_parameter,baseline_default,baseline,attraction_gain,endpoint-scaled attraction contribution to the mutualist channel,1.2,qualitative scaffold; not empirically calibrated
+model_parameter,baseline_default,baseline,defence_pollinator_cost,strength of defence-mediated obstruction of legitimate pollinator/outcross use,0.45,qualitative scaffold; not empirically calibrated
+model_parameter,baseline_default,baseline,assurance_gain,auxiliary reproductive-assurance contribution when pollinator service is low,0.7,qualitative scaffold; not empirically calibrated
+model_parameter,baseline_default,baseline,floral_damage_baseline,baseline floral antagonist-damage component before attraction tracking,0.2,qualitative scaffold; not empirically calibrated
+model_parameter,baseline_default,baseline,attraction_tracking,increase in antagonist exposure/damage associated with focal attraction,1.1,qualitative scaffold; not empirically calibrated
+model_parameter,baseline_default,baseline,floral_defence_efficacy,endpoint-scaled reduction of floral antagonist damage by defence,0.75,qualitative scaffold; not empirically calibrated
+model_parameter,baseline_default,baseline,attraction_cost,quadratic direct cost coefficient for focal attraction,0.22,qualitative scaffold; not empirically calibrated
+model_parameter,baseline_default,baseline,defence_cost,quadratic direct cost coefficient for focal defence,0.24,qualitative scaffold; not empirically calibrated
+model_parameter,baseline_default,baseline,assurance_cost,quadratic cost coefficient for auxiliary reproductive assurance,0.2,qualitative scaffold; not empirically calibrated
+model_parameter,baseline_default,baseline,attraction_defence_shared_cost,endpoint joint direct-cost scale for simultaneous A and D expression,0.1,qualitative scaffold; not empirically calibrated
+model_parameter,baseline_default,baseline,assurance_outcross_dilution,fractional dilution of the outcross channel by reproductive assurance,0.1,qualitative scaffold; not empirically calibrated
+scenario_override,parameter_scenario,low_tracking_low_obstruction_low_shared_cost,attraction_gain,endpoint-scaled attraction contribution to the mutualist channel,0.7,declared finite sensitivity scenario
+scenario_override,parameter_scenario,low_tracking_low_obstruction_low_shared_cost,attraction_tracking,increase in antagonist exposure/damage associated with focal attraction,0.5,declared finite sensitivity scenario
+scenario_override,parameter_scenario,low_tracking_low_obstruction_low_shared_cost,floral_defence_efficacy,endpoint-scaled reduction of floral antagonist damage by defence,0.5,declared finite sensitivity scenario
+scenario_override,parameter_scenario,low_tracking_low_obstruction_low_shared_cost,defence_pollinator_cost,strength of defence-mediated obstruction of legitimate pollinator/outcross use,0.2,declared finite sensitivity scenario
+scenario_override,parameter_scenario,low_tracking_low_obstruction_low_shared_cost,attraction_defence_shared_cost,endpoint joint direct-cost scale for simultaneous A and D expression,0.03,declared finite sensitivity scenario
+scenario_override,parameter_scenario,high_tracking_low_obstruction_low_shared_cost,attraction_gain,endpoint-scaled attraction contribution to the mutualist channel,1.2,declared finite sensitivity scenario
+scenario_override,parameter_scenario,high_tracking_low_obstruction_low_shared_cost,attraction_tracking,increase in antagonist exposure/damage associated with focal attraction,1.6,declared finite sensitivity scenario
+scenario_override,parameter_scenario,high_tracking_low_obstruction_low_shared_cost,floral_defence_efficacy,endpoint-scaled reduction of floral antagonist damage by defence,0.9,declared finite sensitivity scenario
+scenario_override,parameter_scenario,high_tracking_low_obstruction_low_shared_cost,defence_pollinator_cost,strength of defence-mediated obstruction of legitimate pollinator/outcross use,0.2,declared finite sensitivity scenario
+scenario_override,parameter_scenario,high_tracking_low_obstruction_low_shared_cost,attraction_defence_shared_cost,endpoint joint direct-cost scale for simultaneous A and D expression,0.03,declared finite sensitivity scenario
+scenario_override,parameter_scenario,high_obstruction_high_shared_cost,attraction_gain,endpoint-scaled attraction contribution to the mutualist channel,1.2,declared finite sensitivity scenario
+scenario_override,parameter_scenario,high_obstruction_high_shared_cost,attraction_tracking,increase in antagonist exposure/damage associated with focal attraction,0.8,declared finite sensitivity scenario
+scenario_override,parameter_scenario,high_obstruction_high_shared_cost,floral_defence_efficacy,endpoint-scaled reduction of floral antagonist damage by defence,0.6,declared finite sensitivity scenario
+scenario_override,parameter_scenario,high_obstruction_high_shared_cost,defence_pollinator_cost,strength of defence-mediated obstruction of legitimate pollinator/outcross use,0.9,declared finite sensitivity scenario
+scenario_override,parameter_scenario,high_obstruction_high_shared_cost,attraction_defence_shared_cost,endpoint joint direct-cost scale for simultaneous A and D expression,0.25,declared finite sensitivity scenario
+response_shape,functional_form,baseline,attraction_saturation,"response-shape curvature for attraction, endpoint-normalized at A=1",0.0,"endpoint-normalized on A,D in [0,1]"
+response_shape,functional_form,baseline,defence_saturation,"response-shape curvature for defence, endpoint-normalized at D=1",0.0,"endpoint-normalized on A,D in [0,1]"
+response_shape,functional_form,baseline,joint_cost_curvature,"response-shape curvature for the A-by-D direct joint-cost term, endpoint-normalized at A=D=1",0.0,"endpoint-normalized on A,D in [0,1]"
+response_shape,functional_form,saturating_attraction,attraction_saturation,"response-shape curvature for attraction, endpoint-normalized at A=1",1.0,"endpoint-normalized on A,D in [0,1]"
+response_shape,functional_form,saturating_attraction,defence_saturation,"response-shape curvature for defence, endpoint-normalized at D=1",0.0,"endpoint-normalized on A,D in [0,1]"
+response_shape,functional_form,saturating_attraction,joint_cost_curvature,"response-shape curvature for the A-by-D direct joint-cost term, endpoint-normalized at A=D=1",0.0,"endpoint-normalized on A,D in [0,1]"
+response_shape,functional_form,saturating_defence,attraction_saturation,"response-shape curvature for attraction, endpoint-normalized at A=1",0.0,"endpoint-normalized on A,D in [0,1]"
+response_shape,functional_form,saturating_defence,defence_saturation,"response-shape curvature for defence, endpoint-normalized at D=1",2.857142857142857,"endpoint-normalized on A,D in [0,1]"
+response_shape,functional_form,saturating_defence,joint_cost_curvature,"response-shape curvature for the A-by-D direct joint-cost term, endpoint-normalized at A=D=1",0.0,"endpoint-normalized on A,D in [0,1]"
+response_shape,functional_form,saturating_both_curved_cost,attraction_saturation,"response-shape curvature for attraction, endpoint-normalized at A=1",1.0,"endpoint-normalized on A,D in [0,1]"
+response_shape,functional_form,saturating_both_curved_cost,defence_saturation,"response-shape curvature for defence, endpoint-normalized at D=1",2.857142857142857,"endpoint-normalized on A,D in [0,1]"
+response_shape,functional_form,saturating_both_curved_cost,joint_cost_curvature,"response-shape curvature for the A-by-D direct joint-cost term, endpoint-normalized at A=D=1",1.0,"endpoint-normalized on A,D in [0,1]"
+finite_grid,coordinate_grid,endpoint_normalized_grid_v2,attraction,declared focal attraction coordinate A,0.2;0.5;0.8,unweighted declared grid; not prevalence
+finite_grid,coordinate_grid,endpoint_normalized_grid_v2,defence,declared focal defence coordinate D,0.2;0.5;0.8,unweighted declared grid; not prevalence
+finite_grid,coordinate_grid,endpoint_normalized_grid_v2,assurance,"auxiliary reproductive-assurance moderator R, not a third focal trait",0.0;0.5,unweighted declared grid; not prevalence
+finite_grid,coordinate_grid,endpoint_normalized_grid_v2,pollinator_service,exogenous pollinator-service context index P,0.2;0.5;0.8,unweighted declared grid; not prevalence
+finite_grid,coordinate_grid,endpoint_normalized_grid_v2,floral_damage_pressure,exogenous floral antagonist-pressure context index H,0.2;0.5;0.8,unweighted declared grid; not prevalence
+numerical_rule,tolerance,endpoint_normalized_grid_v2,neutral_tolerance,absolute numerical zero tolerance on the declared score scale,1e-10,absolute numerical zero tolerance

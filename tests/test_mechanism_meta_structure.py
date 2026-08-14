@@ -28,7 +28,10 @@ def test_manuscript_is_explicitly_mechanism_then_pattern() -> None:
     assert "### 5.4 Meta-analysis 1:" in text
     assert "### 5.5 Meta-analytic synthesis 2:" in text
     assert "### 5.6 Cross-system pattern: recurrent mechanisms, conditional balance" in text
-    assert "recurrent mechanism plus context-dependent balance" in text
+    assert "recurrent mechanisms plus context-dependent balance" in text
+    assert "56 effect or directional records across 25 independent biological study clusters" in text
+    assert "Fourteen study clusters" in text
+    assert "Seventeen independent study clusters" in text
 
 
 def test_pattern_half_does_not_overclaim_grand_meta_analysis() -> None:

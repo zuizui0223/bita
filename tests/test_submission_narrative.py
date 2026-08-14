@@ -11,16 +11,23 @@ def test_readme_declares_integrated_theory_and_empirical_synthesis() -> None:
     assert "what is recurrent, what is context dependent, and what remains unidentified" in text
     assert "prevalence in nature" in text
     assert "is not an empirically calibrated regime map" in text
+    assert "56 source-adjudicated effect/directional records" in text
+    assert "25 independent biological study clusters" in text
 
 
-def test_manifest_pins_both_quantitative_modules_and_boundaries() -> None:
+def test_manifest_pins_reproduced_modules_secondary_context_and_boundaries() -> None:
     text = (ROOT / "SUPPLEMENT_MANIFEST.md").read_text(encoding="utf-8")
-    assert "## 6. Quantitative synthesis module 1" in text
+    assert "## 7. Reproduced quantitative synthesis module 1 — Leal et al. 2025 floral larceny" in text
     assert "ed33b25593c0d90ad6657753f6f5501d9efc7b82" in text
-    assert "## 7. Quantitative synthesis module 2" in text
+    assert "## 8. Reproduced quantitative synthesis module 2 — Sasidharan et al. 2023 FVOCs" in text
     assert "PASS_AS_DEPOSITED_REANALYSIS" in text
+    assert "## 9. Secondary contextual/cross-synthesis modules" in text
+    assert "Haas-Desmarais et al. 2026" in text
+    assert "Caruso et al. 2019" in text
+    assert "Junker & Blüthgen 2010" in text
     assert "marginal routes do not estimate `W_AD`" in text
     assert "`kappa` is therefore unidentified, not estimated as zero" in text
+    assert "secondary-synthesis counts are not added to route-ledger N" in text
 
 
 def test_scope_keeps_assurance_auxiliary() -> None:

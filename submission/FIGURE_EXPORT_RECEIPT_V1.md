@@ -1,10 +1,10 @@
-# Figure export receipt v1 — manuscript Figures 1–3
+# Figure export receipt v4 — submission-ready Mechanism → Pattern Figures 1–3
 
 ## Decision
 
-The current manuscript figure set has passed a reproducible vector-export check suitable for the final Springer/*Theoretical Ecology* packaging workflow.
+The saturated 25-system main-figure set has passed reproducible vector export in the current *Theoretical Ecology* submission form at the same checkpoint that also carries the modernized supplementary robustness figure.
 
-Canonical source figures:
+Canonical scientific source figures remain:
 
 ```text
 manuscript/figures/FIGURE_1_MECHANISTIC_ARCHITECTURE.svg
@@ -12,38 +12,51 @@ manuscript/figures/FIGURE_2_THEORY_REGIME_MAP.svg
 manuscript/figures/FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg
 ```
 
-Export implementation:
+Submission export implementation:
 
 ```text
+scripts/prepare_submission_svg.py
 scripts/export_manuscript_figures.sh
 .github/workflows/export-manuscript-figures.yml
 ```
 
-The exporter uses Inkscape CLI to create EPS vector files from the committed SVG sources and converts text to paths to avoid font substitution. It validates that each output is non-empty and contains a PostScript header and BoundingBox.
+The canonical SVGs are retained as the reproducible scientific sources. For submission export only, `prepare_submission_svg.py` deterministically removes exactly one visible outer figure-title text element from each illustration while retaining panel labels, equations, annotations, and accessibility metadata. The exporter then creates vector EPS files with Inkscape, converts text to paths to prevent font substitution, and verifies the PostScript header and BoundingBox.
 
-## Latest validated export
-
-The latest export includes the strengthened Figure 1 with the explicit signed identity, orientation gate, oriented balance, and inference boundary.
+## Current submission-form export validation
 
 ```text
-source head:       51d75c8c8f02525430d7e369c1d9eeeb86964e99
+source head:       fe274a91349931c08b8d820f99dc7b3ab5d8f725
 workflow:          Export manuscript figures
-workflow run:      31542777226
-run number:        3
+workflow run:      31666278452
+run number:        96
 conclusion:        success
 artifact:          manuscript-figures-eps
-artifact id:       9121336188
-artifact sha256:   ec4752ee35b32448f75935a2866e55527cefcc1e99051e651c1030dc17c6cbf5
-artifact size:     774152 bytes
+artifact id:       9168041835
+artifact sha256:   f4fb42b7421958a5a5251f24f03c666de2735b28bbded739286e65e9705090fd
+artifact size:     759365 bytes
+submission files:  Fig1.eps, Fig2.eps, Fig3.eps
 ```
 
-At the same source head, all 14 pull-request workflows completed successfully, including core CI, submission-scope, mechanism/same-system audits, the source-specific audit workflows, and this EPS export.
+Artifact metadata records the same source head. At that source head, core CI, submission-scope, and the main EPS workflow all completed successfully. The supplementary package workflow also completed successfully and the committed Fig. S4 displays the registered REML + modified Hartung–Knapp sensitivity while retaining the canonical DerSimonian–Laird estimates.
 
-## Figure-specific reproducibility state
+## Submission preprocessing contract
 
-### Figure 1
+The submission EPS files differ from the canonical SVG sources only in presentation required for journal upload:
 
-The committed SVG directly displays:
+1. exactly one visible outer figure-title line is removed from each figure;
+2. the manuscript retains the corresponding `**Fig. 1**`, `**Fig. 2**`, and `**Fig. 3**` captions outside the illustration;
+3. panel headings and scientific annotations are retained;
+4. vector geometry is retained;
+5. text is converted to paths only during EPS export;
+6. filenames are `Fig1.eps`, `Fig2.eps`, and `Fig3.eps`.
+
+`tests/test_theoretical_ecology_house_style.py` executes the SVG preprocessor on all three canonical figures and verifies that each visible outer title is removed while internal scientific content remains.
+
+## Figure-specific scientific reproducibility
+
+### Fig. 1 — Mechanism
+
+The canonical source remains protected for:
 
 ```text
 signed identity
@@ -53,41 +66,75 @@ signed identity
 -> inference boundary
 ```
 
-`tests/test_figure1_inference_boundary.py` protects those required elements.
+No Part I scientific content was changed by submission preprocessing.
 
-### Figure 2
+### Fig. 2 — Mechanistic sign regimes
 
-The canonical SVG is tied to `endpoint_normalized_grid_v2` and protected against `empirical/part_i_robustness/endpoint_normalized_grid_v2_report.json` by `tests/test_committed_figure2.py`. Provenance is recorded in `manuscript/figures/README.md`.
+The canonical SVG remains tied to `endpoint_normalized_grid_v2` and protected against `empirical/part_i_robustness/endpoint_normalized_grid_v2_report.json`. Percentages are finite-grid occupancies, not prevalence estimates.
 
-### Figure 3
+### Fig. 3 — Saturated Pattern architecture
 
-The SVG is rebuilt from the canonical five-ledger coverage universe, sign-switch ledger, quantitative-module registry, and direct/joint-cost saturation receipts. `tests/test_build_empirical_mechanism_figure_svg.py` requires byte-identical regeneration.
+The expanded builder reads the frozen five-ledger canonical universe plus all admitted expansion ledgers, canonical and expansion sign-switch ledgers, seven context-only programs, the quantitative/secondary module registries, and direct/joint-cost saturation receipts.
+
+The scientific source displays:
+
+```text
+56 route records / 25 independent systems
+A -> pollination 5
+A -> antagonism 8
+D -> antagonism 18
+D -> pollination 10
+same-system 14
+context/sign-switch 17
+context-only programs 7
+2 reproduced quantitative modules
+3 secondary contextual syntheses
+direct A x D: 1 strict sign-unresolved cluster
+direct joint cost: 0 strict estimates; kappa unidentified
+```
+
+The committed scientific SVG is byte-reproducible before the journal-specific title-strip export step.
+
+### Fig. S4 — quantitative robustness companion
+
+The supplementary robustness figure is generated from the canonical module summaries and then deterministically augmented from `LEAL_2025_MODERN_ESTIMATOR_SENSITIVITY_V1.json`. The added inset preserves the canonical DerSimonian–Laird estimates and separately displays REML + modified Hartung–Knapp sensitivity for the same independent-cluster inputs. The legitimate-visitation interval is explicitly flagged borderline to zero rather than strengthened into a more confident claim.
 
 ## Interpretation guardrails
 
-The export step changes presentation format only. It does not change any scientific quantity.
+The export and supplementary presentation changes do not alter scientific quantities.
 
-- Figure 2 percentages remain unweighted finite-grid occupancies, not empirical probabilities or prevalence estimates.
-- Figure 3 route/module counts remain evidence architecture, not estimates of `W_AD` or prevalence in nature.
-- Figure 1's oriented `rho`, `iota`, `kappa` interpretation is valid only after the displayed orientation gate.
+- Fig. 2 percentages remain unweighted finite-grid occupancies, not empirical probabilities or prevalence estimates.
+- Fig. 3 route/context/module counts remain evidence architecture, not prevalence or estimates of `W_AD`.
+- Context-only programs and secondary-synthesis study counts are not added to route-ledger N.
+- Fig. 1's oriented `rho`, `iota`, `kappa` interpretation is valid only after the orientation gate.
+- Fig. S4's REML/mHK inset is a robustness sensitivity, not a replacement of the canonical meta-analysis.
+- `kappa` remains unidentified, not zero.
 
 ## Final-release rule
 
-The Actions artifact is a validation receipt, not a permanent archive. Before portal submission:
+This Actions artifact is a validation receipt, not the permanent archive. Before actual portal submission:
 
-1. run the same export workflow from the exact final submission commit;
-2. retain or archive the resulting EPS files with the submitted manuscript package;
-3. record the final commit SHA, workflow run, artifact digest, and archival DOI/release identifier;
-4. do not reuse this transient Actions artifact as the archival submission object if the manuscript or figures change.
+1. freeze the exact author-approved manuscript after author/licence/declaration fields are supplied;
+2. rerun the export if any canonical figure or figure-caption requirement changes;
+3. retain the resulting `Fig1.eps`–`Fig3.eps` with the submitted package;
+4. render the reader-facing supplement only after author/release metadata are frozen;
+5. record the final release/tag and archival DOI;
+6. do not treat a transient Actions artifact as the permanent repository archive.
 
 ## Current state
 
 ```text
-SVG manuscript sources:          complete
-reproducible EPS exporter:       complete
-strengthened Figure 1 export:    validated
-Figure 2 canonical export:       validated
-Figure 3 reproducible export:    validated
-current export workflow:         green
-final-release export rerun:      still required after all final metadata/formatting edits
+canonical SVG scientific sources:      complete
+expanded Fig. 3:                       reproducible
+supplementary Fig. S4 modern sensitivity: synchronized / tested
+journal caption convention:            implemented
+visible outer title stripping:         validated
+submission filenames Fig1-Fig3.eps:   validated
+submission-form EPS export:            GREEN
+submission EPS source head:            fe274a91349931c08b8d820f99dc7b3ab5d8f725
+artifact digest recorded:              yes
+core CI / submission-scope at source:  GREEN
+Part I scientific figure content:      unchanged
+final author-approved release:         pending author metadata/licence
+archival DOI:                          pending final release
 ```

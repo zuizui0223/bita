@@ -1,0 +1,81 @@
+name: Validate Pattern expansion v1
+
+on:
+  push:
+    branches:
+      - analysis/pattern-expansion-v1
+    paths:
+      - "empirical/mechanism_pattern_synthesis/EXPANSION_*"
+      - "empirical/mechanism_pattern_synthesis/PATTERN_*"
+      - "empirical/mechanism_pattern_synthesis/CROSS_MODULE_PATTERN_MATRIX_V2.csv"
+      - "scripts/build_pattern_expansion_readout.py"
+      - "scripts/build_empirical_mechanism_figure_svg.py"
+      - "scripts/promote_pattern_expansion_to_manuscript_v2.py"
+      - "scripts/run_pattern_promotion_once.py"
+      - "scripts/sync_expanded_submission_narrative.py"
+      - "scripts/apply_theoretical_ecology_house_style.py"
+      - "scripts/export_manuscript_figures.sh"
+      - "tests/test_pattern_expansion_v1.py"
+      - "tests/test_build_empirical_mechanism_figure_svg.py"
+      - "tests/test_submission_narrative.py"
+      - "tests/test_submission_scope.py"
+      - "tests/test_manuscript_references.py"
+      - "tests/test_theoretical_ecology_house_style.py"
+      - "README.md"
+      - "manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md"
+      - "manuscript/TABLES_THEORETICAL_ECOLOGY.md"
+      - "manuscript/figures/FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg"
+      - "submission/AUTHOR_AND_PORTAL_METADATA_TEMPLATE.md"
+      - "submission/COVER_LETTER_THEORETICAL_ECOLOGY.md"
+      - ".github/workflows/pattern-expansion-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/pattern-expansion-v1
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependency
+        run: python -m pip install pytest
+      - name: Promote saturated Pattern into manuscript artifacts once
+        run: python scripts/run_pattern_promotion_once.py
+      - name: Synchronize repository narrative and bibliography
+        run: python scripts/sync_expanded_submission_narrative.py
+      - name: Apply Theoretical Ecology house style
+        run: python scripts/apply_theoretical_ecology_house_style.py
+      - name: Validate expansion contract
+        run: pytest -q tests/test_pattern_expansion_v1.py
+      - name: Build final expansion readout
+        run: python scripts/build_pattern_expansion_readout.py
+      - name: Build expanded Figure 3
+        run: python scripts/build_empirical_mechanism_figure_svg.py manuscript/figures/FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg
+      - name: Validate expanded Figure 3
+        run: pytest -q tests/test_build_empirical_mechanism_figure_svg.py
+      - name: Validate journal house style
+        run: pytest -q tests/test_theoretical_ecology_house_style.py
+      - name: Commit generated Pattern/manuscript artifacts when changed
+        run: |
+          paths="README.md empirical/mechanism_pattern_synthesis/PATTERN_EXPANSION_READOUT_V1.json empirical/mechanism_pattern_synthesis/PATTERN_EXPANSION_READOUT_V1.md manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md manuscript/TABLES_THEORETICAL_ECOLOGY.md manuscript/figures/FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg submission/AUTHOR_AND_PORTAL_METADATA_TEMPLATE.md submission/COVER_LETTER_THEORETICAL_ECOLOGY.md"
+          if [ -z "$(git status --porcelain -- $paths)" ]; then
+            echo "Generated Pattern/manuscript artifacts already current"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add $paths
+            git commit -m "Apply Theoretical Ecology submission house style"
+            git fetch origin analysis/pattern-expansion-v1
+            git rebase origin/analysis/pattern-expansion-v1
+            git push origin HEAD:analysis/pattern-expansion-v1
+          fi
+      - name: Run manuscript-facing regression checks
+        run: pytest -q tests/test_submission_narrative.py tests/test_submission_scope.py tests/test_manuscript_references.py tests/test_theoretical_ecology_house_style.py

@@ -1,198 +1,242 @@
-# Mechanism-pattern synthesis completion status v2
+# Mechanism-pattern synthesis completion status v6
 
 ## Scope and source of truth
 
-This file records the completed scientific and manuscript-integration state of PR #126 after the later Gate A, C, D, E, F, G, and H receipts superseded older intermediate status notes.
-
-Canonical integration line:
+This file records the current scientific, robustness, manuscript, figure, supplement, and submission-format state of the fixed Mechanism paper plus the saturated Pattern-expansion candidate.
 
 ```text
-PR:     #126
-branch: agent/mechanism-pattern-universality-v1
+canonical pre-expansion PR:  #126
+canonical base branch:       agent/mechanism-pattern-universality-v1
+expanded candidate PR:       #129
+expanded candidate branch:   analysis/pattern-expansion-v1
 ```
 
-First A–H scientific adjudication occurred before manuscript reconstruction. The theory was kept fixed to obtain those gate decisions. Manuscript reconstruction then proceeded only after the freeze rule in `COMPLETION_GATE_V1.md` was satisfied.
+Part I theory remains fixed. PR #129 changes Part II evidence capacity, empirical Pattern synthesis, robustness presentation, and submission packaging; it does not change any equation, theorem, theoretical parameter, or canonical finite-sensitivity result.
 
-## A–H gate matrix
+## A–H scientific gate
 
-| Gate | Status | Canonical basis | Remaining scientific blocker |
-|---|---|---|---|
-| **A — direct `A x D` search** | **PASS** | `DIRECT_AXD_SATURATION_RECEIPT_V1.md` | none; one strict direct cluster remains sign-unresolved, which is itself the bounded evidence state |
-| **B — four marginal mechanism families** | **PASS** | `MECHANISM_COVERAGE_AUDIT_V1.md` | none; all four routes have explicit source-adjudicated empirical states |
-| **C — two quantitative modules** | **PASS** | Leal 2025 larceny module pinned to immutable commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82` + `SASIDHARAN_2023_REPRO_READOUT_V1.md` | none |
-| **D — sign switching / conditionality** | **PASS** | `SIGN_SWITCH_LEDGER_V1.csv` + `CONDITIONALITY_ONTOLOGY_V1.md` | none at current evidence capacity; cross-outcome meta-regression is intentionally not manufactured |
-| **E — same-system multi-route evidence** | **PASS** | `SAME_SYSTEM_REGIME_READOUT_V1.md` | none; linkage and dependence are explicit |
-| **F — direct joint cost** | **PASS as documented gap** | `JOINT_COST_SATURATION_RECEIPT_V1.md` | none; `kappa` remains empirically unidentified, not zero |
-| **G — synthesis robustness/bias** | **PASS** | `SYNTHESIS_ROBUSTNESS_AUDIT_V1.md` | none |
-| **H — theory/empiricism boundary** | **PASS** | `THEORY_EMPIRICISM_BOUNDARY_AUDIT_V1.md` | none for current synthesis; manuscript and submission materials preserve the boundary |
+| Gate | Status | Current basis |
+|---|---|---|
+| **A — direct `A x D`** | **PASS as bounded gap** | one strict direct cluster remains sign unresolved |
+| **B — four marginal mechanism families** | **PASS** | saturated canonical + expansion ledgers cover all four route families |
+| **C — quantitative modules** | **PASS** | Leal 2025 + Sasidharan 2023 reproduced modules; three secondary contextual syntheses retained separately |
+| **D — conditionality** | **PASS** | 17 sign/state-switch clusters + 7 context-only programs |
+| **E — same-system linkage** | **PASS** | 14 same-system multi-route clusters |
+| **F — direct joint cost** | **PASS as documented gap** | zero strict estimates; `kappa` remains unidentified |
+| **G — robustness/bias** | **PASS** | canonical module diagnostics plus Leal REML + modified Hartung–Knapp estimator-family sensitivity |
+| **H — theory/empiricism boundary** | **PASS** | manuscript/figure/table/supplement regression contracts preserve all inference prohibitions |
 
-## Overall scientific decision
+## Saturated Pattern architecture
 
 ```text
-Gates A-H:                   PASS
-scientific completion gate: PASS
-additional evidence search: NOT A DEFAULT BLOCKER
+route-ledger records:               56
+independent biological clusters:    25
+A -> pollination clusters:           5
+A -> antagonism clusters:            8
+D -> antagonism clusters:           18
+D -> pollination clusters:          10
+same-system multi-route clusters:   14
+context/sign-switch clusters:       17
+context-only programs:               7  (excluded from route-ledger N)
+direct A x D strict clusters:        1  (sign unresolved)
+direct joint-cost strict estimates:  0  (kappa unidentified)
 ```
 
-The empirical endpoint is a map of **what is recurrent, what is context dependent, and what remains empirically unidentified**, rather than an attempt to estimate the mixed partial by pooling marginal studies.
+Route counts overlap. They are evidence-capacity diagnostics within the screened architecture, not prevalence estimates and not additive independent-study totals.
 
-## Integrated empirical result
+The supported cross-system Pattern remains:
 
-1. **mechanism recurrence** — all four theory-facing marginal families have source-adjudicated states across multiple systems;
-2. **same-system architecture** — guarded, interference, shared-tracking, antagonist-biased, unresolved, and context-switching states occur in linked systems;
-3. **direct evidence scarcity** — the dedicated direct `A x D` search saturates with one strict, sign-unresolved cluster;
-4. **conditionality recurrence** — 11 independent context/sign-switch clusters map onto five theory-facing classes without mixing incompatible outcomes into a grand mean;
-5. **joint-cost identification gap** — the direct A+D intrinsic-cost search saturates at zero eligible estimates, so `kappa` remains unidentified;
-6. **quantitative breadth** — Leal 2025 and Sasidharan 2023 provide two biologically distinct source-audited quantitative synthesis modules with module-appropriate dependence, influence, and robustness checks.
+> **recurrent constituent mechanisms + context-dependent balance**
 
-The mechanism-coverage architecture contains 38 source-adjudicated effect/directional records across 14 independent biological study clusters, including ten same-system multi-route clusters. These are evidence-capacity counts within the screened architecture, not prevalence estimates.
+The expansion is saturated under the registered stopping rule: Batch 7 added lifecycle-stage role reversal and reset the counter; Batches 8 and 9 added no new admissible theory-facing Pattern class; the quantitative extension found no sixth synthesis with a distinct manuscript-facing axis. Additional broad searching is therefore not a default blocker.
 
-## Quantitative-module packaging
+## Quantitative synthesis state
 
-### Leal et al. 2025 — immutable dependency
+### Leal et al. 2025 floral larceny
 
-`SUPPLEMENT_MANIFEST.md` fixes the completed larceny module to repository commit:
+Canonical preregistered DerSimonian–Laird estimates remain the manuscript-facing pooled effects:
 
 ```text
-ed33b25593c0d90ad6657753f6f5501d9efc7b82
+female reproductive success  LRR -0.210  48 clusters
+nectar standing crop          LRR -0.483  28
+legitimate visitation         LRR -0.291  22
 ```
 
-and enumerates the canonical protocol, readout, effect rows, recomputation audit, results, scripts, modules, and tests. The integration line does not silently recompute or alter that completed module for directory consistency.
+Extreme heterogeneity, dependence, influence, quarantine, moderator, and small-study limitations remain explicit.
 
-### Sasidharan et al. 2023 — canonical current-branch reconstruction
-
-The canonical dependence structure is the conservatively recovered 32-study-component citation topology. The admitted module retains the current-deposit versus printed-source discrepancies, 32/32 leave-one-component-out positive direction for the assembled physiological contrast, the three paired both-role zero differences, and repeated behavioral `+/0` discordance.
-
-## Manuscript reconstruction — completed
-
-The freeze condition has been released and the canonical manuscript has been rebuilt:
-
-- `manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md`
-- `manuscript/TABLES_THEORETICAL_ECOLOGY.md`
-- `manuscript/README.md`
-
-The reconstructed paper preserves the fixed theory equations, Proposition 1, environmental derivative identities, and all canonical 2,592-evaluation finite-sensitivity numbers. It replaces the obsolete statement that the literature layer is abstract-only preliminary context with the completed source-adjudicated mechanism-pattern synthesis.
-
-The manuscript-facing Results/Discussion spine is now:
+The same independent-cluster inputs have now also passed the registered estimator-family sensitivity using REML heterogeneity estimation plus modified Hartung–Knapp inference:
 
 ```text
-fixed sign criterion
--> mechanism recurrence
--> same-system regime structure
--> direct A x D scarcity
--> five-class conditionality map
--> quantitative module 1: antagonist-pressure gate
--> quantitative module 2: FVOC mutualist/antagonist response architecture
--> direct joint-cost evidence gap
--> identification boundary and empirical predictions
+female fitness:        REML -0.2048; mHK 95% CI [-0.3318, -0.0777]
+nectar standing crop:  REML -0.4894; mHK 95% CI [-0.7948, -0.1840]
+legitimate visitation: REML -0.2879; mHK 95% CI [-0.5756, -0.00018]
 ```
 
-No new theorem, trait, mechanism, or model parameter was introduced to perform the reconstruction.
+Female fitness and nectar remain clearly below zero. Legitimate visitation remains below zero but is explicitly **borderline to zero** because the modified Hartung–Knapp upper endpoint nearly touches zero. This robustness sensitivity does not replace the canonical DerSimonian–Laird estimates and does not reduce the declared biological heterogeneity.
 
-## Figure 3 — reproducible empirical architecture
+Machine-readable source: `LEAL_2025_MODERN_ESTIMATOR_SENSITIVITY_V1.json`.
 
-The manuscript-facing empirical architecture is now committed as:
-
-- `manuscript/figures/FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg`
-- `scripts/build_empirical_mechanism_figure_svg.py`
-- `tests/test_build_empirical_mechanism_figure_svg.py`
-
-The builder derives the mechanism-route, independence-cluster, same-system, sign-switch, direct-interaction, and joint-cost counts from committed ledgers/receipts and parses the two quantitative-module summaries from `SECONDARY_SYNTHESIS_MODULES_V1.csv`. The regression test requires the generated SVG to be byte-identical to the committed figure.
-
-The visual makes the inference boundary explicit: marginal and same-system evidence appear above the boundary as mechanism-recurrence/conditionality evidence, while only the sparse direct `A x D` and direct joint-cost layers appear below it. This prevents the figure from implying that route counts or marginal effects algebraically estimate `W_AD`.
-
-## Submission-support integration — completed for scientific narrative
-
-The following have been updated from theory-only / preliminary-literature framing to the integrated paper:
-
-- root `README.md`;
-- `SUPPLEMENT_MANIFEST.md`;
-- `docs/SUBMISSION_SCOPE.md`;
-- `docs/FINAL_SUBMISSION_AUDIT.md`;
-- `submission/COVER_LETTER_THEORETICAL_ECOLOGY.md`;
-- `submission/FIGURE_AND_TABLE_PLAN.md`;
-- `submission/SUBMISSION_CHECKLIST.md`;
-- `submission/MANUSCRIPT_AUDIT_V2.md` (content now audit v3);
-- `submission/TARGET_JOURNAL_STRATEGY.md`;
-- narrative and submission-spine regression tests.
-
-The first journal target remains *Theoretical Ecology*, with the theory kept as the organizing contribution and the empirical synthesis presented as a theory-facing identification/evidence architecture rather than a prevalence survey.
-
-## CI and external-source transport
-
-### Validated manuscript-integration checkpoint
-
-At integration head
+### Sasidharan et al. 2023 FVOCs
 
 ```text
-c3a6f12b1ac4a6b92414150ec87db35455ffc5f9
+florivore physiological detection   84/103
+pollinator physiological detection 151/220
+assembled risk difference            +0.129
+LOCO direction                       positive 32/32
+paired both-role components          3; all paired differences 0
 ```
 
-all **13/13** pull-request workflows completed successfully.
+The assembled contrast is not a causal within-study pollinator-versus-florivore effect.
 
-Key successful runs at that checkpoint:
+### Secondary contextual syntheses
+
+Haas-Desmarais et al. 2026, Caruso et al. 2019, and Junker & Blüthgen 2010 remain secondary contextual/cross-synthesis modules. Their study/observation counts are not added to route-ledger N and their metrics are not pooled with the two reproduced modules.
+
+## Manuscript-facing integration
+
+PR #129 contains a complete candidate canonical integration:
+
+- root README synchronized to 56 / 25 / 14 / 17 / 7;
+- Part II manuscript Methods/Results synchronized to the saturated evidence universe;
+- Tables 3–4 synchronized;
+- Figure 3 regenerated from canonical + expansion evidence and byte-protected;
+- 20-entry cited bibliography, alphabetically ordered and regression-protected;
+- abstract and six keywords synchronized to the target-journal structural contract;
+- author/affiliation/corresponding-author/ORCID fields remain explicit placeholders, not inferred;
+- non-copyediting LLM assistance is disclosed in Methods;
+- `Statements and Declarations` follows References;
+- Funding, Competing interests, and Author contributions remain author-confirmation fields;
+- cover-letter and portal templates reserve exactly five author-selected/conflict-checked reviewer slots;
+- Part I equations and 2,592 finite-sensitivity evaluations remain unchanged.
+
+## Supplementary package state
+
+The reader-facing source is:
 
 ```text
-CI                                      31540017238
-submission-scope                        31540017288
-Build mechanism coverage audit          31540017212
-Build same-system regime readout         31540017240
-Audit Sasidharan 2023 PMC supplement     31540017244
-Audit Garcia 2024 JPE appendices         31540017250
+manuscript/supplementary/SUPPLEMENTARY_MATERIAL.md
 ```
 
-Core CI passed on Python 3.10, 3.11, and 3.12. The later status-integration head also passed core CI before Figure 3 was added; the final figure-integration head must pass once more before the submission package is called fully green.
-
-### García 2024 transport hardening
-
-The JPE/OJS endpoint repeatedly produced the same failure pattern on GitHub-hosted runners:
+The reproducible package contains:
 
 ```text
-urllib: RemoteDisconnected
-curl:   HTTP/2 PROTOCOL_ERROR
+Fig. S1  analytic vs finite-difference mixed-partial agreement
+Fig. S2  scenario-specific mechanistic sign maps
+Fig. S3  same-system route matrix across 14 linked systems
+Fig. S4  module-specific quantitative robustness
+Table S1 complete parameter definitions/scaling
+Table S2 all 162 local cases
+Table S3 full 56-record mechanism/Pattern route ledger
+Table S4 conditionality/context architecture
+Table S5 direct-identification audits
+Table S6 Pattern-expansion screening/stopping batches
 ```
 
-Because this recurred after an earlier transient success, `scripts/audit_garcia2024_appendices.py` was hardened at the transport layer only: curl fallback is forced to HTTP/1.1, closes connections, and uses bounded retries. Article-declared source URLs, parsed content, and scientific adjudication logic were not changed. The audit passed after the transport change.
+Fig. S4 now retains the canonical Leal DerSimonian–Laird pooled effects and I² values, retains the Sasidharan robustness panel, and adds a **separate** REML + modified Hartung–Knapp inset generated from the machine-readable Gate G JSON. The augmentation is deterministic and idempotent; regression tests require the three mHK intervals and the `borderline to zero` visitation label.
 
-## Theory/empiricism boundary after manuscript reconstruction
+The supplementary workflow successfully reproduces Part I evaluations, builds Figures S1–S4 and Tables S1–S6, augments Fig. S4, validates the package, and persists generated assets only when changed.
 
-The integrated manuscript and repository tests enforce that:
+Final reader-facing supplementary PDF rendering remains deliberately deferred until author/release metadata and archival DOI are frozen.
+
+## Target-journal structural-format state
+
+The current journal-facing structural requirements are encoded and regression-tested:
+
+```text
+abstract:                 150–250 words
+keywords:                 6
+title-page author fields: explicit author-controlled placeholders
+AI/LLM assistance:        disclosed in Methods beyond copyediting
+figure captions:          Fig. n form, outside illustrations
+Statements/Declarations:  after References
+Funding:                  author-confirmation placeholder
+Competing interests:      author-confirmation placeholder
+Author contributions:     author-controlled placeholder
+reviewer slots:            exactly 5, author/conflict-check required
+```
+
+The house-style transformation is idempotent and does not invent author, funding, competing-interest, reviewer, or ORCID information.
+
+## Main-figure vector export and validation checkpoints
+
+Scientific / figure-content checkpoint after the modernized supplementary robustness integration:
+
+```text
+head:                fe274a91349931c08b8d820f99dc7b3ab5d8f725
+CI:                  PASS (Python 3.10 / 3.11 / 3.12)
+submission-scope:    PASS
+main EPS export:     PASS
+EPS workflow run:    31666278452
+EPS artifact id:     9168041835
+EPS artifact sha256: f4fb42b7421958a5a5251f24f03c666de2735b28bbded739286e65e9705090fd
+submission files:    Fig1.eps / Fig2.eps / Fig3.eps
+```
+
+The submission exporter deterministically removes exactly one visible outer title from each canonical SVG for upload while retaining panel labels, equations, and internal scientific annotations. Canonical scientific SVGs remain the source of truth.
+
+A later package-status head containing only receipt/plan/checklist synchronization was also fully green:
+
+```text
+head:                1ef95ce42bbc3c56fc152c1be8469f5be6b3cc7b
+CI:                  PASS
+submission-scope:    PASS
+main EPS export:     PASS
+EPS run:             31666453884
+EPS artifact:        9168098266
+```
+
+The scientific-content checkpoint remains the provenance anchor; documentation-only commits are not used to manufacture a new scientific result.
+
+## Theory/empiricism boundary
+
+The active candidate preserves:
 
 ```text
 marginal route evidence != W_AD
-same-system multi-route evidence != direct A x D
-publication/study counts != model parameters
-deposit or screened-set fractions != prevalence in nature
-finite-grid occupancy != prevalence in nature
+same-system evidence != direct A x D
+context-only programs != extra route N
+secondary-synthesis counts != route-ledger N
+study/publication counts != model parameters or prevalence
+finite-grid occupancy != prevalence
 one direct A x D cluster != universal interaction sign
 zero direct joint-cost studies != kappa = 0
+herbivory treatment != focal D
+whole-reproductive-module defence != flower-specific D without the organ gate
+REML/mHK sensitivity != replacement canonical meta-analysis
 ```
 
-The two quantitative synthesis modules support the biological reality and conditionality of constituent mechanisms; they do not empirically calibrate the complete mixed partial.
+## Remaining before external submission
 
-## Remaining work before portal submission
+Scientific evidence hunting, Pattern saturation, quantitative robustness, journal structural normalization, main-figure vector validation, and reproducible supplementary-source generation are closed.
 
-Scientific evidence hunting is no longer the default next task. Remaining work is final presentation/reproducibility packaging:
+The remaining blockers are genuinely author/release controlled:
 
-1. regenerate final Figure 2 and produce publication-ready vector exports for Figures 1-3;
-2. complete primary-source/reference metadata verification and journal formatting;
-3. supply author order, affiliations, ORCIDs, CRediT, funding, acknowledgements, and conflict confirmation;
-4. create the exact submission release and archival DOI;
-5. run final CI on the final figure/reference/archive-preparation commit.
-
-If final source verification exposes a specific material evidence error or a genuinely new strict direct-design candidate, the corresponding evidence gate can be reopened. Otherwise, additional broad searching should not displace final manuscript preparation.
+1. final author order/publication names, affiliations, corresponding-author e-mail, and ORCIDs;
+2. final CRediT, funding/no-funding statement, acknowledgements, and competing-interest statement;
+3. exactly five potential reviewer names/institutions/e-mails/expertise/conflict checks;
+4. repository licence/licence statement;
+5. final manuscript production route and author-approved render (Word + companion PDF if Word is chosen, or supported LaTeX route);
+6. final reader-facing supplementary PDF after author/release metadata are frozen;
+7. final rendered-file citation/equation/table/figure QA;
+8. release/tag and archival DOI;
+9. all-author approval of the exact package;
+10. authenticated journal-portal upload.
 
 ## Merge decision
 
 ```text
-scientific A-H gate:        PASS
-manuscript reconstruction:  COMPLETE
-Figure 3:                   COMPLETE / REPRODUCIBLE
-submission narrative:       INTEGRATED
-validated CI checkpoint:    GREEN 13/13 before final Figure 3 integration
-PR #126:                    KEEP DRAFT during final vector/reference packaging
-merge to main:              technically defensible after final package check
-portal submission:          not yet; final vectors + author metadata + references + archive DOI remain
+scientific A-H gate:              PASS
+Pattern expansion gate:          PASS / SATURATED
+25-system manuscript package:    COMPLETE
+Gate G modern sensitivity:       PASS / S4 SYNCHRONIZED
+candidate-specific CI:           GREEN
+supplementary package workflow:  GREEN / REPRODUCIBLE
+journal structural house style:  PASS
+submission-form EPS export:      GREEN / digest recorded
+PR #129:                         KEEP DRAFT pending author/licence/release decisions
+PR #126:                         KEEP DRAFT; remains pre-expansion base
+merge to main:                   NOT YET AUTHORIZED
+portal submission:               NOT YET
 ```
 
-Keeping PR #126 draft is now a workflow choice for final package consolidation, not an unresolved scientific gate.
+If final source verification exposes a material evidence error or a genuinely new strict direct-design candidate, the relevant scientific gate can be reopened. Otherwise, additional broad searching should not displace final packaging.

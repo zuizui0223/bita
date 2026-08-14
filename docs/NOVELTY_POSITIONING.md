@@ -1,137 +1,130 @@
 # Novelty and positioning boundary
 
-## Prior art that must be acknowledged explicitly
+## Current positioning
 
-The manuscript must not present the biological coupling of pollination, herbivory, floral attraction, and defence as a new idea. It also must not present cross-trait fitness curvature itself as a new mathematical object.
+The manuscript should be positioned as a **mechanism-first focal-trait theory plus theory-structured empirical Pattern synthesis**. The novelty is not that pollinators and antagonists interact, that floral defence can carry pollination costs, that attraction can expose flowers to antagonists, that cross-trait curvature exists, or that ecological context changes interaction outcomes. Those ideas all have clear precedents.
 
-At minimum, the positioning must acknowledge four established lines of work:
+The current contribution is narrower and stronger: for one declared floral attraction trait `A`, one declared flower-specific antagonist-reducing trait `D`, and one declared outcome scale `W`, the framework separates local attraction-defence curvature into antagonist relief, pollinator interference, and direct joint-cost curvature; imposes an explicit orientation gate; states the additional comparative-static conditions required for environmental predictions; derives a one-sided selectivity-window bound; and then uses a source-adjudicated empirical synthesis to ask which constituent mechanisms recur, which channels switch with context, and which quantities remain unidentified.
 
-1. **Cross-trait fitness curvature and correlational selection are established multivariate-selection concepts.** Lande and Arnold (1983) provided the classical framework for measuring selection on correlated characters, and later fitness-surface work developed the interpretation and visualization of quadratic and cross-trait selection. Therefore using a local cross derivative or interaction term to describe how fitness depends on a trait combination is not itself a novelty claim.
-2. **Defence can carry an ecological cost through pollination.** Strauss et al. (1999) explicitly examined ecological costs of herbivore resistance in the currency of pollination and showed that more resistant *Brassica rapa* lines differed in floral traits and pollinator foraging use. This directly predates any claim that defence-associated traits can impose collateral pollination costs.
-3. **Mutualists and antagonists can have nonadditive fitness effects relevant to correlated evolution.** Herrera et al. (2002) experimentally manipulated pollinator and herbivore effects in a factorial field design and found geographically consistent nonadditivity in fitness consequences, proposing a pathway for correlated evolution of mutualism- and antagonism-related traits. This directly predates any claim that combined mutualist and antagonist effects can create nonadditive selection or favour trait combinations.
-4. **Ecological parameters can shift the balance between mutualism and antagonism in explicit models.** Revilla and Encinas-Viso (2014) developed a stage-structured pollination–herbivory model with qualitative transitions between mutualism- and antagonism-dominated dynamics. Context dependence and ecological regime transitions are therefore not novel in themselves.
+## Prior art that must be acknowledged
 
-References:
+At minimum, the paper must explicitly acknowledge:
 
-- Lande, R., & Arnold, S. J. (1983). The measurement of selection on correlated characters. *Evolution* 37:1210–1226.
-- Strauss, S. Y., Siemens, D. H., Decher, M. B., & Mitchell-Olds, T. (1999). Ecological costs of plant resistance to herbivores in the currency of pollination. *Evolution* 53:1105–1113. doi:10.1111/j.1558-5646.1999.tb04525.x.
-- Herrera, C. M., Medrano, M., Rey, P. J., Sánchez-Lafuente, A. M., García, M. B., Guitián, J., & Manzaneda, A. J. (2002). Interaction of pollinators and herbivores on plant fitness suggests a pathway for correlated evolution of mutualism- and antagonism-related traits. *PNAS* 99:16823–16828. doi:10.1073/pnas.252362799.
-- Revilla, T. A., & Encinas-Viso, F. (2014). Dynamical transitions in a pollination–herbivory interaction. arXiv:1404.4804.
+1. **Cross-trait fitness curvature and correlational selection are established.** Lande & Arnold (1983) and later multivariate-selection work already provide cross-trait quadratic and fitness-surface concepts. `W_AD` is not a new mathematical object.
+2. **Defence can have ecological costs through pollination.** Strauss et al. (1999) directly predates any claim that resistance or defence-associated traits can reduce pollinator use or pollination-mediated fitness.
+3. **Mutualists and antagonists can have nonadditive fitness effects.** Herrera et al. (2002) experimentally demonstrated nonadditive pollinator-herbivore fitness effects relevant to correlated evolution.
+4. **Attraction can recruit antagonists as well as mutualists.** Floral signal and reward studies, including Theis & Adler and the Kessler programmes, establish shared or conflicting consumer tracking.
+5. **Ecological context can change the balance between mutualism and antagonism.** This is established both empirically and in explicit ecological models; context dependence itself is not novel.
 
-## What is not claimed as novel
+## What is explicitly not claimed as novel
 
-The manuscript does not claim novelty for any of the following:
+Do not claim novelty for:
 
-- multivariate fitness surfaces, quadratic selection, or cross-trait fitness curvature;
-- pollinators and antagonists jointly shaping plant fitness or floral evolution;
-- attractive floral traits exposing plants to antagonists;
-- defence or resistance carrying collateral costs through pollinator responses;
-- nonadditive fitness effects of mutualists and antagonists;
-- correlated evolution being favoured by such nonadditivity;
-- ecological context changing the balance between mutualism and antagonism;
-- an algebraic decomposition of a mixed partial by itself.
+- multivariate fitness surfaces or correlational selection;
+- a mixed partial or trait-interaction coefficient by itself;
+- pollinator-herbivore nonadditivity;
+- attraction increasing antagonist exposure;
+- defence carrying a pollination cost;
+- ecological context dependence;
+- trade-offs or correlated evolution in general;
+- the bookkeeping identity `W_AD = M_AD - G_AD - C_AD`;
+- a universal positive or negative sign of `W_AD`;
+- the statement that being inside a selective/guarded regime guarantees complementarity.
 
-In particular, the identity
+## Novel contribution 1 — mechanism-facing decomposition and inference boundary
 
-```text
-W_AD = M_AD - G_AD - C_AD
-```
-
-is algebra, not a novelty claim, and `W_AD` is one local cross-curvature quantity within the broader family of multivariate fitness-surface descriptions.
-
-## The narrower contribution being claimed
-
-The defensible contribution is a **mechanistically oriented focal-trait diagnostic** that applies a local cross-curvature quantity to a declared pair of floral traits and separates three distinct sources of that curvature:
+After the focal orientation gate,
 
 ```text
-local A x D marginal-fitness interaction
-= antagonist relief
-- mutualist interference
-- direct joint cost.
+W_AD = rho - iota - kappa
 ```
 
-For one declared attraction trait `A` and one declared flower-specific barrier/defence trait `D`, the framework:
+where `rho` is antagonist relief, `iota` is pollinator/mutualist interference, and `kappa` is direct joint-cost curvature.
 
-1. imposes an explicit **orientation gate** before converting signed mixed curvatures into non-negative mechanism magnitudes;
-2. keeps the ecological pollination cost of defence separate from direct allocation or construction cost;
-3. expresses the local sign boundary as a balance among antagonist relief, mutualist interference, and direct joint cost;
-4. distinguishes the diagnostic sign condition from the additional assumptions needed for environmental comparative statics;
-5. writes those additional conditions as explicit local derivative inequalities rather than treating “more antagonists” or “more pollinators” as universally directional;
-6. allows nonlinear regime dependence, under which a one-dimensional regime contrast may have no crossing, one crossing, or multiple sign switches;
-7. keeps the local curvature result separate from claims about covariance, genetic correlation, optima, or evolutionary trajectories.
+The novelty claim is not the algebra. It is the **inference architecture**: the same total `W_AD` can arise from different channel allocations, so total fitness alone does not identify mechanism; marginal route evidence does not estimate the mixed partial; and environmental predictions require explicit derivative inequalities rather than verbal assumptions such as “more antagonists favour defence”.
 
-The strongest defensible statement is therefore **not** that cross-trait selection, nonadditivity, trade-offs, correlated evolution, or ecological context are newly discovered. It is that the manuscript provides a compact floral mutualist–antagonist diagnostic that separates three mechanistic contributions, states when the non-negative orientation is valid, and makes the extra derivative conditions for regime predictions explicit.
+## Novel contribution 2 — one-sided selectivity-window theorem
 
-## Novelty status: deliberately provisional
+Define the selectivity window as the region where antagonist relief exceeds pollinator interference before joint cost is charged. Under the declared non-negative `relief - interference - cost` family,
 
-This is a formulation and inference-architecture claim, not a claim of discovering a new biological phenomenon or a new class of fitness curvature.
+```text
+W_AD > 0  =>  rho > iota
+```
 
-The current citation review establishes important nearby prior art and materially narrows the novelty claim. It does **not** yet prove that no earlier paper has written an algebraically equivalent focal-trait criterion with the same three-way mechanism separation, orientation gate, and regime-derivative conditions. Until a targeted search of theoretical, correlational-selection, and plant mutualist–antagonist literature is complete, the manuscript should use wording such as:
+so **complementarity cannot occur outside the window**.
 
-> We develop a mechanistically oriented local diagnostic framework...
+This is a necessary-region result, not a two-sided criterion. Across the declared 2,592 evaluations and all four endpoint-normalized response-shape variants there are zero counterexamples, while 397 in-window evaluations are substitutable and window precision is 77.2%. With `kappa = 0`, the window and the sign criterion coincide exactly.
 
-rather than:
+The reviewer-facing claim should therefore be: **the selectivity architecture defines a permissive region for complementarity, not a universal sign rule**.
 
-> We provide the first general theory...
+## Novel contribution 3 — the unique escape route is negative joint-cost curvature
 
-or:
+Outside the selectivity window, complementarity requires
 
-> We derive a novel universal criterion...
+```text
+kappa < rho - iota <= 0
+```
 
-## What is deliberately narrower than a full evolutionary model
+Therefore a negative joint-cost curvature is **necessary** for the one-sided bound to fail, and is sufficient when negative enough.
 
-`W_AD` is a local mixed partial of a declared fitness or fitness-score surface. It describes how the marginal fitness effect of one focal trait changes with the other.
+This gives `c_AD` a sharper role than an ordinary missing parameter. Its sign is the minimal empirical applicability/falsification gate for the strongest theorem in the declared family. A negative value means the focal attraction and defence traits are cheaper together than additivity predicts, for example through shared precursors, regulation, or multifunctional construction.
 
-If `W` is defined as relative fitness on standardized trait coordinates, an empirically estimated cross-trait quadratic term can be discussed in the language of correlational selection. The present supplement does not automatically assume that scaling. It therefore uses the more general phrase **local marginal-fitness interaction** unless a concrete empirical application supplies the required fitness and trait definitions.
+## Novel contribution 4 — theory converts a hard field test into a cheap falsification test
 
-`W_AD` does not by itself predict:
+Estimating total `W_AD` still requires a joint `A x D` design on a common outcome, ideally with channel-specific measurements. The one-sided theorem creates a cheaper first test: a 2 x 2 allocation experiment (`neither`, `A only`, `D only`, `A + D`) can estimate the sign of the joint direct-cost interaction without pollinators, antagonists, or a total-fitness assay.
 
-- population-level trait covariance;
-- genetic correlation;
-- an evolved environmental cline;
-- an evolutionary trajectory;
-- a stable equilibrium or global optimum.
+The methodological contribution is therefore a reduction of a difficult full-calibration problem to a simpler **falsification gate** for the strongest structural claim.
 
-Those would require additional assumptions about fitness scaling, constraints, genetic architecture, and dynamics. Herrera et al. (2002) is especially important here: its discussion of correlated evolution should not be used as permission to infer trait covariance directly from the present mixed partial.
+## Novel contribution 5 — Mechanism → Pattern synthesis
 
-## Trait-definition and orientation boundary
+Part II does not manufacture a grand effect across incompatible outcomes. Instead, the theory defines the empirical evidence architecture.
 
-The theory is not a model of an omnibus `attraction` index crossed with an omnibus `defence` index. Every application must choose one focal `A`–`D` pair and declare its measurement scale.
+Current saturated Pattern state:
 
-`D` is defined by a flower-specific antagonist-reduction role. A pollinator cost is a possible effect of that same focal trait. A trait that merely obstructs pollinators is not sufficient to instantiate the complete defence mechanism.
+```text
+56 source-adjudicated route-level records
+25 independent biological study clusters
+A -> pollination: 5 clusters
+A -> antagonism: 8
+D -> antagonism: 18
+D -> pollination: 10
+same-system multi-route: 14
+context/sign-switch: 17
+context-only programs: 7, excluded from route-ledger N
+direct total-outcome A x D: very sparse / unresolved
+direct joint cost kappa: 0 strict estimates
+```
 
-The biological labels also do not determine the mixed-curvature signs. A negative `D -> pollinator use` response does not by itself identify `M_AD < 0`, and a protective `D -> antagonist damage` response does not by itself identify `G_AD < 0`. The focal interaction with the marginal effect of `A` must be established.
+The cross-system result is **recurrent constituent mechanisms + context-dependent balance**, with recurrent guarded states, attack-mode and spatial/temporal filtering, consumer functional-mode routing, lifecycle-stage role reversal, and other channel switching. This is a theory-structured recurrence synthesis, not an estimate of natural prevalence.
 
-This distinction is important for empirical synthesis: records from different traits or taxa can establish that a pathway occurs, but they do not jointly estimate one system-specific mixed partial.
+## Empirical H-gate result and its limit
 
-## Parameterisation boundary
+The floral-larceny synthesis establishes that realised antagonist pressure is biologically non-zero on average: female reproductive success has pooled LRR about -0.210 across 48 independent clusters, with nectar standing crop and legitimate visitation also negative on average. But 35/48 female-fitness clusters are negative, the 95% prediction interval spans approximately -1.13 to +0.71, and the declared moderator set explains only 0-8% of the extreme heterogeneity.
 
-Mixed partials are coordinate-dependent quantities. Positive affine rescaling preserves the sign, but arbitrary nonlinear trait transformations can alter a cross-partial away from special cases. The manuscript therefore treats the sign as a property of a declared biological parameterisation, not as a transformation-free universal label.
+Therefore the empirical result is:
 
-## Empirical role of the literature layer
+> the antagonist-pressure gate can be open on average, but its realised magnitude and even sign are system dependent, and the tested coarse moderators do not yet locate that variation.
 
-The current literature layer is a preliminary mechanism-plausibility check. All active direction records are coded from Crossref-deposited abstracts rather than promoted full-text effect extractions.
+The pooled nectar -> visitation -> female-fitness sequence must not be presented as a demonstrated within-study mechanism chain. Only five clusters measure all three outcomes, only two show all three arrows negative, and the shared nectar-visitation subset gives `r = -0.17`.
 
-One predeclared three-cluster manipulation stratum for chemical barriers and pollinator preference/foraging is uniformly negative at the abstract-coding level. A separate visitation-rate stratum contains one mixed record. This is restricted abstract-level directional consistency with a collateral pollinator-cost route, not a full-text meta-analysis and not evidence for the focal `M_AD` curvature by itself.
+## Direct-factorial evidence boundary
 
-The evidence does not estimate the full mutualist-interference curvature, antagonist-relief curvature, direct joint cost, complete mixed partial, or environmental derivative of the mixed partial. The current quantitative extraction table is not sufficient for pooled calibration.
+The Kessler floral factorials show that crossed floral-trait interaction signs can change with consumer context on pollination-channel outcomes. They do not identify total `W_AD`, and published summaries do not provide formal interaction uncertainty for the reconstructed finite contrasts. The `Impatiens` total reproductive-outcome candidate remains sign-unresolved.
 
-Strauss et al. (1999) also means that the existence of a defence-associated pollination cost should be treated as biological precedent, not as the manuscript's novelty. The literature layer supports plausibility and scope; it is not the central conceptual contribution.
+Thus direct evidence supports **context-dependent channel interaction**, not a universal total curvature sign.
 
-## Reviewer-facing positioning
+## Reviewer-facing novelty statement
 
-A defensible abstract-level claim is:
+A defensible concise formulation is:
 
-> Building on multivariate selection theory and evidence that pollination and antagonism can interact nonadditively and that defence can carry pollination costs, we develop a mechanistically oriented focal-trait diagnostic that separates antagonist relief, mutualist interference, and direct joint cost, states the sign conditions required for that orientation, and identifies the additional regime-scaling conditions required for ecological change to shift the local marginal-fitness interaction toward complementarity or substitutability.
+> Building on multivariate selection theory and established pollinator-antagonist interactions, we develop a mechanism-facing local attraction-defence framework that separates antagonist relief, mutualist interference, and direct joint cost. The framework yields a one-sided selectivity-window theorem: under non-negative joint-cost curvature, complementarity is confined to a permissive region where antagonist relief exceeds pollinator interference, although being inside that region is not sufficient. A sufficiently negative joint-cost curvature is the unique escape from that bound in the declared family, reducing its biological falsification to the sign of a joint allocation interaction. A theory-structured cross-system synthesis then shows recurrent constituent mechanisms and recurrent context-dependent channel switching while leaving total `W_AD` and direct joint cost empirically unresolved.
 
-Avoid stronger formulations such as:
+Avoid “first general theory”, “novel universal criterion”, “universal attraction-defence sign”, or claims that the empirical synthesis validates the complete mixed partial.
 
-- “We introduce a new kind of cross-trait fitness interaction.”
-- “We are the first to show that pollinators and herbivores jointly shape plant fitness.”
-- “We discover that defence can trade off with pollination.”
-- “We show for the first time that mutualist and antagonist effects are nonadditive.”
-- “We derive a completely general theorem for all attraction–defence systems.”
-- “More antagonists always favour attraction–defence complementarity.”
-- “The mixed partial predicts positive or negative trait correlations.”
-- “The literature data empirically validate the full regime map.”
-- “All floral defence and access-limitation traits are measurements of one common `D` axis.”
+## Evolutionary and parameterisation boundaries
+
+`W_AD` is a local mixed partial on declared trait coordinates and outcome scale. Positive affine rescaling preserves the sign; arbitrary nonlinear transformation need not. The sign therefore belongs to a declared biological parameterisation.
+
+`W_AD` alone does not imply population-level covariance, genetic correlation, an evolved cline, a trajectory, equilibrium, or optimum. Those require additional genetic and dynamical assumptions.
+
+Every application must declare one focal `A` and one flower-specific antagonist-reducing `D`. A trait that only obstructs pollinators is not sufficient to instantiate the defence axis, and a marginal `D -> pollinator use` or `D -> antagonist damage` effect does not by itself identify the corresponding cross-curvature.
