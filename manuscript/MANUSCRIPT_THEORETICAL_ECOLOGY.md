@@ -110,7 +110,7 @@ The local sign criterion is therefore
 W_{AD}>0 \iff \rho>\iota+\kappa,
 \]
 
-with equality defining the local break-even boundary. This oriented form is valid only after the orientation gate has been justified for the focal application.
+with equality defining the local break-even boundary. This oriented form is valid only after the orientation gate has been justified for the focal application. The channel architecture, orientation gate, and inference boundary are summarized in Fig. 1 and Table 1.
 
 ### 2.4 Mechanism non-identifiability
 
@@ -222,7 +222,7 @@ After combining all four deliberately contrasting biological scenarios and respo
 
 The theorem itself is algebraic; the declared grid verifies that the implementation obeys its premises across the full finite design. Among 2,592 evaluations, all 1,342 complementary evaluations occurred inside the selectivity window, giving **zero false negatives** for the bound. The converse was loose: 397 in-window evaluations were substitutable, so the share of in-window points that were genuinely complementary was 77.2%; approximately 23% of the window therefore failed as a sufficient criterion.
 
-When direct joint cost was forced to zero, the window and the sign criterion coincided exactly across the same declared design. These fractions are unweighted finite-grid occupancies, not estimates of natural prevalence. Their role is to distinguish an exact structural implication from the false two-sided rule that the finite design itself rejects.
+When direct joint cost was forced to zero, the window and the sign criterion coincided exactly across the same declared design. These fractions are unweighted finite-grid occupancies, not estimates of natural prevalence. Their role is to distinguish an exact structural implication from the false two-sided rule that the finite design itself rejects. The finite design and its regime/verification readout are summarized in Fig. 2 and Table 2; analytic-versus-finite-difference checks and scenario-specific maps are provided in Supplementary Figs. S1–S2 and Tables S1–S2.
 
 ## 4. Part II — Meta-analysis and cross-study pattern synthesis
 
@@ -308,7 +308,7 @@ Behavioral evidence reinforced the context-dependence conclusion. Six repeated f
 
 Taken together, Part II identifies a general empirical Pattern that is narrower and more defensible than a universal attraction-defence sign. The four constituent route families recur across 25 independent source-adjudicated biological systems, including repeated visual/scent attraction signals and chemically or physically distinct antagonist-reducing traits. Fourteen same-system clusters show that routes can co-occur, while 17 sign/state-switch clusters and seven context-only programs show that trait intensity, resources, exposure, consumer identity, attack geometry, response stage, population, visitor functional mode, and even consumer lifecycle can change which channel is expressed.
 
-The two reproduced quantitative syntheses retain their principal direction under their declared influence checks. The three secondary contextual syntheses independently reinforce strong tissue, consumer, trait-class, assay, and selection-context dependence, but remain explicitly separated by evidence status and effect scale. Direct \(A\times D\) remains one sign-unresolved strict cluster, and direct joint-cost evidence remains zero strict estimates. The meta-analytic Pattern is therefore **recurrent mechanisms plus context-dependent balance**, not a universal value or sign of \(W_{AD}\).
+The two reproduced quantitative syntheses retain their principal direction under their declared influence checks. The three secondary contextual syntheses independently reinforce strong tissue, consumer, trait-class, assay, and selection-context dependence, but remain explicitly separated by evidence status and effect scale. Direct \(A\times D\) remains one sign-unresolved strict cluster, and direct joint-cost evidence remains zero strict estimates. The meta-analytic Pattern is therefore **recurrent mechanisms plus context-dependent balance**, not a universal value or sign of \(W_{AD}\). The cross-system evidence architecture is summarized in Fig. 3 and Table 3, with the quantitative modules in Table 4; full route, conditionality, direct-identification, and stopping-rule records are provided in Tables S3–S6, with same-system and module-robustness displays in Supplementary Figs. S3–S4.
 
 ## 6. Integration — from mechanism to pattern
 
