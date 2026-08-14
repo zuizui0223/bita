@@ -22,7 +22,7 @@
 <circle cx="1232.1" cy="168" r="7" fill="#111"/>
 <text x="1232.1" y="148.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="11" font-weight="700">full +0.129</text>
 <text x="1150.6" y="232.0" text-anchor="start" font-family="DejaVu Sans,Arial,sans-serif" font-size="11" font-weight="400">min +0.0873</text>
-<text x="1229.0" y="232.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="11" font-weight="400">median +0.1274</text>
+<text x="1229.0" y="252.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="11" font-weight="400">median +0.1274</text>
 <text x="1383.6" y="232.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="11" font-weight="400">max +0.2065</text>
 <text x="920.0" y="300.0" text-anchor="start" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="700">32/32 leave-one-study-component-out contrasts remain positive</text>
 <text x="920.0" y="333.0" text-anchor="start" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="400">Only three study components contain both physiological roles; all three paired differences are zero</text>
