@@ -9,3 +9,5 @@ This note fixes the integrated scientific story now carried by PR #129. It adds 
 5. Direct joint-cost curvature `c_AD` remains unmeasured. A sufficiently negative value is the only failure route for the one-sided bound in the declared family, so its sign is the minimal empirical applicability/falsification gate. A 2 × 2 allocation experiment can test that sign; a full attraction × defence factorial remains necessary to estimate total `W_AD` and decompose its mechanism.
 
 The paper therefore supports a one-sided mechanistic theorem plus a recurrent but context-dependent empirical Pattern. It does not claim a universal positive or negative `W_AD`, a two-sided universal selectivity criterion, a demonstrated reward-mediated larceny chain, or an empirical estimate of `c_AD`.
+
+The novelty-positioning contract is maintained in `docs/NOVELTY_POSITIONING.md`: established multivariate-selection, pollinator-herbivore, floral-defence-cost, and context-dependence precedents are acknowledged explicitly, while the new claim is restricted to the mechanism-facing inference architecture, one-sided bound, `c_AD` falsification gate, and Mechanism → Pattern synthesis.
