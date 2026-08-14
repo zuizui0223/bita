@@ -1,0 +1,62 @@
+name: One-time visual QA previews
+
+on:
+  push:
+    branches:
+      - agent/manuscript-reader-qa-v1
+
+permissions:
+  contents: write
+
+jobs:
+  preview:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - name: Install Inkscape
+        run: |
+          if ! command -v inkscape >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y inkscape
+          fi
+      - name: Render main and supplementary previews
+        run: |
+          mkdir -p artifacts/visual_qa/prepared
+          for n in 1 2 3; do
+            case "$n" in
+              1) src="manuscript/figures/FIGURE_1_MECHANISTIC_ARCHITECTURE.svg" ;;
+              2) src="manuscript/figures/FIGURE_2_THEORY_REGIME_MAP.svg" ;;
+              3) src="manuscript/figures/FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg" ;;
+            esac
+            prepared="artifacts/visual_qa/prepared/Fig${n}.svg"
+            python scripts/prepare_submission_svg.py "$src" "$prepared"
+            inkscape "$prepared" --export-filename="artifacts/visual_qa/Fig${n}.png" --export-width=2200
+          done
+          for n in 1 2 3 4; do
+            case "$n" in
+              1) src="manuscript/supplementary/figures/FIGURE_S1_DERIVATIVE_AGREEMENT.svg" ;;
+              2) src="manuscript/supplementary/figures/FIGURE_S2_SCENARIO_SIGN_MAPS.svg" ;;
+              3) src="manuscript/supplementary/figures/FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg" ;;
+              4) src="manuscript/supplementary/figures/FIGURE_S4_QUANTITATIVE_ROBUSTNESS.svg" ;;
+            esac
+            inkscape "$src" --export-filename="artifacts/visual_qa/FigS${n}.png" --export-width=2200
+          done
+          rm -rf artifacts/visual_qa/prepared
+      - uses: actions/upload-artifact@v4
+        with:
+          name: manuscript-visual-qa
+          path: artifacts/visual_qa/*.png
+          if-no-files-found: error
+      - name: Remove temporary workflow
+        run: |
+          rm .github/workflows/_visual-qa-tmp.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Remove temporary visual QA workflow'
+          git push origin HEAD:${GITHUB_REF_NAME}
