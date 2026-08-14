@@ -1,6 +1,6 @@
 # Biotic Interaction Trait Architecture
 
-A reproducible **Mechanism → Pattern** study of when one focal floral attraction trait (`A`) and one focal flower-specific antagonist-reducing trait (`D`) are locally complementary or substitutable on a declared outcome scale (`W`). The **fixed theoretical core** and the empirical Pattern synthesis remain inferentially separate: Part II tests recurrence, gate opening, switching, and identification gaps rather than relabelling marginal evidence as the total mixed partial.
+A reproducible **Mechanism → Pattern** study of when one focal floral attraction trait (`A`) and one focal flower-specific antagonist-reducing trait (`D`) are locally complementary or substitutable on a declared outcome scale (`W`). The repository couples a **fixed theoretical core** to a **mechanism-pattern empirical synthesis** while keeping the two inferentially separate: Part II tests recurrence, gate opening, switching, and identification gaps rather than relabelling marginal evidence as the total mixed partial.
 
 ## Scientific result
 
