@@ -33,6 +33,29 @@ def test_manifest_pins_reproduced_modules_secondary_context_and_boundaries() -> 
     assert "secondary-synthesis counts are not added to route-ledger N" in text
 
 
+def test_live_submission_docs_do_not_pin_superseded_pr_or_branch_state() -> None:
+    live_docs = (
+        ROOT / "SUPPLEMENT_MANIFEST.md",
+        ROOT / "docs" / "FINAL_SUBMISSION_AUDIT.md",
+        ROOT / "docs" / "SUBMISSION_SCOPE.md",
+        ROOT / "submission" / "SUBMISSION_CHECKLIST.md",
+        ROOT / "submission" / "TARGET_JOURNAL_STRATEGY.md",
+        ROOT / "submission" / "MANUSCRIPT_AUDIT_V2.md",
+    )
+    stale_tokens = (
+        "PR #129 candidate",
+        "analysis/pattern-expansion-v1",
+        "inherited from PR #126",
+        "agent/mechanism-pattern-universality-v1",
+        "38-record / 14-independent-cluster",
+        "38/14 evidence scaffold",
+    )
+    for path in live_docs:
+        text = path.read_text(encoding="utf-8")
+        for token in stale_tokens:
+            assert token not in text, f"{path.name}: stale live-state token {token!r}"
+
+
 def test_scope_keeps_assurance_auxiliary() -> None:
     text = (ROOT / "docs" / "SUBMISSION_SCOPE.md").read_text(encoding="utf-8")
     assert "**Auxiliary moderator:**" in text
@@ -49,3 +72,6 @@ def test_final_audit_records_assurance_and_empirical_boundary() -> None:
     assert "`kappa`" in text
     assert "unidentified" in text
     assert "mixed partial" in text
+    assert "one-sided" in text
+    assert "77.2%" in text
+    assert "Reader-facing repository-source QA: PASS" in text
