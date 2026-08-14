@@ -1,0 +1,29 @@
+name: Audit Kessler 2019 EDMOND data
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit_kessler2019_edmond.py"
+      - ".github/workflows/audit-kessler2019-edmond.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Audit article-declared EDMOND data through Dataverse API
+        run: |
+          python scripts/audit_kessler2019_edmond.py artifacts/kessler2019_edmond_audit.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kessler2019-edmond-audit
+          path: artifacts/kessler2019_edmond_audit.json
+          if-no-files-found: error

@@ -121,9 +121,12 @@ RETIRED_PATHS = [
 
 
 REQUIRED_ACTIVE_PATHS = [
+    # Repository-level submission contract.
     "README.md",
     "SUPPLEMENT_MANIFEST.md",
     "docs/SUBMISSION_SCOPE.md",
+    "docs/FINAL_SUBMISSION_AUDIT.md",
+    # Fixed theoretical core.
     "docs/GENERAL_SIGN_CRITERION.md",
     "docs/NOVELTY_POSITIONING.md",
     "docs/BACKGROUND_NOVELTY_GAP_REVIEW.md",
@@ -139,6 +142,31 @@ REQUIRED_ACTIVE_PATHS = [
     "scripts/build_part_i_regime_figure_svg.py",
     "empirical/part_i_robustness/endpoint_normalized_grid_v2_report.json",
     "empirical/part_i_robustness/PART_I_SENSITIVITY_READOUT_V2.md",
+    # Integrated mechanism-pattern synthesis.
+    "docs/MECHANISM_PATTERN_UNIVERSALITY_PROTOCOL_V1.md",
+    "empirical/mechanism_pattern_synthesis/COMPLETION_GATE_V1.md",
+    "empirical/mechanism_pattern_synthesis/COMPLETION_STATUS_V2.md",
+    "empirical/mechanism_pattern_synthesis/SEARCH_REGISTRY_V1.csv",
+    "empirical/mechanism_pattern_synthesis/MASTER_LEDGER_SCHEMA_V1.csv",
+    "empirical/mechanism_pattern_synthesis/MASTER_LEDGER_V1.csv",
+    "empirical/mechanism_pattern_synthesis/MECHANISM_COVERAGE_AUDIT_V1.md",
+    "empirical/mechanism_pattern_synthesis/DIRECT_AXD_SATURATION_RECEIPT_V1.md",
+    "empirical/mechanism_pattern_synthesis/SAME_SYSTEM_REGIME_READOUT_V1.md",
+    "empirical/mechanism_pattern_synthesis/SIGN_SWITCH_LEDGER_V1.csv",
+    "empirical/mechanism_pattern_synthesis/CONDITIONALITY_ONTOLOGY_V1.md",
+    "empirical/mechanism_pattern_synthesis/JOINT_COST_SATURATION_RECEIPT_V1.md",
+    "empirical/mechanism_pattern_synthesis/SASIDHARAN_2023_REPRO_READOUT_V1.md",
+    "empirical/mechanism_pattern_synthesis/SECONDARY_SYNTHESIS_MODULES_V1.csv",
+    "empirical/mechanism_pattern_synthesis/SYNTHESIS_ROBUSTNESS_AUDIT_V1.md",
+    "empirical/mechanism_pattern_synthesis/THEORY_EMPIRICISM_BOUNDARY_AUDIT_V1.md",
+    # Canonical manuscript integration and Figure 3 evidence architecture.
+    "manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md",
+    "manuscript/TABLES_THEORETICAL_ECOLOGY.md",
+    "manuscript/README.md",
+    "manuscript/figures/FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg",
+    "scripts/build_empirical_mechanism_figure_svg.py",
+    "tests/test_build_empirical_mechanism_figure_svg.py",
+    # Retained earlier broad layer used by current validation scripts.
     "empirical/broad_reality_evidence/broad_route_records.csv",
     "empirical/broad_reality_evidence/broad_effect_extractions.csv",
     "empirical/broad_reality_evidence/broad_meta_analysis_strata.csv",

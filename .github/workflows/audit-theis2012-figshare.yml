@@ -1,0 +1,29 @@
+name: Audit Theis Adler 2012 Figshare
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit_theis2012_figshare.py"
+      - ".github/workflows/audit-theis2012-figshare.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Audit publisher-linked public Figshare collection
+        run: |
+          python scripts/audit_theis2012_figshare.py artifacts/theis2012_figshare_audit.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: theis2012-figshare-audit
+          path: artifacts/theis2012_figshare_audit.json
+          if-no-files-found: error

@@ -1,0 +1,29 @@
+name: Audit Barlow 2017 Aconitum Figshare
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit_barlow2017_figshare.py"
+      - ".github/workflows/audit-barlow2017-figshare.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Audit article-declared public Figshare data
+        run: |
+          python scripts/audit_barlow2017_figshare.py artifacts/barlow2017_figshare_audit.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: barlow2017-figshare-audit
+          path: artifacts/barlow2017_figshare_audit.json
+          if-no-files-found: error

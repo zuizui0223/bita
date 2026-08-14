@@ -1,18 +1,31 @@
 # Author and submission-portal metadata
 
-Complete this file before the manuscript is uploaded. Do not infer or auto-fill missing author information.
+Complete the author-controlled fields before the manuscript is uploaded. Do not infer or auto-fill missing author information.
 
 ## Manuscript
 
-- Final title:
-- Article type: Research Article
-- Target journal: Theoretical Ecology
-- Running title:
+- Final title: **When are floral attraction and defence complementary? Mechanistic theory and meta-analytic patterns across mutualists and antagonists**
+- Article type: **Regular Article**
+- Target journal: **Theoretical Ecology**
+- Running title: **Mechanism and patterns of attraction–defence complementarity**
 - Corresponding author:
 - Corresponding-author email:
-- Repository URL:
+- Repository URL: `https://github.com/zuizui0223/bita`
 - Archived release DOI:
 - Suggested handling editor:
+
+### Abstract
+
+Flowers must attract mutualists while remaining exposed to florivores, nectar robbers, pathogens, and other antagonists. We ask what mechanism determines whether floral attraction and defence are locally complementary or substitutable, and what cross-system patterns recur empirically. In Part I, after an explicit orientation gate, the mixed partial is the balance between antagonist relief, pollinator interference, and direct joint-cost curvature, \(W_{AD}=\rho-\iota-\kappa\); this identity is bookkeeping, and total fitness alone does not identify its channel allocation. A stronger one-sided result follows: under non-negative joint-cost curvature, complementarity can occur only inside a selectivity window where antagonist relief exceeds pollinator interference. Across 2,592 endpoint-normalized evaluations and four response-shape variants there are no counterexamples, whereas about 23% of in-window evaluations remain substitutable. In Part II, a registered synthesis yields 56 route-level records from 25 independent biological study clusters. Floral larceny reduces female fitness on average (log response ratio -0.210; 48 clusters), but only 35/48 clusters are negative and the 95% prediction interval spans -1.13 to +0.71; declared moderators explain only 0-8% of heterogeneity. Thus antagonist exposure can open the theoretical window but does not locate it reliably across systems. The constituent mechanisms and switching architecture recur, while direct \(A\times D\) evidence remains sparse and direct joint-cost curvature unmeasured. The integrated result is therefore a one-sided mechanistic bound plus a context-dependent empirical Pattern, with the sign of joint-cost curvature as the minimal missing test of the bound's biological applicability.
+
+### Keywords
+
+- attraction-defence interaction
+- floral defence
+- florivory
+- mechanism
+- meta-analysis
+- pollination
 
 ## Authors
 
@@ -67,18 +80,20 @@ Details:
 
 ### Ethics
 
-This is a theoretical and computational study using no newly collected human or animal subjects. Confirm whether any retained literature-derived material or external data creates an additional ethics requirement.
+This is a theoretical/computational and literature-synthesis study using no newly collected human or animal subjects. Confirm whether any retained literature-derived material or external data creates an additional ethics requirement.
 
 ### Data and code availability
 
-Final statement should include:
+Current draft portal statement:
 
-- public GitHub repository;
-- immutable release identifier;
+> Code, declared configurations, generated readouts, source-adjudication products, saturation receipts, quantitative-synthesis outputs, validation tests, and canonical manuscript figures are maintained in the public GitHub repository `https://github.com/zuizui0223/bita`. The completed Leal et al. (2025) floral-larceny meta-analysis is pinned to immutable repository commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`, while the Sasidharan et al. (2023) synthesis uses the 32-study-component citation topology recorded on the integration line. The saturated Pattern ledgers/context programs and source-access receipts for the secondary contextual syntheses are versioned with the candidate manuscript. The exact submitted repository release and archival DOI will be inserted before portal submission.
+
+Final statement must add:
+
+- immutable final release/tag identifier;
 - archival DOI;
-- exact configuration and canonical result paths;
-- software environment or lock file;
-- licence.
+- exact final submission commit SHA;
+- repository licence and any source-data licence statements required for retained derived products.
 
 ### Use of generative AI or language tools
 
@@ -86,9 +101,10 @@ Record any journal-required disclosure concerning language editing, coding assis
 
 ## Reviewer suggestions
 
-Provide 4–6 reviewers with relevant expertise in at least two of:
+Provide exactly 5 potential reviewers with relevant expertise in at least two of:
 
 - theoretical ecology;
+- ecological meta-analysis;
 - pollination and floral evolution;
 - plant–herbivore or florivore interactions;
 - multivariate selection and fitness surfaces;
@@ -110,14 +126,17 @@ List only when there is a specific defensible conflict, not because a reviewer m
 
 ## Portal checks
 
-- [ ] title matches manuscript file;
-- [ ] abstract matches manuscript file;
-- [ ] keywords match manuscript file;
+- [x] title matches the saturated Mechanism → Pattern manuscript file;
+- [x] abstract matches the saturated manuscript file;
+- [x] keywords match the manuscript file;
+- [x] article framing is Part I Mechanism + Part II saturated meta-analytic Pattern;
+- [x] portal abstract carries 56 / 25 / 14 / 17 / 7 consistently;
 - [ ] author list matches title page and portal;
 - [ ] funding statement matches portal fields;
 - [ ] competing-interest statement matches portal fields;
-- [ ] code/data links are public and immutable;
-- [ ] figures are uploaded in final order;
-- [ ] supplementary files are cited in the main text;
-- [ ] cover letter names the correct journal and article type;
-- [ ] manuscript is not under consideration elsewhere.
+- [ ] final code/data release link and archival DOI are public and immutable;
+- [x] Figures 1–3 have canonical SVG sources and an EPS export workflow;
+- [ ] final Figures 1–3 EPS files are regenerated from the exact final expanded commit;
+- [ ] supplementary files are cited/numbered consistently in the final package;
+- [x] cover letter names Theoretical Ecology and the saturated Mechanism → Pattern manuscript;
+- [ ] manuscript is confirmed by all authors as not under consideration elsewhere.

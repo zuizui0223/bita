@@ -1,98 +1,141 @@
-# Target journal strategy
+# Target journal strategy — Mechanism → Pattern
 
 ## Submission unit
 
-Submit one theoretical paper only:
+Submit one paper with an explicit two-part architecture:
 
-> A focal-trait local diagnostic for when floral attraction and flower-specific defence are complementary or substitutable.
+> **Part I — Mechanism:** mathematical theory deriving when floral attraction and flower-specific defence are locally complementary or substitutable.
+>
+> **Part II — Pattern:** meta-analysis and quantitative cross-study synthesis asking which mechanism-derived patterns recur across systems and where context changes their realized balance.
 
-The paper contains:
-
-1. the local mixed-partial criterion for one declared attraction trait `A`, one declared flower-specific defence/barrier trait `D`, and one declared outcome scale `W`;
-2. the distinction between signed channel bookkeeping and oriented mechanism magnitudes;
-3. the non-identifiability of antagonist relief, mutualist interference, and direct joint-cost curvature from total `W` alone;
-4. unrestricted environmental derivative balances and restricted separable corollaries;
-5. the endpoint-normalized finite sensitivity analysis as an illustration, not an estimate of natural prevalence;
-6. a short, explicitly preliminary literature context establishing biological plausibility of selected pathways.
-
-Do not submit the literature registry as a meta-analysis or independent evidence paper. Do not restore the former empirical case study, optimum searches, covariance analyses, or network/trait audits.
+The empirical half is not subordinate “illustrative literature,” and the 38/14 evidence scaffold is not mislabeled as a grand meta-analysis. Instead, the paper uses true quantitative synthesis where common scales are defensible and a source-adjudicated pattern scaffold where they are not.
 
 ## First target: Theoretical Ecology
 
-**Article type:** Research
+**Preferred category:** regular article.
 
-### Why it fits
+### Scope fit
 
-- The manuscript is primarily an ecological theory paper.
-- It combines formal local analysis with computational sensitivity checks.
-- The focal question concerns ecological interactions among plants, pollinators, and antagonists.
-- The journal explicitly publishes theoretical work ranging from non-mathematical theory to computational and mathematical analyses that answer ecological questions and remain readable to ecologists.
-- Recent issues publish trait-based mutualism models and both full Research and Brief Report formats.
+The journal seeks theoretical approaches that answer ecological questions and are readable by a broad ecological audience. The Mechanism → Pattern version fits that aim because:
 
-### Required framing
+1. the mathematical half derives a general ecological sign principle rather than only fitting a dataset;
+2. the meta-analytic half asks whether the predicted constituent processes and conditionality recur across independent biological systems;
+3. the integration converts empirical heterogeneity into a theoretically interpretable pattern rather than treating it as nuisance variation.
 
-Lead with the ecological inference problem, not the algebra. The contribution is not a new mixed partial. It is the combination of:
+### Part I — Mechanism contribution
 
-- focal-pair definitions;
-- mechanism non-identifiability;
-- an explicit orientation gate;
-- a three-channel local sign diagnostic;
-- unrestricted environmental comparative statics;
-- strict boundaries between local curvature and evolutionary outcomes.
+The fixed mathematical core is:
 
-### Main editorial risk
+```text
+W_AD = M_AD - G_AD - C_AD
+orientation gate
+W_AD = rho - iota - kappa
+```
 
-The editor may judge the algebra too elementary or the model too local. To reduce that risk, the manuscript must include a formal non-identifiability proposition with explicit counterexamples, a clear general derivative result, and biologically interpretable examples showing no crossing, one crossing, and multiple sign switches.
+with:
 
-## Second target: Oikos, Forum
+- local complementarity/substitutability criterion;
+- mechanism non-identifiability from total `W` alone;
+- unrestricted environmental derivative balances;
+- explicit break-even inequalities;
+- endpoint-normalized sensitivity analysis across 2,592 evaluations.
 
-Use only after rejection from Theoretical Ecology or after substantial reframing as a conceptual synthesis.
+The novelty claim is ecological inference and mechanism separation, not invention of the mixed partial itself.
 
-### Why it fits
+### Part II — Pattern contribution
 
-Oikos publishes innovative empirical and theoretical ecology and its Forum section welcomes synthesis that links fields, revises established interpretations, or develops theory promoting new research.
+**Meta-analysis 1 — Leal et al. 2025 floral larceny**
 
-### Why it is second
+```text
+female reproductive success  LRR -0.210  48 clusters
+nectar standing crop          LRR -0.483  28
+legitimate visitation         LRR -0.291  22
+```
 
-The current work is more a formal diagnostic than a broad synthesis. For Oikos Forum, reduce implementation detail in the main text, expand the conceptual synthesis across pollination, florivory, nectar chemistry, and plant defence, and foreground experimental design consequences.
+Random-effects synthesis, influence checks, declared sensitivity analyses, and very high heterogeneity are retained.
 
-## Third target: Journal of Evolutionary Biology, Short Communication or Research Article
+**Meta-analytic synthesis 2 — Sasidharan et al. 2023 FVOCs**
 
-### Why it could fit
+```text
+32 conservative study components
+florivore physiological detection 84/103
+pollinator physiological detection 151/220
+assembled risk difference +0.129
+LOCO direction positive 32/32
+```
 
-JEB accepts theoretical and computational evolutionary work and explicitly allows conceptual analyses as Research Articles or Short Communications.
+The paired-role and study-composition limitations remain explicit.
 
-### Why it is third
+**Pattern scaffold**
 
-The repository deliberately avoids predicting evolutionary trajectories, genetic correlations, optima, or ESS outcomes. Without a quantitative-genetic or adaptive-dynamics extension, the evolutionary advance may be judged insufficiently direct for JEB.
+The source-adjudicated 38-record / 14-independent-cluster evidence map locates recurrence, same-system co-occurrence, sign/state switching, and identification gaps relative to Part I. It is not pooled into an artificial cross-outcome grand effect.
 
-## Stretch target: Ecology
+### Central Mechanism → Pattern result
 
-Ecology accepts mathematical and theoretical research that develops general ecological concepts. However, its current selectivity is high and the present manuscript lacks a direct empirical test. Submit there only after adding a stronger general theorem or a worked empirical application.
+The submission should repeatedly state the same compact result:
 
-## Journals not recommended for the first submission
+> **The general cross-system pattern is recurrent constituent mechanisms plus context-dependent balance, not a universal sign of `W_AD`.**
 
-- **Functional Ecology:** requires a significant mechanistic advance and usually benefits from organismal or empirical grounding; the present paper is too inference-focused.
-- **Ecological Monographs:** expects a major comprehensive advance, often supported by simulations and case studies; the present paper is too compact.
-- **American Naturalist:** possible only after a substantial evolutionary-dynamics extension or a very strong general theorem.
+This directly matches the mathematical mechanism: changing the relative magnitudes of antagonist relief, pollinator interference, and direct joint cost changes the local sign/state.
+
+### Required manuscript logic
+
+```text
+Part I: derive mechanism
+→ derive conditional sign predictions
+→ Part II: meta-analyse compatible cross-study outcomes
+→ map recurrence and context switching across systems
+→ show direct A x D and joint-cost identification gaps
+→ integrate pattern back to mechanism
+```
+
+Figures/Tables must reinforce the split:
+
+```text
+Figures 1–2 + Tables 1–2 = Mechanism
+Figure 3 + Tables 3–4       = Pattern
+Supplementary Figure S4     = meta-analytic robustness
+```
+
+## Main editorial risks and current defenses
+
+1. **“This is correlational selection with new labels.”**
+   - Defense: orientation gate, channel-specific decomposition, structural non-identifiability, and environmental derivative conditions distinguish the ecological inference problem from merely estimating total cross-trait curvature.
+
+2. **“The decomposition is algebraically obvious.”**
+   - Defense: do not sell the identity as the mathematical novelty. The contribution is the mechanistic sign criterion, identification boundary, conditional predictions, and empirical pattern test.
+
+3. **“Part II is not really a meta-analysis.”**
+   - Defense: Leal is a genuine random-effects meta-analysis on compatible LRR scales; Sasidharan is a quantitative 32-study-component cross-study synthesis. The heterogeneous route ledger is explicitly called a pattern scaffold, not a grand meta-analysis.
+
+4. **“Extreme heterogeneity undermines the pooled result.”**
+   - Defense: heterogeneity is retained and interpreted as a Pattern result consistent with conditional mechanisms; pooled means are not promoted to universal biological constants.
+
+5. **“The evidence validates the model.”**
+   - Defense: neither quantitative synthesis nor route scaffold estimates `rho`, `iota`, `kappa`, or `W_AD`; the pattern layer tests recurrence/conditionality, not calibration.
+
+6. **“Direct interaction evidence is sparse.”**
+   - Defense: this is a central identification-gap result. One sign-unresolved direct cluster and zero strict joint-cost estimates explain why the complete mixed partial is not empirically identified from existing studies.
 
 ## Planned cascade
 
-1. Theoretical Ecology — Research
-2. Oikos — Forum, after conceptual reframing
-3. Journal of Evolutionary Biology — Short Communication, after adding an evolutionary interpretation section
-4. Evolutionary Ecology — Ideas & Perspectives or research format, if the above decline
+1. **Theoretical Ecology — regular article**, Mechanism → Pattern version.
+2. **Oikos — conceptual synthesis reframing** only if the first journal declines.
+3. Broader evolutionary/general-ecology targets only after a target-specific rewrite.
 
 ## Submission claim
 
-> We develop a focal-trait local diagnostic framework that separates three mechanistic contributions to attraction–defence fitness curvature, identifies the assumptions required to orient those contributions, and derives the additional local conditions under which ecological change shifts the interaction toward complementarity or substitutability.
+> We derive a mechanistic local criterion showing that attraction–defence complementarity depends on the balance among antagonist relief, pollinator interference, and direct joint-cost curvature. We then test the predicted cross-system pattern using quantitative meta-analysis and source-adjudicated synthesis. The constituent mechanisms recur, but their realized balance changes with context; direct interaction and joint-cost evidence remain sparse. Thus the empirical generality lies in recurrent mechanism plus conditional balance, not a universal attraction–defence sign.
 
 ## Claims prohibited in submission materials
 
-- first theory showing that pollinators and antagonists jointly matter;
-- new form of correlational selection;
+- a new mathematical category distinct from established mixed curvature;
 - defence generally reduces pollination;
 - antagonist pressure always promotes complementarity;
-- local mixed curvature predicts trait covariance, coevolution, an optimum, or an ESS;
-- finite-grid occupancy estimates prevalence in nature;
-- abstract-level route coding validates the full model.
+- finite-grid occupancy estimates natural prevalence;
+- route counts estimate mechanism prevalence;
+- the 38/14 scaffold is a grand cross-outcome meta-analysis;
+- either quantitative synthesis calibrates `W_AD`;
+- the one direct study establishes a universal sign;
+- zero direct joint-cost estimates imply `kappa = 0`;
+- local mixed curvature alone predicts trait covariance, coevolution, optima, or ESS outcomes.

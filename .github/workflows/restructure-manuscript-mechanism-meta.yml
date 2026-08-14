@@ -1,0 +1,44 @@
+name: Restructure manuscript as mechanism plus meta-analysis
+
+on:
+  push:
+    branches:
+      - agent/mechanism-pattern-universality-v1
+    paths:
+      - "scripts/restructure_manuscript_mechanism_meta.py"
+      - ".github/workflows/restructure-manuscript-mechanism-meta.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  restructure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/mechanism-pattern-universality-v1
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Rebuild canonical manuscript structure
+        run: python scripts/restructure_manuscript_mechanism_meta.py
+      - name: Commit canonical structure when changed
+        run: |
+          if git diff --quiet -- manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md; then
+            echo "Canonical manuscript already has Mechanism -> Pattern structure"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md
+          git commit -m "Restructure manuscript around mechanism and meta-analytic patterns"
+          # Other submission-document commits may have advanced the branch while
+          # this job was running. Rebase the manuscript-only commit onto the
+          # current remote head before pushing so no concurrent work is lost.
+          git fetch origin agent/mechanism-pattern-universality-v1
+          git rebase origin/agent/mechanism-pattern-universality-v1
+          git push origin HEAD:agent/mechanism-pattern-universality-v1

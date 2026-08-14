@@ -1,0 +1,41 @@
+name: Relabel Figure 3 for meta-analytic Pattern
+
+on:
+  push:
+    branches:
+      - agent/mechanism-pattern-universality-v1
+    paths:
+      - "scripts/relabel_figure3_meta_pattern.py"
+      - ".github/workflows/relabel-figure3-meta-pattern.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  relabel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/mechanism-pattern-universality-v1
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Relabel Figure 3 source and SVG
+        run: python scripts/relabel_figure3_meta_pattern.py
+      - name: Commit relabelled Figure 3
+        run: |
+          if git diff --quiet -- scripts/build_empirical_mechanism_figure_svg.py manuscript/figures/FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg; then
+            echo "Figure 3 already uses meta-analytic Pattern labels"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/build_empirical_mechanism_figure_svg.py manuscript/figures/FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg
+          git commit -m "Relabel Figure 3 as meta-analytic pattern architecture"
+          git fetch origin agent/mechanism-pattern-universality-v1
+          git rebase origin/agent/mechanism-pattern-universality-v1
+          git push origin HEAD:agent/mechanism-pattern-universality-v1

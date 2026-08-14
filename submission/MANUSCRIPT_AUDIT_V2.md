@@ -1,133 +1,183 @@
-# Manuscript audit v2: implementation-to-claim check
+# Manuscript audit v5 — saturated Mechanism → Pattern pre-submission check
 
-## Scope
+## Verdict
 
-This audit compares the canonical manuscript against the active theory API, canonical sensitivity readout, submission scope, and supplement manifest. It is a pre-submission claim audit, not a new analysis.
+**YES: the PR #129 candidate is structurally and inferentially a two-part paper: fixed mathematical Mechanism first, saturated meta-analytic Pattern second.**
 
-## Verified alignments
-
-### Focal quantity
-
-The manuscript definition
+Current order:
 
 ```text
-W_AD = d2W / dA dD
+1 Introduction
+2 Part I — Mechanistic theory: mechanism and principle
+3 Part I results — mechanistic sign regimes
+4 Part II — Meta-analysis and cross-study pattern synthesis
+5 Part II results — meta-analytic patterns across systems
+6 Integration — from mechanism to pattern
+7 Conclusions
 ```
 
-matches the active theory contract. It is correctly treated as a local mixed curvature on declared trait and outcome coordinates, not as a covariance, genetic correlation, optimum, or evolutionary trajectory.
+## Part I — Mechanism: PASS / unchanged
 
-### Signed decomposition
-
-The manuscript identity
+Part I retains:
 
 ```text
 W_AD = M_AD - G_AD - C_AD
+orientation gate:
+M_AD <= 0, G_AD <= 0, C_AD >= 0
+W_AD = rho - iota - kappa
+W_AD > 0 iff rho > iota + kappa
 ```
 
-matches the signed bookkeeping layer. The text correctly states that biological labels do not determine component signs and that total `W` does not identify the channel curvatures.
+Also unchanged are the focal A/D/outcome declarations, Proposition 1 non-identifiability, environmental derivative balances, break-even inequalities, and the canonical 2,592-evaluation endpoint-normalized sensitivity analysis.
 
-### Orientation gate
+Figures 1–2 and Tables 1–2 remain the Mechanism half. No theory equation, parameter, theorem, or Part I numerical result was changed to obtain the expanded Pattern synthesis.
 
-The manuscript conditions
+## Part II — Pattern: PASS as saturated candidate
+
+Part II asks which mechanism-derived Patterns recur across systems and where ecological state changes the realised balance.
+
+### Reproduced meta-analysis 1 — Leal et al. 2025: PASS
 
 ```text
-M_AD <= 0
-G_AD <= 0
-C_AD >= 0
+female reproductive success  LRR -0.210  48 independent clusters
+nectar standing crop          LRR -0.483  28
+legitimate visitation         LRR -0.291  22
 ```
 
-match the active `OrientedSignCriterion`. The corresponding magnitudes are
+Direction survives declared sensitivity/influence checks and extreme heterogeneity remains part of the result.
+
+### Reproduced synthesis 2 — Sasidharan et al. 2023: PASS with paired-role boundary
 
 ```text
-iota  = -M_AD
-rho   = -G_AD
-kappa =  C_AD
+florivore physiological detection  84/103
+pollinator physiological detection 151/220
+assembled risk difference           +0.129
+LOCO direction positive             32/32
 ```
 
-and the implemented criterion is
+Only three components contain both physiological roles and all three paired differences are zero. The assembled contrast is not a causal within-study pollinator-versus-florivore effect.
+
+### Secondary contextual syntheses: PASS with status separation
+
+- **Haas-Desmarais et al. 2026:** published 171 studies / 1,348 cases; publisher supplement package verified, no local raw-effect reconstruction claim; herbivory is not focal D.
+- **Caruso et al. 2019:** published main analysis 755 gradients with SE / 36 articles; Dryad metadata/workbook identity verified but file bytes currently blocked; selection gradients are not `W_AD`.
+- **Junker & Blüthgen 2010:** 18 publications / 425 floral-scent response observations; resource dependence is not identical to pollinator-versus-antagonist identity.
+
+These modules broaden recurrence/context evidence without being pooled with the two reproduced quantitative modules or added to route-ledger N.
+
+### Saturated theory-to-Pattern scaffold: PASS
 
 ```text
-W_AD = rho - iota - kappa.
+56 source-adjudicated route records
+25 independent biological study clusters
+A -> pollination    5 clusters
+A -> antagonism     8
+D -> antagonism    18
+D -> pollination   10
+same-system        14
+context switches   17
+context-only programs 7, excluded from route N
+direct A x D        1 strict cluster, sign unresolved
+direct joint cost   0 strict estimates
 ```
 
-### Environmental derivatives
+The scaffold is deliberately **not** pooled into one grand effect. Route-specific counts overlap and are not additive study totals or prevalence estimates.
 
-The manuscript equations match `RegimeDerivativeBalance`:
+### Pattern-class expansion: PASS
+
+The expanded candidate moves beyond a five-bin conditionality summary. It explicitly records:
+
+- guarded defence;
+- spatial / temporal / body-size / attack-mode filtering;
+- visitor functional-mode routing between legitimate pollination and robbery;
+- lifecycle-stage mutualist/antagonist role reversal;
+- response-stage, resource/exposure, consumer, population/site, trait-class, and compound/mechanism dependence.
+
+Representative examples are kept in the main text; the full system list remains in supplement ledgers/context programs.
+
+### Expansion saturation: PASS
+
+Batch 7 found a new lifecycle-stage role-reversal class, resetting the stopping counter. Batches 8 and 9 then used distinct candidate sets and produced no new admissible Pattern class. The parallel quantitative search found no sixth synthesis with a distinct theory-facing axis. This satisfies the registered expansion stopping rule.
+
+## Mechanism → Pattern linkage: PASS
+
+The manuscript now reads as:
 
 ```text
-dW_AD/dH = rho_H - iota_H - kappa_H
-dW_AD/dP = rho_P - iota_P - kappa_P.
+derive mechanism
+→ derive conditional predictions
+→ quantify compatible cross-study effects
+→ map saturated recurrence and conditionality without cross-outcome pooling
+→ identify direct interaction and joint-cost gaps
 ```
 
-The manuscript must state the explicit directional inequalities, not only refer to a corresponding condition:
+The supported cross-system conclusion is:
+
+> **recurrent constituent mechanisms + context-dependent balance**
+
+not a universal positive or negative `W_AD`.
+
+## Inference-boundary audit: PASS
 
 ```text
-dW_AD/dH > 0 iff rho_H > iota_H + kappa_H
-dW_AD/dP < 0 iff iota_P + kappa_P > rho_P.
+marginal route evidence != W_AD
+same-system evidence != direct A x D
+context programs != extra route N
+secondary-synthesis study counts != route N
+route counts != prevalence
+finite-grid occupancy != prevalence
+Leal pooled effects != rho/iota/kappa
+Sasidharan assembled contrast != causal paired role effect
+herbivory treatment != focal D
+whole reproductive-module defence != strict flower-specific D without organ gate
+zero joint-cost studies != kappa = 0
 ```
 
-Equalities define local environmental break-even conditions. Reverse inequalities reverse the direction.
+## Figure/table audit: PASS as candidate
 
-### Finite sensitivity results
+- Figures 1–2 / Tables 1–2 remain Mechanism.
+- Figure 3 / Tables 3–4 now use the saturated 56/25 evidence universe.
+- Figure 3 is generated from canonical + expansion ledgers and explicitly shows 14 same-system clusters, 17 switch clusters, seven context programs, two reproduced modules, three secondary syntheses, and the direct-identification boundary.
+- Quantitative robustness panels remain Supplementary Figure S4.
 
-The manuscript numbers agree with the canonical `endpoint_normalized_grid_v2` readout:
+## Reference audit: PASS as candidate
 
-- 2,592 total evaluations;
-- 1,342 complementary;
-- 1,250 substitutable;
-- 0 numerically neutral;
-- 480 of 648 fixed case × scenario summaries unanimous across the four response shapes;
-- 168 mixed or sensitive;
-- 0 of 162 local cases unanimous across the deliberately heterogeneous full tested set.
+The manuscript bibliography has expanded from the earlier 13-entry spine to **20 cited entries**. The new entries cover the representative expansion systems and the three secondary syntheses. Known Stevenson metadata corrections and legacy-reference pruning remain protected by regression tests. Final journal-house formatting remains pending.
 
-The current wording correctly treats these values as finite-design diagnostics rather than empirical frequencies.
+## Reviewer-facing assessment
 
-## Required manuscript corrections before submission
+The strongest contribution is the **Mechanism → Pattern connection**:
 
-### 1. Define the admissible scope of `D`
+- a local mathematical mechanism gives a conditional sign principle;
+- two reproduced quantitative syntheses establish recurrent constituent effects and strong heterogeneity/context dependence;
+- a saturated 25-system source-adjudicated scaffold demonstrates recurrence across distinct signal and defence mechanisms;
+- same-system and conditionality evidence reveals guarded, filtered, functional-mode, and lifecycle-dependent states;
+- direct interaction and joint-cost evidence remain sparse exactly where the mathematical decomposition says identification requires them.
 
-The phrase “defence or access-limitation trait” is too broad unless qualified. A focal `D` is admissible only when it has a declared flower-specific antagonist-reduction role. A structure that only obstructs pollinators is not sufficient to instantiate the complete defence mechanism.
+The expansion strengthens empirical generality without converting the paper into an omnibus prevalence survey.
 
-Recommended sentence:
+## Remaining non-scientific / package blockers
 
-> We use defence/access limitation only for a focal flower-specific trait with an operationally defined antagonist-reduction role; collateral obstruction of legitimate pollinators is a possible effect of that same trait, not the definition of defence.
+- complete PR workflow suite must pass on the exact final expanded head;
+- EPS Figures 1–3 must be regenerated from that exact head and provenance recorded;
+- final author order/publication names and affiliations;
+- corresponding author/email and ORCIDs;
+- CRediT, funding, acknowledgements, competing-interest confirmation;
+- repository licence choice;
+- final target-journal reference/house style;
+- exact release/tag and archival DOI;
+- authenticated journal portal submission.
 
-### 2. Use one cost term consistently
+## Decision
 
-Use **direct joint-cost curvature** throughout. Avoid switching among “shared cost”, “joint cost”, “allocation trade-off”, and “construction cost” as if they were interchangeable. Direct construction, allocation, and physiological costs are possible biological sources of the mathematical term, but the theoretical object is `C_AD`.
-
-### 3. State environmental inequalities explicitly
-
-The present prose correctly rejects universal pressure effects but should display the exact inequalities above. This is a core analytical contribution and should not be hidden in prose.
-
-### 4. Distinguish local complementarity from positive marginal effects
-
-`W_AD > 0` means that one trait increases the marginal effect of the other. It does not require either first derivative, `W_A` or `W_D`, to be positive. Add this sentence to prevent “complementary” from being read as “both beneficial”.
-
-### 5. Tighten the non-identifiability claim
-
-Proposition 1 is valid. The manuscript should emphasize that the reallocation argument proves structural non-identifiability from total `W`, even with noiseless and complete observation of the total surface. It does not prove that mechanisms are unidentifiable after channel-specific interventions or structural restrictions.
-
-### 6. Limit the literature claim
-
-The active literature registry is abstract-level, single-coder, and has no eligible quantitative effect rows. It may motivate route plausibility only. Do not call it a systematic review, meta-analysis result, empirical validation, or calibration dataset in the manuscript or cover letter.
-
-### 7. Clarify the role of reproductive assurance `R`
-
-`R` is an auxiliary background moderator in the implemented corollary. It must remain outside the title, abstract claim, primary theorem, and keywords. Methods may document it transparently.
-
-## Reviewer-facing risk register
-
-| Risk | Current status | Required defence |
-|---|---|---|
-| “This is correlational selection with new labels” | Partly addressed | Lead with mechanism non-identifiability, orientation gate, and environmental derivative conditions |
-| “The decomposition is a tautology” | Partly addressed | State that algebra is not the contribution; the contribution is the inference architecture and experimentally testable separation |
-| “Complementarity means both traits are favoured” | Not explicit enough | State that the mixed sign does not determine first derivatives |
-| “Defence is defined by the desired result” | Needs tightening | Require an operational antagonist-reduction role independent of pollinator obstruction |
-| “The numerical grid is arbitrary” | Addressed in part | Keep it as finite sensitivity; report coordinates, scenarios, normalization, and no prevalence claim |
-| “The literature validates only one pathway” | Correctly bounded | Keep all literature evidence subordinate to theory and route plausibility |
-| “No evolutionary model is presented” | Correctly bounded | Present this as a local ecological diagnostic, not an evolutionary endpoint model |
-
-## Submission decision after audit
-
-The manuscript is suitable for continued preparation as a *Theoretical Ecology* Research Article. It is not yet portal-ready because final figures, author metadata, archive DOI, full reference verification, and the explicit manuscript corrections above remain incomplete.
+```text
+Mechanism half:                 PASS
+saturated Pattern half:         PASS
+Mechanism -> Pattern link:      PASS
+registered expansion gate:      PASS / SATURATED
+candidate-specific CI:          PASS
+full exact-head PR CI:          pending final validation
+expanded exact-head EPS:        pending final validation
+scientific submission gate:     GO
+portal submission:              not yet
+```

@@ -1,0 +1,33 @@
+name: Export manuscript figures
+
+on:
+  pull_request:
+    paths:
+      - "manuscript/figures/**"
+      - "scripts/export_manuscript_figures.sh"
+      - ".github/workflows/export-manuscript-figures.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Inkscape when absent
+        run: |
+          if ! command -v inkscape >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y inkscape
+          fi
+          inkscape --version
+      - name: Export and validate EPS figures
+        run: bash scripts/export_manuscript_figures.sh artifacts/manuscript_figures
+      - uses: actions/upload-artifact@v4
+        with:
+          name: manuscript-figures-eps
+          path: artifacts/manuscript_figures/
+          if-no-files-found: error

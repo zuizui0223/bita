@@ -1,0 +1,32 @@
+{
+  "status": "SUPPLEMENT_PACKAGE_RETRIEVED_AND_INSPECTED",
+  "article_doi": "10.1093/aob/mcaf258",
+  "pmcid": "PMC13095882",
+  "retrieval_url": "https://oup.silverchair-cdn.com/oup/backfile/Content_public/Journal/aob/137/4/10.1093_aob_mcaf258/1/mcaf258_supplementary_data.zip?Expires=2147483647&Key-Pair-Id=APKAIE5G5CRDK6RD3PGA&Signature=TxNgkrKxAeHky~DlvAzhR2CcD0BFccVWQyojXtSo9eDwJ0TgTrlE5kEIG7I~4Jo9iLe56Qx8vKn6~lP9PePQeu9GFaJ-IdCaOHObtEfi9wkFZk5x1AEsk~7mbhch9JhmVwgnqTobvtQKkmkVrw35sIz5x3UmHwBemBNgdijh2~usHJmgyuTaTtz6egh3uXbc~~G3NAStYFsD9PIkttLQpp8DL~IwPfyxMwKsx-IrLZKf9ExYzkOyuY0N~PfIxoG4EIgmxjJxc1JImgCwuhyRumVjqhCtvCRynutQpDyYYhPkCtr7bIqQL1L3Io9hwcJ1ljtJcn13pmgqJdaFXIfvsQ__",
+  "package_type": "publisher_cdn_zip",
+  "package_size": 236055,
+  "package_sha256": "d0f04d68c16b5047255d69c7dd844f060a3746182899b94d6747166cca5f67c3",
+  "attempts": [
+    {
+      "url": "https://oup.silverchair-cdn.com/oup/backfile/Content_public/Journal/aob/137/4/10.1093_aob_mcaf258/1/mcaf258_supplementary_data.zip?Expires=2147483647&Key-Pair-Id=APKAIE5G5CRDK6RD3PGA&Signature=TxNgkrKxAeHky~DlvAzhR2CcD0BFccVWQyojXtSo9eDwJ0TgTrlE5kEIG7I~4Jo9iLe56Qx8vKn6~lP9PePQeu9GFaJ-IdCaOHObtEfi9wkFZk5x1AEsk~7mbhch9JhmVwgnqTobvtQKkmkVrw35sIz5x3UmHwBemBNgdijh2~usHJmgyuTaTtz6egh3uXbc~~G3NAStYFsD9PIkttLQpp8DL~IwPfyxMwKsx-IrLZKf9ExYzkOyuY0N~PfIxoG4EIgmxjJxc1JImgCwuhyRumVjqhCtvCRynutQpDyYYhPkCtr7bIqQL1L3Io9hwcJ1ljtJcn13pmgqJdaFXIfvsQ__",
+      "state": "publisher_cdn_zip_success"
+    }
+  ],
+  "entries": [
+    {
+      "name": "Appendix S1.docx",
+      "size": 250940,
+      "sha256": "f3fdb621edfb202fe1931bbdab10c80f084ab463822dd398cff1fd586e66e658"
+    },
+    {
+      "name": "Appendix S2.docx",
+      "size": 13254,
+      "sha256": "20be8df5f88ff9bab3cbe516f1bb271ba70cbab614bf28b5d33a3f84ce2d5ab4"
+    }
+  ],
+  "boundary": [
+    "this receipt verifies deposited supplementary package structure, not the published meta-analysis estimates by itself",
+    "herbivory treatment is not the focal floral defence trait D",
+    "no effect from this module is rho, iota, kappa, or W_AD"
+  ]
+}
