@@ -82,6 +82,23 @@ def test_figure_captions_and_eps_names_match_journal_convention() -> None:
     assert "prepare_submission_svg.py" in exporter
 
 
+def test_main_text_calls_out_all_main_and_supplementary_assets() -> None:
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    body = text.split("## Figure captions", 1)[0]
+
+    for token in ("Fig. 1", "Fig. 2", "Fig. 3"):
+        assert token in body, token
+    for token in ("Table 1", "Table 2", "Table 3", "Table 4"):
+        assert token in body, token
+    for token in (
+        "Supplementary Figs. S1–S2",
+        "Supplementary Figs. S3–S4",
+        "Tables S1–S2",
+        "Tables S3–S6",
+    ):
+        assert token in body, token
+
+
 def test_submission_svg_preprocessor_removes_only_outer_visible_titles(tmp_path: Path) -> None:
     cases = (
         ("FIGURE_1_MECHANISTIC_ARCHITECTURE.svg", "Figure 1. From floral traits to an oriented local interaction", "Attraction trait A"),
