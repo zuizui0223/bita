@@ -32,24 +32,29 @@ This checklist tracks only the **current submission gates**. Historical workflow
 - [x] Main Figures 1–3 retain canonical SVG scientific sources
 - [x] Deterministic submission EPS export exists
 - [x] Supplementary Figures S1–S4 and Tables S1–S6 retain reproducible builders
+- [x] Committed Figure 2 is checked against regeneration from the frozen 2,592-evaluation input
+- [x] Supplementary Figures S1–S4 and Tables S1–S6 are rebuilt on the current PR state and byte-compared with the committed assets
 - [x] Leal modern-estimator sensitivity remains separate from canonical DL estimates
 - [x] Sasidharan 32-component dependence topology remains fixed
 - [x] Source-adjudication/provenance products remain versioned
 - [ ] Re-run all final manuscript/figure/supplement checks from the exact release commit after author-controlled fields are frozen
 - [ ] Generate final reader-facing manuscript and supplementary files from that exact release commit
 
-## 3. Reader-facing manuscript — ACTIVE PAPERIZATION
+## 3. Reader-facing manuscript — QA PASS / final-release render pending
 
 - [x] Title foregrounds the one-sided mechanistic bound
 - [x] Abstract is synchronized between manuscript and portal metadata
 - [x] Abstract stays within the current repository-enforced journal word limit and defines “log response ratio”
 - [x] Introduction is shortened while retaining prior-art and inference boundaries
+- [x] Integration is compressed around generality, non-identifiability, context, and falsification-before-calibration
 - [x] Conclusion ends on a concrete falsification/calibration programme rather than generic “more data are needed” language
 - [x] Cover letter foregrounds the one-sided bound and does not present the route ledger as a grand meta-analysis
 - [x] Six keywords remain synchronized
 - [x] AI-assisted workflow disclosure remains in Methods with author responsibility explicit
-- [ ] Final human read for repetition, notation, transitions, and figure/table callouts
-- [ ] Final visual QA of the rendered manuscript and supplement
+- [x] Reader-facing human read completed for repetition, notation, transitions, and figure/table callouts
+- [x] Main-text callouts cover Figures 1–3, Tables 1–4, Supplementary Figures S1–S4, and Tables S1–S6
+- [x] All seven main/supplementary figures were rendered and visually inspected; real layout collisions in Fig. 2, Fig. S1, Fig. S2, and Fig. S4 were corrected and rechecked
+- [ ] Final visual QA of the **release-rendered full manuscript and supplementary PDF/files** after author-controlled metadata, licence, release commit, and DOI are frozen
 
 ## 4. Inference boundaries — MUST REMAIN TRUE
 
@@ -103,6 +108,6 @@ Do not infer or auto-fill these fields.
 
 ## Current decision
 
-**Scientific conclusion: GO / FROZEN. Repository paperization: ACTIVE. External journal submission: NOT YET — blocked only by final reader-facing QA, author-controlled metadata/declarations/reviewers/licence, exact release/archive DOI, rendered-file QA, all-author approval, and authenticated portal submission.**
+**Scientific conclusion: GO / FROZEN. Reader-facing manuscript and figure QA: PASS at the repository-source level. External journal submission: NOT YET — blocked by author-controlled metadata/declarations/reviewers/licence, exact release/archive DOI, final release-rendered file QA, all-author approval, and authenticated portal submission.**
 
 Do not reopen broad evidence searching or add another synthesis merely to enlarge Part II unless a specific manuscript claim is falsified, a reviewer identifies a concrete provenance gap, or the frozen inference boundary must be corrected.
