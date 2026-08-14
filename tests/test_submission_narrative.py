@@ -8,10 +8,13 @@ def test_readme_declares_integrated_theory_and_empirical_synthesis() -> None:
     text = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "fixed theoretical core" in text
     assert "mechanism-pattern empirical synthesis" in text
-    assert "what is recurrent, what is context dependent, and what remains unidentified" in text
-    assert "prevalence in nature" in text
-    assert "is not an empirically calibrated regime map" in text
-    assert "56 source-adjudicated effect/directional records" in text
+    assert "recurrent constituent mechanisms" in text
+    assert "context-dependent" in text
+    assert "unidentified rather than zero" in text or "unidentified, not zero" in text
+    assert "route counts are not prevalence estimates" in text
+    assert "finite-grid fractions are not probabilities of natural regimes" in text
+    assert "does not calibrate or validate a universal total `W_AD`" in text
+    assert "56 route-level records" in text
     assert "25 independent biological study clusters" in text
 
 
