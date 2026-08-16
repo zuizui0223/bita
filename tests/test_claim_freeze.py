@@ -45,8 +45,8 @@ def test_theorem_uses_only_nonnegative_joint_cost_as_sign_premise() -> None:
 
 def test_abstract_separates_algebraic_proof_from_grid_implementation_check() -> None:
     abstract = _abstract(_text(MANUSCRIPT))
-    assert "prove this implication algebraically" in abstract
-    assert "verify the implementation" in abstract
+    assert "prove this algebraically" in abstract
+    assert "verify implementation" in abstract
     assert "we find no counterexample" not in abstract.lower()
 
 
