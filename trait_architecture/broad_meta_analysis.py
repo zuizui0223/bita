@@ -420,6 +420,17 @@ def _der_simonian_laird(estimates: list[EffectEstimate]) -> dict[str, float]:
     }
 
 
+def random_effects_pool(estimates: list[EffectEstimate]) -> dict[str, float]:
+    """Public compatibility API for one already-compatible effect set.
+
+    The canonical Leal context-dependence module uses this public function.
+    Keep the implementation delegated to the same current DerSimonian-Laird
+    routine used by ``meta_analysis`` so the wrapper cannot drift numerically.
+    """
+
+    return _der_simonian_laird(estimates)
+
+
 def _matches_stratum(row: dict[str, str], stratum: dict[str, str]) -> bool:
     return all(row.get(field, "") == stratum[field] for field in (
         "route", "trait_class", "outcome_class", "effect_metric", "design_class",
