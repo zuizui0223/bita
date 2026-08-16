@@ -10,6 +10,8 @@ Restored scope includes the declared protocol/readout, effect rows, moderator co
 
 The current broad-meta contract is minimally extended with the three H routes and four declared larceny strata required by that module. `tests/test_submission_scope.py` now makes the Leal module mandatory, and `.github/workflows/validate-larceny-module.yml` reruns the module offline and diffs key regenerated outputs against the committed canonical results.
 
+The import exposed one real compatibility break introduced by a later repository cleanup: the Leal context-dependence module imports the public `random_effects_pool()` API, while current `broad_meta_analysis.py` retained only its internal `_der_simonian_laird()` implementation. The public wrapper has been restored as a thin delegation to the current internal routine, so there is one numerical implementation rather than a duplicated legacy estimator.
+
 The modern-estimator sensitivity now reads the canonical local contributing-effect file. The immutable source commit remains recorded as provenance, but reproducibility no longer depends on fetching an otherwise-unmerged historical branch.
 
 ## B — theorem premise
