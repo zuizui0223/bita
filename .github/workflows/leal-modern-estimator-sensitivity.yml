@@ -1,17 +1,16 @@
 name: Validate Leal modern-estimator sensitivity
 
 on:
-  push:
-    branches:
-      - analysis/pattern-expansion-v1
+  pull_request:
     paths:
       - "scripts/run_leal_modern_estimator_sensitivity.py"
+      - "empirical/broad_reality_evidence/larceny_gate/**"
       - "empirical/mechanism_pattern_synthesis/LEAL_2025_MODERN_ESTIMATOR_SENSITIVITY_V1.*"
       - ".github/workflows/leal-modern-estimator-sensitivity.yml"
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   validate:
@@ -19,15 +18,10 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: analysis/pattern-expansion-v1
-          fetch-depth: 0
-      - name: Fetch immutable Leal source commit
-        run: git fetch --no-tags origin ed33b25593c0d90ad6657753f6f5501d9efc7b82 --depth=1
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Run REML plus modified Hartung-Knapp sensitivity
+      - name: Run REML plus modified Hartung-Knapp sensitivity from canonical local Leal inputs
         run: python scripts/run_leal_modern_estimator_sensitivity.py
       - name: Require canonical DL reproduction and conservative-direction result
         run: |
@@ -36,6 +30,7 @@ jobs:
           from pathlib import Path
           path = Path("empirical/mechanism_pattern_synthesis/LEAL_2025_MODERN_ESTIMATOR_SENSITIVITY_V1.json")
           data = json.loads(path.read_text())
+          assert data["canonical_source_commit"] == "ed33b25593c0d90ad6657753f6f5501d9efc7b82"
           assert data["canonical_results_remain_der_simonian_laird"] is True
           assert data["sensitivity_only"] is True
           assert data["status"] in {"ROBUSTNESS_PASS", "SENSITIVITY_QUALIFIES_CLAIM"}
@@ -43,17 +38,8 @@ jobs:
               assert row["k"] >= 22
               assert row["tau2_reml"] >= 0
           PY
-      - name: Commit deterministic sensitivity readout when changed
+      - name: Check deterministic sensitivity readout is current
         run: |
-          paths="empirical/mechanism_pattern_synthesis/LEAL_2025_MODERN_ESTIMATOR_SENSITIVITY_V1.md empirical/mechanism_pattern_synthesis/LEAL_2025_MODERN_ESTIMATOR_SENSITIVITY_V1.json"
-          if [ -z "$(git status --porcelain -- $paths)" ]; then
-            echo "Leal modern-estimator sensitivity already current"
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add $paths
-            git commit -m "Record Leal modern-estimator sensitivity"
-            git fetch origin analysis/pattern-expansion-v1
-            git rebase origin/analysis/pattern-expansion-v1
-            git push origin HEAD:analysis/pattern-expansion-v1
-          fi
+          git diff --exit-code -- \
+            empirical/mechanism_pattern_synthesis/LEAL_2025_MODERN_ESTIMATOR_SENSITIVITY_V1.md \
+            empirical/mechanism_pattern_synthesis/LEAL_2025_MODERN_ESTIMATOR_SENSITIVITY_V1.json
