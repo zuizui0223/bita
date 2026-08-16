@@ -26,7 +26,7 @@ The signs of `rho` and `iota` are not used by the implication. Their non-negativ
 
 ## C — proof versus finite-grid verification
 
-**Accepted.** The Abstract no longer presents the 2,592 evaluations as evidence for the theorem. It states that the implication is proved algebraically and that the grid verifies the implementation and quantifies looseness of the necessary window.
+**Accepted.** The Abstract no longer presents the 2,592 evaluations as evidence for the theorem. It states that the implication is proved algebraically and that the grid verifies the implementation and quantifies looseness of the necessary window. The manuscript and submission-portal copies are synchronized after this edit and remain within the repository-enforced journal Abstract limit.
 
 ## D — 56/25 count provenance and non-additivity
 
