@@ -1,0 +1,55 @@
+name: Validate canonical Leal larceny module
+
+on:
+  pull_request:
+    paths:
+      - "empirical/broad_reality_evidence/larceny_gate/**"
+      - "empirical/broad_reality_evidence/broad_meta_analysis_strata.csv"
+      - "trait_architecture/broad_meta_analysis.py"
+      - "trait_architecture/context_dependence.py"
+      - "trait_architecture/deposited_effect_ingest.py"
+      - "scripts/ingest_deposited_larceny_dataset.py"
+      - "scripts/run_context_dependence.py"
+      - "scripts/run_larceny_gate.py"
+      - "tests/test_context_dependence.py"
+      - "tests/test_deposited_effect_ingest.py"
+      - "tests/test_larceny_gate_declaration.py"
+      - "tests/test_submission_scope.py"
+      - ".github/workflows/validate-larceny-module.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install project
+        run: python -m pip install -e '.[dev]'
+      - name: Run Leal module integrity tests
+        run: |
+          pytest -q \
+            tests/test_larceny_gate_declaration.py \
+            tests/test_context_dependence.py \
+            tests/test_deposited_effect_ingest.py \
+            tests/test_submission_scope.py
+      - name: Recompute canonical pooled and context outputs offline
+        run: python scripts/run_larceny_gate.py artifacts/larceny_gate
+      - name: Compare recomputed outputs with committed canonical results
+        run: |
+          diff -u empirical/broad_reality_evidence/larceny_gate/results/larceny_pooled_summary.csv artifacts/larceny_gate/larceny_pooled_summary.csv
+          diff -u empirical/broad_reality_evidence/larceny_gate/results/context_meta_regression_models.csv artifacts/larceny_gate/context_meta_regression_models.csv
+          diff -u empirical/broad_reality_evidence/larceny_gate/results/context_meta_regression_terms.csv artifacts/larceny_gate/context_meta_regression_terms.csv
+          diff -u empirical/broad_reality_evidence/larceny_gate/results/context_subgroup_tests.csv artifacts/larceny_gate/context_subgroup_tests.csv
+          diff -u empirical/broad_reality_evidence/larceny_gate/results/context_dependence_diagnostics.json artifacts/larceny_gate/context_dependence_diagnostics.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: canonical-leal-larceny-recompute
+          path: artifacts/larceny_gate/
+          if-no-files-found: error

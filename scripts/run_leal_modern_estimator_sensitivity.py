@@ -2,8 +2,8 @@
 
 The canonical Leal results remain the preregistered DerSimonian-Laird estimates on
 immutable commit ed33b25593c0d90ad6657753f6f5501d9efc7b82. This script does not
-replace those estimates. It reuses the already cluster-aggregated contributing
-effects from that commit and asks whether the three informative directions remain
+replace those estimates. The canonical contributing effects are now present in the current repository tree with provenance
+pinned to that commit. This script reads the local canonical copy and asks whether the three informative directions remain
 under REML heterogeneity estimation and modified Hartung-Knapp inference.
 """
 
@@ -62,7 +62,10 @@ def _git_show(commit: str, path: str) -> str:
 
 
 def _read_effects() -> dict[str, list[Effect]]:
-    text = _git_show(PINNED_COMMIT, PINNED_PATH)
+    local_path = ROOT / PINNED_PATH
+    if not local_path.is_file():
+        raise FileNotFoundError(f"canonical Leal contributing effects missing: {local_path}")
+    text = local_path.read_text(encoding="utf-8")
     grouped = {key: [] for key in TARGETS}
     seen: set[tuple[str, str]] = set()
     for row in csv.DictReader(io.StringIO(text)):

@@ -65,7 +65,8 @@ def test_required_ai_assistance_disclosure_is_in_methods() -> None:
     assert disclosure in text
     assert text.index(disclosure) < text.index("## 5. Part II results")
     block = text.split(disclosure, 1)[1].split("## 5. Part II results", 1)[0]
-    assert "OpenAI large language model" in block
+    assert "OpenAI" in block
+    assert "Anthropic" in block
     assert "AI-generated output was not treated as empirical evidence" in block
 
 

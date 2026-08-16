@@ -13,6 +13,10 @@ def _text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def _abstract(text: str) -> str:
+    return text.split("## Abstract\n\n", 1)[1].split("\n\n**Keywords:**", 1)[0]
+
+
 def test_claim_freeze_assets_exist() -> None:
     assert CLAIM_FREEZE.exists()
     assert STORY_BOUNDARY.exists()
@@ -25,6 +29,25 @@ def test_manuscript_keeps_the_one_sided_theorem_visible() -> None:
     assert "selectivity window" in text
     assert "necessary" in text
     assert "not sufficient" in text or "converse is not" in text
+
+
+def test_theorem_uses_only_nonnegative_joint_cost_as_sign_premise() -> None:
+    text = _text(MANUSCRIPT)
+    theorem = text.split("**Theorem 1 (one-sided selectivity bound).**", 1)[1].split("## 3.", 1)[0]
+    assert "joint-cost curvature is non-negative" in theorem
+    assert "signs of \\(\\rho\\) and \\(\\iota\\) are not used" in theorem
+    assert "If the three deployed terms are non-negative" not in theorem
+
+    freeze = _text(CLAIM_FREEZE)
+    assert "direct joint-cost curvature is non-negative (`kappa >= 0`)" in freeze
+    assert "if the three oriented terms are non-negative" not in freeze
+
+
+def test_abstract_separates_algebraic_proof_from_grid_implementation_check() -> None:
+    abstract = _abstract(_text(MANUSCRIPT))
+    assert "prove this algebraically" in abstract
+    assert "verify implementation" in abstract
+    assert "we find no counterexample" not in abstract.lower()
 
 
 def test_manuscript_keeps_the_verified_looseness_and_h_gate() -> None:
@@ -42,6 +65,27 @@ def test_manuscript_does_not_turn_constituent_paths_into_total_calibration() -> 
         or "unidentified rather than zero" in text
         or "uncertainty, not zero" in text
     )
+
+
+def test_empirical_category_counts_are_explicitly_nonadditive() -> None:
+    text = _text(MANUSCRIPT)
+    assert "These annotations are not additive counts" in text
+    assert "can overlap within the 25-cluster route universe" in text
+    assert "seven context-only programs are explicitly outside route-ledger N" in text
+
+
+def test_sasidharan_robustness_is_not_promoted_to_within_study_effect() -> None:
+    text = _text(MANUSCRIPT)
+    assert "robustness of the assembled cross-study composition rather than a within-study consumer-role effect" in text
+    assert "only three study components contain both physiological roles and all three paired differences are zero" in text
+
+
+def test_ai_disclosure_names_both_providers_used_in_repository_history() -> None:
+    text = _text(MANUSCRIPT)
+    disclosure = text.split("### 4.3 Computational and AI-assisted workflow transparency", 1)[1].split("## 5.", 1)[0]
+    assert "OpenAI" in disclosure
+    assert "Anthropic" in disclosure
+    assert "AI-generated output was not treated as empirical evidence" in disclosure
 
 
 def test_prohibited_overclaim_phrases_stay_absent() -> None:

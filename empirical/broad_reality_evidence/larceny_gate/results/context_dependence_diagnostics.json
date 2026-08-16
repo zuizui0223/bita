@@ -1,0 +1,6 @@
+{
+  "declared_analysis_count": 6,
+  "executed_meta_regression_count": 6,
+  "executed_subgroup_count": 6,
+  "interpretation_boundary": "Moderator results describe how one declared marginal route effect changes with one declared ecological context variable. They are not the local A x D mixed partial, not a channel curvature, and not an environmental derivative of the mixed partial."
+}

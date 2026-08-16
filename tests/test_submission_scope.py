@@ -173,6 +173,20 @@ REQUIRED_ACTIVE_PATHS = [
     "empirical/broad_reality_evidence/LITERATURE_EVIDENCE_READOUT.md",
     "scripts/run_broad_meta_analysis.py",
     "scripts/validate_current_theory_meta.py",
+    # Canonical Leal larceny module used by the manuscript's H-gate claims.
+    "empirical/broad_reality_evidence/larceny_gate/LARCENY_GATE_PROTOCOL_V1.md",
+    "empirical/broad_reality_evidence/larceny_gate/LARCENY_GATE_READOUT_V1.md",
+    "empirical/broad_reality_evidence/larceny_gate/larceny_effect_rows.csv",
+    "empirical/broad_reality_evidence/larceny_gate/larceny_moderator_coding.csv",
+    "empirical/broad_reality_evidence/larceny_gate/larceny_moderator_registry.csv",
+    "empirical/broad_reality_evidence/larceny_gate/results/larceny_pooled_summary.csv",
+    "empirical/broad_reality_evidence/larceny_gate/results/context_meta_regression_models.csv",
+    "scripts/ingest_deposited_larceny_dataset.py",
+    "scripts/run_larceny_gate.py",
+    "scripts/run_context_dependence.py",
+    "trait_architecture/context_dependence.py",
+    "trait_architecture/deposited_effect_ingest.py",
+    "tests/test_larceny_gate_declaration.py",
 ]
 
 

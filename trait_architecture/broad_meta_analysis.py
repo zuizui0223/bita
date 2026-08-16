@@ -22,18 +22,27 @@ DIRECT_ROUTES = frozenset({
     "A_to_antagonism",
     "B_to_antagonism",
     "B_to_pollination",
+    "H_to_fitness",
+    "H_to_pollination",
+    "H_to_reward",
 })
 ROUTE_TRAIT_ROLE = {
     "A_to_pollination": "A",
     "A_to_antagonism": "A",
     "B_to_antagonism": "B",
     "B_to_pollination": "B",
+    "H_to_fitness": "H",
+    "H_to_pollination": "H",
+    "H_to_reward": "H",
 }
 ROUTE_EXPECTED_SIGN = {
     "A_to_pollination": "positive",
     "A_to_antagonism": "positive",
     "B_to_antagonism": "negative",
     "B_to_pollination": "negative",
+    "H_to_fitness": "negative",
+    "H_to_pollination": "negative",
+    "H_to_reward": "negative",
 }
 DIRECTION_CODES = frozenset({"positive", "negative", "mixed", "null", "not_reported"})
 DESIGN_CLASSES = frozenset({"observational", "manipulation", "comparative"})
@@ -409,6 +418,17 @@ def _der_simonian_laird(estimates: list[EffectEstimate]) -> dict[str, float]:
         "Q_df": float(df),
         "I_squared_percent": i_squared,
     }
+
+
+def random_effects_pool(estimates: list[EffectEstimate]) -> dict[str, float]:
+    """Public compatibility API for one already-compatible effect set.
+
+    The canonical Leal context-dependence module uses this public function.
+    Keep the implementation delegated to the same current DerSimonian-Laird
+    routine used by ``meta_analysis`` so the wrapper cannot drift numerically.
+    """
+
+    return _der_simonian_laird(estimates)
 
 
 def _matches_stratum(row: dict[str, str], stratum: dict[str, str]) -> bool:

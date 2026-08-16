@@ -29,7 +29,7 @@ The claim under test is that being inside the window is what makes the traits co
 
 ## 2. What is true: a one-sided theorem
 
-> **Theorem.** If all three terms are non-negative, then `W_AD > 0` implies the point is inside the
+> **Theorem.** If `joint_cost_curvature_term >= 0`, then `W_AD > 0` implies the point is inside the
 > selectivity window. Equivalently: **complementarity never occurs outside the window.**
 
 Proof, in one line. If `W_AD > 0` then
@@ -40,8 +40,10 @@ Two things make this stronger than it looks.
 
 **It is form-independent.** All four declared endpoint-normalized response-shape variants —
 `baseline`, `saturating_attraction`, `saturating_defence`, `saturating_both_curved_cost` — preserve
-the `relief − interference − cost` structure with all three terms non-negative. The proof uses only
-that structure, so it holds under every variant rather than only the baseline exponential form.
+the additive `relief − interference − cost` structure with non-negative joint-cost curvature. The proof
+uses only that additive structure and the sign of the joint-cost term; relief and interference need not
+be non-negative for the implication itself. It therefore holds under every declared variant rather than
+only the baseline exponential form.
 This is unusual in this repository: most results here are checked across the variants and come back
 `mixed_or_sensitive`. This one holds by construction.
 
@@ -163,10 +165,10 @@ The second is false on this repository's own grid 23% of the time.
 
 ## 7. Boundaries
 
-- The theorem is about **this corollary's functional family**. It uses only that the three terms are
-  non-negative and enter as `relief − interference − cost`. A model where interference can be
-  negative still satisfies it (the window condition then holds automatically), but a model with a
-  different additive structure is not covered.
+- The theorem is about the declared additive `relief − interference − cost` structure. It requires
+  only `joint_cost_curvature_term >= 0`; the signs of relief and interference are not premises of the
+  implication. A model where interference is negative can therefore still satisfy the theorem, while a
+  model with a different additive structure is not covered.
 - `c_AD >= 0` is an **assumption of the deployed parameterization**, enforced by
   `ModelParameters.__post_init__`. §5 is the statement that this assumption, not the biology, is
   what carries the bound.

@@ -1,0 +1,7 @@
+analysis_id,stratum_id,analysis_status,independent_clusters,intercept,intercept_standard_error,t_value,degrees_of_freedom,two_sided_p_value,asymmetry_verdict
+larceny_type_female,HF_larceny_female_lrr_comparative,weighted_egger_regression,48,-0.5988972278,0.07971353887,-7.513118051,46,1.557712717e-09,asymmetry_detected
+larceny_assurance_female,HF_larceny_female_lrr_comparative,weighted_egger_regression,47,-0.5997166438,0.08078755059,-7.423379461,45,2.410843897e-09,asymmetry_detected
+larceny_assignment_female,HF_larceny_female_lrr_comparative,weighted_egger_regression,44,-0.6230392515,0.08284995423,-7.52009168,42,2.645839674e-09,asymmetry_detected
+larceny_players_female,HF_larceny_female_lrr_comparative,weighted_egger_regression,37,-0.6285976883,0.09553411737,-6.579824104,35,1.340740094e-07,asymmetry_detected
+larceny_type_visitation,HP_larceny_visitation_lrr_comparative,weighted_egger_regression,21,0.2928035435,0.1168249744,2.506343742,19,0.02145149628,asymmetry_detected
+larceny_type_nectar,HR_larceny_nectar_lrr_comparative,weighted_egger_regression,28,-0.003408857589,0.1439929321,-0.02367378411,26,0.9812935775,no_detected_asymmetry
