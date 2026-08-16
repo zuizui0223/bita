@@ -1,0 +1,51 @@
+{
+  "context_dependence": {
+    "declared_analysis_count": 6,
+    "executed_meta_regression_count": 6,
+    "executed_subgroup_count": 6,
+    "interpretation_boundary": "Moderator results describe how one declared marginal route effect changes with one declared ecological context variable. They are not the local A x D mixed partial, not a channel curvature, and not an environmental derivative of the mixed partial."
+  },
+  "interpretation_boundary": "Secondary analysis of a deposited effect-size table (Leal et al. 2025, Ecology, doi:10.1002/ecy.70036). Not an independent literature search. Under declared bridge assumption B2 the fitness arrow constrains whether the multiplicative H gate on the antagonist-relief channel is open; it does not estimate the channel, the mixed partial, or any environmental derivative of it.",
+  "pooled_strata": {
+    "HF_larceny_female_lrr_comparative": {
+      "I_squared_percent": "99.47456987",
+      "analysis_status": "stability_eligible_random_effects",
+      "ci_high": "-0.06952924312",
+      "ci_low": "-0.3514630921",
+      "independent_clusters": 48,
+      "pooled_direction": "negative",
+      "pooled_effect": "-0.2104961676",
+      "two_sided_p_value": "0.003426025255"
+    },
+    "HF_larceny_male_lrr_comparative": {
+      "I_squared_percent": "99.99814336",
+      "analysis_status": "stability_eligible_random_effects",
+      "ci_high": "0.8572448557",
+      "ci_low": "-1.154160624",
+      "independent_clusters": 11,
+      "pooled_direction": "negative",
+      "pooled_effect": "-0.1484578839",
+      "two_sided_p_value": "0.7723348432"
+    },
+    "HP_larceny_visitation_lrr_comparative": {
+      "I_squared_percent": "97.48055517",
+      "analysis_status": "stability_eligible_random_effects",
+      "ci_high": "-0.05876442357",
+      "ci_low": "-0.5227132974",
+      "independent_clusters": 22,
+      "pooled_direction": "negative",
+      "pooled_effect": "-0.2907388605",
+      "two_sided_p_value": "0.01403104418"
+    },
+    "HR_larceny_nectar_lrr_comparative": {
+      "I_squared_percent": "99.28584429",
+      "analysis_status": "stability_eligible_random_effects",
+      "ci_high": "-0.2102559744",
+      "ci_low": "-0.7566432723",
+      "independent_clusters": 28,
+      "pooled_direction": "negative",
+      "pooled_effect": "-0.4834496233",
+      "two_sided_p_value": "0.0005235744894"
+    }
+  }
+}

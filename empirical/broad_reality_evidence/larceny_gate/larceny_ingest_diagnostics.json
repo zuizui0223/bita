@@ -1,0 +1,39 @@
+{
+  "deposited_rows_read": 267,
+  "effect_rows_emitted": 109,
+  "include_quarantined": false,
+  "interpretation_boundary": "These are effect rows, not a result. Every value is recomputed from group means deposited by the authors of a published synthesis; this is a secondary analysis of that deposit and inherits its inclusion criteria. It is not an independent literature search and must not be reported as one.",
+  "moderator_coding_rows": 436,
+  "per_stratum": {
+    "HF_larceny_female_lrr_comparative": {
+      "clusters_with_effect": 48,
+      "deposited_rows": 140,
+      "quarantined_rows": 1
+    },
+    "HF_larceny_male_lrr_comparative": {
+      "clusters_with_effect": 11,
+      "deposited_rows": 17,
+      "quarantined_rows": 0
+    },
+    "HP_larceny_visitation_lrr_comparative": {
+      "clusters_with_effect": 22,
+      "deposited_rows": 58,
+      "quarantined_rows": 1
+    },
+    "HR_larceny_nectar_lrr_comparative": {
+      "clusters_with_effect": 28,
+      "deposited_rows": 52,
+      "quarantined_rows": 1
+    }
+  },
+  "recomputation_verdicts": {
+    "reproduced": 260,
+    "sign_disagrees": 3,
+    "variance_disagrees": 4
+  },
+  "source_commit": "04663ff895b300fc957c4a32f661e5f73ca95217",
+  "source_file": "complete_hedges.csv",
+  "source_repository": "https://github.com/lacaleal/Meta-analysis_larcenists",
+  "synthesis_doi": "10.1002/ecy.70036",
+  "within_cluster_correlation": 1.0
+}
