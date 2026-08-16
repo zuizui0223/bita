@@ -132,7 +132,7 @@ Under the one-sided theorem, outside-window complementarity requires negative jo
 
 ## 7. Reproduced quantitative synthesis module 1 — Leal et al. 2025 floral larceny
 
-The completed module is pinned to immutable repository provenance:
+The completed module is included directly in the canonical repository tree and is also pinned to immutable provenance:
 
 ```text
 canonical commit:   ed33b25593c0d90ad6657753f6f5501d9efc7b82
@@ -141,14 +141,15 @@ first results:      965d657
 source synthesis:   Leal et al. 2025, Ecology, doi:10.1002/ecy.70036
 ```
 
-Canonical source/result products at the immutable commit include:
+Canonical source/result products now present in the current tree, with provenance traced to that immutable commit, include:
 
 - `empirical/broad_reality_evidence/larceny_gate/LARCENY_GATE_PROTOCOL_V1.md`
 - `LARCENY_GATE_READOUT_V1.md`
 - `larceny_effect_rows.csv`
 - ingest diagnostics/recomputation audits
 - the committed result directory
-- associated analysis scripts and tests.
+- `scripts/run_larceny_gate.py`, `scripts/run_context_dependence.py`, and `trait_architecture/context_dependence.py`;
+- integrity tests for effect ingestion, context dependence, and the declared larceny gate.
 
 Admitted manuscript values remain:
 

@@ -22,18 +22,27 @@ DIRECT_ROUTES = frozenset({
     "A_to_antagonism",
     "B_to_antagonism",
     "B_to_pollination",
+    "H_to_fitness",
+    "H_to_pollination",
+    "H_to_reward",
 })
 ROUTE_TRAIT_ROLE = {
     "A_to_pollination": "A",
     "A_to_antagonism": "A",
     "B_to_antagonism": "B",
     "B_to_pollination": "B",
+    "H_to_fitness": "H",
+    "H_to_pollination": "H",
+    "H_to_reward": "H",
 }
 ROUTE_EXPECTED_SIGN = {
     "A_to_pollination": "positive",
     "A_to_antagonism": "positive",
     "B_to_antagonism": "negative",
     "B_to_pollination": "negative",
+    "H_to_fitness": "negative",
+    "H_to_pollination": "negative",
+    "H_to_reward": "negative",
 }
 DIRECTION_CODES = frozenset({"positive", "negative", "mixed", "null", "not_reported"})
 DESIGN_CLASSES = frozenset({"observational", "manipulation", "comparative"})

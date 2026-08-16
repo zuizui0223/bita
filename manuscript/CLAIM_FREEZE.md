@@ -18,13 +18,13 @@ but the identity itself is not presented as the novelty.
 
 ## Claim 1 — One-sided theorem
 
-Within the declared relief-minus-interference-minus-cost family, if the three oriented terms are non-negative,
+Within the declared relief-minus-interference-minus-cost family, if direct joint-cost curvature is non-negative (`kappa >= 0`),
 
 ```text
 W_AD > 0  =>  rho > iota
 ```
 
-Therefore complementarity cannot occur outside the selectivity window.
+Therefore complementarity cannot occur outside the selectivity window. The signs of `rho` and `iota` are not required for this implication; their non-negative magnitude interpretation belongs to the orientation gate used by the baseline mechanism.
 
 The converse is not claimed. The declared finite design contains zero counterexamples to the forward implication, while about 23% of in-window evaluations are substitutable. At zero joint cost the window and the sign criterion coincide exactly.
 
