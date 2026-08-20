@@ -1,12 +1,12 @@
-# Reference audit v2 — saturated Mechanism → Pattern manuscript
+# Reference audit v3 — saturated Mechanism → Pattern manuscript
 
 ## Scope
 
-This audit covers the references actually cited by `manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md` after the 25-system Pattern expansion. It protects known corrections, verifies the expanded citation spine, and separates scientific identity checking from final journal-house formatting.
+This audit covers the references actually cited by `manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md` after the 25-system Pattern expansion and the explicit close-prior-theory update. It protects known corrections, verifies the expanded citation spine, and separates scientific identity checking from final journal-house formatting.
 
 ## Current cited reference spine
 
-The candidate manuscript contains **20 bibliography entries**, all cited in the manuscript body and alphabetically ordered.
+The candidate manuscript contains **21 bibliography entries**, all cited in the manuscript body and alphabetically ordered.
 
 ### Mathematical / multivariate-selection foundation
 
@@ -20,6 +20,10 @@ The candidate manuscript contains **20 bibliography entries**, all cited in the 
 - Knauer, Bakhtiari & Schiestl (2018)
 - Strauss et al. (1999)
 - Theis & Adler (2012)
+
+### Close theoretical prior art
+
+- Johnson et al. (2021) — eco-coevolutionary model jointly treating pollination benefits, attraction, defence, trait costs, and community context during antagonism-to-mutualism transitions. This is acknowledged explicitly so the manuscript does not claim novelty for jointly modelling attraction and defence, cost-sensitive outcomes, or ecological/evolutionary transition boundaries in general.
 
 ### Floral chemistry / pollinator-response plausibility
 
@@ -56,6 +60,7 @@ The remaining expansion systems stay in the supplement evidence architecture and
 | Caruso et al. 2019 | *Evolution* 73:4–14; DOI `10.1111/evo.13639` | verified |
 | Haas-Desmarais et al. 2026 | *Annals of Botany* 137:879–885; DOI `10.1093/aob/mcaf258` | verified |
 | Herrera et al. 2002 | *PNAS* 99:16823–16828; DOI `10.1073/pnas.252362799` | verified |
+| Johnson et al. 2021 | *Nature Communications* 12:2867; DOI `10.1038/s41467-021-23177-x` | primary source verified as close attraction–defence eco-coevolutionary prior art |
 | Junker & Blüthgen 2010 | *Annals of Botany* 105:777–782; DOI `10.1093/aob/mcq045` | verified |
 | Knauer et al. 2018 | *Nature Communications* 9:1367; DOI `10.1038/s41467-018-03792-x` | verified |
 | Lande & Arnold 1983 | *Evolution* 37:1210–1226; DOI `10.2307/2408842` | verified |
@@ -108,13 +113,16 @@ No scientific result depends on this editorial cleanup.
 
 `tests/test_manuscript_references.py` now requires:
 
-- exactly **20** bibliography entries;
+- exactly **21** bibliography entries;
 - alphabetical first-author order;
 - presence of all cited core and expansion anchors;
+- the Johnson et al. 2021 close-theory DOI;
 - Haas-Desmarais / Caruso / Junker–Blüthgen secondary-synthesis DOIs;
 - Page / Sun–Huang / Wu–Gao / Zhou representative Pattern DOIs;
 - the corrected Stevenson identity;
 - absence of the obsolete Stevenson and Armbruster errors and other pruned legacy entries.
+
+`tests/test_introduction_impossibility_gap.py` additionally requires the Introduction to acknowledge the close prior theory before stating the one-sided impossibility gap and to preserve the Mechanism → Pattern ordering of inference.
 
 ## Remaining bounded reference work
 
@@ -128,9 +136,10 @@ Before portal submission:
 ## Current decision
 
 ```text
-cited bibliography entries:             20
+cited bibliography entries:             21
 citation-presence regression:           protected
 alphabetical order:                     protected
+close theoretical prior art:            explicitly acknowledged
 known Stevenson metadata error:         corrected
 known Armbruster legacy error:          removed
 secondary-synthesis identities:         checked
@@ -139,4 +148,4 @@ journal-specific formatting:            pending
 final post-edit consistency pass:       pending
 ```
 
-The reference task is now bounded formatting/consistency work, not additional literature discovery.
+The reference task remains bounded formatting/consistency work, not additional literature discovery.
