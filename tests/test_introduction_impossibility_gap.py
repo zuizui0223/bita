@@ -33,3 +33,11 @@ def test_background_support_docs_match_impossibility_boundary_positioning() -> N
     assert "Johnson et al. (2021)" in background
     assert "before predicting where complementarity occurs, can we identify where it cannot occur?" in blueprint
     assert "mechanism-first evidence architecture" in blueprint
+
+
+def test_close_prior_theory_reference_is_cited_and_alphabetized() -> None:
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    body, refs = text.split("\n## References\n", 1)
+    assert "Johnson et al. 2021" in body
+    assert "10.1038/s41467-021-23177-x" in refs
+    assert refs.index("Johnson CA") < refs.index("Junker RR") < refs.index("Knauer AC")
