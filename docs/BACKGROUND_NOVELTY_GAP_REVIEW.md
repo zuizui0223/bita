@@ -6,9 +6,9 @@ The manuscript should not claim that it discovered multivariate selection, polli
 
 The defensible contribution is narrower:
 
-> a focal-pair local diagnostic framework that separates antagonist relief, mutualist interference, and direct joint-cost curvature; states that the mechanism decomposition is not identified by total fitness alone; requires an explicit orientation gate before assigning non-negative mechanism labels; derives the full environmental derivative balance; and enforces strict boundaries between route existence, channel curvature, the complete mixed partial, trait covariance, and evolutionary endpoints.
+> a focal-pair local diagnostic framework that separates antagonist relief, mutualist interference, and direct joint-cost curvature; states that the mechanism decomposition is not identified by total fitness alone; derives a one-sided impossibility boundary under non-negative joint-cost curvature; and then uses those theory-defined mechanism classes to structure a Mechanism → Pattern synthesis rather than inferring mechanism from an observed aggregate Pattern.
 
-A targeted review did not identify an earlier paper combining all of those elements for one floral attraction × flower-specific defence/barrier pair. This is a provisional positioning statement, not a claim of exhaustive priority.
+The targeted review confirms that the component ideas are established: cross-trait curvature, pollinator-herbivore non-additivity, attraction of antagonists, pollination costs, context-dependent net effects, and eco-coevolutionary attraction-defence models all predate this manuscript. What was not identified in that review is an earlier focal attraction × defence treatment that isolates the specific one-sided implication `W_AD > 0 => rho > iota` under non-negative joint-cost curvature and uses that exclusion rule to define a falsifiable empirical applicability gate. This is a provisional positioning statement, not a claim of exhaustive priority or mathematical sophistication.
 
 ## Established foundations
 
@@ -42,13 +42,23 @@ Population-dynamic models have shown transitions between mutualistic and antagon
 
 Example: Revilla TA, Encinas-Viso F. 2014. Dynamical transitions in a pollination–herbivory interaction. arXiv:1404.4804.
 
+### 6. Attraction, defence, benefits, and costs have already been modelled eco-coevolutionarily
+
+Johnson et al. (2021) explicitly model coevolution of pollination benefits, attraction, and defence in plant–insect interactions that can transition from antagonism to mutualism. Their framework also varies trait costs and community context. The current manuscript therefore must not claim novelty for jointly modelling attraction and defence, for identifying cost-sensitive outcomes, or for deriving ecological transition boundaries in general.
+
+Reference: Johnson CA, Smith GP, Yule K, Davidowitz G, Bronstein JL, Ferrière R. 2021. Coevolutionary transitions from antagonism to mutualism explained by the Co-Opted Antagonist Hypothesis. *Nature Communications* 12:2867. DOI: 10.1038/s41467-021-23177-x.
+
 ## The unresolved problem
 
 The literature establishes many relevant routes separately, but these results do not automatically answer the focal question:
 
 > For one explicitly defined floral attraction trait `A`, one explicitly defined flower-specific defence/barrier trait `D`, and one declared outcome scale `W`, when does `D` increase versus decrease the local marginal return to `A`?
 
-Four inferential gaps remain.
+Five inferential gaps remain.
+
+### Gap 0: existing balance models do not by themselves provide the focal one-sided impossibility boundary
+
+Prior work asks how non-additive fitness effects arise, how ecological context changes net outcomes, or how attraction, defence, and pollination benefits coevolve. The narrower unresolved question is whether the local focal-pair mechanism implies a region in which attraction-defence complementarity is impossible before any attempt is made to predict where complementarity occurs. The present theorem addresses that question by treating the selectivity window as a necessary permissive region rather than a sufficient sign rule.
 
 ### Gap 1: net effects do not identify mechanisms
 
