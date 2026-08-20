@@ -1,0 +1,31 @@
+name: One-time background impossibility-gap update
+
+on:
+  push:
+    branches:
+      - agent/background-impossibility-gap-v2
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Apply background update
+        run: python scripts/_background_gap_patch_tmp.py
+      - name: Commit updated background and remove temporary machinery
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Clarify prior-art gap and Mechanism-to-Pattern logic'
+          git push origin HEAD:${GITHUB_REF_NAME}
