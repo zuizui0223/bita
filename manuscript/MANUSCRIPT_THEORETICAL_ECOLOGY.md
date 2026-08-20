@@ -376,9 +376,9 @@ Haas-Desmarais S, Castagneyrol B, Abdala-Roberts L, Lortie CJ, Traveset A, Morei
 
 Herrera CM et al. (2002) Interaction of pollinators and herbivores on plant fitness suggests a pathway for correlated evolution of mutualism- and antagonism-related traits. *Proceedings of the National Academy of Sciences USA* 99:16823–16828. https://doi.org/10.1073/pnas.252362799
 
-Junker RR, Blüthgen N (2010) Floral scents repel facultative flower visitors, but attract obligate ones. *Annals of Botany* 105:777–782. https://doi.org/10.1093/aob/mcq045
-
 Johnson CA, Smith GP, Yule K, Davidowitz G, Bronstein JL, Ferrière R (2021) Coevolutionary transitions from antagonism to mutualism explained by the Co-Opted Antagonist Hypothesis. *Nature Communications* 12:2867. https://doi.org/10.1038/s41467-021-23177-x
+
+Junker RR, Blüthgen N (2010) Floral scents repel facultative flower visitors, but attract obligate ones. *Annals of Botany* 105:777–782. https://doi.org/10.1093/aob/mcq045
 
 Knauer AC, Bakhtiari M, Schiestl FP (2018) Crab spiders impact floral-signal evolution indirectly through removal of florivores. *Nature Communications* 9:1367. https://doi.org/10.1038/s41467-018-03792-x
 
