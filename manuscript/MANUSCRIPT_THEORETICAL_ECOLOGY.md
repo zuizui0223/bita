@@ -22,15 +22,17 @@ This creates two plausible but opposing expectations. Greater attraction can inc
 
 ### 1.2 Existing theories
 
-Multivariate selection and fitness-landscape theory already provide general descriptions of cross-trait fitness curvature (Lande and Arnold 1983; Phillips and Arnold 1989; Blows and Brooks 2003). Ecological interaction studies likewise show that pollinators, herbivores, and other partners can modify one another's fitness effects, including non-additive consequences relevant to floral evolution (Herrera et al. 2002; Knauer et al. 2018).
+Multivariate selection and fitness-landscape theory already provide general descriptions of cross-trait fitness curvature (Lande and Arnold 1983; Phillips and Arnold 1989; Blows and Brooks 2003). Ecological interaction studies likewise show that pollinators, herbivores, and other partners can modify one another's fitness effects, including non-additive consequences relevant to floral evolution (Herrera et al. 2002; Knauer et al. 2018). Attractive floral signals can recruit antagonists as well as mutualists, and antagonist suppression can reverse the net consequences of organisms that also deter pollinators (Theis and Adler 2012; Knauer et al. 2018).
 
-Those frameworks establish that trait combinations and ecological partners need not act additively, but they do not by themselves allocate a total cross-trait curvature among ecological causes. The same observed interaction can arise because defence preserves attraction-generated value from antagonists, because defence interferes with pollinator returns, because the two traits share direct costs, or through some combination of these channels. Total fitness curvature therefore does not uniquely identify mechanism.
+More recent eco-coevolutionary theory goes further by modelling pollination benefits, attraction, defence, and their costs jointly, asking when antagonistic interactions can evolve toward net mutualism and how community context shifts that outcome (Johnson et al. 2021). These studies establish that attraction-defence balance, non-additivity, trade-offs, and context-dependent evolutionary outcomes are not new ideas.
+
+What remains less explicit is a narrower inference problem. Before predicting how attraction and defence coevolve, or where complementarity occurs, can any region of mechanism space be ruled out as incompatible with local attraction-defence complementarity? Existing frameworks describe net interaction outcomes, evolutionary transitions, or system-specific balances, but they do not by themselves isolate a one-sided exclusion rule for the focal \(A\times D\) fitness curvature. Nor do they uniquely allocate an observed total cross-trait curvature among antagonist relief, pollinator interference, and direct joint cost.
 
 ### 1.3 Ecological inference gap
 
-We ask: **When does one attraction trait and one defence trait become locally complementary rather than substitutable?** Complementarity means that either trait strengthens the local marginal fitness effect of the other on declared trait and outcome coordinates; substitutability means that it weakens that effect. This is narrower than asking whether the traits covary, whether correlational selection exists, or where a fitness optimum lies.
+We therefore ask a deliberately narrower question: **before predicting where attraction-defence complementarity occurs, can we identify where it cannot occur?** For one focal attraction trait and one flower-specific antagonist-reducing trait, complementarity means that either trait strengthens the local marginal fitness effect of the other on declared trait and outcome coordinates; substitutability means that it weakens that effect. This is narrower than asking whether the traits covary, whether correlational selection exists, where a fitness optimum lies, or whether an interaction evolves from antagonism to mutualism.
 
-The empirical literature creates the same identification problem. Many studies measure floral signals, chemical or physical defences, pollinator responses, florivory, or nectar larceny, but few manipulate the same attraction and defence axes together on a common outcome scale. A defensible synthesis must therefore distinguish constituent-path evidence, same-system linkage, and direct \(A\times D\) evidence rather than pooling them as if they estimated one quantity.
+The empirical literature creates a second identification problem. Many studies measure floral signals, chemical or physical defences, pollinator responses, florivory, or nectar larceny, but few manipulate the same attraction and defence axes together on a common outcome scale. A defensible synthesis must therefore distinguish constituent-path evidence, same-system linkage, and direct \(A\times D\) evidence rather than pooling them as if they estimated one quantity. The contribution sought here is consequently not a new interaction type or a new mixed partial, but a mechanism-defined boundary on what the focal interaction can do and an evidence architecture for asking whether the mechanisms defining that boundary recur in nature.
 
 ### 1.4 Conditional biological hypothesis
 
@@ -44,7 +46,7 @@ The paper is organized as two linked but inferentially distinct parts. **Part I 
 
 **Part II — Pattern** asks what cross-system patterns recur in the mechanism classes defined by Part I. Quantitative meta-analysis is used only where compatible effect scales exist; otherwise source-adjudicated study clusters map recurrence, same-system co-occurrence, switching, and identification gaps without manufacturing a common effect size. This synthesis tests whether the constituent biology and exposure gate recur, not whether the full mixed partial has one universal sign.
 
-The logic is therefore **Mechanism \(\rightarrow\) Pattern**, not theory \(\rightarrow\) validation. The theoretical result states what is structurally permitted under declared premises; the empirical synthesis asks how often the required channels and switching architectures are independently realised and where direct identification remains missing.
+The logic is therefore **Mechanism \(\rightarrow\) Pattern**, not theory \(\rightarrow\) validation. Part I first defines the mechanism classes and derives the structural constraint; those theory-defined classes then determine what counts as relevant evidence in Part II. The empirical synthesis therefore does not search for a pattern and infer a mechanism afterward. It asks whether the already-defined constituent routes, same-system combinations, switching architectures, and identification gaps recur independently across biological systems, while keeping direct estimation of the full mixed partial separate.
 
 ### 1.6 Paper organization
 
@@ -373,6 +375,8 @@ Caruso CM, Eisen KE, Martin RA, Sletvold N (2019) A meta-analysis of the agents 
 Haas-Desmarais S, Castagneyrol B, Abdala-Roberts L, Lortie CJ, Traveset A, Moreira X (2026) The effect of herbivory on pollinators: a revisited meta-analysis. *Annals of Botany* 137:879–885. https://doi.org/10.1093/aob/mcaf258
 
 Herrera CM et al. (2002) Interaction of pollinators and herbivores on plant fitness suggests a pathway for correlated evolution of mutualism- and antagonism-related traits. *Proceedings of the National Academy of Sciences USA* 99:16823–16828. https://doi.org/10.1073/pnas.252362799
+
+Johnson CA, Smith GP, Yule K, Davidowitz G, Bronstein JL, Ferrière R (2021) Coevolutionary transitions from antagonism to mutualism explained by the Co-Opted Antagonist Hypothesis. *Nature Communications* 12:2867. https://doi.org/10.1038/s41467-021-23177-x
 
 Junker RR, Blüthgen N (2010) Floral scents repel facultative flower visitors, but attract obligate ones. *Annals of Botany* 105:777–782. https://doi.org/10.1093/aob/mcq045
 

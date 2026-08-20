@@ -47,6 +47,7 @@ def test_core_empirical_reference_identities_remain_present() -> None:
         "10.1093/aobpla/plv019",
         "10.1093/jpe/rtad036",
         "10.1111/evo.13965",
+        "10.1038/s41467-021-23177-x",
     ):
         assert doi in text
 
@@ -59,6 +60,7 @@ def test_cited_reference_spine_is_present_in_body_and_bibliography() -> None:
         "Blows and Brooks 2003": "Blows MW, Brooks R (2003)",
         "Herrera et al. 2002": "Herrera CM et al. (2002)",
         "Knauer et al. 2018": "Knauer AC, Bakhtiari M, Schiestl FP (2018)",
+        "Johnson et al. 2021": "Johnson CA, Smith GP, Yule K, Davidowitz G, Bronstein JL, Ferrière R (2021)",
         "Strauss et al. 1999": "Strauss SY, Siemens DH, Decher MB, Mitchell-Olds T (1999)",
         "Theis and Adler 2012": "Theis N, Adler LS (2012)",
         "Wright et al. 2013": "Wright GA et al. (2013)",
@@ -83,6 +85,6 @@ def test_cited_reference_spine_is_present_in_body_and_bibliography() -> None:
 def test_bibliography_has_only_the_cited_reference_spine() -> None:
     _, refs = _split_manuscript()
     entries = [block for block in refs.strip().split("\n\n") if block.strip()]
-    assert len(entries) == 20
+    assert len(entries) == 21
     first_authors = [entry.split()[0] for entry in entries]
     assert first_authors == sorted(first_authors, key=str.casefold)
