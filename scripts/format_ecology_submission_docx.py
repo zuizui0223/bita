@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-from copy import deepcopy
 from pathlib import Path
 
 from docx import Document
@@ -21,6 +20,12 @@ def _remove_all_runs(paragraph) -> None:
     for child in list(p):
         if child.tag != qn("w:pPr"):
             p.remove(child)
+
+
+def _suppress_line_numbers(paragraph) -> None:
+    p_pr = paragraph._p.get_or_add_pPr()
+    if p_pr.find(qn("w:suppressLineNumbers")) is None:
+        p_pr.append(OxmlElement("w:suppressLineNumbers"))
 
 
 def _append_section_properties(paragraph, *, line_numbers: bool) -> None:
@@ -56,6 +61,7 @@ def _append_section_properties(paragraph, *, line_numbers: bool) -> None:
     if line_numbers:
         ln = OxmlElement("w:lnNumType")
         ln.set(qn("w:countBy"), "1")
+        ln.set(qn("w:start"), "1")
         ln.set(qn("w:restart"), "continuous")
         ln.set(qn("w:distance"), "360")
         sect_pr.append(ln)
@@ -108,7 +114,6 @@ def _configure_sections(doc: Document) -> None:
         section.header_distance = Inches(0.5)
         section.footer_distance = Inches(0.5)
 
-    # Keep the same page-number footer across all sections.
     for i, section in enumerate(doc.sections):
         if i > 0:
             section.footer.is_linked_to_previous = True
@@ -119,35 +124,50 @@ def _configure_sections(doc: Document) -> None:
 
 
 def _format_document(doc: Document, *, appendix: bool) -> None:
-    # Section and page-break markers are inserted by the source builder and then
-    # converted here so equations/tables remain native Pandoc Word objects.
+    region = "appendix" if appendix else "title"
+
     for paragraph in doc.paragraphs:
         text = paragraph.text.strip()
+
         if not appendix and text == TITLE_BREAK:
+            _suppress_line_numbers(paragraph)
             _append_section_properties(paragraph, line_numbers=False)
-        elif not appendix and text == REF_BREAK:
-            # The section ending here is Abstract through References, so this
-            # is the section that receives continuous line numbering.
+            region = "numbered"
+            continue
+
+        if not appendix and text == REF_BREAK:
             _append_section_properties(paragraph, line_numbers=True)
-        elif text == PAGE_BREAK:
+            _suppress_line_numbers(paragraph)
+            region = "postrefs"
+            continue
+
+        if not appendix and region in {"title", "postrefs"}:
+            # LibreOffice can apply section line-number settings more broadly than
+            # Word. Explicit paragraph suppression guarantees that the rendered
+            # review file shows numbers only from Abstract through References.
+            _suppress_line_numbers(paragraph)
+
+        if text == PAGE_BREAK:
             _replace_pagebreak_marker(paragraph)
+
+    # All tables are post-References in the Ecology Main Document. Suppress line
+    # numbers explicitly within table cells as a renderer-independent safeguard.
+    if not appendix:
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    for paragraph in cell.paragraphs:
+                        _suppress_line_numbers(paragraph)
 
     _configure_sections(doc)
 
-    # Normal manuscript prose: 12 pt Times New Roman, double-spaced, left aligned.
     normal = doc.styles["Normal"]
     normal.font.name = "Times New Roman"
     normal.font.size = Pt(12)
     normal.paragraph_format.line_spacing = 2
     normal.paragraph_format.space_after = Pt(0)
 
-    for style_name in (
-        "Title",
-        "Heading 1",
-        "Heading 2",
-        "Heading 3",
-        "Heading 4",
-    ):
+    for style_name in ("Title", "Heading 1", "Heading 2", "Heading 3", "Heading 4"):
         if style_name in doc.styles:
             style = doc.styles[style_name]
             style.font.name = "Times New Roman"
@@ -161,7 +181,6 @@ def _format_document(doc: Document, *, appendix: bool) -> None:
         for run in paragraph.runs:
             _set_run_font(run, Pt(12))
 
-    # Main-document table bodies may be 10 pt and single spaced under Ecology.
     for table in doc.tables:
         table.autofit = True
         for row in table.rows:
