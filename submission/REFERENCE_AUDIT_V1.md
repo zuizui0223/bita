@@ -6,7 +6,7 @@ This audit covers the references actually cited by `manuscript/MANUSCRIPT_THEORE
 
 ## Current cited reference spine
 
-The candidate manuscript contains **21 bibliography entries**, all cited in the manuscript body and alphabetically ordered.
+The candidate manuscript contains **29 bibliography entries**, all cited in the manuscript body and alphabetically ordered.
 
 ### Mathematical / multivariate-selection foundation
 
@@ -78,6 +78,10 @@ The remaining expansion systems stay in the supplement evidence architecture and
 | Wu & Gao 2024 | *Journal of Plant Ecology* 17:rtad036; DOI `10.1093/jpe/rtad036` | primary source verified during expansion |
 | Zhou et al. 2020 | *Evolution* 74:1321–1334; DOI `10.1111/evo.13965` | primary source identity rechecked during expansion |
 
+## 2026-08-21 positioning-reference expansion
+
+Eight close conceptual/context references were added to support Background and Discussion positioning rather than to enlarge the empirical Pattern ledger: Adler (2008), Catford et al. (2022), Johnson et al. (2015), Kessler & Halitschke (2009), Lucas-Barbosa (2016), Rusman et al. (2018), Sletvold (2019), and Strauss & Whittall (2006). These references establish that attraction–defence conflict, allocation/pleiotropy hypotheses, multi-agent selection, and context dependence are prior art. Their manuscript role is to sharpen the narrower contribution: an elementary one-sided exclusion plus a mechanism-first evidence architecture.
+
 ## Known corrections preserved
 
 ### Stevenson et al. 2017
@@ -113,7 +117,7 @@ No scientific result depends on this editorial cleanup.
 
 `tests/test_manuscript_references.py` now requires:
 
-- exactly **21** bibliography entries;
+- exactly **29** bibliography entries;
 - alphabetical first-author order;
 - presence of all cited core and expansion anchors;
 - the Johnson et al. 2021 close-theory DOI;

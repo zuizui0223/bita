@@ -43,3 +43,7 @@ No change to the theorem, proof, 2,592 evaluations, 77.2% window precision, 56/2
 
 1. Oikos Forum — excellent conceptual fit, but requires a <=600-word presubmission proposal.
 2. Theoretical Ecology Regular Article — conservative scope-fit fallback; existing house-style assets are retained rather than deleted.
+
+## Literature-positioning refresh — 2026-08-21
+
+PASS. Close prior work on attraction/defence conflict, defence-reproduction coupling, multi-agent selection, and ecological context dependence is now explicit in the Introduction and Discussion. The manuscript does not claim that those topics are new. It explicitly communicates that the theorem's algebra is elementary and positions the conceptual advance as a mechanism-defined exclusion plus an ordered falsification/calibration programme.

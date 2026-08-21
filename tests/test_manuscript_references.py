@@ -51,6 +51,14 @@ def test_core_empirical_reference_identities_remain_present() -> None:
         "10.1093/jpe/rtad036",
         "10.1111/evo.13965",
         "10.1038/s41467-021-23177-x",
+        "10.1016/j.tree.2021.09.007",
+        "10.1525/california/9780520251328.003.0012",
+        "10.1146/annurev-ecolsys-112414-054215",
+        "10.1111/j.1365-2435.2009.01639.x",
+        "10.1016/j.tplants.2015.10.013",
+        "10.1111/1365-2435.13035",
+        "10.1086/705584",
+        "10.1093/oso/9780198570851.003.0007",
     ):
         assert doi in text
 
@@ -64,6 +72,14 @@ def test_cited_reference_spine_is_present_in_body_and_bibliography() -> None:
         "Herrera et al. 2002": "Herrera CM et al. (2002)",
         "Knauer et al. 2018": "Knauer AC, Bakhtiari M, Schiestl FP (2018)",
         "Johnson et al. 2021": "Johnson CA, Smith GP, Yule K, Davidowitz G, Bronstein JL, Ferrière R (2021)",
+        "Johnson et al. 2015": "Johnson MTJ, Campbell SA, Barrett SCH (2015)",
+        "Catford et al. 2022": "Catford JA, Wilson JRU, Pyšek P, Hulme PE, Duncan RP (2022)",
+        "Strauss and Whittall 2006": "Strauss SY, Whittall JB (2006)",
+        "Adler 2008": "Adler LS (2008)",
+        "Kessler and Halitschke 2009": "Kessler A, Halitschke R (2009)",
+        "Lucas-Barbosa 2016": "Lucas-Barbosa D (2016)",
+        "Rusman et al. 2018": "Rusman Q, Lucas-Barbosa D, Poelman EH (2018)",
+        "Sletvold 2019": "Sletvold N (2019)",
         "Strauss et al. 1999": "Strauss SY, Siemens DH, Decher MB, Mitchell-Olds T (1999)",
         "Theis and Adler 2012": "Theis N, Adler LS (2012)",
         "Wright et al. 2013": "Wright GA et al. (2013)",
@@ -88,6 +104,6 @@ def test_cited_reference_spine_is_present_in_body_and_bibliography() -> None:
 def test_bibliography_has_only_the_cited_reference_spine() -> None:
     _, refs = _split_manuscript()
     entries = [block for block in refs.strip().split("\n\n") if block.strip()]
-    assert len(entries) == 21
+    assert len(entries) == 29
     first_authors = [entry.split()[0] for entry in entries]
     assert first_authors == sorted(first_authors, key=str.casefold)
