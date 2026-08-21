@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from pathlib import Path
-import shutil
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
@@ -46,7 +45,7 @@ def _svg_defaults() -> None:
     plt.rcParams["svg.hashsalt"] = "bita-main-results-figures-4-5-v1"
 
 
-def build_figure_4(path: Path) -> None:
+def build_quantitative_figure(path: Path) -> None:
     """Quantitative evidence and direct-identification boundary, frozen results only."""
     _svg_defaults()
     fig = plt.figure(figsize=(9, 10))
@@ -149,18 +148,17 @@ def build_figure_4(path: Path) -> None:
     plt.close(fig)
 
 
-def build_figure_5(path: Path) -> None:
-    """Promote the frozen same-system route matrix from Supplement to Main."""
-    source = SUPP_FIG / "FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg"
-    if not source.exists():
-        raise FileNotFoundError(f"missing canonical same-system matrix: {source}")
-    shutil.copyfile(source, path)
-
-
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    build_figure_4(OUT / "FIGURE_4_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg")
-    build_figure_5(OUT / "FIGURE_5_SAME_SYSTEM_ROUTE_MATRIX.svg")
+    # Kept at the existing source path to avoid duplicating a frozen SVG solely for renumbering.
+    # In the Ecology Main Document this source is Figure 4.
+    build_quantitative_figure(OUT / "FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg")
+
+    # Main Figure 5 reuses the already frozen same-system matrix source directly.
+    # The submission builder points to this file; it is no longer packaged as a Supplement figure.
+    same_system = SUPP_FIG / "FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg"
+    if not same_system.exists():
+        raise FileNotFoundError(f"missing canonical same-system matrix: {same_system}")
 
 
 if __name__ == "__main__":
