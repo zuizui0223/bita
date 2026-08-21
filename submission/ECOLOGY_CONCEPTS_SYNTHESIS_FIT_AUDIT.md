@@ -21,7 +21,7 @@ The floral theorem remains biologically bounded. The generalization is the infer
 
 ## Rendered review-package audit
 
-The automated Ecology packaging workflow now builds and renders actual review files rather than stopping at Markdown/source checks.
+The automated Ecology packaging workflow builds and renders actual review files rather than stopping at Markdown/source checks.
 
 Current generated package state:
 
@@ -30,10 +30,11 @@ Current generated package state:
 - line-number target: Abstract through end of References only, with explicit suppression on title-page and post-References paragraphs for renderer parity;
 - page numbers: present;
 - Main tables: four compact journal-facing Word tables; exhaustive machine-readable records displaced to Open Research files;
-- Main figures: Figures 1–3 embedded, one figure page each;
+- Main figures: Figures 1–5 embedded, one figure page each;
+- Figures 4–5 are integrative visualizations of already frozen theory and empirical results, not additional analyses;
 - Supporting Information: one `Appendix S1.pdf` containing Figures S1–S4 plus its own References section;
 - spreadsheet-format supplementary records: separated into six descriptively named Open Research CSV products, not uploaded as Supporting Information;
-- current measured Main Document length before final author metadata: in the **31–50-page allowed range** and therefore accompanied by the required two-part cover-letter justification;
+- current measured Main Document length before final author metadata: **48 pages**, within the 31–50-page allowed range and therefore accompanied by the required two-part cover-letter justification;
 - current Appendix S1 length: six pages.
 
 The exact page count is remeasured by CI on every package build and must be rechecked after author-controlled metadata are inserted. The workflow fails if the Main Document exceeds 50 pages.
@@ -46,10 +47,10 @@ The exact page count is remeasured by CI on every package build and must be rech
 - Open Research statement on title page — PASS in generated review source
 - Acknowledgments / Author Contributions / Conflict of Interest / References order — PASS in generated review source
 - Tables in Main Document, each beginning on a new page — PASS
-- Figure captions grouped and main figures placed after captions — PASS
+- Figure captions grouped and five main figures placed after captions — PASS
 - Word equations retained as native document math — PASS
 - Continuous line-number OOXML present for the manuscript-through-References section — PASS structurally; rendered visual check required on the exact final human-metadata version
-- Concepts & Synthesis ≤50-page absolute ceiling — PASS on current generated review package
+- Concepts & Synthesis ≤50-page absolute ceiling — PASS at 48 pages on current generated review package
 - Required two-part justification for 31–50 pages — PASS in cover letter
 - Appendix S1 naming/callout architecture — PASS
 - Spreadsheet/large-table Open Research separation — PASS
@@ -66,7 +67,7 @@ The current published Author Guidelines do not support treating “exactly five 
 
 ## Scientific invariants preserved
 
-No change to the theorem, proof, 2,592 evaluations, 77.2% window precision, 56/25 Pattern architecture, Leal pooled results, Sasidharan boundaries, direct A×D state, joint-cost evidence state, or falsification/calibration distinction.
+No change to the theorem, proof, 2,592 evaluations, 77.2% window precision, 56/25 Pattern architecture, Leal pooled results, Sasidharan boundaries, direct A×D state, joint-cost evidence state, or falsification/calibration distinction. Figures 4–5 only reorganize these frozen results visually.
 
 ## Literature-positioning state
 
