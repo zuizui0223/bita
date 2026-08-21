@@ -1,0 +1,36 @@
+name: regenerate-main-figures-4-5-final
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/regenerate-main-figures-4-5-final.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    if: github.head_ref == 'agent/add-main-figures-4-5-v1'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/add-main-figures-4-5-v1
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Regenerate final portrait figures
+        run: |
+          python -m pip install matplotlib
+          python scripts/build_main_figures_4_5.py
+          test -s manuscript/figures/FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg
+          test -s manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg
+      - name: Commit generated SVGs only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add manuscript/figures/FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg \
+                  manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg
+          git diff --cached --quiet || git commit -m "Regenerate final portrait main Figures 4 and 5"
+          git push origin HEAD:agent/add-main-figures-4-5-v1
