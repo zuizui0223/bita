@@ -30,6 +30,7 @@ The floral theorem remains biologically bounded. The generalization is the infer
 - Additional AI disclosure in Acknowledgments — PASS
 - Ecology Concepts & Synthesis cover letter — PASS
 - Portal metadata target/article type synchronized — PASS
+- Focused claim/reference/journal-fit regression suite — PASS after updating the reference parser to terminate at the new Acknowledgments section
 - Continuous line numbering — PENDING FINAL WORD RENDER
 - <=30-page final formatted manuscript — PENDING FINAL WORD RENDER
 - title/author-list match across manuscript, portal, and supporting files — author fields PENDING
