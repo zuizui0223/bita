@@ -61,9 +61,6 @@ def test_open_research_and_esa_ai_disclosure_surfaces_are_present() -> None:
     text = MAN.read_text(encoding="utf-8")
     front = text.split("## Abstract", 1)[0]
     assert "**Open Research statement:**" in front
-    assert "immutable release" in front
-    assert "repository licence" in front
-    assert "archival DOI" in front
     methods = text.split("### 4.3 Computational and AI-assisted workflow transparency", 1)[1].split("## 5.", 1)[0]
     assert "OpenAI" in methods and "Anthropic" in methods
     ack = text.split("## Acknowledgments", 1)[1].split("## Statements and Declarations", 1)[0]
@@ -72,17 +69,22 @@ def test_open_research_and_esa_ai_disclosure_surfaces_are_present() -> None:
     assert "authors retain responsibility" in ack
 
 
-def test_ecology_cover_letter_has_conceptual_advance_and_five_reviewer_slots() -> None:
+def test_ecology_cover_letter_has_conceptual_advance_and_current_length_justification() -> None:
     text = COVER.read_text(encoding="utf-8")
     assert "Concepts & Synthesis" in text
     assert "constraint before pattern" in text
     assert "goes beyond review" in text
-    slots = re.findall(r"^[1-5]\. \[Name — institution — e-mail — expertise — conflict check\]$", text, flags=re.MULTILINE)
-    assert len(slots) == 5
+    assert "## 1. Broad ecological contribution of the additional length" in text
+    assert "## 2. Why the additional material cannot be moved adequately to Supporting Information" in text
+    assert "Potential reviewers, if requested by the submission portal" in text
+    assert "Complete the number and fields requested by ScholarOne" in text
+    assert not re.search(r"^[1-5]\. \[Name — institution — e-mail — expertise — conflict check\]$", text, flags=re.MULTILINE)
 
 
-def test_fit_audit_keeps_release_and_render_gates_open() -> None:
+def test_fit_audit_records_rendered_review_package_and_acceptance_stage_archive() -> None:
     text = FIT.read_text(encoding="utf-8")
-    assert "PENDING FINAL WORD RENDER" in text
-    assert "immutable release/licence/DOI still pending" in text
+    assert "Rendered review-package audit" in text
+    assert "Main Document" in text and "Appendix S1" in text
+    assert "31–50-page" in text
+    assert "acceptance-stage" in text
     assert "Scientific invariants preserved" in text

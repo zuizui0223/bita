@@ -12,17 +12,23 @@ The paper therefore goes beyond review in two ways. First, it converts a familia
 
 We believe this fits *Ecology*'s Concepts & Synthesis section because the contribution is a new synthesis logic rather than a taxon-specific catalogue. The transferable claim is **constraint before pattern**: in other multi-partner ecological systems, causal channels and sign premises would have to be re-derived, but the same mechanism-first sequence can organize heterogeneous evidence without manufacturing a universal mean effect.
 
-The scientific claims, numerical results, and evidence boundaries are frozen and fully versioned in the associated repository. The final immutable repository release, licence, archival DOI, author metadata, acknowledgments, and declarations will be completed before portal submission. AI-assisted work is transparently disclosed in the relevant Methods section and in Acknowledgments, with authors retaining responsibility for all content.
+The Ecology-formatted review version currently renders to **46 pages**, including the title page, references, four compact main-text tables, grouped figure captions, and three main-figure pages. Because this exceeds the standard 30-page Concepts & Synthesis target but remains within the journal's stated 31–50-page range, we provide the requested length justification below.
+
+## 1. Broad ecological contribution of the additional length
+
+The additional length is required to connect three inferential levels that are normally treated separately: a mechanism-defined one-sided constraint, a cross-system synthesis organized by that constraint, and explicit falsification/calibration experiments. The argument is intended to generalize as an inference workflow for context-dependent ecological interactions rather than as a flower-specific universal sign rule. Keeping the theorem premises, empirical evidence hierarchy, meta-analytic limits, and ecological interpretation visible in one Main Document is necessary for readers to judge where the generalization is structural, where it is biological recurrence, and where it remains unidentified.
+
+## 2. Why the additional material cannot be moved adequately to Supporting Information
+
+We have already moved exhaustive parameter grids, local-case records, the full 56-record mechanism ledger, conditionality records, direct-identification audits, and stopping-batch records to machine-readable Open Research files, and we restrict the reader-facing Appendix S1 to supporting figures. The remaining four Main Document tables are compact synthesis tables rather than raw-data appendices. Moving the theorem-facing definitions, the core verification summary, the empirical identification state, or the quantitative-module boundaries out of the Main Document would make the central Mechanism → Pattern argument difficult to audit and would separate claims from the evidence limitations that qualify them. The current 46-page package is therefore the compressed reader-facing version after the detailed records have already been displaced to Open Research materials.
+
+The scientific claims, numerical results, and evidence boundaries are frozen and fully versioned in the associated public repository. Novel code and review-stage data products are accessible there during peer review. A permanent, versioned archival deposition of the accepted data/code release will be created and cited at the acceptance stage in accordance with ESA Open Research policy. AI-assisted work is transparently disclosed in the relevant Methods section and in Acknowledgments, with authors retaining responsibility for all content.
 
 [Author confirmation required before submission: this manuscript is not under consideration elsewhere, all authors approve the submitted version, and all authors agree to submission to *Ecology*.]
 
-## Potential reviewers
+## Potential reviewers, if requested by the submission portal
 
-1. [Name — institution — e-mail — expertise — conflict check]
-2. [Name — institution — e-mail — expertise — conflict check]
-3. [Name — institution — e-mail — expertise — conflict check]
-4. [Name — institution — e-mail — expertise — conflict check]
-5. [Name — institution — e-mail — expertise — conflict check]
+[Complete the number and fields requested by ScholarOne. Do not infer reviewer identities from the repository.]
 
 ## Opposed reviewer, if justified
 
