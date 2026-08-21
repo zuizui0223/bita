@@ -73,13 +73,13 @@ def test_required_ai_assistance_disclosure_is_in_methods() -> None:
 def test_figure_captions_and_eps_names_match_journal_convention() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
     captions = text.split("## Figure captions\n\n", 1)[1].split("\n\n## Table captions", 1)[0]
-    for n in (1, 2, 3):
+    for n in (1, 2, 3, 4, 5):
         marker = f"**Fig. {n}**"
         assert marker in captions
         assert f"**Figure {n}." not in captions
     exporter = EXPORTER.read_text(encoding="utf-8")
-    assert 'outputs=("Fig1" "Fig2" "Fig3")' in exporter
-    assert "Fig1.eps, Fig2.eps, Fig3.eps" in exporter
+    assert 'outputs=("Fig1" "Fig2" "Fig3" "Fig4" "Fig5")' in exporter
+    assert "Fig1.eps, Fig2.eps, Fig3.eps, Fig4.eps, Fig5.eps" in exporter
     assert "prepare_submission_svg.py" in exporter
 
 
@@ -87,13 +87,13 @@ def test_main_text_calls_out_all_main_and_supplementary_assets() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
     body = text.split("## Figure captions", 1)[0]
 
-    for token in ("Fig. 1", "Fig. 2", "Fig. 3"):
+    for token in ("Fig. 1", "Fig. 2", "Fig. 3", "Fig. 4", "Fig. 5"):
         assert token in body, token
     for token in ("Table 1", "Table 2", "Table 3", "Table 4"):
         assert token in body, token
     for token in (
         "Supplementary Figs. S1–S2",
-        "Supplementary Figs. S3–S4",
+        "Supplementary Figs. S1–S3",
         "Tables S1–S2",
         "Tables S3–S6",
     ):

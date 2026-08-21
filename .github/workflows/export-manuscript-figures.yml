@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "manuscript/figures/**"
+      - "manuscript/supplementary/figures/FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg"
       - "scripts/export_manuscript_figures.sh"
       - ".github/workflows/export-manuscript-figures.yml"
   workflow_dispatch:
@@ -25,7 +26,9 @@ jobs:
           fi
           inkscape --version
       - name: Export and validate EPS figures
-        run: bash scripts/export_manuscript_figures.sh artifacts/manuscript_figures
+        run: |
+          bash scripts/export_manuscript_figures.sh artifacts/manuscript_figures
+          for n in 1 2 3 4 5; do test -s "artifacts/manuscript_figures/Fig${n}.eps"; done
       - uses: actions/upload-artifact@v4
         with:
           name: manuscript-figures-eps

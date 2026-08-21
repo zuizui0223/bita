@@ -57,9 +57,17 @@ The committed regression test `tests/test_committed_figure2.py` checks the figur
 
 **Interpretation boundary:** route counts, same-system counts, quantitative module results, and evidence gaps are shown as an evidence architecture. They are not algebraically combined into `W_AD`, and no count is interpreted as prevalence in nature.
 
+## Figure 4
+
+Main Figure 4 uses the existing frozen source `FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg`. The retained filename records its origin on PR #141; in the Ecology Main Document it is numbered Figure 4. It visualizes only frozen Leal and Sasidharan quantitative results, their inference boundaries, the one strict sign-unresolved total-outcome cluster, zero strict joint-cost estimates, and the two next empirical tests. It must not be interpreted as a pooled estimate of `W_AD`.
+
+## Figure 5
+
+Main Figure 5 reuses the frozen source `manuscript/supplementary/figures/FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg`. It displays the 14 independent same-system biological clusters and categorical presence of the four constituent route families. Its promotion to Main changes presentation hierarchy only; it adds no analysis and does not convert linked marginal routes into direct `A × D` evidence.
+
 ## Current EPS export validation
 
-The three committed SVG sources have passed a reproducible EPS vector-export workflow using Inkscape CLI with text converted to paths to prevent font substitution.
+The Ecology Main Document contains five figures; Figures 4–5 reuse frozen sources without duplicating them solely for renumbering. Figures 1–3 have already passed the existing reproducible EPS vector-export workflow using Inkscape CLI with text converted to paths to prevent font substitution; Figures 4–5 must be included when that export workflow is rerun from the final submission commit.
 
 Latest validated export containing the strengthened Figure 1:
 

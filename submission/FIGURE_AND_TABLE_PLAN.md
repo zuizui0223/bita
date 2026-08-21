@@ -5,6 +5,7 @@ The visual package must make the manuscript’s two-part scientific architecture
 ```text
 Part I — Mechanism: Figures 1–2, Tables 1–2
 Part II — Pattern:   Figure 3, Tables 3–4
+Part II — Pattern:   Figures 3–5, Tables 3–4
 ```
 
 ## Part I — Mechanism
@@ -120,6 +121,14 @@ direct joint cost:  0 strict estimates, kappa unidentified
 
 An explicit **IDENTIFICATION BOUNDARY** must separate the recurrent/meta-analytic Pattern evidence from direct identification of `W_AD`.
 
+### Figure 4. Quantitative evidence, identification boundary, and next tests
+
+**Purpose:** make the two reproduced quantitative modules visible in the Main Document while preserving their incompatible scales and explicit limitations. The figure shows the Leal pooled directions/prediction interval/moderator range, the Sasidharan assembled contrast/LOCO result and paired-role limitation, then terminates at the direct-identification gap and the 2 × 2 cost-test versus full-factorial calibration sequence.
+
+### Figure 5. Same-system route architecture
+
+**Purpose:** show that the constituent mechanisms are not only assembled across unrelated studies. Display the 14 independent biological clusters with linked route families as a categorical matrix. Presence is not an effect size and same-system linkage is not direct `A x D` evidence.
+
 ### Table 3. Cross-study Pattern scaffold
 
 Report the four route-family cluster counts, 14 same-system clusters, 17 context/sign-switch clusters, seven excluded context programs, direct `A x D` state, and direct joint-cost state. Explicitly state that this is a theory-to-Pattern scaffold rather than a pooled grand effect.
@@ -146,10 +155,7 @@ Analytic versus finite-difference derivative agreement for each endpoint-normali
 Scenario-specific mechanistic sign maps separated by response-shape variant.
 
 ### Figure S3
-Study-level same-system Pattern ledger as a categorical matrix.
-
-### Figure S4
-Quantitative robustness panels: Leal leave-one-cluster-out/sensitivity summaries and Sasidharan leave-one-study-component-out range. Keep metrics visually separate. **These robustness panels remain supplementary rather than being added to main Figure 3.**
+Quantitative robustness panels: Leal leave-one-cluster-out/sensitivity summaries and Sasidharan leave-one-study-component-out range. Keep metrics visually separate. **These robustness panels remain supplementary rather than being folded into Main Figure 4.**
 
 ### Table S1
 Complete parameter definitions, values, units or scaling, and biological interpretation.

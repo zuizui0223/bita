@@ -102,8 +102,11 @@ jobs:
           pdftotext "$MAIN_PDF" - | grep -q 'Concepts & Synthesis'
           pdftotext "$MAIN_PDF" - | grep -q 'Table 4'
           pdftotext "$MAIN_PDF" - | grep -q 'Figure 3'
+          pdftotext "$MAIN_PDF" - | grep -q 'Figure 4'
+          pdftotext "$MAIN_PDF" - | grep -q 'Figure 5'
           pdftotext "$APP_PDF" - | grep -q 'Appendix S1'
-          pdftotext "$APP_PDF" - | grep -q 'Figure S4'
+          pdftotext "$APP_PDF" - | grep -q 'Figure S3'
+          ! pdftotext "$APP_PDF" - | grep -q 'Figure S4'
           {
             echo "main_pages=$MAIN_PAGES"
             echo "appendix_pages=$APP_PAGES"
@@ -112,8 +115,8 @@ jobs:
             echo "main_format=Word DOCX, Letter, 1-inch margins, 12-pt Times New Roman, double-spaced prose"
             echo "line_number_scope=after title page through end of References"
             echo "main_tables=compact journal-facing Tables 1-4; exhaustive records moved to Open Research data"
-            echo "main_figures=Figures 1-3 embedded, one figure page each"
-            echo "appendix_format=single Appendix S1 PDF with Figures S1-S4; no spreadsheet Supporting Information"
+            echo "main_figures=Figures 1-5 embedded, one figure page each"
+            echo "appendix_format=single Appendix S1 PDF with Figures S1-S3; no spreadsheet Supporting Information"
             echo "open_research_data=machine-readable CSV package separated from Supporting Information"
           } > submission/ecology/generated/PACKAGE_QA_RECEIPT.txt
           if [ "$MAIN_PAGES" -gt 50 ]; then

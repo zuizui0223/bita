@@ -38,6 +38,8 @@ def test_main_submission_source_matches_ecology_component_order() -> None:
         "**Figure 1**",
         "**Figure 2**",
         "**Figure 3**",
+        "**Figure 4**",
+        "**Figure 5**",
     ]
     positions = [text.index(token) for token in ordered]
     assert positions == sorted(positions)
@@ -58,7 +60,7 @@ def test_ecology_submission_uses_appendix_callout_style() -> None:
     assert "Supplementary Figs." not in text
     assert "Tables S1–S6" not in text
     assert "Appendix S1: Figures S1–S2" in text
-    assert "Appendix S1: Figures S3–S4" in text
+    assert "Appendix S1: Figures S1–S3" in text
     assert "machine-readable Open Research data products" in text
 
 
@@ -66,8 +68,9 @@ def test_appendix_is_reader_facing_not_spreadsheet_container() -> None:
     text = builder.build_appendix_source()
     assert text.startswith("# Appendix S1")
     assert "**Journal:** Ecology" in text
-    for idx in range(1, 5):
+    for idx in range(1, 4):
         assert f"### Figure S{idx}" in text
+    assert "### Figure S4" not in text
     for idx in range(1, 7):
         assert f"Table S{idx}" not in text
     assert "machine-readable data products" in text
@@ -126,8 +129,22 @@ def test_compact_main_tables_preserve_frozen_submission_values() -> None:
 
 def test_over_30_page_cover_letter_has_required_two_part_justification() -> None:
     text = COVER.read_text(encoding="utf-8")
-    assert "currently renders to **46 pages**" in text
+    assert "currently renders to **48 pages**" in text
     assert "## 1. Broad ecological contribution of the additional length" in text
     assert "## 2. Why the additional material cannot be moved adequately to Supporting Information" in text
     assert "acceptance stage" in text
     assert "Potential reviewers, if requested by the submission portal" in text
+
+
+def test_main_figures_4_5_are_present_and_frozen() -> None:
+    quantitative = ROOT / "manuscript" / "figures" / "FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg"
+    same_system = ROOT / "manuscript" / "supplementary" / "figures" / "FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg"
+    overview = ROOT / "manuscript" / "figures" / "FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg"
+    assert quantitative.exists() and same_system.exists()
+    assert not overview.exists()
+    tq = quantitative.read_text(encoding="utf-8")
+    ts = same_system.read_text(encoding="utf-8")
+    for token in ("Floral larceny", "+0.129", "35/48", "0 strict estimates", "Ordered next tests"):
+        assert token in tq
+    for token in ("A → pollination", "D → pollination", "Rows are independent biological clusters"):
+        assert token in ts

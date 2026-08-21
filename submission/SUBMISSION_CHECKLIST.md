@@ -19,9 +19,10 @@ This checklist tracks only the **current submission gates**. Historical workflow
 
 ## 2. Reproducibility — PASS
 
-- [x] Normal CI passes on Python 3.10 / 3.11 / 3.12 on the Ecology packaging branch
+- [x] Normal CI passes on Python 3.10 / 3.11 / 3.12 on the Ecology packaging line
 - [x] `submission-scope` passes
 - [x] Main Figures 1–3 retain canonical SVG scientific sources and deterministic export machinery
+- [x] Main Figure 4 (Mechanism → Pattern overview) and Figure 5 (quantitative evidence / identification boundary) are generated from frozen manuscript-facing constants by `scripts/build_main_figures_4_5.py`; they introduce no new analysis
 - [x] Appendix Figures S1–S4 retain reproducible builders and committed canonical sources
 - [x] Canonical supplementary Tables S1–S6 remain reproducible machine-readable products
 - [x] Figure 2 and Appendix figures/tables retain regeneration/diff contracts
@@ -41,16 +42,17 @@ The review-package builder produces `MANUSCRIPT_ECOLOGY_SUBMISSION.docx` from th
 - [x] No blank page remains between References and Table 1
 - [x] Main Tables 1–4 are compact journal-facing views; exhaustive parameter/ledger/audit rows are not duplicated in the Main Document
 - [x] Figure captions are grouped after the tables
-- [x] Figures 1–3 are embedded and each begins on a separate page
+- [x] Figures 1–5 are embedded and each begins on a separate page
+- [x] Figures 4–5 provide reader-facing integration of already frozen theory and empirical results rather than new analyses
 - [x] Letter size, 1-inch margins, 12-pt Times New Roman, double-spaced prose
 - [x] Table bodies use compact 10-pt/single-spaced formatting
 - [x] Page numbers are present from the title-page section onward
 - [x] DOCX OOXML contains continuous line numbering for the Abstract-through-References section, with explicit paragraph-level suppression on the title page and post-References material for renderer parity
 - [x] Equations remain native Word/Pandoc math rather than raster equation images
-- [x] Rendered Main Document contains four Word tables and three embedded main figures
-- [x] Current Ecology-formatted review render = **46 pages**
-- [x] 46 pages is within the stated 31–50-page Concepts & Synthesis range
-- [x] Required two-part >30-page justification has been added to the Ecology cover letter
+- [x] Rendered Main Document contains four Word tables and five embedded main figures
+- [x] Current Ecology-formatted five-figure review render = **48 pages**
+- [x] 48 pages is within the stated 31–50-page Concepts & Synthesis range
+- [x] Required two-part >30-page justification has been synchronized to the five-figure 48-page package in the Ecology cover letter
 - [ ] Re-render and re-count after final author-controlled title-page/backmatter fields are inserted; final file must remain ≤50 pages
 
 ## 4. Ecology Supporting Information — GENERATED / STRUCTURAL PASS
@@ -86,8 +88,8 @@ A permanent archive DOI is therefore **not an initial-submission blocker** for t
 - [x] Names Ecology and Concepts & Synthesis
 - [x] States the one-sided mechanistic bound without overclaiming mathematical novelty
 - [x] Explains Mechanism → Pattern / constraint-before-pattern contribution
-- [x] Includes two numbered length-justification sections because the review render is 46 pages
-- [x] Explains that exhaustive tables/ledgers are already displaced to Open Research products
+- [x] Includes two numbered length-justification sections because the five-figure review render is 48 pages
+- [x] Explains that exhaustive tables/ledgers are already displaced to Open Research products and why the two integrative Main figures remain reader-facing
 - [x] Uses review-stage GitHub / acceptance-stage permanent-archive wording
 - [ ] Corresponding author signs the final letter
 - [ ] All authors confirm the submission/no-simultaneous-consideration statements
@@ -118,11 +120,11 @@ After the human-controlled fields are supplied:
 
 - [ ] build the exact review submission package again
 - [ ] confirm Main Document remains ≤50 pages
-- [ ] run normal CI, submission-scope, and Ecology package workflow
+- [ ] run normal CI, submission-scope, main-figure generation, figure export, and Ecology package workflow
 - [ ] visually inspect every page of the final rendered Main Document and Appendix S1
 - [ ] confirm portal title/abstract/authors/declarations/files match the frozen review package
 - [ ] submit through the authenticated Ecology ScholarOne portal
 
 ## Current decision
 
-**Science: GO / FROZEN. Main and Appendix source/package engineering: PASS. Current rendered review package: Main 46 pages + Appendix S1 6 pages, within the journal's stated page ceiling with the required >30-page cover-letter justification. External submission is now blocked primarily by author-controlled metadata/declarations/sign-off and final post-metadata visual QA, not by missing science or a pre-submission archive DOI.**
+**Science: GO / FROZEN. Main and Appendix source/package engineering: PASS. Current five-figure review package: Main 48 pages + Appendix S1 6 pages, within the journal's stated page ceiling with the required >30-page cover-letter justification. External submission is blocked primarily by author-controlled metadata/declarations/sign-off and final post-metadata visual QA, not by missing science or a pre-submission archive DOI.**

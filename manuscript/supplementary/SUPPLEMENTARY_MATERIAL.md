@@ -8,17 +8,14 @@ This reader-facing supplement belongs to the canonical 25-system Mechanism → P
 
 **Fig. S2** Scenario-specific mechanistic sign maps separated by endpoint-normalized response-shape variant. Each cell gives the unweighted fraction of complementary evaluations across the declared `A × D × R` coordinates for a fixed biological scenario, response shape, pollinator-service index `P`, and antagonist-pressure index `H`. Fractions describe occupancy of the finite declared grid, not prevalence in nature.
 
-**Fig. S3** Same-system route architecture across the saturated evidence universe. Rows are the 14 independent biological clusters with at least two linked marginal route families, or an explicit same-system linkage retained by the evidence audit. Filled cells indicate categorical route presence only; they are not effect sizes and do not constitute direct `A × D` evidence.
-
-**Fig. S4** Module-specific quantitative robustness. Panel A retains the three canonical Leal et al. (2025) DerSimonian–Laird pooled log-response-ratio patterns, their extreme heterogeneity, and the declared leave-one-cluster-out direction stability. The lower inset adds the registered sensitivity analysis using the same independent-cluster inputs with REML heterogeneity estimation and modified Hartung–Knapp intervals: female reproductive success remains below zero (REML `-0.2048`, mHK CI `[-0.3318, -0.0777]`), nectar standing crop remains below zero (`-0.4894`, `[-0.7948, -0.1840]`), and legitimate visitation remains below zero but is explicitly **borderline to zero** (`-0.2879`, `[-0.5756, -0.00018]`). These sensitivity intervals do not replace the canonical pooled estimates and do not remove the biological heterogeneity. Panel B reports the Sasidharan et al. (2023) assembled physiological-detection contrast and the minimum, median, and maximum leave-one-study-component-out contrasts. The two modules retain different metrics and dependence structures and are not pooled into one effect or an estimate of `W_AD`.
+**Fig. S3** Module-specific quantitative robustness. Panel A retains the three canonical Leal et al. (2025) DerSimonian–Laird pooled log-response-ratio patterns, their extreme heterogeneity, and the declared leave-one-cluster-out direction stability. The lower inset adds the registered sensitivity analysis using the same independent-cluster inputs with REML heterogeneity estimation and modified Hartung–Knapp intervals: female reproductive success remains below zero (REML `-0.2048`, mHK CI `[-0.3318, -0.0777]`), nectar standing crop remains below zero (`-0.4894`, `[-0.7948, -0.1840]`), and legitimate visitation remains below zero but is explicitly **borderline to zero** (`-0.2879`, `[-0.5756, -0.00018]`). These sensitivity intervals do not replace the canonical pooled estimates and do not remove the biological heterogeneity. Panel B reports the Sasidharan et al. (2023) assembled physiological-detection contrast and the minimum, median, and maximum leave-one-study-component-out contrasts. The two modules retain different metrics and dependence structures and are not pooled into one effect or an estimate of `W_AD`.
 
 Canonical SVG targets:
 
 ```text
 manuscript/supplementary/figures/FIGURE_S1_DERIVATIVE_AGREEMENT.svg
 manuscript/supplementary/figures/FIGURE_S2_SCENARIO_SIGN_MAPS.svg
-manuscript/supplementary/figures/FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg
-manuscript/supplementary/figures/FIGURE_S4_QUANTITATIVE_ROBUSTNESS.svg
+manuscript/supplementary/figures/manuscript/supplementary/figures/FIGURE_S4_QUANTITATIVE_ROBUSTNESS.svg  # reader-facing Fig. S3 source
 ```
 
 ## Supplementary Tables
