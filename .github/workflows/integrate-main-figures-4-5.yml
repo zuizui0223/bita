@@ -29,14 +29,18 @@ jobs:
       - name: Run focused regressions
         run: |
           python -m pytest -q tests/test_ecology_submission_packaging.py tests/test_claim_freeze.py
-      - name: Remove one-time integration helpers
-        run: |
-          git rm -f scripts/_integrate_main_figures_4_5_tmp.py
-          git rm -f .github/workflows/integrate-main-figures-4-5.yml
-      - name: Commit integrated figure package
+      - name: Commit non-workflow integration files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
+          git add manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md \
+                  manuscript/figures/FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg \
+                  manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg \
+                  manuscript/figures/README.md \
+                  scripts/build_main_figures_4_5.py \
+                  scripts/build_ecology_submission_sources.py \
+                  tests/test_ecology_submission_packaging.py \
+                  SUPPLEMENT_MANIFEST.md \
+                  submission/FIGURE_AND_TABLE_PLAN.md
           git commit -m "Integrate main Figures 4 and 5 into manuscript"
           git push origin HEAD:agent/add-main-figures-4-5-v1
