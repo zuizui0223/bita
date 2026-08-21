@@ -58,7 +58,8 @@ def _replace_supplement_callouts(text: str) -> str:
         "Supplementary Fig. S3": "Appendix S1: Figure S3",
         "Supplementary Fig. S4": "Appendix S1: Figure S4",
         "Supplementary Figs. S1–S2": "Appendix S1: Figures S1–S2",
-        "Supplementary Figs. S3–S4": "Appendix S1: Figures S3–S4",
+        "Supplementary Fig. S3": "Appendix S1: Figure S3",
+        "Supplementary Figs. S1–S3": "Appendix S1: Figures S1–S3",
     }
     for old, new in replacements.items():
         text = text.replace(old, new)
@@ -145,17 +146,17 @@ def build_main_submission_source() -> str:
     tables = _table_submission_text()
 
     figure_pages = []
-    figure_names = {
-        1: "MECHANISTIC_ARCHITECTURE",
-        2: "THEORY_REGIME_MAP",
-        3: "EMPIRICAL_MECHANISM_ARCHITECTURE",
-        4: "MECHANISM_PATTERN_OVERVIEW",
-        5: "QUANTITATIVE_IDENTIFICATION_BOUNDARY",
+    figure_paths = {
+        1: "../../../manuscript/figures/FIGURE_1_MECHANISTIC_ARCHITECTURE.svg",
+        2: "../../../manuscript/figures/FIGURE_2_THEORY_REGIME_MAP.svg",
+        3: "../../../manuscript/figures/FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg",
+        4: "../../../manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg",
+        5: "../../../manuscript/supplementary/figures/FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg",
     }
     for idx in range(1, 6):
         figure_pages.append(
             f"{PAGEBREAK}\n\n**Figure {idx}**\n\n"
-            f"![](../../../manuscript/figures/FIGURE_{idx}_{figure_names[idx]}.svg)"
+            f"![]({figure_paths[idx]})"
         )
 
     parts = [
@@ -204,7 +205,7 @@ def build_appendix_source() -> str:
     )
 
     captions = []
-    for idx in range(1, 5):
+    for idx in range(1, 4):
         pat = re.compile(
             rf"\*\*Fig\. S{idx}\*\*\s*(.+?)(?=\n\n\*\*Fig\. S|\n\nCanonical SVG targets:)",
             re.S,
@@ -218,10 +219,9 @@ def build_appendix_source() -> str:
     names = {
         1: "FIGURE_S1_DERIVATIVE_AGREEMENT.svg",
         2: "FIGURE_S2_SCENARIO_SIGN_MAPS.svg",
-        3: "FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg",
-        4: "FIGURE_S4_QUANTITATIVE_ROBUSTNESS.svg",
+        3: "FIGURE_S4_QUANTITATIVE_ROBUSTNESS.svg",
     }
-    for idx in range(1, 5):
+    for idx in range(1, 4):
         figure_blocks.append(
             f"{PAGEBREAK}\n\n### Figure S{idx}\n\n{captions[idx - 1]}\n\n"
             f"![](../../../manuscript/supplementary/figures/{names[idx]})"

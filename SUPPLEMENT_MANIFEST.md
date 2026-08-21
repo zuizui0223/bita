@@ -242,18 +242,17 @@ Supplement assets:
 - `manuscript/supplementary/SUPPLEMENTARY_MATERIAL.md`
 - `manuscript/supplementary/figures/FIGURE_S1_DERIVATIVE_AGREEMENT.svg`
 - `FIGURE_S2_SCENARIO_SIGN_MAPS.svg`
-- `FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg`
-- `FIGURE_S4_QUANTITATIVE_ROBUSTNESS.svg`
+- `FIGURE_S4_QUANTITATIVE_ROBUSTNESS.svg` (reader-facing Fig. S3 source)
 - `manuscript/supplementary/tables/` for Tables S1–S6.
 
-The manuscript now contains explicit callouts for Figures 1–3, Tables 1–4, Supplementary Figures S1–S4, and Tables S1–S6.
+The manuscript now contains explicit callouts for Figures 1–3, Tables 1–4, Supplementary Figures S1–S3, and Tables S1–S6.
 
 All nine figure sources have been rendered and visually inspected. Layout defects identified in Fig. 2, Fig. S1, Fig. S2, and Fig. S4 were corrected in their builders and regenerated without changing scientific values.
 
 Active reproducibility contracts now:
 
 - rebuild and diff committed Figure 2 against the frozen 2,592-evaluation analysis;
-- rebuild Supplementary Figures S1–S4 and Tables S1–S6 on the current PR state and diff them against the committed package;
+- rebuild Supplementary Figures S1–S3 and Tables S1–S6 on the current PR state and diff them against the committed package;
 - export and validate submission-form EPS for Figures 1–3.
 
 ## 12. Deliberately not promoted

@@ -39,7 +39,7 @@ replacement = (
     "**Fig. 4** Quantitative evidence, identification boundary, and next empirical tests. The Leal et al. floral-larceny module shows negative pooled directions for female fitness, nectar standing crop, and legitimate visitation while retaining a female-fitness prediction interval spanning both signs and weak moderator explanation. The Sasidharan et al. floral-volatile module retains a positive assembled florivore-minus-pollinator contrast under all leave-one-component-out refits but lacks a paired within-study consumer-role difference. Neither module estimates \\(\\rho\\), \\(\\iota\\), \\(\\kappa\\), or total \\(W_{AD}\\). The remaining direct-identification state is one strict sign-unresolved total-outcome cluster and zero strict joint-cost estimates, motivating first a 2 × 2 cost assay for the sign of \\(\\kappa\\), then a full attraction × defence factorial for total and channel-resolved calibration.\n\n"
     "**Fig. 5** Same-system route architecture across the saturated evidence universe. Rows are the 14 independent biological clusters with at least two linked marginal route families, or an explicit same-system linkage retained by the evidence audit. Filled cells indicate categorical presence of A → pollination, A → antagonism, D → antagonism, and D → pollination routes. The matrix shows recurrence of linked constituent mechanisms within biological systems; cells are not effect sizes and do not constitute direct \\(A\\times D\\) evidence."
 )
-text, n = caption_pattern.subn(replacement, text, count=1)
+text, n = caption_pattern.subn(lambda _m: replacement, text, count=1)
 if n != 1:
     raise RuntimeError("failed to replace Fig. 4–5 captions")
 write(path, text)
@@ -66,7 +66,7 @@ replacement = (
     "## Figure 5\n\n"
     "Main Figure 5 reuses the frozen source `manuscript/supplementary/figures/FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg`. It displays the 14 independent same-system biological clusters and categorical presence of the four constituent route families. Its promotion to Main changes presentation hierarchy only; it adds no analysis and does not convert linked marginal routes into direct `A × D` evidence.\n"
 )
-text, n = pattern.subn(replacement, text, count=1)
+text, n = pattern.subn(lambda _m: replacement, text, count=1)
 if n != 1:
     raise RuntimeError("failed to rewrite figure provenance 4–5")
 text = text.replace("The five committed SVG sources are the canonical Main-figure sources.", "The Ecology Main Document contains five figures; Figures 4–5 reuse frozen sources without duplicating them solely for renumbering.")
@@ -95,7 +95,7 @@ new_fig_block = '''    figure_pages = []
             f"![]({figure_paths[idx]})"
         )
 '''
-text, n = fig_block.subn(new_fig_block, text, count=1)
+text, n = fig_block.subn(lambda _m: new_fig_block, text, count=1)
 if n != 1:
     raise RuntimeError("failed to replace main figure path block")
 text = text.replace("for idx in range(1, 5):", "for idx in range(1, 4):", 2)
@@ -151,7 +151,7 @@ new_test = '''def test_main_figures_4_5_are_present_and_frozen() -> None:
     for token in ("A → pollination", "D → pollination", "Rows are independent biological clusters"):
         assert token in ts
 '''
-text, n = old_test.subn(new_test, text, count=1)
+text, n = old_test.subn(lambda _m: new_test, text, count=1)
 if n != 1:
     raise RuntimeError("failed to replace figure 4–5 packaging test")
 write(path, text)

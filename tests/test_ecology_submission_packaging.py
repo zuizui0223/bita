@@ -60,7 +60,7 @@ def test_ecology_submission_uses_appendix_callout_style() -> None:
     assert "Supplementary Figs." not in text
     assert "Tables S1–S6" not in text
     assert "Appendix S1: Figures S1–S2" in text
-    assert "Appendix S1: Figures S3–S4" in text
+    assert "Appendix S1: Figure S3" in text
     assert "machine-readable Open Research data products" in text
 
 
@@ -68,8 +68,9 @@ def test_appendix_is_reader_facing_not_spreadsheet_container() -> None:
     text = builder.build_appendix_source()
     assert text.startswith("# Appendix S1")
     assert "**Journal:** Ecology" in text
-    for idx in range(1, 5):
+    for idx in range(1, 4):
         assert f"### Figure S{idx}" in text
+    assert "### Figure S4" not in text
     for idx in range(1, 7):
         assert f"Table S{idx}" not in text
     assert "machine-readable data products" in text
@@ -136,12 +137,14 @@ def test_over_30_page_cover_letter_has_required_two_part_justification() -> None
 
 
 def test_main_figures_4_5_are_present_and_frozen() -> None:
-    fig4 = ROOT / "manuscript" / "figures" / "FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg"
-    fig5 = ROOT / "manuscript" / "figures" / "FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg"
-    assert fig4.exists() and fig5.exists()
-    t4 = fig4.read_text(encoding="utf-8")
-    t5 = fig5.read_text(encoding="utf-8")
-    for token in ("Mechanism before Pattern", "2,592 evaluations", "56 route records", "25 independent clusters"):
-        assert token in t4
+    quantitative = ROOT / "manuscript" / "figures" / "FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg"
+    same_system = ROOT / "manuscript" / "supplementary" / "figures" / "FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg"
+    overview = ROOT / "manuscript" / "figures" / "FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg"
+    assert quantitative.exists() and same_system.exists()
+    assert not overview.exists()
+    tq = quantitative.read_text(encoding="utf-8")
+    ts = same_system.read_text(encoding="utf-8")
     for token in ("Floral larceny", "+0.129", "35/48", "0 strict estimates", "Next tests"):
-        assert token in t5
+        assert token in tq
+    for token in ("A → pollination", "D → pollination", "Rows are independent biological clusters"):
+        assert token in ts
