@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Repair LaTeX escapes in temporary patcher
+      - name: Repair temporary patcher literals and regression wording
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -31,10 +31,42 @@ jobs:
           prefix, suffix = s.split(marker, 1)
           prefix = re.sub(r'(?<!\\)\\(times|rho|iota|kappa|ge)', r'\\\\\1', prefix)
           prefix = re.sub(r'(?<!\\)\\([()])', r'\\\\\1', prefix)
-          p.write_text(prefix + marker + suffix, encoding='utf-8')
+          s = prefix + marker + suffix
+          s = s.replace(
+              'attraction-defence balance, non-additivity, trade-offs, ecological costs, and context-dependent evolutionary outcomes are not new ideas',
+              'attraction-defence balance, non-additivity, trade-offs, and context-dependent evolutionary outcomes are not new ideas',
+          )
+          s = s.replace(
+              'assert "not a reopening of broad Pattern evidence discovery" in audit',
+              'assert "reopening of broad Pattern evidence discovery" in audit',
+          )
+          p.write_text(s, encoding='utf-8')
           PY
       - name: Apply bounded ecological interpretation and literature polish
         run: python scripts/_apply_ecological_interpretation_polish_tmp.py
+      - name: Synchronize Ecology portal abstract and reference audit
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          man_path = Path('manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md')
+          portal_path = Path('submission/AUTHOR_AND_PORTAL_METADATA_TEMPLATE.md')
+          audit_path = Path('submission/REFERENCE_AUDIT_V1.md')
+          man = man_path.read_text(encoding='utf-8')
+          abstract = man.split('## Abstract\n\n', 1)[1].split('\n\n**Keywords:**', 1)[0].strip()
+          portal = portal_path.read_text(encoding='utf-8')
+          before, rest = portal.split('### Abstract\n\n', 1)
+          _, after = rest.split('\n\n### Keywords', 1)
+          portal_path.write_text(before + '### Abstract\n\n' + abstract + '\n\n### Keywords' + after, encoding='utf-8')
+
+          audit = audit_path.read_text(encoding='utf-8')
+          audit = audit.replace('contains **21 bibliography entries**', 'contains **29 bibliography entries**')
+          audit = audit.replace('exactly **21** bibliography entries', 'exactly **29** bibliography entries')
+          marker = '## Known corrections preserved\n'
+          block = '''## 2026-08-21 positioning-reference expansion\n\nEight close conceptual/context references were added to support Background and Discussion positioning rather than to enlarge the empirical Pattern ledger: Adler (2008), Catford et al. (2022), Johnson et al. (2015), Kessler & Halitschke (2009), Lucas-Barbosa (2016), Rusman et al. (2018), Sletvold (2019), and Strauss & Whittall (2006). These references establish that attraction–defence conflict, allocation/pleiotropy hypotheses, multi-agent selection, and context dependence are prior art. Their manuscript role is to sharpen the narrower contribution: an elementary one-sided exclusion plus a mechanism-first evidence architecture.\n\n'''
+          if '## 2026-08-21 positioning-reference expansion' not in audit:
+              audit = audit.replace(marker, block + marker, 1)
+          audit_path.write_text(audit, encoding='utf-8')
+          PY
       - name: Restore canonical CI and remove temporary script
         run: |
           git checkout origin/main -- .github/workflows/ci.yml
@@ -58,6 +90,8 @@ jobs:
             tests/test_ecological_interpretation_and_simplicity.py \
             docs/BACKGROUND_NOVELTY_GAP_REVIEW.md \
             submission/ECOLOGY_CONCEPTS_SYNTHESIS_FIT_AUDIT.md \
+            submission/AUTHOR_AND_PORTAL_METADATA_TEMPLATE.md \
+            submission/REFERENCE_AUDIT_V1.md \
             .github/workflows/ci.yml
           git commit -m "Polish ecological interpretation and prior-art positioning"
           git push origin HEAD:agent/ecological-interpretation-polish-v1
