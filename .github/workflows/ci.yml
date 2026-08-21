@@ -37,6 +37,10 @@ jobs:
               'attraction-defence balance, non-additivity, trade-offs, and context-dependent evolutionary outcomes are not new ideas',
           )
           s = s.replace(
+              'the focal one-sided exclusion used here',
+              'the focal one-sided exclusion rule used here',
+          )
+          s = s.replace(
               'assert "not a reopening of broad Pattern evidence discovery" in audit',
               'assert "reopening of broad Pattern evidence discovery" in audit',
           )
