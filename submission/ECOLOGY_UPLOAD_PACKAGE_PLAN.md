@@ -38,7 +38,7 @@ Formatting target and current automated state:
 - page numbers from the title page onward;
 - continuous line numbering beginning after the title page and continuing through the end of References, with explicit suppression outside that region for renderer parity;
 - native Word/Pandoc equations rather than equation images;
-- four compact journal-facing Main tables and three embedded main figures.
+- four compact journal-facing Main tables and five embedded main figures.
 
 Concepts & Synthesis length rule:
 
@@ -46,9 +46,9 @@ Concepts & Synthesis length rule:
 - 31–50 pages: allowed only with the required two-part cover-letter justification;
 - >50 pages: outside the stated allowable range.
 
-**Measured review-package state (2026-08-21): 46 Main Document pages with all three figures rendered.** Table 1 now begins immediately after the post-References section break, so there is no duplicate blank page. The required two-part length justification is present in `submission/COVER_LETTER_ECOLOGY_CONCEPTS_SYNTHESIS.md`. The final page count must be rechecked after author-controlled title-page/backmatter fields are inserted.
+**Measured five-figure review-package state (2026-08-21): 48 Main Document pages with all five figures rendered.** Table 1 begins immediately after the post-References section break, so there is no duplicate blank page. The required two-part length justification is synchronized in `submission/COVER_LETTER_ECOLOGY_CONCEPTS_SYNTHESIS.md`. The final page count must be rechecked after author-controlled title-page/backmatter fields are inserted.
 
-## 2. Main-table compression
+## 2. Main-table and figure presentation
 
 The canonical scientific tables remain in `manuscript/TABLES_THEORETICAL_ECOLOGY.md`. The Ecology review package uses `submission/ecology/ECOLOGY_MAIN_TABLES_COMPACT.md` as a journal-facing view:
 
@@ -57,7 +57,15 @@ The canonical scientific tables remain in `manuscript/TABLES_THEORETICAL_ECOLOGY
 - Table 3: route recurrence and identification state;
 - Table 4: quantitative/direct-factorial evidence and limitations.
 
-No frozen value is changed. Exhaustive parameter rows, local cases, route ledgers, context records, direct audits, and stopping batches are supplied as machine-readable Open Research products instead of consuming Main Document pages.
+The five Main figures now separate mechanism, theory, empirical architecture, and integration:
+
+- Figure 1: mechanistic attraction–defence architecture;
+- Figure 2: theoretical sign regimes / selectivity window;
+- Figure 3: empirical evidence architecture and identification boundary;
+- Figure 4: whole-paper Mechanism → Pattern inference overview;
+- Figure 5: quantitative evidence, unresolved coordinates, and ordered next tests.
+
+Figures 4–5 are presentation-only syntheses generated from the frozen manuscript-facing values; they do not add a new analysis. Exhaustive parameter rows, local cases, route ledgers, context records, direct audits, and stopping batches are supplied as machine-readable Open Research products instead of consuming Main Document pages.
 
 ## 3. Supporting Information
 
@@ -121,10 +129,11 @@ The workflow `.github/workflows/build-ecology-submission-package.yml`:
 2. converts it to Word with native Pandoc equations;
 3. applies Letter size, margins, Times New Roman, spacing, page numbers, and the requested line-number scope;
 4. verifies the DOCX contains line-number OOXML, four Word tables, and embedded media;
-5. builds a single Appendix S1 PDF;
-6. separates machine-readable CSV data from Supporting Information;
-7. renders Main and Appendix to PDF and records exact page counts;
-8. fails above 50 Main Document pages and records whether the 31–50-page length justification is required;
-9. uploads the review package as a workflow artifact.
+5. verifies Figures 1–5 are present in the rendered Main Document;
+6. builds a single Appendix S1 PDF;
+7. separates machine-readable CSV data from Supporting Information;
+8. renders Main and Appendix to PDF and records exact page counts;
+9. fails above 50 Main Document pages and records whether the 31–50-page length justification is required;
+10. uploads the review package as a workflow artifact.
 
 The canonical scientific manuscript remains the source of truth. This packaging layer changes journal formatting, compact presentation, and file placement only; it does not change the frozen theorem, numerical results, Pattern counts, meta-analytic estimates, or inference boundaries.
