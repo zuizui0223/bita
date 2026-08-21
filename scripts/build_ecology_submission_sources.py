@@ -9,8 +9,6 @@ ROOT = Path(__file__).resolve().parents[1]
 MANUSCRIPT = ROOT / "manuscript" / "MANUSCRIPT_THEORETICAL_ECOLOGY.md"
 TABLES = ROOT / "manuscript" / "TABLES_THEORETICAL_ECOLOGY.md"
 SUPPLEMENT = ROOT / "manuscript" / "supplementary" / "SUPPLEMENTARY_MATERIAL.md"
-SUPP_FIG_DIR = ROOT / "manuscript" / "supplementary" / "figures"
-MAIN_FIG_DIR = ROOT / "manuscript" / "figures"
 SUPP_TABLE_DIR = ROOT / "manuscript" / "supplementary" / "tables"
 OUT = ROOT / "submission" / "ecology" / "generated"
 DATA_OUT = OUT / "open_research_data"
@@ -43,8 +41,6 @@ def _subsection(text: str, heading: str, next_headings: tuple[str, ...]) -> str:
 
 
 def _normalize_acknowledgments(text: str, funding: str) -> str:
-    # Ecology requests a compact Acknowledgments paragraph. Preserve placeholders
-    # and the AI disclosure, but collapse blank-line paragraph boundaries.
     chunks = [c.strip() for c in re.split(r"\n\s*\n", text) if c.strip()]
     if funding:
         chunks.insert(1 if chunks else 0, funding)
@@ -79,8 +75,11 @@ def _table_submission_text() -> str:
     text = TABLES.read_text(encoding="utf-8")
     text = text.split("## Table 1.", 1)[1]
     text = "## Table 1." + text
-    # Each table must begin on a new page in Ecology's Main Document.
-    text = re.sub(r"(?m)^## Table ([1-4])\.", lambda m: f"{PAGEBREAK}\n\n## Table {m.group(1)}.", text)
+    text = re.sub(
+        r"(?m)^## Table ([1-4])\.",
+        lambda m: f"{PAGEBREAK}\n\n## Table {m.group(1)}.",
+        text,
+    )
     return text.strip()
 
 
@@ -144,11 +143,15 @@ def build_main_submission_source() -> str:
     tables = _table_submission_text()
 
     figure_pages = []
+    figure_names = {
+        1: "MECHANISTIC_ARCHITECTURE",
+        2: "THEORY_REGIME_MAP",
+        3: "EMPIRICAL_MECHANISM_ARCHITECTURE",
+    }
     for idx in range(1, 4):
         figure_pages.append(
             f"{PAGEBREAK}\n\n**Figure {idx}**\n\n"
-            f"![](../../../manuscript/figures/FIGURE_{idx}_"
-            f"{'MECHANISTIC_ARCHITECTURE' if idx == 1 else 'THEORY_REGIME_MAP' if idx == 2 else 'EMPIRICAL_MECHANISM_ARCHITECTURE'}.svg)"
+            f"![](../../../manuscript/figures/FIGURE_{idx}_{figure_names[idx]}.svg)"
         )
 
     parts = [
@@ -216,34 +219,32 @@ def build_appendix_source() -> str:
     }
     for idx in range(1, 5):
         figure_blocks.append(
-            f"{PAGEBREAK}\n\n### Figure S{idx}\n\n{captions[idx-1]}\n\n"
+            f"{PAGEBREAK}\n\n### Figure S{idx}\n\n{captions[idx - 1]}\n\n"
             f"![](../../../manuscript/supplementary/figures/{names[idx]})"
         )
+    figures_joined = "\n\n".join(figure_blocks)
 
-    return f"""# Appendix S1
-
-{authors.group(0)}
-
-**Manuscript title:** {title}
-
-**Journal:** Ecology
-
-## Section S1: Scope and inference boundary
-
-This appendix contains reader-facing supporting figures for the Mechanism → Pattern paper. It preserves the same inference boundary as the Main Document: finite-grid occupancy is not empirical prevalence; marginal or same-system route evidence is not a direct estimate of \(W_{{AD}}\); and zero strict joint-cost estimates means \(\kappa\) is unidentified, not zero.
-
-The complete parameter grid, local-case records, route ledger, conditionality records, direct-identification audits, and registered stopping batches are machine-readable data products rather than Appendix tables. Under ESA's Open Research policy these spreadsheet-format records belong in the external data/code repository, not in the Supporting Information file list. Their descriptive mapping is provided in the Open Research data manifest generated with this submission package.
-
-## Section S2: Supporting figures
-
-{"\n\n".join(figure_blocks)}
-
-{PAGEBREAK}
-
-## References
-
-{appendix_refs}
-"""
+    return (
+        "# Appendix S1\n\n"
+        + authors.group(0)
+        + "\n\n**Manuscript title:** "
+        + title
+        + "\n\n**Journal:** Ecology\n\n"
+        + "## Section S1: Scope and inference boundary\n\n"
+        + "This appendix contains reader-facing supporting figures for the Mechanism → Pattern paper. "
+        + "It preserves the same inference boundary as the Main Document: finite-grid occupancy is not empirical prevalence; "
+        + "marginal or same-system route evidence is not a direct estimate of \\(W_{AD}\\); and zero strict joint-cost estimates means \\(\\kappa\\) is unidentified, not zero.\n\n"
+        + "The complete parameter grid, local-case records, route ledger, conditionality records, direct-identification audits, and registered stopping batches are machine-readable data products rather than Appendix tables. "
+        + "Under ESA's Open Research policy these spreadsheet-format records belong in the external data/code repository, not in the Supporting Information file list. "
+        + "Their descriptive mapping is provided in the Open Research data manifest generated with this submission package.\n\n"
+        + "## Section S2: Supporting figures\n\n"
+        + figures_joined
+        + "\n\n"
+        + PAGEBREAK
+        + "\n\n## References\n\n"
+        + appendix_refs
+        + "\n"
+    )
 
 
 def build_open_research_manifest() -> str:
@@ -273,7 +274,9 @@ def build_open_research_manifest() -> str:
         "|---|---|---|",
     ]
     for public_name, source_name, description in rows:
-        lines.append(f"| `{public_name}` | `manuscript/supplementary/tables/{source_name}` | {description} |")
+        lines.append(
+            f"| `{public_name}` | `manuscript/supplementary/tables/{source_name}` | {description} |"
+        )
     lines += [
         "",
         "The exact immutable archival DOI is an acceptance-stage field. During peer review, the public GitHub repository may provide access to novel code; the final accepted version should be archived in a permanent versioned repository such as Zenodo or an equivalent service and cited in the final paper.",
