@@ -1,124 +1,92 @@
-# Target journal strategy — one-sided Mechanism → Pattern paper
+# Target journal strategy — mechanism-first Concepts & Synthesis paper
 
-## First target
+## Primary target
 
-**Theoretical Ecology — Regular Article**
+**Ecology — Concepts & Synthesis**
 
 Canonical title:
 
 > **When are floral attraction and defence complementary? A one-sided mechanistic bound and cross-system patterns**
 
-## Why the paper fits
+## Why the paper now fits this section
 
-The submission is built around an ecological question rather than a mathematical object: when do floral attraction and flower-specific antagonist reduction reinforce rather than obstruct one another?
+The manuscript is not a conventional review and not a theory paper followed by empirical validation. It uses a floral attraction–defence problem to develop a broader inference strategy for ecology under strong context dependence:
 
-The paper has two linked but inferentially distinct parts:
+1. define the focal interaction and its causal channels;
+2. derive a one-sided exclusion before asking where the positive state occurs;
+3. let the theory define the evidence classes used in synthesis;
+4. map recurrence and switching without forcing heterogeneous outcomes onto one common effect scale;
+5. convert the remaining uncertainty into an ordered falsification and calibration programme.
 
-> **Part I — Mechanism:** derive the local channel balance, non-identifiability boundary, and the one-sided selectivity theorem.
->
-> **Part II — Pattern:** ask which mechanism-derived routes and switching architectures recur across systems, using quantitative synthesis only where effect scales are compatible.
+This matches the current Ecology Concepts & Synthesis expectation that papers conceptually advance ecology, go beyond the literature being reviewed, and provide new syntheses, directions, or resolutions of old questions. Ecology also explicitly prioritizes generalizations potentially applicable beyond one species or system. The manuscript meets that generality requirement by making **constraint before pattern** the transferable contribution while keeping the floral inequality itself biologically bounded.
 
-The central theoretical contribution is not the mixed partial itself and not the bookkeeping identity
+## Scientific spine to foreground
+
+The bookkeeping identity is
 
 ```text
 W_AD = rho - iota - kappa
 ```
 
-but the stronger one-sided result:
+but the structural contribution is one-sided:
 
 ```text
 if kappa >= 0 and W_AD > 0, then rho > iota
 ```
 
-Thus complementarity cannot occur outside the selectivity window under the declared premise. The converse is false. Across 2,592 declared evaluations there are zero counterexamples to the forward implication, while window precision is 77.2%.
+Under non-negative direct joint-cost curvature, complementarity cannot occur outside the selectivity window where antagonist relief exceeds pollinator interference. The converse fails; about 23% of tested in-window evaluations remain substitutable.
 
-## Empirical role
-
-Part II is not presented as validation or calibration of total `W_AD`. Its role is to establish what is recurrent, what switches with context, whether the antagonist-pressure gate is open in nature, and which parameters remain unidentified.
-
-Canonical Pattern state:
+Part II then asks whether the mechanism classes defined by Part I recur. The frozen empirical state remains:
 
 ```text
 56 route-level records
 25 independent biological study clusters
-A -> pollination:         5
-A -> antagonism:          8
-D -> antagonism:         18
-D -> pollination:        10
 same-system multi-route: 14
 context/sign-switch:     17
-context-only programs:    7  (excluded from route-ledger N)
+context-only programs:    7, outside route-ledger N
+direct total A x D:       1 strict sign-unresolved cluster
+direct joint cost:        0 strict estimates
 ```
 
-The Leal floral-larceny module shows an average antagonist-pressure cost but strong system dependence: female-fitness LRR about `-0.210` across 48 clusters, 35/48 negative, prediction interval about `-1.13` to `+0.71`, and declared moderators explaining only 0–8% of heterogeneity.
+The Leal larceny reanalysis supports an average antagonist-pressure cost but strong context dependence; it does not estimate `rho`, `iota`, `kappa`, or total `W_AD`. The Sasidharan module supports shared consumer tracking at the assembled cross-study level but not a causal paired consumer-role difference.
 
-The paper therefore supports:
+## Concepts & Synthesis positioning
 
-> **a one-sided mechanistic theorem plus recurrent but context-dependent empirical Pattern**
+The cover letter and Abstract should lead with four points:
 
-not a universal positive or negative sign of `W_AD`.
+1. **old problem resolved more sharply:** context-dependent net effects are replaced by a mechanistic exclusion boundary;
+2. **new synthesis logic:** Mechanism -> Pattern, not Pattern -> mechanism and not theory -> validation;
+3. **broad conceptual use:** the transferable object is the inference workflow, not a universal floral sign rule;
+4. **constructive endpoint:** uncertainty is compressed to a cheap 2 x 2 joint-cost falsification gate followed, only when needed, by a full channel-resolved factorial.
 
-## Strongest novelty position
+Do not sell the elementary algebra as mathematical novelty. Do not claim that attraction-defence balance, correlational selection, pollinator-herbivore non-additivity, defence-associated pollination costs, or context dependence are new.
 
-The manuscript should foreground five contributions, in this order:
+## Ecology initial-submission requirements to enforce
 
-1. **one-sided selectivity bound** — a necessary permissive region rather than a two-sided sign criterion;
-2. **exact failure mode** — sufficiently negative joint-cost curvature is the unique escape route from the bound in the declared family;
-3. **tractable falsification gate** — a 2 × 2 joint-allocation experiment can test the sign of the decisive cost interaction before a harder full fitness factorial;
-4. **mechanism-facing inference architecture** — antagonist relief, pollinator interference, and joint cost are kept distinct after an explicit orientation gate, with total-fitness non-identifiability made explicit;
-5. **Mechanism → Pattern synthesis architecture** — incompatible outcomes are not forced into one grand effect, while recurrence, same-system linkage, switching, and direct-identification gaps are mapped separately.
+Current Ecology author guidance (revised April 2026) requires or states for Concepts & Synthesis:
 
-Do not claim novelty for correlational selection, cross-trait curvature, attraction exposing plants to antagonists, defence carrying pollination costs, pollinator–herbivore nonadditivity, or context dependence itself.
+- manuscript page limit: 30 pages for normal submissions; manuscripts over 30 pages require a detailed cover-letter justification;
+- Abstract limit: 350 words;
+- keywords: 6-12, alphabetical;
+- continuous line numbering on all manuscript pages;
+- manuscript title and author list must match the ScholarOne form and supporting information;
+- Open Research statement on the title page and in the portal;
+- AI use beyond ordinary spelling/grammar editing must be disclosed in the relevant manuscript section, again in Acknowledgments, and in the submission form.
 
-## Reviewer-risk positioning
-
-### “The theorem is mathematically immediate.”
-
-Agree. The contribution is ecological: extracting a response-shape-robust impossibility boundary, rejecting the intuitive two-sided rule, and identifying the specific biological assumption that can break the bound.
-
-### “The selectivity window is circular.”
-
-It is defined from relief versus interference before joint cost is charged and is **not** claimed to predict complementarity by itself. Its value is the one-sided implication and falsifiable failure mode.
-
-### “Part II does not estimate the theory parameters.”
-
-Correct and intentional. Proposition 1 and the evidence hierarchy prohibit relabelling marginal route evidence as `rho`, `iota`, `kappa`, or total `W_AD`.
-
-### “The route ledger is not a meta-analysis.”
-
-Correct. It is a source-adjudicated Pattern scaffold. Meta-analysis is reserved for effect-compatible modules.
-
-### “The H-gate is too heterogeneous for prediction.”
-
-The heterogeneity is the result: the gate can be open on average but its realised state varies, and current coarse moderators do not locate the window reliably in a new system.
-
-### “`c_AD` is assumed rather than measured.”
-
-Correct. Non-negative joint cost is a declared premise, not established biology. The theorem identifies exactly how to falsify its applicability for a focal trait pair.
-
-## Editorial priorities before external submission
-
-1. keep the title and Abstract centered on the one-sided bound;
-2. keep the Introduction short enough that Theorem 1 arrives as the first clear payoff;
-3. preserve the distinction between structural theorem, finite-grid verification, and empirical Pattern;
-4. avoid allowing the Sasidharan or secondary contextual modules to dominate the paper's main arc;
-5. keep the Discussion organized around what became general, what recurs, what remains context dependent, and what experiment comes next;
-6. end on the 2 × 2 falsification gate versus the full `A × D` calibration factorial, not generic calls for more data.
+The source manuscript is kept under the 350-word Abstract maximum and retains six alphabetized keywords. Continuous line numbering is a final rendered-file task. Immutable release/licence/DOI fields remain author-controlled blockers.
 
 ## Submission cascade
 
-Current order:
-
 ```text
-scientific freeze
-→ repository cleanup / claim freeze
-→ reader-facing manuscript paperization
-→ synchronized portal metadata and cover letter
-→ final rendered-file QA
-→ author-controlled metadata/declarations/reviewer/licence completion
-→ immutable release + archival DOI
-→ final release-commit CI/export
-→ authenticated Theoretical Ecology submission
+Ecology — Concepts & Synthesis
+    ↓ if declined or rejected on fit/general reach
+Oikos — Forum (requires a <=600-word presubmission proposal)
+    ↓
+Theoretical Ecology — Regular Article
 ```
 
-No additional broad evidence search is a default prerequisite for submission.
+The Oikos fallback is strong because Forum explicitly seeks conceptual unification, synthesis across boundaries, theory development, and tractable future research directions. Theoretical Ecology remains the conservative scope-fit fallback.
+
+## Current decision
+
+Scientific state remains **GO / FROZEN**. No additional broad evidence search is required for the Ecology upgrade. The remaining work is journal-facing presentation, author-controlled metadata/declarations/reviewers/licence, immutable release/archive DOI, final line-numbered Word rendering, and authenticated portal submission.

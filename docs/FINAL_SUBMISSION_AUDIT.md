@@ -10,6 +10,8 @@ The canonical manuscript is:
 
 The governing scientific claim is a **one-sided mechanistic theorem plus a recurrent but context-dependent empirical Pattern**.
 
+Primary submission target after journal-fit re-evaluation: **Ecology — Concepts & Synthesis**, with Oikos Forum and Theoretical Ecology retained as ordered fallbacks. This target change does not alter the frozen scientific claims.
+
 ## Integrated scientific spine
 
 For one declared floral attraction trait `A`, one declared flower-specific antagonist-reducing trait `D`, and one declared outcome scale `W`, the local `A × D` mixed partial is interpreted only after explicit channel definitions and an orientation gate.

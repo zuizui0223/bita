@@ -1,4 +1,4 @@
-# Theoretical Ecology submission checklist — canonical paperization state
+# Ecology Concepts & Synthesis submission checklist — canonical paperization state
 
 This checklist tracks only the **current submission gates**. Historical workflow IDs, source-recovery chronology, and superseded manuscript states belong in the audit/receipt files and Git history rather than in this live checklist.
 
@@ -44,13 +44,13 @@ This checklist tracks only the **current submission gates**. Historical workflow
 
 - [x] Title foregrounds the one-sided mechanistic bound
 - [x] Abstract is synchronized between manuscript and portal metadata
-- [x] Abstract stays within the current repository-enforced journal word limit and defines “log response ratio”
+- [x] Abstract remains under Ecology's 350-word Concepts & Synthesis maximum and defines “log response ratio”
 - [x] Introduction is shortened while retaining prior-art and inference boundaries
 - [x] Integration is compressed around generality, non-identifiability, context, and falsification-before-calibration
 - [x] Conclusion ends on a concrete falsification/calibration programme rather than generic “more data are needed” language
 - [x] Cover letter foregrounds the one-sided bound and does not present the route ledger as a grand meta-analysis
-- [x] Six keywords remain synchronized
-- [x] AI-assisted workflow disclosure remains in Methods with author responsibility explicit
+- [x] Six alphabetized keywords remain synchronized and satisfy Ecology's 6–12 keyword requirement
+- [x] AI-assisted workflow disclosure remains in Methods and is duplicated in Acknowledgments, with author responsibility explicit
 - [x] Reader-facing human read completed for repetition, notation, transitions, and figure/table callouts
 - [x] Main-text callouts cover Figures 1–3, Tables 1–4, Supplementary Figures S1–S4, and Tables S1–S6
 - [x] All seven main/supplementary figures were rendered and visually inspected; real layout collisions in Fig. 2, Fig. S1, Fig. S2, and Fig. S4 were corrected and rechecked
@@ -68,9 +68,16 @@ This checklist tracks only the **current submission gates**. Historical workflow
 - [x] `W_AD` alone != trait covariance, genetic correlation, evolutionary trajectory, or stable optimum
 - [x] A 2 × 2 cost experiment tests the focal trait-pair applicability gate; it does not prove global universality
 
-## 5. References and journal-facing structure — PASS / final check pending
+## 5. Ecology journal-facing structure — SOURCE PASS / final-render checks pending
 
 - [x] Current scientific reference spine is citation-presence regression-tested
+- [x] Title page carries a provisional Open Research statement with immutable release/licence/DOI explicitly pending
+- [x] Abstract remains below the 350-word Concepts & Synthesis limit
+- [x] Six keywords are alphabetized and within the required 6–12 range
+- [x] AI use is disclosed in the relevant Methods section and again in Acknowledgments
+- [x] Ecology Concepts & Synthesis cover letter is present
+- [ ] Add continuous line numbering to every page of the final Word submission
+- [ ] Confirm final formatted manuscript remains within 30 pages or add the required >30-page cover-letter justification
 - [x] Statements and Declarations follow References
 - [x] Funding, competing interests, author contributions, and data/code availability headings are present
 - [x] Figure captions use journal-compatible `Fig. n` structure
@@ -103,7 +110,7 @@ Do not infer or auto-fill these fields.
 - [ ] Re-run final CI / submission-scope / figure / supplement workflows from the release commit
 - [ ] Insert exact release commit, tag, DOI, and licence into Data and code availability
 - [ ] Render and visually inspect final upload files
-- [ ] Upload through authenticated journal portal
+- [ ] Upload through the authenticated Ecology ScholarOne portal
 - [ ] Confirm portal title, abstract, authors, declarations, reviewers, figures, supplement, and data/code fields match the frozen files
 
 ## Current decision
