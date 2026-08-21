@@ -20,6 +20,19 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Repair LaTeX escapes in temporary patcher
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path('scripts/_apply_ecological_interpretation_polish_tmp.py')
+          s = p.read_text(encoding='utf-8')
+          marker = '# Bibliography insertions'
+          prefix, suffix = s.split(marker, 1)
+          prefix = re.sub(r'(?<!\\)\\(times|rho|iota|kappa|ge)', r'\\\\\1', prefix)
+          prefix = re.sub(r'(?<!\\)\\([()])', r'\\\\\1', prefix)
+          p.write_text(prefix + marker + suffix, encoding='utf-8')
+          PY
       - name: Apply bounded ecological interpretation and literature polish
         run: python scripts/_apply_ecological_interpretation_polish_tmp.py
       - name: Restore canonical CI and remove temporary script
