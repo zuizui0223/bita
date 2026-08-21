@@ -34,7 +34,7 @@ The review-package builder produces `MANUSCRIPT_ECOLOGY_SUBMISSION.docx` from th
 
 - [x] Title page contains journal name `Ecology`
 - [x] Title page contains manuscript type `Concepts & Synthesis`
-- [x] Title page contains title, author/affiliation placeholders, corresponding-author placeholder, Open Research statement, and six alphabetized key words/phrases
+- [x] Title page contains title, author/affiliation placeholders, corresponding-author placeholder, a concise review-stage Open Research statement, and six alphabetized key words/phrases
 - [x] Abstract begins after the title page
 - [x] Backmatter is ordered for Ecology: Acknowledgments → Author Contributions → Conflict of Interest Statement → References
 - [x] Tables 1–4 are in the Main Document and each begins on a new page
@@ -44,11 +44,11 @@ The review-package builder produces `MANUSCRIPT_ECOLOGY_SUBMISSION.docx` from th
 - [x] Letter size, 1-inch margins, 12-pt Times New Roman, double-spaced prose
 - [x] Table bodies use compact 10-pt/single-spaced formatting
 - [x] Page numbers are present from the title-page section onward
-- [x] DOCX OOXML contains continuous line numbering for the Abstract-through-References section and no line numbering for title-page or post-References sections
+- [x] DOCX OOXML contains continuous line numbering for the Abstract-through-References section, with explicit paragraph-level suppression on the title page and post-References material for renderer parity
 - [x] Equations remain native Word/Pandoc math rather than raster equation images
 - [x] Rendered Main Document contains four Word tables and three embedded main figures
-- [x] Current Ecology-formatted review render = **48 pages**
-- [x] 48 pages is within the stated 31–50-page Concepts & Synthesis range
+- [x] Current Ecology-formatted review render = **47 pages**
+- [x] 47 pages is within the stated 31–50-page Concepts & Synthesis range
 - [x] Required two-part >30-page justification has been added to the Ecology cover letter
 - [ ] Re-render and re-count after final author-controlled title-page/backmatter fields are inserted; final file must remain ≤50 pages
 
@@ -85,7 +85,7 @@ A permanent archive DOI is therefore **not an initial-submission blocker** for t
 - [x] Names Ecology and Concepts & Synthesis
 - [x] States the one-sided mechanistic bound without overclaiming mathematical novelty
 - [x] Explains Mechanism → Pattern / constraint-before-pattern contribution
-- [x] Includes two numbered length-justification sections because the review render is 48 pages
+- [x] Includes two numbered length-justification sections because the review render is 47 pages
 - [x] Explains that exhaustive tables/ledgers are already displaced to Open Research products
 - [x] Uses review-stage GitHub / acceptance-stage permanent-archive wording
 - [ ] Corresponding author signs the final letter
@@ -124,4 +124,4 @@ After the human-controlled fields are supplied:
 
 ## Current decision
 
-**Science: GO / FROZEN. Main and Appendix source/package engineering: PASS. Current rendered review package: Main 48 pages + Appendix S1 6 pages, within the journal's stated page ceiling with the required >30-page cover-letter justification. External submission is now blocked primarily by author-controlled metadata/declarations/sign-off and final post-metadata visual QA, not by missing science or a pre-submission archive DOI.**
+**Science: GO / FROZEN. Main and Appendix source/package engineering: PASS. Current rendered review package: Main 47 pages + Appendix S1 6 pages, within the journal's stated page ceiling with the required >30-page cover-letter justification. External submission is now blocked primarily by author-controlled metadata/declarations/sign-off and final post-metadata visual QA, not by missing science or a pre-submission archive DOI.**
