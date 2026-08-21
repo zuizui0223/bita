@@ -43,6 +43,15 @@ def test_main_submission_source_matches_ecology_component_order() -> None:
     assert positions == sorted(positions)
 
 
+def test_table_page_breaks_do_not_create_blank_page_after_references() -> None:
+    text = builder._table_submission_text()
+    assert text.startswith("## Table 1.")
+    assert not text.startswith(builder.PAGEBREAK)
+    for idx in range(2, 5):
+        assert f"{builder.PAGEBREAK}\n\n## Table {idx}." in text
+    assert text.count(builder.PAGEBREAK) == 3
+
+
 def test_ecology_submission_uses_appendix_callout_style() -> None:
     text = builder.build_main_submission_source()
     assert "Supplementary Fig." not in text
