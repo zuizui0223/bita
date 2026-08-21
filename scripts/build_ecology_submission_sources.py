@@ -75,8 +75,10 @@ def _table_submission_text() -> str:
     text = TABLES.read_text(encoding="utf-8")
     text = text.split("## Table 1.", 1)[1]
     text = "## Table 1." + text
+    # REF_SECTION_BREAK already starts Table 1 on a new page. Only Tables 2–4
+    # need explicit page breaks; adding one before Table 1 creates a blank page.
     text = re.sub(
-        r"(?m)^## Table ([1-4])\.",
+        r"(?m)^## Table ([2-4])\.",
         lambda m: f"{PAGEBREAK}\n\n## Table {m.group(1)}.",
         text,
     )
