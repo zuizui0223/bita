@@ -2,7 +2,6 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-INPUT_DIR="$ROOT/manuscript/figures"
 OUTPUT_DIR="${1:-$ROOT/artifacts/manuscript_figures}"
 PREP_DIR="$(mktemp -d)"
 trap 'rm -rf "$PREP_DIR"' EXIT
@@ -15,14 +14,16 @@ if ! command -v inkscape >/dev/null 2>&1; then
 fi
 
 sources=(
-  "FIGURE_1_MECHANISTIC_ARCHITECTURE"
-  "FIGURE_2_THEORY_REGIME_MAP"
-  "FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE"
+  "$ROOT/manuscript/figures/FIGURE_1_MECHANISTIC_ARCHITECTURE.svg"
+  "$ROOT/manuscript/figures/FIGURE_2_THEORY_REGIME_MAP.svg"
+  "$ROOT/manuscript/figures/FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg"
+  "$ROOT/manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg"
+  "$ROOT/manuscript/supplementary/figures/FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg"
 )
-outputs=("Fig1" "Fig2" "Fig3")
+outputs=("Fig1" "Fig2" "Fig3" "Fig4" "Fig5")
 
 for i in "${!sources[@]}"; do
-  src="$INPUT_DIR/${sources[$i]}.svg"
+  src="${sources[$i]}"
   prepared="$PREP_DIR/${outputs[$i]}.svg"
   dst="$OUTPUT_DIR/${outputs[$i]}.eps"
 
@@ -34,9 +35,6 @@ for i in "${!sources[@]}"; do
   python "$ROOT/scripts/prepare_submission_svg.py" "$src" "$prepared"
   test -s "$prepared"
 
-  # Theoretical Ecology prefers EPS for vector graphics and requests figure
-  # filenames of the form Fig1.eps, Fig2.eps, ... . Converting text to paths
-  # avoids submission-time font substitution while preserving vector geometry.
   inkscape "$prepared" \
     --export-filename="$dst" \
     --export-type=eps \
@@ -48,12 +46,22 @@ for i in "${!sources[@]}"; do
 done
 
 cat > "$OUTPUT_DIR/README.txt" <<'EOF'
-Theoretical Ecology manuscript figure export artifact
+Ecology Concepts & Synthesis manuscript figure export artifact
 
-Canonical source of truth: manuscript/figures/*.svg
+Canonical result-first Main hierarchy:
+- Fig1: mechanistic architecture and inference boundary
+- Fig2: finite theory regime / selectivity-window result
+- Fig3: cross-system Pattern architecture
+- Fig4: quantitative evidence and identification boundary
+- Fig5: same-system route architecture
+
+Source files remain at their reproducibility locations; Fig4 reuses the frozen quantitative SVG
+originally introduced under the Figure-5 filename, and Fig5 reuses the frozen same-system matrix
+source originally stored under supplementary/figures. They are not duplicated solely for numbering.
+
 Submission preprocessing: visible outer figure title removed; panel labels, equations,
 annotations, and accessibility metadata retained
-Submission filenames: Fig1.eps, Fig2.eps, Fig3.eps
+Submission filenames: Fig1.eps, Fig2.eps, Fig3.eps, Fig4.eps, Fig5.eps
 Export format: EPS vector graphics
 Exporter: Inkscape CLI
 Text handling: converted to paths to avoid font substitution
@@ -61,6 +69,8 @@ Text handling: converted to paths to avoid font substitution
 Interpretation guardrails remain those stated in the manuscript figure captions:
 - Fig. 2 percentages are finite-grid occupancies, not prevalence.
 - Fig. 3 is an evidence architecture; marginal evidence is not W_AD.
+- Fig. 4 quantitative modules retain incompatible metrics and do not estimate W_AD.
+- Fig. 5 linked marginal routes are not direct A x D evidence.
 EOF
 
 printf 'Exported submission-ready EPS figures to %s\n' "$OUTPUT_DIR"
