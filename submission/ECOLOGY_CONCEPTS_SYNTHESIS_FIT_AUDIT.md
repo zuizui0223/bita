@@ -23,7 +23,7 @@ The floral theorem remains biologically bounded. The generalization is the infer
 
 ## Source-level requirement audit
 
-- Abstract: <350 words — PASS
+- Abstract: <350 words — PASS; also remains within the repository's <=250-word fallback gate
 - Keywords: 6–12 and alphabetical — PASS (6)
 - Provisional Open Research statement on title page — PASS; immutable release/licence/DOI still pending
 - Section-specific AI disclosure — PASS
@@ -31,6 +31,7 @@ The floral theorem remains biologically bounded. The generalization is the infer
 - Ecology Concepts & Synthesis cover letter — PASS
 - Portal metadata target/article type synchronized — PASS
 - Focused claim/reference/journal-fit regression suite — PASS after updating the reference parser to terminate at the new Acknowledgments section
+- Full post-polish repository test suite — PASS inside the finalization gate
 - Continuous line numbering — PENDING FINAL WORD RENDER
 - <=30-page final formatted manuscript — PENDING FINAL WORD RENDER
 - title/author-list match across manuscript, portal, and supporting files — author fields PENDING
@@ -43,3 +44,11 @@ No change to the theorem, proof, 2,592 evaluations, 77.2% window precision, 56/2
 
 1. Oikos Forum — excellent conceptual fit, but requires a <=600-word presubmission proposal.
 2. Theoretical Ecology Regular Article — conservative scope-fit fallback; existing house-style assets are retained rather than deleted.
+
+## Literature-positioning refresh — 2026-08-21
+
+PASS. Close prior work on attraction/defence conflict, defence-reproduction coupling, multi-agent selection, and ecological context dependence is now explicit in the Introduction and Discussion. The manuscript does not claim that those topics are new. It explicitly communicates that the theorem's algebra is elementary and positions the conceptual advance as a mechanism-defined exclusion plus an ordered falsification/calibration programme.
+
+Final close-precedent check added McCall & Irwin (2006) and Egan et al. (2021); the latter is explicitly distinguished as a factorial manipulation of ecological agents rather than the focal attraction × defence trait interaction. Broad Pattern evidence search remained closed.
+
+This user-authored audit commit triggers the normal repository CI and submission-scope gates on the final post-polish branch state.

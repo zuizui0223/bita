@@ -87,3 +87,13 @@ Rusman Q, Lucas-Barbosa D, Poelman EH (2018) Dealing with mutualists and antagon
 Sletvold N (2019) The context dependence of pollinator-mediated selection in natural populations. *International Journal of Plant Sciences* 180:934–943. https://doi.org/10.1086/705584
 
 Strauss SY, Whittall JB (2006) Non-pollinator agents of selection on floral traits. In: Harder LD, Barrett SCH (eds) *Ecology and Evolution of Flowers*, pp 120–138. Oxford University Press. https://doi.org/10.1093/oso/9780198570851.003.0007
+
+
+## 6. Final close-precedent additions
+
+Two further sources were added after a second targeted search:
+
+- McCall & Irwin (2006) explicitly framed florivory as the intersection of pollination and herbivory, including direct reproductive damage, indirect pollination pathways, and application of plant-defence theory to flowers. It is therefore foundational prior art for the biological problem, not evidence for the present one-sided theorem.
+- Egan et al. (2021) used a full-factorial manipulation of herbivory and pollination to quantify interactive selection on defence- and attraction-related traits. This is a particularly close empirical precedent. Its manipulated factors are ecological agents, however, rather than a factorial manipulation of one focal attraction trait and one focal defence trait; it therefore sharpens rather than closes the present `A × D` identification gap.
+
+No further broad Pattern search was opened. The audit remains a manuscript-positioning exercise.

@@ -181,3 +181,7 @@ It is weak if presented as:
 > proof that attraction and defence commonly coevolve, a universal ecological law, or an empirically validated regime map.
 
 The strongest paper is therefore narrower, more explicit about assumptions, and more useful as a guide to experimental design.
+
+## 2026-08-21 close-prior-art refresh
+
+A targeted positioning audit added the closest attraction-defence and context-dependence lineage: Strauss & Whittall (2006), Adler (2008), Kessler & Halitschke (2009), Johnson et al. (2015), Lucas-Barbosa (2016), Rusman et al. (2018), Sletvold (2019), and Catford et al. (2022). These sources strengthen the prior-art boundary rather than the novelty claim. The manuscript now states explicitly that the algebra is elementary and that the contribution is the ecological one-sided exclusion, failed converse, and falsification gate. Broad Pattern evidence search remains closed.
