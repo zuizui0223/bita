@@ -30,7 +30,6 @@ def test_known_reference_corrections_are_preserved() -> None:
         "Fenster CB, Armbruster WS",
         "Harder LD, Johnson SD",
         "Krupnick GA, Weis AE, Campbell DR",
-        "McCall AC, Irwin RE",
         "Mothershead K, Marquis RJ",
         "Schiestl FP, Johnson SD",
     ):
@@ -59,6 +58,8 @@ def test_core_empirical_reference_identities_remain_present() -> None:
         "10.1111/1365-2435.13035",
         "10.1086/705584",
         "10.1093/oso/9780198570851.003.0007",
+        "10.1111/j.1461-0248.2006.00975.x",
+        "10.1002/evl3.262",
     ):
         assert doi in text
 
@@ -80,6 +81,8 @@ def test_cited_reference_spine_is_present_in_body_and_bibliography() -> None:
         "Lucas-Barbosa 2016": "Lucas-Barbosa D (2016)",
         "Rusman et al. 2018": "Rusman Q, Lucas-Barbosa D, Poelman EH (2018)",
         "Sletvold 2019": "Sletvold N (2019)",
+        "McCall and Irwin 2006": "McCall AC, Irwin RE (2006)",
+        "Egan et al. 2021": "Egan PA, Muola A, Parachnowitsch AL, Stenberg JA (2021)",
         "Strauss et al. 1999": "Strauss SY, Siemens DH, Decher MB, Mitchell-Olds T (1999)",
         "Theis and Adler 2012": "Theis N, Adler LS (2012)",
         "Wright et al. 2013": "Wright GA et al. (2013)",
@@ -104,6 +107,6 @@ def test_cited_reference_spine_is_present_in_body_and_bibliography() -> None:
 def test_bibliography_has_only_the_cited_reference_spine() -> None:
     _, refs = _split_manuscript()
     entries = [block for block in refs.strip().split("\n\n") if block.strip()]
-    assert len(entries) == 29
+    assert len(entries) == 31
     first_authors = [entry.split()[0] for entry in entries]
     assert first_authors == sorted(first_authors, key=str.casefold)

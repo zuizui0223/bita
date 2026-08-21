@@ -5,46 +5,7 @@ on:
     branches: [main]
   pull_request:
 
-permissions:
-  contents: write
-
 jobs:
-  apply-final-polish:
-    if: github.event_name == 'pull_request' && github.head_ref == 'agent/ecological-interpretation-polish-v1'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: agent/ecological-interpretation-polish-v1
-          fetch-depth: 0
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Apply final bounded literature polish
-        run: python scripts/_finalize_ecological_lit_polish_tmp.py
-      - name: Restore canonical CI and remove temporary helper
-        run: |
-          git checkout origin/main -- .github/workflows/ci.yml
-          git rm -f scripts/_finalize_ecological_lit_polish_tmp.py
-      - name: Run full tests
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install -e '.[dev]'
-          pytest -q
-      - name: Commit final bounded polish
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md \
-            submission/AUTHOR_AND_PORTAL_METADATA_TEMPLATE.md \
-            submission/REFERENCE_AUDIT_V1.md \
-            submission/ECOLOGY_CONCEPTS_SYNTHESIS_FIT_AUDIT.md \
-            docs/LITERATURE_POSITIONING_AUDIT_2026-08-21.md \
-            tests/test_manuscript_references.py \
-            .github/workflows/ci.yml
-          git commit -m "Finalize ecological interpretation and close prior-art audit"
-          git push origin HEAD:agent/ecological-interpretation-polish-v1
-
   tests:
     runs-on: ubuntu-latest
     strategy:
