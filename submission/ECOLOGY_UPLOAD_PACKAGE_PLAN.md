@@ -6,7 +6,7 @@ Guidance basis: Ecology Author Guidelines revised April 2026 and ESA Open Resear
 
 ## 1. Main Document
 
-The generated Main Document must use the journal component order:
+The generated Main Document uses the journal component order:
 
 1. title page
    - journal name: Ecology
@@ -26,43 +26,60 @@ The generated Main Document must use the journal component order:
 9. Figure captions, grouped together on a new page
 10. Figures, one figure per page
 
-Formatting target:
+Formatting target and current automated state:
 
 - Word `.docx` Main Document;
 - Letter 8.5 × 11 in, portrait;
 - 1-inch margins;
 - 12-pt Times New Roman;
 - double-spaced manuscript prose, references, captions, and table captions/notes;
-- table bodies may use 10-pt Times New Roman and single spacing;
+- 10-pt single-spaced table bodies;
 - left-aligned text;
 - page numbers from the title page onward;
-- continuous line numbering beginning after the title page and continuing through the end of References.
+- continuous line numbering beginning after the title page and continuing through the end of References;
+- native Word/Pandoc equations rather than equation images;
+- four compact journal-facing Main tables and three embedded main figures.
 
-Concepts & Synthesis length target:
+Concepts & Synthesis length rule:
 
-- standard maximum: 30 manuscript pages, including title page, body, References, tables, figure captions, and figures;
-- if 31–50 pages, the cover letter must contain two numbered length-justification sections: broad ecological contribution and why the additional material cannot be moved adequately to Supporting Information;
-- >50 pages is outside the stated allowable range.
+- standard target: 30 manuscript pages;
+- 31–50 pages: allowed only with the required two-part cover-letter justification;
+- >50 pages: outside the stated allowable range.
 
-## 2. Supporting Information
+**Measured review-package state (2026-08-21): 48 Main Document pages with all three figures rendered.** The required two-part length justification is present in `submission/COVER_LETTER_ECOLOGY_CONCEPTS_SYNTHESIS.md`. The final page count must be rechecked after author-controlled title-page/backmatter fields are inserted.
 
-Use a single reader-facing file whenever possible:
+## 2. Main-table compression
+
+The canonical scientific tables remain in `manuscript/TABLES_THEORETICAL_ECOLOGY.md`. The Ecology review package uses `submission/ecology/ECOLOGY_MAIN_TABLES_COMPACT.md` as a journal-facing view:
+
+- Table 1: mechanistic definitions and inference boundaries;
+- Table 2: core theoretical verification results;
+- Table 3: route recurrence and identification state;
+- Table 4: quantitative/direct-factorial evidence and limitations.
+
+No frozen value is changed. Exhaustive parameter rows, local cases, route ledgers, context records, direct audits, and stopping batches are supplied as machine-readable Open Research products instead of consuming Main Document pages.
+
+## 3. Supporting Information
+
+Use a single reader-facing file:
 
 - `Appendix S1.pdf`
 - uploaded as **Supporting Information for review and publication**
-- no appendix line numbering
-- header material must include authors, manuscript title, and journal name
-- items inside use `Figure S#`, `Table S#`, `Section S#`, etc.
-- manuscript callouts use the full form such as `Appendix S1: Figure S2`
-- Appendix references are repeated in a complete Appendix References section even when also cited in the Main Document.
+- no Appendix line numbering
+- opening material includes authors, manuscript title, and journal name
+- items use `Figure S#` / `Section S#`
+- Main Document callouts use full forms such as `Appendix S1: Figure S2`
+- Appendix references are repeated in the Appendix References section even when also cited in the Main Document.
 
 For this paper, Appendix S1 contains the four reader-facing robustness/architecture figures (Figures S1–S4). Large machine-readable tables are not packaged as Appendix spreadsheets.
 
-## 3. Open Research package
+**Measured review-package state: Appendix S1 = 6 pages.**
 
-ESA does not allow spreadsheets (`.csv`, `.xlsx`, etc.) or large tables to be submitted as Supporting Information for a Concepts & Synthesis paper. They belong in an external Open Research repository.
+## 4. Open Research package
 
-The generated Open Research package therefore renames the canonical table CSVs descriptively for eventual archival deposition:
+ESA does not allow spreadsheets (`.csv`, `.xlsx`, etc.) or large machine-readable tables to be submitted as Supporting Information for this paper type. They belong in an external Open Research repository.
+
+The generated deposition package renames the canonical supplementary-table CSVs descriptively:
 
 - `model_parameters_and_scaling.csv`
 - `finite_grid_local_cases.csv`
@@ -71,9 +88,9 @@ The generated Open Research package therefore renames the canonical table CSVs d
 - `direct_identification_audits.csv`
 - `pattern_expansion_screening.csv`
 
-During peer review, novel code must be accessible in an external repository; the existing public GitHub repository satisfies the review-access route. Permanent public archival deposition of the exact accepted data/code version is an acceptance-stage requirement, not a reason to delay initial submission of this manuscript type. The final accepted version should be frozen in a permanent versioned archive and cited in the paper.
+During peer review, novel code must be accessible in an external repository; the public GitHub repository supplies that review-stage access. Permanent archival deposition of the accepted exact data/code version is an acceptance-stage requirement rather than an initial-submission blocker. The accepted release should be frozen in a permanent versioned archive and cited in the final paper.
 
-## 4. Human-controlled fields still required
+## 5. Human-controlled fields still required
 
 The package builder intentionally does not infer:
 
@@ -83,28 +100,31 @@ The package builder intentionally does not infer:
 - ORCIDs;
 - final CRediT statement;
 - funding statement;
-- acknowledgments beyond the existing AI disclosure and placeholders;
+- final acknowledgments beyond the existing AI disclosure/placeholders;
 - final conflict-of-interest statement;
 - portal-only reviewer fields if requested by ScholarOne;
-- final immutable archive DOI after acceptance-stage freeze.
+- permanent archival DOI at the acceptance-stage freeze.
 
-## 5. Automated package builder
+## 6. Automated package builder
 
-Run:
+Generate the actual review-package source with compact Main tables using:
 
 ```bash
-python scripts/build_ecology_submission_sources.py
+python scripts/build_ecology_review_package_sources.py
 ```
 
-The GitHub workflow `.github/workflows/build-ecology-submission-package.yml` then:
+`build_ecology_review_package_sources.py` delegates to the canonical parser while selecting the compact Ecology Main-table view. The underlying canonical builder remains `scripts/build_ecology_submission_sources.py`.
+
+The workflow `.github/workflows/build-ecology-submission-package.yml`:
 
 1. builds an Ecology-ordered Main Document source;
 2. converts it to Word with native Pandoc equations;
 3. applies Letter size, margins, Times New Roman, spacing, page numbers, and the requested line-number scope;
-4. builds a single Appendix S1 PDF;
-5. separates machine-readable CSV data from Supporting Information;
-6. renders the Main Document to PDF for page-count QA;
-7. fails if the Main Document exceeds 50 pages and records whether a 31–50 page length justification is needed;
-8. uploads the review package as a workflow artifact.
+4. verifies the DOCX contains line-number OOXML, four Word tables, and embedded media;
+5. builds a single Appendix S1 PDF;
+6. separates machine-readable CSV data from Supporting Information;
+7. renders Main and Appendix to PDF and records exact page counts;
+8. fails above 50 Main Document pages and records whether the 31–50-page length justification is required;
+9. uploads the review package as a workflow artifact.
 
-The canonical scientific manuscript remains the source of truth. This packaging layer changes journal formatting and file placement only; it does not change the frozen theorem, numerical results, Pattern counts, meta-analytic estimates, or inference boundaries.
+The canonical scientific manuscript remains the source of truth. This packaging layer changes journal formatting, compact presentation, and file placement only; it does not change the frozen theorem, numerical results, Pattern counts, meta-analytic estimates, or inference boundaries.
