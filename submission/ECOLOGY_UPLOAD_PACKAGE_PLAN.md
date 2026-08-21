@@ -46,7 +46,7 @@ Concepts & Synthesis length rule:
 - 31–50 pages: allowed only with the required two-part cover-letter justification;
 - >50 pages: outside the stated allowable range.
 
-**Measured review-package state (2026-08-21): 47 Main Document pages with all three figures rendered.** The required two-part length justification is present in `submission/COVER_LETTER_ECOLOGY_CONCEPTS_SYNTHESIS.md`. The final page count must be rechecked after author-controlled title-page/backmatter fields are inserted.
+**Measured review-package state (2026-08-21): 46 Main Document pages with all three figures rendered.** Table 1 now begins immediately after the post-References section break, so there is no duplicate blank page. The required two-part length justification is present in `submission/COVER_LETTER_ECOLOGY_CONCEPTS_SYNTHESIS.md`. The final page count must be rechecked after author-controlled title-page/backmatter fields are inserted.
 
 ## 2. Main-table compression
 
