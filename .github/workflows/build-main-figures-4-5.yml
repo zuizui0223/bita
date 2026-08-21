@@ -4,8 +4,8 @@ on:
   pull_request:
     paths:
       - 'scripts/build_main_figures_4_5.py'
-      - 'manuscript/figures/FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg'
       - 'manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg'
+      - 'manuscript/supplementary/figures/FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg'
       - '.github/workflows/build-main-figures-4-5.yml'
 
 jobs:
@@ -16,16 +16,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Rebuild and validate Figures 4 and 5
+      - name: Rebuild and validate result-first Main Figures 4 and 5
         run: |
           python -m pip install matplotlib
           python scripts/build_main_figures_4_5.py
-          test -s manuscript/figures/FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg
           test -s manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg
-          grep -q 'Mechanism before Pattern' manuscript/figures/FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg
-          grep -q '2,592 evaluations' manuscript/figures/FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg
-          grep -q '56 route records' manuscript/figures/FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg
+          test -s manuscript/supplementary/figures/FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg
           grep -q 'Quantitative evidence narrows the problem' manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg
           grep -q '+0.129' manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg
           grep -q '35/48' manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg
           grep -q '0 strict estimates' manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg
+          grep -q 'A → pollination' manuscript/supplementary/figures/FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg
+          grep -q 'Rows are independent biological clusters' manuscript/supplementary/figures/FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg
