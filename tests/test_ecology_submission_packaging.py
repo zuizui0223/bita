@@ -126,7 +126,7 @@ def test_compact_main_tables_preserve_frozen_submission_values() -> None:
 
 def test_over_30_page_cover_letter_has_required_two_part_justification() -> None:
     text = COVER.read_text(encoding="utf-8")
-    assert "currently renders to **47 pages**" in text
+    assert "currently renders to **46 pages**" in text
     assert "## 1. Broad ecological contribution of the additional length" in text
     assert "## 2. Why the additional material cannot be moved adequately to Supporting Information" in text
     assert "acceptance stage" in text
