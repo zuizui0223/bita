@@ -37,17 +37,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md \
-                  manuscript/figures/FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg \
-                  manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg \
-                  manuscript/figures/README.md \
-                  scripts/build_main_figures_4_5.py \
-                  scripts/build_ecology_submission_sources.py \
-                  tests/test_ecology_submission_packaging.py \
-                  .github/workflows/build-ecology-submission-package.yml \
-                  SUPPLEMENT_MANIFEST.md \
-                  submission/FIGURE_AND_TABLE_PLAN.md \
-                  scripts/_integrate_main_figures_4_5_tmp.py \
-                  .github/workflows/integrate-main-figures-4-5.yml
+          git add -A
           git commit -m "Integrate main Figures 4 and 5 into manuscript"
           git push origin HEAD:agent/add-main-figures-4-5-v1
