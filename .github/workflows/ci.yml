@@ -21,7 +21,9 @@ jobs:
         with:
           python-version: '3.11'
       - name: Apply bounded Ecology Concepts & Synthesis upgrade
-        run: python scripts/_apply_ecology_cs_upgrade_tmp.py
+        run: |
+          python scripts/_apply_ecology_cs_upgrade_tmp.py
+          python scripts/_fix_ecology_ref_parser_tmp.py
       - name: Restore canonical CI workflow
         run: git checkout origin/main -- .github/workflows/ci.yml
       - name: Run focused regressions
@@ -46,8 +48,10 @@ jobs:
             submission/ECOLOGY_CONCEPTS_SYNTHESIS_FIT_AUDIT.md \
             docs/FINAL_SUBMISSION_AUDIT.md \
             tests/test_ecology_concepts_synthesis_fit.py \
+            tests/test_manuscript_references.py \
             .github/workflows/ci.yml \
             scripts/_apply_ecology_cs_upgrade_tmp.py \
+            scripts/_fix_ecology_ref_parser_tmp.py \
             .github/workflows/_apply-ecology-cs-upgrade-tmp.yml
           git commit -m "Upgrade manuscript for Ecology Concepts & Synthesis"
           git push origin HEAD:agent/ecology-concepts-synthesis-upgrade-v1
