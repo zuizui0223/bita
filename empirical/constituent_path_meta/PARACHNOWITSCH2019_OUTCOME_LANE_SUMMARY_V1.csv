@@ -1,0 +1,4 @@
+outcome_lane,effect_rows,independent_papers,analysis_status,fixed_effect_mean,random_effects_mean,random_effects_standard_error,ci_low,ci_high,tau_squared_DL,Q,Q_df,I_squared_percent
+visit length,4,1,single_study_not_pooled,-0.6563965915,-0.6563965915,0.09260872288,-0.837906353,-0.47488683,,,,
+visit number,8,3,exploratory_random_effects,-0.3965184524,-0.31512226,0.1411731005,-0.5918164526,-0.03842806744,0.03804117598,5.587380028,2,64.20504799
+volume consumed,51,6,exploratory_random_effects,-0.5324285309,-0.4852933287,0.1837361288,-0.8454095238,-0.1251771336,0.1718861693,47.30753718,5,89.43085965

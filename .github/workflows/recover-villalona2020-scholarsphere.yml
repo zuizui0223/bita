@@ -1,0 +1,127 @@
+name: Recover Villalona 2020 ScholarSphere data
+
+on:
+  push:
+    branches:
+      - analysis/complete-constituent-path-meta-v1
+    paths:
+      - ".github/workflows/recover-villalona2020-scholarsphere.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recover-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download the three files declared by the public ScholarSphere record
+        run: |
+          python - <<'PY'
+          from __future__ import annotations
+
+          import hashlib
+          import json
+          import subprocess
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          output = Path("artifacts/villalona2020_scholarsphere")
+          files_dir = output / "files"
+          files_dir.mkdir(parents=True, exist_ok=True)
+
+          resource = "243b68c4-968d-4e53-b699-4dc884e31804"
+          base = f"https://scholarsphere.psu.edu/resources/{resource}/downloads"
+          user_agent = "bita-research-bot/1.0 (+https://github.com/zuizui0223/bita)"
+          manifest = [
+              (4220, "Raw_Data_Files_FieldPreferenceToxicity.xlsx"),
+              (4221, "OECO-D-20-00056R1_AssociatedData_Archival.zip"),
+              (4222, "iNaturalistRecords.xlsx"),
+          ]
+
+          recovered = []
+          attempts = []
+          for file_id, filename in manifest:
+              destination = files_dir / filename
+              success = False
+              for suffix in ("", "?download=1"):
+                  url = f"{base}/{file_id}{suffix}"
+                  command = [
+                      "curl", "--fail", "--location", "--silent", "--show-error",
+                      "--retry", "5", "--retry-all-errors", "--retry-delay", "2",
+                      "--connect-timeout", "30", "--max-time", "240",
+                      "--user-agent", user_agent,
+                      "--header", "Accept: application/octet-stream,*/*",
+                      "--output", str(destination),
+                      url,
+                  ]
+                  completed = subprocess.run(command, capture_output=True, text=True)
+                  payload = destination.read_bytes() if destination.exists() else b""
+                  valid = payload[:2] == b"PK" and len(payload) > 1000
+                  attempts.append({
+                      "file_id": file_id,
+                      "filename": filename,
+                      "url": url,
+                      "returncode": completed.returncode,
+                      "bytes": len(payload),
+                      "zip_magic": payload[:2] == b"PK",
+                      "stderr": completed.stderr[-500:],
+                      "status": "recovered" if completed.returncode == 0 and valid else "failed_validation",
+                  })
+                  if completed.returncode == 0 and valid:
+                      recovered.append({
+                          "file_id": file_id,
+                          "filename": filename,
+                          "source_url": url,
+                          "bytes": len(payload),
+                          "sha256": hashlib.sha256(payload).hexdigest(),
+                      })
+                      success = True
+                      break
+                  destination.unlink(missing_ok=True)
+              if not success:
+                  raise RuntimeError(
+                      f"Could not recover ScholarSphere file {file_id} ({filename}); "
+                      f"see attempts in console: {json.dumps(attempts, indent=2)}"
+                  )
+
+          receipt = {
+              "article_doi": "10.1007/s00442-020-04701-0",
+              "data_doi": "10.26207/pgeq-he51",
+              "scholarsphere_work_version": resource,
+              "retrieved_at_utc": datetime.now(timezone.utc).isoformat(),
+              "files": recovered,
+              "attempts": attempts,
+              "source_route_basis": (
+                  "File names and file-version IDs were recovered from the public "
+                  "ScholarSphere landing record. The public ScholarSphere source "
+                  "exempts user agents containing 'bot' from its interactive download "
+                  "challenge; the routes then redirect to time-limited object-storage URLs."
+              ),
+              "interpretation_boundary": (
+                  "Files are preserved without selecting observations or effects. "
+                  "Any analysis must still identify trial, bee species, dose, time, "
+                  "experimental unit, repeated-measures structure, outcome lane, "
+                  "treatment orientation and study dependence."
+              ),
+          }
+          (output / "source_receipt.json").write_text(
+              json.dumps(receipt, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          print(json.dumps(receipt, indent=2, sort_keys=True))
+          PY
+
+      - name: Upload repository data and provenance receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: villalona2020-scholarsphere-data
+          path: artifacts/villalona2020_scholarsphere
+          if-no-files-found: error
+          retention-days: 30

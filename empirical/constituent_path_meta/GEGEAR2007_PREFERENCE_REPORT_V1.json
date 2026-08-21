@@ -1,0 +1,9 @@
+{
+  "all_equal_sugar_assays_negative": true,
+  "article_doi": "10.1111/j.1461-0248.2007.01027.x",
+  "effect_rows": 5,
+  "higher_sugar_compensation_assay_includes_zero": true,
+  "independent_study_clusters": 1,
+  "interpretation_boundary": "Source-complete preference effects from one dependent study cluster. No pooled cross-study estimate is produced, no single primary context is selected after observing the effects, and no effect is interpreted as iota or W_AD.",
+  "source_complete": true
+}

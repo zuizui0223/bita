@@ -1,0 +1,36 @@
+name: Recover Gegear 2007 author PDF
+
+on:
+  push:
+    branches:
+      - analysis/complete-constituent-path-meta-v1
+    paths:
+      - "scripts/recover_gegear2007_author_pdf.py"
+      - ".github/workflows/recover-gegear2007-author-pdf.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recover-primary-source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Recover author-hosted primary PDF
+        run: |
+          python scripts/recover_gegear2007_author_pdf.py \
+            artifacts/gegear2007
+
+      - name: Upload PDF and provenance receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: gegear2007-author-primary-source
+          path: artifacts/gegear2007
+          if-no-files-found: error
+          retention-days: 30

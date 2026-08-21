@@ -1,0 +1,35 @@
+name: Recover Jones 2023 supporting data
+
+on:
+  push:
+    branches:
+      - analysis/complete-constituent-path-meta-v1
+    paths:
+      - "scripts/recover_jones2023_supporting_data.py"
+      - ".github/workflows/recover-jones2023-supporting-data.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recover-supporting-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Recover the published supporting CSVs
+        run: |
+          python scripts/recover_jones2023_supporting_data.py artifacts/jones2023
+
+      - name: Upload source files and receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: jones2023-supporting-data
+          path: artifacts/jones2023
+          if-no-files-found: error
+          retention-days: 30

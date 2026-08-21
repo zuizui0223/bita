@@ -1,0 +1,7 @@
+source_row,paper,location,outcome_lane,consumer_role,mean_first,sd_first,n_first,mean_second,sd_second,n_second,hedges_g_first_minus_second,sampling_variance,standard_error,selection_role
+3,Adler and Irwin 2005,field,visit number,Bee,1.71,1.541103500742244,38.0,2.0,1.8856563843924479,37.0,-0.1668985335823295,0.053533604997368305,0.231373302257128,Adler_2004_natural_range_primary
+17,Jones and Agrawal 2016,lab,visit number,Bee,6.0,5.979397963005974,28.0,5.26,4.815267386137555,28.0,0.1344123124477994,0.07159585540762295,0.2675740185586466,Jones_legitimate_bee_only
+40,Manson et al 2013,field,visit number,Bee,5.706,3.68,51.0,5.314,3.67,70.0,0.10601591662574898,0.03394078168590195,0.18423024096467427,Manson_0p1_ug_per_uL
+41,Manson et al 2013,field,visit number,Bee,4.094,2.84,53.0,5.314,3.67,70.0,-0.36314362987845383,0.03369856978889758,0.1835717020373717,Manson_1_ug_per_uL
+42,Manson et al 2013,field,visit number,Bee,2.823,2.11,62.0,5.314,3.67,70.0,-0.8148328001797159,0.03296840997550464,0.1815720517466954,Manson_2_ug_per_uL
+43,Manson et al 2013,field,visit number,Bee,2.422,1.9,64.0,5.314,3.67,70.0,-0.9713590050568757,0.03348472306111233,0.18298831400150212,Manson_4_ug_per_uL

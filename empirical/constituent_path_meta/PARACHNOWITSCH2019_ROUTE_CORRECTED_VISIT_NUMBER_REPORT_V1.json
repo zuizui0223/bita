@@ -1,0 +1,17 @@
+{
+  "all_scenario_intervals_include_zero": true,
+  "article_doi": "10.1093/aob/mcy132",
+  "corrections": [
+    "Adler and Irwin: retain the audited 2004 natural-range year only.",
+    "Jones and Agrawal: retain the legitimate Bee row and exclude the Lepidoptera antagonist row.",
+    "Manson et al.: retain one study cluster and expose the 0.1, 1, 2, and 4 microgram-per-microlitre contrasts as sensitivity."
+  ],
+  "independent_papers": 3,
+  "interpretation_boundary": "This is an exploratory route-correction sensitivity for a defence-associated visit-number lane. It does not estimate iota or W_AD, and the Manson all-dose summary is diagnostic rather than a dependence-corrected canonical effect.",
+  "manson_doses_microgram_per_microlitre": [
+    0.1,
+    1.0,
+    2.0,
+    4.0
+  ]
+}
