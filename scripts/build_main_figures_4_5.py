@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import shutil
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
@@ -8,15 +9,9 @@ from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "manuscript" / "figures"
+SUPP_FIG = ROOT / "manuscript" / "supplementary" / "figures"
 
 # Frozen manuscript-facing values. This script is presentation-only: no analysis.
-N_EVAL = 2592
-IN_WINDOW_SUBSTITUTABLE = 397
-ROUTE_RECORDS = 56
-BIOLOGICAL_CLUSTERS = 25
-SAME_SYSTEM = 14
-SIGN_SWITCH = 17
-CONTEXT_ONLY = 7
 LEAL = {
     "female": (-0.210, 48),
     "nectar": (-0.483, 28),
@@ -48,109 +43,10 @@ def _arrow(ax, x1, y1, x2, y2, lw=1.4):
 
 def _svg_defaults() -> None:
     plt.rcParams["svg.fonttype"] = "none"
-    plt.rcParams["svg.hashsalt"] = "bita-main-figures-4-5-v2"
+    plt.rcParams["svg.hashsalt"] = "bita-main-results-figures-4-5-v1"
 
 
 def build_figure_4(path: Path) -> None:
-    """Whole-paper Mechanism -> Pattern overview, using frozen results only."""
-    _svg_defaults()
-    fig = plt.figure(figsize=(9, 10))
-    ax = fig.add_axes([0.025, 0.04, 0.95, 0.93])
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
-    ax.axis("off")
-
-    ax.text(
-        0.5, 0.975,
-        "Mechanism before Pattern:\nfrom a complex ecological balance to a falsifiable boundary",
-        ha="center", va="top", fontsize=16, fontweight="bold",
-    )
-    ax.text(
-        0.5, 0.91,
-        "Theory defines the exclusion and evidence classes before the cross-system synthesis.",
-        ha="center", fontsize=10.5,
-    )
-
-    _box(
-        ax, 0.07, 0.70, 0.36, 0.14,
-        "1  Ecological problem\n\n"
-        "Attraction recruits\nmutualists + antagonists.\n"
-        "Defence can relieve damage\nbut interfere with pollination.",
-        11,
-    )
-    _box(
-        ax, 0.57, 0.70, 0.36, 0.14,
-        "2  Declare focal channels\n\n"
-        "$W_{AD}=\\rho-\\iota-\\kappa$\n"
-        "$\\rho$: antagonist relief\n"
-        "$\\iota$: pollinator interference\n"
-        "$\\kappa$: joint-cost curvature",
-        10.8,
-    )
-    _arrow(ax, 0.43, 0.77, 0.57, 0.77)
-
-    _box(
-        ax, 0.57, 0.49, 0.36, 0.14,
-        "3  One-line exclusion\n\n"
-        "$\\kappa\\geq0,\\ W_{AD}>0\\Rightarrow\\rho>\\iota$\n\n"
-        "The selectivity window is necessary,\nnot sufficient.",
-        11,
-    )
-    _arrow(ax, 0.75, 0.70, 0.75, 0.63)
-
-    _box(
-        ax, 0.07, 0.49, 0.36, 0.14,
-        "4  Finite verification\n\n"
-        f"{N_EVAL:,} evaluations\n"
-        "0 outside-window counterexamples\n"
-        f"{IN_WINDOW_SUBSTITUTABLE} in-window false positives\n"
-        "(~23% still substitutable)",
-        10.8,
-    )
-    _arrow(ax, 0.57, 0.56, 0.43, 0.56)
-
-    _box(
-        ax, 0.07, 0.28, 0.36, 0.14,
-        "5  Theory defines evidence classes\n\n"
-        "A→pollination | A→antagonism\n"
-        "D→antagonism | D→pollination\n"
-        "same-system | switching",
-        10.8,
-    )
-    _arrow(ax, 0.25, 0.49, 0.25, 0.42)
-
-    _box(
-        ax, 0.57, 0.28, 0.36, 0.14,
-        "6  Cross-system Pattern\n\n"
-        f"{ROUTE_RECORDS} route records / {BIOLOGICAL_CLUSTERS} clusters\n"
-        f"{SAME_SYSTEM} same-system | {SIGN_SWITCH} switches\n"
-        f"{CONTEXT_ONLY} context-only programs\n\n"
-        "Recurrent mechanisms,\nnot a universal sign.",
-        10.5,
-    )
-    _arrow(ax, 0.43, 0.35, 0.57, 0.35)
-
-    _box(
-        ax, 0.11, 0.07, 0.78, 0.13,
-        "7  Experimental triage after synthesis\n\n"
-        "Remaining identification gaps: direct total $A\\times D$ is sparse; strict $\\kappa$ estimates = 0.\n"
-        "2×2 cost assay → test $\\kappa$ sign first\n"
-        "Full $A\\times D$ factorial → total interaction + channel allocation",
-        10.5,
-    )
-    _arrow(ax, 0.75, 0.28, 0.75, 0.20)
-
-    ax.text(
-        0.5, 0.025,
-        "Mechanism → Pattern, not theory → validation",
-        ha="center", va="center", fontsize=13, fontweight="bold",
-    )
-
-    fig.savefig(path, bbox_inches="tight", metadata={"Date": None})
-    plt.close(fig)
-
-
-def build_figure_5(path: Path) -> None:
     """Quantitative evidence and direct-identification boundary, frozen results only."""
     _svg_defaults()
     fig = plt.figure(figsize=(9, 10))
@@ -253,10 +149,18 @@ def build_figure_5(path: Path) -> None:
     plt.close(fig)
 
 
+def build_figure_5(path: Path) -> None:
+    """Promote the frozen same-system route matrix from Supplement to Main."""
+    source = SUPP_FIG / "FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg"
+    if not source.exists():
+        raise FileNotFoundError(f"missing canonical same-system matrix: {source}")
+    shutil.copyfile(source, path)
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    build_figure_4(OUT / "FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg")
-    build_figure_5(OUT / "FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg")
+    build_figure_4(OUT / "FIGURE_4_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg")
+    build_figure_5(OUT / "FIGURE_5_SAME_SYSTEM_ROUTE_MATRIX.svg")
 
 
 if __name__ == "__main__":
