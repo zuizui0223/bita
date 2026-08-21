@@ -38,6 +38,8 @@ def test_main_submission_source_matches_ecology_component_order() -> None:
         "**Figure 1**",
         "**Figure 2**",
         "**Figure 3**",
+        "**Figure 4**",
+        "**Figure 5**",
     ]
     positions = [text.index(token) for token in ordered]
     assert positions == sorted(positions)
@@ -131,3 +133,15 @@ def test_over_30_page_cover_letter_has_required_two_part_justification() -> None
     assert "## 2. Why the additional material cannot be moved adequately to Supporting Information" in text
     assert "acceptance stage" in text
     assert "Potential reviewers, if requested by the submission portal" in text
+
+
+def test_main_figures_4_5_are_present_and_frozen() -> None:
+    fig4 = ROOT / "manuscript" / "figures" / "FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg"
+    fig5 = ROOT / "manuscript" / "figures" / "FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg"
+    assert fig4.exists() and fig5.exists()
+    t4 = fig4.read_text(encoding="utf-8")
+    t5 = fig5.read_text(encoding="utf-8")
+    for token in ("Mechanism before Pattern", "2,592 evaluations", "56 route records", "25 independent clusters"):
+        assert token in t4
+    for token in ("Floral larceny", "+0.129", "35/48", "0 strict estimates", "Next tests"):
+        assert token in t5

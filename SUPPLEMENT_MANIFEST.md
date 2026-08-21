@@ -233,6 +233,8 @@ Main paper assets:
 - `manuscript/figures/FIGURE_1_MECHANISTIC_ARCHITECTURE.svg`
 - `manuscript/figures/FIGURE_2_THEORY_REGIME_MAP.svg`
 - `manuscript/figures/FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg`
+- `manuscript/figures/FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg`
+- `manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg`
 - `manuscript/TABLES_THEORETICAL_ECOLOGY.md`
 
 Supplement assets:
@@ -246,7 +248,7 @@ Supplement assets:
 
 The manuscript now contains explicit callouts for Figures 1–3, Tables 1–4, Supplementary Figures S1–S4, and Tables S1–S6.
 
-All seven figure sources have been rendered and visually inspected. Layout defects identified in Fig. 2, Fig. S1, Fig. S2, and Fig. S4 were corrected in their builders and regenerated without changing scientific values.
+All nine figure sources have been rendered and visually inspected. Layout defects identified in Fig. 2, Fig. S1, Fig. S2, and Fig. S4 were corrected in their builders and regenerated without changing scientific values.
 
 Active reproducibility contracts now:
 

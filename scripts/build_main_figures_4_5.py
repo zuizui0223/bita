@@ -95,7 +95,7 @@ def build_figure_4(path: Path) -> None:
     _box(ax, 0.52, 0.07, 0.44, 0.14,
          "Experimental triage\n\n2×2 attraction × defence cost assay → test joint-cost sign\nFull A×D factorial → estimate total interaction + channel allocation", 10.5)
 
-    fig.savefig(path, bbox_inches="tight")
+    fig.savefig(path, bbox_inches="tight", metadata={"Date": None})
     plt.close(fig)
 
 
@@ -157,7 +157,7 @@ def build_figure_5(path: Path) -> None:
         ha="center", fontsize=12, fontweight="bold",
     )
 
-    fig.savefig(path, bbox_inches="tight")
+    fig.savefig(path, bbox_inches="tight", metadata={"Date": None})
     plt.close(fig)
 
 

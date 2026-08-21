@@ -149,8 +149,10 @@ def build_main_submission_source() -> str:
         1: "MECHANISTIC_ARCHITECTURE",
         2: "THEORY_REGIME_MAP",
         3: "EMPIRICAL_MECHANISM_ARCHITECTURE",
+        4: "MECHANISM_PATTERN_OVERVIEW",
+        5: "QUANTITATIVE_IDENTIFICATION_BOUNDARY",
     }
-    for idx in range(1, 4):
+    for idx in range(1, 6):
         figure_pages.append(
             f"{PAGEBREAK}\n\n**Figure {idx}**\n\n"
             f"![](../../../manuscript/figures/FIGURE_{idx}_{figure_names[idx]}.svg)"

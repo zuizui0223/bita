@@ -5,6 +5,7 @@ The visual package must make the manuscript’s two-part scientific architecture
 ```text
 Part I — Mechanism: Figures 1–2, Tables 1–2
 Part II — Pattern:   Figure 3, Tables 3–4
+Integration:         Figures 4–5
 ```
 
 ## Part I — Mechanism
@@ -119,6 +120,14 @@ direct joint cost:  0 strict estimates, kappa unidentified
 ```
 
 An explicit **IDENTIFICATION BOUNDARY** must separate the recurrent/meta-analytic Pattern evidence from direct identification of `W_AD`.
+
+### Figure 4. Mechanism → Pattern overview
+
+**Purpose:** give readers one map from the ecological problem through the elementary one-sided exclusion, theory-defined evidence classes, the recurrent Pattern, remaining identification gaps, and experimental triage. It is a synthesis/orientation figure and introduces no new analysis.
+
+### Figure 5. Quantitative evidence, identification boundary, and next tests
+
+**Purpose:** make the two reproduced quantitative modules visible in the Main Document while preserving their incompatible scales and explicit limitations. The figure must show the Leal pooled directions/prediction interval/moderator range, the Sasidharan assembled contrast/LOCO result and paired-role limitation, then terminate at the direct-identification gap and the 2 × 2 cost-test versus full-factorial calibration sequence.
 
 ### Table 3. Cross-study Pattern scaffold
 
