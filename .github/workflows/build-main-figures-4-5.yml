@@ -5,6 +5,7 @@ on:
     paths:
       - 'scripts/build_main_figures_4_5.py'
       - 'scripts/reorganize_result_figures_once.py'
+      - 'scripts/reorganize_result_figures_once_v2.py'
       - 'manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg'
       - 'manuscript/supplementary/figures/FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg'
       - '.github/workflows/build-main-figures-4-5.yml'
@@ -45,12 +46,12 @@ jobs:
         with:
           python-version: '3.11'
       - name: Apply result-first hierarchy
-        run: python scripts/reorganize_result_figures_once.py
+        run: python scripts/reorganize_result_figures_once_v2.py
       - name: Commit synchronized reader-facing files
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add -- manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md manuscript/supplementary/SUPPLEMENTARY_MATERIAL.md manuscript/figures/README.md SUPPLEMENT_MANIFEST.md scripts/build_ecology_submission_sources.py submission/FIGURE_AND_TABLE_PLAN.md tests/test_ecology_submission_packaging.py
+          git add -- manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md manuscript/supplementary/SUPPLEMENTARY_MATERIAL.md manuscript/figures/README.md SUPPLEMENT_MANIFEST.md scripts/build_ecology_submission_sources.py submission/FIGURE_AND_TABLE_PLAN.md tests/test_ecology_submission_packaging.py scripts/reorganize_result_figures_once.py
           git rm -f manuscript/figures/FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg
           if git diff --cached --quiet; then
             echo 'No hierarchy changes to commit.'
