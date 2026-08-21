@@ -5,8 +5,8 @@ Complete the author-controlled fields before the manuscript is uploaded. Do not 
 ## Manuscript
 
 - Final title: **When are floral attraction and defence complementary? A one-sided mechanistic bound and cross-system patterns**
-- Article type: **Regular Article**
-- Target journal: **Theoretical Ecology**
+- Article type: **Concepts & Synthesis**
+- Target journal: **Ecology**
 - Running title: **One-sided bound on attraction–defence complementarity**
 - Corresponding author:
 - Corresponding-author email:
@@ -16,7 +16,7 @@ Complete the author-controlled fields before the manuscript is uploaded. Do not 
 
 ### Abstract
 
-Flowers must attract mutualists while limiting exploitation by antagonists, creating the possibility that attraction and defence either reinforce or obstruct one another. We ask what mechanism determines whether one focal attraction trait and one flower-specific antagonist-reducing trait are locally complementary, and what cross-system patterns recur. After an explicit orientation gate, their local mixed fitness effect can be organized as antagonist relief minus pollinator interference minus direct joint-cost curvature, \(W_{AD}=\rho-\iota-\kappa\). The decomposition itself is bookkeeping, but it yields a stronger one-sided result: when joint-cost curvature is non-negative, complementarity can occur only where antagonist relief exceeds pollinator interference. We prove this algebraically, then use 2,592 evaluations across four response-shape variants to verify implementation and quantify looseness: about 23% of points inside this selectivity window remain substitutable, so the window is necessary but not sufficient. A mechanism-first synthesis then maps 56 route-level records from 25 independent biological study clusters. Floral larceny reduces female fitness on average (log response ratio -0.210; 48 clusters), yet only 35/48 effects are negative, the 95% prediction interval spans -1.13 to +0.71, and declared moderators explain only 0-8% of heterogeneity. Thus constituent mechanisms and switching architectures recur, but their realised balance is strongly context dependent. Direct \(A\times D\) evidence remains sparse and direct joint-cost curvature unmeasured. The resulting theory is therefore a one-sided mechanistic bound, not a universal sign rule; the sign of joint-cost curvature is the minimal next test of its biological applicability.
+A recurring challenge in ecology is to extract general structure from interactions whose net effects vary among contexts. Flowers provide a tractable case because attraction can recruit mutualists and antagonists, while defence can reduce antagonist damage yet interfere with pollination or impose joint costs. We ask first not where attraction and defence are complementary, but where complementarity is impossible. After an explicit orientation gate, the local mixed fitness effect is organized as antagonist relief minus pollinator interference minus direct joint-cost curvature, \(W_{AD}=\rho-\iota-\kappa\). The decomposition is bookkeeping, but it yields a one-sided bound: when joint-cost curvature is non-negative, complementarity can occur only where antagonist relief exceeds pollinator interference. We prove this algebraically and use 2,592 evaluations across four response-shape variants to verify implementation and quantify looseness: about 23% of points inside this selectivity window remain substitutable. Theory then defines the evidence classes for a mechanism-first synthesis of 56 route-level records from 25 independent biological study clusters. Floral larceny reduces female fitness on average (log response ratio -0.210; 48 clusters), yet only 35/48 effects are negative, the 95% prediction interval spans -1.13 to +0.71, and declared moderators explain only 0-8% of heterogeneity. Constituent mechanisms and switching architectures therefore recur, but their realized balance is strongly context dependent. Direct \(A\times D\) evidence remains sparse and direct joint-cost curvature unmeasured. The study shows how mechanism-first synthesis can replace a search for universal mean effects with testable boundaries on what ecological interactions can do.
 
 ### Keywords
 
@@ -40,7 +40,7 @@ Confirm explicitly:
 - [ ] all authors satisfy authorship criteria;
 - [ ] author order is approved by all authors;
 - [ ] all authors have approved the submitted version;
-- [ ] all authors agree to submission to Theoretical Ecology;
+- [ ] all authors agree to submission to Ecology;
 - [ ] no omitted contributor qualifies for authorship.
 
 ## CRediT contributions
@@ -95,9 +95,17 @@ Final statement must add:
 - exact final submission commit SHA;
 - repository licence and any source-data licence statements required for retained derived products.
 
+### Open Research statement
+
+Current title-page statement:
+
+> Analysis code, source-adjudication products, and generated readouts are maintained in the public project repository. The exact immutable release, repository licence, and archival DOI for the submitted version are author-controlled release fields and will be inserted before submission.
+
+Before portal submission, replace the release placeholders with the exact immutable release/tag, licence, archival DOI, and final submission commit.
+
 ### Use of generative AI or language tools
 
-Record any journal-required disclosure concerning language editing, coding assistance, or generative-AI use. Authors remain responsible for all claims, citations, code, and text.
+Current disclosure state: OpenAI ChatGPT and Anthropic Claude were used for code-generation assistance, structured literature triage, reproducibility checks, and manuscript drafting/editing. The manuscript contains a section-specific disclosure in Section 4.3 and an additional Acknowledgments disclosure. The same use must be disclosed in the Ecology submission form, and all authors must confirm the exact submitted wording. Authors remain responsible for all claims, citations, code, and text.
 
 ## Reviewer suggestions
 
@@ -138,5 +146,5 @@ List only when there is a specific defensible conflict, not because a reviewer m
 - [x] Figures 1–3 have canonical SVG sources and an EPS export workflow;
 - [ ] final Figures 1–3 EPS files are regenerated from the exact final paperization commit;
 - [ ] supplementary files are cited/numbered consistently in the final package;
-- [x] cover letter names Theoretical Ecology and the canonical Mechanism → Pattern manuscript;
+- [x] cover letter names Ecology, the Concepts & Synthesis article type, and the canonical Mechanism → Pattern manuscript;
 - [ ] manuscript is confirmed by all authors as not under consideration elsewhere.
