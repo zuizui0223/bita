@@ -36,7 +36,7 @@ Formatting target and current automated state:
 - 10-pt single-spaced table bodies;
 - left-aligned text;
 - page numbers from the title page onward;
-- continuous line numbering beginning after the title page and continuing through the end of References;
+- continuous line numbering beginning after the title page and continuing through the end of References, with explicit suppression outside that region for renderer parity;
 - native Word/Pandoc equations rather than equation images;
 - four compact journal-facing Main tables and three embedded main figures.
 
@@ -46,7 +46,7 @@ Concepts & Synthesis length rule:
 - 31–50 pages: allowed only with the required two-part cover-letter justification;
 - >50 pages: outside the stated allowable range.
 
-**Measured review-package state (2026-08-21): 48 Main Document pages with all three figures rendered.** The required two-part length justification is present in `submission/COVER_LETTER_ECOLOGY_CONCEPTS_SYNTHESIS.md`. The final page count must be rechecked after author-controlled title-page/backmatter fields are inserted.
+**Measured review-package state (2026-08-21): 47 Main Document pages with all three figures rendered.** The required two-part length justification is present in `submission/COVER_LETTER_ECOLOGY_CONCEPTS_SYNTHESIS.md`. The final page count must be rechecked after author-controlled title-page/backmatter fields are inserted.
 
 ## 2. Main-table compression
 
@@ -113,7 +113,7 @@ Generate the actual review-package source with compact Main tables using:
 python scripts/build_ecology_review_package_sources.py
 ```
 
-`build_ecology_review_package_sources.py` delegates to the canonical parser while selecting the compact Ecology Main-table view. The underlying canonical builder remains `scripts/build_ecology_submission_sources.py`.
+`build_ecology_review_package_sources.py` delegates to the canonical parser while selecting the compact Ecology Main-table view and shortening the review-stage Open Research title-page statement. The underlying canonical builder remains `scripts/build_ecology_submission_sources.py`.
 
 The workflow `.github/workflows/build-ecology-submission-package.yml`:
 
