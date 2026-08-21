@@ -47,3 +47,5 @@ No change to the theorem, proof, 2,592 evaluations, 77.2% window precision, 56/2
 ## Literature-positioning refresh — 2026-08-21
 
 PASS. Close prior work on attraction/defence conflict, defence-reproduction coupling, multi-agent selection, and ecological context dependence is now explicit in the Introduction and Discussion. The manuscript does not claim that those topics are new. It explicitly communicates that the theorem's algebra is elementary and positions the conceptual advance as a mechanism-defined exclusion plus an ordered falsification/calibration programme.
+
+Focused post-polish regressions passed before the branch handoff; this user-authored audit commit exists to trigger the normal repository CI and submission-scope gates on the final branch state.
