@@ -60,7 +60,7 @@ def test_ecology_submission_uses_appendix_callout_style() -> None:
     assert "Supplementary Figs." not in text
     assert "Tables S1–S6" not in text
     assert "Appendix S1: Figures S1–S2" in text
-    assert "Appendix S1: Figure S3" in text
+    assert "Appendix S1: Figures S1–S3" in text
     assert "machine-readable Open Research data products" in text
 
 
@@ -144,7 +144,7 @@ def test_main_figures_4_5_are_present_and_frozen() -> None:
     assert not overview.exists()
     tq = quantitative.read_text(encoding="utf-8")
     ts = same_system.read_text(encoding="utf-8")
-    for token in ("Floral larceny", "+0.129", "35/48", "0 strict estimates", "Next tests"):
+    for token in ("Floral larceny", "+0.129", "35/48", "0 strict estimates", "Ordered next tests"):
         assert token in tq
     for token in ("A → pollination", "D → pollination", "Rows are independent biological clusters"):
         assert token in ts
