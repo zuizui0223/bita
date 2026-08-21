@@ -78,8 +78,8 @@ def test_figure_captions_and_eps_names_match_journal_convention() -> None:
         assert marker in captions
         assert f"**Figure {n}." not in captions
     exporter = EXPORTER.read_text(encoding="utf-8")
-    assert 'outputs=("Fig1" "Fig2" "Fig3")' in exporter
-    assert "Fig1.eps, Fig2.eps, Fig3.eps" in exporter
+    assert 'outputs=("Fig1" "Fig2" "Fig3" "Fig4" "Fig5")' in exporter
+    assert "Fig1.eps, Fig2.eps, Fig3.eps, Fig4.eps, Fig5.eps" in exporter
     assert "prepare_submission_svg.py" in exporter
 
 
