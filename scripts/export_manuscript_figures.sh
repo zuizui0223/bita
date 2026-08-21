@@ -21,6 +21,7 @@ sources=(
   "$ROOT/manuscript/supplementary/figures/FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg"
 )
 outputs=("Fig1" "Fig2" "Fig3" "Fig4" "Fig5")
+expected_removed=(1 1 1 2 0)
 
 for i in "${!sources[@]}"; do
   src="${sources[$i]}"
@@ -29,10 +30,13 @@ for i in "${!sources[@]}"; do
 
   test -s "$src"
 
-  # The journal asks that an illustration not carry its own title/caption.
-  # Canonical SVGs retain standalone-review titles; the deterministic export
-  # preprocessor removes only the visible top-level title before EPS export.
-  python "$ROOT/scripts/prepare_submission_svg.py" "$src" "$prepared"
+  # Canonical sources differ in whether they carry a standalone-review title:
+  # Figs 1–3 have one title element, Fig4 has a two-line Matplotlib title,
+  # and Fig5 begins directly with route-column headers. Remove exactly those
+  # declared outer-title elements and nothing else.
+  python "$ROOT/scripts/prepare_submission_svg.py" \
+    "$src" "$prepared" \
+    --expected-removed "${expected_removed[$i]}"
   test -s "$prepared"
 
   inkscape "$prepared" \
@@ -59,8 +63,8 @@ Source files remain at their reproducibility locations; Fig4 reuses the frozen q
 originally introduced under the Figure-5 filename, and Fig5 reuses the frozen same-system matrix
 source originally stored under supplementary/figures. They are not duplicated solely for numbering.
 
-Submission preprocessing: visible outer figure title removed; panel labels, equations,
-annotations, and accessibility metadata retained
+Submission preprocessing: declared visible outer figure title elements removed; panel labels,
+equations, annotations, route headers, and accessibility metadata retained
 Submission filenames: Fig1.eps, Fig2.eps, Fig3.eps, Fig4.eps, Fig5.eps
 Export format: EPS vector graphics
 Exporter: Inkscape CLI
