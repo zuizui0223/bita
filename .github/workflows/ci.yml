@@ -38,7 +38,7 @@ jobs:
       - name: Restore canonical CI and remove temporary script
         run: |
           git checkout origin/main -- .github/workflows/ci.yml
-          git rm scripts/_apply_ecological_interpretation_polish_tmp.py
+          git rm -f scripts/_apply_ecological_interpretation_polish_tmp.py
       - name: Run focused regressions
         run: |
           python -m pip install --upgrade pip
