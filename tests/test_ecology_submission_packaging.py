@@ -6,6 +6,8 @@ import importlib.util
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts" / "build_ecology_submission_sources.py"
+COMPACT_TABLES = ROOT / "submission" / "ecology" / "ECOLOGY_MAIN_TABLES_COMPACT.md"
+COVER = ROOT / "submission" / "COVER_LETTER_ECOLOGY_CONCEPTS_SYNTHESIS.md"
 
 spec = importlib.util.spec_from_file_location("ecology_builder", SCRIPT)
 assert spec and spec.loader
@@ -85,3 +87,38 @@ def test_title_page_keywords_are_not_repeated_after_abstract() -> None:
     assert text.count("**Key words/phrases:**") == 1
     abstract = text.split("## Abstract", 1)[1].split("## 1. Introduction", 1)[0]
     assert "**Keywords:**" not in abstract
+
+
+def test_compact_main_tables_preserve_frozen_submission_values() -> None:
+    text = COMPACT_TABLES.read_text(encoding="utf-8")
+    for token in (
+        "2,592",
+        "1,342 / 1,250",
+        "397",
+        "77.2%",
+        "56 source-adjudicated records",
+        "25 independent biological clusters",
+        "5 clusters",
+        "8 clusters",
+        "18 clusters",
+        "10 clusters",
+        "14 clusters",
+        "17 clusters",
+        "0 strict estimates",
+        "-0.210",
+        "-1.13,+0.71",
+        "+0.129",
+        "-0.790",
+        "+0.8699",
+    ):
+        assert token in text, token
+    assert "Open Research data" in text
+
+
+def test_over_30_page_cover_letter_has_required_two_part_justification() -> None:
+    text = COVER.read_text(encoding="utf-8")
+    assert "currently renders to **48 pages**" in text
+    assert "## 1. Broad ecological contribution of the additional length" in text
+    assert "## 2. Why the additional material cannot be moved adequately to Supporting Information" in text
+    assert "acceptance stage" in text
+    assert "Potential reviewers, if requested by the submission portal" in text
