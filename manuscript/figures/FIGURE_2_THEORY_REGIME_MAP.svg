@@ -1,69 +1,72 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="760" viewBox="0 0 1320 760">
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640">
 <rect width="100%" height="100%" fill="white"/>
-<text x="40" y="42" font-family="Arial, sans-serif" font-size="22" text-anchor="start" font-weight="bold">Figure 2. Conditional attraction–defence regimes across the declared finite tested set</text>
-<text x="55" y="73" font-family="Arial, sans-serif" font-size="18" text-anchor="start" font-weight="bold">A  Biological parameter scenarios</text>
-<rect x="55" y="95" width="370" height="520" fill="none" stroke="black"/>
-<text x="67" y="140" font-family="Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal">baseline</text>
-<rect x="67" y="150" width="183.7" height="54" fill="#555"/>
-<rect x="67" y="150" width="346" height="54" fill="none" stroke="black"/>
-<text x="407" y="185" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">53.1% complementary</text>
-<text x="67" y="245" font-family="Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal">high obstruction high shared cost</text>
-<rect x="67" y="255" width="20.3" height="54" fill="#555"/>
-<rect x="67" y="255" width="346" height="54" fill="none" stroke="black"/>
-<text x="407" y="290" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">5.9% complementary</text>
-<text x="67" y="350" font-family="Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal">high tracking low obstruction low shared cost</text>
-<rect x="67" y="360" width="329.4" height="54" fill="#555"/>
-<rect x="67" y="360" width="346" height="54" fill="none" stroke="black"/>
-<text x="407" y="395" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">95.2% complementary</text>
-<text x="67" y="455" font-family="Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal">low tracking low obstruction low shared cost</text>
-<rect x="67" y="465" width="183.1" height="54" fill="#555"/>
-<rect x="67" y="465" width="346" height="54" fill="none" stroke="black"/>
-<text x="407" y="500" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">52.9% complementary</text>
-<text x="455" y="73" font-family="Arial, sans-serif" font-size="18" text-anchor="start" font-weight="bold">B  Interaction environment</text>
-<text x="521.0" y="455" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal">P=0.2</text>
-<text x="613.0" y="455" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal">P=0.5</text>
-<text x="705.0" y="455" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal">P=0.8</text>
-<text x="461" y="196.0" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">H=0.8</text>
-<rect x="475" y="145" width="92" height="92" fill="rgb(109,109,109)" stroke="black"/>
-<text x="521.0" y="196.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">85.8%</text>
-<rect x="567" y="145" width="92" height="92" fill="rgb(140,140,140)" stroke="black"/>
-<text x="613.0" y="196.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">67.7%</text>
-<rect x="659" y="145" width="92" height="92" fill="rgb(148,148,148)" stroke="black"/>
-<text x="705.0" y="196.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">63.2%</text>
-<text x="461" y="288.0" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">H=0.5</text>
-<rect x="475" y="237" width="92" height="92" fill="rgb(139,139,139)" stroke="black"/>
-<text x="521.0" y="288.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">68.1%</text>
-<rect x="567" y="237" width="92" height="92" fill="rgb(155,155,155)" stroke="black"/>
-<text x="613.0" y="288.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">59.0%</text>
-<rect x="659" y="237" width="92" height="92" fill="rgb(181,181,181)" stroke="black"/>
-<text x="705.0" y="288.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">43.8%</text>
-<text x="461" y="380.0" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">H=0.2</text>
-<rect x="475" y="329" width="92" height="92" fill="rgb(191,191,191)" stroke="black"/>
-<text x="521.0" y="380.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">37.8%</text>
-<rect x="567" y="329" width="92" height="92" fill="rgb(217,217,217)" stroke="black"/>
-<text x="613.0" y="380.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">22.6%</text>
-<rect x="659" y="329" width="92" height="92" fill="rgb(224,224,224)" stroke="black"/>
-<text x="705.0" y="380.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">18.1%</text>
-<text x="613.0" y="487" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="normal">Pollinator service</text>
-<text x="427" y="283.0" transform="rotate(-90 427 283.0)" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">Floral damage pressure</text>
-<text x="830" y="73" font-family="Arial, sans-serif" font-size="18" text-anchor="start" font-weight="bold">C  Endpoint-normalized response shapes</text>
-<rect x="830" y="95" width="430" height="520" fill="none" stroke="black"/>
-<text x="842" y="140" font-family="Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal">baseline</text>
-<rect x="842" y="150" width="225.6" height="54" fill="#777"/>
-<rect x="842" y="150" width="406" height="54" fill="none" stroke="black"/>
-<text x="1242" y="185" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">55.6% complementary</text>
-<text x="842" y="245" font-family="Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal">saturating attraction</text>
-<rect x="842" y="255" width="240.6" height="54" fill="#777"/>
-<rect x="842" y="255" width="406" height="54" fill="none" stroke="black"/>
-<text x="1242" y="290" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">59.3% complementary</text>
-<text x="842" y="350" font-family="Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal">saturating both curved cost</text>
-<rect x="842" y="360" width="194.2" height="54" fill="#777"/>
-<rect x="842" y="360" width="406" height="54" fill="none" stroke="black"/>
-<text x="1242" y="395" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">47.8% complementary</text>
-<text x="842" y="455" font-family="Arial, sans-serif" font-size="12" text-anchor="start" font-weight="normal">saturating defence</text>
-<rect x="842" y="465" width="180.4" height="54" fill="#777"/>
-<rect x="842" y="465" width="406" height="54" fill="none" stroke="black"/>
-<text x="1242" y="500" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">44.4% complementary</text>
-<text x="55" y="682" font-family="Arial, sans-serif" font-size="14" text-anchor="start" font-weight="normal">Bars and cells show unweighted occupancy fractions of the declared finite grid; they are not empirical probabilities.</text>
-<text x="55" y="708" font-family="Arial, sans-serif" font-size="14" text-anchor="start" font-weight="normal">Panel C compares response shapes normalized to common endpoint scales on the declared 0–1 trait domain.</text>
+<text x="30" y="32" font-family="Arial, sans-serif" font-size="18" text-anchor="start" font-weight="bold">Figure 2. Conditional attraction–defence regimes across the declared finite tested set</text>
+<text x="30" y="68" font-family="Arial, sans-serif" font-size="16" text-anchor="start" font-weight="bold">A  Biological parameter scenarios</text>
+<rect x="30" y="88" width="310" height="455" fill="none" stroke="black"/>
+<text x="40" y="131" font-family="Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal">baseline</text>
+<rect x="40" y="145" width="154.0" height="40" fill="#555"/>
+<rect x="40" y="145" width="290" height="40" fill="none" stroke="black"/>
+<text x="326" y="171" font-family="Arial, sans-serif" font-size="14" text-anchor="end" font-weight="normal">53.1% complementary</text>
+<text x="40" y="213" font-family="Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal">high obstruction /</text>
+<text x="40" y="229" font-family="Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal">high shared cost</text>
+<rect x="40" y="241" width="17.0" height="40" fill="#555"/>
+<rect x="40" y="241" width="290" height="40" fill="none" stroke="black"/>
+<text x="326" y="267" font-family="Arial, sans-serif" font-size="14" text-anchor="end" font-weight="normal">5.9% complementary</text>
+<text x="40" y="309" font-family="Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal">high tracking / low obstruction /</text>
+<text x="40" y="325" font-family="Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal">low shared cost</text>
+<rect x="40" y="337" width="276.1" height="40" fill="#555"/>
+<rect x="40" y="337" width="290" height="40" fill="none" stroke="black"/>
+<text x="326" y="363" font-family="Arial, sans-serif" font-size="14" text-anchor="end" font-weight="normal">95.2% complementary</text>
+<text x="40" y="405" font-family="Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal">low tracking / low obstruction /</text>
+<text x="40" y="421" font-family="Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal">low shared cost</text>
+<rect x="40" y="433" width="153.5" height="40" fill="#555"/>
+<rect x="40" y="433" width="290" height="40" fill="none" stroke="black"/>
+<text x="326" y="459" font-family="Arial, sans-serif" font-size="14" text-anchor="end" font-weight="normal">52.9% complementary</text>
+<text x="365" y="68" font-family="Arial, sans-serif" font-size="16" text-anchor="start" font-weight="bold">B  Interaction environment</text>
+<text x="423.0" y="391" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal">P=0.2</text>
+<text x="489.0" y="391" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal">P=0.5</text>
+<text x="555.0" y="391" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal">P=0.8</text>
+<text x="380" y="203.0" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">H=0.8</text>
+<rect x="390" y="165" width="66" height="66" fill="rgb(109,109,109)" stroke="black"/>
+<text x="423.0" y="203.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">85.8%</text>
+<rect x="456" y="165" width="66" height="66" fill="rgb(140,140,140)" stroke="black"/>
+<text x="489.0" y="203.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">67.7%</text>
+<rect x="522" y="165" width="66" height="66" fill="rgb(148,148,148)" stroke="black"/>
+<text x="555.0" y="203.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">63.2%</text>
+<text x="380" y="269.0" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">H=0.5</text>
+<rect x="390" y="231" width="66" height="66" fill="rgb(139,139,139)" stroke="black"/>
+<text x="423.0" y="269.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">68.1%</text>
+<rect x="456" y="231" width="66" height="66" fill="rgb(155,155,155)" stroke="black"/>
+<text x="489.0" y="269.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">59.0%</text>
+<rect x="522" y="231" width="66" height="66" fill="rgb(181,181,181)" stroke="black"/>
+<text x="555.0" y="269.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">43.8%</text>
+<text x="380" y="335.0" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">H=0.2</text>
+<rect x="390" y="297" width="66" height="66" fill="rgb(191,191,191)" stroke="black"/>
+<text x="423.0" y="335.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">37.8%</text>
+<rect x="456" y="297" width="66" height="66" fill="rgb(217,217,217)" stroke="black"/>
+<text x="489.0" y="335.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">22.6%</text>
+<rect x="522" y="297" width="66" height="66" fill="rgb(224,224,224)" stroke="black"/>
+<text x="555.0" y="335.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">18.1%</text>
+<text x="489.0" y="419" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="normal">Pollinator service</text>
+<text x="346" y="264.0" transform="rotate(-90 346 264.0)" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">Floral damage pressure</text>
+<text x="650" y="68" font-family="Arial, sans-serif" font-size="16" text-anchor="start" font-weight="bold">C  Endpoint-normalized response shapes</text>
+<rect x="650" y="88" width="320" height="455" fill="none" stroke="black"/>
+<text x="660" y="131" font-family="Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal">baseline</text>
+<rect x="660" y="145" width="166.7" height="40" fill="#777"/>
+<rect x="660" y="145" width="300" height="40" fill="none" stroke="black"/>
+<text x="956" y="171" font-family="Arial, sans-serif" font-size="14" text-anchor="end" font-weight="normal">55.6% complementary</text>
+<text x="660" y="227" font-family="Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal">saturating attraction</text>
+<rect x="660" y="241" width="177.8" height="40" fill="#777"/>
+<rect x="660" y="241" width="300" height="40" fill="none" stroke="black"/>
+<text x="956" y="267" font-family="Arial, sans-serif" font-size="14" text-anchor="end" font-weight="normal">59.3% complementary</text>
+<text x="660" y="323" font-family="Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal">saturating both curved cost</text>
+<rect x="660" y="337" width="143.5" height="40" fill="#777"/>
+<rect x="660" y="337" width="300" height="40" fill="none" stroke="black"/>
+<text x="956" y="363" font-family="Arial, sans-serif" font-size="14" text-anchor="end" font-weight="normal">47.8% complementary</text>
+<text x="660" y="419" font-family="Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal">saturating defence</text>
+<rect x="660" y="433" width="133.3" height="40" fill="#777"/>
+<rect x="660" y="433" width="300" height="40" fill="none" stroke="black"/>
+<text x="956" y="459" font-family="Arial, sans-serif" font-size="14" text-anchor="end" font-weight="normal">44.4% complementary</text>
+<text x="30" y="590" font-family="Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal">Bars and cells show unweighted occupancy fractions of the declared finite grid; they are not empirical probabilities.</text>
+<text x="30" y="615" font-family="Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal">Panel C compares response shapes normalized to common endpoint scales on the declared 0–1 trait domain.</text>
 </svg>

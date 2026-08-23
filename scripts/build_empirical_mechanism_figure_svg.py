@@ -206,8 +206,8 @@ def build_svg(stats: FigureStats) -> str:
     r = stats.route_counts
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1120" viewBox="0 0 1600 1120">
 <defs><style>
-.title{{font:700 34px DejaVu Sans,Arial,sans-serif}} .subtitle{{font:700 24px DejaVu Sans,Arial,sans-serif}}
-.body{{font:20px DejaVu Sans,Arial,sans-serif}} .small{{font:17px DejaVu Sans,Arial,sans-serif}} .tiny{{font:15px DejaVu Sans,Arial,sans-serif}}
+.title{{font:700 34px DejaVu Sans,Arial,sans-serif}} .subtitle{{font:700 26px DejaVu Sans,Arial,sans-serif}}
+.body{{font:23px DejaVu Sans,Arial,sans-serif}} .small{{font:21px DejaVu Sans,Arial,sans-serif}} .tiny{{font:19px DejaVu Sans,Arial,sans-serif}}
 .box{{fill:#fff;stroke:#222;stroke-width:2.5}} .soft{{fill:#f5f5f5;stroke:#333;stroke-width:2}} .direct{{fill:#e9e9e9;stroke:#111;stroke-width:3}}
 .dash{{stroke:#222;stroke-width:3;stroke-dasharray:12 10;fill:none}}
 </style></defs>
