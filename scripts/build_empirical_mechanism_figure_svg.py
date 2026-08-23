@@ -254,7 +254,7 @@ def build_svg(stats: FigureStats) -> str:
 <text x="825" y="742" class="tiny">Composition and context dependence remain explicit</text>
 
 <rect x="250" y="785" width="1100" height="62" rx="12" class="soft"/>
-<text x="800" y="813" text-anchor="middle" class="body">Secondary contextual syntheses ({stats.secondary_context_modules}): Haas-Desmarais 2026 · Caruso 2019 · Junker &amp; Blüthgen 2010</text>
+<text x="800" y="813" text-anchor="middle" class="small">Secondary contextual syntheses ({stats.secondary_context_modules}): Haas-Desmarais 2026 · Caruso 2019 · Junker &amp; Blüthgen 2010</text>
 <text x="800" y="837" text-anchor="middle" class="tiny">Published/deposit-verified context modules; not pooled with the two reproduced quantitative modules</text>
 
 <line x1="55" y1="890" x2="1545" y2="890" class="dash"/>
