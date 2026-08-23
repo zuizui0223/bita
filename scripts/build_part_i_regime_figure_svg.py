@@ -85,8 +85,8 @@ def build_svg(rows: list[dict[str, str]]) -> str:
         parts.append(_text(x0 + pw - 14, bar_y + 26, f"{100*frac:.1f}% complementary", size=14, anchor="end"))
 
     heat = grouped_fraction(rows, ("pollinator_service", "floral_damage_pressure"))
-    x1, y1, cell = 390, 165, 66
-    parts.append(_text(365, 68, "B  Interaction environment", size=16, weight="bold"))
+    x1, y1, cell = 410, 165, 66
+    parts.append(_text(390, 68, "B  Interaction environment", size=16, weight="bold"))
     services = sorted({float(k[0]) for k in heat})
     damages = sorted({float(k[1]) for k in heat})
     for i, p in enumerate(services):
@@ -101,7 +101,7 @@ def build_svg(rows: list[dict[str, str]]) -> str:
             parts.append(f'<rect x="{x}" y="{y}" width="{cell}" height="{cell}" fill="{fill}" stroke="black"/>')
             parts.append(_text(x + cell/2, y + cell/2 + 5, f"{100*frac:.1f}%", size=14, anchor="middle", weight="bold"))
     parts.append(_text(x1 + 1.5*cell, y1 + len(damages)*cell + 56, "Pollinator service", size=14, anchor="middle"))
-    axis_x, axis_y = x1 - 44, y1 + 1.5*cell
+    axis_x, axis_y = x1 - 50, y1 + 1.5*cell
     parts.append(f'<text x="{axis_x}" y="{axis_y}" transform="rotate(-90 {axis_x} {axis_y})" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">Floral damage pressure</text>')
 
     form = grouped_fraction(rows, ("form_id",))

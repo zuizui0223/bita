@@ -22,33 +22,33 @@
 <rect x="40" y="433" width="153.5" height="40" fill="#555"/>
 <rect x="40" y="433" width="290" height="40" fill="none" stroke="black"/>
 <text x="326" y="459" font-family="Arial, sans-serif" font-size="14" text-anchor="end" font-weight="normal">52.9% complementary</text>
-<text x="365" y="68" font-family="Arial, sans-serif" font-size="16" text-anchor="start" font-weight="bold">B  Interaction environment</text>
-<text x="423.0" y="391" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal">P=0.2</text>
-<text x="489.0" y="391" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal">P=0.5</text>
-<text x="555.0" y="391" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal">P=0.8</text>
-<text x="380" y="203.0" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">H=0.8</text>
-<rect x="390" y="165" width="66" height="66" fill="rgb(109,109,109)" stroke="black"/>
-<text x="423.0" y="203.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">85.8%</text>
-<rect x="456" y="165" width="66" height="66" fill="rgb(140,140,140)" stroke="black"/>
-<text x="489.0" y="203.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">67.7%</text>
-<rect x="522" y="165" width="66" height="66" fill="rgb(148,148,148)" stroke="black"/>
-<text x="555.0" y="203.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">63.2%</text>
-<text x="380" y="269.0" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">H=0.5</text>
-<rect x="390" y="231" width="66" height="66" fill="rgb(139,139,139)" stroke="black"/>
-<text x="423.0" y="269.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">68.1%</text>
-<rect x="456" y="231" width="66" height="66" fill="rgb(155,155,155)" stroke="black"/>
-<text x="489.0" y="269.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">59.0%</text>
-<rect x="522" y="231" width="66" height="66" fill="rgb(181,181,181)" stroke="black"/>
-<text x="555.0" y="269.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">43.8%</text>
-<text x="380" y="335.0" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">H=0.2</text>
-<rect x="390" y="297" width="66" height="66" fill="rgb(191,191,191)" stroke="black"/>
-<text x="423.0" y="335.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">37.8%</text>
-<rect x="456" y="297" width="66" height="66" fill="rgb(217,217,217)" stroke="black"/>
-<text x="489.0" y="335.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">22.6%</text>
-<rect x="522" y="297" width="66" height="66" fill="rgb(224,224,224)" stroke="black"/>
-<text x="555.0" y="335.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">18.1%</text>
-<text x="489.0" y="419" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="normal">Pollinator service</text>
-<text x="346" y="264.0" transform="rotate(-90 346 264.0)" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">Floral damage pressure</text>
+<text x="390" y="68" font-family="Arial, sans-serif" font-size="16" text-anchor="start" font-weight="bold">B  Interaction environment</text>
+<text x="443.0" y="391" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal">P=0.2</text>
+<text x="509.0" y="391" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal">P=0.5</text>
+<text x="575.0" y="391" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" font-weight="normal">P=0.8</text>
+<text x="400" y="203.0" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">H=0.8</text>
+<rect x="410" y="165" width="66" height="66" fill="rgb(109,109,109)" stroke="black"/>
+<text x="443.0" y="203.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">85.8%</text>
+<rect x="476" y="165" width="66" height="66" fill="rgb(140,140,140)" stroke="black"/>
+<text x="509.0" y="203.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">67.7%</text>
+<rect x="542" y="165" width="66" height="66" fill="rgb(148,148,148)" stroke="black"/>
+<text x="575.0" y="203.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">63.2%</text>
+<text x="400" y="269.0" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">H=0.5</text>
+<rect x="410" y="231" width="66" height="66" fill="rgb(139,139,139)" stroke="black"/>
+<text x="443.0" y="269.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">68.1%</text>
+<rect x="476" y="231" width="66" height="66" fill="rgb(155,155,155)" stroke="black"/>
+<text x="509.0" y="269.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">59.0%</text>
+<rect x="542" y="231" width="66" height="66" fill="rgb(181,181,181)" stroke="black"/>
+<text x="575.0" y="269.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">43.8%</text>
+<text x="400" y="335.0" font-family="Arial, sans-serif" font-size="13" text-anchor="end" font-weight="normal">H=0.2</text>
+<rect x="410" y="297" width="66" height="66" fill="rgb(191,191,191)" stroke="black"/>
+<text x="443.0" y="335.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">37.8%</text>
+<rect x="476" y="297" width="66" height="66" fill="rgb(217,217,217)" stroke="black"/>
+<text x="509.0" y="335.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">22.6%</text>
+<rect x="542" y="297" width="66" height="66" fill="rgb(224,224,224)" stroke="black"/>
+<text x="575.0" y="335.0" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold">18.1%</text>
+<text x="509.0" y="419" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="normal">Pollinator service</text>
+<text x="360" y="264.0" transform="rotate(-90 360 264.0)" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">Floral damage pressure</text>
 <text x="650" y="68" font-family="Arial, sans-serif" font-size="16" text-anchor="start" font-weight="bold">C  Endpoint-normalized response shapes</text>
 <rect x="650" y="88" width="320" height="455" fill="none" stroke="black"/>
 <text x="660" y="131" font-family="Arial, sans-serif" font-size="13" text-anchor="start" font-weight="normal">baseline</text>

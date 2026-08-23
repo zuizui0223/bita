@@ -226,16 +226,18 @@ def build_svg(stats: FigureStats) -> str:
 <rect x="88" y="430" width="390" height="78" rx="14" class="soft"/><text x="283" y="462" text-anchor="middle" class="body">D → antagonism</text><text x="283" y="492" text-anchor="middle" class="small">{r['D_to_antagonism']} independent clusters</text>
 <rect x="510" y="430" width="390" height="78" rx="14" class="soft"/><text x="705" y="462" text-anchor="middle" class="body">D → pollination</text><text x="705" y="492" text-anchor="middle" class="small">{r['D_to_pollination']} independent clusters</text>
 
-<rect x="960" y="225" width="585" height="310" rx="16" class="box"/>
+<rect x="960" y="225" width="585" height="330" rx="16" class="box"/>
 <text x="1252" y="260" text-anchor="middle" class="subtitle">Recurrence and conditionality</text>
 <text x="995" y="305" class="body">Same-system multi-route: <tspan font-weight="700">{stats.same_system_clusters} clusters</tspan></text>
 <text x="995" y="340" class="body">Context/sign switch: <tspan font-weight="700">{stats.sign_switch_clusters} clusters</tspan></text>
 <text x="995" y="375" class="body">Context-only programs: <tspan font-weight="700">{stats.context_programs}</tspan></text>
-<text x="995" y="415" class="small">Recurring state transitions</text>
-<text x="1015" y="444" class="tiny">• guarded defence: antagonist relief without universal pollinator cost</text>
-<text x="1015" y="468" class="tiny">• spatial / temporal / attack-mode filtering</text>
-<text x="1015" y="492" class="tiny">• visitor functional-mode and lifecycle-role switching</text>
-<text x="1015" y="516" class="tiny">• response-stage, resource, population and trait-class dependence</text>
+<text x="995" y="407" class="small">Recurring state transitions</text>
+<text x="1015" y="431" class="tiny">• guarded defence: antagonist relief</text>
+<text x="1035" y="451" class="tiny">without universal pollinator cost</text>
+<text x="1015" y="475" class="tiny">• spatial / temporal / attack-mode filtering</text>
+<text x="1015" y="499" class="tiny">• visitor functional-mode and lifecycle-role switching</text>
+<text x="1015" y="523" class="tiny">• response-stage, resource, population</text>
+<text x="1035" y="543" class="tiny">and trait-class dependence</text>
 
 <rect x="55" y="570" width="700" height="190" rx="16" class="box"/>
 <text x="405" y="605" text-anchor="middle" class="subtitle">Reproduced meta-analysis · floral larceny</text>
