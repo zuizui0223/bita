@@ -237,23 +237,36 @@ def build_s3() -> str:
     matrix = same_system_routes()
     if len(matrix) != 14:
         raise ValueError(f"expected 14 same-system clusters, found {len(matrix)}")
-    width, height = 1350, 860
-    parts=[f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">','<rect width="100%" height="100%" fill="white"/>']
-    x0=560; y0=100; cw=165; rh=49
-    labels={"A_to_pollination":"A → pollination","A_to_antagonism":"A → antagonism","D_to_antagonism":"D → antagonism","D_to_pollination":"D → pollination"}
-    for i,route in enumerate(ROUTES):
-        parts.append(_svg_text(x0+i*cw+cw/2, 58, labels[route], 13, anchor="middle", weight=700))
-    for j,(cluster,routes) in enumerate(matrix.items()):
-        y=y0+j*rh
-        parts.append(_svg_text(x0-18, y+31, cluster.replace("_", " "), 12, anchor="end"))
-        for i,route in enumerate(ROUTES):
-            fill="#444" if route in routes else "#f4f4f4"
+    # Compact canvas + larger relative typography for publication-width use.
+    width, height = 1000, 820
+    parts = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
+        '<rect width="100%" height="100%" fill="white"/>',
+    ]
+    x0 = 370
+    y0 = 86
+    cw = 150
+    rh = 48
+    labels = {
+        "A_to_pollination": "A → pollination",
+        "A_to_antagonism": "A → antagonism",
+        "D_to_antagonism": "D → antagonism",
+        "D_to_pollination": "D → pollination",
+    }
+    for i, route in enumerate(ROUTES):
+        parts.append(_svg_text(x0 + i*cw + (cw-8)/2, 52, labels[route], 16, anchor="middle", weight=700))
+    for j, (cluster, routes) in enumerate(matrix.items()):
+        y = y0 + j*rh
+        parts.append(_svg_text(x0 - 14, y + 30, cluster.replace("_", " "), 14, anchor="end"))
+        for i, route in enumerate(ROUTES):
+            fill = "#444" if route in routes else "#f4f4f4"
             parts.append(f'<rect x="{x0+i*cw}" y="{y}" width="{cw-8}" height="{rh-7}" fill="{fill}" stroke="#777"/>')
             if route in routes:
-                parts.append(_svg_text(x0+i*cw+(cw-8)/2, y+28, "present", 10, anchor="middle", weight=700))
-    parts.append(_svg_text(675, 835, "Rows are independent biological clusters with at least two linked marginal routes (or an explicit same-system linkage flag). Presence is categorical; cells are not effect sizes.", 13, anchor="middle"))
+                parts.append(_svg_text(x0 + i*cw + (cw-8)/2, y + 27, "present", 13, anchor="middle", weight=700))
+    parts.append(_svg_text(500, 790, "Rows are independent biological clusters with at least two linked marginal routes (or an explicit same-system linkage flag).", 13, anchor="middle"))
+    parts.append(_svg_text(500, 810, "Presence is categorical; cells are not effect sizes.", 13, anchor="middle"))
     parts.append('</svg>')
-    return "\n".join(parts)+"\n"
+    return "\n".join(parts) + "\n"
 
 
 def parse_robustness() -> dict[str, float]:

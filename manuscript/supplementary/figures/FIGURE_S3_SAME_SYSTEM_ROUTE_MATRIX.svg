@@ -1,108 +1,109 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1350" height="860" viewBox="0 0 1350 860">
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="820" viewBox="0 0 1000 820">
 <rect width="100%" height="100%" fill="white"/>
-<text x="642.5" y="58.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">A → pollination</text>
-<text x="807.5" y="58.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">A → antagonism</text>
-<text x="972.5" y="58.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">D → antagonism</text>
-<text x="1137.5" y="58.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">D → pollination</text>
-<text x="542.0" y="131.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="400">Adler Irwin 2005 Gelsemium</text>
-<rect x="560" y="100" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="725" y="100" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="890" y="100" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="968.5" y="128.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="1055" y="100" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="1133.5" y="128.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<text x="542.0" y="180.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="400">Barlow et al 2017 Aconitum</text>
-<rect x="560" y="149" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="725" y="149" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="890" y="149" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="968.5" y="177.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="1055" y="149" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="1133.5" y="177.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<text x="542.0" y="229.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="400">Galen 2011 Polemonium</text>
-<rect x="560" y="198" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="725" y="198" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="890" y="198" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="968.5" y="226.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="1055" y="198" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="1133.5" y="226.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<text x="542.0" y="278.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="400">Gorden Adler 2018 Impatiens capensis</text>
-<rect x="560" y="247" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="638.5" y="275.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="725" y="247" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="803.5" y="275.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="890" y="247" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="968.5" y="275.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="1055" y="247" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="1133.5" y="275.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<text x="542.0" y="327.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="400">Irwin Adler Brody 2004 Ipomopsis</text>
-<rect x="560" y="296" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="725" y="296" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="890" y="296" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="968.5" y="324.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="1055" y="296" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="1133.5" y="324.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<text x="542.0" y="376.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="400">Jones Agrawal 2016 Asclepias</text>
-<rect x="560" y="345" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="725" y="345" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="890" y="345" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="968.5" y="373.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="1055" y="345" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="1133.5" y="373.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<text x="542.0" y="425.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="400">Kessler Baldwin 2007 Nicotiana</text>
-<rect x="560" y="394" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="725" y="394" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="890" y="394" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="968.5" y="422.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="1055" y="394" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="1133.5" y="422.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<text x="542.0" y="474.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="400">Kessler et al 2015 Nicotiana</text>
-<rect x="560" y="443" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="638.5" y="471.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="725" y="443" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="803.5" y="471.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="890" y="443" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="1055" y="443" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<text x="542.0" y="523.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="400">Perez Barrales 2013 Dalechampia scandens</text>
-<rect x="560" y="492" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="638.5" y="520.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="725" y="492" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="803.5" y="520.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="890" y="492" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="1055" y="492" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<text x="542.0" y="572.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="400">Stephenson 1982 Catalpa speciosa</text>
-<rect x="560" y="541" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="725" y="541" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="890" y="541" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="968.5" y="569.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="1055" y="541" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="1133.5" y="569.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<text x="542.0" y="621.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="400">Sun Huang 2015 Pedicularis rex</text>
-<rect x="560" y="590" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="725" y="590" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="890" y="590" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="968.5" y="618.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="1055" y="590" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="1133.5" y="618.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<text x="542.0" y="670.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="400">Theis Adler 2012 Cucurbita</text>
-<rect x="560" y="639" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="638.5" y="667.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="725" y="639" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="803.5" y="667.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="890" y="639" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="1055" y="639" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<text x="542.0" y="719.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="400">Theis et al 2014 Cucurbitaceae</text>
-<rect x="560" y="688" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="638.5" y="716.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="725" y="688" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="803.5" y="716.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="890" y="688" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="1055" y="688" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<text x="542.0" y="768.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="12" font-weight="400">Wu Gao 2024 Thunia alba</text>
-<rect x="560" y="737" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="725" y="737" width="157" height="42" fill="#f4f4f4" stroke="#777"/>
-<rect x="890" y="737" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="968.5" y="765.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<rect x="1055" y="737" width="157" height="42" fill="#444" stroke="#777"/>
-<text x="1133.5" y="765.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="10" font-weight="700">present</text>
-<text x="675.0" y="835.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="400">Rows are independent biological clusters with at least two linked marginal routes (or an explicit same-system linkage flag). Presence is categorical; cells are not effect sizes.</text>
+<text x="441.0" y="52.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">A → pollination</text>
+<text x="591.0" y="52.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">A → antagonism</text>
+<text x="741.0" y="52.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">D → antagonism</text>
+<text x="891.0" y="52.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="700">D → pollination</text>
+<text x="356.0" y="116.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Adler Irwin 2005 Gelsemium</text>
+<rect x="370" y="86" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="520" y="86" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="670" y="86" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="741.0" y="113.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="820" y="86" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="891.0" y="113.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<text x="356.0" y="164.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Barlow et al 2017 Aconitum</text>
+<rect x="370" y="134" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="520" y="134" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="670" y="134" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="741.0" y="161.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="820" y="134" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="891.0" y="161.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<text x="356.0" y="212.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Galen 2011 Polemonium</text>
+<rect x="370" y="182" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="520" y="182" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="670" y="182" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="741.0" y="209.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="820" y="182" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="891.0" y="209.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<text x="356.0" y="260.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Gorden Adler 2018 Impatiens capensis</text>
+<rect x="370" y="230" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="441.0" y="257.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="520" y="230" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="591.0" y="257.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="670" y="230" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="741.0" y="257.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="820" y="230" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="891.0" y="257.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<text x="356.0" y="308.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Irwin Adler Brody 2004 Ipomopsis</text>
+<rect x="370" y="278" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="520" y="278" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="670" y="278" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="741.0" y="305.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="820" y="278" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="891.0" y="305.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<text x="356.0" y="356.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Jones Agrawal 2016 Asclepias</text>
+<rect x="370" y="326" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="520" y="326" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="670" y="326" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="741.0" y="353.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="820" y="326" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="891.0" y="353.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<text x="356.0" y="404.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Kessler Baldwin 2007 Nicotiana</text>
+<rect x="370" y="374" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="520" y="374" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="670" y="374" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="741.0" y="401.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="820" y="374" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="891.0" y="401.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<text x="356.0" y="452.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Kessler et al 2015 Nicotiana</text>
+<rect x="370" y="422" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="441.0" y="449.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="520" y="422" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="591.0" y="449.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="670" y="422" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="820" y="422" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<text x="356.0" y="500.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Perez Barrales 2013 Dalechampia scandens</text>
+<rect x="370" y="470" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="441.0" y="497.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="520" y="470" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="591.0" y="497.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="670" y="470" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="820" y="470" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<text x="356.0" y="548.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Stephenson 1982 Catalpa speciosa</text>
+<rect x="370" y="518" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="520" y="518" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="670" y="518" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="741.0" y="545.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="820" y="518" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="891.0" y="545.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<text x="356.0" y="596.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Sun Huang 2015 Pedicularis rex</text>
+<rect x="370" y="566" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="520" y="566" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="670" y="566" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="741.0" y="593.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="820" y="566" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="891.0" y="593.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<text x="356.0" y="644.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Theis Adler 2012 Cucurbita</text>
+<rect x="370" y="614" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="441.0" y="641.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="520" y="614" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="591.0" y="641.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="670" y="614" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="820" y="614" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<text x="356.0" y="692.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Theis et al 2014 Cucurbitaceae</text>
+<rect x="370" y="662" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="441.0" y="689.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="520" y="662" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="591.0" y="689.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="670" y="662" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="820" y="662" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<text x="356.0" y="740.0" text-anchor="end" font-family="DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400">Wu Gao 2024 Thunia alba</text>
+<rect x="370" y="710" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="520" y="710" width="142" height="41" fill="#f4f4f4" stroke="#777"/>
+<rect x="670" y="710" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="741.0" y="737.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<rect x="820" y="710" width="142" height="41" fill="#444" stroke="#777"/>
+<text x="891.0" y="737.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="700">present</text>
+<text x="500.0" y="790.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="400">Rows are independent biological clusters with at least two linked marginal routes (or an explicit same-system linkage flag).</text>
+<text x="500.0" y="810.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="400">Presence is categorical; cells are not effect sizes.</text>
 </svg>
