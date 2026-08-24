@@ -87,6 +87,11 @@ Canonical manuscript-facing reproduction scripts include the Part I robustness r
 
 Important distinction: source-recovery and audit scripts are retained as provenance when they support an admitted empirical module, but one-off scripts that only mutated manuscript prose or relabelled already-frozen figures are not part of the scientific reproduction path.
 
+Repository graph integrity is guarded by
+`tests/test_repository_graph_integrity.py`: active Python surfaces may not
+import retired local modules, workflows may not call missing scripts, and active
+workflows may not write to retired research branches.
+
 ## Inference boundaries
 
 The repository must preserve these distinctions:

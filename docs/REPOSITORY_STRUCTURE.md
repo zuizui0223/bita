@@ -84,7 +84,36 @@ Do not keep a workflow active solely because it once rewrote prose, relabelled a
 
 Network-dependent source-audit workflows are provenance/validation tools, not the default research loop. Broad searching is not reopened unless a specific manuscript claim, reviewer request, or provenance gate requires it.
 
-## 6. Paperization change policy
+The two secondary-synthesis receipt reconstructions are exposed through one
+read-only, manually dispatched workflow:
+`.github/workflows/audit-secondary-synthesis-receipts.yml`. It uploads newly
+generated receipts for inspection and never commits to a historical analysis
+branch.
+
+## 6. Graph-integrity policy
+
+Repository organization follows a paper-spine dependency graph rather than file
+type alone:
+
+```text
+canonical manuscript / tables / figures
+    <- deterministic builders
+    <- admitted theory or empirical inputs
+    <- source receipts and declared provenance
+    <- regression tests and read-only workflows
+```
+
+A file remains on the active graph when it is reachable from a canonical paper
+asset or when the Supplement Manifest explicitly licenses it as provenance for an
+admitted empirical module. A script that imports a retired local module, a
+workflow that calls a missing script, or a workflow that writes to a retired
+research branch is dead machinery rather than reproducibility infrastructure.
+
+`tests/test_repository_graph_integrity.py` enforces those executable edges.
+`tests/test_submission_scope.py` separately prevents retired scientific
+architectures from returning.
+
+## 7. Paperization change policy
 
 From this point forward, proposed changes should be classified before implementation:
 
@@ -93,7 +122,7 @@ From this point forward, proposed changes should be classified before implementa
 - **Scientific correction:** change to an estimate, theorem, admitted evidence state, or inference boundary. Requires an explicit reason and revalidation of all downstream manuscript claims.
 - **New discovery:** new broad search, new Pattern class, new model family, or new empirical programme. Out of scope for the current paper unless the frozen conclusion is actually falsified.
 
-## 7. Frozen scientific endpoint for this paper
+## 8. Frozen scientific endpoint for this paper
 
 The paper supports:
 
