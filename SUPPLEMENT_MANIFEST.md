@@ -189,7 +189,7 @@ These modules broaden Pattern recurrence without being pooled with Leal/Sasidhar
 - `PATTERN_MODULE_REGISTRY_V2.csv`
 - `HAAS_DESMARAIS_2026_SUPPLEMENT_RECEIPT_V1.json`
 - `scripts/reconstruct_haas_desmarais_2026_supplement.py`
-- `.github/workflows/reconstruct-haas-desmarais-2026.yml`
+- `.github/workflows/audit-secondary-synthesis-receipts.yml`
 
 Published multilevel synthesis: 171 studies / 1,348 study cases. The publisher supplementary package was independently retrieved and hashed. This is not relabelled as a local raw-effect reanalysis, and herbivory is not equated with focal floral `D`.
 
@@ -197,7 +197,7 @@ Published multilevel synthesis: 171 studies / 1,348 study cases. The publisher s
 
 - `CARUSO_2019_DRYAD_RECEIPT_V1.json`
 - `scripts/reconstruct_caruso_2019_dryad.py`
-- `.github/workflows/reconstruct-caruso-2019.yml`
+- `.github/workflows/audit-secondary-synthesis-receipts.yml`
 
 Published main analysis: 755 directional selection gradients with SE from 36 articles. Dryad metadata/workbook identities are verified; current file-byte access remains an access-layer limitation rather than a biological null.
 
