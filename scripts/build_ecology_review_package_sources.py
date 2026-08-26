@@ -27,17 +27,6 @@ def _title_page_open_research() -> str:
     )
 
 
-def _ai_transparency() -> str:
-    return (
-        "## Computational and AI-assisted workflow transparency\n\n"
-        "OpenAI ChatGPT and Anthropic Claude were used for code-generation assistance, "
-        "structured literature triage, reproducibility checks, and manuscript drafting/editing. "
-        "These tools did not determine scientific inclusion criteria, adjudicate evidence, or "
-        "replace author verification of analyses and citations. The authors retain responsibility "
-        "for all definitions, data-use decisions, code, results, citations, and text."
-    )
-
-
 def build_main_submission_source() -> str:
     """Promote the validated identification-design candidate to Ecology Main source.
 
@@ -60,9 +49,9 @@ def build_main_submission_source() -> str:
 
     # Move review-stage availability to the title page and keep the backmatter in
     # the journal-facing order. Human-controlled statements remain explicit
-    # placeholders and are not inferred here. Retain a concise AI-use disclosure
-    # from the historical submission because transparency is independent of the
-    # manuscript's scientific reframing.
+    # placeholders and are not inferred here. The canonical scientific source
+    # already contains the Section 5.4 AI-use disclosure, so do not duplicate it
+    # in the backmatter during packaging.
     pattern = re.compile(
         r"\n\n## Open Research statement\n\n.+?"
         r"\n\n## Author contributions, funding, acknowledgments and competing interests\n\n"
@@ -70,8 +59,7 @@ def build_main_submission_source() -> str:
         flags=re.S,
     )
     replacement = (
-        "\n\n" + _ai_transparency()
-        + "\n\n## Acknowledgments\n\n[Author-controlled; complete before submission.]"
+        "\n\n## Acknowledgments\n\n[Author-controlled; complete before submission.]"
         + "\n\n## Author Contributions\n\n[Author-controlled; complete before submission.]"
         + "\n\n## Funding\n\n[Author-controlled; insert funding statement or confirmed no-funding statement.]"
         + "\n\n## Conflict of Interest Statement\n\n[Author-controlled; complete before submission.]"
