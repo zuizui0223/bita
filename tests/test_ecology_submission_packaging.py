@@ -30,6 +30,7 @@ def test_main_submission_source_is_identification_design() -> None:
         "## Abstract",
         "## 1. Introduction",
         "## 3. A crossed intervention design for channel identification",
+        "## 4. From mechanism to pattern: recurrence before identification",
         "## Acknowledgments",
         "## Author Contributions",
         "## Funding",
@@ -47,6 +48,8 @@ def test_main_submission_source_is_identification_design() -> None:
     assert "Theorem 1" not in text
     assert "77.2%" not in text
     assert "2,592" not in text.split("## References", 1)[0]
+    assert "56 directional route records from 25 independent biological study clusters" in text
+    assert "marginal route recurrence does not estimate" in text
 
 
 def test_main_has_five_identification_figures_and_no_main_tables() -> None:
@@ -55,7 +58,6 @@ def test_main_has_five_identification_figures_and_no_main_tables() -> None:
         assert f"FIGURE_{idx}_IDENTIFICATION_DESIGN.svg" in text
         assert f"**Figure {idx}." in text
     assert "## Table 1." not in text
-    # References section break starts Figure 1; Figures 2–5 use explicit breaks.
     assert text.count(builder.PAGE_BREAK) == 4
 
 
@@ -67,11 +69,10 @@ def test_appendix_is_identification_supplement() -> None:
     assert "KESSLER_2008_IDENTIFICATION_REAUDIT_V2.md" in text
     assert "IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json" in text
     assert "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv" in text
-    assert "FIGURE_S1_DERIVATIVE_AGREEMENT.svg" in text
-    assert "FIGURE_S2_SCENARIO_SIGN_MAPS.svg" in text
+    assert "Constituent mechanism recurrence supporting the Main Pattern layer" in text
 
 
-def test_open_research_package_includes_identification_outputs(tmp_path, monkeypatch) -> None:
+def test_open_research_package_includes_identification_and_pattern_outputs(tmp_path, monkeypatch) -> None:
     monkeypatch.setattr(builder, "OUT", tmp_path)
     monkeypatch.setattr(builder, "DATA_OUT", tmp_path / "open_research_data")
     manifest = builder.build_open_research_manifest()
@@ -94,9 +95,11 @@ def test_open_research_package_includes_identification_outputs(tmp_path, monkeyp
 def test_cover_letter_matches_under_30_page_identification_package() -> None:
     text = COVER.read_text(encoding="utf-8")
     assert "From floral trait interactions to mechanism identification" in text
-    assert "currently renders to **27 Main Document pages**" in text
+    assert "currently renders to **29 Main Document pages**" in text
     assert "11-page Appendix S1" in text
     assert "within the standard 30-page Concepts & Synthesis target" in text
+    assert "56 source-adjudicated route records from 25 independent biological clusters" in text
+    assert "route records do not estimate `rho_delta`, `iota_delta`, `Delta_AD W`, or `kappa_delta`" in text
     assert "## 1. Broad ecological contribution of the additional length" not in text
     assert "one-sided mechanistic bound" not in text
     assert "acceptance stage" in text
