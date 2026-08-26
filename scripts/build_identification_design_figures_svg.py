@@ -41,7 +41,6 @@ def _box(x: int, y: int, w: int, h: int, title: str, lines: list[str], cls: str 
 def fig1() -> str:
     b = ['<text x="600" y="42" text-anchor="middle" class="title">A total trait interaction does not identify its mechanism</text>']
     b.append(_box(55, 95, 420, 500, "Measured four-cell trait factorial", ["A and D each have two experimental levels", "", "ΔAD W = W11 − W10 − W01 + W00", "", "This is the directly estimable trait interaction", "on the chosen biological outcome scale."], "dark"))
-    # 2x2 cells
     coords = {(0,0):(95,390),(1,0):(275,390),(0,1):(95,480),(1,1):(275,480)}
     for (a,d),(x,y) in coords.items():
         b.append(f'<rect x="{x}" y="{y}" width="145" height="65" rx="8" class="soft"/><text x="{x+72}" y="{y+38}" text-anchor="middle" class="body">W{a}{d}</text>')
@@ -92,15 +91,19 @@ def _read_coverage() -> list[dict[str,str]]:
 def _impatiens_targets() -> list[dict[str,float|str]]:
     data = json.loads(IMPATIENS.read_text(encoding="utf-8"))
     targets=[]
-    # Current report contains model_summaries with coefficient records.
     summaries = data.get("model_summaries") or data.get("models") or []
     for summary in summaries:
         analysis = str(summary.get("analysis_id") or summary.get("outcome") or "outcome")
-        coeffs = summary.get("coefficients") or summary.get("target_coefficients") or []
+        raw_coeffs = summary.get("all_coefficients") or summary.get("coefficients") or summary.get("target_coefficients") or []
+        coeffs = list(raw_coeffs.values()) if isinstance(raw_coeffs, dict) else list(raw_coeffs)
         for c in coeffs:
             term=str(c.get("term", ""))
             if term == "A_z:D_z" or term.startswith("A_z:D_z:"):
-                targets.append({"analysis":analysis,"term":term,"estimate":float(c["estimate"]),"lo":float(c.get("ci95_lower", c.get("ci_lower"))),"hi":float(c.get("ci95_upper", c.get("ci_upper")))})
+                lo = c.get("ci95_lower", c.get("ci_lower"))
+                hi = c.get("ci95_upper", c.get("ci_upper"))
+                targets.append({"analysis":analysis,"term":term,"estimate":float(c["estimate"]),"lo":float(lo),"hi":float(hi)})
+    if len(targets) != 8:
+        raise ValueError(f"Expected eight Impatiens A×D target coefficients, found {len(targets)}")
     return targets
 
 
@@ -110,23 +113,21 @@ def _xscale(value: float, x0: float=600, lo: float=-1.8, hi: float=1.3, width: f
 
 def fig4() -> str:
     rows=_read_coverage(); targets=_impatiens_targets()
-    ids={r["study_id"]:r for r in rows}
     b=['<text x="650" y="42" text-anchor="middle" class="title">Existing studies occupy complementary parts of the identification design</text>']
     b.append(_box(50,85,565,220,"Trait-factorial side — Kessler et al. 2008",["manipulated floral benzylacetone × nicotine", "direct discrete A×D-like reproductive interaction", "published aggregate sign: positive", "Δ probability scale ≈ +0.19 to +0.25", "missing: selective G and P toggles; systemic-D caveat"],"dark"))
     b.append(_box(685,85,565,220,"Consumer-factorial side — Egan et al. 2021",["crossed herbivory × pollination environment", "selection on attraction/defence-related traits", "consumer-context structure is strong", "missing: independently manipulated floral A×D", "several defence metabolites are leaf-derived"],"dark"))
     b.append('<text x="650" y="345" text-anchor="middle" class="sub">The missing object is their intersection</text>')
     b.append(f'<text x="650" y="375" text-anchor="middle" class="body">High-information coverage matrix: {len(rows)} systems; independent κ assay = 0; full channel identification = 0</text>')
-    # Impatiens forest plot
     b.append('<text x="60" y="430" class="sub">Impatiens public-data retrofit: observational A×D and randomized-agent modifiers</text>')
     x0=600; w=600
     for tick in [-1.5,-1.0,-0.5,0,0.5,1.0]:
         x=_xscale(tick,x0=x0,width=w)
         b.append(f'<line x1="{x}" y1="455" x2="{x}" y2="830" class="dash"/><text x="{x}" y="850" text-anchor="middle" class="tiny">{tick:+.1f}</text>')
     label_map={"A_z:D_z":"A×D","A_z:D_z:Robbing_c":"A×D×Robbing","A_z:D_z:Florivory_c":"A×D×Florivory","A_z:D_z:Pollination_c":"A×D×Pollination"}
-    # Stable ordering by analysis then target term
-    targets=sorted(targets,key=lambda r:(str(r["analysis"]), ["A_z:D_z","A_z:D_z:Robbing_c","A_z:D_z:Florivory_c","A_z:D_z:Pollination_c"].index(str(r["term"]))))
+    order=["A_z:D_z","A_z:D_z:Robbing_c","A_z:D_z:Florivory_c","A_z:D_z:Pollination_c"]
+    targets=sorted(targets,key=lambda r:(str(r["analysis"]), order.index(str(r["term"]))))
     y=485; last_analysis=None
-    for r in targets[:8]:
+    for r in targets:
         analysis=str(r["analysis"])
         if analysis!=last_analysis:
             short="CH fruits/day" if "fruit" in analysis.lower() and "seed" not in analysis.lower() else "seeds/CH fruit"
