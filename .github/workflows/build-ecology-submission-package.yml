@@ -7,8 +7,10 @@ on:
       - 'submission/**'
       - 'scripts/build_ecology_submission_sources.py'
       - 'scripts/build_ecology_review_package_sources.py'
+      - 'scripts/build_identification_candidate_package_sources.py'
       - 'scripts/format_ecology_submission_docx.py'
       - 'tests/test_ecology_submission_packaging.py'
+      - 'tests/test_identification_candidate_package.py'
       - '.github/workflows/build-ecology-submission-package.yml'
   workflow_dispatch:
 
@@ -28,10 +30,16 @@ jobs:
           sudo apt-get install -y pandoc libreoffice-writer poppler-utils librsvg2-bin
           python -m pip install python-docx pytest
 
-      - name: Run packaging regression tests
-        run: python -m pytest -q tests/test_ecology_submission_packaging.py
+      - name: Run canonical packaging regression tests
+        run: |
+          python -m pytest -q \
+            tests/test_ecology_submission_packaging.py \
+            tests/test_identification_candidate_package.py \
+            tests/test_identification_manuscript_draft.py \
+            tests/test_identification_manuscript_references.py \
+            tests/test_identification_design_figures.py
 
-      - name: Build Ecology review-package sources
+      - name: Build canonical Ecology sources from identification manuscript
         run: python scripts/build_ecology_review_package_sources.py
 
       - name: Build Main Document DOCX
@@ -46,7 +54,7 @@ jobs:
             submission/ecology/generated/MANUSCRIPT_ECOLOGY_RAW.docx \
             submission/ecology/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.docx
 
-      - name: Build Appendix S1 PDF source
+      - name: Build Appendix S1 DOCX
         run: |
           cd submission/ecology/generated
           pandoc APPENDIX_S1.md \
@@ -59,7 +67,7 @@ jobs:
             submission/ecology/generated/APPENDIX_S1.docx \
             --appendix
 
-      - name: Validate DOCX structure
+      - name: Validate DOCX structure and embedded figures
         run: |
           mkdir -p /tmp/ecology-docx
           cd /tmp/ecology-docx
@@ -67,8 +75,12 @@ jobs:
           grep -q 'w:lnNumType' word/document.xml
           ! grep -q 'ECOLOGY_SECTION_BREAK' word/document.xml
           ! grep -q 'ECOLOGY_PAGE_BREAK' word/document.xml
-          grep -q 'word/media/' <(unzip -l "$GITHUB_WORKSPACE/submission/ecology/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.docx")
           cd "$GITHUB_WORKSPACE"
+          MEDIA_COUNT=$(unzip -l submission/ecology/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.docx | grep -c 'word/media/' || true)
+          if [ "$MEDIA_COUNT" -lt 5 ]; then
+            echo "Expected five embedded identification-design Main figures; found $MEDIA_COUNT" >&2
+            exit 1
+          fi
 
       - name: Render Main Document and Appendix
         run: |
@@ -80,49 +92,58 @@ jobs:
             --outdir submission/ecology/generated/rendered \
             submission/ecology/generated/APPENDIX_S1.docx
 
-      - name: Validate package and page limits
+      - name: Validate canonical identification package and page limits
         run: |
           MAIN_PDF=submission/ecology/generated/rendered/MANUSCRIPT_ECOLOGY_SUBMISSION.pdf
           APP_PDF=submission/ecology/generated/rendered/APPENDIX_S1.pdf
+          MAIN_TXT="$RUNNER_TEMP/main.txt"
+          APP_TXT="$RUNNER_TEMP/appendix.txt"
           test -s "$MAIN_PDF"
           test -s "$APP_PDF"
           MAIN_PAGES=$(pdfinfo "$MAIN_PDF" | awk '/^Pages:/ {print $2}')
           APP_PAGES=$(pdfinfo "$APP_PDF" | awk '/^Pages:/ {print $2}')
-          if [ "$MAIN_PAGES" -gt 30 ]; then
+          pdftotext "$MAIN_PDF" "$MAIN_TXT"
+          pdftotext "$APP_PDF" "$APP_TXT"
+
+          grep -q 'From floral trait interactions to mechanism identification' "$MAIN_TXT"
+          grep -qi 'crossed intervention design' "$MAIN_TXT"
+          grep -q 'Kessler et al. (2008)' "$MAIN_TXT"
+          grep -q 'Egan et al. (2021)' "$MAIN_TXT"
+          grep -q 'Figure 5.' "$MAIN_TXT"
+          ! grep -q 'Theorem 1' "$MAIN_TXT"
+          ! grep -q '77.2%' "$MAIN_TXT"
+          grep -q 'Appendix S1' "$APP_TXT"
+          grep -q '2,592' "$APP_TXT"
+          grep -q '77.2%' "$APP_TXT"
+          grep -q 'Kessler et al. 2008 aggregate reconstruction' "$APP_TXT"
+          test -s submission/ecology/generated/open_research_data/high_information_identification_coverage.csv
+          test -s submission/ecology/generated/open_research_data/impatiens_identification_retrofit.json
+
+          if [ "$MAIN_PAGES" -le 30 ]; then
+            LENGTH_STATE='WITHIN_30_PAGE_STANDARD_TARGET'
+          elif [ "$MAIN_PAGES" -le 50 ]; then
             LENGTH_STATE='OVER_30_REQUIRES_TWO_PART_COVER_JUSTIFICATION'
           else
-            LENGTH_STATE='WITHIN_30_PAGE_STANDARD_LIMIT'
+            LENGTH_STATE='FAIL_OVER_50'
           fi
-          if [ "$MAIN_PAGES" -gt 50 ]; then
-            LIMIT_STATE='FAIL_OVER_50'
-          else
-            LIMIT_STATE='PASS_AT_OR_BELOW_50'
-          fi
-          pdftotext "$MAIN_PDF" - | grep -q 'Ecology'
-          pdftotext "$MAIN_PDF" - | grep -q 'Concepts & Synthesis'
-          pdftotext "$MAIN_PDF" - | grep -q 'Table 4'
-          pdftotext "$MAIN_PDF" - | grep -q 'Figure 3'
-          pdftotext "$MAIN_PDF" - | grep -q 'Figure 4'
-          pdftotext "$MAIN_PDF" - | grep -q 'Figure 5'
-          pdftotext "$APP_PDF" - | grep -q 'Appendix S1'
-          pdftotext "$APP_PDF" - | grep -q 'Figure S3'
-          ! pdftotext "$APP_PDF" - | grep -q 'Figure S4'
-          {
-            echo "main_pages=$MAIN_PAGES"
-            echo "appendix_pages=$APP_PAGES"
-            echo "length_state=$LENGTH_STATE"
-            echo "limit_state=$LIMIT_STATE"
-            echo "main_format=Word DOCX, Letter, 1-inch margins, 12-pt Times New Roman, double-spaced prose"
-            echo "line_number_scope=after title page through end of References"
-            echo "main_tables=compact journal-facing Tables 1-4; exhaustive records moved to Open Research data"
-            echo "main_figures=Figures 1-5 embedded, one figure page each"
-            echo "appendix_format=single Appendix S1 PDF with Figures S1-S3; no spreadsheet Supporting Information"
-            echo "open_research_data=machine-readable CSV package separated from Supporting Information"
-          } > submission/ecology/generated/PACKAGE_QA_RECEIPT.txt
           if [ "$MAIN_PAGES" -gt 50 ]; then
             echo "Main Document is $MAIN_PAGES pages; Ecology Concepts & Synthesis maximum is 50." >&2
             exit 1
           fi
+
+          MEDIA_COUNT=$(unzip -l submission/ecology/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.docx | grep -c 'word/media/' || true)
+          {
+            echo "main_pages=$MAIN_PAGES"
+            echo "appendix_pages=$APP_PAGES"
+            echo "length_state=$LENGTH_STATE"
+            echo "limit_state=PASS_AT_OR_BELOW_50"
+            echo "canonical_manuscript=manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md"
+            echo "main_headline=interaction_detection_to_mechanism_identification"
+            echo "main_figures=5 identification-design figures embedded"
+            echo "embedded_main_media=$MEDIA_COUNT"
+            echo "old_grid_status=supplement_only"
+            echo "open_research_identification_outputs=present"
+          } > submission/ecology/generated/PACKAGE_QA_RECEIPT.txt
 
       - name: Remove raw intermediate Word files
         if: always()
@@ -130,16 +151,17 @@ jobs:
           rm -f submission/ecology/generated/MANUSCRIPT_ECOLOGY_RAW.docx
           rm -f submission/ecology/generated/APPENDIX_S1_RAW.docx
 
-      - name: Upload submission package
+      - name: Upload canonical review package
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ecology-submission-package
           path: |
             submission/ecology/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.docx
+            submission/ecology/generated/APPENDIX_S1.docx
             submission/ecology/generated/rendered/MANUSCRIPT_ECOLOGY_SUBMISSION.pdf
             submission/ecology/generated/rendered/APPENDIX_S1.pdf
             submission/ecology/generated/OPEN_RESEARCH_DATA_MANIFEST.md
-            submission/ecology/generated/open_research_data/*.csv
+            submission/ecology/generated/open_research_data/*
             submission/ecology/generated/PACKAGE_QA_RECEIPT.txt
           if-no-files-found: error
