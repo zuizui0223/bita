@@ -132,24 +132,7 @@ Under the one-sided theorem, outside-window complementarity requires negative jo
 
 ## 7. Reproduced quantitative synthesis module 1 — Leal et al. 2025 floral larceny
 
-The completed module is included directly in the canonical repository tree and is also pinned to immutable provenance:
-
-```text
-canonical commit:   ed33b25593c0d90ad6657753f6f5501d9efc7b82
-preregistration:    0e36eac
-first results:      965d657
-source synthesis:   Leal et al. 2025, Ecology, doi:10.1002/ecy.70036
-```
-
-Canonical source/result products now present in the current tree, with provenance traced to that immutable commit, include:
-
-- `empirical/broad_reality_evidence/larceny_gate/LARCENY_GATE_PROTOCOL_V1.md`
-- `LARCENY_GATE_READOUT_V1.md`
-- `larceny_effect_rows.csv`
-- ingest diagnostics/recomputation audits
-- the committed result directory
-- `scripts/run_larceny_gate.py`, `scripts/run_context_dependence.py`, and `trait_architecture/context_dependence.py`;
-- integrity tests for effect ingestion, context dependence, and the declared larceny gate.
+The completed module is included directly in the canonical repository tree and is pinned to immutable provenance.
 
 Admitted manuscript values remain:
 
@@ -165,45 +148,17 @@ The reward → visitation → female-fitness sequence is retained as constituent
 
 ## 8. Reproduced quantitative synthesis module 2 — Sasidharan et al. 2023 FVOCs
 
-Canonical files:
-
-- `SASIDHARAN_2023_REPRO_PROTOCOL_V1.md`
-- `SASIDHARAN_2023_REPRO_READOUT_V1.md`
-- `SECONDARY_SYNTHESIS_MODULES_V1.csv`
-- `scripts/audit_sasidharan2023_pmc_supplement.py`
-- `scripts/audit_sasidharan2023_s1_domains.py`
-- `scripts/audit_sasidharan2023_citation_topology.py`
-- `scripts/reconstruct_sasidharan2023_fvoc.py`
-- `scripts/adjudicate_sasidharan2023_gate_c.py`
-
 Canonical adjudication is `PASS_AS_DEPOSITED_REANALYSIS`. The conservative 32-study-component citation topology remains the dependence source of record. Physiological detection is 84/103 for florivore units and 151/220 for pollinator units; the assembled risk difference is `+0.129` and remains positive in 32/32 leave-one-component-out refits.
 
 Only three study components contain both physiological consumer roles and all three paired differences are zero, so the assembled contrast is not treated as a causal within-study role effect.
 
 ## 9. Secondary contextual/cross-synthesis modules
 
-These modules broaden Pattern recurrence without being pooled with Leal/Sasidharan. **secondary-synthesis counts are not added to route-ledger N**.
+These modules broaden Pattern recurrence without being pooled with Leal/Sasidharan. **Secondary-synthesis counts are not added to route-ledger N**.
 
-### Haas-Desmarais et al. 2026
-
-- `PATTERN_MODULE_REGISTRY_V2.csv`
-- `HAAS_DESMARAIS_2026_SUPPLEMENT_RECEIPT_V1.json`
-- `scripts/reconstruct_haas_desmarais_2026_supplement.py`
-- `.github/workflows/audit-secondary-synthesis-receipts.yml`
-
-Published multilevel synthesis: 171 studies / 1,348 study cases. The publisher supplementary package was independently retrieved and hashed. This is not relabelled as a local raw-effect reanalysis, and herbivory is not equated with focal floral `D`.
-
-### Caruso et al. 2019
-
-- `CARUSO_2019_DRYAD_RECEIPT_V1.json`
-- `scripts/reconstruct_caruso_2019_dryad.py`
-- `.github/workflows/audit-secondary-synthesis-receipts.yml`
-
-Published main analysis: 755 directional selection gradients with SE from 36 articles. Dryad metadata/workbook identities are verified; current file-byte access remains an access-layer limitation rather than a biological null.
-
-### Junker & Blüthgen 2010
-
-Registered in `PATTERN_MODULE_REGISTRY_V2.csv` and `CROSS_MODULE_PATTERN_MATRIX_V2.csv` as a secondary consumer-filtering cross-synthesis: 18 publications / 425 observations. Visitor dependence on floral resources is not equated with pollinator-versus-antagonist identity.
+- Haas-Desmarais et al. 2026: 171 studies / 1,348 study cases; supplement package independently retrieved and hashed; herbivory is not relabelled as focal floral `D`.
+- Caruso et al. 2019: 755 directional selection gradients with SE from 36 articles; current raw file-byte access remains an access-layer limitation rather than a biological null.
+- Junker & Blüthgen 2010: 18 publications / 425 observations; visitor dependence on floral resources is not equated with pollinator-versus-antagonist identity.
 
 ## 10. Robustness and theory–empiricism boundary
 
@@ -228,32 +183,38 @@ Required boundaries include:
 
 ## 11. Canonical figures, tables, supplement, and callouts
 
-Main paper assets:
+### Final Main figures
 
-- `manuscript/figures/FIGURE_1_MECHANISTIC_ARCHITECTURE.svg`
-- `manuscript/figures/FIGURE_2_THEORY_REGIME_MAP.svg`
-- `manuscript/figures/FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg`
-- `manuscript/figures/FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg`
-- `manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg`
-- `manuscript/TABLES_THEORETICAL_ECOLOGY.md`
+The manuscript-facing final numbering is:
 
-Supplement assets:
+1. `FIGURE_1_MECHANISTIC_ARCHITECTURE.svg` — mechanistic architecture and inference boundary.
+2. `FIGURE_2_THEORY_REGIME_MAP.svg` — finite theory regime / selectivity-window result.
+3. `FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg` — cross-system Pattern architecture.
+4. Final **Fig. 4** uses the frozen quantitative evidence / identification-boundary source currently stored as `manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg`.
+5. Final **Fig. 5** uses the 14-cluster same-system route-matrix source currently stored as `manuscript/supplementary/figures/FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg`.
 
-- `manuscript/supplementary/SUPPLEMENTARY_MATERIAL.md`
-- `manuscript/supplementary/figures/FIGURE_S1_DERIVATIVE_AGREEMENT.svg`
-- `FIGURE_S2_SCENARIO_SIGN_MAPS.svg`
-- `FIGURE_S4_QUANTITATIVE_ROBUSTNESS.svg` (reader-facing Fig. S3 source)
-- `manuscript/supplementary/tables/` for Tables S1–S6.
+The historical `FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg` is not part of the final Main Document because it is reader orientation only and adds no new scientific result.
 
-The manuscript now contains explicit callouts for Figures 1–3, Tables 1–4, Supplementary Figures S1–S3, and Tables S1–S6.
+### Final Appendix S1 figures
 
-All nine figure sources have been rendered and visually inspected. Layout defects identified in Fig. 2, Fig. S1, Fig. S2, and Fig. S4 were corrected in their builders and regenerated without changing scientific values.
+- **Figure S1:** `FIGURE_S1_DERIVATIVE_AGREEMENT.svg` — analytic versus finite-difference implementation check.
+- **Figure S2:** `FIGURE_S2_SCENARIO_SIGN_MAPS.svg` — detailed scenario × response-shape sign maps.
+- **Figure S3:** `FIGURE_S4_QUANTITATIVE_ROBUSTNESS.svg` — quantitative robustness/sensitivity source, renumbered reader-facing as S3 after promotion of the same-system matrix to Main Fig. 5.
+
+Canonical supplementary Tables S1–S6 remain machine-readable products and are represented in the Open Research package rather than uploaded as spreadsheet Supporting Information.
+
+The final manuscript contains explicit callouts for Figures 1–5, Tables 1–4, Appendix S1 Figures S1–S3, and the relevant Open Research products.
 
 Active reproducibility contracts now:
 
-- rebuild and diff committed Figure 2 against the frozen 2,592-evaluation analysis;
-- rebuild Supplementary Figures S1–S3 and Tables S1–S6 on the current PR state and diff them against the committed package;
-- export and validate submission-form EPS for Figures 1–3.
+- reproduce the 2,592-evaluation theory state and diff committed Figure 2;
+- regenerate Figure 3 from the saturated ledgers;
+- regenerate the result-first Fig. 4/5 scientific sources;
+- rebuild Appendix S1 Figures S1–S3 and Tables S1–S6 from frozen sources;
+- export and validate submission-form EPS files `Fig1.eps` through `Fig5.eps`;
+- build and render the Ecology review package and fail if the Main Document exceeds 50 pages.
+
+The current pre-metadata review render is **48 Main pages + 5 Appendix pages**. Final manual visual QA found no clipping, overflow, broken glyphs, or missing figure content.
 
 ## 12. Deliberately not promoted
 
@@ -269,8 +230,19 @@ The current submission does not promote:
 - Haas-Desmarais to a local raw-effect reanalysis merely because its supplement package was verified;
 - zero joint-cost evidence to `kappa = 0`.
 
-## 13. Release boundary
+## 13. Release and submission boundary
 
-The scientific and repository-source reader QA are complete for the present claim set. The manifest is not yet a final archival release receipt.
+The **science and machine-controlled review-package engineering are complete** for the present claim set.
 
-Before external submission, the authors must still freeze human-controlled metadata/declarations/reviewer selections and repository licence, create the exact release/tag and archival DOI, rerun all final validation workflows from that release commit, render the final release-version manuscript/supplement upload files, visually inspect those final files, and obtain all-author approval before authenticated portal submission.
+External submission is now blocked only by human-controlled metadata and sign-off:
+
+- final author order/publication names;
+- affiliations, corresponding author/email, and ORCIDs;
+- final CRediT roles, funding, acknowledgments, and competing-interest statement;
+- repository/software/data licence statement where applicable;
+- all-author approval and no-simultaneous-consideration confirmation;
+- reviewer/opposed-reviewer entries only if requested by the live ScholarOne portal.
+
+After those fields are inserted, rebuild the exact review package, rerun all normal validation workflows, confirm the Main Document remains ≤50 pages, visually inspect the complete Main Document and Appendix S1, and confirm the portal fields match the frozen files before submission.
+
+A permanent archive DOI is **not an initial-submission blocker**. At acceptance, freeze the accepted exact data/code version in a permanent versioned archive and insert the archival citation/DOI required for publication.
