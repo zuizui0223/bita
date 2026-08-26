@@ -20,6 +20,12 @@ text = replace_once(
 )
 text = replace_once(
     text,
+    "Kessler et al. (2008) provides a rare experimental attraction-by-defence-like trait factorial with a sign-robust positive discrete reproductive interaction under published aggregate constraints, whereas Egan et al. (2021) provides the complementary consumer-factorial structure without an experimentally crossed attraction-by-defence trait pair.",
+    "Kessler et al. (2008) supplies a rare attraction-by-defence-like trait factorial, whereas Egan et al. (2021) supplies the complementary consumer factorial without experimentally crossed attraction and defence traits.",
+    "existing-study sentence",
+)
+text = replace_once(
+    text,
     "A retained source-adjudicated mechanism-route synthesis shows that the four constituent marginal pathways recur across 56 route records from 25 independent biological clusters; those records establish biological recurrence, not estimates of the channel interactions or total attraction-by-defence interaction.",
     "A retained synthesis shows that all four constituent marginal pathways recur across 56 route records from 25 independent biological clusters; this establishes recurrence, not channel identification.",
     "route recurrence sentence",
