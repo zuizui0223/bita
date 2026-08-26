@@ -1,0 +1,45 @@
+name: patch-identification-submission-once
+
+on:
+  push:
+    branches:
+      - submission/identification-canonical-switch-v1
+    paths:
+      - scripts/patch_identification_submission_once.py
+      - .github/workflows/patch-identification-submission-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: submission/identification-canonical-switch-v1
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Patch canonical identification source and portal metadata
+        run: python scripts/patch_identification_submission_once.py
+      - name: Validate patched surfaces
+        run: |
+          grep -q '^\*\*Keywords:\*\* causal identification; factorial experiment; floral defence; floral traits; florivory; pollination; trait interaction$' manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md
+          grep -q '### 5.4 Computational and AI-assisted workflow transparency' manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md
+          grep -q 'OpenAI ChatGPT and Anthropic Claude' manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md
+          grep -q 'AI-generated output was not treated as empirical evidence' manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md
+          grep -q 'authors retain responsibility for all scientific decisions and content' manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md
+          grep -q 'Current manuscript disclosure:' submission/AUTHOR_AND_PORTAL_METADATA_TEMPLATE.md
+      - name: Commit one-shot patch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md submission/AUTHOR_AND_PORTAL_METADATA_TEMPLATE.md
+          if git diff --cached --quiet; then
+            echo 'No patch changes to commit' >&2
+            exit 1
+          fi
+          git commit -m 'Synchronize identification manuscript submission metadata'
+          git push origin HEAD:submission/identification-canonical-switch-v1
