@@ -1,4 +1,4 @@
-# Target journal strategy — mechanism-first Concepts & Synthesis paper
+# Target journal strategy — identification-design Concepts & Synthesis paper
 
 ## Primary target
 
@@ -6,87 +6,76 @@
 
 Canonical title:
 
-> **When are floral attraction and defence complementary? A one-sided mechanistic bound and cross-system patterns**
+> **From floral trait interactions to mechanism identification: a crossed-intervention framework for attraction and defence**
 
-## Why the paper now fits this section
+## Why this paper fits
 
-The manuscript is not a conventional review and not a theory paper followed by empirical validation. It uses a floral attraction–defence problem to develop a broader inference strategy for ecology under strong context dependence:
+The manuscript addresses a general ecological inference problem: a trait interaction can be detected while the pathways generating that interaction remain unidentified. Floral attraction and defence provide a tractable case because the same traits can alter pollination, antagonist damage, pollinator-independent reproduction, and direct allocation or construction costs.
 
-1. define the focal interaction and its causal channels;
-2. derive a one-sided exclusion before asking where the positive state occurs;
-3. let the theory define the evidence classes used in synthesis;
-4. map recurrence and switching without forcing heterogeneous outcomes onto one common effect scale;
-5. convert the remaining uncertainty into an ordered falsification and calibration programme.
+The conceptual advance is an executable identification sequence rather than a new ecological interaction type or a mathematically elaborate theorem:
 
-This matches the current Ecology Concepts & Synthesis expectation that papers conceptually advance ecology, go beyond the literature being reviewed, and provide new syntheses, directions, or resolutions of old questions. Ecology also explicitly prioritizes generalizations potentially applicable beyond one species or system. The manuscript meets that generality requirement by making **constraint before pattern** the transferable contribution while keeping the floral inequality itself biologically bounded.
+1. define a directly measurable discrete `A×D` interaction;
+2. show why the total interaction does not allocate mechanism;
+3. cross the same A/D coordinates with selective antagonist and pollinator interventions;
+4. measure/correct the pollinator-absent A×D baseline;
+5. use the `A×D×G×P` four-way interaction as a separability diagnostic;
+6. keep the remaining joint channel unallocated until an independent cost assay gives it biological meaning;
+7. use the algebra only as a post-measurement consistency/sign diagnostic.
 
-## Scientific spine to foreground
+## Mechanism → Pattern contribution
 
-The bookkeeping identity is
-
-```text
-W_AD = rho - iota - kappa
-```
-
-but the structural contribution is one-sided:
+The paper retains the original mechanism-first logic without using marginal evidence as validation. The source-adjudicated synthesis contains 56 route records from 25 independent biological clusters and covers all four marginal pathway families:
 
 ```text
-if kappa >= 0 and W_AD > 0, then rho > iota
+A -> pollination: 5 clusters
+A -> antagonism:  8
+D -> antagonism: 18
+D -> pollination: 10
+same-system:      14
+context switches: 17
 ```
 
-Under non-negative direct joint-cost curvature, complementarity cannot occur outside the selectivity window where antagonist relief exceeds pollinator interference. The converse fails; about 23% of tested in-window evaluations remain substitutable.
+These overlapping counts show that the constituent ecological channels recur. They are not prevalence estimates and do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`.
 
-Part II then asks whether the mechanism classes defined by Part I recur. The frozen empirical state remains:
+The stricter 16-system identification audit then shows that existing studies usually contain only part of the needed design. Kessler et al. (2008) is closest to the trait-factorial side; Egan et al. (2021) is closest to the consumer-factorial side; the *Impatiens* public-data retrofit reaches randomized context modification but not channel identification. No screened system combines the full trait factorial, selective consumer interventions, pollinator-absent baseline characterization, and an independent joint-cost assay.
 
-```text
-56 route-level records
-25 independent biological study clusters
-same-system multi-route: 14
-context/sign-switch:     17
-context-only programs:    7, outside route-ledger N
-direct total A x D:       1 strict sign-unresolved cluster
-direct joint cost:        0 strict estimates
-```
+The cross-system synthesis is therefore:
 
-The Leal larceny reanalysis supports an average antagonist-pressure cost but strong context dependence; it does not estimate `rho`, `iota`, `kappa`, or total `W_AD`. The Sasidharan module supports shared consumer tracking at the assembled cross-study level but not a causal paired consumer-role difference.
+> **The constituent channels recur, but their joint allocation remains unidentified.**
 
 ## Concepts & Synthesis positioning
 
-The cover letter and Abstract should lead with four points:
+The cover letter and Abstract should foreground four points:
 
-1. **old problem resolved more sharply:** context-dependent net effects are replaced by a mechanistic exclusion boundary;
-2. **new synthesis logic:** Mechanism -> Pattern, not Pattern -> mechanism and not theory -> validation;
-3. **broad conceptual use:** the transferable object is the inference workflow, not a universal floral sign rule;
-4. **constructive endpoint:** uncertainty is compressed to a cheap 2 x 2 joint-cost falsification gate followed, only when needed, by a full channel-resolved factorial.
+1. **interaction detection ≠ mechanism allocation**;
+2. **Mechanism → Pattern remains empirical:** the component pathways recur across systems;
+3. **recurrence ≠ identification:** the required design components are split across studies;
+4. **constructive endpoint:** a selective `A×D×antagonist×pollinator` experiment plus baseline and independent cost assay closes the gap and contains its own failure diagnostics.
 
-Do not sell the elementary algebra as mathematical novelty. Do not claim that attraction-defence balance, correlational selection, pollinator-herbivore non-additivity, defence-associated pollination costs, or context dependence are new.
+Do not sell the elementary algebra as mathematical novelty. Do not claim that attraction–defence balance, pollinator–antagonist conflict, defence-associated pollination costs, or context dependence are themselves new.
 
-## Ecology initial-submission requirements to enforce
+## Current Ecology package
 
-Current Ecology author guidance (revised April 2026) requires or states for Concepts & Synthesis:
+Current machine-validated pre-metadata state:
 
-- manuscript page limit: 30 pages for normal submissions; manuscripts over 30 pages require a detailed cover-letter justification;
-- Abstract limit: 350 words;
-- keywords: 6-12, alphabetical;
-- continuous line numbering on all manuscript pages;
-- manuscript title and author list must match the ScholarOne form and supporting information;
-- Open Research statement on the title page and in the portal;
-- AI use beyond ordinary spelling/grammar editing must be disclosed in the relevant manuscript section, again in Acknowledgments, and in the submission form.
-
-The source manuscript is kept under the 350-word Abstract maximum and retains six alphabetized keywords. Continuous line numbering is a final rendered-file task. Immutable release/licence/DOI fields remain author-controlled blockers.
+- Main Document: **29 pages**;
+- Appendix S1: **11 pages**;
+- Main figures: 5;
+- standard 30-page Concepts & Synthesis target: PASS;
+- `Theorem 1` and 77.2% headline: absent from Main;
+- 2,592 and 77.2%: retained only as technical Supplement sensitivity;
+- full-page visual QA: PASS.
 
 ## Submission cascade
 
 ```text
 Ecology — Concepts & Synthesis
-    ↓ if declined or rejected on fit/general reach
-Oikos — Forum (requires a <=600-word presubmission proposal)
+    ↓ if declined on fit/general reach
+Oikos — Forum
     ↓
 Theoretical Ecology — Regular Article
 ```
 
-The Oikos fallback is strong because Forum explicitly seeks conceptual unification, synthesis across boundaries, theory development, and tractable future research directions. Theoretical Ecology remains the conservative scope-fit fallback.
-
 ## Current decision
 
-Scientific state remains **GO / FROZEN**. No additional broad evidence search is required for the Ecology upgrade. The remaining work is journal-facing presentation, author-controlled metadata/declarations/reviewers/licence, immutable release/archive DOI, final line-numbered Word rendering, and authenticated portal submission.
+Scientific state is **GO** for the identification claim set with a bounded Mechanism → Pattern recurrence layer. No additional broad evidence search is a default blocker. Remaining work is author-controlled metadata/declarations/licence/sign-off followed by one final package rebuild and page-by-page QA.
