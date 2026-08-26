@@ -2,7 +2,7 @@
 
 Target: **Ecology — Concepts & Synthesis**
 
-The canonical review package now uses the identification-design manuscript rather than the historical theorem-led submission source.
+The canonical review package uses the identification-design manuscript with a bounded Mechanism → Pattern recurrence layer.
 
 ## 1. Main Document
 
@@ -12,35 +12,48 @@ Canonical scientific source:
 - focused bibliography: `manuscript/IDENTIFICATION_DESIGN_REFERENCES.md`
 - figures: `manuscript/identification_figures/FIGURE_1_IDENTIFICATION_DESIGN.svg` through `FIGURE_5_IDENTIFICATION_DESIGN.svg`
 
-Standard generated filename remains:
+Standard generated filename:
 
 - `submission/ecology/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.docx`
 
 Formatting target:
 
 - Word `.docx`;
-- Letter 8.5 × 11 in, portrait;
-- 1-inch margins;
+- Letter portrait, 1-inch margins;
 - 12-pt Times New Roman;
 - double-spaced prose and references;
-- page numbers;
-- continuous line numbering for the review-text section;
+- page numbers and review line numbering;
 - native Word/Pandoc equations;
 - five embedded Main figures.
 
-The current validated pre-metadata identification candidate renders to **27 Main Document pages**, within the standard 30-page Concepts & Synthesis target. The former 48-page package and its >30-page cover-letter justification are historical and no longer define the intended submission.
+The current validated pre-metadata canonical render is **29 Main Document pages**, within the standard 30-page Concepts & Synthesis target. Appendix S1 is **11 pages**.
 
-## 2. Main scientific sequence
+## 2. Scientific sequence
 
-The five Main figures now follow the identification argument:
+The Main argument is:
+
+```text
+measurable A×D interaction
+→ channel non-identifiability
+→ crossed selective interventions
+→ separability test + m0 correction
+→ independent joint-cost assay
+→ bounded Mechanism → Pattern recurrence
+→ identification-coverage gap
+→ executable next experiment
+```
+
+The five Main figures follow this sequence:
 
 1. **Figure 1 — interaction detection versus mechanism allocation.** A measured `Delta_AD W` does not identify its channel decomposition.
-2. **Figure 2 — crossed intervention design.** `A × D × antagonist × pollinator` creates the 16-cell identification structure and the four-way separability diagnostic.
-3. **Figure 3 — independent joint-cost assay.** The unallocated residual is kept distinct from `kappa` until an independent `A×D` assay constrains interpretation.
-4. **Figure 4 — existing-data stress tests.** Kessler 2008 supplies the closest trait-factorial anchor, Egan 2021 the complementary consumer-factorial anchor, and the Impatiens public-data retrofit shows how far a rich existing dataset can reach.
+2. **Figure 2 — crossed intervention design.** `A × D × antagonist × pollinator` supplies the 16-cell identification structure and the four-way separability diagnostic.
+3. **Figure 3 — independent joint-cost assay.** `U_delta` remains unallocated until an independent `A×D` assay constrains interpretation.
+4. **Figure 4 — recurrence plus identification gap.** The 56-route/25-cluster Pattern layer establishes recurrence of all four constituent pathway families, then Kessler 2008, Egan 2021, the *Impatiens* retrofit, and the 16-system audit show where joint identification stops.
 5. **Figure 5 — executable experimental roadmap.** The proposed sequence moves from interaction detection to channel identification and explicit failure diagnostics.
 
-The Main argument deliberately does **not** use the 2,592 finite-grid evaluations, 77.2% window precision, 56-route ledger, Leal synthesis, or Sasidharan synthesis as headline results. Those analyses remain available for provenance, technical sensitivity, or separate synthesis work.
+The 56/25 route synthesis is a Main Pattern result only in the limited sense of **constituent-channel recurrence**. It is not theorem validation, natural prevalence, total `A×D`, or channel-interaction identification.
+
+The former 2,592 finite evaluations and 77.2% window precision remain Supplement-only technical sensitivity. Leal and Sasidharan remain reproducible historical modules rather than Main identification evidence.
 
 ## 3. Supporting Information
 
@@ -48,29 +61,28 @@ Canonical source:
 
 - `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`
 
-Standard review file remains Appendix S1. The current validated pre-metadata render is **11 pages**.
-
 Appendix S1 retains:
 
-- the former 2,592-evaluation exercise as implementation/model-family sensitivity rather than empirical validation;
-- the 77.2% finite-design window precision with its grid-dependence made explicit;
-- Kessler 2008 aggregate reconstruction and uncertainty boundary;
-- Impatiens retrofit details;
-- the sixteen-system high-information identification coverage audit;
-- continuous-limit implementation and response-shape sensitivity figures.
+- continuous-limit and finite-difference implementation checks;
+- the 2,592 finite evaluations and 77.2% grid-specific precision as technical sensitivity only;
+- Kessler 2008 aggregate reconstruction;
+- *Impatiens* retrofit details;
+- the 16-system identification-coverage audit;
+- full source-level details for the 56/25 recurrence layer and its non-identification boundary.
 
 ## 4. Open Research package
 
-The standard review-package builder retains historical machine-readable products for reproducibility and additionally exports:
+The standard package retains historical machine-readable provenance products and additionally exports:
 
+- `mechanism_pattern_route_ledger.csv`;
 - `high_information_identification_coverage.csv`;
 - `impatiens_identification_retrofit.json`.
 
-The public GitHub repository supplies review-stage access to code, source audits, and derived products. Permanent archival deposition of the accepted exact data/code version remains an acceptance-stage requirement rather than an initial-submission blocker.
+The public GitHub repository supplies review-stage access. Permanent archival deposition of the accepted exact data/code version remains an acceptance-stage requirement rather than an initial-submission blocker.
 
 ## 5. Human-controlled fields still required
 
-The builder intentionally does not infer:
+The builder does not infer:
 
 - final author list/order/publication names;
 - affiliations and present addresses;
@@ -81,38 +93,22 @@ The builder intentionally does not infer:
 - final acknowledgments;
 - final competing-interest statement;
 - repository/software/data licence statement where applicable;
-- portal-only reviewer fields if requested by ScholarOne;
-- any justified opposed-reviewer request;
-- all-author approval of the exact submitted version;
-- confirmation that the manuscript is not under consideration elsewhere.
+- portal-only reviewer fields if requested;
+- all-author approval and no-simultaneous-consideration confirmation.
 
-A permanent archive DOI is **not** an initial-submission blocker.
+## 6. Automated gates
 
-## 6. Canonical automated build
+The canonical workflows must verify:
 
-Run:
-
-```bash
-python scripts/build_ecology_review_package_sources.py
-```
-
-The wrapper promotes the already validated identification candidate into the standard `submission/ecology/generated/` filenames while leaving the historical theorem-led manuscript in the repository for provenance.
-
-The workflow `.github/workflows/build-ecology-submission-package.yml` must verify:
-
-1. identification-design source contract and focused references;
+1. identification and Mechanism → Pattern bridge regression contracts;
 2. Main and Appendix DOCX generation;
 3. native equations, line-number/page formatting, and five embedded identification figures;
-4. Main title and identification framing;
-5. absence of `Theorem 1` and `77.2%` from Main;
-6. presence of `2,592` and `77.2%` only in Appendix technical material;
-7. exact Main and Appendix page counts;
-8. Main page-limit compliance;
-9. Open Research export of identification-era products;
-10. upload of the standard review artifact.
-
-Submission-ready EPS export likewise uses the five identification-design SVGs as Fig1–Fig5.
+4. absence of `Theorem 1` and `77.2%` from Main;
+5. presence of 2,592/77.2% only in Appendix technical material;
+6. exact Main/Appendix page counts and page-limit compliance;
+7. Open Research exports;
+8. Fig1–Fig5 EPS export.
 
 ## 7. Current package boundary
 
-**Current machine-validated target before author metadata: Main 27 pages + Appendix S1 11 pages.** The old 48+5 Mechanism → Pattern package remains reproducible history but is no longer the intended submission narrative.
+**Current machine-validated pre-metadata target: Main 29 pages + Appendix S1 11 pages.** Full-page visual QA found no blank pages, clipping, overlap, broken glyphs, or missing figure content. The old 48+5 theorem-led package remains reproducible history and does not define the intended submission.
