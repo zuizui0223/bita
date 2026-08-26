@@ -4,7 +4,6 @@ from pathlib import Path
 import importlib.util
 import sys
 
-
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
 if str(SCRIPTS) not in sys.path:
@@ -29,7 +28,8 @@ def test_main_submission_source_is_identification_design() -> None:
         builder.TITLE_BREAK,
         "## Abstract",
         "## 1. Introduction",
-        "## 3. A crossed intervention design for channel identification",
+        "### 2.2 From non-identification to an identified set",
+        "### 3.6 Partial identification before point identification",
         "## 4. From mechanism to pattern: recurrence before identification",
         "## Acknowledgments",
         "## Author Contributions",
@@ -50,6 +50,9 @@ def test_main_submission_source_is_identification_design() -> None:
     assert "2,592" not in text.split("## References", 1)[0]
     assert "56 directional route records from 25 independent biological study clusters" in text
     assert "marginal route recurrence does not estimate" in text
+    assert "\\mathcal I(\\delta)" in text
+    assert "\\kappa_\\Delta\\ge0" in text
+    assert "fragmented identification frontier" in text
 
 
 def test_main_has_five_identification_figures_and_no_main_tables() -> None:
@@ -70,6 +73,7 @@ def test_appendix_is_identification_supplement() -> None:
     assert "IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json" in text
     assert "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv" in text
     assert "Constituent mechanism recurrence supporting the Main Pattern layer" in text
+    assert "Partial identification between the total interaction and point identification" in text
 
 
 def test_open_research_package_includes_identification_and_pattern_outputs(tmp_path, monkeypatch) -> None:
@@ -96,10 +100,11 @@ def test_cover_letter_matches_under_30_page_identification_package() -> None:
     text = COVER.read_text(encoding="utf-8")
     assert "From floral trait interactions to mechanism identification" in text
     assert "currently renders to **29 Main Document pages**" in text
-    assert "11-page Appendix S1" in text
+    assert "**12-page Appendix S1**" in text
     assert "within the standard 30-page Concepts & Synthesis target" in text
     assert "56 source-adjudicated route records from 25 independent biological clusters" in text
-    assert "route records do not estimate `rho_delta`, `iota_delta`, `Delta_AD W`, or `kappa_delta`" in text
+    assert "identified" in text and "partial" in text
+    assert "kappa_delta >= 0" in text
     assert "## 1. Broad ecological contribution of the additional length" not in text
     assert "one-sided mechanistic bound" not in text
     assert "acceptance stage" in text
