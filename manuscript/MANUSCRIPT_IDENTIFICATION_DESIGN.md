@@ -8,7 +8,7 @@
 
 ## Abstract
 
-Ecologists often observe that two traits interact on fitness without being able to determine which ecological pathway produced that interaction. Floral attraction and defence make this problem unusually clear. Attractive flowers can gain pollination but also attract antagonists, whereas floral defence can reduce damage while interfering with legitimate visitors or imposing an additional joint cost. A total attraction-by-defence interaction therefore does not identify its mechanism. We develop an experimental identification framework for this problem. We first replace the local mixed derivative used in earlier theory with a directly measurable two-level interaction, \(\Delta_{AD}W=W_{11}-W_{10}-W_{01}+W_{00}\). We then show how a crossed \(A\times D\times\) antagonist \(\times\) pollinator experiment can separate antagonist relief from pollinator interference, provided the consumer interventions are selective and the same attraction and defence contrasts are maintained across cells. The design contains its own check on channel separability: the apparent pollinator-dependence of antagonist relief and antagonist-dependence of pollinator interference are the same four-way interaction up to sign. Pollinator-independent reproduction must be measured rather than assumed away, and a joint attraction-defence cost must be assessed independently rather than defined as a residual. The algebra then diagnoses the sign of any still-unallocated joint channel rather than serving as a standalone theorem. We apply this framework to high-information published systems. Kessler et al. (2008) supplies a rare attraction-by-defence-like trait factorial, whereas Egan et al. (2021) supplies the complementary consumer factorial without experimentally crossed attraction and defence traits. A Dryad reanalysis of *Impatiens capensis* reaches randomized context modification of an observational trait interaction but not channel identification. A retained synthesis shows that all four constituent marginal pathways recur across 56 route records from 25 independent biological clusters; this establishes recurrence, not channel identification. Across 16 screened high-information systems, no study combines the trait factorial, selective consumer interventions, pollinator-independent baseline characterization, and an independent joint-cost assay. The main empirical gap is therefore not absence of the constituent biology, but the missing intersection between recurrent ecological pathways and an experiment that allocates their joint interaction. The framework turns that gap into a concrete experimental design.
+Ecologists often observe that two traits interact on fitness without being able to determine which ecological pathway produced that interaction. Floral attraction and defence make this problem unusually clear. Attractive flowers can gain pollination but also attract antagonists, whereas floral defence can reduce damage while interfering with legitimate visitors or imposing an additional joint cost. A total attraction-by-defence interaction therefore does not identify its mechanism. We develop an experimental identification framework for this problem. We first replace the local mixed derivative used in earlier theory with a directly measurable two-level interaction, \(\Delta_{AD}W=W_{11}-W_{10}-W_{01}+W_{00}\). We then show how a crossed \(A\times D\times\) antagonist \(\times\) pollinator experiment can separate antagonist relief from pollinator interference, provided the consumer interventions are selective and the same attraction and defence contrasts are maintained across cells. The design contains its own check on channel separability: the apparent pollinator-dependence of antagonist relief and antagonist-dependence of pollinator interference are the same four-way interaction up to sign. Pollinator-independent reproduction must be measured rather than assumed away, and a joint attraction-defence cost must be assessed independently rather than defined as a residual. The total interaction instead defines an identified set that additional assumptions or interventions progressively shrink before point identification. We apply this framework to high-information published systems. Kessler et al. (2008) supplies a rare attraction-by-defence-like trait factorial, whereas Egan et al. (2021) supplies the complementary consumer factorial without experimentally crossed attraction and defence traits. A Dryad reanalysis of *Impatiens capensis* reaches randomized context modification of an observational trait interaction but not channel identification. A retained synthesis shows that all four constituent marginal pathways recur across 56 route records from 25 independent biological clusters; this establishes recurrence, not channel identification. Across 16 screened high-information systems, no study combines the trait factorial, selective consumer interventions, pollinator-independent baseline characterization, and an independent joint-cost assay. The main empirical gap is therefore not absence of the constituent biology, but the missing intersection between recurrent ecological pathways and an experiment that allocates their joint interaction. The framework turns that gap into a concrete experimental design.
 
 **Keywords:** causal identification; factorial experiment; floral defence; floral traits; florivory; pollination; trait interaction
 
@@ -44,7 +44,7 @@ This quantity is a secant interaction across the chosen trait contrasts. It is p
 
 The continuous mixed partial \(\partial^2W/\partial A\partial D\) remains useful as a small-contrast limit, but it is not the primary experimental estimand here. The discrete form has two advantages: it corresponds directly to a factorial manipulation, and it makes the identification assumptions visible in the same scale on which the data are collected.
 
-### 2.2 Why the total interaction does not identify its channels
+### 2.2 From non-identification to an identified set
 
 For bookkeeping, write the reproductive outcome as
 
@@ -52,27 +52,28 @@ For bookkeeping, write the reproductive outcome as
 W=M-G-C,
 \]
 
-where \(M\) is a mutualist-mediated contribution, \(G\) is antagonist-mediated loss, and \(C\) is a remaining direct or allocation-cost channel. Taking the same two-level interaction gives
+where \(M\) is a mutualist-mediated contribution, \(G\) is antagonist-mediated loss, and \(C\) is a remaining direct or allocation channel. Orient the corresponding two-level channel contrasts as
 
 \[
-\Delta_{AD}W=\Delta_{AD}M-\Delta_{AD}G-\Delta_{AD}C.
+\rho_\Delta=-\Delta_{AD}G,\qquad
+\iota_\Delta=-\Delta_{AD}M,
 \]
 
-Knowing \(\Delta_{AD}W\) does not determine the three terms on the right. Many different reallocations among \(M\), \(G\) and \(C\) generate the same total four-cell surface. This is structural non-identifiability from the total outcome alone, not a consequence of sampling error. More observations of the same total surface cannot solve it; different information is required.
-
-For biological interpretation it is convenient to orient two channel contrasts as
+and write \(\kappa_\Delta=\Delta_{AD}C\) as a bookkeeping coordinate whose biological interpretation still requires an independent assay. Then
 
 \[
-\rho_\Delta=-\Delta_{AD}G
+\Delta_{AD}W=\rho_\Delta-\iota_\Delta-\kappa_\Delta.
 \]
 
-and
+If the observed total interaction is \(\Delta_{AD}W=\delta\), the compatible channel allocations form the identified set
 
 \[
-\iota_\Delta=-\Delta_{AD}M.
+\mathcal I(\delta)=\{(\rho,\iota,\kappa):\rho-\iota-\kappa=\delta\}.
 \]
 
-Positive \(\rho_\Delta\) means that defence reduces antagonist loss more strongly at high attraction than at low attraction. Positive \(\iota_\Delta\) means that defence erodes the mutualist return to attraction. The challenge is to estimate these as experimental contrasts rather than labels attached to marginal observations.
+With no additional information this is a two-dimensional plane in three-dimensional channel space. More precise measurement of the same total four-cell surface does not collapse that plane to a point; the obstacle is structural rather than sampling error. Biological restrictions or channel-specific measurements can nevertheless intersect and shrink the set, so the relevant progression is from non-identification, through partial identification, to point identification.
+
+Positive \(\rho_\Delta\) means that defence reduces antagonist loss more strongly at high attraction than at low attraction. Positive \(\iota_\Delta\) means that defence erodes the mutualist return to attraction. The experimental problem is therefore to replace assumptions about these coordinates with contrasts that identify or bound them.
 
 ## 3. A crossed intervention design for channel identification
 
@@ -170,29 +171,25 @@ Let the independently measured cost interaction be
 
 Sign agreement between \(U_\Delta\) and \(\kappa_\Delta\) supports the intended channel allocation. Magnitude agreement requires the assay and reproductive outcome to be placed on a defensibly common scale. Disagreement is informative: it points to a missing channel, a non-selective intervention, or an inadequate cost assay rather than being silently absorbed into \(\kappa\).
 
-### 3.6 What the simple algebra is useful for
+### 3.6 Partial identification before point identification
 
-When the channel terms are measured, the identity
-
-\[
-\Delta_{AD}W=\rho_\Delta-\iota_\Delta-\kappa_\Delta
-\]
-
-is simple. Its value is diagnostic rather than mathematical. For example, if complementarity is observed,
+The same accounting identity is useful before all channel terms have been measured. Rearranging gives
 
 \[
-\Delta_{AD}W>0,
+\rho_\Delta-\iota_\Delta=\Delta_{AD}W+\kappa_\Delta.
 \]
 
-but the measured biotic channels satisfy
+Thus any defensible bound on the remaining joint-cost channel maps directly to a bound on the biotic balance. In particular,
 
 \[
-\rho_\Delta\le\iota_\Delta,
+\kappa_\Delta\ge0
+\quad\Longrightarrow\quad
+\rho_\Delta-\iota_\Delta\ge\Delta_{AD}W.
 \]
 
-then any remaining joint channel required to reconcile the observations must be negative. If an independent cost assay also supports the same channel interpretation, this is evidence for a synergistic rather than costly joint effect. Conversely, if an independent assay indicates non-negative joint cost, then complementarity with \(\rho_\Delta\le\iota_\Delta\) falsifies the proposed channel allocation.
+If complementarity is observed, \(\Delta_{AD}W>0\), this restriction forces antagonist relief to exceed pollinator interference by at least the observed total interaction on the declared scale, even though \(\rho_\Delta\) and \(\iota_\Delta\) can remain individually unidentified. This is the useful interpretation of the earlier one-sided relation: a sharp partial-identification bound under an explicit restriction, not a standalone prediction theorem.
 
-The point is therefore not that the inequality is difficult to prove. It is that a factorial identification design can turn a bookkeeping identity into a check on an otherwise hidden channel.
+Additional measurements shrink the identified set. A bounded independent cost assay narrows \(\rho_\Delta-\iota_\Delta\); a selective estimate of either consumer channel narrows the remaining coordinates; and the crossed intervention design, after baseline correction and a successful separability check, point-identifies the two biotic channels. Once those channels are measured, the identity also provides a diagnostic in the opposite direction: if \(\Delta_{AD}W>0\) but \(\rho_\Delta\le\iota_\Delta\), the still-unallocated joint channel required by the data must be negative. Calling that channel \(\kappa_\Delta\) still requires the independent assay.
 
 ## 4. From mechanism to pattern: recurrence before identification
 
@@ -206,7 +203,9 @@ The conclusion is deliberately limited. The constituent ecological ingredients r
 
 We reclassified a high-information set of published floral systems according to the experimental information required above. The screen was designed to expose distinct design classes, not to estimate their prevalence in the literature. For each study we asked whether \(A\) and \(D\) were distinct and biologically justified, whether they were manipulated or observed, whether a shared \(A\times D\) outcome was available, whether antagonist and pollinator interventions were crossed with the trait states, whether the pollinator-absent baseline could be characterized, and whether a joint-cost assay existed.
 
-Sixteen high-information systems were retained in the current coverage matrix. None reaches the full sequence from trait interaction to channel allocation and independent joint-cost measurement. The informative result is where the closest studies stop.
+Sixteen high-information systems were retained. None reaches the full sequence from trait interaction to channel allocation and independent joint-cost measurement, but this is more informative than a binary 0-of-16 result. The studies occupy complementary faces of an identification frontier: some supply a trait factorial, others a consumer factorial, randomized context modification, or a selective defence mechanism. The empirical pattern is therefore **design fragmentation**. Existing studies contain different pieces of the information needed to shrink \(\mathcal I(\delta)\), but no screened system closes all dimensions of the allocation problem.
+
+This reframes the practical question for each near miss. Rather than asking only whether a study fully identifies the mechanism, we ask which smallest additional intervention or measurement would most reduce its remaining identified set. The following systems make those missing dimensions concrete.
 
 ### 4.3 A trait-factorial anchor: Kessler et al. 2008
 
@@ -289,9 +288,11 @@ This distinction matters because adding more studies of marginal pathways will n
 
 ### 6.2 Why the algebra should be modest
 
-The relation among \(\Delta_{AD}W\), antagonist relief, pollinator interference and a joint channel is bookkeeping. Presenting its one-line consequence as a major theorem invites the correct objection that no new biology follows unless the terms can be independently estimated. The identification design changes that role. Once the channel contrasts and independent cost assay are tied to interventions, the identity becomes a consistency check and a way to bound an unobserved channel.
+The relation among \(\Delta_{AD}W\), antagonist relief, pollinator interference and a joint channel is bookkeeping, not a mathematical novelty claim. Its value is that it defines what can and cannot be learned at different information levels. A total interaction alone leaves a plane of compatible channel allocations. An explicit restriction on \(\kappa_\Delta\) partially identifies the biotic balance \(\rho_\Delta-\iota_\Delta\). Selective consumer interventions shrink the set further, and the crossed design can point-identify the biotic channels when its causal gates pass.
 
-This is analogous to many useful ecological identities: their value depends less on algebraic novelty than on whether the terms correspond to measurements that can falsify the proposed decomposition. The current framework therefore treats algebra as the final accounting layer, not the headline result.
+This interpretation also recovers the useful content of the earlier one-sided inequality without overstating it. Under \(\kappa_\Delta\ge0\), a positive total interaction implies a positive biotic balance and, more sharply, \(\rho_\Delta-\iota_\Delta\ge\Delta_{AD}W\). The statement is strong only to the extent that the cost restriction is biologically supported. An independent cost assay therefore does more than label a residual: it can convert a qualitative assumption into an empirically bounded identified set.
+
+The broader methodological point is that ecological mechanism inference need not jump directly from non-identification to an expensive fully crossed experiment. Intermediate information can be scientifically useful when its assumptions are explicit and its effect is stated as a bound rather than a point estimate.
 
 ### 6.3 Beyond flowers
 
@@ -309,9 +310,11 @@ Finally, an independent cost assay may not be commensurate in magnitude with rep
 
 ## 7. Conclusions
 
-A floral attraction-by-defence interaction can be measured without its mechanism being identified. The distinction is experimentally resolvable. Crossing attraction and defence with selective antagonist and pollinator interventions separates the consumer-mediated contrasts; measuring the pollinator-absent baseline prevents reproductive assurance from contaminating pollinator interference; the four-way interaction tests whether the proposed channels are separable; and an independent cost assay prevents unexplained residual variation from being defined as joint cost by construction.
+A floral attraction-by-defence interaction can be measured without its mechanism being point-identified. The gap is not all-or-none. A total interaction defines an identified set of compatible channel allocations; biologically justified restrictions or partial channel measurements can shrink that set; and a crossed attraction-by-defence-by-antagonist-by-pollinator experiment can point-identify the consumer-mediated contrasts when selective intervention, baseline and separability requirements are met. An independent cost assay then constrains whether the remaining joint channel can be interpreted as joint cost.
 
-The four constituent ecological pathway families also recur across independent systems, while high-information studies already contain important pieces of the required identification design. A direct trait factorial, a consumer factorial, a selective floral defence manipulation and a linked public-data panel each exist, but largely in different studies. The empirical opportunity is therefore concrete: combine recurrent biological ingredients and the currently separated design pieces in one system. The resulting experiment would move floral attraction–defence research from detecting non-additivity and cataloguing marginal pathways to identifying why that non-additivity occurs.
+The four constituent ecological pathway families recur across independent systems, while high-information studies already occupy complementary parts of this identification frontier. A direct trait factorial, a consumer factorial, a selective floral defence manipulation and a linked public-data panel each exist, but largely in different studies. The empirical gap is therefore not absence of relevant biology but fragmentation of the information needed to allocate a joint interaction. This also makes the next experiment study-specific: add the measurement or intervention that most reduces the remaining identified set rather than simply collecting another marginal association.
+
+The resulting framework closes a three-step inference sequence: **interaction detection → partial identification → mechanism identification**. It moves floral attraction-defence research from detecting non-additivity and cataloguing recurrent pathways to stating exactly what current evidence constrains, what remains unidentified, and which additional observation would resolve it.
 
 ## Open Research statement
 
