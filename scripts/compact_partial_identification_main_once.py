@@ -1,3 +1,4 @@
+# One-shot trigger: compact Main after partial-identification integration.
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
