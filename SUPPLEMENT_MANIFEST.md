@@ -1,197 +1,147 @@
-# Supplement manifest — canonical identification-design paper
+# Supplement manifest — canonical partial-identification paper
 
-This manifest maps the current Main submission target:
+Canonical target:
 
 > **From floral trait interactions to mechanism identification: a crossed-intervention framework for attraction and defence**
 
-The historical theorem-led manuscript and analyses remain versioned for provenance, but the canonical Main Document is the identification-design manuscript with a bounded Mechanism → Pattern recurrence layer.
+The theorem-led manuscript remains provenance only. The active Main is the identification-design manuscript with Mechanism → Pattern recurrence and an explicit partial-identification layer.
 
-## 1. Canonical reader-facing sources
+## 1. Canonical sources
 
-- Main scientific source: `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`
-- focused references: `manuscript/IDENTIFICATION_DESIGN_REFERENCES.md`
-- figure captions: `manuscript/IDENTIFICATION_DESIGN_FIGURE_CAPTIONS.md`
-- Supplement: `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`
-- review-package wrapper: `scripts/build_ecology_review_package_sources.py`
-- standard output directory: `submission/ecology/generated/`
+- Main: `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`
+- references: `manuscript/IDENTIFICATION_DESIGN_REFERENCES.md`
+- captions: `manuscript/IDENTIFICATION_DESIGN_FIGURE_CAPTIONS.md`
+- figures: `manuscript/identification_figures/`
+- Appendix: `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`
+- identified-set derivation: `docs/PARTIAL_IDENTIFICATION_FRONTIER_V1.md`
+- package builder: `scripts/build_ecology_review_package_sources.py`
 
-Primary implementation/products:
+Primary implementation:
 
 - `trait_architecture/identification.py`
+- `trait_architecture/partial_identification.py`
 - `empirical/identification_design/HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv`
 - `empirical/identification_design/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json`
 - `empirical/mechanism_pattern_synthesis/`
 
-## 2. Canonical scientific core
-
-Primary experimental estimand:
+## 2. Scientific core
 
 ```text
 Delta_AD W = W11 - W10 - W01 + W00
+Delta_AD W = rho_delta - iota_delta - kappa_delta
+I(delta) = {(rho,iota,kappa): rho-iota-kappa=delta}
 ```
 
-Identification sequence:
+Inference sequence:
 
 ```text
-trait interaction detection
-→ non-identifiability of channel allocation
-→ crossed A × D × antagonist × pollinator interventions
-→ pollinator-absent baseline correction
-→ A×D×G×P separability diagnostic
-→ independent A×D joint-cost assay
-→ hidden/unallocated-channel sign diagnostic
+interaction detection
+→ identified set
+→ partial identification under explicit restrictions
+→ selective crossed interventions
+→ m0 correction + four-way separability test
+→ point identification of biotic channels
+→ independent joint-channel assay / diagnostic
 ```
+
+Central recovered partial bound:
+
+```text
+kappa_delta >= 0
+=> rho_delta - iota_delta >= Delta_AD W
+```
+
+This is conditional on a defensible kappa restriction. It is not a universal theorem.
 
 Required boundaries:
 
-- total `Delta_AD W` does not identify rho, iota, or kappa;
-- the 16-cell design is insufficient unless consumer interventions are selective and A/D coordinates remain comparable;
-- rho- and iota-invariance views are one four-way contrast up to sign;
-- a non-zero four-way contrast rejects the simple separable-channel representation;
-- total iota requires handling the pollinator-absent `m0_delta` term;
-- `U_delta = rho_delta - iota_delta - Delta_AD W` is unallocated, not kappa by definition;
-- kappa requires an independent allocation/construction-cost assay;
-- the elementary inequality is only a post-measurement consistency/sign diagnostic.
+- total `Delta_AD W` does not uniquely allocate rho/iota/kappa;
+- partial-identification statements must name their bounds/assumptions;
+- the 16-cell design still requires selective interventions and comparable A/D coordinates;
+- rho/iota invariance views are one four-way interaction up to sign;
+- non-zero four-way coupling rejects separability;
+- total iota requires `m0_delta` handling;
+- `U_delta` is unallocated, not kappa by definition;
+- kappa requires independent evidence.
 
-## 3. Mechanism → Pattern recurrence layer
+## 3. Mechanism → Pattern / identification frontier
 
-The source-adjudicated synthesis is used in one bounded Main-text role: establishing cross-system recurrence of the constituent ecological pathways before the stricter identification audit.
+Retained recurrence layer:
 
 ```text
-56 source-adjudicated route records
+56 route records
 25 independent biological clusters
-A -> pollination: 5 clusters
+A -> pollination: 5
 A -> antagonism:  8
 D -> antagonism: 18
 D -> pollination: 10
-same-system: 14
+same-system:      14
 context/sign switch: 17
-context-only programs: 7 outside route N
 ```
 
-These overlapping counts are not independent-study prevalence. They do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta` and do not validate the algebra.
+These counts establish recurrence only.
 
-The Main Pattern conclusion is therefore only:
+Across the 16-system high-information screen, trait-factorial, consumer-factorial, randomized context-modification, and selective-defence information occurs in complementary studies. No screened system closes all allocation dimensions and no independent joint-cost assay is present. The audit is therefore interpreted as a **fragmented identification frontier**, not merely a 0/16 failure count.
 
-> **The constituent channels recur across systems.**
+## 4. Existing-data anchors
 
-## 4. Existing-data identification stress tests
+- Kessler 2008: trait-factorial anchor; aggregate `Delta_AD` approximately +0.19 to +0.25, interaction OR approximately 2.77 to 4.71; formal uncertainty and systemic-D scope remain unresolved.
+- Egan 2021: complementary consumer-factorial anchor.
+- *Impatiens capensis*: observational A×D plus randomized context modification; all eight target HC3 intervals cross zero.
+- *Pedicularis rex*: selective-access defence anchor without independent attraction manipulation.
 
-### Kessler et al. 2008 — trait-factorial anchor
+These studies are not assigned invented rho/iota/kappa values or bounds.
 
-Published aggregate female-outcrossing constraints imply approximately:
+## 5. Main figures
 
-```text
-probability-scale Delta_AD: +0.19 to +0.25
-logit interaction:          +1.019 to +1.551
-interaction OR:             2.77 to 4.71
-```
+1. Figure 1 — total trait interaction defines an identified set rather than a unique mechanism.
+2. Figure 2 — crossed 16-cell intervention design and separability diagnostic.
+3. Figure 3 — independent joint-channel assay versus unallocated residual.
+4. Figure 4 — 56/25 recurrence plus fragmented identification frontier and empirical anchors.
+5. Figure 5 — executable roadmap from interaction detection through partial to point identification.
 
-The sign is robust within the published aggregate constraints, but formal interaction uncertainty is unrecovered and nicotine silencing is systemic. This is a trait-factorial anchor, not full mechanism allocation.
+## 6. Appendix S1 boundary
 
-### Egan et al. 2021 — consumer-factorial anchor
+The active Appendix retains:
 
-Herbivory and pollination environment are crossed, but the focal floral A/D traits are not independently manipulated as the required factorial. This supplies the complementary design half.
-
-### Soper Gorden & Adler 2018 — public-data retrofit
-
-The *Impatiens* reanalysis estimates observational A×D plus randomized robbing/florivory/pollination modification. All eight targeted HC3 intervals cross zero. It reaches total-interaction/context-modification estimation, not rho/iota/kappa identification.
-
-### Other near misses
-
-- Kessler et al. 2015: genuine floral 2×2 phenotype, but nectar reward is not independently justified D.
-- Sun & Huang 2015, *Pedicularis rex*: useful selective-access/physical-defence anchor, but no independent A manipulation.
-
-Across the current 16-system high-information screened set:
-
-```text
-independent joint-cost assay:       0
-full rho/iota/kappa identification: 0
-```
-
-These are screened-set coverage statements, not literature prevalence.
-
-The integrated empirical conclusion is:
-
-> **The constituent channels recur, but their joint allocation remains unidentified.**
-
-## 5. Canonical Main figures
-
-1. `FIGURE_1_IDENTIFICATION_DESIGN.svg` — total trait interaction versus mechanism allocation.
-2. `FIGURE_2_IDENTIFICATION_DESIGN.svg` — 16-cell crossed design and separability diagnostic.
-3. `FIGURE_3_IDENTIFICATION_DESIGN.svg` — independent joint-cost assay and hidden-channel diagnostic.
-4. `FIGURE_4_IDENTIFICATION_DESIGN.svg` — 56/25 recurrence layer plus Kessler 2008 / Egan 2021 / *Impatiens* / 16-system identification gap.
-5. `FIGURE_5_IDENTIFICATION_DESIGN.svg` — executable experiment roadmap.
-
-Historical mechanism/regime/Pattern/quantitative/same-system figures remain versioned but are not the canonical Main figure set.
-
-## 6. Canonical Supplement boundary
-
-`manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md` retains:
-
-- 2,592 finite evaluations as implementation/model-family sensitivity only;
-- 77.2% finite-design window precision, explicitly grid-dependent and not ecological prevalence;
-- continuous-limit / finite-difference implementation checks;
-- response-shape sensitivity maps;
+- exact identified-set projection algebra and assumption-indexed partial-identification examples;
+- distinction between structural projection intervals and sampling uncertainty intervals;
 - Kessler 2008 reconstruction;
-- *Impatiens* retrofit details;
-- 16-system identification audit details;
-- full source-level Mechanism → Pattern route records and their recurrence-only interpretation.
+- *Impatiens* retrofit;
+- 16-system identification-frontier details;
+- 56/25 recurrence evidence and boundary;
+- 2,592 finite evaluations and 77.2% grid-specific precision as technical sensitivity only;
+- continuous-limit / finite-difference and response-shape sensitivity material.
 
-Leal and Sasidharan quantitative modules remain reproducible historical analyses and are not Main identification results.
+Leal and Sasidharan remain reproducible historical modules, not Main evidence.
 
-## 7. Historical quantitative provenance retained
+## 7. Historical provenance
 
-Leal et al. 2025 provenance remains pinned:
+Leal et al. 2025 pins remain unchanged:
 
 ```text
 canonical commit: ed33b25593c0d90ad6657753f6f5501d9efc7b82
 preregistration:  0e36eac
 first results:    965d657
-source synthesis: Leal et al. 2025, Ecology, doi:10.1002/ecy.70036
+source synthesis: doi:10.1002/ecy.70036
 ```
 
-Historical reproduced values remain approximately:
-
-```text
-female reproductive success  LRR -0.210  48 independent clusters
-nectar standing crop          LRR -0.483  28
-legitimate visitation         LRR -0.291  22
-```
-
-They are preserved for reproducibility/possible companion synthesis and do not validate the identification framework. The Sasidharan et al. 2023 FVOC reconstruction is likewise retained with its dependence and causal-interpretation boundaries.
+Historical values and Sasidharan reconstruction remain preserved with their original inference boundaries.
 
 ## 8. Open Research package
 
-The canonical package retains historical machine-readable provenance products and exposes:
-
-- `mechanism_pattern_route_ledger.csv`
-- `high_information_identification_coverage.csv`
-- `impatiens_identification_retrofit.json`
-
-Review-stage access is supplied by the public GitHub repository. A permanent archive DOI is an acceptance-stage requirement, not an initial-submission blocker.
+Exports include the route ledger, high-information identification coverage, *Impatiens* aggregate retrofit, and historical provenance products. Review-stage access is via public GitHub; accepted-version permanent archiving is an acceptance-stage requirement.
 
 ## 9. Current rendered state
 
-Fully tested pre-metadata package:
-
 ```text
 Main Document: 29 pages
-Appendix S1:   11 pages
+Appendix S1:   12 pages
 Main figures:   5
 ```
 
-Full-page visual QA of all 40 pages found no blank pages, clipping, overlap, broken glyphs, or missing figure content. Figure 4 remains readable after adding the recurrence counts. `Theorem 1` and 77.2% are absent from Main; 2,592 and 77.2% remain Supplement technical material.
+All **41 pages** were visually inspected after partial-identification integration and Main compaction. No blank pages, clipping, overlap, broken glyphs, missing figure content, or broken equations were found. The Main remains within the 30-page target with one-page headroom.
 
 ## 10. External-submission boundary
 
-Science and machine-controlled package engineering are complete for the current claim set. External submission remains blocked only by author-controlled metadata/sign-off:
-
-- final authors/order/affiliations;
-- corresponding author/email and ORCIDs;
-- CRediT, funding, acknowledgments, competing interests;
-- repository/software/data licence statement;
-- reviewer/opposed-reviewer fields only if requested;
-- all-author approval and no-simultaneous-consideration confirmation.
-
-After those fields are supplied, rebuild the exact package, rerun validation and figure export, inspect every Main and Appendix page, and confirm portal fields match the frozen files.
+Only author-controlled metadata/sign-off remains: author order/names/affiliations, corresponding author/e-mail, ORCIDs, CRediT, funding, acknowledgments, competing interests, licence, portal-only reviewer fields if requested, all-author approval and no-simultaneous-consideration confirmation. After insertion, rebuild and inspect the exact package again.
