@@ -64,11 +64,15 @@ def build_main_source() -> str:
     refs = _focused_reference_text()
     captions = _figure_captions()
 
+    # This generated Markdown lives four directories below repository root:
+    # submission/ecology/identification_candidate/generated/. Keep figure paths
+    # relative to the Markdown file so pandoc embeds the actual SVGs rather than
+    # silently replacing them with alt text.
     figure_blocks: list[str] = []
     for idx, caption in enumerate(captions, 1):
         figure_blocks.append(
             f"{PAGE_BREAK}\n\n{caption}\n\n"
-            f"![](../../../manuscript/identification_figures/FIGURE_{idx}_IDENTIFICATION_DESIGN.svg)"
+            f"![](../../../../manuscript/identification_figures/FIGURE_{idx}_IDENTIFICATION_DESIGN.svg)"
         )
 
     return (
@@ -95,8 +99,8 @@ def build_supplement_source() -> str:
         raise RuntimeError("candidate manuscript missing authors field")
 
     supplement = SUPPLEMENT.read_text(encoding="utf-8").strip()
-    old_s1 = "../../../manuscript/supplementary/figures/FIGURE_S1_DERIVATIVE_AGREEMENT.svg"
-    old_s2 = "../../../manuscript/supplementary/figures/FIGURE_S2_SCENARIO_SIGN_MAPS.svg"
+    old_s1 = "../../../../manuscript/supplementary/figures/FIGURE_S1_DERIVATIVE_AGREEMENT.svg"
+    old_s2 = "../../../../manuscript/supplementary/figures/FIGURE_S2_SCENARIO_SIGN_MAPS.svg"
 
     return (
         "# Appendix S1 — Identification design\n\n"
