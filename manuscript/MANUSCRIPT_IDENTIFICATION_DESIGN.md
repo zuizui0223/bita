@@ -241,37 +241,23 @@ The reanalysis is useful because it shows exactly how far a rich public dataset 
 
 ### 4.6 Other informative near misses
 
-Two further systems clarify different requirements. Kessler et al. (2015) independently manipulated floral scent and nectar production in a genuine two-by-two floral phenotype design, but nectar production is a reward axis rather than an independently justified antagonist-reducing defence trait. A direct audit of the current publisher supplementary package recovered three image files and no obvious machine-readable source-data file, but the more fundamental limitation is biological orientation rather than data availability.
+Two additional systems isolate different design requirements. Kessler et al. (2015) crossed floral scent and nectar production, but nectar is a reward axis rather than an independently justified antagonist-reducing defence trait; this biological orientation problem is more fundamental than the absence of a recovered machine-readable outcome table. In *Pedicularis rex*, Sun and Huang (2015) manipulated a water-holding bract barrier that strongly affected seed predation without a detected effect on legitimate pollinator or nectar-robber visitation. This provides a practical model for selective access, but no independent attraction manipulation was present.
 
-In *Pedicularis rex*, Sun and Huang (2015) experimentally altered a water-holding bract barrier. The manipulation strongly affected seed predation while showing no detected effect on legitimate pollinator or nectar-robber visitation. The system lacks an independent attraction manipulation, so it cannot estimate \(\rho_\Delta\). Its importance here is practical: it illustrates the kind of attack-route or access selectivity that may allow one consumer channel to be manipulated without mechanically changing another.
-
-Across the 16 screened high-information systems, the same pattern emerges in different forms: measured attraction and defence without their interaction, trait factorials without consumer factorials, consumer factorials without trait factorials, flower-specific defence without attraction manipulation, or cross-organ defence that does not satisfy the focal floral coordinate. No screened system includes an independent attraction-by-defence joint-cost assay.
+Across the 16 screened systems, failure modes therefore differ—missing trait interactions, missing consumer factorials, invalid floral coordinates, or missing attraction manipulation—but no system includes an independent attraction-by-defence joint-cost assay.
 
 ## 5. Designing an identifiable experiment
 
 ### 5.1 Choose the biological system before choosing the exclusion device
 
-The hardest part of the design is not the number of cells; it is intervention selectivity. A generic bag can exclude pollinators and antagonists simultaneously. A broad pesticide can alter both guilds and plant physiology. Either treatment destroys the channel interpretation even if a factorial model can still be fitted.
-
-System selection should therefore prioritize natural asymmetries that permit selective access. Candidate mechanisms include body-size differences, distinct entry routes, diel activity differences, phenological separation, or a physical barrier that affects one attack mode but not legitimate visitation. A system like the water-holding bracts of *Pedicularis rex* is informative because consumer identity maps onto different access routes. The ideal attraction manipulation would then be independently crossed with that defence manipulation and with consumer interventions that exploit the same selectivity.
+The main design difficulty is intervention selectivity, not the number of cells. Generic bags or broad pesticides can alter pollinators, antagonists and plant physiology simultaneously, destroying the channel interpretation. Candidate systems should instead exploit natural asymmetries such as body size, access route, diel activity or phenology. *Pedicularis rex* illustrates the useful logic: a consumer-specific access mechanism can first supply a selective defence manipulation, then an independent attraction manipulation and selective consumer toggles can be crossed onto that backbone.
 
 ### 5.2 Analysis sequence
 
-The analysis should follow the causal design rather than begin with a single high-order regression coefficient. First estimate the four-cell \(\Delta_{AD}W\) within each consumer state. Then form the antagonist-exclusion and pollinator-increment contrasts and propagate uncertainty into \(\rho_\Delta\) and \(\iota^{\mathrm{inc}}_\Delta\). Estimate or justify \(m_{0,\Delta}\). Next estimate the single four-way \(A\times D\times E_G\times E_P\) contrast that tests whether a common pair of channel estimands is defensible. Only after these steps should the remaining joint channel be compared with the independent cost assay.
-
-A hierarchical generalized model, permutation design, or randomization-based estimator can be used depending on the outcome distribution and assignment scheme. The framework does not depend on Gaussian errors. What must remain invariant is the contrast structure and its biological interpretation.
+Analysis follows the causal contrasts. Estimate \(\Delta_{AD}W\) within consumer states, form antagonist-exclusion and pollinator-increment contrasts with propagated uncertainty, estimate or justify \(m_{0,\Delta}\), and then test the single \(A\times D\times E_G\times E_P\) four-way separability contrast. Only after these gates should the remaining joint channel be compared with the independent cost assay. The sampling model can be generalized, permutation-based or randomization-based; the required invariant is the contrast structure and its biological interpretation.
 
 ### 5.3 What counts as a successful outcome
 
-The experiment need not produce complementarity to be informative. Four qualitatively different outcomes are useful.
-
-First, if the four-way separability contrast is near zero and the independent cost assay agrees with the unallocated residual, the proposed channel decomposition gains support and the relative sizes of antagonist relief and pollinator interference can be compared directly.
-
-Second, if the four-way contrast is non-zero, pollinator and antagonist channels cannot be treated as separable at the attraction-by-defence interaction scale. That is a biological result, not a failed analysis.
-
-Third, if the residual and independent cost assay disagree, an omitted channel or intervention failure is exposed.
-
-Fourth, if complementarity is observed while antagonist relief does not exceed pollinator interference, the remaining joint channel must be synergistic on the chosen scale. This is the narrow setting in which the original sign identity becomes empirically useful.
+The experiment is informative regardless of the sign of \(\Delta_{AD}W\). Near-zero four-way coupling plus residual–assay agreement supports the proposed decomposition. Non-zero four-way coupling rejects separability. Residual–assay disagreement exposes a missing channel, intervention failure or scale mismatch. Finally, complementarity with \(\rho_\Delta\le\iota_\Delta\) forces a negative remaining joint channel on the chosen scale. Each outcome therefore resolves a different part of the identification problem rather than being labelled a failed experiment.
 
 ### 5.4 Computational and AI-assisted workflow transparency
 
