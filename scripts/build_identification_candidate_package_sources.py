@@ -67,17 +67,17 @@ def build_main_source() -> str:
     # This generated Markdown lives four directories below repository root:
     # submission/ecology/identification_candidate/generated/. Keep figure paths
     # relative to the Markdown file so pandoc embeds the actual SVGs rather than
-    # silently replacing them with alt text.
+    # silently replacing them with alt text. REF_BREAK already advances to a new
+    # page, so only Figures 2–5 need an explicit page break.
     figure_blocks: list[str] = []
     for idx, caption in enumerate(captions, 1):
+        page_prefix = "" if idx == 1 else f"{PAGE_BREAK}\n\n"
         figure_blocks.append(
-            f"{PAGE_BREAK}\n\n{caption}\n\n"
+            f"{page_prefix}{caption}\n\n"
             f"![](../../../../manuscript/identification_figures/FIGURE_{idx}_IDENTIFICATION_DESIGN.svg)"
         )
 
-    # Do not insert a standalone "Figure captions" heading after the References
-    # section break. Each figure block already starts on its own page; a separate
-    # heading created an otherwise blank page in the rendered candidate.
+    # Do not insert a standalone "Figure captions" heading after References.
     return (
         front
         + "\n\n**Journal:** Ecology\n\n**Manuscript type:** Concepts & Synthesis\n\n"
