@@ -75,6 +75,9 @@ def build_main_source() -> str:
             f"![](../../../../manuscript/identification_figures/FIGURE_{idx}_IDENTIFICATION_DESIGN.svg)"
         )
 
+    # Do not insert a standalone "Figure captions" heading after the References
+    # section break. Each figure block already starts on its own page; a separate
+    # heading created an otherwise blank page in the rendered candidate.
     return (
         front
         + "\n\n**Journal:** Ecology\n\n**Manuscript type:** Concepts & Synthesis\n\n"
@@ -85,7 +88,7 @@ def build_main_source() -> str:
         + refs
         + "\n\n"
         + REF_BREAK
-        + "\n\n## Figure captions and figures\n\n"
+        + "\n\n"
         + "\n\n".join(figure_blocks)
         + "\n"
     )
