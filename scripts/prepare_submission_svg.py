@@ -27,6 +27,7 @@ VISIBLE_TITLE_PREFIXES = (
     "Crossed interventions identify channels and test separability",
     "Do not define the joint cost as a residual",
     "Existing studies occupy complementary parts of the identification design",
+    "Constituent channels recur, but mechanism allocation remains unidentified",
     "An executable path from interaction detection to mechanism identification",
 )
 
