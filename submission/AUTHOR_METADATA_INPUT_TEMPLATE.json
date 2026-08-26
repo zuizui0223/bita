@@ -1,0 +1,33 @@
+{
+  "authors": [
+    {
+      "publication_name": "",
+      "affiliations": [],
+      "present_address": "",
+      "orcid": "",
+      "email": "",
+      "corresponding": false,
+      "credit_roles": []
+    }
+  ],
+  "corresponding_author": {
+    "publication_name": "",
+    "email": ""
+  },
+  "funding": {
+    "statement": "",
+    "grants": []
+  },
+  "acknowledgments": "",
+  "competing_interests": {
+    "statement": ""
+  },
+  "repository_licence_statement": "",
+  "submission_confirmations": {
+    "all_authors_approve_exact_version": null,
+    "all_authors_agree_to_ecology_submission": null,
+    "not_under_consideration_elsewhere": null
+  },
+  "reviewers": [],
+  "opposed_reviewers": []
+}
