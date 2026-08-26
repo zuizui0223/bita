@@ -75,25 +75,31 @@ jobs:
         run: |
           MAIN=submission/ecology/identification_candidate/generated/rendered/MANUSCRIPT_IDENTIFICATION_CANDIDATE.pdf
           SUPP=submission/ecology/identification_candidate/generated/rendered/APPENDIX_IDENTIFICATION_CANDIDATE.pdf
+          MAIN_TXT="$RUNNER_TEMP/main_candidate.txt"
+          SUPP_TXT="$RUNNER_TEMP/supp_candidate.txt"
           test -s "$MAIN"
           test -s "$SUPP"
           MAIN_PAGES=$(pdfinfo "$MAIN" | awk '/^Pages:/ {print $2}')
           SUPP_PAGES=$(pdfinfo "$SUPP" | awk '/^Pages:/ {print $2}')
-          MAIN_TEXT=$(pdftotext "$MAIN" -)
-          SUPP_TEXT=$(pdftotext "$SUPP" -)
-          echo "$MAIN_TEXT" | grep -q 'From floral trait interactions to mechanism identification'
-          echo "$MAIN_TEXT" | grep -q 'Crossed intervention design'
-          echo "$MAIN_TEXT" | grep -q 'Kessler et al. (2008)'
-          echo "$MAIN_TEXT" | grep -q 'Egan et al. (2021)'
-          echo "$MAIN_TEXT" | grep -q 'Figure 5.'
-          ! echo "$MAIN_TEXT" | grep -q 'Theorem 1'
-          ! echo "$MAIN_TEXT" | grep -q '77.2%'
-          echo "$SUPP_TEXT" | grep -q '2,592'
-          echo "$SUPP_TEXT" | grep -q '77.2%'
-          echo "$SUPP_TEXT" | grep -q 'Kessler et al. 2008 aggregate reconstruction'
+          pdftotext "$MAIN" "$MAIN_TXT"
+          pdftotext "$SUPP" "$SUPP_TXT"
+          grep -q 'From floral trait interactions to mechanism identification' "$MAIN_TXT"
+          grep -q 'Crossed intervention design' "$MAIN_TXT"
+          grep -q 'Kessler et al. (2008)' "$MAIN_TXT"
+          grep -q 'Egan et al. (2021)' "$MAIN_TXT"
+          grep -q 'Figure 5.' "$MAIN_TXT"
+          ! grep -q 'Theorem 1' "$MAIN_TXT"
+          ! grep -q '77.2%' "$MAIN_TXT"
+          grep -q '2,592' "$SUPP_TXT"
+          grep -q '77.2%' "$SUPP_TXT"
+          grep -q 'Kessler et al. 2008 aggregate reconstruction' "$SUPP_TXT"
           MEDIA_COUNT=$(unzip -l submission/ecology/identification_candidate/generated/MANUSCRIPT_IDENTIFICATION_CANDIDATE.docx | grep -c 'word/media/' || true)
           if [ "$MEDIA_COUNT" -lt 5 ]; then
             echo "Expected at least five embedded Main figures; found $MEDIA_COUNT" >&2
+            exit 1
+          fi
+          if [ "$MAIN_PAGES" -gt 50 ]; then
+            echo "Candidate Main is $MAIN_PAGES pages; exceeds Ecology Concepts & Synthesis maximum of 50." >&2
             exit 1
           fi
           {
@@ -104,6 +110,7 @@ jobs:
             echo "canonical_submission_untouched=true"
             echo "main_headline=interaction_detection_to_mechanism_identification"
             echo "old_grid_status=supplement_only"
+            echo "main_limit_state=PASS_AT_OR_BELOW_50"
           } > submission/ecology/identification_candidate/generated/CANDIDATE_QA_RECEIPT.txt
 
       - name: Remove raw intermediate files
