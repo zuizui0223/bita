@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-MAN = ROOT / "manuscript" / "MANUSCRIPT_THEORETICAL_ECOLOGY.md"
+MAN = ROOT / "manuscript" / "MANUSCRIPT_IDENTIFICATION_DESIGN.md"
 PORTAL = ROOT / "submission" / "AUTHOR_AND_PORTAL_METADATA_TEMPLATE.md"
 COVER = ROOT / "submission" / "COVER_LETTER_ECOLOGY_CONCEPTS_SYNTHESIS.md"
 STRATEGY = ROOT / "submission" / "TARGET_JOURNAL_STRATEGY.md"
@@ -47,44 +47,48 @@ def test_portal_abstract_stays_exactly_synchronized() -> None:
     assert pabs == _abstract(manuscript)
 
 
-def test_broad_concepts_and_synthesis_framing_is_bounded() -> None:
+def test_broad_concepts_and_synthesis_framing_is_identification_led() -> None:
     text = MAN.read_text(encoding="utf-8")
-    assert "A recurring problem in ecology is that net interaction outcomes can conceal opposing causal channels" in text
-    assert "This ordering is also the paper's broader contribution to ecological synthesis" in text
-    assert "### 6.5 What transfers beyond the floral case" in text
-    assert "constraint before pattern" in text
-    assert "not the particular floral route signs or the inequality derived from them" in text
-    assert "unsupported universal law" in text
+    assert "A total attraction-by-defence interaction therefore does not identify its mechanism." in text
+    assert "The contribution is not a new ecological interaction type and not a mathematically elaborate theorem." in text
+    assert "The missing object is their intersection." in text
+    assert "The transferable principle is not the floral notation." in text
+    assert "interaction detection" in text
+    assert "mechanism allocation" in text
 
 
-def test_open_research_and_esa_ai_disclosure_surfaces_are_present() -> None:
+def test_open_research_and_ai_disclosure_surfaces_are_present() -> None:
     text = MAN.read_text(encoding="utf-8")
-    front = text.split("## Abstract", 1)[0]
-    assert "**Open Research statement:**" in front
-    methods = text.split("### 4.3 Computational and AI-assisted workflow transparency", 1)[1].split("## 5.", 1)[0]
-    assert "OpenAI" in methods and "Anthropic" in methods
-    ack = text.split("## Acknowledgments", 1)[1].split("## Statements and Declarations", 1)[0]
-    assert "OpenAI ChatGPT" in ack
-    assert "Anthropic Claude" in ack
-    assert "authors retain responsibility" in ack
+    assert "## Open Research statement" in text
+    disclosure = "### 5.4 Computational and AI-assisted workflow transparency"
+    assert disclosure in text
+    block = text.split(disclosure, 1)[1].split("## 6. Discussion", 1)[0]
+    assert "OpenAI ChatGPT" in block
+    assert "Anthropic Claude" in block
+    assert "not treated as empirical evidence" in block
+    assert "authors retain responsibility" in block.lower()
 
 
-def test_ecology_cover_letter_has_conceptual_advance_and_current_length_justification() -> None:
+def test_ecology_cover_letter_matches_identification_story_and_standard_length() -> None:
     text = COVER.read_text(encoding="utf-8")
     assert "Concepts & Synthesis" in text
-    assert "constraint before pattern" in text
-    assert "goes beyond review" in text
-    assert "## 1. Broad ecological contribution of the additional length" in text
-    assert "## 2. Why the additional material cannot be moved adequately to Supporting Information" in text
+    assert "From floral trait interactions to mechanism identification" in text
+    assert "interaction detection" in text
+    assert "mechanism allocation" in text
+    assert "27 Main Document pages" in text
+    assert "within the standard 30-page Concepts & Synthesis target" in text
+    assert "## 1. Broad ecological contribution of the additional length" not in text
+    assert "## 2. Why the additional material cannot be moved adequately to Supporting Information" not in text
     assert "Potential reviewers, if requested by the submission portal" in text
     assert "Complete the number and fields requested by ScholarOne" in text
     assert not re.search(r"^[1-5]\. \[Name — institution — e-mail — expertise — conflict check\]$", text, flags=re.MULTILINE)
 
 
-def test_fit_audit_records_rendered_review_package_and_acceptance_stage_archive() -> None:
+def test_fit_audit_records_current_package_and_acceptance_stage_archive() -> None:
     text = FIT.read_text(encoding="utf-8")
     assert "Rendered review-package audit" in text
     assert "Main Document" in text and "Appendix S1" in text
-    assert "31–50-page" in text
+    assert "27 pages" in text
+    assert "standard 30-page" in text
     assert "acceptance-stage" in text
-    assert "Scientific invariants preserved" in text
+    assert "Identification invariants preserved" in text
