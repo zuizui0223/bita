@@ -3,9 +3,9 @@ name: Export manuscript figures
 on:
   pull_request:
     paths:
-      - "manuscript/figures/**"
-      - "manuscript/supplementary/figures/FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg"
+      - "manuscript/identification_figures/**"
       - "scripts/export_manuscript_figures.sh"
+      - "scripts/prepare_submission_svg.py"
       - ".github/workflows/export-manuscript-figures.yml"
   workflow_dispatch:
 
@@ -25,10 +25,15 @@ jobs:
             sudo apt-get install -y inkscape
           fi
           inkscape --version
-      - name: Export and validate EPS figures
+      - name: Export and validate identification-design EPS figures
         run: |
           bash scripts/export_manuscript_figures.sh artifacts/manuscript_figures
-          for n in 1 2 3 4 5; do test -s "artifacts/manuscript_figures/Fig${n}.eps"; done
+          for n in 1 2 3 4 5; do
+            test -s "artifacts/manuscript_figures/Fig${n}.eps"
+            grep -aq '^%!PS-Adobe' "artifacts/manuscript_figures/Fig${n}.eps"
+            grep -aq '%%BoundingBox:' "artifacts/manuscript_figures/Fig${n}.eps"
+          done
+          grep -q 'Canonical identification-design Main hierarchy' artifacts/manuscript_figures/README.txt
       - uses: actions/upload-artifact@v4
         with:
           name: manuscript-figures-eps
