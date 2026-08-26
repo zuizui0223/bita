@@ -140,9 +140,9 @@ These records are preserved for reproducibility and possible companion synthesis
 
 The Sasidharan et al. 2023 FVOC reconstruction is likewise retained with its original dependence and causal-interpretation boundaries, but is not a Main identification-design result.
 
-## 7. Historical Mechanism → Pattern provenance retained
+## 7. Mechanism → Pattern recurrence layer retained in the Main argument
 
-The previous synthesis remains available as a provenance layer:
+The previous synthesis is now reused in a deliberately bounded role: it establishes cross-system recurrence of the constituent ecological pathways before the stricter identification-coverage audit. It does not validate the algebra or identify the channel interactions. Full provenance remains available:
 
 ```text
 56 source-adjudicated route records
@@ -156,7 +156,7 @@ context/sign switch: 17
 context-only programs: 7 outside route N
 ```
 
-These overlapping counts are not added as independent-study prevalence and no longer constitute the Main empirical endpoint.
+These overlapping counts are not added as independent-study prevalence. Their Main-text role is limited to constituent-channel recurrence; the empirical endpoint remains whether recurrent pathways are jointly identified on common attraction-by-defence coordinates.
 
 ## 8. Open Research package
 

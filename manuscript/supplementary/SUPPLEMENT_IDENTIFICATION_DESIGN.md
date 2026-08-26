@@ -169,11 +169,11 @@ Representative failures include:
 
 These classes motivate the experimental roadmap in Main Fig. 5.
 
-## S5. Broader mechanism-route evidence retained as background
+## S5. Constituent mechanism recurrence supporting the Main Pattern layer
 
-The earlier mechanism-pattern synthesis contains 56 source-adjudicated route records from 25 independent biological study clusters, including 14 same-system multi-route clusters and 17 context/sign-switch clusters. These records remain useful for demonstrating that attraction, pollination, antagonism and defence pathways recur in nature.
+The mechanism-pattern synthesis contains 56 source-adjudicated route records from 25 independent biological study clusters: `A→pollination` occurs in 5 clusters, `A→antagonism` in 8, `D→antagonism` in 18, and `D→pollination` in 10. Fourteen clusters contain same-system multi-route evidence and 17 contain context/sign-switch evidence. These overlapping classifications demonstrate that attraction, pollination, antagonism and defence pathways recur across biological systems; they are not additive study counts or natural-prevalence estimates.
 
-They are not used in the identification manuscript as estimates of `rho_delta`, `iota_delta`, `Delta_AD W`, or `kappa_delta`. Marginal `A→pollination`, `A→antagonism`, `D→antagonism`, and `D→pollination` evidence does not estimate a cross-trait channel interaction. The full route ledger therefore moves from the old Main argument to supplementary/background evidence.
+The Main manuscript now uses this synthesis only for that recurrence claim. It does not use the route records as estimates of `rho_delta`, `iota_delta`, `Delta_AD W`, or `kappa_delta`. Marginal `A→pollination`, `A→antagonism`, `D→antagonism`, and `D→pollination` evidence does not estimate a cross-trait channel interaction. Full source-level details remain here and in the machine-readable route ledger so that the Mechanism → Pattern bridge is explicit without collapsing recurrence into identification.
 
 Authoritative sources remain:
 
