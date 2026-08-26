@@ -23,10 +23,10 @@ Ecologists often observe that two traits interact on fitness without being able 
 Use the exact manuscript keywords; keep them synchronized after final copy-editing:
 
 - causal identification
+- factorial experiment
 - floral defence
 - floral traits
 - florivory
-- factorial experiment
 - pollination
 - trait interaction
 
@@ -104,7 +104,11 @@ Current review-stage title-page statement:
 
 ### Use of generative AI or language tools
 
-Preserve the final disclosure required by the journal/portal. Authors remain responsible for all claims, citations, code, analyses, and text. Do not infer author approval of disclosure wording.
+Current manuscript disclosure:
+
+> OpenAI ChatGPT and Anthropic Claude were used for code-generation assistance, structured literature triage, reproducibility checks, and manuscript drafting/editing. AI-generated output was not treated as empirical evidence, and these tools did not determine study inclusion, evidence classification, or statistical conclusions. Source claims, numerical results, code, and citations were checked against the underlying analyses and sources. The authors retain responsibility for all scientific decisions and content.
+
+Preserve the disclosure required by the final journal/portal and obtain author approval of the exact submitted wording.
 
 ## Reviewer suggestions
 
@@ -132,7 +136,7 @@ List only when there is a specific defensible conflict, not because a reviewer m
 - [x] portal abstract contains the 16-cell design, separability test, M0 baseline, independent joint-cost requirement, and existing-study identification gap;
 - [x] 2,592 / 77.2% are not portal-abstract headline results;
 - [x] five identification-design figures have canonical SVG sources and EPS export workflow;
-- [ ] keywords are synchronized after final copy edit;
+- [x] keywords are synchronized with the canonical manuscript;
 - [ ] author list matches title page and portal;
 - [ ] funding statement matches portal fields;
 - [ ] competing-interest statement matches portal fields;
