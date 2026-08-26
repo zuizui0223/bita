@@ -1,222 +1,151 @@
-# Manuscript audit — paperization state
+# Manuscript audit — identification-design state
 
 ## Verdict
 
-**Scientific conclusion: frozen and internally coherent. Reader-facing manuscript: paperized around the one-sided selectivity bound. External submission: pending human-controlled metadata/release/rendering only.**
+**Scientific conclusion: GO. Canonical manuscript: identification design with a bounded Mechanism → Pattern recurrence layer. External submission: pending author-controlled metadata/sign-off only.**
 
 Canonical title:
 
-> **When are floral attraction and defence complementary? A one-sided mechanistic bound and cross-system patterns**
+> **From floral trait interactions to mechanism identification: a crossed-intervention framework for attraction and defence**
 
 Canonical architecture:
 
 ```text
 1 Introduction
-2 Part I — Mechanistic theory: mechanism and principle
-3 Part I results — mechanistic sign regimes
-4 Part II — Meta-analysis and cross-study pattern synthesis
-5 Part II results — meta-analytic patterns across systems
-6 Integration — from mechanism to pattern
+2 measurable discrete A×D estimand and non-identifiability
+3 crossed A×D×antagonist×pollinator identification design
+4 Mechanism → Pattern: constituent recurrence before identification
+5 executable identifiable experiment
+6 Discussion
 7 Conclusions
 ```
 
-## 1. Part I — Mechanism: PASS
+## 1. Identification core — PASS
 
-The paper preserves:
-
-```text
-W_AD = M_AD - G_AD - C_AD
-orientation gate
-W_AD = rho - iota - kappa
-```
-
-The identity is not sold as novelty. The strongest result is the one-sided bound:
+The primary estimand is
 
 ```text
-if kappa >= 0 and W_AD > 0, then rho > iota
+Delta_AD W = W11 - W10 - W01 + W00
 ```
 
-Therefore complementarity cannot occur outside the selectivity window under the declared non-negative joint-cost premise. The converse is false when positive joint cost is present.
+The total interaction alone does not identify antagonist relief, pollinator interference, or a joint direct/allocation channel. The general identification design is a selective `A × D × antagonist × pollinator` 16-cell experiment.
 
-Implementation verification remains:
+Required conditions are explicit:
+
+- consumer interventions must be selective;
+- A/D coordinates must remain comparable across consumer states;
+- the pollinator-absent `A×D` baseline must be estimated or justified;
+- rho- and iota-invariance diagnostics are the same four-way contrast up to sign;
+- a non-zero four-way contrast rejects the simple separable-channel representation;
+- `U_delta` is an unallocated residual, not kappa by definition;
+- kappa requires an independent `A×D` cost/allocation assay.
+
+The elementary sign identity is retained only as a post-measurement consistency or hidden-channel sign diagnostic.
+
+## 2. Mechanism → Pattern bridge — PASS
+
+The retained source-adjudicated synthesis contains:
 
 ```text
-2,592 declared endpoint-normalized evaluations
-0 complementary evaluations outside the window
-window precision 77.2%
-~23% of in-window evaluations substitutable
-zero-joint-cost limit: exact window/sign equivalence
+56 route records
+25 independent biological clusters
+A -> pollination: 5
+A -> antagonism:  8
+D -> antagonism: 18
+D -> pollination: 10
+same-system:      14
+context switches: 17
 ```
 
-These fractions are finite-design occupancies, not prevalence estimates.
+These overlapping counts support one claim: the constituent ecological pathways recur across systems. They are not natural-prevalence estimates and do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`.
 
-Proposition 1, the orientation boundary, environmental derivative conditions, parameterization caveat, and distinction between proof and numerical verification remain intact.
-
-## 2. Failure mode and falsifiability: PASS
-
-Outside-window complementarity requires
+The stricter 16-system high-information audit then asks whether recurrent ingredients have been jointly identified. Current state:
 
 ```text
-kappa < rho - iota <= 0
+independent joint-cost assay: 0
+full rho/iota/kappa identification: 0
 ```
 
-so negative joint-cost curvature is necessary for failure of the bound and a sufficiently negative value is sufficient within the declared family.
+Thus the integrated empirical conclusion is:
 
-The manuscript correctly treats non-negative joint cost as a model premise rather than established biology. Direct `c_AD` remains empirically unidentified.
+> **Constituent channels recur, but their joint allocation remains unidentified.**
 
-The next tests have distinct roles:
+## 3. Existing-data anchors — PASS with boundaries
 
-- **2 × 2 allocation design:** applicability/falsification gate for joint-cost curvature;
-- **full A × D factorial:** total-interaction calibration and channel allocation.
+- **Kessler et al. 2008:** closest trait-factorial anchor; published aggregate constraints imply a positive discrete reproductive interaction, but formal uncertainty and systemic nicotine remain caveats.
+- **Egan et al. 2021:** complementary consumer-factorial anchor; focal A/D are not independently manipulated as the required floral trait factorial.
+- **Soper Gorden & Adler 2018 / Impatiens:** observational A×D plus randomized robbing/florivory/pollination modification; all eight target HC3 intervals cross zero; reaches context modification, not channel identification.
+- **Pedicularis rex:** useful selective-access system anchor, not a complete design.
 
-## 3. Part II — Pattern: PASS
+## 4. Demoted historical analyses — PASS
 
-Canonical saturated evidence state:
+The former 2,592 finite evaluations and 77.2% selectivity-window precision are retained only as software/model-family sensitivity in Appendix S1. They are not Main biological evidence, empirical validation, or natural-regime frequencies.
 
-```text
-56 route-level records
-25 independent biological study clusters
-A -> pollination:         5
-A -> antagonism:          8
-D -> antagonism:         18
-D -> pollination:        10
-same-system multi-route: 14
-context/sign-switch:     17
-context-only programs:    7  (excluded from route-ledger N)
-direct total A x D:       sparse / unresolved
-direct joint cost:        0 strict estimates
-```
+Leal and Sasidharan quantitative modules remain reproducible repository analyses for provenance/possible companion synthesis; they are not Main identification evidence.
 
-The route ledger is correctly presented as a source-adjudicated Pattern scaffold rather than a grand cross-outcome meta-analysis.
+The historical theorem-led manuscript remains versioned but is not the canonical submission source.
 
-### Leal floral-larceny module: PASS
-
-Canonical pooled state remains approximately:
-
-```text
-female reproductive success  LRR -0.210  48 clusters
-nectar standing crop          LRR -0.483  28
-legitimate visitation         LRR -0.291  22
-```
-
-The reader-facing interpretation is appropriately narrower than a universal antagonist-cost law:
-
-- female fitness negative in 35/48 clusters;
-- 95% prediction interval approximately `-1.13` to `+0.71`;
-- declared moderators explain only 0–8% of heterogeneity;
-- pooled directions remain robust under the declared sensitivity/influence framework.
-
-Thus the H/exposure gate can be open on average but remains system dependent.
-
-The reward → visitation → female-fitness sequence remains constituent-path evidence only; the manuscript does not claim an end-to-end causal mechanism.
-
-### Sasidharan floral-volatile module: PASS with composition boundary
-
-Canonical state remains:
-
-```text
-32 conservative study components
-florivore physiological detection 84/103
-pollinator physiological detection 151/220
-assembled risk difference +0.129
-LOCO direction positive 32/32
-```
-
-The paired-role limitation and study-composition caveat remain explicit. The assembled contrast is not relabelled a causal within-study role effect.
-
-### Secondary contextual syntheses: PASS with status separation
-
-Haas-Desmarais et al. (2026), Caruso et al. (2019), and Junker & Blüthgen (2010) remain secondary contextual/cross-synthesis modules. Their scales and study/observation counts are not pooled with the reproduced modules or route-ledger N.
-
-## 4. Mechanism → Pattern linkage: PASS
-
-The supported integrated conclusion is:
-
-> **one-sided mechanistic theorem + recurrent but context-dependent empirical Pattern**
-
-The empirical half demonstrates recurrence, switching, same-system linkage, gate opening, and identification gaps. It does not calibrate `rho`, `iota`, `kappa`, or total `W_AD`.
-
-The main reader-facing distinction is now clear:
-
-- **structurally general:** the one-sided impossibility boundary under its premise;
-- **empirically recurrent:** constituent pathways and switching architectures;
-- **context dependent:** exposure and realised balance inside the permissive region;
-- **decisive next test:** joint-cost curvature, followed separately by a full factorial calibration.
-
-## 5. Novelty boundary: PASS
+## 5. Novelty boundary — PASS
 
 The manuscript does not claim novelty for:
 
-- cross-trait curvature or correlational selection;
 - pollinators and antagonists jointly shaping plant fitness;
 - floral attraction exposing flowers to antagonists;
-- defence carrying pollination costs;
-- non-additive mutualist/antagonist effects;
-- context dependence itself.
+- floral defence altering pollinator behaviour;
+- non-additivity or context dependence themselves.
 
 The defensible novelty is the combination of:
 
-1. a mechanism-facing orientation and non-identifiability architecture;
-2. the one-sided selectivity-window theorem;
-3. identification of sufficiently negative joint-cost curvature as the unique escape route in the declared family;
-4. conversion of the theorem's applicability into a tractable 2 × 2 allocation test;
-5. a theory-structured cross-system synthesis that preserves incompatible outcome scales and evidence levels.
+1. a measurable discrete interaction;
+2. explicit structural non-identifiability of its channel allocation;
+3. intervention-defined channel estimands;
+4. an internal separability diagnostic;
+5. independent measurement of the joint-cost channel rather than residual naming;
+6. a cross-system Pattern layer showing recurrent biological ingredients but missing joint identification.
 
-## 6. Reader-facing paperization: PASS for current text
+## 6. Submission package — PASS before human metadata
 
-The current manuscript now:
-
-- foregrounds the one-sided bound in the title;
-- gives the theorem, failed converse, 56/25 Pattern state, H-gate heterogeneity, and `c_AD` test in the Abstract;
-- shortens the Introduction while preserving prior art and the ecological inference gap;
-- retains Methods/Results numerical states unchanged;
-- ends the Conclusion on a falsification/calibration programme rather than generic calls for more data;
-- synchronizes portal metadata and cover-letter framing.
-
-Remaining editorial work is human reading/visual QA, not further scientific discovery by default.
-
-## 7. Inference-boundary audit: PASS
-
-The manuscript/package preserves:
+Current validated render:
 
 ```text
-marginal route evidence != W_AD
-same-system evidence != direct total A x D
-route counts != prevalence
-finite-grid occupancy != prevalence
-Leal pooled effects != rho/iota/kappa/W_AD
-Sasidharan assembled contrast != causal paired role effect
-zero strict joint-cost estimates != kappa = 0
-2 x 2 focal-pair applicability test != global universality
-W_AD != automatic evolutionary trajectory/covariance prediction
+Main Document: 29 pages
+Appendix S1:   11 pages
+Main figures:   5
 ```
 
-## 8. Figures, tables, supplement, references: PASS / release rerun pending
+All 40 pages have been visually inspected. No blank pages, clipping, overlaps, broken glyphs, or missing figure content were found. Figure 4 remains readable with the 56/25 recurrence line. CI, submission-scope, candidate build, canonical Ecology build, and Fig1–Fig5 EPS export passed for this scientific state.
 
-- Main Figures 1–3 retain canonical SVG sources.
-- Tables 1–4 remain synchronized to Mechanism/Pattern roles.
-- Supplementary Figures S1–S4 and Tables S1–S6 retain reproducible builders.
-- Quantitative robustness remains in the supplement rather than overloading the main Pattern figure.
-- Scientific reference spine remains regression-protected.
-- Final release-commit figure/supplement build and rendered citation/reference QA remain pending.
+## 7. Inference-boundary audit — PASS
 
-## 9. External-submission blockers
+```text
+marginal route recurrence
+!= total A×D interaction
+!= channel interaction
+!= full mechanism allocation
+```
 
-These are human/release controls rather than scientific gaps:
+Further boundaries:
 
-- final author order/publication names;
-- affiliations and corresponding-author details;
-- ORCIDs;
+- route counts != prevalence;
+- finite-grid occupancy != prevalence;
+- randomized context modification != selective exclusion;
+- zero independent cost assays != kappa = 0;
+- `U_delta` != kappa by definition;
+- non-zero four-way coupling is evidence against separability, not a nuisance to be absorbed.
+
+## 8. External-submission blockers
+
+Only human-controlled fields remain:
+
+- final authors/order/affiliations;
+- corresponding author/email and ORCIDs;
 - CRediT roles;
-- funding/no-funding statement and acknowledgements;
-- competing-interest confirmation;
-- repository licence;
-- five conflict-checked reviewer suggestions;
-- exact immutable release/tag and archival DOI;
-- final rendered manuscript/supplement visual QA;
-- all-author approval;
-- authenticated journal-portal submission.
+- funding, acknowledgments, competing interests;
+- repository/software/data licence statement;
+- reviewer fields only if requested by the live portal;
+- all-author approval and no-simultaneous-submission confirmation;
+- final post-metadata rebuild and page-by-page QA.
 
 ## Final decision
 
-**The manuscript no longer needs additional broad evidence searching to become scientifically coherent. The repository should remain in paperization/release mode unless a specific claim is falsified, a reviewer exposes a concrete evidence/provenance gap, or an inference-boundary correction becomes necessary.**
+**The paper is scientifically coherent as an identification-design Concepts & Synthesis manuscript with a two-stage Mechanism → Pattern bridge. Additional broad evidence hunting is not a default blocker.**
