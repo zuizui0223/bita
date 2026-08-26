@@ -15,7 +15,7 @@ def test_readme_declares_identification_and_bounded_pattern_story() -> None:
     assert "joint allocation remains unidentified" in text
     assert "route counts are not prevalence estimates" in text
     assert "finite-grid fractions are not probabilities of natural regimes" in text
-    assert "Main 29 pages + 11 Appendix pages" in text
+    assert "29 Main pages + 11 Appendix pages" in text
 
 
 def test_manifest_pins_identification_core_and_bounded_pattern_provenance() -> None:
@@ -67,6 +67,7 @@ def test_scope_preserves_identification_boundaries() -> None:
     text = (ROOT / "docs" / "SUBMISSION_SCOPE.md").read_text(encoding="utf-8")
     assert "Pattern layer 1" in text
     assert "Pattern layer 2" in text
+    assert "source-adjudicated route ledger is **not itself a grand meta-analysis**" in text
     assert "marginal route recurrence" in text
     assert "!= total A×D interaction" in text
     assert "U_delta` is not kappa" in text
