@@ -25,6 +25,12 @@ def _plain_words(text: str) -> list[str]:
     return re.findall(r"\b[\w+×-]+\b", text, flags=re.UNICODE)
 
 
+def _manuscript_keywords(text: str) -> list[str]:
+    line = next(line for line in text.splitlines() if line.startswith("**Keywords:**"))
+    payload = line.removeprefix("**Keywords:**").strip()
+    return [item.strip() for item in payload.split(";") if item.strip()]
+
+
 def test_abstract_and_keywords_fit_current_ecology_limits() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
     abstract = _abstract(text)
@@ -32,8 +38,7 @@ def test_abstract_and_keywords_fit_current_ecology_limits() -> None:
     assert "16 screened high-information systems" in abstract
     assert "The main empirical gap" in abstract
 
-    keyword_line = next(line for line in text.splitlines() if line.startswith("**Keywords:**"))
-    keywords = [item.strip() for item in keyword_line.split(":", 1)[1].split(";") if item.strip()]
+    keywords = _manuscript_keywords(text)
     assert 6 <= len(keywords) <= 12
     assert keywords == sorted(keywords, key=str.casefold)
 
@@ -45,12 +50,7 @@ def test_portal_abstract_matches_manuscript_and_keywords() -> None:
     assert portal_abstract == _abstract(manuscript)
     keyword_block = portal.split("### Keywords\n\n", 1)[1].split("\n\n## Authors", 1)[0]
     portal_keywords = [line[2:].strip() for line in keyword_block.splitlines() if line.startswith("- ")]
-    manuscript_keywords = [
-        item.strip()
-        for item in next(line for line in manuscript.splitlines() if line.startswith("**Keywords:**")).split(":", 1)[1].split(";")
-        if item.strip()
-    ]
-    assert portal_keywords == manuscript_keywords
+    assert portal_keywords == _manuscript_keywords(manuscript)
 
 
 def test_identification_source_has_explicit_human_metadata_placeholders() -> None:
