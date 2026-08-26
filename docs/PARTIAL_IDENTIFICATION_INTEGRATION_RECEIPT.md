@@ -29,4 +29,19 @@ No study-specific `rho_delta`, `iota_delta`, or `kappa_delta` values or bounds h
 
 ## Editorial integration
 
-The partial-identification material was integrated by replacing existing non-identification/algebra prose rather than adding a new Main section. Non-core near-miss and experimental-procedure prose was compacted afterward to preserve the Ecology page budget. Exact page count and full visual QA must be taken from the latest canonical package build before merge.
+The partial-identification material was integrated by replacing existing non-identification/algebra prose rather than adding a new Main section. Non-core near-miss and experimental-procedure prose was compacted afterward to preserve the Ecology page budget.
+
+## Final package QA on validated head
+
+The canonical Ecology package was regenerated after compaction and validated as:
+
+- Main Document: **29 pages**;
+- Appendix S1: **12 pages**;
+- Main figures: **5**;
+- standard 30-page Concepts & Synthesis target: **PASS with one-page margin**;
+- `main_pages=29`, `appendix_pages=12`, `length_state=WITHIN_30_PAGE_STANDARD_TARGET` in the package QA receipt;
+- all 29 Main and 12 Appendix pages rendered to PNG and visually inspected;
+- no blank pages, clipping, overlaps, broken glyphs, missing figures, or broken equations;
+- the new identified-set equations, `kappa_delta >= 0 => rho_delta - iota_delta >= Delta_AD W` bound, design-fragmentation text, Figure 1 reinterpretation, and Appendix projection algebra are all readable in the rendered package.
+
+The package therefore preserves one page of Main-document headroom for final author-controlled metadata while retaining the partial-identification recovery layer.
