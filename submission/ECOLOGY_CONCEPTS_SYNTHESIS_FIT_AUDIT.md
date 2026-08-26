@@ -4,69 +4,65 @@ Checked against *Ecology* Author Guidelines current on 2026-08-21 (guidance revi
 
 ## Editorial fit
 
-**PASS, with the manuscript framed as an experimental identification synthesis rather than a universal floral sign rule.**
+**PASS, with the manuscript framed as an experimental identification synthesis that reconnects mechanism to cross-system recurrence without treating recurrence as identification.**
 
-The transferable contribution is the identification sequence:
+The transferable sequence is:
 
 ```text
-measure a focal trait interaction
-→ establish what channel allocation is not identified from that interaction
+measure a focal A×D interaction
+→ establish that channel allocation is not identified from the total interaction
 → add selective antagonist and pollinator interventions
 → measure the pollinator-absent A×D baseline
 → test A×D×G×P separability
 → assay the remaining joint-cost channel independently
-→ use the algebra only as a consistency/sign diagnostic
+→ establish whether the constituent ecological pathways recur across systems
+→ audit whether those recurrent ingredients have ever been jointly identified
 ```
 
-The floral notation is the case study. The intended generalization is the distinction between interaction detection and mechanism allocation, together with an operational route for closing that gap.
+The floral notation is the case study. The general contribution is the distinction among **interaction detection**, **constituent-path recurrence**, and **mechanism allocation**.
 
 ## Rendered review-package audit
-
-The automated Ecology packaging workflow builds and renders actual review files rather than stopping at Markdown/source checks.
 
 Current validated package state:
 
 - Main Document: Word `.docx`, Letter portrait, 1-inch margins, 12-pt Times New Roman, double-spaced prose;
-- title page: Ecology / Concepts & Synthesis / identification-design title / author-controlled fields / review-stage Open Research statement / alphabetized key words;
-- line-number target: Abstract through end of References only, with explicit suppression outside that region for renderer parity;
-- page numbers: present;
-- Main figures: Figures 1–5 embedded as the identification-design figure set;
-- Supporting Information: one `Appendix S1.pdf` containing technical sensitivity and identification-audit material;
-- spreadsheet/large machine-readable products: separated into the Open Research package;
-- current measured Main Document length before final author metadata: **27 pages**, within the standard 30-page Concepts & Synthesis target;
-- current Appendix S1 length: **11 pages**.
+- title page: Ecology / Concepts & Synthesis / identification-design title / author-controlled fields / review-stage Open Research statement / alphabetized keywords;
+- page and review line numbering: present in the canonical build;
+- Main figures: Figures 1–5 embedded;
+- Supporting Information: one Appendix S1;
+- machine-readable products: separated into the Open Research package;
+- current measured Main Document length before final author metadata: **29 pages**;
+- current Appendix S1 length: **11 pages**;
+- Main-page status: **within the standard 30-page Concepts & Synthesis target**.
 
-The exact page count is remeasured by CI on every package build and must be rechecked after author-controlled metadata are inserted. The workflow fails if the Main Document exceeds 50 pages.
+Full-page visual QA of all 29 Main and 11 Appendix pages found no blank pages, clipping, overlap, broken glyphs, or missing figure content. Figure 4 remains readable after adding the 56/25 recurrence layer.
 
 ## Current Author-Guideline requirement audit
 
 - Abstract ≤350 words — PASS
-- Keywords 6–12 and alphabetical — PASS after canonical keyword synchronization
-- Journal and manuscript type on title page — PASS in generated review source
-- Open Research statement on title page — PASS in generated review source
-- Acknowledgments / Author Contributions / Funding / Conflict of Interest / References order — PASS in generated review source
-- Five main figures embedded — PASS
+- Keywords 6–12 and alphabetical — PASS
+- Journal and manuscript type on title page — PASS
+- Open Research statement — PASS in generated review source
+- Acknowledgments / Author Contributions / Funding / Conflict of Interest / References order — PASS structurally; author content pending
+- Five Main figures embedded — PASS
 - Word equations retained as native document math — PASS
-- Continuous line-number OOXML present for the manuscript-through-References section — PASS structurally; rendered visual check required on the exact final human-metadata version
-- Concepts & Synthesis standard 30-page target — PASS at 27 pages on the current generated review package
+- review line numbering — PASS structurally in the generated document
+- Concepts & Synthesis standard 30-page target — PASS at 29 pages
 - Concepts & Synthesis ≤50-page absolute ceiling — PASS
-- >30-page two-part cover-letter justification — NOT REQUIRED at the present 27-page state
-- Appendix S1 naming/callout architecture — PASS
-- spreadsheet/large-table Open Research separation — PASS
-- AI-assisted workflow disclosure — required in the manuscript/portal and retained in the canonical identification version
+- >30-page cover-letter justification — NOT REQUIRED at 29 pages
+- Appendix S1 architecture — PASS
+- AI-assisted workflow disclosure — retained once in Methods and synchronized to portal metadata
 - title/author-list consistency — author-controlled fields PENDING
 
-## Open Research boundary
+## Mechanism → Pattern fit
 
-The review-stage public GitHub repository supplies access to novel code, identification estimands, audit products, the aggregate *Impatiens* retrofit, and the screened identification-coverage matrix. A permanent archival DOI for the exact accepted data/code version is an **acceptance-stage publication requirement**, not an initial-submission blocker. The accepted version should be frozen in a permanent versioned repository and cited in the final paper.
+The retained source-adjudicated synthesis contains 56 route records from 25 independent biological clusters and covers all four marginal pathway families. These overlapping counts support only the claim that the constituent ecological channels recur across systems. They are not natural-prevalence estimates and do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`.
 
-## Reviewer-field boundary
+The stricter 16-system high-information audit then asks whether recurrent ingredients have been combined on common A/D coordinates with selective consumer interventions, pollinator-absent baseline characterization, separability testing, and an independent joint-cost assay. No screened system reaches full channel identification or an independent joint-cost assay.
 
-The current published Author Guidelines do not support treating an arbitrary fixed number of suggested reviewers as a manuscript-level requirement. Complete the number and fields requested by the live ScholarOne portal if reviewer suggestions are requested.
+This two-layer use of evidence strengthens Concepts & Synthesis fit: the paper begins from a mechanistic decomposition, establishes that its biological ingredients recur, then shows that existing experiments still do not identify their joint allocation.
 
 ## Identification invariants preserved
-
-The canonical switch does not change the scientific identification claims already tested in the candidate manuscript:
 
 - `Delta_AD W` is a discrete two-level trait interaction on declared coordinates;
 - total `Delta_AD W` alone does not identify channel allocation;
@@ -75,16 +71,18 @@ The canonical switch does not change the scientific identification claims alread
 - pollinator-independent reproduction is measured/corrected rather than assumed zero;
 - `U_delta` remains unallocated and is not called kappa by subtraction;
 - kappa requires an independent A×D cost assay;
-- Kessler 2008 and Egan 2021 occupy complementary trait-factorial and consumer-factorial design halves;
+- marginal route recurrence is not channel identification;
+- Kessler 2008 and Egan 2021 occupy complementary trait-factorial and consumer-factorial halves;
 - the *Impatiens* retrofit reaches randomized context modification but not channel identification;
-- no system in the 16-system high-information screen reaches full channel identification or an independent joint-cost assay;
-- 2,592 and 77.2% remain technical Supplement material, not Main evidence.
+- the 2,592 finite evaluations and 77.2% remain technical Supplement material, not Main evidence.
 
-Historical Leal, Sasidharan, and Mechanism → Pattern analyses remain versioned for provenance but do not define the Main identification argument.
+## Open Research boundary
+
+Review-stage GitHub access supplies code, identification estimands, the route ledger, the aggregate *Impatiens* retrofit, and the screened identification-coverage matrix. A permanent archival DOI for the exact accepted data/code version is an acceptance-stage requirement, not an initial-submission blocker.
 
 ## Remaining submission blockers
 
-These are human/review-version fields rather than scientific gaps:
+Only author/review-version fields remain:
 
 - final publication author names/order and affiliations;
 - corresponding author/email and ORCIDs;

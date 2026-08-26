@@ -19,7 +19,9 @@ def test_identification_manuscript_has_required_structure() -> None:
         "## 1. Introduction",
         "## 2. The estimand: a trait interaction that can actually be measured",
         "## 3. A crossed intervention design for channel identification",
-        "## 4. How close do existing studies come?",
+        "## 4. From mechanism to pattern: recurrence before identification",
+        "### 4.1 Constituent ecological channels recur across systems",
+        "### 4.2 Identification-coverage audit",
         "## 5. Designing an identifiable experiment",
         "## 6. Discussion",
         "## 7. Conclusions",
@@ -63,6 +65,13 @@ def test_empirical_anchor_roles_are_not_collapsed() -> None:
     assert "A consumer-factorial counterpart: Egan et al. 2021" in text
     assert "Public-data retrofit: Soper Gorden and Adler 2018" in text
     assert "The missing object is their intersection" in text
+
+
+def test_mechanism_pattern_recurrence_is_not_channel_identification() -> None:
+    text = _text()
+    assert "56 directional route records from 25 independent biological study clusters" in text
+    assert "marginal route recurrence does not estimate" in text
+    assert "Mechanism → Pattern bridge is therefore two-stage" in text
 
 
 def test_joint_residual_is_not_defined_as_kappa() -> None:

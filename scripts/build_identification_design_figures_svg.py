@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "manuscript" / "identification_figures"
 COVERAGE = ROOT / "empirical" / "identification_design" / "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv"
 IMPATIENS = ROOT / "empirical" / "identification_design" / "IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json"
+PATTERN_STATUS = ROOT / "empirical" / "mechanism_pattern_synthesis" / "COMPLETION_STATUS_V2.md"
 
 STYLE = """
 <style>
@@ -107,17 +108,40 @@ def _impatiens_targets() -> list[dict[str,float|str]]:
     return targets
 
 
+def _pattern_counts() -> dict[str, int]:
+    import re
+    text = PATTERN_STATUS.read_text(encoding="utf-8")
+    patterns = {
+        "records": r"route-ledger records:\s+(\d+)",
+        "clusters": r"independent biological clusters:\s+(\d+)",
+        "a_poll": r"A -> pollination clusters:\s+(\d+)",
+        "a_ant": r"A -> antagonism clusters:\s+(\d+)",
+        "d_ant": r"D -> antagonism clusters:\s+(\d+)",
+        "d_poll": r"D -> pollination clusters:\s+(\d+)",
+        "same": r"same-system multi-route clusters:\s+(\d+)",
+        "switch": r"context/sign-switch clusters:\s+(\d+)",
+    }
+    out: dict[str, int] = {}
+    for key, pattern in patterns.items():
+        match = re.search(pattern, text)
+        if match is None:
+            raise ValueError(f"Missing mechanism-pattern count {key}")
+        out[key] = int(match.group(1))
+    return out
+
+
 def _xscale(value: float, x0: float=600, lo: float=-1.8, hi: float=1.3, width: float=600) -> float:
     return x0 + (value-lo)/(hi-lo)*width
 
 
 def fig4() -> str:
-    rows=_read_coverage(); targets=_impatiens_targets()
-    b=['<text x="650" y="42" text-anchor="middle" class="title">Existing studies occupy complementary parts of the identification design</text>']
+    rows=_read_coverage(); targets=_impatiens_targets(); pattern=_pattern_counts()
+    b=['<text x="650" y="42" text-anchor="middle" class="title">Constituent channels recur, but mechanism allocation remains unidentified</text>']
     b.append(_box(50,85,565,220,"Trait-factorial side — Kessler et al. 2008",["manipulated floral benzylacetone × nicotine", "direct discrete A×D-like reproductive interaction", "published aggregate sign: positive", "Δ probability scale ≈ +0.19 to +0.25", "missing: selective G and P toggles; systemic-D caveat"],"dark"))
     b.append(_box(685,85,565,220,"Consumer-factorial side — Egan et al. 2021",["crossed herbivory × pollination environment", "selection on attraction/defence-related traits", "consumer-context structure is strong", "missing: independently manipulated floral A×D", "several defence metabolites are leaf-derived"],"dark"))
     b.append('<text x="650" y="345" text-anchor="middle" class="sub">The missing object is their intersection</text>')
-    b.append(f'<text x="650" y="375" text-anchor="middle" class="body">High-information coverage matrix: {len(rows)} systems; independent κ assay = 0; full channel identification = 0</text>')
+    b.append(f'<text x="650" y="378" text-anchor="middle" class="tiny">Mechanism Pattern: {pattern["records"]} routes / {pattern["clusters"]} clusters | A→P {pattern["a_poll"]} | A→G {pattern["a_ant"]} | D→G {pattern["d_ant"]} | D→P {pattern["d_poll"]} | same-system {pattern["same"]} | switches {pattern["switch"]}</text>')
+    b.append(f'<text x="650" y="405" text-anchor="middle" class="small">Route counts overlap; recurrence ≠ channel identification | {len(rows)}-system audit: independent κ assay 0; full identification 0</text>')
     b.append('<text x="60" y="430" class="sub">Impatiens public-data retrofit: observational A×D and randomized-agent modifiers</text>')
     x0=600; w=600
     for tick in [-1.5,-1.0,-0.5,0,0.5,1.0]:

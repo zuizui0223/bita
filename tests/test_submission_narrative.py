@@ -4,56 +4,58 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_readme_declares_integrated_theory_and_empirical_synthesis() -> None:
+def test_readme_declares_identification_and_bounded_pattern_story() -> None:
     text = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "fixed theoretical core" in text
-    assert "mechanism-pattern empirical synthesis" in text
-    assert "recurrent constituent mechanisms" in text
-    assert "context-dependent" in text
-    assert "unidentified rather than zero" in text or "unidentified, not zero" in text
+    assert "Mechanism → Pattern → Identification" in text
+    assert "Delta_AD W = W11 - W10 - W01 + W00" in text
+    assert "A × D × antagonist × pollinator" in text
+    assert "56 route records" in text
+    assert "25 independent biological clusters" in text
+    assert "constituent ecological pathways recur" in text
+    assert "joint allocation remains unidentified" in text
     assert "route counts are not prevalence estimates" in text
     assert "finite-grid fractions are not probabilities of natural regimes" in text
-    assert "does not calibrate or validate a universal total `W_AD`" in text
-    assert "56 route-level records" in text
-    assert "25 independent biological study clusters" in text
+    assert "29 Main pages + 11 Appendix pages" in text
 
 
-def test_manifest_pins_identification_core_and_historical_provenance() -> None:
+def test_manifest_pins_identification_core_and_bounded_pattern_provenance() -> None:
     text = (ROOT / "SUPPLEMENT_MANIFEST.md").read_text(encoding="utf-8")
     assert "# Supplement manifest — canonical identification-design paper" in text
     assert "## 2. Canonical scientific core" in text
     assert "crossed A × D × antagonist × pollinator interventions" in text
     assert "A×D×G×P separability diagnostic" in text
     assert "independent A×D joint-cost assay" in text
-    assert "## 3. Existing-data identification stress tests" in text
+    assert "## 3. Mechanism → Pattern recurrence layer" in text
+    assert "56 source-adjudicated route records" in text
+    assert "do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`" in text
+    assert "## 4. Existing-data identification stress tests" in text
     assert "Kessler et al. 2008 — trait-factorial anchor" in text
     assert "Egan et al. 2021 — consumer-factorial anchor" in text
     assert "Soper Gorden & Adler 2018 — public-data retrofit" in text
-    assert "16-system high-information screened set" in text
-    assert "## 6. Historical quantitative provenance retained" in text
+    assert "independent joint-cost assay:       0" in text
     assert "ed33b25593c0d90ad6657753f6f5501d9efc7b82" in text
-    assert "Sasidharan et al. 2023 FVOC reconstruction" in text
-    assert "## 7. Historical Mechanism → Pattern provenance retained" in text
-    assert "56 source-adjudicated route records" in text
-    assert "These overlapping counts are not added as independent-study prevalence" in text
+    assert "Main Document: 29 pages" in text
 
 
-def test_live_submission_docs_do_not_pin_superseded_pr_or_branch_state() -> None:
+def test_live_submission_docs_do_not_pin_superseded_theorem_story() -> None:
     live_docs = (
+        ROOT / "README.md",
         ROOT / "SUPPLEMENT_MANIFEST.md",
         ROOT / "docs" / "FINAL_SUBMISSION_AUDIT.md",
         ROOT / "docs" / "SUBMISSION_SCOPE.md",
         ROOT / "submission" / "SUBMISSION_CHECKLIST.md",
         ROOT / "submission" / "TARGET_JOURNAL_STRATEGY.md",
         ROOT / "submission" / "MANUSCRIPT_AUDIT_V2.md",
+        ROOT / "submission" / "ECOLOGY_UPLOAD_PACKAGE_PLAN.md",
+        ROOT / "submission" / "ECOLOGY_CONCEPTS_SYNTHESIS_FIT_AUDIT.md",
     )
     stale_tokens = (
-        "PR #129 candidate",
-        "analysis/pattern-expansion-v1",
-        "inherited from PR #126",
-        "agent/mechanism-pattern-universality-v1",
-        "38-record / 14-independent-cluster",
-        "38/14 evidence scaffold",
+        "When are floral attraction and defence complementary? A one-sided mechanistic bound",
+        "paperized around the one-sided selectivity bound",
+        "one-sided mechanistic theorem plus",
+        "Main Document: 27 pages",
+        "Main 27 pages",
+        "27 Main Document pages",
     )
     for path in live_docs:
         text = path.read_text(encoding="utf-8")
@@ -61,22 +63,24 @@ def test_live_submission_docs_do_not_pin_superseded_pr_or_branch_state() -> None
             assert token not in text, f"{path.name}: stale live-state token {token!r}"
 
 
-def test_scope_keeps_assurance_auxiliary() -> None:
+def test_scope_preserves_identification_boundaries() -> None:
     text = (ROOT / "docs" / "SUBMISSION_SCOPE.md").read_text(encoding="utf-8")
-    assert "**Auxiliary moderator:**" in text
-    assert "reproductive assurance `R`" in text
-    assert "background moderator" in text
-    assert "not a third focal trait" in text
+    assert "Pattern layer 1" in text
+    assert "Pattern layer 2" in text
+    assert "source-adjudicated route ledger is **not itself a grand meta-analysis**" in text
+    assert "marginal route recurrence" in text
+    assert "!= total A×D interaction" in text
+    assert "U_delta` is not kappa" in text
+    assert "29 Main pages + 11 Appendix pages" in text
 
 
-def test_final_audit_records_assurance_and_empirical_boundary() -> None:
+def test_final_audit_records_current_empirical_boundary() -> None:
     text = (ROOT / "docs" / "FINAL_SUBMISSION_AUDIT.md").read_text(encoding="utf-8")
-    assert "16 of 1,296" in text
-    assert "three-trait theory" in text
-    assert "Gates A-H" in text
-    assert "`kappa`" in text
-    assert "unidentified" in text
-    assert "mixed partial" in text
-    assert "one-sided" in text
-    assert "77.2%" in text
-    assert "Reader-facing repository-source QA: PASS" in text
+    assert "identification framework" in text
+    assert "56 route records" in text
+    assert "25 independent biological clusters" in text
+    assert "independent joint-cost assay:       0" in text
+    assert "full rho/iota/kappa identification: 0" in text
+    assert "Main Document: 29 pages" in text
+    assert "full-page visual QA — PASS" in text
+    assert "The constituent channels recur, but their joint allocation remains unidentified." in text

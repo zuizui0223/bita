@@ -34,6 +34,7 @@ def test_ecology_target_and_article_type_are_active() -> None:
     assert "**Ecology — Concepts & Synthesis**" in strategy
     assert "Oikos — Forum" in strategy
     assert "Theoretical Ecology — Regular Article" in strategy
+    assert "From floral trait interactions to mechanism identification" in strategy
 
 
 def test_ecology_abstract_and_keywords_fit_current_limits() -> None:
@@ -43,6 +44,8 @@ def test_ecology_abstract_and_keywords_fit_current_limits() -> None:
     keywords = _keywords(text)
     assert 6 <= len(keywords) <= 12
     assert keywords == sorted(keywords, key=str.casefold)
+    assert "56 route records from 25 independent biological clusters" in abstract
+    assert "recurrence, not channel identification" in abstract
 
 
 def test_portal_abstract_stays_exactly_synchronized() -> None:
@@ -58,8 +61,9 @@ def test_broad_concepts_and_synthesis_framing_is_identification_led() -> None:
     assert "The contribution is not a new ecological interaction type and not a mathematically elaborate theorem." in text
     assert "The missing object is their intersection." in text
     assert "The transferable principle is not the floral notation." in text
-    assert "interaction detection" in text
+    assert "Mechanism → Pattern bridge is therefore two-stage" in text
     assert "mechanism allocation" in text
+    assert "marginal route recurrence does not estimate" in text
 
 
 def test_open_research_and_ai_disclosure_surfaces_are_present() -> None:
@@ -80,7 +84,8 @@ def test_ecology_cover_letter_matches_identification_story_and_standard_length()
     assert "From floral trait interactions to mechanism identification" in text
     assert "interaction detection" in text
     assert "mechanism allocation" in text
-    assert "27 Main Document pages" in text
+    assert "56 source-adjudicated route records from 25 independent biological clusters" in text
+    assert "29 Main Document pages" in text
     assert "within the standard 30-page Concepts & Synthesis target" in text
     assert "## 1. Broad ecological contribution of the additional length" not in text
     assert "## 2. Why the additional material cannot be moved adequately to Supporting Information" not in text
@@ -93,7 +98,9 @@ def test_fit_audit_records_current_package_and_acceptance_stage_archive() -> Non
     text = FIT.read_text(encoding="utf-8")
     assert "Rendered review-package audit" in text
     assert "Main Document" in text and "Appendix S1" in text
-    assert "27 pages" in text
+    assert "29 pages" in text
     assert "standard 30-page" in text
     assert "acceptance-stage" in text
     assert "Identification invariants preserved" in text
+    assert "Mechanism → Pattern fit" in text
+    assert "constituent ecological channels recur" in text
