@@ -58,8 +58,9 @@ def test_broad_concepts_and_synthesis_framing_is_identification_led() -> None:
     assert "The contribution is not a new ecological interaction type and not a mathematically elaborate theorem." in text
     assert "The missing object is their intersection." in text
     assert "The transferable principle is not the floral notation." in text
-    assert "interaction detection" in text
+    assert "Mechanism → Pattern bridge is therefore two-stage" in text
     assert "mechanism allocation" in text
+    assert "marginal route recurrence does not estimate" in text
 
 
 def test_open_research_and_ai_disclosure_surfaces_are_present() -> None:
@@ -80,6 +81,7 @@ def test_ecology_cover_letter_matches_identification_story_and_standard_length()
     assert "From floral trait interactions to mechanism identification" in text
     assert "interaction detection" in text
     assert "mechanism allocation" in text
+    assert "56 source-adjudicated route records from 25 independent biological clusters" in text
     assert "27 Main Document pages" in text
     assert "within the standard 30-page Concepts & Synthesis target" in text
     assert "## 1. Broad ecological contribution of the additional length" not in text
