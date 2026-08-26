@@ -1,138 +1,125 @@
-# Supplement manifest — canonical Mechanism → Pattern paper
+# Supplement manifest — canonical identification-design paper
 
-This manifest maps the **current main-line submission package** for the paper:
+This manifest maps the current main-line submission target:
 
-> **When are floral attraction and defence complementary? A one-sided mechanistic bound and cross-system patterns**
+> **From floral trait interactions to mechanism identification: a crossed-intervention framework for attraction and defence**
 
-Historical PR and branch chronology remains in Git history. No historical branch overrides the canonical manuscript, claim freeze, current builders, or current submission checklist.
+The historical theorem-led Mechanism → Pattern manuscript and its analyses remain versioned in the repository for provenance, but they no longer define the intended Main Document.
 
-## 1. Canonical paper and one-sided theoretical core
+## 1. Canonical reader-facing sources
 
-Primary reader-facing sources:
+- Main scientific source: `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`
+- focused references: `manuscript/IDENTIFICATION_DESIGN_REFERENCES.md`
+- figure captions: `manuscript/IDENTIFICATION_DESIGN_FIGURE_CAPTIONS.md`
+- Supplement: `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`
+- canonical review-package wrapper: `scripts/build_ecology_review_package_sources.py`
+- standard output directory: `submission/ecology/generated/`
 
-- `manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md`
-- `manuscript/TABLES_THEORETICAL_ECOLOGY.md`
-- `manuscript/CLAIM_FREEZE.md`
-- `docs/MECHANISM_PATTERN_STORY_BOUNDARY.md`
-- `docs/NOVELTY_POSITIONING.md`
-- `docs/SELECTIVITY_WINDOW_BOUND.md`
-- `docs/REPOSITORY_STRUCTURE.md`
-- `submission/SUBMISSION_CHECKLIST.md`
+Primary identification implementation:
 
-Theory implementation and declared finite design:
+- `trait_architecture/identification.py`
+- associated identification regression tests
+- `empirical/identification_design/HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv`
+- `empirical/identification_design/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json`
+- `empirical/identification_design/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.md`
 
-- `trait_architecture/model.py`
-- `trait_architecture/sign_criterion.py`
-- `trait_architecture/robustness.py`
-- `configs/part_i_robustness_grid.json`
-- `scripts/run_part_i_robustness.py`
-- `docs/PART_I_ROBUSTNESS_PROTOCOL.md`
-- `tests/test_selectivity_bound.py`
+## 2. Canonical scientific core
 
-The signed identity is bookkeeping:
+The primary experimental estimand is the two-level secant interaction
 
 ```text
-W_AD = rho - iota - kappa
+Delta_AD W = W11 - W10 - W01 + W00
 ```
 
-The strongest structural claim is one-sided:
+The Main contribution is not the algebraic identity itself. It is the identification sequence:
 
 ```text
-W_AD > 0  =>  rho > iota     when kappa >= 0
+trait interaction detection
+→ observational non-identifiability of channel allocation
+→ crossed A × D × antagonist × pollinator interventions
+→ pollinator-absent baseline correction
+→ A×D×G×P separability diagnostic
+→ independent A×D joint-cost assay
+→ hidden/unallocated-channel sign diagnostic
 ```
 
-Across the declared 2,592 evaluations, the forward implication has zero counterexamples. The converse is false: window precision is 77.2%, so approximately 23% of in-window evaluations remain substitutable. At `kappa = 0`, the window and sign criterion coincide exactly.
+Required boundaries:
 
-Finite-grid occupancies are declared-design sensitivities, not probabilities or prevalence in nature.
+- a total `Delta_AD W` does not identify rho, iota, or kappa;
+- the 16-cell design is not sufficient unless consumer interventions are selective and A/D coordinates remain comparable across cells;
+- the rho- and iota-invariance views are one four-way contrast up to sign;
+- a non-zero four-way contrast rejects the simple separable-channel representation;
+- the pollinator-dependent increment is not total iota until the pollinator-absent `m0_delta` term is handled;
+- `U_delta = rho_delta - iota_delta - Delta_AD W` is an unallocated residual, not kappa by definition;
+- kappa requires an independent allocation/construction-cost assay;
+- the elementary inequality is used only as a post-measurement consistency/sign diagnostic.
 
-## 2. Mechanism → Pattern protocol and saturation
+## 3. Existing-data identification stress tests
 
-Primary empirical architecture:
+### Kessler et al. 2008 — trait-factorial anchor
 
-- `docs/MECHANISM_PATTERN_UNIVERSALITY_PROTOCOL_V1.md`
-- `empirical/mechanism_pattern_synthesis/COMPLETION_GATE_V1.md`
-- `empirical/mechanism_pattern_synthesis/COMPLETION_STATUS_V2.md`
-- `empirical/mechanism_pattern_synthesis/SEARCH_REGISTRY_V1.csv`
-- `empirical/mechanism_pattern_synthesis/MASTER_LEDGER_SCHEMA_V1.csv`
-- canonical `MASTER_LEDGER` / `LEDGER_BATCH_*` files
-- `EXPANSION_LEDGER_BATCH_*_V1.csv`
-- `EXPANSION_SIGN_SWITCH_BATCH_*_V1.csv`
-- `EXPANSION_CONTEXT_PROGRAMS_V1.csv`
-- `CROSS_MODULE_PATTERN_MATRIX_V2.csv`
-- `PATTERN_MODULE_REGISTRY_V2.csv`
-- `PATTERN_EXPANSION_READOUT_V1.md/json`
-- `PATTERN_EXPANSION_COMPLETION_GATE_V1.md`
-- registered `PRIORITY_RESCREEN_BATCH_*_V1.csv` files
-
-The expansion targeted theory-facing Pattern classes rather than article count. After a lifecycle-stage role-reversal class reset the stopping counter, two subsequent distinct targeted batches produced no new admissible Pattern class; a parallel quantitative search produced no additional synthesis with a distinct theory-facing axis.
-
-The empirical endpoint is **recurrent constituent mechanisms + context-dependent balance inside a moving permissive window**, not a pooled estimate of the mixed partial.
-
-## 3. Saturated route-ledger architecture
-
-Canonical manuscript-facing state:
+The source experimentally crosses floral benzylacetone and nicotine production. Published aggregate female-outcrossing constraints imply:
 
 ```text
-56 source-adjudicated effect/directional records
-25 independent biological study clusters
-A -> pollination:       5 clusters
-A -> antagonism:        8
-D -> antagonism:       18
-D -> pollination:      10
-same-system:           14 clusters
-context/sign switch:   17 clusters
-context-only programs:  7, excluded from route-ledger N
+probability-scale Delta_AD: approximately +0.19 to +0.25
+logit interaction:          approximately +1.019 to +1.551
+interaction OR:             approximately 2.77 to 4.71
 ```
 
-Route counts overlap and are not additive independent-study totals or prevalence estimates.
+The sign is robust within the published aggregate constraints, but formal interaction uncertainty is unrecovered and nicotine silencing is systemic. This is therefore the closest current trait-factorial anchor, not full mechanism allocation.
 
-## 4. Direct interaction and same-system evidence
+### Egan et al. 2021 — consumer-factorial anchor
 
-Direct `A × D` evidence:
+Herbivory and pollination environment are crossed, but the focal floral attraction and defence traits are not independently manipulated as the required A×D factorial. This supplies the complementary design half rather than full identification.
 
-- `empirical/mechanism_pattern_synthesis/DIRECT_AXD_AUDIT_V1.csv`
-- `DIRECT_AXD_SEARCH_EXPANSION_READOUT_V1.md`
-- `DIRECT_AXD_SATURATION_RECEIPT_V1.md`
+### Soper Gorden & Adler 2018 — public-data retrofit
 
-The one strict total reproductive-outcome cluster, *Impatiens capensis*, remains sign-unresolved across reproductive components.
+The Dryad-backed Impatiens analysis estimates observational A×D plus randomized Robbing/Florivory/Pollination modification. All eight targeted HC3 95% intervals cross zero. The analysis reaches total-interaction/context-modification estimation but not rho/iota/kappa identification because A/D are observational and the randomized treatments are intensity additions rather than selective consumer exclusions.
 
-Same-system architecture:
+### Other near misses
 
-- `SAME_SYSTEM_REGIME_PROTOCOL_V1.md`
-- `SAME_SYSTEM_REGIME_LEDGER_V1.csv`
-- `SAME_SYSTEM_REGIME_READOUT_V1.md`
-- later `EXPANSION_LEDGER_BATCH_*_V1.csv` files that add linked routes.
+- Kessler et al. 2015: genuine floral 2×2 phenotype, but nectar reward is not independently justified D; publisher supplementary ZIP contains three TIFFs and no obvious machine-readable source table.
+- Sun & Huang 2015, *Pedicularis rex*: useful selective-access/physical-defence system anchor, but no independent A manipulation.
 
-Same-system marginal co-occurrence is never relabelled as direct `A × D` evidence.
+Across the current **16-system high-information screened set**:
 
-## 5. Conditionality and context architecture
+```text
+independent joint-cost assay:   0
+full rho/iota/kappa identification: 0
+```
 
-Canonical inputs:
+These are coverage statements for the screened set, not literature-prevalence estimates.
 
-- `SIGN_SWITCH_LEDGER_V1.csv`
-- `EXPANSION_SIGN_SWITCH_BATCH_*_V1.csv`
-- `EXPANSION_CONTEXT_PROGRAMS_V1.csv`
-- `CONDITIONALITY_ONTOLOGY_V1.md`
-- `CROSS_MODULE_PATTERN_MATRIX_V2.csv`
+## 4. Canonical Main figures
 
-The saturated state contains 17 independent sign/state-switch clusters plus seven context-only programs. Recurrent states include trait intensity, resource/exposure, consumer identity and functional role, response stage/scale, compound/mechanism identity, guarded defence, spatial/temporal/attack-mode filtering, visitor functional-mode routing, lifecycle-stage role reversal, and population/site or trait-class dependence.
+Reader-facing numbering is now:
 
-Incompatible response constructs are not forced into a cross-outcome grand moderator coefficient.
+1. `manuscript/identification_figures/FIGURE_1_IDENTIFICATION_DESIGN.svg` — total trait interaction versus mechanism allocation.
+2. `manuscript/identification_figures/FIGURE_2_IDENTIFICATION_DESIGN.svg` — 16-cell crossed design and separability diagnostic.
+3. `manuscript/identification_figures/FIGURE_3_IDENTIFICATION_DESIGN.svg` — independent joint-cost assay and hidden-channel diagnostic.
+4. `manuscript/identification_figures/FIGURE_4_IDENTIFICATION_DESIGN.svg` — Kessler 2008 / Egan 2021 / Impatiens / identification-coverage evidence.
+5. `manuscript/identification_figures/FIGURE_5_IDENTIFICATION_DESIGN.svg` — executable experiment roadmap.
 
-## 6. Direct joint-cost evidence state
+The historical mechanism/regime/Pattern/quantitative/same-system figures remain versioned but are not the intended canonical Main figure set.
 
-- `JOINT_COST_SEARCH_PROTOCOL_V1.md`
-- `JOINT_COST_AUDIT_V1.csv`
-- `JOINT_COST_READOUT_V1.md`
-- `JOINT_COST_SATURATION_RECEIPT_V1.md`
+## 5. Canonical Supplement boundary
 
-Strict simultaneous A+D intrinsic-cost estimates remain zero in the admitted evidence layer. `kappa` is therefore unidentified, not estimated as zero.
+`manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md` retains technical and provenance material that no longer belongs in the Main narrative, including:
 
-Under the one-sided theorem, outside-window complementarity requires negative joint-cost curvature, and an observed violation requires it to be sufficiently negative relative to the relief-interference difference. The sign of joint-cost curvature is therefore the minimal empirical applicability/falsification gate for a focal trait pair.
+- 2,592 finite evaluations as implementation/model-family sensitivity only;
+- 77.2% finite-design window precision, explicitly grid-dependent and not ecological prevalence;
+- continuous-limit / finite-difference implementation checks;
+- response-shape sensitivity maps;
+- Kessler 2008 aggregate reconstruction and uncertainty boundary;
+- Impatiens retrofit details;
+- the high-information identification coverage audit;
+- historical Mechanism → Pattern records needed for provenance.
 
-## 7. Reproduced quantitative synthesis module 1 — Leal et al. 2025 floral larceny
+Leal and Sasidharan quantitative modules remain reproducible repository analyses but are not Main results in the identification-design paper.
 
-The completed module is **included directly in the canonical repository tree** and is pinned to immutable provenance:
+## 6. Historical quantitative provenance retained
+
+The Leal et al. 2025 floral-larceny module remains pinned to immutable provenance even though it is no longer a Main identification-design result:
 
 ```text
 canonical commit:   ed33b25593c0d90ad6657753f6f5501d9efc7b82
@@ -141,7 +128,7 @@ first results:      965d657
 source synthesis:   Leal et al. 2025, Ecology, doi:10.1002/ecy.70036
 ```
 
-Admitted manuscript values remain:
+Historical reproduced values remain:
 
 ```text
 female reproductive success  LRR -0.210  48 independent clusters
@@ -149,107 +136,60 @@ nectar standing crop          LRR -0.483  28
 legitimate visitation         LRR -0.291  22
 ```
 
-For female fitness, 35/48 clusters are negative and the 95% prediction interval spans approximately `-1.13` to `+0.71`. Declared moderators explain only 0–8% of heterogeneity.
+These records are preserved for reproducibility and possible companion synthesis; they are not used to validate the current identification framework.
 
-The reward → visitation → female-fitness sequence is retained as constituent-path evidence, not a demonstrated within-study mechanism chain.
+The Sasidharan et al. 2023 FVOC reconstruction is likewise retained with its original dependence and causal-interpretation boundaries, but is not a Main identification-design result.
 
-## 8. Reproduced quantitative synthesis module 2 — Sasidharan et al. 2023 FVOCs
+## 7. Historical Mechanism → Pattern provenance retained
 
-Canonical adjudication is `PASS_AS_DEPOSITED_REANALYSIS`. The conservative 32-study-component citation topology remains the dependence source of record. Physiological detection is 84/103 for florivore units and 151/220 for pollinator units; the assembled risk difference is `+0.129` and remains positive in 32/32 leave-one-component-out refits.
+The previous synthesis remains available as a provenance layer:
 
-Only three study components contain both physiological consumer roles and all three paired differences are zero, so the assembled contrast is not treated as a causal within-study role effect.
+```text
+56 source-adjudicated route records
+25 independent biological clusters
+A -> pollination: 5 clusters
+A -> antagonism:  8
+D -> antagonism: 18
+D -> pollination: 10
+same-system: 14
+context/sign switch: 17
+context-only programs: 7 outside route N
+```
 
-## 9. Secondary contextual/cross-synthesis modules
+These overlapping counts are not added as independent-study prevalence and no longer constitute the Main empirical endpoint.
 
-These modules broaden Pattern recurrence without being pooled with Leal/Sasidharan. **Secondary-synthesis counts are not added to route-ledger N**.
+## 8. Open Research package
 
-- Haas-Desmarais et al. 2026: 171 studies / 1,348 study cases; supplement package independently retrieved and hashed; herbivory is not relabelled as focal floral `D`.
-- Caruso et al. 2019: 755 directional selection gradients with SE from 36 articles; current raw file-byte access remains an access-layer limitation rather than a biological null.
-- Junker & Blüthgen 2010: 18 publications / 425 observations; visitor dependence on floral resources is not equated with pollinator-versus-antagonist identity.
+The canonical package retains historical machine-readable provenance products and additionally exports:
 
-## 10. Robustness and theory–empiricism boundary
+- `high_information_identification_coverage.csv`
+- `impatiens_identification_retrofit.json`
 
-Primary boundary records:
+Review-stage access is supplied by the public GitHub repository. A permanent archive DOI is **not an initial-submission blocker**. At acceptance, freeze the accepted exact data/code version in a permanent versioned archive and insert the archival citation/DOI required for publication.
 
-- `SYNTHESIS_ROBUSTNESS_AUDIT_V1.md`
-- `THEORY_EMPIRICISM_BOUNDARY_AUDIT_V1.md`
-- `manuscript/CLAIM_FREEZE.md`
+## 9. Current rendered state
 
-Required boundaries include:
+The fully tested identification candidate rendered as:
 
-- marginal routes do not estimate `W_AD`;
-- same-system evidence does not equal direct total `A × D`;
-- context programs are not extra route-ledger N;
-- secondary-synthesis counts are not added to route-ledger N;
-- screened/deposited fractions are not prevalence;
-- finite-grid occupancy is not prevalence;
-- one direct interaction is not generalized to a universal sign;
-- incompatible outcomes are not averaged into a grand mean;
-- absence of a strict joint-cost estimate does not imply `kappa = 0`;
-- herbivory treatment does not become focal floral `D` by relabelling.
+```text
+Main Document: 27 pages
+Appendix S1:   11 pages
+Main figures:   5 embedded identification-design figures
+```
 
-## 11. Canonical figures, tables, supplement, and callouts
+Full-page visual QA found no blank figure-leading page, clipping, overlap, or broken glyphs. `Theorem 1` and `77.2%` are absent from Main; 2,592 and 77.2% remain in Supplement technical material.
 
-### Final Main figures
+The canonical-switch workflow must reproduce this content under the standard Ecology filenames before merge.
 
-The manuscript-facing final numbering is:
+## 10. External-submission boundary
 
-1. `FIGURE_1_MECHANISTIC_ARCHITECTURE.svg` — mechanistic architecture and inference boundary.
-2. `FIGURE_2_THEORY_REGIME_MAP.svg` — finite theory regime / selectivity-window result.
-3. `FIGURE_3_EMPIRICAL_MECHANISM_ARCHITECTURE.svg` — cross-system Pattern architecture.
-4. Final **Fig. 4** uses the frozen quantitative evidence / identification-boundary source currently stored as `manuscript/figures/FIGURE_5_QUANTITATIVE_IDENTIFICATION_BOUNDARY.svg`.
-5. Final **Fig. 5** uses the 14-cluster same-system route-matrix source currently stored as `manuscript/supplementary/figures/FIGURE_S3_SAME_SYSTEM_ROUTE_MATRIX.svg`.
-
-The historical `FIGURE_4_MECHANISM_PATTERN_OVERVIEW.svg` is not part of the final Main Document because it is reader orientation only and adds no new scientific result.
-
-### Final Appendix S1 figures
-
-- **Figure S1:** `FIGURE_S1_DERIVATIVE_AGREEMENT.svg` — analytic versus finite-difference implementation check.
-- **Figure S2:** `FIGURE_S2_SCENARIO_SIGN_MAPS.svg` — detailed scenario × response-shape sign maps.
-- **Figure S3:** `FIGURE_S4_QUANTITATIVE_ROBUSTNESS.svg` — quantitative robustness/sensitivity source, renumbered reader-facing as S3 after promotion of the same-system matrix to Main Fig. 5.
-
-Canonical supplementary Tables S1–S6 remain machine-readable products and are represented in the Open Research package rather than uploaded as spreadsheet Supporting Information.
-
-The final manuscript contains explicit callouts for Figures 1–5, Tables 1–4, Appendix S1 Figures S1–S3, and the relevant Open Research products.
-
-Active reproducibility contracts now:
-
-- reproduce the 2,592-evaluation theory state and diff committed Figure 2;
-- regenerate Figure 3 from the saturated ledgers;
-- regenerate the result-first Fig. 4/5 scientific sources;
-- rebuild Appendix S1 Figures S1–S3 and Tables S1–S6 from frozen sources;
-- export and validate submission-form EPS files `Fig1.eps` through `Fig5.eps`;
-- build and render the Ecology review package and fail if the Main Document exceeds 50 pages.
-
-The current pre-metadata review render is **48 Main pages + 5 Appendix pages**. Final manual visual QA found no clipping, overflow, broken glyphs, or missing figure content.
-
-## 12. Deliberately not promoted
-
-The current submission does not promote:
-
-- route or publication counts to biological prevalence;
-- finite-grid regime fractions to natural frequencies;
-- cross-organ or whole-inflorescence defence to strict flower-specific `D` without the organ gate;
-- herbivory or simulated damage to focal `D`;
-- a dual-function single trait to an independently varied A+D design;
-- unrelated marginal studies to a constructed mixed partial;
-- Caruso to a locally reproduced raw-effect analysis while file bytes remain inaccessible;
-- Haas-Desmarais to a local raw-effect reanalysis merely because its supplement package was verified;
-- zero joint-cost evidence to `kappa = 0`.
-
-## 13. Release and submission boundary
-
-The **science and machine-controlled review-package engineering are complete** for the present claim set.
-
-External submission is now blocked only by human-controlled metadata and sign-off:
+Science and machine-controlled identification-package engineering are complete for the current claim set. External submission remains blocked by author-controlled metadata and sign-off only:
 
 - final author order/publication names;
-- affiliations, corresponding author/email, and ORCIDs;
+- affiliations, corresponding author/email, ORCIDs;
 - final CRediT roles, funding, acknowledgments, and competing-interest statement;
 - repository/software/data licence statement where applicable;
 - all-author approval and no-simultaneous-consideration confirmation;
-- reviewer/opposed-reviewer entries only if requested by the live ScholarOne portal.
+- reviewer/opposed-reviewer fields only if requested by the live ScholarOne portal.
 
-After those fields are inserted, rebuild the exact review package, rerun all normal validation workflows, confirm the Main Document remains ≤50 pages, visually inspect the complete Main Document and Appendix S1, and confirm the portal fields match the frozen files before submission.
-
-A permanent archive DOI is **not an initial-submission blocker**. At acceptance, freeze the accepted exact data/code version in a permanent versioned archive and insert the archival citation/DOI required for publication.
+After those fields are supplied, rebuild the exact package, rerun validation and figure export, inspect every Main and Appendix page, and confirm portal fields match the frozen files before submission.
