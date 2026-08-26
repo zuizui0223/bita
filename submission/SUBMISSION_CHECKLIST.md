@@ -1,6 +1,6 @@
 # Ecology Concepts & Synthesis submission checklist — identification-design canonical candidate
 
-This checklist tracks the current submission gates after the identification-design rewrite. Historical theorem-led sources remain in Git history and repository archival paths but no longer define the intended submission narrative.
+This checklist tracks the current submission gates after the identification-design rewrite and the bounded restoration of the Mechanism → Pattern bridge. Historical theorem-led sources remain in Git history and repository archival paths but no longer define the intended submission narrative.
 
 ## 1. Scientific core — PASS
 
@@ -17,9 +17,15 @@ This checklist tracks the current submission gates after the identification-desi
 - [x] `kappa` requires an independent `A×D` allocation/construction-cost assay
 - [x] The simple sign identity is diagnostic after measurement, not the headline theorem or novelty claim
 - [x] Continuous mixed-partial theory is retained only as a small-contrast/theoretical limit
+- [x] Mechanism → Pattern is explicitly two-layered: constituent ecological recurrence first, stricter channel-identification coverage second
 
-## 2. Existing-data stress tests — PASS
+## 2. Cross-system Pattern and existing-data stress tests — PASS
 
+- [x] Retained mechanism-route synthesis = 56 directional route records / 25 independent biological clusters
+- [x] All four constituent marginal pathway families recur: A→pollination 5; A→antagonism 8; D→antagonism 18; D→pollination 10
+- [x] Same-system multi-route clusters = 14; context/sign-switch clusters = 17
+- [x] Route counts overlap and are not natural-prevalence estimates
+- [x] Marginal recurrence is not relabelled as `Delta_AD W`, rho, iota, or kappa identification
 - [x] *Impatiens capensis* Dryad retrofit reaches observational `A×D` plus randomized interaction-treatment modification, but not rho/iota/kappa identification
 - [x] All eight targeted Impatiens HC3 intervals cross zero
 - [x] Kessler et al. 2008 is the closest current trait-factorial anchor
@@ -36,13 +42,13 @@ This checklist tracks the current submission gates after the identification-desi
 
 - [x] 2,592 finite evaluations are technical implementation/model-family sensitivity only
 - [x] 77.2% window precision is absent from Main and retained only in Supplement
-- [x] Historical 56-route / 25-cluster mechanism ledger is preserved for provenance/background, not presented as validation of the algebra
+- [x] Historical 56-route / 25-cluster ledger remains fully versioned; its Main role is limited to constituent-channel recurrence, not validation of the algebra or channel identification
 - [x] Leal and Sasidharan quantitative modules remain reproducible in the repository but are not part of the new Main argument
 - [x] Historical theorem-led manuscript remains in the repository and is not deleted
 
 ## 4. Main Document — GENERATED / STRUCTURAL PASS
 
-The canonical review-package builder now promotes the validated identification-design source to standard Ecology output filenames.
+The canonical review-package builder promotes the identification-design source with the bounded Pattern layer to standard Ecology output filenames.
 
 - [x] Standard output remains `MANUSCRIPT_ECOLOGY_SUBMISSION.docx`
 - [x] Journal = Ecology; manuscript type = Concepts & Synthesis
@@ -53,13 +59,13 @@ The canonical review-package builder now promotes the validated identification-d
 - [x] Figure 1 = total interaction versus mechanism allocation
 - [x] Figure 2 = 16-cell crossed design and separability
 - [x] Figure 3 = independent joint-cost assay and hidden-channel diagnostic
-- [x] Figure 4 = Kessler 2008 / Egan 2021 / Impatiens / coverage comparison
+- [x] Figure 4 = constituent-channel recurrence + Kessler 2008 / Egan 2021 / Impatiens / identification-coverage comparison
 - [x] Figure 5 = executable experimental roadmap
 - [x] Main contains no `Theorem 1` headline
 - [x] Main contains no `77.2%` headline result
-- [x] Full-page candidate visual QA found no clipping, overlap, broken glyphs, or blank figure-leading page
-- [x] Validated pre-metadata candidate render = **27 pages**
-- [x] 27 pages is within the standard 30-page Concepts & Synthesis target; no >30-page justification is required
+- [x] Full-page visual QA found no clipping, overlap, broken glyphs, missing figure content, or blank figure-leading page
+- [x] Validated pre-metadata canonical render = **29 pages**
+- [x] 29 pages is within the standard 30-page Concepts & Synthesis target; no >30-page justification is required
 - [ ] Re-render and re-count after final author-controlled metadata is inserted
 
 ## 5. Supporting Information — GENERATED / STRUCTURAL PASS
@@ -70,6 +76,7 @@ The canonical review-package builder now promotes the validated identification-d
 - [x] Kessler 2008 aggregate reconstruction / sign sensitivity is documented
 - [x] Impatiens retrofit details and identification boundaries are documented
 - [x] Sixteen-system identification coverage is documented
+- [x] Section S5 documents the 56/25 constituent recurrence layer and its non-identification boundary
 - [x] Continuous-limit implementation and response-shape sensitivity figures are retained as supporting figures
 - [x] Validated pre-metadata Supplement render = **11 pages**
 - [x] Supplement has no line numbering
@@ -78,9 +85,10 @@ The canonical review-package builder now promotes the validated identification-d
 
 Legacy machine-readable provenance products are retained, and the canonical package additionally exposes identification-era outputs:
 
+- [x] `mechanism_pattern_route_ledger.csv` supports the bounded recurrence layer
 - [x] `high_information_identification_coverage.csv`
 - [x] `impatiens_identification_retrofit.json`
-- [x] historical parameter/grid/route/context/direct-audit products retained for reproducibility
+- [x] historical parameter/grid/context/direct-audit products retained for reproducibility
 - [x] public GitHub supplies review-stage code and derived-output access
 - [ ] at acceptance, archive the accepted exact data/code version in a permanent versioned repository and insert its citation/DOI
 
@@ -90,8 +98,9 @@ A permanent archive DOI is **not** an initial-submission blocker.
 
 - [x] Names Ecology and Concepts & Synthesis
 - [x] Uses the identification-design title and contribution
+- [x] States the bounded Mechanism → Pattern recurrence layer without treating it as theorem validation
 - [x] Does not sell the elementary inequality as mathematical novelty
-- [x] States current 27-page Main and 11-page Supplement
+- [x] States current 29-page Main and 11-page Supplement
 - [x] Removes the obsolete >30-page length justification
 - [x] Uses review-stage GitHub / acceptance-stage permanent-archive wording
 - [ ] corresponding author signs final letter
@@ -128,4 +137,4 @@ After the author-controlled fields are supplied:
 
 ## Current decision
 
-**Science: GO on the identification-design claim set. Canonical pre-metadata target: Main 27 pages + Appendix S1 11 pages, five identification-design Main figures, with the old finite-grid headline demoted to Supplement. External submission remains blocked only by author-controlled metadata/declarations/sign-off and final post-metadata QA.**
+**Science: GO on the identification-design claim set with a bounded Mechanism → Pattern recurrence layer. Canonical pre-metadata target: Main 29 pages + Appendix S1 11 pages, five identification-design Main figures. Constituent channels recur across systems, but their joint allocation remains unidentified; the old finite-grid headline stays demoted to Supplement. External submission remains blocked only by author-controlled metadata/declarations/sign-off and final post-metadata QA.**
