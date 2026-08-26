@@ -1,114 +1,76 @@
-# Ecology Concepts & Synthesis upload package plan
+# Ecology Concepts & Synthesis upload package plan — identification design
 
 Target: **Ecology — Concepts & Synthesis**
 
-Guidance basis: Ecology Author Guidelines revised April 2026 and ESA Open Research Policy current on 2026-08-21.
+The canonical review package now uses the identification-design manuscript rather than the historical theorem-led submission source.
 
 ## 1. Main Document
 
-The generated Main Document uses the journal component order:
+Canonical scientific source:
 
-1. title page
-   - journal name: Ecology
-   - manuscript type: Concepts & Synthesis
-   - manuscript title
-   - publication author list and affiliations
-   - corresponding author and email
-   - Open Research statement
-   - 6–12 alphabetized key words/phrases
-2. Abstract on a new page
-3. manuscript text
-4. Acknowledgments
-5. Author Contributions
-6. Conflict of Interest Statement
-7. References
-8. Tables, each beginning on a new page
-9. Figure captions, grouped together on a new page
-10. Figures, one figure per page
+- `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`
+- focused bibliography: `manuscript/IDENTIFICATION_DESIGN_REFERENCES.md`
+- figures: `manuscript/identification_figures/FIGURE_1_IDENTIFICATION_DESIGN.svg` through `FIGURE_5_IDENTIFICATION_DESIGN.svg`
 
-Formatting target and current automated state:
+Standard generated filename remains:
 
-- Word `.docx` Main Document;
+- `submission/ecology/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.docx`
+
+Formatting target:
+
+- Word `.docx`;
 - Letter 8.5 × 11 in, portrait;
 - 1-inch margins;
 - 12-pt Times New Roman;
-- double-spaced manuscript prose, references, captions, and table captions/notes;
-- 10-pt single-spaced table bodies;
-- left-aligned text;
-- page numbers from the title page onward;
-- continuous line numbering beginning after the title page and continuing through the end of References, with explicit suppression outside that region for renderer parity;
-- native Word/Pandoc equations rather than equation images;
-- four compact journal-facing Main tables and five embedded Main figures.
+- double-spaced prose and references;
+- page numbers;
+- continuous line numbering for the review-text section;
+- native Word/Pandoc equations;
+- five embedded Main figures.
 
-Concepts & Synthesis length rule:
+The current validated pre-metadata identification candidate renders to **27 Main Document pages**, within the standard 30-page Concepts & Synthesis target. The former 48-page package and its >30-page cover-letter justification are historical and no longer define the intended submission.
 
-- standard target: 30 manuscript pages;
-- 31–50 pages: allowed only with the required two-part cover-letter justification;
-- >50 pages: outside the stated allowable range.
+## 2. Main scientific sequence
 
-**Current five-figure review-package state: 48 Main Document pages with all five figures rendered.** The required two-part length justification is synchronized in `submission/COVER_LETTER_ECOLOGY_CONCEPTS_SYNTHESIS.md`. The final page count must be rechecked after author-controlled title-page/backmatter fields are inserted.
+The five Main figures now follow the identification argument:
 
-## 2. Main-table and figure presentation
+1. **Figure 1 — interaction detection versus mechanism allocation.** A measured `Delta_AD W` does not identify its channel decomposition.
+2. **Figure 2 — crossed intervention design.** `A × D × antagonist × pollinator` creates the 16-cell identification structure and the four-way separability diagnostic.
+3. **Figure 3 — independent joint-cost assay.** The unallocated residual is kept distinct from `kappa` until an independent `A×D` assay constrains interpretation.
+4. **Figure 4 — existing-data stress tests.** Kessler 2008 supplies the closest trait-factorial anchor, Egan 2021 the complementary consumer-factorial anchor, and the Impatiens public-data retrofit shows how far a rich existing dataset can reach.
+5. **Figure 5 — executable experimental roadmap.** The proposed sequence moves from interaction detection to channel identification and explicit failure diagnostics.
 
-The canonical scientific tables remain in `manuscript/TABLES_THEORETICAL_ECOLOGY.md`. The Ecology review package uses `submission/ecology/ECOLOGY_MAIN_TABLES_COMPACT.md` as a journal-facing view:
-
-- Table 1: mechanistic definitions and inference boundaries;
-- Table 2: core theoretical verification results;
-- Table 3: route recurrence and identification state;
-- Table 4: quantitative/direct-factorial evidence and limitations.
-
-The final five Main figures form a result-first sequence:
-
-- **Figure 1:** mechanistic attraction–defence architecture and inference boundary;
-- **Figure 2:** finite theoretical regime / selectivity-window result;
-- **Figure 3:** cross-system Pattern architecture and identification boundary;
-- **Figure 4:** quantitative evidence plus identification boundary, using the frozen Leal and Sasidharan results;
-- **Figure 5:** same-system route matrix across 14 independent biological clusters.
-
-The former Mechanism → Pattern overview figure is not part of the final Main set because it was orientation-only and added no new scientific result. Figures 4–5 use already frozen values and evidence objects; no new analysis is introduced by the presentation layer.
-
-Exhaustive parameter rows, local cases, route ledgers, context records, direct audits, and stopping batches are supplied as machine-readable Open Research products instead of consuming Main Document pages.
+The Main argument deliberately does **not** use the 2,592 finite-grid evaluations, 77.2% window precision, 56-route ledger, Leal synthesis, or Sasidharan synthesis as headline results. Those analyses remain available for provenance, technical sensitivity, or separate synthesis work.
 
 ## 3. Supporting Information
 
-Use a single reader-facing file:
+Canonical source:
 
-- `Appendix S1.pdf`
-- uploaded as **Supporting Information for review and publication**
-- no Appendix line numbering
-- opening material includes authors, manuscript title, and journal name
-- items use `Figure S#` / `Section S#`
-- Main Document callouts use full forms such as `Appendix S1: Figure S2`
-- Appendix references are repeated in the Appendix References section even when also cited in the Main Document.
+- `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`
 
-The final Appendix S1 contains three reader-facing figures:
+Standard review file remains Appendix S1. The current validated pre-metadata render is **11 pages**.
 
-- **Figure S1:** analytic versus finite-difference implementation check;
-- **Figure S2:** detailed scenario × response-shape sign maps;
-- **Figure S3:** quantitative robustness/sensitivity for the Leal and Sasidharan modules.
+Appendix S1 retains:
 
-The former same-system supplementary matrix was promoted to Main Figure 5 and is not duplicated in Appendix S1. Large machine-readable tables are not packaged as Appendix spreadsheets.
-
-**Current review-package state: Appendix S1 = 5 pages.**
+- the former 2,592-evaluation exercise as implementation/model-family sensitivity rather than empirical validation;
+- the 77.2% finite-design window precision with its grid-dependence made explicit;
+- Kessler 2008 aggregate reconstruction and uncertainty boundary;
+- Impatiens retrofit details;
+- the sixteen-system high-information identification coverage audit;
+- continuous-limit implementation and response-shape sensitivity figures.
 
 ## 4. Open Research package
 
-ESA spreadsheet-format and large machine-readable records are separated from Supporting Information and belong in the Open Research data/code package.
+The standard review-package builder retains historical machine-readable products for reproducibility and additionally exports:
 
-Generated deposition names:
+- `high_information_identification_coverage.csv`;
+- `impatiens_identification_retrofit.json`.
 
-- `model_parameters_and_scaling.csv`
-- `finite_grid_local_cases.csv`
-- `mechanism_pattern_route_ledger.csv`
-- `conditionality_context_records.csv`
-- `direct_identification_audits.csv`
-- `pattern_expansion_screening.csv`
-
-During peer review, the public GitHub repository supplies review-stage access to novel code and versioned analysis products. Permanent archival deposition of the accepted exact data/code version is an acceptance-stage requirement rather than an initial-submission blocker. The accepted release should be frozen in a permanent versioned archive and cited in the final paper.
+The public GitHub repository supplies review-stage access to code, source audits, and derived products. Permanent archival deposition of the accepted exact data/code version remains an acceptance-stage requirement rather than an initial-submission blocker.
 
 ## 5. Human-controlled fields still required
 
-The package builder intentionally does not infer:
+The builder intentionally does not infer:
 
 - final author list/order/publication names;
 - affiliations and present addresses;
@@ -124,31 +86,33 @@ The package builder intentionally does not infer:
 - all-author approval of the exact submitted version;
 - confirmation that the manuscript is not under consideration elsewhere.
 
-A permanent archive DOI is **not** an initial-submission blocker for the current review package.
+A permanent archive DOI is **not** an initial-submission blocker.
 
-## 6. Automated package builder
+## 6. Canonical automated build
 
-Generate the actual review-package source with compact Main tables using:
+Run:
 
 ```bash
 python scripts/build_ecology_review_package_sources.py
 ```
 
-`build_ecology_review_package_sources.py` delegates to the canonical parser while selecting the compact Ecology Main-table view and shortening the review-stage Open Research title-page statement. The underlying canonical builder remains `scripts/build_ecology_submission_sources.py`.
+The wrapper promotes the already validated identification candidate into the standard `submission/ecology/generated/` filenames while leaving the historical theorem-led manuscript in the repository for provenance.
 
-The workflow `.github/workflows/build-ecology-submission-package.yml`:
+The workflow `.github/workflows/build-ecology-submission-package.yml` must verify:
 
-1. builds an Ecology-ordered Main Document source;
-2. converts it to Word with native Pandoc equations;
-3. applies Letter size, margins, Times New Roman, spacing, page numbers, and the requested line-number scope;
-4. verifies the DOCX contains line-number OOXML, four Word tables, and embedded media;
-5. verifies Figures 1–5 are present in the rendered Main Document;
-6. builds a single Appendix S1 PDF containing Figures S1–S3;
-7. separates machine-readable CSV data from Supporting Information;
-8. renders Main and Appendix to PDF and records exact page counts;
-9. fails above 50 Main Document pages and records whether the 31–50-page length justification is required;
-10. uploads the review package as a workflow artifact.
+1. identification-design source contract and focused references;
+2. Main and Appendix DOCX generation;
+3. native equations, line-number/page formatting, and five embedded identification figures;
+4. Main title and identification framing;
+5. absence of `Theorem 1` and `77.2%` from Main;
+6. presence of `2,592` and `77.2%` only in Appendix technical material;
+7. exact Main and Appendix page counts;
+8. Main page-limit compliance;
+9. Open Research export of identification-era products;
+10. upload of the standard review artifact.
 
-The five-EPS export workflow separately validates submission-ready `Fig1.eps` through `Fig5.eps`.
+Submission-ready EPS export likewise uses the five identification-design SVGs as Fig1–Fig5.
 
-The canonical scientific manuscript remains the source of truth. This packaging layer changes journal formatting, compact presentation, and file placement only; it does not change the frozen theorem, numerical results, Pattern counts, meta-analytic estimates, or inference boundaries.
+## 7. Current package boundary
+
+**Current machine-validated target before author metadata: Main 27 pages + Appendix S1 11 pages.** The old 48+5 Mechanism → Pattern package remains reproducible history but is no longer the intended submission narrative.

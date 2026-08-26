@@ -18,19 +18,24 @@ def test_readme_declares_integrated_theory_and_empirical_synthesis() -> None:
     assert "25 independent biological study clusters" in text
 
 
-def test_manifest_pins_reproduced_modules_secondary_context_and_boundaries() -> None:
+def test_manifest_pins_identification_core_and_historical_provenance() -> None:
     text = (ROOT / "SUPPLEMENT_MANIFEST.md").read_text(encoding="utf-8")
-    assert "## 7. Reproduced quantitative synthesis module 1 — Leal et al. 2025 floral larceny" in text
+    assert "# Supplement manifest — canonical identification-design paper" in text
+    assert "## 2. Canonical scientific core" in text
+    assert "crossed A × D × antagonist × pollinator interventions" in text
+    assert "A×D×G×P separability diagnostic" in text
+    assert "independent A×D joint-cost assay" in text
+    assert "## 3. Existing-data identification stress tests" in text
+    assert "Kessler et al. 2008 — trait-factorial anchor" in text
+    assert "Egan et al. 2021 — consumer-factorial anchor" in text
+    assert "Soper Gorden & Adler 2018 — public-data retrofit" in text
+    assert "16-system high-information screened set" in text
+    assert "## 6. Historical quantitative provenance retained" in text
     assert "ed33b25593c0d90ad6657753f6f5501d9efc7b82" in text
-    assert "## 8. Reproduced quantitative synthesis module 2 — Sasidharan et al. 2023 FVOCs" in text
-    assert "PASS_AS_DEPOSITED_REANALYSIS" in text
-    assert "## 9. Secondary contextual/cross-synthesis modules" in text
-    assert "Haas-Desmarais et al. 2026" in text
-    assert "Caruso et al. 2019" in text
-    assert "Junker & Blüthgen 2010" in text
-    assert "marginal routes do not estimate `W_AD`" in text
-    assert "`kappa` is therefore unidentified, not estimated as zero" in text
-    assert "secondary-synthesis counts are not added to route-ledger N" in text
+    assert "Sasidharan et al. 2023 FVOC reconstruction" in text
+    assert "## 7. Historical Mechanism → Pattern provenance retained" in text
+    assert "56 source-adjudicated route records" in text
+    assert "These overlapping counts are not added as independent-study prevalence" in text
 
 
 def test_live_submission_docs_do_not_pin_superseded_pr_or_branch_state() -> None:

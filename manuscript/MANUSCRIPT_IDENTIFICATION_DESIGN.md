@@ -10,7 +10,7 @@
 
 Ecologists often observe that two traits interact on fitness without being able to determine which ecological pathway produced that interaction. Floral attraction and defence make this problem unusually clear. Attractive flowers can gain pollination but also attract antagonists, whereas floral defence can reduce damage while interfering with legitimate visitors or imposing an additional joint cost. A total attraction-by-defence interaction therefore does not identify its mechanism. We develop an experimental identification framework for this problem. We first replace the local mixed derivative used in earlier theory with a directly measurable two-level interaction, \(\Delta_{AD}W=W_{11}-W_{10}-W_{01}+W_{00}\). We then show how a crossed \(A\times D\times\) antagonist \(\times\) pollinator experiment can separate antagonist relief from pollinator interference, provided the consumer interventions are selective and the same attraction and defence contrasts are maintained across cells. The design contains its own check on channel separability: the apparent pollinator-dependence of antagonist relief and antagonist-dependence of pollinator interference are the same four-way interaction up to sign. Pollinator-independent reproduction must be measured rather than assumed away, and a joint attraction-defence cost must be assessed independently rather than defined as a residual. Under these conditions, a simple algebraic identity becomes a diagnostic for the sign of any still-unallocated joint channel rather than a standalone prediction theorem. We apply this framework to high-information published systems. Kessler et al. (2008) provides a rare experimental attraction-by-defence-like trait factorial with a sign-robust positive discrete reproductive interaction under published aggregate constraints, whereas Egan et al. (2021) provides the complementary consumer-factorial structure without an experimentally crossed attraction-by-defence trait pair. A Dryad reanalysis of *Impatiens capensis* reaches randomized context modification of an observational trait interaction but not channel identification. Across 16 screened high-information systems, no study combines the trait factorial, selective consumer interventions, pollinator-independent baseline characterization, and an independent joint-cost assay. The main empirical gap is therefore not absence of interaction studies, but the missing intersection between trait-interaction estimation and mechanism allocation. The framework turns that gap into a concrete experimental design.
 
-**Keywords:** causal identification; floral defence; floral traits; florivory; factorial experiment; pollination; trait interaction
+**Keywords:** causal identification; factorial experiment; floral defence; floral traits; florivory; pollination; trait interaction
 
 ## 1. Introduction
 
@@ -265,6 +265,11 @@ Second, if the four-way contrast is non-zero, pollinator and antagonist channels
 Third, if the residual and independent cost assay disagree, an omitted channel or intervention failure is exposed.
 
 Fourth, if complementarity is observed while antagonist relief does not exceed pollinator interference, the remaining joint channel must be synergistic on the chosen scale. This is the narrow setting in which the original sign identity becomes empirically useful.
+
+### 5.4 Computational and AI-assisted workflow transparency
+
+OpenAI ChatGPT and Anthropic Claude were used for code-generation assistance, structured literature triage, reproducibility checks, and manuscript drafting/editing. AI-generated output was not treated as empirical evidence, and these tools did not determine study inclusion, evidence classification, or statistical conclusions. Source claims, numerical results, code, and citations were checked against the underlying analyses and sources. The authors retain responsibility for all scientific decisions and content.
+
 
 ## 6. Discussion
 
