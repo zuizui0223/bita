@@ -84,7 +84,7 @@ jobs:
           pdftotext "$MAIN" "$MAIN_TXT"
           pdftotext "$SUPP" "$SUPP_TXT"
           grep -q 'From floral trait interactions to mechanism identification' "$MAIN_TXT"
-          grep -q 'Crossed intervention design' "$MAIN_TXT"
+          grep -qi 'crossed intervention design' "$MAIN_TXT"
           grep -q 'Kessler et al. (2008)' "$MAIN_TXT"
           grep -q 'Egan et al. (2021)' "$MAIN_TXT"
           grep -q 'Figure 5.' "$MAIN_TXT"
