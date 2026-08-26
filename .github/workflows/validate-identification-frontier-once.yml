@@ -1,0 +1,25 @@
+name: validate-identification-frontier-once
+
+on:
+  push:
+    branches:
+      - analysis/identification-frontier-augmentation-v1
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pytest
+        run: python -m pip install pytest
+      - name: Rebuild frontier products
+        run: |
+          python scripts/build_identification_frontier_augmentation.py
+          python scripts/build_hypercube_face_coverage.py
+      - name: Require committed products to be reproducible
+        run: git diff --exit-code -- empirical/identification_design/IDENTIFICATION_FRONTIER_AUGMENTATION_V1.csv empirical/identification_design/IDENTIFICATION_FRONTIER_AUGMENTATION_V1.md empirical/identification_design/HYPERCUBE_FACE_COVERAGE_V1.csv
+      - name: Run focused frontier tests
+        run: python -m pytest -q tests/test_identification_frontier_augmentation.py tests/test_hypercube_face_coverage.py tests/test_partial_identification.py tests/test_partial_identification_balance.py
