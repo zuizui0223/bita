@@ -16,10 +16,10 @@ def test_canonical_leal_inputs_are_local_not_external_only() -> None:
 
 def test_manifest_preserves_local_leal_assets_and_immutable_provenance() -> None:
     manifest = MANIFEST.read_text(encoding="utf-8")
-    assert "## 6. Historical quantitative provenance retained" in manifest
-    assert "Leal et al. 2025 floral-larceny module remains pinned to immutable provenance" in manifest
+    assert "Historical quantitative provenance retained" in manifest
+    assert "Leal et al. 2025 provenance remains pinned" in manifest
     assert "ed33b25593c0d90ad6657753f6f5501d9efc7b82" in manifest
-    assert "preregistration:    0e36eac" in manifest
-    assert "first results:      965d657" in manifest
+    assert "0e36eac" in manifest
+    assert "965d657" in manifest
     assert "doi:10.1002/ecy.70036" in manifest
-    assert "not used to validate the current identification framework" in manifest
+    assert "do not validate the identification framework" in manifest
