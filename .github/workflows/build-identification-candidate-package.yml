@@ -1,0 +1,132 @@
+name: build-identification-candidate-package
+
+on:
+  pull_request:
+    paths:
+      - 'manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md'
+      - 'manuscript/IDENTIFICATION_DESIGN_REFERENCES.md'
+      - 'manuscript/IDENTIFICATION_DESIGN_FIGURE_CAPTIONS.md'
+      - 'manuscript/identification_figures/**'
+      - 'manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md'
+      - 'scripts/build_identification_candidate_package_sources.py'
+      - 'scripts/format_ecology_submission_docx.py'
+      - 'tests/test_identification_candidate_package.py'
+      - '.github/workflows/build-identification-candidate-package.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install document toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc libreoffice-writer poppler-utils librsvg2-bin
+          python -m pip install python-docx pytest
+
+      - name: Validate candidate source contract
+        run: python -m pytest -q tests/test_identification_candidate_package.py tests/test_identification_manuscript_draft.py tests/test_identification_manuscript_references.py tests/test_identification_design_figures.py
+
+      - name: Build candidate Markdown sources
+        run: python scripts/build_identification_candidate_package_sources.py
+
+      - name: Build candidate Main DOCX
+        run: |
+          cd submission/ecology/identification_candidate/generated
+          pandoc MANUSCRIPT_IDENTIFICATION_CANDIDATE.md \
+            --from=markdown+tex_math_single_backslash \
+            --to=docx \
+            --output=MANUSCRIPT_IDENTIFICATION_CANDIDATE_RAW.docx
+          cd ../../../..
+          python scripts/format_ecology_submission_docx.py \
+            submission/ecology/identification_candidate/generated/MANUSCRIPT_IDENTIFICATION_CANDIDATE_RAW.docx \
+            submission/ecology/identification_candidate/generated/MANUSCRIPT_IDENTIFICATION_CANDIDATE.docx
+
+      - name: Build candidate Appendix DOCX
+        run: |
+          cd submission/ecology/identification_candidate/generated
+          pandoc APPENDIX_IDENTIFICATION_CANDIDATE.md \
+            --from=markdown+tex_math_single_backslash \
+            --to=docx \
+            --output=APPENDIX_IDENTIFICATION_CANDIDATE_RAW.docx
+          cd ../../../..
+          python scripts/format_ecology_submission_docx.py \
+            submission/ecology/identification_candidate/generated/APPENDIX_IDENTIFICATION_CANDIDATE_RAW.docx \
+            submission/ecology/identification_candidate/generated/APPENDIX_IDENTIFICATION_CANDIDATE.docx \
+            --appendix
+
+      - name: Render candidate DOCX files to PDF
+        run: |
+          mkdir -p submission/ecology/identification_candidate/generated/rendered
+          libreoffice --headless --convert-to pdf \
+            --outdir submission/ecology/identification_candidate/generated/rendered \
+            submission/ecology/identification_candidate/generated/MANUSCRIPT_IDENTIFICATION_CANDIDATE.docx
+          libreoffice --headless --convert-to pdf \
+            --outdir submission/ecology/identification_candidate/generated/rendered \
+            submission/ecology/identification_candidate/generated/APPENDIX_IDENTIFICATION_CANDIDATE.docx
+
+      - name: Validate rendered candidate package
+        run: |
+          MAIN=submission/ecology/identification_candidate/generated/rendered/MANUSCRIPT_IDENTIFICATION_CANDIDATE.pdf
+          SUPP=submission/ecology/identification_candidate/generated/rendered/APPENDIX_IDENTIFICATION_CANDIDATE.pdf
+          MAIN_TXT="$RUNNER_TEMP/main_candidate.txt"
+          SUPP_TXT="$RUNNER_TEMP/supp_candidate.txt"
+          test -s "$MAIN"
+          test -s "$SUPP"
+          MAIN_PAGES=$(pdfinfo "$MAIN" | awk '/^Pages:/ {print $2}')
+          SUPP_PAGES=$(pdfinfo "$SUPP" | awk '/^Pages:/ {print $2}')
+          pdftotext "$MAIN" "$MAIN_TXT"
+          pdftotext "$SUPP" "$SUPP_TXT"
+          grep -q 'From floral trait interactions to mechanism identification' "$MAIN_TXT"
+          grep -qi 'crossed intervention design' "$MAIN_TXT"
+          grep -q 'Kessler et al. (2008)' "$MAIN_TXT"
+          grep -q 'Egan et al. (2021)' "$MAIN_TXT"
+          grep -q 'Figure 5.' "$MAIN_TXT"
+          ! grep -q 'Theorem 1' "$MAIN_TXT"
+          ! grep -q '77.2%' "$MAIN_TXT"
+          grep -q '2,592' "$SUPP_TXT"
+          grep -q '77.2%' "$SUPP_TXT"
+          grep -q 'Kessler et al. 2008 aggregate reconstruction' "$SUPP_TXT"
+          MEDIA_COUNT=$(unzip -l submission/ecology/identification_candidate/generated/MANUSCRIPT_IDENTIFICATION_CANDIDATE.docx | grep -c 'word/media/' || true)
+          if [ "$MEDIA_COUNT" -lt 5 ]; then
+            echo "Expected at least five embedded Main figures; found $MEDIA_COUNT" >&2
+            exit 1
+          fi
+          if [ "$MAIN_PAGES" -gt 50 ]; then
+            echo "Candidate Main is $MAIN_PAGES pages; exceeds Ecology Concepts & Synthesis maximum of 50." >&2
+            exit 1
+          fi
+          {
+            echo "main_pages=$MAIN_PAGES"
+            echo "supplement_pages=$SUPP_PAGES"
+            echo "embedded_main_media=$MEDIA_COUNT"
+            echo "candidate_only=true"
+            echo "canonical_submission_untouched=true"
+            echo "main_headline=interaction_detection_to_mechanism_identification"
+            echo "old_grid_status=supplement_only"
+            echo "main_limit_state=PASS_AT_OR_BELOW_50"
+          } > submission/ecology/identification_candidate/generated/CANDIDATE_QA_RECEIPT.txt
+
+      - name: Remove raw intermediate files
+        if: always()
+        run: |
+          rm -f submission/ecology/identification_candidate/generated/*_RAW.docx
+
+      - name: Upload candidate package
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: identification-candidate-package
+          path: |
+            submission/ecology/identification_candidate/generated/MANUSCRIPT_IDENTIFICATION_CANDIDATE.docx
+            submission/ecology/identification_candidate/generated/APPENDIX_IDENTIFICATION_CANDIDATE.docx
+            submission/ecology/identification_candidate/generated/rendered/MANUSCRIPT_IDENTIFICATION_CANDIDATE.pdf
+            submission/ecology/identification_candidate/generated/rendered/APPENDIX_IDENTIFICATION_CANDIDATE.pdf
+            submission/ecology/identification_candidate/generated/CANDIDATE_QA_RECEIPT.txt
+          if-no-files-found: error
