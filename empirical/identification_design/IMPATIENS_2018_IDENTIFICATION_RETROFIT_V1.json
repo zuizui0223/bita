@@ -1,0 +1,515 @@
+{
+  "A_axis": "Early_Season_Flower_Redness",
+  "D_axis": "Early_Season_Condensed_Tannins",
+  "analysis_id": "impatiens_2018_identification_retrofit_v1",
+  "causal_boundary": "Randomized treatment modifiers are causal assignment effect-modification contrasts, but A and D are observational traits. Robbing/florivory/pollination were simulated increases, not selective consumer exclusions. Results therefore do not identify rho_delta, iota_delta, M0_delta, or kappa_delta.",
+  "dataset_doi": "10.5061/dryad.0j96d17",
+  "design": "observational A and D crossed analytically with randomized supplemental Robbing x Florivory x Pollination assignments",
+  "model_summaries": [
+    {
+      "all_coefficients": {
+        "A_z": {
+          "ci95_lower": -0.08111760272709598,
+          "ci95_upper": 0.19927532743928303,
+          "estimate": 0.05907886235609353,
+          "hc3_se": 0.07152880871591301,
+          "p_value_normal": 0.40883528857189433,
+          "term": "A_z",
+          "z_value": 0.8259450061685463
+        },
+        "A_z:D_z": {
+          "ci95_lower": -0.36752905204707825,
+          "ci95_upper": 0.041940002416257616,
+          "estimate": -0.16279452481541032,
+          "hc3_se": 0.10445639144472854,
+          "p_value_normal": 0.1191164942396089,
+          "term": "A_z:D_z",
+          "z_value": -1.5584927122583063
+        },
+        "A_z:D_z:Florivory_c": {
+          "ci95_lower": -0.6879369299662904,
+          "ci95_upper": 0.07232421726775629,
+          "estimate": -0.30780635634926706,
+          "hc3_se": 0.19394417021276703,
+          "p_value_normal": 0.11249284243627122,
+          "term": "A_z:D_z:Florivory_c",
+          "z_value": -1.5870874386767448
+        },
+        "A_z:D_z:Pollination_c": {
+          "ci95_lower": -0.37496879125181865,
+          "ci95_upper": 0.5246063792211269,
+          "estimate": 0.07481879398465413,
+          "hc3_se": 0.22948346185534327,
+          "p_value_normal": 0.7444006653470798,
+          "term": "A_z:D_z:Pollination_c",
+          "z_value": 0.32603131127513124
+        },
+        "A_z:D_z:Robbing_c": {
+          "ci95_lower": -0.41937999096962963,
+          "ci95_upper": 0.3325352368803963,
+          "estimate": -0.04342237704461663,
+          "hc3_se": 0.1918151091454148,
+          "p_value_normal": 0.8209088309215262,
+          "term": "A_z:D_z:Robbing_c",
+          "z_value": -0.22637620799568076
+        },
+        "A_z:Florivory_c": {
+          "ci95_lower": -0.0880205435470432,
+          "ci95_upper": 0.529310013281344,
+          "estimate": 0.22064473486715042,
+          "hc3_se": 0.15748228490520083,
+          "p_value_normal": 0.16119118609125704,
+          "term": "A_z:Florivory_c",
+          "z_value": 1.4010765401325698
+        },
+        "A_z:Pollination_c": {
+          "ci95_lower": -0.2599325964233948,
+          "ci95_upper": 0.3008786766801325,
+          "estimate": 0.02047304012836887,
+          "hc3_se": 0.14306410028151206,
+          "p_value_normal": 0.8862080728456936,
+          "term": "A_z:Pollination_c",
+          "z_value": 0.1431039659011826
+        },
+        "A_z:Robbing_c": {
+          "ci95_lower": -0.48707468251846164,
+          "ci95_upper": 0.14127175103995615,
+          "estimate": -0.17290146573925275,
+          "hc3_se": 0.16029245754041271,
+          "p_value_normal": 0.28073820081502554,
+          "term": "A_z:Robbing_c",
+          "z_value": -1.0786625172033504
+        },
+        "D_z": {
+          "ci95_lower": -0.21254899776397249,
+          "ci95_upper": 0.12142329464853727,
+          "estimate": -0.04556285155771761,
+          "hc3_se": 0.0851970133705382,
+          "p_value_normal": 0.5927923125507488,
+          "term": "D_z",
+          "z_value": -0.5347939998736341
+        },
+        "D_z:Florivory_c": {
+          "ci95_lower": -0.4883398932774232,
+          "ci95_upper": 0.12764928092664962,
+          "estimate": -0.1803453061753868,
+          "hc3_se": 0.15714009546022267,
+          "p_value_normal": 0.251103945601887,
+          "term": "D_z:Florivory_c",
+          "z_value": -1.1476721179734686
+        },
+        "D_z:Pollination_c": {
+          "ci95_lower": -0.061892839865199,
+          "ci95_upper": 0.6898781182761301,
+          "estimate": 0.31399263920546555,
+          "hc3_se": 0.19177830564829823,
+          "p_value_normal": 0.10157431393192229,
+          "term": "D_z:Pollination_c",
+          "z_value": 1.6372688148642625
+        },
+        "D_z:Robbing_c": {
+          "ci95_lower": -0.19225675390008515,
+          "ci95_upper": 0.44083913202619385,
+          "estimate": 0.12429118906305434,
+          "hc3_se": 0.16150405253221403,
+          "p_value_normal": 0.4415457647249629,
+          "term": "D_z:Robbing_c",
+          "z_value": 0.7695855745679377
+        },
+        "Florivory_c": {
+          "ci95_lower": -0.610635867479769,
+          "ci95_upper": -0.058476931943649724,
+          "estimate": -0.33455639971170936,
+          "hc3_se": 0.1408568713102345,
+          "p_value_normal": 0.017541751795211113,
+          "term": "Florivory_c",
+          "z_value": -2.3751514327963132
+        },
+        "Florivory_c:Pollination_c": {
+          "ci95_lower": -1.0564730346612323,
+          "ci95_upper": 0.09894362986200317,
+          "estimate": -0.4787647023996146,
+          "hc3_se": 0.2947491491130703,
+          "p_value_normal": 0.10430914879468778,
+          "term": "Florivory_c:Pollination_c",
+          "z_value": -1.6243124156261874
+        },
+        "Intercept": {
+          "ci95_lower": -0.12109892987092104,
+          "ci95_upper": 0.15270939548316015,
+          "estimate": 0.01580523280611955,
+          "hc3_se": 0.06984906259032683,
+          "p_value_normal": 0.8209860251448392,
+          "term": "Intercept",
+          "z_value": 0.22627694946772792
+        },
+        "Phenology_z": {
+          "ci95_lower": -0.6469915210416812,
+          "ci95_upper": -0.3702658343803118,
+          "estimate": -0.5086286777109965,
+          "hc3_se": 0.07059328741361465,
+          "p_value_normal": 5.802025526691068e-13,
+          "term": "Phenology_z",
+          "z_value": -7.205057256094043
+        },
+        "Pollination_c": {
+          "ci95_lower": -0.4920363796863393,
+          "ci95_upper": 0.06809869523368586,
+          "estimate": -0.2119688422263267,
+          "hc3_se": 0.14289160074490437,
+          "p_value_normal": 0.13796177201505133,
+          "term": "Pollination_c",
+          "z_value": -1.4834240859596899
+        },
+        "Robbing_c": {
+          "ci95_lower": -0.3060729590139241,
+          "ci95_upper": 0.23965957110216302,
+          "estimate": -0.033206693955880544,
+          "hc3_se": 0.1392174821724712,
+          "p_value_normal": 0.8114747965004305,
+          "term": "Robbing_c",
+          "z_value": -0.23852387959970459
+        },
+        "Robbing_c:Florivory_c": {
+          "ci95_lower": -0.8521742157610758,
+          "ci95_upper": 0.22359322347871047,
+          "estimate": -0.31429049614118265,
+          "hc3_se": 0.274430469193823,
+          "p_value_normal": 0.25210711866169844,
+          "term": "Robbing_c:Florivory_c",
+          "z_value": -1.1452463608157428
+        },
+        "Robbing_c:Florivory_c:Pollination_c": {
+          "ci95_lower": -1.0689023166234215,
+          "ci95_upper": 1.147564342307718,
+          "estimate": 0.039331012842148155,
+          "hc3_se": 0.5654251680946785,
+          "p_value_normal": 0.9445438214573956,
+          "term": "Robbing_c:Florivory_c:Pollination_c",
+          "z_value": 0.06956006747043547
+        },
+        "Robbing_c:Pollination_c": {
+          "ci95_lower": -1.0397182366938855,
+          "ci95_upper": 0.06230737907943479,
+          "estimate": -0.4887054288072254,
+          "hc3_se": 0.281128983615643,
+          "p_value_normal": 0.08214611685729634,
+          "term": "Robbing_c:Pollination_c",
+          "z_value": -1.738367287932784
+        }
+      },
+      "analysis_id": "ch_fruits_per_plant_per_day",
+      "maximum_cell_n": 24,
+      "minimum_cell_n": 19,
+      "n_complete": 170,
+      "n_omitted": 30,
+      "outcome_field": "Average_CH_Fruits_Per_Day",
+      "outcome_transform": "log1p",
+      "parameter_count": 21,
+      "r_squared": 0.37547704577036844,
+      "randomized_treatment_cell_counts": {
+        "N/N/N": 19,
+        "N/N/Y": 23,
+        "N/Y/N": 23,
+        "N/Y/Y": 20,
+        "Y/N/N": 20,
+        "Y/N/Y": 24,
+        "Y/Y/N": 21,
+        "Y/Y/Y": 20
+      },
+      "residual_df": 149,
+      "target_coefficients": {
+        "A_z:D_z": {
+          "ci95_lower": -0.36752905204707825,
+          "ci95_upper": 0.041940002416257616,
+          "estimate": -0.16279452481541032,
+          "hc3_se": 0.10445639144472854,
+          "p_value_normal": 0.1191164942396089,
+          "term": "A_z:D_z",
+          "z_value": -1.5584927122583063
+        },
+        "A_z:D_z:Florivory_c": {
+          "ci95_lower": -0.6879369299662904,
+          "ci95_upper": 0.07232421726775629,
+          "estimate": -0.30780635634926706,
+          "hc3_se": 0.19394417021276703,
+          "p_value_normal": 0.11249284243627122,
+          "term": "A_z:D_z:Florivory_c",
+          "z_value": -1.5870874386767448
+        },
+        "A_z:D_z:Pollination_c": {
+          "ci95_lower": -0.37496879125181865,
+          "ci95_upper": 0.5246063792211269,
+          "estimate": 0.07481879398465413,
+          "hc3_se": 0.22948346185534327,
+          "p_value_normal": 0.7444006653470798,
+          "term": "A_z:D_z:Pollination_c",
+          "z_value": 0.32603131127513124
+        },
+        "A_z:D_z:Robbing_c": {
+          "ci95_lower": -0.41937999096962963,
+          "ci95_upper": 0.3325352368803963,
+          "estimate": -0.04342237704461663,
+          "hc3_se": 0.1918151091454148,
+          "p_value_normal": 0.8209088309215262,
+          "term": "A_z:D_z:Robbing_c",
+          "z_value": -0.22637620799568076
+        }
+      }
+    },
+    {
+      "all_coefficients": {
+        "A_z": {
+          "ci95_lower": -0.23622833652102337,
+          "ci95_upper": 0.8479191540804274,
+          "estimate": 0.305845408779702,
+          "hc3_se": 0.2765682373983293,
+          "p_value_normal": 0.26878765599345,
+          "term": "A_z",
+          "z_value": 1.105858762585257
+        },
+        "A_z:D_z": {
+          "ci95_lower": -0.6642942039710767,
+          "ci95_upper": 0.4771166223798512,
+          "estimate": -0.09358879079561278,
+          "hc3_se": 0.2911762312119714,
+          "p_value_normal": 0.7478949221240907,
+          "term": "A_z:D_z",
+          "z_value": -0.32141631343350174
+        },
+        "A_z:D_z:Florivory_c": {
+          "ci95_lower": -1.6491674472390603,
+          "ci95_upper": 0.9389893574479422,
+          "estimate": -0.355089044895559,
+          "hc3_se": 0.6602440828283169,
+          "p_value_normal": 0.5907049075145576,
+          "term": "A_z:D_z:Florivory_c",
+          "z_value": -0.5378148083879044
+        },
+        "A_z:D_z:Pollination_c": {
+          "ci95_lower": -0.9840437279188974,
+          "ci95_upper": 0.6447909744924045,
+          "estimate": -0.16962637671324649,
+          "hc3_se": 0.415519056737577,
+          "p_value_normal": 0.6831065350319823,
+          "term": "A_z:D_z:Pollination_c",
+          "z_value": -0.4082276708198604
+        },
+        "A_z:D_z:Robbing_c": {
+          "ci95_lower": -1.6895504221038693,
+          "ci95_upper": 1.1818094919535165,
+          "estimate": -0.25387046507517635,
+          "hc3_se": 0.7324897739942311,
+          "p_value_normal": 0.7289026069287141,
+          "term": "A_z:D_z:Robbing_c",
+          "z_value": -0.34658567817381675
+        },
+        "A_z:Florivory_c": {
+          "ci95_lower": -1.0127517499087286,
+          "ci95_upper": 1.8488498978079497,
+          "estimate": 0.41804907394961055,
+          "hc3_se": 0.7300004203358873,
+          "p_value_normal": 0.5668684012077175,
+          "term": "A_z:Florivory_c",
+          "z_value": 0.5726696345698788
+        },
+        "A_z:Pollination_c": {
+          "ci95_lower": -0.7955989892999735,
+          "ci95_upper": 1.2870014411146133,
+          "estimate": 0.24570122590731994,
+          "hc3_se": 0.5312756200037212,
+          "p_value_normal": 0.6437413557493785,
+          "term": "A_z:Pollination_c",
+          "z_value": 0.46247412201146926
+        },
+        "A_z:Robbing_c": {
+          "ci95_lower": -1.3465724862102404,
+          "ci95_upper": 0.968409198836918,
+          "estimate": -0.18908164368666122,
+          "hc3_se": 0.5905565523079486,
+          "p_value_normal": 0.7488354174467589,
+          "term": "A_z:Robbing_c",
+          "z_value": -0.32017533790407204
+        },
+        "D_z": {
+          "ci95_lower": -0.38351559435293386,
+          "ci95_upper": 0.2644160473585892,
+          "estimate": -0.05954977349717233,
+          "hc3_se": 0.1652886841100824,
+          "p_value_normal": 0.7186397157983451,
+          "term": "D_z",
+          "z_value": -0.3602773766261708
+        },
+        "D_z:Florivory_c": {
+          "ci95_lower": -0.8163269071317042,
+          "ci95_upper": 1.0141276933232972,
+          "estimate": 0.09890039309579647,
+          "hc3_se": 0.4669527041977044,
+          "p_value_normal": 0.8322633853953049,
+          "term": "D_z:Florivory_c",
+          "z_value": 0.2117995938490652
+        },
+        "D_z:Pollination_c": {
+          "ci95_lower": -0.5987964244571986,
+          "ci95_upper": 0.595524899164267,
+          "estimate": -0.001635762646465819,
+          "hc3_se": 0.30467380704629227,
+          "p_value_normal": 0.9957162596179124,
+          "term": "D_z:Pollination_c",
+          "z_value": -0.005368898174490203
+        },
+        "D_z:Robbing_c": {
+          "ci95_lower": -0.6953284726312414,
+          "ci95_upper": 1.5292938834541447,
+          "estimate": 0.4169827054114516,
+          "hc3_se": 0.5675057030830067,
+          "p_value_normal": 0.4624832943949754,
+          "term": "D_z:Robbing_c",
+          "z_value": 0.7347639030694662
+        },
+        "Florivory_c": {
+          "ci95_lower": -1.029156928877656,
+          "ci95_upper": 0.5690723900421658,
+          "estimate": -0.23004226941774508,
+          "hc3_se": 0.4077115609489341,
+          "p_value_normal": 0.5725989897933184,
+          "term": "Florivory_c",
+          "z_value": -0.5642279774513381
+        },
+        "Florivory_c:Pollination_c": {
+          "ci95_lower": -1.682276293207758,
+          "ci95_upper": 0.7616114862556689,
+          "estimate": -0.4603324034760446,
+          "hc3_se": 0.6234407600672007,
+          "p_value_normal": 0.46028725282060745,
+          "term": "Florivory_c:Pollination_c",
+          "z_value": -0.7383739289462328
+        },
+        "Intercept": {
+          "ci95_lower": -0.3999733659711858,
+          "ci95_upper": 0.3738541849166559,
+          "estimate": -0.013059590527264991,
+          "hc3_se": 0.1974049874713882,
+          "p_value_normal": 0.9472533600148829,
+          "term": "Intercept",
+          "z_value": -0.06615633523017164
+        },
+        "Phenology_z": {
+          "ci95_lower": -0.4301326794343713,
+          "ci95_upper": 0.02228141939398562,
+          "estimate": -0.20392563002019284,
+          "hc3_se": 0.11541175990519309,
+          "p_value_normal": 0.07723831350670085,
+          "term": "Phenology_z",
+          "z_value": -1.7669397831530422
+        },
+        "Pollination_c": {
+          "ci95_lower": -0.6898030379331785,
+          "ci95_upper": 0.8000949410824327,
+          "estimate": 0.05514595157462704,
+          "hc3_se": 0.3800760150550029,
+          "p_value_normal": 0.8846383126371828,
+          "term": "Pollination_c",
+          "z_value": 0.14509190106786024
+        },
+        "Robbing_c": {
+          "ci95_lower": -0.8819814012404281,
+          "ci95_upper": 0.6248965264020627,
+          "estimate": -0.12854243741918264,
+          "hc3_se": 0.38440763460267624,
+          "p_value_normal": 0.738084561149331,
+          "term": "Robbing_c",
+          "z_value": -0.3343909585771992
+        },
+        "Robbing_c:Florivory_c": {
+          "ci95_lower": -1.5866291800631023,
+          "ci95_upper": 1.4252627566198106,
+          "estimate": -0.08068321172164589,
+          "hc3_se": 0.7683397797660492,
+          "p_value_normal": 0.9163680271571338,
+          "term": "Robbing_c:Florivory_c",
+          "z_value": -0.10500980665899275
+        },
+        "Robbing_c:Florivory_c:Pollination_c": {
+          "ci95_lower": -4.725967628142965,
+          "ci95_upper": 0.3234417676335113,
+          "estimate": -2.201262930254727,
+          "hc3_se": 1.2881146417797134,
+          "p_value_normal": 0.0874689252636951,
+          "term": "Robbing_c:Florivory_c:Pollination_c",
+          "z_value": -1.7089029647340779
+        },
+        "Robbing_c:Pollination_c": {
+          "ci95_lower": -1.2994304469320679,
+          "ci95_upper": 1.0572655647652147,
+          "estimate": -0.12108244108342656,
+          "hc3_se": 0.6011979621676742,
+          "p_value_normal": 0.8403842916564841,
+          "term": "Robbing_c:Pollination_c",
+          "z_value": -0.20140194861415156
+        }
+      },
+      "analysis_id": "seeds_per_ch_fruit",
+      "maximum_cell_n": 14,
+      "minimum_cell_n": 6,
+      "n_complete": 85,
+      "n_omitted": 115,
+      "outcome_field": "Average_Seeds_Per_CH_Fruit",
+      "outcome_transform": "identity",
+      "parameter_count": 21,
+      "r_squared": 0.2518991776652634,
+      "randomized_treatment_cell_counts": {
+        "N/N/N": 12,
+        "N/N/Y": 12,
+        "N/Y/N": 14,
+        "N/Y/Y": 9,
+        "Y/N/N": 12,
+        "Y/N/Y": 13,
+        "Y/Y/N": 7,
+        "Y/Y/Y": 6
+      },
+      "residual_df": 64,
+      "target_coefficients": {
+        "A_z:D_z": {
+          "ci95_lower": -0.6642942039710767,
+          "ci95_upper": 0.4771166223798512,
+          "estimate": -0.09358879079561278,
+          "hc3_se": 0.2911762312119714,
+          "p_value_normal": 0.7478949221240907,
+          "term": "A_z:D_z",
+          "z_value": -0.32141631343350174
+        },
+        "A_z:D_z:Florivory_c": {
+          "ci95_lower": -1.6491674472390603,
+          "ci95_upper": 0.9389893574479422,
+          "estimate": -0.355089044895559,
+          "hc3_se": 0.6602440828283169,
+          "p_value_normal": 0.5907049075145576,
+          "term": "A_z:D_z:Florivory_c",
+          "z_value": -0.5378148083879044
+        },
+        "A_z:D_z:Pollination_c": {
+          "ci95_lower": -0.9840437279188974,
+          "ci95_upper": 0.6447909744924045,
+          "estimate": -0.16962637671324649,
+          "hc3_se": 0.415519056737577,
+          "p_value_normal": 0.6831065350319823,
+          "term": "A_z:D_z:Pollination_c",
+          "z_value": -0.4082276708198604
+        },
+        "A_z:D_z:Robbing_c": {
+          "ci95_lower": -1.6895504221038693,
+          "ci95_upper": 1.1818094919535165,
+          "estimate": -0.25387046507517635,
+          "hc3_se": 0.7324897739942311,
+          "p_value_normal": 0.7289026069287141,
+          "term": "A_z:D_z:Robbing_c",
+          "z_value": -0.34658567817381675
+        }
+      }
+    }
+  ],
+  "registered_model": "hierarchical HC3 OLS with full R*F*P factorial, A/D-by-treatment lower-order terms, A:D, A:D:R, A:D:F, A:D:P, and pre-treatment phenology adjustment",
+  "study": "Soper Gorden & Adler 2018, Impatiens capensis",
+  "study_doi": "10.1002/ajb2.1182"
+}
