@@ -18,7 +18,7 @@ def test_readme_declares_integrated_theory_and_empirical_synthesis() -> None:
     assert "25 independent biological study clusters" in text
 
 
-def test_manifest_pins_identification_core_and_historical_provenance() -> None:
+def test_manifest_pins_identification_core_and_bounded_pattern_provenance() -> None:
     text = (ROOT / "SUPPLEMENT_MANIFEST.md").read_text(encoding="utf-8")
     assert "# Supplement manifest — canonical identification-design paper" in text
     assert "## 2. Canonical scientific core" in text
@@ -33,9 +33,10 @@ def test_manifest_pins_identification_core_and_historical_provenance() -> None:
     assert "## 6. Historical quantitative provenance retained" in text
     assert "ed33b25593c0d90ad6657753f6f5501d9efc7b82" in text
     assert "Sasidharan et al. 2023 FVOC reconstruction" in text
-    assert "## 7. Historical Mechanism → Pattern provenance retained" in text
+    assert "## 7. Mechanism → Pattern recurrence layer retained in the Main argument" in text
     assert "56 source-adjudicated route records" in text
     assert "These overlapping counts are not added as independent-study prevalence" in text
+    assert "Main-text role is limited to constituent-channel recurrence" in text
 
 
 def test_live_submission_docs_do_not_pin_superseded_pr_or_branch_state() -> None:
