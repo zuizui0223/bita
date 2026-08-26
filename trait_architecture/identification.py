@@ -71,6 +71,10 @@ class CrossedIdentificationResult:
     ``-Delta_AD(M1 - M0)``. It equals the manuscript's ``iota_delta = -Delta_AD M1``
     only when ``baseline_mutualist_delta = Delta_AD M0`` is supplied (including
     an explicitly justified zero, e.g. in a suitable self-incompatible design).
+
+    ``four_way_coupling`` is the A x D x G x P interaction written in the
+    antagonist-relief direction. The iota-invariance gap is its exact negative,
+    so the two apparent invariance checks are not independent tests.
     """
 
     delta_w_full: float
@@ -80,6 +84,7 @@ class CrossedIdentificationResult:
     iota_increment_antagonist_present: float
     rho_invariance_gap: float
     iota_increment_invariance_gap: float
+    four_way_coupling: float
     assumptions_pass: bool
     separability_pass: bool
     consumer_contrasts_identified: bool
@@ -214,9 +219,11 @@ def identify_crossed_design(
     rho_gap = rho_p1 - rho_p0
     iota_gap = iota_g1 - iota_g0
 
-    separability_pass = isclose(rho_gap, 0.0, abs_tol=invariance_tolerance, rel_tol=0.0) and isclose(
-        iota_gap, 0.0, abs_tol=invariance_tolerance, rel_tol=0.0
-    )
+    # Both expressions are the same A x D x G x P contrast up to sign.
+    if not isclose(rho_gap, -iota_gap, abs_tol=1e-12, rel_tol=0.0):
+        raise RuntimeError("internal contrast identity failed: rho and iota invariance gaps must be exact opposites")
+    four_way = rho_gap
+    separability_pass = isclose(four_way, 0.0, abs_tol=invariance_tolerance, rel_tol=0.0)
     assumptions_pass = assumptions.all_pass
     consumer_identified = assumptions_pass and separability_pass
 
@@ -246,6 +253,7 @@ def identify_crossed_design(
         iota_increment_antagonist_present=iota_g1,
         rho_invariance_gap=rho_gap,
         iota_increment_invariance_gap=iota_gap,
+        four_way_coupling=four_way,
         assumptions_pass=assumptions_pass,
         separability_pass=separability_pass,
         consumer_contrasts_identified=consumer_identified,
