@@ -1,109 +1,108 @@
-# Ecology Concepts & Synthesis submission checklist — final pre-metadata state
+# Ecology Concepts & Synthesis submission checklist — identification-design canonical candidate
 
-This checklist tracks only the **current submission gates**. Historical workflow/source chronology remains in audit files and Git history.
+This checklist tracks the current submission gates after the identification-design rewrite. Historical theorem-led sources remain in Git history and repository archival paths but no longer define the intended submission narrative.
 
-## 1. Scientific freeze — PASS
+## 1. Scientific core — PASS
 
-- [x] Canonical scientific manuscript: `manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md`
-- [x] Canonical title: **When are floral attraction and defence complementary? A one-sided mechanistic bound and cross-system patterns**
-- [x] Part I → Part II logic remains **Mechanism → Pattern**, not theory → validation
-- [x] `W_AD = rho - iota - kappa` remains bookkeeping rather than the novelty
-- [x] One-sided theorem remains `kappa >= 0` and `W_AD > 0 => rho > iota`
-- [x] Selectivity window remains necessary, not sufficient
-- [x] Frozen values unchanged: 2,592 evaluations; 77.2% window precision; 56 records / 25 clusters; route counts 5 / 8 / 18 / 10; same-system 14; sign/context switch 17; context-only 7 outside route N
-- [x] Leal and Sasidharan results and limitations remain unchanged
-- [x] Direct total `A × D` evidence remains sparse/sign-unresolved at the strict total-outcome level
-- [x] Direct joint-cost curvature remains **unidentified, not zero**
-- [x] 2 × 2 allocation falsification gate remains distinct from full `A × D` calibration
-- [x] Broad Pattern evidence search remains closed
+- [x] Canonical submission manuscript: `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`
+- [x] Canonical title: **From floral trait interactions to mechanism identification: a crossed-intervention framework for attraction and defence**
+- [x] Primary estimand is the measurable discrete interaction `Delta_AD = W11 - W10 - W01 + W00`
+- [x] Total trait interaction is explicitly separated from mechanism allocation
+- [x] Identification design crosses `A × D × antagonist × pollinator` in 16 cells
+- [x] Selective antagonist and pollinator intervention assumptions are explicit
+- [x] Pollinator-absent `A×D` baseline (`m0_delta`) is measured/corrected rather than assumed zero
+- [x] The rho- and iota-invariance diagnostics are recognized as one `A×D×G×P` four-way contrast up to sign
+- [x] A non-zero four-way contrast is treated as evidence against the simple separable-channel representation
+- [x] The residual joint channel is retained as unallocated `U_delta`; it is not defined as `kappa`
+- [x] `kappa` requires an independent `A×D` allocation/construction-cost assay
+- [x] The simple sign identity is diagnostic after measurement, not the headline theorem or novelty claim
+- [x] Continuous mixed-partial theory is retained only as a small-contrast/theoretical limit
 
-## 2. Reproducibility — PASS
+## 2. Existing-data stress tests — PASS
 
-- [x] Normal CI passes on the Ecology packaging line
-- [x] `submission-scope` passes
-- [x] Current theory-literature boundary workflow reproduces the canonical 2,592-evaluation theory state
-- [x] Figure 2 regenerates from the frozen finite-grid analysis and is diff-checked
-- [x] Figure 3 regenerates from the saturated mechanism-pattern ledgers and preserves 56 records / 25 clusters / 14 same-system / 17 switching clusters
-- [x] Figure 4 uses the frozen quantitative Leal/Sasidharan values and identification boundary
-- [x] Figure 5 is the promoted 14-cluster same-system route matrix
-- [x] Appendix Figures S1–S3 retain reproducible builders and committed canonical sources
-- [x] Canonical supplementary Tables S1–S6 remain reproducible machine-readable products
-- [x] Five submission-ready EPS files (`Fig1.eps`–`Fig5.eps`) are generated and validated
-- [x] Final manual figure QA found no clipping, overflow, broken glyphs, or missing content
+- [x] *Impatiens capensis* Dryad retrofit reaches observational `A×D` plus randomized interaction-treatment modification, but not rho/iota/kappa identification
+- [x] All eight targeted Impatiens HC3 intervals cross zero
+- [x] Kessler et al. 2008 is the closest current trait-factorial anchor
+- [x] Published aggregate Kessler 2008 female-outcrossing constraints imply a positive discrete interaction of approximately `+0.19` to `+0.25`; logit interaction OR approximately `2.77` to `4.71`
+- [x] Kessler 2008 formal interaction uncertainty remains unrecovered and systemic nicotine remains a D-scope caveat
+- [x] Egan et al. 2021 is the complementary consumer-factorial anchor, not a full manipulated `A×D` design
+- [x] Kessler et al. 2015 remains a factorial-phenotype near miss because the second axis is reward rather than independently justified antagonist-reducing D
+- [x] *Pedicularis rex* remains a selective-system anchor rather than a complete identification design
+- [x] Sixteen-system high-information coverage matrix is explicitly a screened-set audit, not literature prevalence
+- [x] Independent joint-cost assay in screened set = 0
+- [x] Full rho/iota/kappa identification in screened set = 0
 
-## 3. Ecology Main Document — GENERATED / STRUCTURAL PASS
+## 3. Demoted / preserved analyses — PASS
 
-The review-package builder produces `MANUSCRIPT_ECOLOGY_SUBMISSION.docx` from the frozen scientific source without changing scientific claims.
+- [x] 2,592 finite evaluations are technical implementation/model-family sensitivity only
+- [x] 77.2% window precision is absent from Main and retained only in Supplement
+- [x] Historical 56-route / 25-cluster mechanism ledger is preserved for provenance/background, not presented as validation of the algebra
+- [x] Leal and Sasidharan quantitative modules remain reproducible in the repository but are not part of the new Main argument
+- [x] Historical theorem-led manuscript remains in the repository and is not deleted
 
-- [x] Title page contains journal name `Ecology`
-- [x] Title page contains manuscript type `Concepts & Synthesis`
-- [x] Title page contains title, author/affiliation placeholders, corresponding-author placeholder, concise review-stage Open Research statement, and six alphabetized key words/phrases
-- [x] Abstract begins after the title page
-- [x] Backmatter is ordered for Ecology: Acknowledgments → Author Contributions → Conflict of Interest Statement → References
-- [x] Tables 1–4 are in the Main Document and each begins on a new page
-- [x] No blank page remains between References and Table 1
-- [x] Main Tables 1–4 are compact journal-facing views; exhaustive parameter/ledger/audit rows are not duplicated in the Main Document
-- [x] Figure captions are grouped after the tables
-- [x] Figures 1–5 are embedded and each begins on a separate page
-- [x] Final Main figure hierarchy is result-first: mechanism → theory regime → cross-system Pattern → quantitative evidence → same-system recurrence
-- [x] Letter size, 1-inch margins, 12-pt Times New Roman, double-spaced prose
-- [x] Table bodies use compact 10-pt/single-spaced formatting
-- [x] Page numbers are present from the title-page section onward
-- [x] DOCX OOXML contains continuous line numbering for the Abstract-through-References section, with explicit suppression outside that region for renderer parity
-- [x] Equations remain native Word/Pandoc math rather than raster equation images
-- [x] Rendered Main Document contains four Word tables and five embedded main figures
-- [x] Current final pre-metadata review render = **48 pages**
-- [x] 48 pages is within the stated 31–50-page Concepts & Synthesis range
-- [x] Required two-part >30-page justification is synchronized to the five-figure 48-page package in the Ecology cover letter
-- [ ] Re-render and re-count after final author-controlled title-page/backmatter fields are inserted; final file must remain ≤50 pages
+## 4. Main Document — GENERATED / STRUCTURAL PASS
 
-## 4. Ecology Supporting Information — GENERATED / STRUCTURAL PASS
+The canonical review-package builder now promotes the validated identification-design source to standard Ecology output filenames.
 
-- [x] Reader-facing Supporting Information is a single `Appendix S1.pdf`
-- [x] Appendix begins with author placeholder, manuscript title, and journal name
-- [x] Main-document callouts are converted to `Appendix S1: Figure S#` form
-- [x] Appendix contains **Figures S1–S3** only
-- [x] Figure S1 = analytic vs finite-difference implementation check
-- [x] Figure S2 = detailed scenario × response-shape sign maps
-- [x] Figure S3 = quantitative robustness/sensitivity
-- [x] Former same-system supplementary matrix is promoted to Main Figure 5 and not duplicated in Appendix S1
-- [x] Appendix contains its own References section for literature cited inside the Appendix
-- [x] Appendix has no spreadsheet attachment layer and no line numbering
-- [x] Current Appendix render = **5 pages**
+- [x] Standard output remains `MANUSCRIPT_ECOLOGY_SUBMISSION.docx`
+- [x] Journal = Ecology; manuscript type = Concepts & Synthesis
+- [x] Author/affiliation, corresponding-author, and ORCID fields remain author-controlled placeholders
+- [x] Review-stage Open Research statement is present
+- [x] Acknowledgments, Author Contributions, Funding, and Conflict of Interest remain explicit author-controlled fields
+- [x] Five identification-design Main figures are embedded
+- [x] Figure 1 = total interaction versus mechanism allocation
+- [x] Figure 2 = 16-cell crossed design and separability
+- [x] Figure 3 = independent joint-cost assay and hidden-channel diagnostic
+- [x] Figure 4 = Kessler 2008 / Egan 2021 / Impatiens / coverage comparison
+- [x] Figure 5 = executable experimental roadmap
+- [x] Main contains no `Theorem 1` headline
+- [x] Main contains no `77.2%` headline result
+- [x] Full-page candidate visual QA found no clipping, overlap, broken glyphs, or blank figure-leading page
+- [x] Validated pre-metadata candidate render = **27 pages**
+- [x] 27 pages is within the standard 30-page Concepts & Synthesis target; no >30-page justification is required
+- [ ] Re-render and re-count after final author-controlled metadata is inserted
 
-## 5. Open Research data/code package — REVIEW READY
+## 5. Supporting Information — GENERATED / STRUCTURAL PASS
 
-Generated deposition names:
+- [x] Reader-facing Supporting Information remains a single Appendix S1
+- [x] Canonical identification Supplement source: `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`
+- [x] Technical 2,592-grid material and 77.2% design-specific precision are Supplement only
+- [x] Kessler 2008 aggregate reconstruction / sign sensitivity is documented
+- [x] Impatiens retrofit details and identification boundaries are documented
+- [x] Sixteen-system identification coverage is documented
+- [x] Continuous-limit implementation and response-shape sensitivity figures are retained as supporting figures
+- [x] Validated pre-metadata Supplement render = **11 pages**
+- [x] Supplement has no line numbering
 
-- [x] `model_parameters_and_scaling.csv`
-- [x] `finite_grid_local_cases.csv`
-- [x] `mechanism_pattern_route_ledger.csv`
-- [x] `conditionality_context_records.csv`
-- [x] `direct_identification_audits.csv`
-- [x] `pattern_expansion_screening.csv`
-- [x] `OPEN_RESEARCH_DATA_MANIFEST.md` maps each deposition file to its canonical repository source
-- [x] Public GitHub provides review-stage access to novel code and versioned analysis products
-- [ ] At acceptance, freeze the accepted exact data/code version in a permanent versioned archive and insert the archival citation/DOI required by ESA Open Research policy
+## 6. Open Research package — REVIEW READY
 
-A permanent archive DOI is **not an initial-submission blocker** for this review package.
+Legacy machine-readable provenance products are retained, and the canonical package additionally exposes identification-era outputs:
 
-## 6. Cover letter — CONTENT PASS / AUTHOR SIGN-OFF PENDING
+- [x] `high_information_identification_coverage.csv`
+- [x] `impatiens_identification_retrofit.json`
+- [x] historical parameter/grid/route/context/direct-audit products retained for reproducibility
+- [x] public GitHub supplies review-stage code and derived-output access
+- [ ] at acceptance, archive the accepted exact data/code version in a permanent versioned repository and insert its citation/DOI
+
+A permanent archive DOI is **not** an initial-submission blocker.
+
+## 7. Cover letter — CONTENT PASS / AUTHOR SIGN-OFF PENDING
 
 - [x] Names Ecology and Concepts & Synthesis
-- [x] States the one-sided mechanistic bound without overclaiming mathematical novelty
-- [x] Explains Mechanism → Pattern / constraint-before-pattern contribution
-- [x] Includes the required >30-page two-part length justification for the 48-page review package
-- [x] Explains that exhaustive tables/ledgers are displaced to Open Research products
+- [x] Uses the identification-design title and contribution
+- [x] Does not sell the elementary inequality as mathematical novelty
+- [x] States current 27-page Main and 11-page Supplement
+- [x] Removes the obsolete >30-page length justification
 - [x] Uses review-stage GitHub / acceptance-stage permanent-archive wording
-- [ ] Corresponding author signs the final letter
-- [ ] All authors confirm the submission/no-simultaneous-consideration statements
+- [ ] corresponding author signs final letter
+- [ ] all authors confirm submission and no simultaneous consideration elsewhere
 
-## 7. Human-controlled fields — ONLY EXTERNAL-SUBMISSION BLOCKER
+## 8. Human-controlled fields — ONLY EXTERNAL-SUBMISSION BLOCKER
 
 Do not infer or auto-fill:
 
 - [ ] final author order and publication names
-- [ ] affiliations / present addresses if applicable
+- [ ] affiliations / present addresses
 - [ ] corresponding author and active email
 - [ ] ORCIDs
 - [ ] final CRediT roles
@@ -111,25 +110,22 @@ Do not infer or auto-fill:
 - [ ] final acknowledgments
 - [ ] final competing-interest statement
 - [ ] repository/software/data licence statement where applicable
-- [ ] reviewer information only to the number/fields requested by the live ScholarOne portal
+- [ ] reviewer information only as requested by the live ScholarOne portal
 - [ ] any justified opposed-reviewer request
 - [ ] all-author approval of the exact submitted version
 - [ ] confirmation that the manuscript is not under consideration elsewhere
 
-The current published Author Guidelines do not justify treating an arbitrary fixed number of suggested reviewers as a manuscript-level blocker; follow the live portal if it requests reviewer entries.
+## 9. Final review-file gate — PENDING HUMAN METADATA
 
-## 8. Final review-file gate — PENDING HUMAN METADATA
+After the author-controlled fields are supplied:
 
-After the human-controlled fields are supplied:
-
-- [ ] rebuild the exact review submission package
-- [ ] confirm Main Document remains ≤50 pages
-- [ ] run normal CI, submission-scope, current theory regeneration, supplementary rebuild, five-EPS export, and Ecology package workflow
-- [ ] visually inspect every page of the final rendered Main Document and Appendix S1
-- [ ] confirm portal title/abstract/authors/declarations/files match the frozen review package
+- [ ] rebuild the exact canonical review package
+- [ ] confirm Main Document remains within the applicable page limit
+- [ ] rerun CI, submission-scope, canonical package build, figure export, and identification regression tests
+- [ ] visually inspect every page of Main and Appendix S1
+- [ ] confirm portal title/abstract/authors/declarations/files match the generated package
 - [ ] obtain all-author approval of that exact version
-- [ ] submit through the authenticated Ecology ScholarOne portal
 
 ## Current decision
 
-**Science: GO / FROZEN. Main and Appendix source/package engineering: PASS. Current review package: Main 48 pages + Appendix S1 5 pages. External submission is blocked only by author-controlled metadata/declarations/sign-off and final post-metadata QA, not by missing science or a pre-submission archive DOI.**
+**Science: GO on the identification-design claim set. Canonical pre-metadata target: Main 27 pages + Appendix S1 11 pages, five identification-design Main figures, with the old finite-grid headline demoted to Supplement. External submission remains blocked only by author-controlled metadata/declarations/sign-off and final post-metadata QA.**
