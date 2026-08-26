@@ -4,7 +4,7 @@
 
 This is an exploratory recovery layer for the canonical identification-design paper. It does **not** change the current Main claim set yet.
 
-The current manuscript makes a sharp binary distinction between a total `A×D` interaction and full channel identification. The next recoverable result is to insert a mathematically explicit middle layer: **partial identification**.
+The current manuscript makes a sharp distinction between a total `A×D` interaction and full channel identification. The recoverable middle layer is **partial identification**: incomplete studies can restrict the feasible channel allocation even when they cannot point-identify every channel.
 
 ## 1. Identified set from the total interaction
 
@@ -14,55 +14,74 @@ The discrete bookkeeping relation is
 Delta_AD W = rho_delta - iota_delta - kappa_delta.
 ```
 
-If only `Delta_AD W = delta` is observed, the channel allocation belongs to the set
+If only `Delta_AD W = delta` is observed, the channel allocation belongs to
 
 ```text
 I(delta) = {(rho, iota, kappa): rho - iota - kappa = delta}.
 ```
 
-This is a two-dimensional plane in three-dimensional channel space. An arbitrarily large sample of the same total four-cell `A×D` surface cannot collapse that plane to a point. This makes the manuscript's structural non-identifiability geometrically explicit.
+This is a two-dimensional plane in three-dimensional channel space. An arbitrarily large sample of the same total four-cell `A×D` surface cannot collapse that plane to a point. The obstacle is therefore structural information, not sampling precision.
 
-The implementation in `trait_architecture/partial_identification.py` intersects this plane with caller-declared channel bounds and returns the exact coordinate projections of the feasible set.
+The implementation in `trait_architecture/partial_identification.py` intersects this plane with caller-declared channel bounds and returns exact coordinate projections of the feasible set.
 
-## 2. The old one-sided inequality becomes a partial-identification bound
+## 2. The historical one-sided result is a biotic-balance bound
 
-Suppose the oriented channels are constrained to be nonnegative:
-
-```text
-rho_delta >= 0
-iota_delta >= 0
-kappa_delta >= 0.
-```
-
-For a positive observed total interaction `delta > 0`, the identified set implies
+A sharper recovery does **not** require assuming that rho and iota themselves are nonnegative. From
 
 ```text
-rho_delta >= delta.
+rho_delta - iota_delta = delta + kappa_delta,
 ```
 
-But `rho_delta`, `iota_delta`, and `kappa_delta` are still not point identified and rho has no finite upper bound without additional information.
+any bound on the joint-cost channel maps one-to-one to a bound on the biotic balance `rho_delta - iota_delta`.
 
-This is a stronger interpretation of the historical one-sided result: it is not a prediction theorem about nature; it is a **sharp bound on the channel allocation under explicit sign restrictions**.
+In particular, if
+
+```text
+kappa_delta >= 0,
+```
+
+then
+
+```text
+rho_delta - iota_delta >= delta.
+```
+
+For a positive observed total interaction,
+
+```text
+delta > 0,
+```
+
+this forces
+
+```text
+rho_delta - iota_delta >= delta > 0.
+```
+
+Thus antagonist relief must exceed pollinator interference by at least the observed total interaction on the declared scale, even though rho and iota can remain individually unbounded. This is the clean partial-identification interpretation of the historical one-sided inequality. It is a **sharp bound on a channel contrast under an explicit kappa restriction**, not a standalone prediction theorem about nature.
+
+Additional sign restrictions can sharpen individual coordinates. For example, if rho, iota and kappa are all constrained nonnegative and `delta > 0`, then `rho_delta >= delta`; that stronger coordinate claim requires the extra rho/iota sign assumptions and should not be conflated with the historical kappa-only result.
 
 ## 3. Every additional measurement shrinks the identified set
 
-Examples:
+The information sequence is:
 
 1. **Total interaction only**
-   - identified set: unbounded plane;
-   - no channel sign is generally identified.
+   - identified set: an unbounded plane;
+   - individual channels and the biotic balance are generally unbounded.
 
-2. **Total interaction + sign restrictions**
-   - converts some claims into one-sided bounds;
-   - still does not allocate the interaction.
+2. **Total interaction + a kappa sign/bound**
+   - directly bounds `rho_delta - iota_delta`;
+   - `kappa_delta >= 0` and positive `delta` force a positive biotic balance;
+   - rho and iota can still be individually unbounded.
 
 3. **Total interaction + bounded independent cost assay**
-   - restricts the feasible rho/iota balance;
-   - does not require pretending the cost is known exactly.
+   - narrows the biotic-balance interval exactly by the same amount;
+   - does not require pretending the cost is known without uncertainty.
 
-4. **Total interaction + selective estimate/bound for one consumer channel**
-   - shrinks the other channel's feasible interval;
-   - can sign-identify a missing channel before full point identification.
+4. **Total interaction + a selective estimate/bound for one consumer channel**
+   - shrinks the other consumer channel and/or kappa projection;
+   - can sign-identify a missing contrast before full point identification.
 
 5. **Crossed A×D×G×P + M0 handling + separability**
    - point-identifies rho and iota under the declared causal gates;
@@ -71,7 +90,7 @@ Examples:
 6. **Independent A×D joint-cost assay on a commensurate scale**
    - closes the allocation if the assay is validated as the same remaining channel.
 
-Thus the relevant scientific object is an **identification frontier**, not a binary identified/unidentified label.
+The scientific object is therefore an **identification frontier**, not a binary identified/unidentified label.
 
 ## 4. What this adds to the 16-system audit
 
@@ -83,7 +102,7 @@ The current high-information matrix already contains orthogonal fragments of thi
 - Sun & Huang 2015 supplies a selective physical-defence system anchor but no A manipulation.
 - across the 16-system screened set, `M0_delta` is not identified and an independent joint-cost assay is absent.
 
-The stronger synthesis is therefore not only
+The stronger synthesis is not only
 
 ```text
 full identification = 0.
@@ -92,11 +111,11 @@ full identification = 0.
 It is:
 
 ```text
-existing studies occupy different, complementary faces of the identification set,
+existing studies occupy different, complementary faces of the identification problem,
 but none closes all dimensions of the allocation problem.
 ```
 
-That statement turns the coverage matrix into a **design-fragmentation pattern** rather than a list of near misses.
+That turns the coverage matrix into a **design-fragmentation pattern** rather than a list of near misses.
 
 ## 5. Minimum-augmentation question
 
@@ -113,30 +132,31 @@ Examples:
 - Egan 2021: experimentally cross biologically valid floral A and D on the existing consumer-factorial backbone.
 - Pedicularis: add an independent attraction manipulation to the selective-D system, then construct true consumer toggles if biologically feasible.
 
-A future audit can encode these as design components rather than assign an arbitrary single scalar score.
+These should remain design-component statements rather than an arbitrary scalar score.
 
 ## 6. Relation to broader causal-inference work
 
-This extension should be positioned carefully rather than claimed as the invention of causal identification.
+This extension should be positioned carefully rather than claimed as the invention of causal or partial identification.
 
 Relevant adjacent work includes:
 
-- Vansteelandt & Daniel 2017, *Epidemiology*, doi:10.1097/EDE.0000000000000596 — interventional effects for multiple mediators and weaker identification assumptions than natural effects;
+- Vansteelandt & Daniel 2017, *Epidemiology*, doi:10.1097/EDE.0000000000000596 — interventional effects for multiple mediators;
 - Egami & Imai 2019, *JASA*, doi:10.1080/01621459.2018.1476246 — causal interaction estimands in factorial experiments;
-- Correia, Dee & Ferraro 2025, *Biological Reviews*, doi:10.1111/brv.70011 — explicit design and identification requirements for causal mediation in ecology.
+- Correia, Dee & Ferraro 2025, *Biological Reviews*, doi:10.1111/brv.70011 — design and identification requirements for causal mediation in ecology.
 
-The defensible paper-specific novelty would be narrower:
+The defensible paper-specific contribution is narrower:
 
-> an interaction-specific ecological identification architecture that links a measurable trait interaction, multiple biotic channels, crossed consumer interventions, an internal four-way model-structure diagnostic, a non-zero pollinator-absent baseline, an independent joint-cost assay, and a cross-system design-coverage frontier.
+> an interaction-specific ecological identification architecture that links a measurable trait interaction, partial bounds on mechanistic contrasts, multiple biotic channels, crossed consumer interventions, an internal four-way model-structure diagnostic, a non-zero pollinator-absent baseline, an independent joint-cost assay, and a cross-system design-coverage frontier.
 
 ## 7. Recommended manuscript recovery
 
-Highest-value addition, if validation remains clean:
+Highest-value Main-text addition, if packaging remains clean:
 
-1. add a short Main subsection defining `I(delta)` and the identification frontier;
-2. reinterpret the historical sign result as a partial-identification bound;
-3. turn the 16-system coverage result from `full identification = 0` into a design-fragmentation / minimum-augmentation result;
-4. keep numerical study-specific bounds out of Main unless source-derived uncertainty or biologically justified bounds are available;
-5. place detailed identified-set algebra and sensitivity examples in Appendix S1.
+1. define `I(delta)` in one short paragraph after structural non-identifiability;
+2. recover the historical result as `kappa_delta >= 0 => rho_delta - iota_delta >= Delta_AD W`;
+3. describe existing studies as occupying complementary faces of an identification frontier;
+4. end with minimum augmentation: which next measurement shrinks the identified set most;
+5. keep numerical study-specific channel bounds out of Main unless they are source-derived or biologically justified;
+6. place projection algebra and worked sensitivity examples in Appendix S1.
 
-This would deepen the conclusion without resuming broad literature accumulation or claiming channel values that the current evidence cannot support.
+This deepens the conclusion without resuming broad literature accumulation or inventing channel values that the current evidence cannot support.
