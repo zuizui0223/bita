@@ -18,12 +18,19 @@ def test_candidate_main_is_identification_led() -> None:
     assert "Theorem 1" not in text
 
 
-def test_candidate_main_has_five_figure_pages() -> None:
+def test_candidate_main_has_five_figure_pages_without_blank_leader() -> None:
     text = build_main_source()
     for idx in range(1, 6):
         assert f"FIGURE_{idx}_IDENTIFICATION_DESIGN.svg" in text
         assert f"**Figure {idx}." in text
-    assert text.count("[[ECOLOGY_PAGE_BREAK]]") == 5
+    # The References section break already starts Figure 1 on a new page.
+    # Only Figures 2–5 need explicit page breaks; requiring five creates an
+    # otherwise blank page between References and Figure 1.
+    assert text.count("[[ECOLOGY_PAGE_BREAK]]") == 4
+    ref_break = text.index("[[ECOLOGY_SECTION_BREAK_AFTER_REFERENCES]]")
+    fig1 = text.index("**Figure 1.")
+    assert ref_break < fig1
+    assert "[[ECOLOGY_PAGE_BREAK]]" not in text[ref_break:fig1]
 
 
 def test_candidate_main_has_focused_references() -> None:
