@@ -26,18 +26,18 @@ kappa_assay_delta            independent A×D cost-curvature assay
 
 ## Anchor 1 — Soper Gorden & Adler 2018, Impatiens capensis
 
-Repository provenance: `IMPATIENS_2018_DIRECT_AXD_REAUDIT_V1.md`.
+Repository provenance: `IMPATIENS_2018_DIRECT_AXD_REAUDIT_V1.md` and `IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.md`.
 
-The Dryad-backed rerun is the strongest current total-interaction anchor because the same individual-plant panel jointly measures:
+The Dryad-backed panel is the strongest current total-interaction anchor because the same individual plants jointly measure:
 
 ```text
 A = early-season flower redness
 D = early-season floral condensed tannins
 ```
 
-and fits `A_z:D_z` on two reproductive components.
+### Previously recovered observational total interaction
 
-Current reproduced results:
+The simpler treatment-adjusted rerun gave:
 
 ```text
 CH fruits per plant per day
@@ -51,16 +51,43 @@ A×D slope = +0.1040
 HC3 95% CI = [-0.1005, +0.3086]
 ```
 
-Thus even the total interaction is sign-unresolved and outcome-component dependent. More importantly for the new framework, these are observational trait interactions, not a two-level causal A×D manipulation, and the study lacks crossed selective antagonist/pollinator interventions.
+Both were sign-unresolved.
 
-Recoverable now:
+### Identification retrofit using the randomized agent treatments
+
+The source experiment also randomized supplemental nectar robbing, florivory and pollination. These treatments **simulate increases in interaction intensity; they are not consumer exclusions**. We therefore did not relabel them as the G/P toggles required for rho or iota.
+
+A registered hierarchical HC3 model was fit to each reproductive component. It retains the full randomized Robbing × Florivory × Pollination factorial, A/D main effects, all A- and D-by-treatment lower-order terms required for hierarchy, A×D, the three targeted `A×D×treatment` modifiers, and pre-treatment flowering date.
+
+For CH fruits per plant per day (`n = 170`, residual df 149; randomized-cell n 19–24):
 
 ```text
-treatment-adjusted observational total A×D terms
-same-panel marginal consumer routes
+A×D                    -0.1628   95% CI [-0.3675, +0.0419]
+A×D×Robbing            -0.0434   95% CI [-0.4194, +0.3325]
+A×D×Florivory          -0.3078   95% CI [-0.6879, +0.0723]
+A×D×Pollination        +0.0748   95% CI [-0.3750, +0.5246]
 ```
 
-Not recoverable:
+For seeds per CH fruit (`n = 85`, residual df 64; randomized-cell n 6–14):
+
+```text
+A×D                    -0.0936   95% CI [-0.6643, +0.4771]
+A×D×Robbing            -0.2539   95% CI [-1.6896, +1.1818]
+A×D×Florivory          -0.3551   95% CI [-1.6492, +0.9390]
+A×D×Pollination        -0.1696   95% CI [-0.9840, +0.6448]
+```
+
+Every targeted interval includes zero. Thus the stricter hierarchical retrofit does **not** reveal a resolved total A×D association or a resolved randomized-agent modification of that association.
+
+This is still informative. The public dataset can reach:
+
+```text
+observational A×D on linked reproductive components
++
+randomized-agent effect modification of that observational A×D association
+```
+
+but cannot reach:
 
 ```text
 rho_delta
@@ -70,7 +97,7 @@ iota_total_delta
 independent kappa_delta
 ```
 
-This study therefore demonstrates the distinction between **estimating a total interaction** and **identifying its causal channels**.
+because A and D are observational traits and the randomized agent treatments are intensity additions rather than selective present/excluded channel interventions. The retrofit therefore demonstrates the distinction between **total-interaction estimation**, **randomized context modification**, and **channel identification** using an actual public dataset.
 
 ## Anchor 2 — Kessler et al. 2015, Nicotiana attenuata
 
@@ -125,22 +152,20 @@ nectar-robber visitation:         no detected treatment effect (P = 0.951)
 seed predation:                   strong treatment effect (P < 0.0001)
 ```
 
-The system has no independent attraction manipulation, so it does not estimate `rho_delta`. Its value for the new framework is different: it shows a plausible **system-selection architecture** in which a physical barrier has a strong effect on one antagonist mode without a detected pollinator response.
-
-That makes it a candidate template for building selective interventions by body size, attack route, or behavioural access rather than using nonselective bags or broad insecticides.
+The system has no independent attraction manipulation, so it does not estimate `rho_delta`. Its value is as a **system-selection anchor**: a physical barrier has a strong effect on one antagonist mode without a detected pollinator response, suggesting the sort of body-size/access-route selectivity needed for a future crossed design.
 
 ## Cross-anchor result
 
-The four anchors expose four distinct failure modes:
+The anchors expose distinct failure modes:
 
 ```text
-1. total A×D can be estimated observationally, but channels are not identified;
+1. total A×D and randomized context modification are estimable, but channels are not identified;
 2. a 2×2 floral factorial exists, but the second axis is not D;
 3. a near-direct A/D phenotype exists, but D scope and uncertainty remain unresolved;
 4. a selective D mechanism exists, but there is no A manipulation.
 ```
 
-None of the four currently identifies the full sequence
+None currently identifies the full sequence
 
 ```text
 Delta_AD W_full + rho_delta + iota_total_delta + independent kappa_delta.
