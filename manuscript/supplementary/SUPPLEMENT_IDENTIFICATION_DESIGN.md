@@ -20,6 +20,44 @@ therefore remains a useful local limit, but it is not the primary estimand for t
 
 The existing derivative-agreement analysis evaluates the analytic mixed partial against a finite-difference implementation across 2,592 declared sensitivity evaluations and four response-shape variants. This is retained as a software and model-family sensitivity check. It is not empirical validation, a prevalence estimate, or evidence that the chosen finite grid represents the distribution of ecological systems in nature. The previously reported 77.2% selectivity-window precision is likewise a property of that finite design and is not used as a Main-text biological result.
 
+### S1.1 Identified-set algebra and projection bounds
+
+For a measured total interaction \(\Delta_{AD}W=\delta\), define
+
+\[
+\mathcal I(\delta)=\{(\rho,\iota,\kappa):\rho-\iota-\kappa=\delta\}.
+\]
+
+Suppose external knowledge or additional measurements restrict the coordinates to \(\rho\in[r_L,r_U]\), \(\iota\in[i_L,i_U]\), and \(\kappa\in[k_L,k_U]\). Intersecting the equality with these bounds gives the exact coordinate projections
+
+\[
+\rho\in[\delta+i_L+k_L,\;\delta+i_U+k_U]\cap[r_L,r_U],
+\]
+
+\[
+\iota\in[r_L-k_U-\delta,\;r_U-k_L-\delta]\cap[i_L,i_U],
+\]
+
+and
+
+\[
+\kappa\in[r_L-i_U-\delta,\;r_U-i_L-\delta]\cap[k_L,k_U].
+\]
+
+The biotic balance has the especially simple projection
+
+\[
+\rho-\iota=\delta+\kappa,
+\]
+
+so any feasible cost interval \([k_L,k_U]\) maps one-to-one to
+
+\[
+\rho-\iota\in[\delta+k_L,\;\delta+k_U].
+\]
+
+Hence \(\kappa\ge0\) implies \(\rho-\iota\ge\delta\) without requiring separate sign restrictions on \(\rho\) or \(\iota\). These are structural, assumption-indexed identified sets; sampling uncertainty in \(\delta\) or in the auxiliary bounds must be propagated separately in empirical applications. The accompanying implementation is `trait_architecture/partial_identification.py`.
+
 Relevant existing sources:
 
 ```text
