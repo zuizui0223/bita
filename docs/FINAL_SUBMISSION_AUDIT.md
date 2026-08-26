@@ -1,164 +1,144 @@
-# Final submission audit — canonical paperization state
+# Final submission audit — identification-design canonical state
 
 ## Audit purpose
 
-This audit records the **current main-line scientific and submission state** for the Mechanism → Pattern paper. It is a live audit, not a historical PR receipt. Historical branch/PR chronology remains available in Git history and source-specific provenance files.
+This is the live scientific and submission audit for the canonical paper:
 
-The canonical manuscript is:
+> **From floral trait interactions to mechanism identification: a crossed-intervention framework for attraction and defence**
 
-> **When are floral attraction and defence complementary? A one-sided mechanistic bound and cross-system patterns**
+Primary target: **Ecology — Concepts & Synthesis**.
 
-The governing scientific claim is a **one-sided mechanistic theorem plus a recurrent but context-dependent empirical Pattern**.
+The governing scientific claim is not a one-sided theorem. It is an **identification framework** joined to a bounded Mechanism → Pattern synthesis.
 
-Primary submission target after journal-fit re-evaluation: **Ecology — Concepts & Synthesis**, with Oikos Forum and Theoretical Ecology retained as ordered fallbacks. This target change does not alter the frozen scientific claims.
+## 1. Scientific spine
 
-## Integrated scientific spine
-
-For one declared floral attraction trait `A`, one declared flower-specific antagonist-reducing trait `D`, and one declared outcome scale `W`, the local `A × D` mixed partial is interpreted only after explicit channel definitions and an orientation gate.
-
-The signed bookkeeping identity is
+For two experimentally meaningful levels of attraction (`A`) and defence (`D`), the primary estimand is
 
 ```text
-W_AD = M_AD - G_AD - C_AD
+Delta_AD W = W11 - W10 - W01 + W00
 ```
 
-and, after orientation,
+A total attraction-by-defence interaction can be measured while the ecological channels generating it remain unidentified.
+
+The proposed general experiment crosses:
 
 ```text
-W_AD = rho - iota - kappa
+A × D × antagonist access × pollinator access
 ```
 
-where `rho` is antagonist relief, `iota` is pollinator/mutualist interference, and `kappa` is direct joint-cost curvature. The identity is bookkeeping rather than the novelty.
+for 16 cells. Channel interpretation requires selective consumer interventions and comparable A/D coordinates across all cells.
 
-The strongest result is one-sided:
+The design also includes its own structural check: pollinator-dependence of the antagonist-relief contrast and antagonist-dependence of the pollinator-increment contrast are the same `A×D×G×P` four-way interaction up to sign. A non-zero four-way contrast therefore rejects the simple separable-channel representation.
+
+Pollinator-independent reproduction is measured or justified through `m0_delta`. The residual
 
 ```text
-W_AD > 0  =>  rho > iota     when kappa >= 0
+U_delta = rho_delta - iota_delta - Delta_AD W
 ```
 
-Thus complementarity cannot occur outside the selectivity window under non-negative joint-cost curvature. The converse is false: across the declared 2,592 evaluations, the forward implication has zero counterexamples, while window precision is 77.2% and approximately 23% of in-window evaluations remain substitutable. At `kappa = 0`, the window becomes the exact sign criterion.
+remains unallocated. It is not defined as kappa. A joint construction/allocation cost requires a separate A×D assay under standardized or suppressed biotic channels.
 
-Outside-window complementarity in the declared family requires negative joint-cost curvature and, for an actual violation, a value sufficiently negative relative to `rho - iota`. Direct joint-cost curvature has no strict empirical estimate in the admitted evidence layer, so `kappa` remains **unidentified**, not zero.
+The algebra is used only after measurement as a consistency/sign diagnostic for any still-unallocated joint channel.
 
-## Scientific completion gates
+## 2. Mechanism → Pattern bridge
 
-All registered scientific gates are closed for the present paper:
+The retained source-adjudicated synthesis contains:
 
 ```text
-Gates A-H:                    PASS
-original completion gate:     PASS
-Pattern expansion gate:       PASS / SATURATED
-one-sided theorem regression: PASS
-broad evidence searching:     NOT A DEFAULT BLOCKER
+56 route records
+25 independent biological clusters
+A -> pollination: 5
+A -> antagonism:  8
+D -> antagonism: 18
+D -> pollination: 10
+same-system:      14
+context switches: 17
 ```
 
-The canonical Pattern architecture remains:
+These categories overlap. They establish that the constituent ecological channels recur across systems; they do not estimate natural prevalence, `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`.
+
+The stricter identification audit contains 16 high-information systems. Current fixed result:
 
 ```text
-56 source-adjudicated route records
-25 independent biological study clusters
-A -> pollination:       5 clusters
-A -> antagonism:        8
-D -> antagonism:       18
-D -> pollination:      10
-same-system:           14 clusters
-context/sign switch:   17 clusters
-context-only programs:  7, excluded from route-ledger N
-direct A x D:           1 strict cluster, sign unresolved
-direct joint cost:      0 strict estimates; kappa unidentified
+independent joint-cost assay:       0
+full rho/iota/kappa identification: 0
 ```
 
-These counts document evidence capacity and recurrence, not prevalence in nature.
+Thus the integrated cross-system conclusion is:
 
-### Direct interaction and same-system evidence
+> **The constituent channels recur, but their joint allocation remains unidentified.**
 
-The direct `A × D` search is saturated with one strict total reproductive-outcome cluster, *Impatiens capensis*, whose reproductive-component interactions remain sign-unresolved. Same-system recurrence is kept inferentially separate from a direct mixed partial.
+## 3. Existing-data anchors
 
-A crossed floral-trait programme additionally shows consumer-context-dependent channel interaction signs, but those channel-specific contrasts are not promoted to a universal total `W_AD`.
+- **Kessler et al. 2008:** closest trait-factorial anchor; positive discrete reproductive interaction across published aggregate constraints, with unresolved formal uncertainty and systemic-nicotine scope caveat.
+- **Egan et al. 2021:** complementary consumer-factorial anchor; no independently manipulated floral A×D pair.
+- **Impatiens capensis:** observational A×D plus randomized interaction-treatment modification; all eight target HC3 intervals cross zero; context modification is estimable, channel identification is not.
+- **Pedicularis rex:** demonstrates a plausible selective-access physical-defence system, but lacks an independent attraction manipulation.
 
-### Quantitative module 1 — floral larceny
+## 4. Historical analyses retained but demoted
 
-The Leal et al. (2025) reanalysis retains the canonical pooled log response ratios:
+The 2,592 finite evaluations and 77.2% selectivity-window precision remain in Appendix S1 as implementation/model-family sensitivity only. They are not empirical validation or natural-regime frequencies.
 
-```text
-female reproductive success  -0.210  48 independent clusters
-nectar standing crop          -0.483  28
-legitimate visitation         -0.291  22
-```
+Leal and Sasidharan quantitative modules remain reproducible for provenance and possible companion work, but are not Main identification evidence.
 
-For female fitness, 35/48 clusters are negative and the 95% prediction interval spans approximately `-1.13` to `+0.71`. Six declared moderators explain only 0–8% of the heterogeneity. The supported interpretation is therefore an antagonist-pressure gate that is open on average but not universal.
+The historical theorem-led manuscript remains versioned and is not the canonical submission source.
 
-The apparent nectar → visitation → female-fitness sequence remains **constituent-path evidence** rather than an end-to-end mechanism: only five clusters measured all three outcomes, two showed all three negative, and the shared nectar-visitation subset has `r = -0.17`.
-
-### Quantitative module 2 — floral volatiles
-
-The Sasidharan et al. (2023) reconstruction retains the conservative 32-study-component topology. Physiological detection is 84/103 for florivore units and 151/220 for pollinator units; the assembled risk difference is `+0.129` and remains positive in 32/32 leave-one-study-component-out refits. Only three components contain both physiological roles and all three paired differences are zero, so the assembled contrast is not treated as a causal within-study role effect.
-
-### Secondary contextual syntheses
-
-Haas-Desmarais et al. (2026), Caruso et al. (2019), and Junker & Blüthgen (2010) remain secondary contextual/cross-synthesis modules. Their different scales and source-access states are preserved rather than pooled with the two reproduced modules or added to route-ledger N.
-
-### Conditionality and saturation
-
-The saturated Pattern records guarded defence, spatial/temporal/attack-mode filtering, consumer identity and functional-role dependence, visitor routing between legitimate pollination and robbery, lifecycle-stage role reversal, response-stage dependence, population/site dependence, and trait/compound-class dependence.
-
-The registered expansion stopping rule was met after a new lifecycle-role class reset the counter and two subsequent distinct targeted batches produced no new admissible Pattern class. A parallel quantitative search produced no additional synthesis with a distinct theory-facing axis.
-
-## Reproductive assurance boundary
-
-Reproductive assurance `R` remains an auxiliary background moderator in the implemented corollary. Changing `R` from `0.0` to `0.5` changes the local sign in **16 of 1,296** otherwise matched scenario × response-shape evaluations.
-
-`R` is not a third focal trait, and the manuscript must not be reframed as a **three-trait theory**.
-
-## Theory–empiricism boundary
+## 5. Inference boundaries
 
 The active paper preserves:
 
 ```text
-marginal route evidence
-!= same-system evidence
-!= direct A x D evidence
-!= complete W_AD decomposition
+marginal route recurrence
+!= total A×D interaction
+!= channel interaction
+!= full mechanism allocation
 ```
 
 Therefore:
 
-- finite-grid occupancy is not prevalence;
 - route counts are not prevalence;
-- Leal pooled effects do not estimate `rho`, `iota`, `kappa`, or `W_AD`;
-- Sasidharan's assembled contrast is not a causal paired-role effect;
-- secondary-synthesis counts are not route-ledger N;
-- zero strict joint-cost estimates do not imply `kappa = 0`;
-- total `W_AD` alone does not identify channel allocation, trait covariance, genetic correlation, evolutionary trajectories, or equilibria.
+- finite-grid fractions are not prevalence;
+- marginal A→P / A→G / D→G / D→P evidence does not estimate rho/iota;
+- randomized context modification is not selective consumer exclusion;
+- `U_delta` is not kappa by definition;
+- zero independent joint-cost assays does not imply kappa = 0;
+- a non-zero four-way interaction is evidence against separability rather than a nuisance term to absorb.
 
-## Reader-facing and visual QA
+## 6. Reader-facing and visual QA
 
-Repository-source reader QA is complete:
+Current canonical pre-metadata package:
 
-- title, Abstract, Introduction, Integration, and Conclusion are synchronized around the one-sided theorem;
-- main-text callouts cover Figures 1–3, Tables 1–4, Supplementary Figures S1–S4, and Tables S1–S6;
-- all seven main/supplementary figure sources were rendered and visually inspected;
-- presentation collisions found in Fig. 2, Fig. S1, Fig. S2, and Fig. S4 were corrected and re-rendered;
-- Figure 2 is now regenerated and diff-checked against its committed SVG in the active theory-validation workflow;
-- Supplementary Figures S1–S4 and Tables S1–S6 are rebuilt on the current PR state and diff-checked against committed assets.
+```text
+Main Document: 29 pages
+Appendix S1:   11 pages
+Main figures:   5
+```
 
-These are presentation/reproducibility changes only; no scientific value was altered.
+Validation state:
 
-## Current submission decision
+- CI — PASS on Python 3.10 / 3.11 / 3.12;
+- submission-scope — PASS;
+- identification candidate build — PASS;
+- canonical Ecology build — PASS;
+- Fig1–Fig5 EPS export — PASS;
+- full-page visual QA — PASS on all 29 Main + 11 Appendix pages;
+- Figure 4 recurrence/identification panel — readable at review-page scale;
+- `Theorem 1` and 77.2% headline — absent from Main;
+- 2,592 / 77.2% — Appendix technical material only.
 
-**Scientific conclusion: GO / FROZEN. Reader-facing repository-source QA: PASS. External journal submission: NOT YET.**
+## 7. Current submission decision
 
-Remaining blockers are human/release controlled rather than scientific:
+**Science: GO. Reader-facing repository-source QA: PASS. External submission: pending human-controlled metadata/sign-off.**
 
-1. final author order/publication names, affiliations, corresponding author, e-mail, ORCIDs, and CRediT roles;
-2. funding/acknowledgements and competing-interest confirmation;
-3. repository licence/licence statement;
-4. exactly five conflict-checked reviewer suggestions and any justified exclusions;
-5. all-author approval and confirmation that the manuscript is not under consideration elsewhere;
-6. freeze the exact final release commit and create an immutable release/tag;
-7. archive the release and insert its DOI;
-8. rerun final CI, submission-scope, figure export, supplement rebuild/diff, and reference checks from that release commit;
-9. render and visually inspect the final release-version manuscript and supplementary upload files;
-10. submit through the authenticated journal portal.
+Remaining blockers:
 
-The governing rule remains: improve presentation and reproducibility while keeping the distinction between **theoretical mixed curvature** and **empirical constituent-path Pattern evidence** explicit. New broad discovery is out of scope unless the frozen claim is specifically falsified or a concrete provenance/reviewer issue requires correction.
+1. final author order/publication names and affiliations;
+2. corresponding author/e-mail and ORCIDs;
+3. final CRediT roles;
+4. funding, acknowledgments, and competing-interest statement;
+5. repository/software/data licence statement where applicable;
+6. reviewer information only if requested by the portal;
+7. all-author approval and no-simultaneous-submission confirmation;
+8. final post-metadata package rebuild and page-by-page visual QA.
+
+The governing rule is now: **preserve the distinction between recurrent biological ingredients and identified channel allocation while keeping the paper operationally executable.**
