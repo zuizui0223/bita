@@ -1,0 +1,45 @@
+name: generate-identification-figures-once
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/build_identification_design_figures_svg.py'
+      - 'empirical/identification_design/HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv'
+      - 'empirical/identification_design/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json'
+      - '.github/workflows/generate-identification-figures-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.head_ref == 'manuscript/identification-design-v1'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: manuscript/identification-design-v1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Generate SVGs
+        run: python scripts/build_identification_design_figures_svg.py
+      - name: Validate generated SVGs
+        run: |
+          test -s manuscript/identification_figures/FIGURE_1_IDENTIFICATION_DESIGN.svg
+          test -s manuscript/identification_figures/FIGURE_2_IDENTIFICATION_DESIGN.svg
+          test -s manuscript/identification_figures/FIGURE_3_IDENTIFICATION_DESIGN.svg
+          test -s manuscript/identification_figures/FIGURE_4_IDENTIFICATION_DESIGN.svg
+          test -s manuscript/identification_figures/FIGURE_5_IDENTIFICATION_DESIGN.svg
+          pytest -q tests/test_identification_design_figures.py
+      - name: Commit generated SVGs
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add manuscript/identification_figures/*.svg
+          if git diff --cached --quiet; then
+            echo 'No figure changes.'
+          else
+            git commit -m 'Generate identification-design figures'
+            git push origin HEAD:manuscript/identification-design-v1
+          fi
