@@ -65,7 +65,7 @@ same-system:      14
 context switches: 17
 ```
 
-These categories overlap. Their role is to establish **recurrence capacity of the constituent biological channels**. They are not natural-prevalence estimates and do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`.
+The source-adjudicated route ledger is **not itself a grand meta-analysis**. These categories overlap. Their role is to establish **recurrence capacity of the constituent biological channels**. They are not natural-prevalence estimates and do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`.
 
 ## Pattern layer 2 — identification coverage
 
