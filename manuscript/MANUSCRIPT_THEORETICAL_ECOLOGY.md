@@ -6,7 +6,7 @@
 
 **ORCID(s):** [Insert available 16-digit ORCID identifiers after author approval.]
 
-**Open Research statement:** Analysis code, source-adjudication products, and generated readouts are maintained in the public project repository. The exact immutable release, repository licence, and archival DOI for the submitted version are author-controlled release fields and will be inserted before submission.
+**Open Research statement:** Analysis code, source-adjudication products, and generated readouts are maintained in the public project repository for peer review. Repository/software/data licence details are author-controlled submission fields where applicable. A permanent versioned archive of the accepted exact data/code release and its archival citation/DOI will be created at the acceptance stage.
 
 ## Abstract
 
