@@ -73,7 +73,7 @@ def test_appendix_is_identification_supplement() -> None:
     assert "IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json" in text
     assert "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv" in text
     assert "Constituent mechanism recurrence supporting the Main Pattern layer" in text
-    assert "Partial identification between the total interaction and point identification" in text
+    assert "Identified-set algebra and projection bounds" in text
 
 
 def test_open_research_package_includes_identification_and_pattern_outputs(tmp_path, monkeypatch) -> None:
