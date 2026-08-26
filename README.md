@@ -1,16 +1,43 @@
 # Biotic Interaction Trait Architecture
 
-A reproducible **Mechanism → Pattern → Identification** study of floral attraction and defence. The canonical paper no longer treats a one-line inequality as the main result. Its central question is operational: **when an attraction trait (`A`) and a flower-associated antagonist-reducing trait (`D`) interact on reproduction, what experiment is required to identify the ecological channels that generated that interaction?**
+A reproducible **Mechanism → Pattern → Identification** study of floral attraction and defence. The canonical paper asks an operational question: **when attraction (`A`) and a flower-associated antagonist-reducing trait (`D`) interact on reproduction, what can the observed interaction already constrain, and what additional observations are required to identify the ecological channels that generated it?**
 
 ## Current scientific result
 
-For two experimentally meaningful levels of attraction and defence, the primary estimand is the discrete interaction
+For two experimentally meaningful attraction and defence levels, the primary estimand is
 
 ```text
 Delta_AD W = W11 - W10 - W01 + W00
 ```
 
-A total `Delta_AD W` does not identify how much of the interaction comes from antagonist relief, pollinator interference, or another joint channel. The repository therefore implements a crossed
+A total `Delta_AD W` does not point-identify antagonist relief (`rho_delta`), pollinator interference (`iota_delta`), and the remaining joint channel (`kappa_delta`). If `Delta_AD W = delta`, compatible allocations form the identified set
+
+```text
+I(delta) = {(rho, iota, kappa): rho - iota - kappa = delta}
+```
+
+so measuring the same total surface more precisely cannot by itself collapse mechanism uncertainty to one point. Explicit biological restrictions or channel-specific measurements can, however, shrink this set. In particular,
+
+```text
+kappa_delta >= 0
+=> rho_delta - iota_delta >= Delta_AD W
+```
+
+which recovers the historical one-sided result as a **partial-identification bound on the biotic balance**, not as a universal theorem about nature.
+
+The inference ladder is therefore:
+
+```text
+interaction detection
+→ identified set
+→ partial identification under declared bounds
+→ point identification after selective crossed interventions
+→ independent joint-channel validation
+```
+
+## Point-identification design
+
+The repository implements a crossed
 
 ```text
 A × D × antagonist × pollinator
@@ -24,89 +51,92 @@ The remaining residual
 U_delta = rho_delta - iota_delta - Delta_AD W
 ```
 
-is kept **unallocated**. It is not called `kappa` by subtraction. A joint construction/allocation cost requires an independent `A×D` assay under standardized or suppressed biotic channels. The elementary algebra is retained only as a post-measurement consistency or hidden-channel sign diagnostic.
+is kept **unallocated**. It is not called `kappa` by subtraction. A joint construction/allocation channel requires an independent `A×D` assay under standardized or suppressed biotic pathways.
 
 ## Mechanism → Pattern bridge
 
-The cross-system synthesis is retained in a bounded role. The source-adjudicated route architecture contains:
+The source-adjudicated recurrence layer contains:
 
 ```text
 56 route records
 25 independent biological clusters
-A -> pollination:        5 clusters
-A -> antagonism:         8
-D -> antagonism:        18
-D -> pollination:       10
-same-system multi-route:14
-context/sign switch:    17
+A -> pollination:         5 clusters
+A -> antagonism:          8
+D -> antagonism:         18
+D -> pollination:        10
+same-system multi-route: 14
+context/sign switch:     17
 ```
 
 These overlapping counts show that the **constituent ecological pathways recur across systems**. They are not natural-prevalence estimates and they do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`.
 
-The stricter identification audit then asks whether those recurrent ingredients have been combined in one experiment. Across the current 16-system high-information screen, no study combines the full trait factorial, selective antagonist and pollinator interventions, pollinator-absent baseline characterization, and an independent joint-cost assay.
+The stricter 16-system audit shows a second pattern: **design fragmentation**. Existing studies occupy complementary faces of an identification frontier rather than all failing in the same way. Kessler et al. (2008) supplies the closest trait-factorial side; Egan et al. (2021) the complementary consumer-factorial side; the public *Impatiens capensis* retrofit reaches randomized context modification of an observational `A×D`; *Pedicularis rex* supplies a selective-defence system anchor. No screened system closes all allocation dimensions or contains an independent joint-cost assay.
 
-The resulting cross-system conclusion is:
+The cross-system conclusion is therefore:
 
-> **The constituent channels recur, but their joint allocation remains unidentified.**
+> **The constituent channels recur, current studies constrain different parts of their allocation, but the full joint mechanism is not yet point-identified.**
 
-Kessler et al. (2008) supplies the closest trait-factorial anchor; Egan et al. (2021) supplies the complementary consumer-factorial structure; the public *Impatiens capensis* retrofit reaches randomized context modification of an observational `A×D` association but not channel identification. The missing object is their intersection.
+The useful next question is no longer only “is the mechanism identified?” but **which additional measurement or intervention most shrinks the remaining identified set?**
 
 ## Canonical paper
 
-Current reader-facing sources are:
+Current reader-facing sources:
 
 - `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md` — canonical scientific text
 - `manuscript/IDENTIFICATION_DESIGN_REFERENCES.md` — focused reference spine
 - `manuscript/IDENTIFICATION_DESIGN_FIGURE_CAPTIONS.md` — Main figure captions
 - `manuscript/identification_figures/` — canonical Figures 1–5
 - `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md` — Appendix S1
+- `docs/PARTIAL_IDENTIFICATION_FRONTIER_V1.md` — identified-set / bound derivation
 - `docs/MECHANISM_PATTERN_IDENTIFICATION_BRIDGE.md` — recurrence/identification boundary
 - `submission/` — Ecology review-package and portal documents
 
-The historical theorem-led manuscript and its analyses remain versioned for provenance, but they are not the canonical submission source.
+The historical theorem-led manuscript and its analyses remain versioned for provenance; they are not the canonical submission source.
 
 ## Reproducibility core
 
 Primary identification implementation and tests:
 
 - `trait_architecture/identification.py`
+- `trait_architecture/partial_identification.py`
 - `tests/test_identification.py`
 - `tests/test_identification_four_way.py`
 - `tests/test_identification_coverage.py`
-- `tests/test_mechanism_pattern_identification_bridge.py`
+- `tests/test_partial_identification.py`
+- `tests/test_partial_identification_balance.py`
+- `tests/test_partial_identification_manuscript_integration.py`
 
-Empirical identification products:
+Empirical products include:
 
 - `empirical/identification_design/HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv`
 - `empirical/identification_design/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json`
 - `empirical/mechanism_pattern_synthesis/` — retained route-level recurrence evidence
 
-The former 2,592 finite evaluations and 77.2% window precision remain as implementation/model-family sensitivity in Appendix S1. They are not empirical validation or natural-regime frequencies. Leal and Sasidharan quantitative modules remain reproducible historical analyses but are not Main identification evidence.
+The former 2,592 finite evaluations and 77.2% window precision remain implementation/model-family sensitivity in Appendix S1. They are not empirical validation or natural-regime frequencies. Leal and Sasidharan quantitative modules remain reproducible historical analyses but are not Main identification evidence.
 
 ## Inference boundaries
-
-The repository preserves these distinctions:
 
 ```text
 marginal route recurrence
 != total A×D interaction
-!= channel interaction
+!= partial channel bounds
+!= point-identified channel interaction
 != full mechanism allocation
 ```
 
 Accordingly:
 
 - route counts are not prevalence estimates;
-- marginal route recurrence does not identify `rho_delta` or `iota_delta`;
-- total `Delta_AD W` alone does not allocate mechanisms;
-- randomized context modification is not the same as selective consumer exclusion;
-- a non-zero `A×D×G×P` contrast rejects the simple separable-channel representation rather than being forced into one pair of channel estimands;
+- total `Delta_AD W` alone leaves an identified set rather than a unique mechanism;
+- partial-identification claims are conditional on explicitly declared bounds;
+- randomized context modification is not selective consumer exclusion;
+- a non-zero `A×D×G×P` contrast rejects the simple separable-channel representation;
 - `U_delta` is not `kappa` by definition;
-- zero independent joint-cost assays in the screened set does not imply `kappa = 0`;
+- zero independent joint-cost assays does not imply `kappa = 0`;
 - finite-grid fractions are not probabilities of natural regimes.
 
 ## Submission state
 
-The current pre-metadata Ecology Concepts & Synthesis package renders to **29 Main pages + 11 Appendix pages**, with five Main figures, and remains within the standard 30-page target. CI, submission-scope, candidate/canonical package builds, EPS export, and full-page visual QA have passed for this scientific content.
+The current pre-metadata Ecology Concepts & Synthesis package renders to **29 Main pages + 12 Appendix pages**, with five Main figures, and remains within the standard 30-page target with one Main-page margin. CI and canonical/candidate package builds passed for the integrated scientific head, and all **41 rendered pages** were visually inspected with no blank pages, clipping, overlap, broken glyphs, missing figures, or broken equations.
 
 External submission remains blocked only by author-controlled fields and sign-off: final author order/names, affiliations, corresponding author/e-mail, ORCIDs, CRediT, funding, acknowledgments, competing interests, licence statement, any portal-requested reviewer information, all-author approval, and the final post-metadata rebuild/QA.

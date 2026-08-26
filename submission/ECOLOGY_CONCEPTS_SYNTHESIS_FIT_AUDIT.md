@@ -4,95 +4,101 @@ Checked against *Ecology* Author Guidelines current on 2026-08-21 (guidance revi
 
 ## Editorial fit
 
-**PASS, with the manuscript framed as an experimental identification synthesis that reconnects mechanism to cross-system recurrence without treating recurrence as identification.**
+**PASS, with the manuscript framed as an experimental identification synthesis that connects Mechanism → Pattern recurrence to an identified-set / partial-identification frontier.**
 
-The transferable sequence is:
+Transferable sequence:
 
 ```text
-measure a focal A×D interaction
-→ establish that channel allocation is not identified from the total interaction
+measure A×D interaction
+→ represent compatible channel allocations as an identified set
+→ use explicit biological/channel bounds for partial identification
 → add selective antagonist and pollinator interventions
-→ measure the pollinator-absent A×D baseline
+→ measure m0_delta
 → test A×D×G×P separability
-→ assay the remaining joint-cost channel independently
-→ establish whether the constituent ecological pathways recur across systems
-→ audit whether those recurrent ingredients have ever been jointly identified
+→ point-identify biotic channels
+→ assay the remaining joint channel independently
+→ establish cross-system constituent recurrence
+→ map existing studies onto a fragmented identification frontier
 ```
 
-The floral notation is the case study. The general contribution is the distinction among **interaction detection**, **constituent-path recurrence**, and **mechanism allocation**.
+The floral notation is the case study. The general contribution is the distinction among **interaction detection**, **partial identification**, **constituent-path recurrence**, and **point mechanism allocation**.
 
 ## Rendered review-package audit
 
-Current validated package state:
+Current validated state:
 
 - Main Document: Word `.docx`, Letter portrait, 1-inch margins, 12-pt Times New Roman, double-spaced prose;
-- title page: Ecology / Concepts & Synthesis / identification-design title / author-controlled fields / review-stage Open Research statement / alphabetized keywords;
-- page and review line numbering: present in the canonical build;
-- Main figures: Figures 1–5 embedded;
-- Supporting Information: one Appendix S1;
-- machine-readable products: separated into the Open Research package;
-- current measured Main Document length before final author metadata: **29 pages**;
-- current Appendix S1 length: **11 pages**;
-- Main-page status: **within the standard 30-page Concepts & Synthesis target**.
+- title page / review numbering / native equations / five embedded Main figures — PASS structurally;
+- one Appendix S1;
+- current Main length before final author metadata: **29 pages**;
+- current Appendix length: **12 pages**;
+- Main status: **within standard 30-page target with one-page headroom**.
 
-Full-page visual QA of all 29 Main and 11 Appendix pages found no blank pages, clipping, overlap, broken glyphs, or missing figure content. Figure 4 remains readable after adding the 56/25 recurrence layer.
+Full-page visual QA of all **29 Main + 12 Appendix = 41 pages** found no blank pages, clipping, overlap, broken glyphs, missing figure content, or broken equations. The identified-set equations and Appendix projection algebra are readable.
 
-## Current Author-Guideline requirement audit
+## Current Author-Guideline audit
 
 - Abstract ≤350 words — PASS
 - Keywords 6–12 and alphabetical — PASS
-- Journal and manuscript type on title page — PASS
-- Open Research statement — PASS in generated review source
+- Journal/manuscript type on title page — PASS
+- Open Research statement — PASS structurally
 - Acknowledgments / Author Contributions / Funding / Conflict of Interest / References order — PASS structurally; author content pending
-- Five Main figures embedded — PASS
-- Word equations retained as native document math — PASS
-- review line numbering — PASS structurally in the generated document
-- Concepts & Synthesis standard 30-page target — PASS at 29 pages
-- Concepts & Synthesis ≤50-page absolute ceiling — PASS
-- >30-page cover-letter justification — NOT REQUIRED at 29 pages
-- Appendix S1 architecture — PASS
-- AI-assisted workflow disclosure — retained once in Methods and synchronized to portal metadata
-- title/author-list consistency — author-controlled fields PENDING
+- five Main figures embedded — PASS
+- native equations — PASS
+- review line numbering — PASS structurally
+- standard 30-page target — PASS at 29 pages
+- ≤50-page absolute ceiling — PASS
+- >30-page cover-letter justification — NOT REQUIRED
+- Appendix architecture — PASS at 12 pages
+- AI-assisted workflow disclosure — retained once and synchronized
+- final author-list consistency — PENDING author input
 
-## Mechanism → Pattern fit
+## Mechanism → Pattern / partial-identification fit
 
-The retained source-adjudicated synthesis contains 56 route records from 25 independent biological clusters and covers all four marginal pathway families. These overlapping counts support only the claim that the constituent ecological channels recur across systems. They are not natural-prevalence estimates and do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`.
+The 56-route / 25-cluster synthesis supports only cross-system recurrence of the four constituent pathway families; it does not estimate natural prevalence or rho/iota/kappa.
 
-The stricter 16-system high-information audit then asks whether recurrent ingredients have been combined on common A/D coordinates with selective consumer interventions, pollinator-absent baseline characterization, separability testing, and an independent joint-cost assay. No screened system reaches full channel identification or an independent joint-cost assay.
+For a measured total interaction, the paper now makes the structural uncertainty explicit:
 
-This two-layer use of evidence strengthens Concepts & Synthesis fit: the paper begins from a mechanistic decomposition, establishes that its biological ingredients recur, then shows that existing experiments still do not identify their joint allocation.
+```text
+I(delta) = {(rho,iota,kappa): rho - iota - kappa = delta}
+```
 
-## Identification invariants preserved
+and shows how explicit restrictions can shrink that set. The main recovered bound is
 
-- `Delta_AD W` is a discrete two-level trait interaction on declared coordinates;
-- total `Delta_AD W` alone does not identify channel allocation;
-- the proposed general design is `A × D × antagonist × pollinator` with selective interventions;
-- the rho- and iota-invariance views are the same four-way contrast up to sign;
-- pollinator-independent reproduction is measured/corrected rather than assumed zero;
-- `U_delta` remains unallocated and is not called kappa by subtraction;
-- kappa requires an independent A×D cost assay;
-- marginal route recurrence is not channel identification;
-- Kessler 2008 and Egan 2021 occupy complementary trait-factorial and consumer-factorial halves;
-- the *Impatiens* retrofit reaches randomized context modification but not channel identification;
-- the 2,592 finite evaluations and 77.2% remain technical Supplement material, not Main evidence.
+```text
+kappa_delta >= 0
+=> rho_delta - iota_delta >= Delta_AD W.
+```
+
+This is an assumption-indexed partial-identification result. It is not presented as a general invention of partial identification or a universal ecological sign law.
+
+The 16-system audit then asks which allocation dimensions current studies already constrain. Kessler 2008, Egan 2021, *Impatiens*, and *Pedicularis* occupy complementary faces, yielding a **design-fragmentation pattern** rather than merely `full identification = 0`.
+
+This strengthens Concepts & Synthesis fit: the paper starts from a mechanistic decomposition, demonstrates recurrent biological ingredients, states exactly what incomplete evidence can already constrain, and derives the interventions required to move to point identification.
+
+## Identification invariants
+
+- `Delta_AD W` is a discrete two-level interaction;
+- total interaction alone defines a set, not unique channel allocation;
+- partial bounds are conditional on declared restrictions;
+- point-ID design is `A × D × antagonist × pollinator` with selective interventions;
+- rho/iota invariance views are one four-way contrast up to sign;
+- `m0_delta` is measured/corrected rather than assumed zero;
+- `U_delta` is unallocated and not kappa by subtraction;
+- kappa requires independent evidence;
+- marginal recurrence is not channel identification;
+- existing empirical anchors constrain complementary design faces;
+- 2,592 / 77.2% remain technical Appendix material only.
 
 ## Open Research boundary
 
-Review-stage GitHub access supplies code, identification estimands, the route ledger, the aggregate *Impatiens* retrofit, and the screened identification-coverage matrix. A permanent archival DOI for the exact accepted data/code version is an acceptance-stage requirement, not an initial-submission blocker.
+Review-stage GitHub supplies code, total/partial/point identification estimands, route ledger, aggregate *Impatiens* retrofit, and screened identification matrix. Permanent archival DOI remains an acceptance-stage requirement.
 
 ## Remaining submission blockers
 
-Only author/review-version fields remain:
-
-- final publication author names/order and affiliations;
-- corresponding author/email and ORCIDs;
-- final CRediT, funding, acknowledgments, and competing-interest statements;
-- repository/software/data licence statement where applicable;
-- reviewer information if requested by ScholarOne;
-- all-author approval and no-simultaneous-submission confirmation;
-- final package rebuild and page-by-page visual QA after those fields are inserted.
+Only author-controlled fields and final post-metadata QA: publication names/order/affiliations, corresponding author/e-mail, ORCIDs, CRediT, funding, acknowledgments, competing interests, licence, reviewer information if requested, all-author approval/no-simultaneous-submission confirmation, then exact rebuild and page-by-page inspection.
 
 ## Fallbacks
 
-1. Oikos Forum — strong conceptual fit but requires its own presubmission format.
+1. Oikos Forum — strong conceptual fit but requires its own format.
 2. Theoretical Ecology Regular Article — conservative scope-fit fallback.

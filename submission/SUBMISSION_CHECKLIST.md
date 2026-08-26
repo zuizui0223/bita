@@ -1,114 +1,106 @@
-# Ecology Concepts & Synthesis submission checklist — identification-design canonical candidate
-
-This checklist tracks the current submission gates after the identification-design rewrite and the bounded restoration of the Mechanism → Pattern bridge. Historical theorem-led sources remain in Git history and repository archival paths but no longer define the intended submission narrative.
+# Ecology Concepts & Synthesis submission checklist — partial-identification canonical candidate
 
 ## 1. Scientific core — PASS
 
-- [x] Canonical submission manuscript: `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`
+- [x] Canonical manuscript: `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`
 - [x] Canonical title: **From floral trait interactions to mechanism identification: a crossed-intervention framework for attraction and defence**
-- [x] Primary estimand is the measurable discrete interaction `Delta_AD = W11 - W10 - W01 + W00`
-- [x] Total trait interaction is explicitly separated from mechanism allocation
-- [x] Identification design crosses `A × D × antagonist × pollinator` in 16 cells
-- [x] Selective antagonist and pollinator intervention assumptions are explicit
-- [x] Pollinator-absent `A×D` baseline (`m0_delta`) is measured/corrected rather than assumed zero
-- [x] The rho- and iota-invariance diagnostics are recognized as one `A×D×G×P` four-way contrast up to sign
-- [x] A non-zero four-way contrast is treated as evidence against the simple separable-channel representation
-- [x] The residual joint channel is retained as unallocated `U_delta`; it is not defined as `kappa`
-- [x] `kappa` requires an independent `A×D` allocation/construction-cost assay
-- [x] The simple sign identity is diagnostic after measurement, not the headline theorem or novelty claim
-- [x] Continuous mixed-partial theory is retained only as a small-contrast/theoretical limit
-- [x] Mechanism → Pattern is explicitly two-layered: constituent ecological recurrence first, stricter channel-identification coverage second
+- [x] Primary estimand is `Delta_AD W = W11 - W10 - W01 + W00`
+- [x] Total interaction is separated from channel allocation
+- [x] Total interaction defines `I(delta) = {(rho,iota,kappa): rho-iota-kappa=delta}` rather than a unique mechanism
+- [x] Partial identification is explicit and assumption-indexed
+- [x] `kappa_delta >= 0 => rho_delta - iota_delta >= Delta_AD W` is retained as a biotic-balance bound, not a universal theorem
+- [x] Point-identification design crosses `A × D × antagonist × pollinator` in 16 cells
+- [x] Selective intervention and comparable A/D-coordinate requirements are explicit
+- [x] `m0_delta` is measured/corrected rather than silently set to zero
+- [x] rho/iota invariance views are one `A×D×G×P` four-way contrast up to sign
+- [x] non-zero four-way coupling rejects the simple separable-channel representation
+- [x] `U_delta` remains unallocated and is not defined as kappa
+- [x] kappa requires an independent A×D allocation/construction assay
+- [x] continuous mixed-partial theory is only a limiting/technical layer
 
-## 2. Cross-system Pattern and existing-data stress tests — PASS
+## 2. Mechanism → Pattern and empirical stress tests — PASS
 
-- [x] Retained mechanism-route synthesis = 56 directional route records / 25 independent biological clusters
-- [x] All four constituent marginal pathway families recur: A→pollination 5; A→antagonism 8; D→antagonism 18; D→pollination 10
-- [x] Same-system multi-route clusters = 14; context/sign-switch clusters = 17
-- [x] Route counts overlap and are not natural-prevalence estimates
-- [x] Marginal recurrence is not relabelled as `Delta_AD W`, rho, iota, or kappa identification
-- [x] *Impatiens capensis* Dryad retrofit reaches observational `A×D` plus randomized interaction-treatment modification, but not rho/iota/kappa identification
-- [x] All eight targeted Impatiens HC3 intervals cross zero
-- [x] Kessler et al. 2008 is the closest current trait-factorial anchor
-- [x] Published aggregate Kessler 2008 female-outcrossing constraints imply a positive discrete interaction of approximately `+0.19` to `+0.25`; logit interaction OR approximately `2.77` to `4.71`
-- [x] Kessler 2008 formal interaction uncertainty remains unrecovered and systemic nicotine remains a D-scope caveat
-- [x] Egan et al. 2021 is the complementary consumer-factorial anchor, not a full manipulated `A×D` design
-- [x] Kessler et al. 2015 remains a factorial-phenotype near miss because the second axis is reward rather than independently justified antagonist-reducing D
-- [x] *Pedicularis rex* remains a selective-system anchor rather than a complete identification design
-- [x] Sixteen-system high-information coverage matrix is explicitly a screened-set audit, not literature prevalence
-- [x] Independent joint-cost assay in screened set = 0
-- [x] Full rho/iota/kappa identification in screened set = 0
+- [x] recurrence synthesis = 56 route records / 25 independent biological clusters
+- [x] all four constituent pathway families recur: A→pollination 5; A→antagonism 8; D→antagonism 18; D→pollination 10
+- [x] same-system multi-route = 14; context/sign-switch = 17
+- [x] route counts overlap and are not natural-prevalence estimates
+- [x] marginal recurrence is not relabelled as Delta_AD W, rho, iota, or kappa
+- [x] 16-system audit is interpreted as a **fragmented identification frontier**, not only a binary 0/16 result
+- [x] Kessler 2008 = closest trait-factorial anchor; aggregate Delta_AD sign positive, formal interaction uncertainty unresolved, systemic-D caveat retained
+- [x] Egan 2021 = complementary consumer-factorial anchor, not a manipulated floral A×D design
+- [x] *Impatiens capensis* = observational A×D + randomized context modification; all eight target HC3 intervals cross zero
+- [x] *Pedicularis rex* = selective-defence system anchor, not full identification
+- [x] independent joint-cost assay in screened set = 0
+- [x] full rho/iota/kappa point identification in screened set = 0
+- [x] no study-specific rho/iota/kappa numerical bounds are invented from near-miss studies
 
-## 3. Demoted / preserved analyses — PASS
+## 3. Historical analyses — correctly demoted
 
 - [x] 2,592 finite evaluations are technical implementation/model-family sensitivity only
-- [x] 77.2% window precision is absent from Main and retained only in Supplement
-- [x] Historical 56-route / 25-cluster ledger remains fully versioned; its Main role is limited to constituent-channel recurrence, not validation of the algebra or channel identification
-- [x] Leal and Sasidharan quantitative modules remain reproducible in the repository but are not part of the new Main argument
-- [x] Historical theorem-led manuscript remains in the repository and is not deleted
+- [x] 77.2% is absent from Main and retained only in Appendix
+- [x] Leal and Sasidharan modules remain reproducible but are not Main identification evidence
+- [x] historical theorem-led manuscript remains versioned and is not canonical
 
 ## 4. Main Document — GENERATED / STRUCTURAL PASS
 
-The canonical review-package builder promotes the identification-design source with the bounded Pattern layer to standard Ecology output filenames.
-
-- [x] Standard output remains `MANUSCRIPT_ECOLOGY_SUBMISSION.docx`
+- [x] standard output: `MANUSCRIPT_ECOLOGY_SUBMISSION.docx`
 - [x] Journal = Ecology; manuscript type = Concepts & Synthesis
-- [x] Author/affiliation, corresponding-author, and ORCID fields remain author-controlled placeholders
-- [x] Review-stage Open Research statement is present
-- [x] Acknowledgments, Author Contributions, Funding, and Conflict of Interest remain explicit author-controlled fields
-- [x] Five identification-design Main figures are embedded
-- [x] Figure 1 = total interaction versus mechanism allocation
-- [x] Figure 2 = 16-cell crossed design and separability
-- [x] Figure 3 = independent joint-cost assay and hidden-channel diagnostic
-- [x] Figure 4 = constituent-channel recurrence + Kessler 2008 / Egan 2021 / Impatiens / identification-coverage comparison
-- [x] Figure 5 = executable experimental roadmap
-- [x] Main contains no `Theorem 1` headline
-- [x] Main contains no `77.2%` headline result
-- [x] Full-page visual QA found no clipping, overlap, broken glyphs, missing figure content, or blank figure-leading page
-- [x] Validated pre-metadata canonical render = **29 pages**
-- [x] 29 pages is within the standard 30-page Concepts & Synthesis target; no >30-page justification is required
-- [ ] Re-render and re-count after final author-controlled metadata is inserted
+- [x] author/affiliation/corresponding-author/ORCID fields remain author-controlled placeholders
+- [x] review-stage Open Research statement present
+- [x] Acknowledgments / Author Contributions / Funding / Conflict of Interest fields present
+- [x] five identification-design Main figures embedded
+- [x] Figure 1 = total interaction defines an identified set rather than a unique mechanism
+- [x] Figure 2 = 16-cell crossed design + separability diagnostic
+- [x] Figure 3 = independent joint-cost assay + hidden-channel diagnostic
+- [x] Figure 4 = 56/25 recurrence + fragmented identification frontier / empirical anchors
+- [x] Figure 5 = executable roadmap from interaction detection through partial to point identification
+- [x] Main contains no `Theorem 1` headline and no `77.2%` headline result
+- [x] validated pre-metadata render = **29 pages**
+- [x] 29 pages is within the standard 30-page target with one-page headroom
+- [x] full-page visual QA of all 29 Main pages PASS
+- [ ] re-render/re-count after final author metadata insertion
 
 ## 5. Supporting Information — GENERATED / STRUCTURAL PASS
 
-- [x] Reader-facing Supporting Information remains a single Appendix S1
-- [x] Canonical identification Supplement source: `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`
-- [x] Technical 2,592-grid material and 77.2% design-specific precision are Supplement only
-- [x] Kessler 2008 aggregate reconstruction / sign sensitivity is documented
-- [x] Impatiens retrofit details and identification boundaries are documented
-- [x] Sixteen-system identification coverage is documented
-- [x] Section S5 documents the 56/25 constituent recurrence layer and its non-identification boundary
-- [x] Continuous-limit implementation and response-shape sensitivity figures are retained as supporting figures
-- [x] Validated pre-metadata Supplement render = **11 pages**
-- [x] Supplement has no line numbering
+- [x] one Appendix S1
+- [x] source: `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`
+- [x] exact identified-set projection algebra and partial-identification examples included
+- [x] structural identified-set intervals are distinguished from sampling uncertainty intervals
+- [x] Kessler 2008 reconstruction and *Impatiens* retrofit documented
+- [x] 16-system identification frontier documented
+- [x] 56/25 recurrence source layer and non-identification boundary documented
+- [x] 2,592 / 77.2% remain technical Appendix material
+- [x] validated pre-metadata Appendix render = **12 pages**
+- [x] full-page visual QA of all 12 Appendix pages PASS
 
-## 6. Open Research package — REVIEW READY
+## 6. Reproducibility / Open Research — REVIEW READY
 
-Legacy machine-readable provenance products are retained, and the canonical package additionally exposes identification-era outputs:
-
-- [x] `mechanism_pattern_route_ledger.csv` supports the bounded recurrence layer
+- [x] `trait_architecture/identification.py`
+- [x] `trait_architecture/partial_identification.py`
+- [x] identification and partial-identification regression tests
+- [x] `mechanism_pattern_route_ledger.csv`
 - [x] `high_information_identification_coverage.csv`
 - [x] `impatiens_identification_retrofit.json`
-- [x] historical parameter/grid/context/direct-audit products retained for reproducibility
-- [x] public GitHub supplies review-stage code and derived-output access
-- [ ] at acceptance, archive the accepted exact data/code version in a permanent versioned repository and insert its citation/DOI
+- [x] historical provenance products retained
+- [x] public GitHub supplies review-stage access
+- [ ] archive the accepted exact data/code version in a permanent repository and insert DOI/citation at acceptance
 
-A permanent archive DOI is **not** an initial-submission blocker.
+A permanent archive DOI is not an initial-submission blocker.
 
 ## 7. Cover letter — CONTENT PASS / AUTHOR SIGN-OFF PENDING
 
-- [x] Names Ecology and Concepts & Synthesis
-- [x] Uses the identification-design title and contribution
-- [x] States the bounded Mechanism → Pattern recurrence layer without treating it as theorem validation
-- [x] Does not sell the elementary inequality as mathematical novelty
-- [x] States current 29-page Main and 11-page Supplement
-- [x] Removes the obsolete >30-page length justification
-- [x] Uses review-stage GitHub / acceptance-stage permanent-archive wording
+- [x] names Ecology and Concepts & Synthesis
+- [x] uses the identification-design title
+- [x] presents partial identification as an assumption-indexed middle layer, not a general invention
+- [x] presents Mechanism → Pattern recurrence without treating it as theorem validation
+- [x] describes design fragmentation / minimum-augmentation opportunity
+- [x] does not sell the elementary inequality as mathematical novelty
+- [x] current package = 29-page Main + 12-page Appendix
+- [x] no >30-page justification required
 - [ ] corresponding author signs final letter
-- [ ] all authors confirm submission and no simultaneous consideration elsewhere
+- [ ] all authors confirm submission / no simultaneous consideration elsewhere
 
 ## 8. Human-controlled fields — ONLY EXTERNAL-SUBMISSION BLOCKER
-
-Do not infer or auto-fill:
 
 - [ ] final author order and publication names
 - [ ] affiliations / present addresses
@@ -119,22 +111,22 @@ Do not infer or auto-fill:
 - [ ] final acknowledgments
 - [ ] final competing-interest statement
 - [ ] repository/software/data licence statement where applicable
-- [ ] reviewer information only as requested by the live ScholarOne portal
+- [ ] reviewer information only if requested by the live portal
 - [ ] any justified opposed-reviewer request
 - [ ] all-author approval of the exact submitted version
 - [ ] confirmation that the manuscript is not under consideration elsewhere
 
 ## 9. Final review-file gate — PENDING HUMAN METADATA
 
-After the author-controlled fields are supplied:
+After author-controlled fields are supplied:
 
-- [ ] rebuild the exact canonical review package
-- [ ] confirm Main Document remains within the applicable page limit
-- [ ] rerun CI, submission-scope, canonical package build, figure export, and identification regression tests
-- [ ] visually inspect every page of Main and Appendix S1
-- [ ] confirm portal title/abstract/authors/declarations/files match the generated package
+- [ ] rebuild exact canonical package
+- [ ] confirm Main remains within page limit
+- [ ] rerun CI, submission-scope, canonical package build, figure export, and identification regressions
+- [ ] visually inspect every Main and Appendix page
+- [ ] confirm portal title/abstract/authors/declarations/files match generated package
 - [ ] obtain all-author approval of that exact version
 
 ## Current decision
 
-**Science: GO on the identification-design claim set with a bounded Mechanism → Pattern recurrence layer. Canonical pre-metadata target: Main 29 pages + Appendix S1 11 pages, five identification-design Main figures. Constituent channels recur across systems, but their joint allocation remains unidentified; the old finite-grid headline stays demoted to Supplement. External submission remains blocked only by author-controlled metadata/declarations/sign-off and final post-metadata QA.**
+**Science: GO on the partial-identification claim set with a bounded Mechanism → Pattern recurrence layer. Canonical pre-metadata package: Main 29 pages + Appendix S1 12 pages, five Main figures. The constituent channels recur; current studies constrain complementary parts of the allocation problem; total interaction supports assumption-indexed partial bounds; full point allocation still requires the crossed intervention design and independent joint-channel evidence. External submission remains blocked only by author-controlled metadata/declarations/sign-off and final post-metadata QA.**

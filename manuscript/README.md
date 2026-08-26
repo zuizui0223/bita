@@ -2,68 +2,71 @@
 
 ## Canonical manuscript
 
-`MANUSCRIPT_THEORETICAL_ECOLOGY.md` is the sole active manuscript source.
+`MANUSCRIPT_IDENTIFICATION_DESIGN.md` is the sole active submission manuscript source.
 
-The manuscript is organized as an explicit **Mechanism → Pattern** paper:
+The historical `MANUSCRIPT_THEORETICAL_ECOLOGY.md` remains versioned for provenance only; it does not define the current paper or submission package.
+
+## Current paper architecture
+
+The canonical paper is an explicit **Mechanism → Pattern → Identification** synthesis with a partial-identification middle layer:
 
 ```text
-Part I — Mechanism
-mathematical theory, sign principle, non-identifiability, environmental derivatives
-
-Part II — Pattern
-meta-analysis and cross-study synthesis of recurrent empirical patterns
+1. measure the discrete A×D interaction
+2. represent compatible channel allocations as an identified set
+3. shrink that set with explicit biological bounds / partial measurements
+4. establish cross-system recurrence of the constituent ecological channels
+5. audit which identification dimensions existing studies already cover
+6. use selective A×D×antagonist×pollinator interventions for point identification
+7. validate any remaining joint channel with an independent cost assay
 ```
 
-This separation is substantive, not cosmetic. Part I asks what mechanism determines whether attraction and defence are locally complementary or substitutable. Part II asks which mechanism-derived patterns recur across systems, which are context dependent, and which remain empirically unidentified.
+The central algebra is
 
-## Part I — Mechanism
+```text
+Delta_AD W = rho_delta - iota_delta - kappa_delta
+```
 
-The mathematical half contains:
+and, for `Delta_AD W = delta`, the total interaction alone defines
 
-- one declared attraction trait `A`, one declared flower-specific antagonist-reducing trait `D`, and one declared outcome scale `W`;
-- the signed identity `W_AD = M_AD - G_AD - C_AD`;
-- the explicit orientation gate;
-- the oriented mechanism criterion `W_AD = rho - iota - kappa`;
-- Proposition 1 on mechanism non-identifiability from total `W` alone;
-- unrestricted environmental comparative statics;
-- the endpoint-normalized finite sensitivity design and canonical 2,592 evaluations.
+```text
+I(delta) = {(rho, iota, kappa): rho - iota - kappa = delta}.
+```
 
-Figures 1–2 and Tables 1–2 belong to this half.
+A key recoverable partial-identification statement is
 
-## Part II — Pattern
+```text
+kappa_delta >= 0
+=> rho_delta - iota_delta >= Delta_AD W.
+```
 
-The empirical half uses quantitative meta-analysis only where compatible effect scales exist and otherwise preserves cross-study pattern structure without manufacturing a grand effect.
+This is an assumption-indexed bound on the biotic balance, not a universal theorem. Point identification requires selective channel interventions, explicit handling of `m0_delta`, a successful `A×D×G×P` separability diagnostic, and independent evidence for the joint-cost channel.
 
-Its quantitative cores are:
+## Mechanism → Pattern result
 
-1. **Leal et al. 2025 floral-larceny random-effects meta-analysis** — pooled log response ratios for female reproductive success, nectar standing crop, and legitimate visitation, with dependence, influence, heterogeneity, and sensitivity checks.
-2. **Sasidharan et al. 2023 floral-volatile cross-study synthesis** — conservative 32-study-component topology, physiological consumer-response contrast, leave-one-component-out analysis, paired-role limitation, and behavioral context dependence.
+The retained recurrence synthesis contains 56 route records across 25 independent biological clusters and covers all four constituent marginal pathway families. These records establish recurrence capacity, not natural prevalence or channel-interaction magnitudes.
 
-The source-adjudicated 38-record / 14-cluster mechanism ledger is a **theory-to-pattern scaffold**, not a grand meta-analysis. It maps recurrence, same-system co-occurrence, conditionality, direct `A x D` scarcity, and the joint-cost evidence gap onto the mechanism classes from Part I.
+The 16-system high-information audit is interpreted as a **fragmented identification frontier**. Kessler 2008, Egan 2021, *Impatiens capensis*, and *Pedicularis rex* occupy complementary design faces; no screened system closes all dimensions. Thus existing biology is not absent—the information needed for mechanism allocation is distributed across different experiments.
 
-Figure 3 and Tables 3–4 belong to this half; Leal/Sasidharan robustness panels are supplementary.
+## Main figures
 
-## Central cross-system result
+1. Figure 1 — a total A×D interaction defines an identified set rather than a unique mechanism.
+2. Figure 2 — the 16-cell crossed consumer design and four-way separability diagnostic.
+3. Figure 3 — independent joint-cost assay versus the unallocated residual.
+4. Figure 4 — constituent-channel recurrence plus the fragmented identification frontier.
+5. Figure 5 — executable roadmap from interaction detection through partial to point identification.
 
-The empirical result is intentionally not “one universal sign.” It is:
+## Supporting Information
 
-> **recurrent constituent mechanisms + context-dependent balance**.
+`manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md` is the active Appendix S1. It retains the detailed identified-set projection algebra, Kessler reconstruction, *Impatiens* retrofit, 16-system audit, 56/25 recurrence details, and the historical 2,592-grid / 77.2% technical sensitivity material.
 
-The required mechanisms recur across independent systems, while dose, resources, exposure, consumer identity, response definition, and compound identity repeatedly alter their realized state. Direct attraction × defence and direct joint-cost evidence remain sparse exactly where Part I says identification is strongest.
+## Current package state
 
-## Inference boundary
+Validated pre-metadata package:
 
-Part II tests pattern predictions generated by Part I; it does not calibrate the full mixed partial.
+```text
+Main Document: 29 pages
+Appendix S1:   12 pages
+Main figures:   5
+```
 
-The manuscript must never imply:
-
-- marginal-route evidence = `W_AD`;
-- same-system co-occurrence = direct `A x D` evidence;
-- route/study counts = prevalence in nature;
-- finite-grid occupancy = prevalence in nature;
-- zero strict joint-cost estimates = `kappa = 0`;
-- one direct study = universal attraction-defence sign.
-
-## Current submission state
-
-Scientific analyses, Figures 1–3, and reproducible EPS export are available. Remaining portal-level tasks are author-controlled metadata, final journal house style, repository licence choice, exact release/archive DOI, and the final CI/export run from the exact submission commit.
+All 41 pages have been visually inspected. Remaining external-submission work is author-controlled metadata/sign-off followed by one exact rebuild and final page-by-page QA.

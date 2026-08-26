@@ -1,48 +1,63 @@
-# Final submission audit — identification-design canonical state
+# Final submission audit — partial-identification canonical state
 
-## Audit purpose
+Primary target: **Ecology — Concepts & Synthesis**
 
-This is the live scientific and submission audit for the canonical paper:
+Canonical paper:
 
 > **From floral trait interactions to mechanism identification: a crossed-intervention framework for attraction and defence**
 
-Primary target: **Ecology — Concepts & Synthesis**.
-
-The governing scientific claim is not a one-sided theorem. It is an **identification framework** joined to a bounded Mechanism → Pattern synthesis.
+The governing contribution is an ecological identification framework joined to a bounded Mechanism → Pattern synthesis. The algebra is not sold as mathematical novelty.
 
 ## 1. Scientific spine
 
-For two experimentally meaningful levels of attraction (`A`) and defence (`D`), the primary estimand is
+Primary measurable interaction:
 
 ```text
 Delta_AD W = W11 - W10 - W01 + W00
 ```
 
-A total attraction-by-defence interaction can be measured while the ecological channels generating it remain unidentified.
+Channel bookkeeping:
 
-The proposed general experiment crosses:
+```text
+Delta_AD W = rho_delta - iota_delta - kappa_delta
+```
+
+If only `Delta_AD W = delta` is observed, channel allocation belongs to
+
+```text
+I(delta) = {(rho, iota, kappa): rho - iota - kappa = delta}.
+```
+
+Thus total-interaction estimation does not point-identify mechanism, but additional information can **partially identify** it. The central recovered bound is
+
+```text
+kappa_delta >= 0
+=> rho_delta - iota_delta >= Delta_AD W.
+```
+
+For positive `Delta_AD W`, this forces a positive biotic balance conditional on the stated kappa restriction while leaving rho and iota individually unidentified.
+
+Point identification uses a selective 16-cell
 
 ```text
 A × D × antagonist access × pollinator access
 ```
 
-for 16 cells. Channel interpretation requires selective consumer interventions and comparable A/D coordinates across all cells.
+design. `m0_delta` is measured or justified. The rho and iota cross-context invariance gaps are one `A×D×G×P` four-way contrast up to sign, so a non-zero four-way value rejects the simple separable-channel model. `U_delta = rho_delta - iota_delta - Delta_AD W` remains unallocated; interpreting it as kappa requires an independent A×D assay.
 
-The design also includes its own structural check: pollinator-dependence of the antagonist-relief contrast and antagonist-dependence of the pollinator-increment contrast are the same `A×D×G×P` four-way interaction up to sign. A non-zero four-way contrast therefore rejects the simple separable-channel representation.
-
-Pollinator-independent reproduction is measured or justified through `m0_delta`. The residual
+The final inference ladder is:
 
 ```text
-U_delta = rho_delta - iota_delta - Delta_AD W
+interaction detection
+→ identified set
+→ partial identification
+→ point identification
+→ independent joint-channel validation
 ```
-
-remains unallocated. It is not defined as kappa. A joint construction/allocation cost requires a separate A×D assay under standardized or suppressed biotic channels.
-
-The algebra is used only after measurement as a consistency/sign diagnostic for any still-unallocated joint channel.
 
 ## 2. Mechanism → Pattern bridge
 
-The retained source-adjudicated synthesis contains:
+Retained recurrence evidence:
 
 ```text
 56 route records
@@ -55,90 +70,68 @@ same-system:      14
 context switches: 17
 ```
 
-These categories overlap. They establish that the constituent ecological channels recur across systems; they do not estimate natural prevalence, `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`.
+These overlapping categories establish constituent-channel recurrence, not natural prevalence or rho/iota/kappa magnitudes.
 
-The stricter identification audit contains 16 high-information systems. Current fixed result:
+The 16-system audit is now interpreted as a **fragmented identification frontier**. Kessler 2008, Egan 2021, *Impatiens capensis*, and *Pedicularis rex* occupy complementary design faces. Screened-set facts remain:
 
 ```text
 independent joint-cost assay:       0
 full rho/iota/kappa identification: 0
 ```
 
-Thus the integrated cross-system conclusion is:
-
-> **The constituent channels recur, but their joint allocation remains unidentified.**
+but the stronger conclusion is that existing studies already constrain different dimensions of the allocation problem while none closes all of them.
 
 ## 3. Existing-data anchors
 
-- **Kessler et al. 2008:** closest trait-factorial anchor; positive discrete reproductive interaction across published aggregate constraints, with unresolved formal uncertainty and systemic-nicotine scope caveat.
+- **Kessler et al. 2008:** closest trait-factorial anchor; published aggregate constraints preserve a positive discrete reproductive interaction, with formal uncertainty and systemic-nicotine scope unresolved.
 - **Egan et al. 2021:** complementary consumer-factorial anchor; no independently manipulated floral A×D pair.
-- **Impatiens capensis:** observational A×D plus randomized interaction-treatment modification; all eight target HC3 intervals cross zero; context modification is estimable, channel identification is not.
-- **Pedicularis rex:** demonstrates a plausible selective-access physical-defence system, but lacks an independent attraction manipulation.
+- **Impatiens capensis:** observational A×D plus randomized interaction-treatment modification; all eight target HC3 intervals cross zero; not channel identification.
+- **Pedicularis rex:** selective-access defence-system anchor without independent attraction manipulation.
+
+No study-specific numerical rho/iota/kappa values or bounds are inferred from these near misses.
 
 ## 4. Historical analyses retained but demoted
 
-The 2,592 finite evaluations and 77.2% selectivity-window precision remain in Appendix S1 as implementation/model-family sensitivity only. They are not empirical validation or natural-regime frequencies.
-
-Leal and Sasidharan quantitative modules remain reproducible for provenance and possible companion work, but are not Main identification evidence.
-
-The historical theorem-led manuscript remains versioned and is not the canonical submission source.
+The 2,592 finite evaluations and 77.2% selectivity-window precision remain Appendix technical sensitivity only. Leal and Sasidharan modules remain reproducible provenance/possible companion work. The theorem-led manuscript remains versioned but is not canonical.
 
 ## 5. Inference boundaries
 
-The active paper preserves:
-
 ```text
-marginal route recurrence
-!= total A×D interaction
-!= channel interaction
-!= full mechanism allocation
+marginal recurrence
+!= total interaction
+!= assumption-indexed partial identification
+!= point-identified channel interaction
+!= full allocation
 ```
 
-Therefore:
+Therefore route counts are not prevalence; total interaction is not a unique mechanism; partial bounds must declare assumptions; randomized context modification is not selective exclusion; `U_delta` is not kappa; zero cost assays does not imply kappa=0; and a non-zero four-way term rejects separability.
 
-- route counts are not prevalence;
-- finite-grid fractions are not prevalence;
-- marginal A→P / A→G / D→G / D→P evidence does not estimate rho/iota;
-- randomized context modification is not selective consumer exclusion;
-- `U_delta` is not kappa by definition;
-- zero independent joint-cost assays does not imply kappa = 0;
-- a non-zero four-way interaction is evidence against separability rather than a nuisance term to absorb.
-
-## 6. Reader-facing and visual QA
+## 6. Reader-facing and package QA
 
 Current canonical pre-metadata package:
 
 ```text
 Main Document: 29 pages
-Appendix S1:   11 pages
+Appendix S1:   12 pages
 Main figures:   5
 ```
 
-Validation state:
+Validated state for the fully integrated scientific head:
 
 - CI — PASS on Python 3.10 / 3.11 / 3.12;
-- submission-scope — PASS;
 - identification candidate build — PASS;
 - canonical Ecology build — PASS;
-- Fig1–Fig5 EPS export — PASS;
-- full-page visual QA — PASS on all 29 Main + 11 Appendix pages;
-- Figure 4 recurrence/identification panel — readable at review-page scale;
-- `Theorem 1` and 77.2% headline — absent from Main;
+- page target — PASS with one Main-page margin;
+- full-page visual QA — PASS on all **29 Main + 12 Appendix = 41 pages**;
+- no blank pages, clipping, overlap, broken glyphs, missing figures, or broken equations;
+- identified-set equations, kappa-bound, design-fragmentation text, Figure 1 reinterpretation, and Appendix projection algebra — readable;
+- `Theorem 1` / 77.2% headline — absent from Main;
 - 2,592 / 77.2% — Appendix technical material only.
 
-## 7. Current submission decision
+## 7. Submission decision
 
-**Science: GO. Reader-facing repository-source QA: PASS. External submission: pending human-controlled metadata/sign-off.**
+**Science: GO on the partial-identification claim set. Reader-facing scientific/package QA: PASS. External submission: pending author-controlled metadata/sign-off.**
 
-Remaining blockers:
+Remaining blockers are final authors/affiliations, corresponding author/e-mail, ORCIDs, CRediT, funding, acknowledgments, competing interests, licence, any portal-requested reviewer fields, all-author approval/no-simultaneous-submission confirmation, and one final rebuild/page-by-page QA after those fields are inserted.
 
-1. final author order/publication names and affiliations;
-2. corresponding author/e-mail and ORCIDs;
-3. final CRediT roles;
-4. funding, acknowledgments, and competing-interest statement;
-5. repository/software/data licence statement where applicable;
-6. reviewer information only if requested by the portal;
-7. all-author approval and no-simultaneous-submission confirmation;
-8. final post-metadata package rebuild and page-by-page visual QA.
-
-The governing rule is now: **preserve the distinction between recurrent biological ingredients and identified channel allocation while keeping the paper operationally executable.**
+The governing rule is now: **state exactly what the current evidence constrains, distinguish bounds from point identification, and choose the next observation that most shrinks the remaining identified set.**
