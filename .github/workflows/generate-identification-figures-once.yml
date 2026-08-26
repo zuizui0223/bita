@@ -22,6 +22,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install test dependencies
+        run: python -m pip install -e '.[dev]'
       - name: Generate SVGs
         run: python scripts/build_identification_design_figures_svg.py
       - name: Validate generated SVGs
@@ -31,7 +33,7 @@ jobs:
           test -s manuscript/identification_figures/FIGURE_3_IDENTIFICATION_DESIGN.svg
           test -s manuscript/identification_figures/FIGURE_4_IDENTIFICATION_DESIGN.svg
           test -s manuscript/identification_figures/FIGURE_5_IDENTIFICATION_DESIGN.svg
-          pytest -q tests/test_identification_design_figures.py
+          python -m pytest -q tests/test_identification_design_figures.py
       - name: Commit generated SVGs
         run: |
           git config user.name 'github-actions[bot]'
