@@ -20,6 +20,12 @@ def _words(text: str) -> list[str]:
     return re.findall(r"\b[\w+×-]+\b", text, flags=re.UNICODE)
 
 
+def _keywords(text: str) -> list[str]:
+    line = next(line for line in text.splitlines() if line.startswith("**Keywords:**"))
+    payload = line.removeprefix("**Keywords:**").strip()
+    return [item.strip() for item in payload.split(";") if item.strip()]
+
+
 def test_ecology_target_and_article_type_are_active() -> None:
     portal = PORTAL.read_text(encoding="utf-8")
     strategy = STRATEGY.read_text(encoding="utf-8")
@@ -34,8 +40,7 @@ def test_ecology_abstract_and_keywords_fit_current_limits() -> None:
     text = MAN.read_text(encoding="utf-8")
     abstract = _abstract(text)
     assert 150 <= len(_words(abstract)) <= 350
-    keyword_line = next(line for line in text.splitlines() if line.startswith("**Keywords:**"))
-    keywords = [item.strip() for item in keyword_line.split(":", 1)[1].split(";") if item.strip()]
+    keywords = _keywords(text)
     assert 6 <= len(keywords) <= 12
     assert keywords == sorted(keywords, key=str.casefold)
 
