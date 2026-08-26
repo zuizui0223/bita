@@ -1,0 +1,32 @@
+{
+  "analysis_id": "kessler_2015_public_package_inventory_v1",
+  "class_counts": {
+    "image": 3
+  },
+  "file_count": 3,
+  "files": [
+    {
+      "bytes": 8047432,
+      "extension": ".tif",
+      "file_class": "image",
+      "path": "elife_poa_e07641_Figure_2_figure_supplement_2.tif"
+    },
+    {
+      "bytes": 7310076,
+      "extension": ".tif",
+      "file_class": "image",
+      "path": "elife_poa_e07641_Figure_2_figure_supplement_3.tif"
+    },
+    {
+      "bytes": 32182026,
+      "extension": ".tif",
+      "file_class": "image",
+      "path": "elife_poa_e07641_Figure_2_figure_supplement_1.tif"
+    }
+  ],
+  "interpretation_rule": "A zero candidate count supports only the claim that the publisher ZIP lacks obvious machine-readable source-data files. It does not prove that no numeric values could be digitized from figures, and it does not repair the invalid-D or missing-consumer-toggle identification gates.",
+  "machine_readable_candidate_count": 0,
+  "machine_readable_candidates": [],
+  "package_url": "https://cdn.elifesciences.org/articles/07641/elife-07641-supp-v1.zip",
+  "study_doi": "10.7554/eLife.07641"
+}
