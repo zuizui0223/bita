@@ -1,0 +1,58 @@
+name: patch-partial-identification-main-once
+
+on:
+  push:
+    branches:
+      - analysis/partial-identification-frontier-v1
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/partial-identification-frontier-v1
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Patch manuscript surfaces
+        run: python scripts/patch_partial_identification_main_once.py
+      - name: Sanity check source boundaries
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          man = Path('manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md').read_text()
+          abstract = man.split('## Abstract\n\n',1)[1].split('\n\n**Keywords:**',1)[0]
+          words = re.findall(r"\b[\w+×-]+\b", re.sub(r"\\\(|\\\)|[{}*_`]", " ", abstract))
+          assert len(words) <= 350, len(words)
+          assert 'identified set' in abstract
+          assert r'\mathcal I(\delta)' in man
+          assert r'\rho_\Delta-\iota_\Delta\ge\Delta_{AD}W' in man
+          assert 'design fragmentation' in man
+          assert 'interaction detection → partial identification → mechanism identification' in man
+          portal = Path('submission/AUTHOR_AND_PORTAL_METADATA_TEMPLATE.md').read_text()
+          pabs = portal.split('### Abstract\n\n',1)[1].split('\n\n### Keywords',1)[0].strip()
+          assert pabs == abstract.strip()
+          print('abstract words:', len(words))
+          PY
+      - name: Remove one-shot patch surfaces
+        run: |
+          rm scripts/patch_partial_identification_main_once.py
+          rm .github/workflows/patch-partial-identification-main-once.yml
+      - name: Commit patched manuscript
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'No changes to commit'
+            exit 0
+          fi
+          git commit -m 'Integrate partial-identification frontier into manuscript'
+          git push origin HEAD:analysis/partial-identification-frontier-v1
