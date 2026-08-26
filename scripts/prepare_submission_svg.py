@@ -15,12 +15,19 @@ from pathlib import Path
 
 
 VISIBLE_TITLE_PREFIXES = (
+    # Historical theorem-led figures retained for provenance/export compatibility.
     "Figure 1.",
     "Figure 2.",
     "Figure 3.",
     "Meta-analytic pattern architecture and identification boundary",
     "Quantitative evidence narrows the problem",
     "without identifying the total interaction",
+    # Canonical identification-design figures.
+    "A total trait interaction does not identify its mechanism",
+    "Crossed interventions identify channels and test separability",
+    "Do not define the joint cost as a residual",
+    "Existing studies occupy complementary parts of the identification design",
+    "An executable path from interaction detection to mechanism identification",
 )
 
 
