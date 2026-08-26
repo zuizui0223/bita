@@ -1,0 +1,49 @@
+name: patch-mechanism-pattern-reconnect-once
+
+on:
+  push:
+    branches:
+      - manuscript/mechanism-pattern-reconnect-v1
+    paths:
+      - scripts/patch_mechanism_pattern_reconnect_once.py
+      - .github/workflows/patch-mechanism-pattern-reconnect-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: manuscript/mechanism-pattern-reconnect-v1
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Patch manuscript, supplement, submission docs, and Fig. 4 builder
+        run: python scripts/patch_mechanism_pattern_reconnect_once.py
+      - name: Regenerate identification-design figures
+        run: python scripts/build_identification_design_figures_svg.py
+      - name: Validate mechanism-pattern bridge
+        run: |
+          grep -q '### 4.1 Constituent ecological channels recur across systems' manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md
+          grep -q '56 directional route records from 25 independent biological study clusters' manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md
+          grep -q 'Mechanism → Pattern bridge is therefore two-stage' manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md
+          grep -q 'Constituent ecological channels recur, but mechanism allocation remains unidentified' manuscript/IDENTIFICATION_DESIGN_FIGURE_CAPTIONS.md
+          grep -q 'Mechanism Pattern: 56 routes / 25 clusters' manuscript/identification_figures/FIGURE_4_IDENTIFICATION_DESIGN.svg
+          grep -q 'Route counts overlap; recurrence ≠ channel identification' manuscript/identification_figures/FIGURE_4_IDENTIFICATION_DESIGN.svg
+          grep -q '## S5. Constituent mechanism recurrence supporting the Main Pattern layer' manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md
+          grep -q 'Mechanism → Pattern recurrence layer retained in the Main argument' SUPPLEMENT_MANIFEST.md
+      - name: Commit reconnect
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md manuscript/IDENTIFICATION_DESIGN_FIGURE_CAPTIONS.md manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md manuscript/identification_figures/FIGURE_4_IDENTIFICATION_DESIGN.svg submission/COVER_LETTER_ECOLOGY_CONCEPTS_SYNTHESIS.md SUPPLEMENT_MANIFEST.md scripts/build_identification_design_figures_svg.py
+          if git diff --cached --quiet; then
+            echo 'No reconnect changes to commit' >&2
+            exit 1
+          fi
+          git commit -m 'Reconnect mechanism recurrence to identification pattern'
+          git push origin HEAD:manuscript/mechanism-pattern-reconnect-v1
