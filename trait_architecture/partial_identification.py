@@ -5,13 +5,13 @@ interaction
 
     Delta_AD W = rho_delta - iota_delta - kappa_delta
 
-from its channel allocation.  Full crossed interventions can point-identify the
+from its channel allocation. Full crossed interventions can point-identify the
 biotic channels under the declared gates, but incomplete studies need not be
-classified only as "identified" or "not identified".  When external knowledge
+classified only as "identified" or "not identified". When external knowledge
 supplies bounds on one or more channels, the equality above defines an exact
 identified set and corresponding projection intervals.
 
-This module keeps that logic deliberately assumption-indexed.  It never treats a
+This module keeps that logic deliberately assumption-indexed. It never treats a
 sign restriction, cost bound, or consumer bound as empirical fact unless the
 caller supplies it.
 """
@@ -70,9 +70,12 @@ class PartialIdentificationResult:
 
         {(rho, iota, kappa): rho - iota - kappa = delta_w}
 
-    intersected with the caller-supplied box constraints.  ``rho``, ``iota`` and
+    intersected with the caller-supplied box constraints. ``rho``, ``iota`` and
     ``kappa`` are exact coordinate projections of that set, not independent
-    uncertainty intervals from a sampling model.
+    uncertainty intervals from a sampling model. ``biotic_balance`` is the
+    exact projection of rho - iota; because the equality implies
+    rho - iota = delta_w + kappa, its bounds are determined one-to-one by the
+    feasible kappa projection.
     """
 
     delta_w: float
@@ -80,6 +83,7 @@ class PartialIdentificationResult:
     rho: Interval | None
     iota: Interval | None
     kappa: Interval | None
+    biotic_balance: Interval | None
 
     @property
     def point_identified(self) -> bool:
@@ -103,17 +107,22 @@ def partial_identification_from_total(
 ) -> PartialIdentificationResult:
     """Project channel bounds conditional on one observed total interaction.
 
-    With no supplied restrictions, all three channel projections remain
-    unbounded even when ``delta_w`` is known exactly.  Added biological or
-    experimental information shrinks the set transparently.
+    With no supplied restrictions, all three channel projections and the biotic
+    balance remain unbounded even when ``delta_w`` is known exactly. Added
+    biological or experimental information shrinks the set transparently.
 
-    Examples
-    --------
-    If all three oriented channels are assumed nonnegative and ``delta_w > 0``,
-    the total interaction alone implies ``rho_delta >= delta_w`` but does not
-    upper-bound rho or point-identify any channel.  This recovers the old
-    one-sided inequality as a partial-identification statement rather than a
-    standalone prediction theorem.
+    A particularly useful projection does not require sign restrictions on rho
+    or iota. Since
+
+        rho_delta - iota_delta = delta_w + kappa_delta,
+
+    any lower/upper bound on kappa maps directly to a sharp bound on the biotic
+    balance. Thus if ``kappa_delta >= 0`` and ``delta_w > 0``, then
+
+        rho_delta - iota_delta >= delta_w > 0,
+
+    while rho and iota can each remain individually unbounded. This is the clean
+    partial-identification interpretation of the historical one-sided result.
     """
     if isnan(delta_w):
         raise ValueError("delta_w cannot be NaN")
@@ -124,7 +133,7 @@ def partial_identification_from_total(
     )
     rho = rho_bounds.intersect(rho_from_others)
     if rho is None:
-        return PartialIdentificationResult(delta_w, False, None, None, None)
+        return PartialIdentificationResult(delta_w, False, None, None, None, None)
 
     iota_from_others = Interval(
         rho_bounds.low - kappa_bounds.high - delta_w,
@@ -140,8 +149,9 @@ def partial_identification_from_total(
 
     if iota is None or kappa is None:
         # For interval box constraints and one linear equality this should agree
-        # with the rho projection feasibility check.  Keep an explicit guard so
+        # with the rho projection feasibility check. Keep an explicit guard so
         # future changes cannot silently return inconsistent projections.
-        return PartialIdentificationResult(delta_w, False, None, None, None)
+        return PartialIdentificationResult(delta_w, False, None, None, None, None)
 
-    return PartialIdentificationResult(delta_w, True, rho, iota, kappa)
+    balance = Interval(delta_w + kappa.low, delta_w + kappa.high)
+    return PartialIdentificationResult(delta_w, True, rho, iota, kappa, balance)
