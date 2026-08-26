@@ -1,35 +1,36 @@
 # Author and submission-portal metadata
 
-Complete the author-controlled fields before the manuscript is uploaded. Do not infer or auto-fill missing author information.
+Complete the author-controlled fields before upload. Do not infer or auto-fill missing author information.
 
 ## Manuscript
 
-- Final title: **When are floral attraction and defence complementary? A one-sided mechanistic bound and cross-system patterns**
+- Final title: **From floral trait interactions to mechanism identification: a crossed-intervention framework for attraction and defence**
 - Article type: **Concepts & Synthesis**
 - Target journal: **Ecology**
-- Running title: **One-sided bound on attraction–defence complementarity**
+- Running title: **Identifying attraction–defence mechanisms**
 - Corresponding author:
 - Corresponding-author email:
 - Repository URL: `https://github.com/zuizui0223/bita`
-- Archived release DOI:
-- Suggested handling editor:
+- Archived release DOI: [acceptance-stage field]
+- Suggested handling editor: [only if requested by portal]
 
 ### Abstract
 
-A recurring challenge in ecology is to extract general structure from interactions whose net effects vary among contexts. Flowers provide a tractable case because attraction can recruit mutualists and antagonists, while defence can reduce antagonist damage yet interfere with pollination or impose joint costs. We ask first not where attraction and defence are complementary, but where complementarity is impossible. After an explicit orientation gate, the local mixed fitness effect is organized as antagonist relief minus pollinator interference minus direct joint-cost curvature, \(W_{AD}=\rho-\iota-\kappa\). The algebra is deliberately elementary: bookkeeping yields a one-sided bound—under non-negative joint-cost curvature, complementarity requires antagonist relief to exceed pollinator interference. We prove this algebraically and use 2,592 evaluations across four response-shape variants to verify implementation and quantify looseness: about 23% of points inside this selectivity window remain substitutable. Theory then defines the evidence classes for a mechanism-first synthesis of 56 route-level records from 25 independent biological study clusters. Floral larceny reduces female fitness on average (log response ratio -0.210; 48 clusters), yet only 35/48 effects are negative, the 95% prediction interval spans -1.13 to +0.71, and declared moderators explain only 0-8% of heterogeneity. Constituent mechanisms and switching architectures therefore recur, but their realized balance is strongly context dependent. Direct \(A\times D\) evidence remains sparse and direct joint-cost curvature unmeasured. The study shows how mechanism-first synthesis can replace a search for universal mean effects with testable boundaries on what ecological interactions can do.
+Ecologists often observe that two traits interact on fitness without being able to determine which ecological pathway produced that interaction. Floral attraction and defence make this problem unusually clear. Attractive flowers can gain pollination but also attract antagonists, whereas floral defence can reduce damage while interfering with legitimate visitors or imposing an additional joint cost. A total attraction-by-defence interaction therefore does not identify its mechanism. We develop an experimental identification framework for this problem. We first replace the local mixed derivative used in earlier theory with a directly measurable two-level interaction, \(\Delta_{AD}W=W_{11}-W_{10}-W_{01}+W_{00}\). We then show how a crossed \(A\times D\times\) antagonist \(\times\) pollinator experiment can separate antagonist relief from pollinator interference, provided the consumer interventions are selective and the same attraction and defence contrasts are maintained across cells. The design contains its own check on channel separability: the apparent pollinator-dependence of antagonist relief and antagonist-dependence of pollinator interference are the same four-way interaction up to sign. Pollinator-independent reproduction must be measured rather than assumed away, and a joint attraction-defence cost must be assessed independently rather than defined as a residual. Under these conditions, a simple algebraic identity becomes a diagnostic for the sign of any still-unallocated joint channel rather than a standalone prediction theorem. We apply this framework to high-information published systems. Kessler et al. (2008) provides a rare experimental attraction-by-defence-like trait factorial with a sign-robust positive discrete reproductive interaction under published aggregate constraints, whereas Egan et al. (2021) provides the complementary consumer-factorial structure without an experimentally crossed attraction-by-defence trait pair. A Dryad reanalysis of *Impatiens capensis* reaches randomized context modification of an observational trait interaction but not channel identification. Across 16 screened high-information systems, no study combines the trait factorial, selective consumer interventions, pollinator-independent baseline characterization, and an independent joint-cost assay. The main empirical gap is therefore not absence of interaction studies, but the missing intersection between trait-interaction estimation and mechanism allocation. The framework turns that gap into a concrete experimental design.
 
 ### Keywords
 
-- attraction-defence interaction
+Use the exact manuscript keywords; keep them synchronized after final copy-editing:
+
+- causal identification
 - floral defence
+- floral traits
 - florivory
-- mechanism
-- meta-analysis
+- factorial experiment
 - pollination
+- trait interaction
 
 ## Authors
-
-For each author provide:
 
 | Order | Full publication name | Affiliation(s) | ORCID | Email | Corresponding? |
 |---:|---|---|---|---|---|
@@ -61,13 +62,13 @@ Assign only roles actually performed:
 - Project administration:
 - Funding acquisition:
 
-## Funding and acknowledgements
+## Funding and acknowledgments
 
-- Funding body:
+- Funding body or confirmed no-funding statement:
 - Grant name and number:
 - Recipient:
 - Funder role in study design, analysis, interpretation, or publication:
-- Acknowledgements:
+- Acknowledgments:
 
 ## Declarations
 
@@ -80,43 +81,34 @@ Details:
 
 ### Ethics
 
-This is a theoretical/computational and literature-synthesis study using no newly collected human or animal subjects. Confirm whether any retained literature-derived material or external data creates an additional ethics requirement.
+This is a theoretical/computational and literature/data-reanalysis study using no newly collected human or animal subjects. Confirm whether any retained literature-derived material or external data creates an additional ethics requirement.
 
 ### Data and code availability
 
 Current draft portal statement:
 
-> Code, declared configurations, generated readouts, source-adjudication products, saturation receipts, quantitative-synthesis outputs, validation tests, and canonical manuscript figures are maintained in the public GitHub repository `https://github.com/zuizui0223/bita`. The complete Leal et al. (2025) floral-larceny module is included directly in the canonical repository tree, with provenance additionally pinned to immutable commit `ed33b25593c0d90ad6657753f6f5501d9efc7b82`; the Sasidharan et al. (2023) synthesis uses the 32-study-component citation topology recorded in the canonical integration state. The saturated Pattern ledgers/context programs and source-access receipts for the secondary contextual syntheses are versioned with the manuscript. The exact submitted repository release and archival DOI will be inserted before portal submission.
+> Review-stage analysis code, discrete identification estimands, source-audit products, the aggregate *Impatiens capensis* retrofit, the sixteen-system high-information identification-coverage matrix, and retained provenance products are maintained in the public GitHub repository `https://github.com/zuizui0223/bita`. Individual source-data records are not redistributed where licence or source restrictions do not permit it. The exact accepted data/code version will be frozen in a permanent versioned archive and cited in the final article at the acceptance stage.
 
-Final statement must add:
+Final statement must also confirm:
 
-- immutable final release/tag identifier;
-- archival DOI;
-- exact final submission commit SHA;
-- repository licence and any source-data licence statements required for retained derived products.
+- repository/software/data licence statement where applicable;
+- exact accepted release/tag and commit;
+- archival DOI once created at acceptance stage;
+- any source-data licence limitations relevant to derived products.
 
 ### Open Research statement
 
-Current title-page statement:
+Current review-stage title-page statement:
 
-> Analysis code, source-adjudication products, and generated readouts are maintained in the public project repository. The exact immutable release, repository licence, and archival DOI for the submitted version are author-controlled release fields and will be inserted before submission.
-
-Before portal submission, replace the release placeholders with the exact immutable release/tag, licence, archival DOI, and final submission commit.
+> Review-stage analysis code, identification estimands, source-audit products, the *Impatiens* public-data retrofit, and machine-readable identification-coverage products are available in the public project repository. The exact accepted data/code version will be deposited in a permanent versioned archive and cited in the final article at the acceptance stage.
 
 ### Use of generative AI or language tools
 
-Current disclosure state: OpenAI ChatGPT and Anthropic Claude were used for code-generation assistance, structured literature triage, reproducibility checks, and manuscript drafting/editing. The manuscript contains a section-specific disclosure in Section 4.3 and an additional Acknowledgments disclosure. The same use must be disclosed in the Ecology submission form, and all authors must confirm the exact submitted wording. Authors remain responsible for all claims, citations, code, and text.
+Preserve the final disclosure required by the journal/portal. Authors remain responsible for all claims, citations, code, analyses, and text. Do not infer author approval of disclosure wording.
 
 ## Reviewer suggestions
 
-Provide exactly 5 potential reviewers with relevant expertise in at least two of:
-
-- theoretical ecology;
-- ecological meta-analysis;
-- pollination and floral evolution;
-- plant–herbivore or florivore interactions;
-- multivariate selection and fitness surfaces;
-- ecological interaction modification.
+Complete only the number and fields requested by the live ScholarOne portal. Do not treat an arbitrary fixed reviewer count as a manuscript-level prerequisite.
 
 | Name | Institution | Email | Expertise | Reason | Conflict check |
 |---|---|---|---|---|---|
@@ -134,17 +126,16 @@ List only when there is a specific defensible conflict, not because a reviewer m
 
 ## Portal checks
 
-- [x] title matches the canonical Mechanism → Pattern manuscript file;
-- [x] abstract matches the canonical manuscript file;
-- [x] keywords match the manuscript file;
-- [x] article framing is Part I Mechanism + Part II cross-system Pattern;
-- [x] portal abstract carries the one-sided theorem, 2,592 verification, 56/25 Pattern state, Leal H-gate result, and joint-cost falsification gate;
+- [x] title matches `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`;
+- [x] abstract matches the identification manuscript;
+- [x] article framing is interaction detection → mechanism identification;
+- [x] portal abstract contains the 16-cell design, separability test, M0 baseline, independent joint-cost requirement, and existing-study identification gap;
+- [x] 2,592 / 77.2% are not portal-abstract headline results;
+- [x] five identification-design figures have canonical SVG sources and EPS export workflow;
+- [ ] keywords are synchronized after final copy edit;
 - [ ] author list matches title page and portal;
 - [ ] funding statement matches portal fields;
 - [ ] competing-interest statement matches portal fields;
-- [ ] final code/data release link and archival DOI are public and immutable;
-- [x] Figures 1–3 have canonical SVG sources and an EPS export workflow;
-- [ ] final Figures 1–3 EPS files are regenerated from the exact final paperization commit;
-- [ ] supplementary files are cited/numbered consistently in the final package;
-- [x] cover letter names Ecology, the Concepts & Synthesis article type, and the canonical Mechanism → Pattern manuscript;
-- [ ] manuscript is confirmed by all authors as not under consideration elsewhere.
+- [ ] final repository/software/data licence statement is approved;
+- [ ] final Supporting Information files are cited/numbered consistently;
+- [ ] all authors confirm the exact submitted version is not under consideration elsewhere.
