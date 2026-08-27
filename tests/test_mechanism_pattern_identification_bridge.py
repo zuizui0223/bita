@@ -47,11 +47,13 @@ def test_supplement_keeps_source_detail_and_inference_boundary() -> None:
 def test_figure4_visually_connects_recurrence_to_identification_gap() -> None:
     caption = CAP.read_text(encoding="utf-8")
     svg = FIG4.read_text(encoding="utf-8")
-    assert "Constituent ecological channels recur, but mechanism allocation remains unidentified" in caption
-    assert "Constituent channels recur, but mechanism allocation remains unidentified" in svg
+    assert "Constituent channels and complementary experimental faces recur, but mechanism allocation remains unidentified" in caption
+    assert "Experimental faces recur, but mechanism allocation remains unidentified" in svg
     assert "Mechanism Pattern: 56 routes / 25 clusters" in svg
     assert "A→P 5" in svg and "A→G 8" in svg and "D→G 18" in svg and "D→P 10" in svg
-    assert "recurrence ≠ channel identification" in svg
+    assert "Route recurrence ≠ channel identification" in svg
+    assert "A×G×Pₛ — Theis 2012" in svg
+    assert "17-system frontier" in svg
 
 
 def test_bridge_document_preserves_two_layer_inference() -> None:
