@@ -25,3 +25,5 @@ Soper Gorden NL, Adler LS (2018) Consequences of multiple flower–insect intera
 Strauss SY, Whittall JB (2006) Non-pollinator agents of selection on floral traits. In: Harder LD, Barrett SCH (eds.), *Ecology and Evolution of Flowers*. Oxford University Press, pp. 120–138. https://doi.org/10.1093/oso/9780198570851.003.0007
 
 Sun S-G, Huang S-Q (2015) Rainwater in cupulate bracts repels seed herbivores in a bumblebee-pollinated subalpine flower. *AoB PLANTS* 7:plv019. https://doi.org/10.1093/aobpla/plv019
+
+Theis N, Adler LS (2012) Advertising to the enemy: enhanced floral fragrance increases beetle attraction and reduces plant reproduction. *Ecology* 93:430–435. https://doi.org/10.1890/11-0825.1
