@@ -10,7 +10,7 @@ repls = [
 ),
 (
 "Seventeen high-information systems are retained. None reaches the full sequence from trait interaction to channel allocation and independent joint-cost measurement, but `0/17` hides a more informative structure. The studies occupy complementary lower-dimensional faces of the target \\(A\\times D\\times G\\times P\\) design. Kessler et al. (2008) supplies the strongest direct \\(A\\times D\\)-like trait face; Theis and Adler (2012) crosses manipulated attraction with beetle removal and supplemental hand pollination; Santangelo et al. (2019) crosses defence, herbivore suppression and hand pollination; Egan et al. (2021) supplies a strong consumer factorial with measured traits; and *Pedicularis rex* supplies a selective defence mechanism. These treatments are not equivalent to the strict target axes, but together they show that substantial pieces of the design already exist.",
-"Seventeen high-information systems are retained. None closes the full allocation design, but `0/17` hides complementary lower-dimensional faces of the target \\(A\\times D\\times G\\times P\\) architecture: Kessler et al. (2008) supplies an \\(A\\times D\\)-like trait face, Theis and Adler (2012) an attraction×beetle-removal×hand-pollination bridge, Santangelo et al. (2019) a defence×herbivore-suppression×hand-pollination bridge, Egan et al. (2021) a consumer factorial, and *Pedicularis rex* a selective-defence mechanism. These treatments are not equivalent to the strict target axes."
+"Seventeen high-information systems are retained. None closes the full allocation design, but `0/17` hides a more informative structure: complementary lower-dimensional faces of the target \\(A\\times D\\times G\\times P\\) architecture already exist. Kessler et al. (2008) supplies an \\(A\\times D\\)-like trait face, Theis and Adler (2012) an attraction×beetle-removal×hand-pollination bridge, Santangelo et al. (2019) a defence×herbivore-suppression×hand-pollination bridge, Egan et al. (2021) a consumer factorial, and *Pedicularis rex* a selective-defence mechanism. These treatments are not equivalent to the strict target axes."
 ),
 (
 "Theis and Adler (2012) provides an unusually informative bridge. Floral fragrance was experimentally enhanced, beetles were repeatedly removed from a crossed subset, and supplemental hand pollination was applied within the fragrance-by-beetle combinations. This creates an \\(A\\times G\\times P_{\\mathrm{supp}}\\) reproductive backbone. It is not the target pollinator-access contrast—hand pollination supplements rather than removes pollinator service—and the experiment lacks an independent defence axis. Its importance is structural: three of the four target dimensions can already be crossed in a field experiment.",
@@ -41,12 +41,15 @@ for old,new in repls:
 
 required = [
     'Seventeen high-information systems are retained',
+    '`0/17` hides a more informative structure',
+    'complementary lower-dimensional faces of the target',
+    'design fragmentation',
+    'which additional intervention or measurement would most reduce',
     '17 screened systems',
     'fragmented identification frontier',
     'Theis and Adler (2012)',
     'A\\times G\\times P_{\\mathrm{supp}}',
     'Santangelo et al. (2019)',
-    '0/17',
     '56 directional route records',
     '25 independent biological study clusters',
     '\\mathcal I(\\delta)',
