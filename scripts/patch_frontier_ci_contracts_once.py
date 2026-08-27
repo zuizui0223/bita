@@ -12,41 +12,22 @@ def replace(path: str, old: str, new: str) -> None:
 
 
 # Preserve scientifically valid boundary language that older regression tests guard.
-replace(
-    "submission/ECOLOGY_CONCEPTS_SYNTHESIS_FIT_AUDIT.md",
-    "## Identification invariants\n",
-    "## Identification invariants preserved\n",
-)
-replace(
-    "submission/ECOLOGY_CONCEPTS_SYNTHESIS_FIT_AUDIT.md",
-    "## Mechanism → Pattern / partial-identification fit\n",
-    "## Mechanism → Pattern fit / partial-identification fit\n",
-)
+replace("submission/ECOLOGY_CONCEPTS_SYNTHESIS_FIT_AUDIT.md", "## Identification invariants\n", "## Identification invariants preserved\n")
+replace("submission/ECOLOGY_CONCEPTS_SYNTHESIS_FIT_AUDIT.md", "## Mechanism → Pattern / partial-identification fit\n", "## Mechanism → Pattern fit / partial-identification fit\n")
 replace(
     "submission/ECOLOGY_CONCEPTS_SYNTHESIS_FIT_AUDIT.md",
     "The 56-route / 25-cluster synthesis supports only cross-system recurrence of the four constituent pathway families; it does not estimate natural prevalence or rho/iota/kappa.\n",
     "The 56-route / 25-cluster synthesis supports only the statement that the constituent ecological channels recur across systems; it does not estimate natural prevalence or rho/iota/kappa.\n",
 )
+replace("SUPPLEMENT_MANIFEST.md", "## 2. Scientific core\n", "## 2. Canonical scientific core\n")
+replace("SUPPLEMENT_MANIFEST.md", "→ selective crossed interventions\n", "→ crossed A × D × antagonist × pollinator interventions\n")
 replace(
     "SUPPLEMENT_MANIFEST.md",
-    "## 2. Scientific core\n",
-    "## 2. Canonical scientific core\n",
+    "- rho/iota invariance views are one four-way interaction up to sign;\n",
+    "- rho/iota invariance views are one four-way interaction up to sign; this is the `A×D×G×P separability diagnostic`;\n",
 )
-replace(
-    "SUPPLEMENT_MANIFEST.md",
-    "→ selective crossed interventions\n",
-    "→ crossed A × D × antagonist × pollinator interventions\n",
-)
-replace(
-    "SUPPLEMENT_MANIFEST.md",
-    "## 7. Historical provenance\n",
-    "## 7. Historical quantitative provenance retained\n",
-)
-replace(
-    "SUPPLEMENT_MANIFEST.md",
-    "Leal et al. 2025 pins remain unchanged:\n",
-    "Leal et al. 2025 provenance remains pinned:\n",
-)
+replace("SUPPLEMENT_MANIFEST.md", "## 7. Historical provenance\n", "## 7. Historical quantitative provenance retained\n")
+replace("SUPPLEMENT_MANIFEST.md", "Leal et al. 2025 pins remain unchanged:\n", "Leal et al. 2025 provenance remains pinned:\n")
 replace(
     "SUPPLEMENT_MANIFEST.md",
     "Historical values and Sasidharan reconstruction remain preserved with their original inference boundaries.\n",
