@@ -13,6 +13,7 @@ def test_core_empirical_citations_are_in_manuscript_and_bibliography() -> None:
         "Soper Gorden and Adler (2018)",
         "Sun and Huang (2015)",
         "Kessler et al. (2015)",
+        "Theis and Adler (2012)",
     ]
     for token in manuscript_tokens:
         assert token in MANUSCRIPT
@@ -23,6 +24,7 @@ def test_core_empirical_citations_are_in_manuscript_and_bibliography() -> None:
         "10.1002/ajb2.1182",
         "10.1093/aobpla/plv019",
         "10.7554/eLife.07641",
+        "10.1890/11-0825.1",
     ]
     for doi in dois:
         assert doi in REFERENCES
