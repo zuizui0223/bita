@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from scripts.build_identification_candidate_package_sources import (
+    OUT,
     build_main_source,
     build_supplement_source,
 )
@@ -58,7 +59,8 @@ def test_candidate_supplement_keeps_demoted_technical_material() -> None:
 
 
 def test_candidate_package_does_not_overwrite_canonical_paths() -> None:
+    assert OUT.name == "generated"
+    assert OUT.parent.name == "identification_candidate"
     source = Path("scripts/build_identification_candidate_package_sources.py").read_text(encoding="utf-8")
-    assert '"identification_candidate"' in source
-    assert 'OUT / "MANUSCRIPT_IDENTIFICATION_CANDIDATE.md"' in source
-    assert 'OUT / "APPENDIX_IDENTIFICATION_CANDIDATE.md"' in source
+    assert 'main_path = out / "MANUSCRIPT_IDENTIFICATION_CANDIDATE.md"' in source
+    assert 'supplement_path = out / "APPENDIX_IDENTIFICATION_CANDIDATE.md"' in source
