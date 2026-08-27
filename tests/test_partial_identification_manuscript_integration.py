@@ -44,15 +44,17 @@ def test_historical_one_sided_result_is_recovered_with_kappa_only_restriction() 
     assert r"\iota_\Delta\ge0" not in block
 
 
-def test_coverage_is_a_design_fragmentation_frontier_not_only_zero_of_sixteen() -> None:
+def test_coverage_is_a_design_fragmentation_frontier_not_only_zero_of_seventeen() -> None:
     text = MAN.read_text(encoding="utf-8")
     block = text.split("### 4.2 Identification-coverage audit", 1)[1].split(
         "### 4.3 A trait-factorial anchor", 1
     )[0]
-    assert "more informative than a binary 0-of-16 result" in block
-    assert "complementary faces of an identification frontier" in block
+    assert "Seventeen high-information systems are retained" in block
+    assert "`0/17` hides a more informative structure" in block
+    assert "complementary lower-dimensional faces of the target" in block
     assert "design fragmentation" in block
-    assert "smallest additional intervention or measurement" in block
+    assert "which additional intervention or measurement would most reduce" in block
+    assert "Theis and Adler (2012)" in block
 
 
 def test_abstract_and_portal_stay_synchronized_and_within_limit() -> None:
@@ -77,11 +79,12 @@ def test_supplement_contains_exact_projection_algebra() -> None:
 def test_figure_and_cover_letter_use_partial_identification_without_inventing_values() -> None:
     captions = CAP.read_text(encoding="utf-8")
     assert "defines an identified set rather than a unique mechanism" in captions
-    assert "fragmented identification frontier" in captions
+    assert "design fragmentation" in captions
+    assert "17 screened high-information systems" in captions
     cover = COVER.read_text(encoding="utf-8")
     assert "A measured total interaction defines a set of compatible channel allocations" in cover
     assert "partial-identification bound rather than a standalone theorem" in cover
-    # No study-specific rho/iota/kappa numerical bounds are promoted by this integration.
+    # No study-specific rho/iota/kappa point values are promoted by this integration.
     main = MAN.read_text(encoding="utf-8")
     for forbidden in ("rho_delta = 0.", "iota_delta = 0.", "kappa_delta = 0."):
         assert forbidden not in main
@@ -91,5 +94,6 @@ def test_conclusion_closes_nonidentification_partial_point_sequence() -> None:
     text = MAN.read_text(encoding="utf-8")
     block = text.split("## 7. Conclusions", 1)[1].split("## Open Research statement", 1)[0]
     assert "A total interaction defines an identified set" in block
-    assert "fragmentation of the information needed to allocate a joint interaction" in block
+    assert "empirical gap is therefore design fragmentation" in block
+    assert "reuse a strong existing backbone" in block
     assert "interaction detection → partial identification → mechanism identification" in block
