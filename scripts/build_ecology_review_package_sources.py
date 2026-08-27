@@ -47,11 +47,6 @@ def build_main_submission_source() -> str:
         1,
     )
 
-    # Move review-stage availability to the title page and keep the backmatter in
-    # the journal-facing order. Human-controlled statements remain explicit
-    # placeholders and are not inferred here. The canonical scientific source
-    # already contains the Section 5.4 AI-use disclosure, so do not duplicate it
-    # in the backmatter during packaging.
     pattern = re.compile(
         r"\n\n## Open Research statement\n\n.+?"
         r"\n\n## Author contributions, funding, acknowledgments and competing interests\n\n"
@@ -77,7 +72,7 @@ def build_appendix_source() -> str:
 
 
 def build_open_research_manifest() -> str:
-    """Retain legacy machine-readable products and add identification-era outputs."""
+    """Retain legacy products and add current identification-frontier outputs."""
     legacy.OUT = OUT
     legacy.DATA_OUT = DATA_OUT
     manifest = legacy.build_open_research_manifest().rstrip()
@@ -87,7 +82,17 @@ def build_open_research_manifest() -> str:
         (
             ROOT / "empirical" / "identification_design" / "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv",
             DATA_OUT / "high_information_identification_coverage.csv",
-            "Sixteen-system high-information identification-coverage matrix; screened-set coverage, not literature prevalence.",
+            "Seventeen-system high-information identification-coverage matrix; screened-set coverage, not literature prevalence.",
+        ),
+        (
+            ROOT / "empirical" / "identification_design" / "IDENTIFICATION_FRONTIER_AUGMENTATION_V1.csv",
+            DATA_OUT / "identification_frontier_augmentation.csv",
+            "Study-level frontier faces, next major augmentation modules, downstream gates, and conditional partial-identification notes; no scalar quality ranking.",
+        ),
+        (
+            ROOT / "empirical" / "identification_design" / "HYPERCUBE_FACE_COVERAGE_V1.csv",
+            DATA_OUT / "hypercube_face_coverage.csv",
+            "Structural A-D-G-P face coverage for the strongest experimental backbones; supplementation is kept distinct from pollinator-access toggling.",
         ),
         (
             ROOT / "empirical" / "identification_design" / "IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json",
@@ -112,7 +117,7 @@ def build_open_research_manifest() -> str:
         lines.append(f"| `{dst.name}` | `{src.relative_to(ROOT)}` | {description} |")
     lines += [
         "",
-        "The historical mechanism/Pattern products are retained for provenance and supplementary sensitivity work; the canonical Main argument now uses the identification-design manuscript and its coverage audit.",
+        "The historical mechanism/Pattern products are retained for provenance and supplementary sensitivity work; the canonical Main argument now uses the identification-design manuscript, partial-identification layer, and 17-system design frontier.",
         "",
     ]
     return "\n".join(lines)
