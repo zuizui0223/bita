@@ -37,7 +37,7 @@ def test_abstract_and_keywords_fit_current_ecology_limits() -> None:
     assert 150 <= len(_plain_words(abstract)) <= 350
     assert "56 route records from 25 independent biological clusters" in abstract
     assert "recurrence, not channel identification" in abstract
-    assert "16 screened high-information systems" in abstract
+    assert "17 screened high-information systems" in abstract
     assert "The main empirical gap" in abstract
 
     keywords = _manuscript_keywords(text)
@@ -92,7 +92,7 @@ def test_submission_svg_preprocessor_removes_only_new_outer_titles(tmp_path: Pat
         ("FIGURE_1_IDENTIFICATION_DESIGN.svg", "A total trait interaction does not identify its mechanism", "Interaction detection ≠ mechanism allocation"),
         ("FIGURE_2_IDENTIFICATION_DESIGN.svg", "Crossed interventions identify channels and test separability", "Internal separability diagnostic"),
         ("FIGURE_3_IDENTIFICATION_DESIGN.svg", "Do not define the joint cost as a residual", "Sign diagnostic"),
-        ("FIGURE_4_IDENTIFICATION_DESIGN.svg", "Constituent channels recur, but mechanism allocation remains unidentified", "recurrence ≠ channel identification"),
+        ("FIGURE_4_IDENTIFICATION_DESIGN.svg", "Experimental faces recur, but mechanism allocation remains unidentified", "Route recurrence ≠ channel identification"),
         ("FIGURE_5_IDENTIFICATION_DESIGN.svg", "An executable path from interaction detection to mechanism identification", "Run A×D×G×P"),
     )
     for filename, visible_title, retained_token in cases:
