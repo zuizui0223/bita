@@ -26,6 +26,11 @@ replace(
     "- rho/iota invariance views are one four-way interaction up to sign;\n",
     "- rho/iota invariance views are one four-way interaction up to sign; this is the `A×D×G×P separability diagnostic`;\n",
 )
+replace(
+    "SUPPLEMENT_MANIFEST.md",
+    "- kappa requires independent evidence.\n",
+    "- kappa requires an independent A×D joint-cost assay.\n",
+)
 replace("SUPPLEMENT_MANIFEST.md", "## 7. Historical provenance\n", "## 7. Historical quantitative provenance retained\n")
 replace("SUPPLEMENT_MANIFEST.md", "Leal et al. 2025 pins remain unchanged:\n", "Leal et al. 2025 provenance remains pinned:\n")
 replace(
