@@ -19,9 +19,9 @@ full allocation closure:                            0/17
 
 The five leading modules are carried by **five different studies**. The interpretation is therefore **design fragmentation**: relevant experimental information exists, but on orthogonal study backbones.
 
-The new fifth face is Theis & Adler (2012). The publisher abstract states that fragrance, pollination and florivores were manipulated. A contemporaneous *American Scientist* report of the study gives the factorial detail: fragrance enhancement was crossed with repeated beetle removal, and half of the female flowers within each of the four fragrance × beetle combinations received supplemental hand pollination. This is coded as an `A × G × pollination-supplementation` bridge, not as a target pollinator-access toggle, because hand pollination does not create pollinator absence/presence.
+The new fifth face is Theis & Adler (2012). The source audit supports fragrance enhancement crossed with beetle removal and supplemental hand pollination. This is coded as an `A × G × pollination-supplementation` bridge, not as a target pollinator-access toggle, because hand pollination does not create pollinator absence/presence.
 
-The complementary hypercube-face readout additionally records:
+The complementary hypercube-face readout records:
 
 ```text
 A×D-like face                          Kessler et al. 2008
@@ -44,19 +44,29 @@ rho_delta - iota_delta >= +0.19
 
 within those aggregate constraints. This is not a confidence bound because the factorial SE/CI is unrecovered, and it is not an empirical estimate of kappa.
 
-## Main-promotion checkpoint
+## Main promotion state
 
-The frontier result has now passed focused scientific regression tests and has been promoted on the PR branch into the canonical manuscript and Figure 4:
+The frontier result is promoted on the PR branch into the canonical manuscript and Figure 4:
 
-- Section 4.2 now states the 17-system hypercube-face / design-fragmentation result;
+- Abstract now reports **17 screened high-information systems**;
+- Section 4.2 names the empirical pattern a **fragmented identification frontier**;
 - Section 4.6 adds Theis & Adler 2012 as an `A×G×P_supplementation` bridge and preserves strict treatment-equivalence boundaries;
-- Discussion and Conclusions now state that lower-dimensional experimental faces already exist but remain distributed across systems;
-- Figure 4 now shows A×D (Kessler), consumer G×P (Egan), and A×G×P-supplementation (Theis) faces above the unchanged Impatiens retrofit;
-- the focused bibliography now contains 13 references including Theis & Adler 2012;
-- Appendix S1 now points to the 17-system frontier and hypercube-face products.
+- Discussion and Conclusions state that lower-dimensional experimental faces already exist but remain distributed across systems;
+- Figure 4 shows the complementary experimental faces and 17-system coverage;
+- the focused bibliography includes Theis & Adler 2012;
+- Appendix S1 points to the 17-system frontier and hypercube-face products.
 
-The one-shot promotion workflow and script removed themselves after the focused suite passed. The promoted bot commit is `c7da4cc8180a5bf87f3d9d892ae8c2caaa13480a`.
+The one-shot Abstract/Main synchronization surfaces removed themselves after their focused regression suite passed. The latest promotion bot commit is `9c8b4e44db1198a75147984304b9af24bd5ba8f5`.
 
-## Remaining release gate
+## Full release gate
 
-Before merge, the promoted state must still pass the normal full CI, submission-scope, canonical package build and figure export on a normal user-authored head. The exact rendered Main/Appendix page counts and page-by-page visual QA must then be refreshed. No merge should occur before those checks are complete.
+This user-authored receipt update exists to trigger the normal repository checks on the promoted state. Merge remains blocked until the same head passes:
+
+1. full CI on Python 3.10 / 3.11 / 3.12;
+2. submission-scope;
+3. identification candidate package;
+4. canonical Ecology package;
+5. Fig1–Fig5 EPS export;
+6. refreshed Main/Appendix page counts and page-by-page visual QA.
+
+No merge should occur before those checks are complete.
