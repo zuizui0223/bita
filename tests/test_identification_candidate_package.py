@@ -13,6 +13,7 @@ def test_candidate_main_is_identification_led() -> None:
     assert "A×D×G×P" in text
     assert "Kessler et al. (2008)" in text
     assert "Egan et al. (2021)" in text
+    assert "Theis and Adler (2012)" in text
     assert "2,592" not in text.split("## References", 1)[0]
     assert "77.2%" not in text.split("## References", 1)[0]
     assert "Theorem 1" not in text
@@ -35,9 +36,10 @@ def test_candidate_main_has_five_figure_pages_without_blank_leader() -> None:
 
 def test_candidate_main_has_focused_references() -> None:
     text = build_main_source()
-    assert text.count("https://doi.org/") == 12
+    assert text.count("https://doi.org/") == 13
     assert "10.1126/science.1160072" in text
     assert "10.1002/evl3.262" in text
+    assert "10.1890/11-0825.1" in text
     assert "Leal et al." not in text
     assert "Sasidharan" not in text
 
@@ -49,6 +51,8 @@ def test_candidate_supplement_keeps_demoted_technical_material() -> None:
     assert "KESSLER_2008_IDENTIFICATION_REAUDIT_V2.md" in text
     assert "IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json" in text
     assert "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv" in text
+    assert "IDENTIFICATION_FRONTIER_AUGMENTATION_V1.csv" in text
+    assert "HYPERCUBE_FACE_COVERAGE_V1.csv" in text
     assert "FIGURE_S1_DERIVATIVE_AGREEMENT.svg" in text
     assert "FIGURE_S2_SCENARIO_SIGN_MAPS.svg" in text
 
