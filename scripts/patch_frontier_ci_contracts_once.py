@@ -19,6 +19,8 @@ replace(
     "The 56-route / 25-cluster synthesis supports only cross-system recurrence of the four constituent pathway families; it does not estimate natural prevalence or rho/iota/kappa.\n",
     "The 56-route / 25-cluster synthesis supports only the statement that the constituent ecological channels recur across systems; it does not estimate natural prevalence or rho/iota/kappa.\n",
 )
+
+# Manifest: retain the full current identification and provenance contract.
 replace("SUPPLEMENT_MANIFEST.md", "## 2. Scientific core\n", "## 2. Canonical scientific core\n")
 replace("SUPPLEMENT_MANIFEST.md", "→ selective crossed interventions\n", "→ crossed A × D × antagonist × pollinator interventions\n")
 replace(
@@ -26,10 +28,23 @@ replace(
     "- rho/iota invariance views are one four-way interaction up to sign;\n",
     "- rho/iota invariance views are one four-way interaction up to sign; this is the `A×D×G×P separability diagnostic`;\n",
 )
+replace("SUPPLEMENT_MANIFEST.md", "- kappa requires independent evidence.\n", "- kappa requires an independent A×D joint-cost assay.\n")
+replace("SUPPLEMENT_MANIFEST.md", "## 3. Mechanism → Pattern / identification frontier\n", "## 3. Mechanism → Pattern recurrence layer\n")
 replace(
     "SUPPLEMENT_MANIFEST.md",
-    "- kappa requires independent evidence.\n",
-    "- kappa requires an independent A×D joint-cost assay.\n",
+    "56 route records\n25 independent biological clusters",
+    "56 source-adjudicated route records\n25 independent biological clusters",
+)
+replace(
+    "SUPPLEMENT_MANIFEST.md",
+    "These counts establish recurrence only.\n",
+    "These counts establish recurrence only and do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`.\n",
+)
+replace("SUPPLEMENT_MANIFEST.md", "## 4. Existing-data anchors\n", "## 4. Existing-data identification stress tests\n")
+replace(
+    "SUPPLEMENT_MANIFEST.md",
+    "- Kessler 2008: trait-factorial anchor; aggregate `Delta_AD` approximately +0.19 to +0.25, interaction OR approximately 2.77 to 4.71; formal uncertainty and systemic-D scope remain unresolved.\n- Egan 2021: complementary consumer-factorial anchor.\n- *Impatiens capensis*: observational A×D plus randomized context modification; all eight target HC3 intervals cross zero.\n- *Pedicularis rex*: selective-access defence anchor without independent attraction manipulation.\n\nThese studies are not assigned invented rho/iota/kappa values or bounds.\n",
+    "- **Kessler et al. 2008 — trait-factorial anchor:** aggregate `Delta_AD` approximately +0.19 to +0.25, interaction OR approximately 2.77 to 4.71; formal uncertainty and systemic-D scope remain unresolved.\n- **Egan et al. 2021 — consumer-factorial anchor:** complementary consumer-factorial structure.\n- **Soper Gorden & Adler 2018 — public-data retrofit:** observational A×D plus randomized context modification; all eight target HC3 intervals cross zero.\n- **Pedicularis rex:** selective-access defence anchor without independent attraction manipulation.\n\n```text\nindependent joint-cost assay:       0\nfull rho/iota/kappa identification: 0\n```\n\nThese studies are not assigned invented rho/iota/kappa values or bounds.\n",
 )
 replace("SUPPLEMENT_MANIFEST.md", "## 7. Historical provenance\n", "## 7. Historical quantitative provenance retained\n")
 replace("SUPPLEMENT_MANIFEST.md", "Leal et al. 2025 pins remain unchanged:\n", "Leal et al. 2025 provenance remains pinned:\n")
@@ -38,6 +53,8 @@ replace(
     "Historical values and Sasidharan reconstruction remain preserved with their original inference boundaries.\n",
     "Historical values and the Sasidharan reconstruction remain preserved with their original inference boundaries and do not validate the identification framework.\n",
 )
+
+# Scope / bridge / reader-facing boundary language.
 replace(
     "docs/SUBMISSION_SCOPE.md",
     "These overlapping categories establish recurrence capacity only. They are not prevalence estimates and do not estimate `Delta_AD W`, rho, iota, or kappa.\n",
