@@ -72,7 +72,11 @@ These overlapping counts show that the **constituent ecological pathways recur a
 
 The stricter 16-system audit shows a second pattern: **design fragmentation**. Existing studies occupy complementary faces of an identification frontier rather than all failing in the same way. Kessler et al. (2008) supplies the closest trait-factorial side; Egan et al. (2021) the complementary consumer-factorial side; the public *Impatiens capensis* retrofit reaches randomized context modification of an observational `A×D`; *Pedicularis rex* supplies a selective-defence system anchor. No screened system closes all allocation dimensions or contains an independent joint-cost assay.
 
-The cross-system conclusion is therefore:
+The cross-system conclusion retains the earlier boundary:
+
+> **The constituent channels recur, but their joint allocation remains unidentified.**
+
+The refined conclusion is:
 
 > **The constituent channels recur, current studies constrain different parts of their allocation, but the full joint mechanism is not yet point-identified.**
 

@@ -82,7 +82,7 @@ same-system:      14
 context switches: 17
 ```
 
-These overlapping categories establish recurrence capacity only. They are not prevalence estimates and do not estimate `Delta_AD W`, rho, iota, or kappa.
+These overlapping categories establish recurrence capacity only. The source-adjudicated route ledger is **not itself a grand meta-analysis**. They are not prevalence estimates and do not estimate `Delta_AD W`, rho, iota, or kappa.
 
 ## Pattern layer 2 — fragmented identification frontier
 
@@ -101,7 +101,7 @@ independent joint-cost assay:       0
 full rho/iota/kappa identification: 0
 ```
 
-but the stronger synthesis is not simply `0/16`. Existing studies occupy complementary faces of the allocation problem. The practical question is therefore **which smallest additional measurement or intervention most shrinks the remaining identified set?**
+but the stronger synthesis is not simply `0/16`. Constituent channels recur, but their joint allocation remains unidentified. Existing studies occupy complementary faces of the allocation problem. The practical question is therefore **which smallest additional measurement or intervention most shrinks the remaining identified set?**
 
 ## Required inference boundary
 

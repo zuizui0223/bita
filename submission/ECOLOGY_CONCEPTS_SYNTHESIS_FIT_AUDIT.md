@@ -53,9 +53,9 @@ Full-page visual QA of all **29 Main + 12 Appendix = 41 pages** found no blank p
 - AI-assisted workflow disclosure — retained once and synchronized
 - final author-list consistency — PENDING author input
 
-## Mechanism → Pattern / partial-identification fit
+## Mechanism → Pattern fit / partial-identification fit
 
-The 56-route / 25-cluster synthesis supports only cross-system recurrence of the four constituent pathway families; it does not estimate natural prevalence or rho/iota/kappa.
+The 56-route / 25-cluster synthesis supports only the statement that the constituent ecological channels recur across systems; it does not estimate natural prevalence or rho/iota/kappa.
 
 For a measured total interaction, the paper now makes the structural uncertainty explicit:
 
@@ -76,7 +76,7 @@ The 16-system audit then asks which allocation dimensions current studies alread
 
 This strengthens Concepts & Synthesis fit: the paper starts from a mechanistic decomposition, demonstrates recurrent biological ingredients, states exactly what incomplete evidence can already constrain, and derives the interventions required to move to point identification.
 
-## Identification invariants
+## Identification invariants preserved
 
 - `Delta_AD W` is a discrete two-level interaction;
 - total interaction alone defines a set, not unique channel allocation;

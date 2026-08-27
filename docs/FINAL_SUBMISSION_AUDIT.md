@@ -79,7 +79,7 @@ independent joint-cost assay:       0
 full rho/iota/kappa identification: 0
 ```
 
-but the stronger conclusion is that existing studies already constrain different dimensions of the allocation problem while none closes all of them.
+The constituent channels recur, but their joint allocation remains unidentified. The stronger conclusion is that existing studies already constrain different dimensions of the allocation problem while none closes all of them.
 
 ## 3. Existing-data anchors
 

@@ -15,12 +15,12 @@ def test_readme_declares_identification_and_bounded_pattern_story() -> None:
     assert "joint allocation remains unidentified" in text
     assert "route counts are not prevalence estimates" in text
     assert "finite-grid fractions are not probabilities of natural regimes" in text
-    assert "29 Main pages + 11 Appendix pages" in text
+    assert "29 Main pages + 12 Appendix pages" in text
 
 
 def test_manifest_pins_identification_core_and_bounded_pattern_provenance() -> None:
     text = (ROOT / "SUPPLEMENT_MANIFEST.md").read_text(encoding="utf-8")
-    assert "# Supplement manifest — canonical identification-design paper" in text
+    assert "# Supplement manifest — canonical partial-identification paper" in text
     assert "## 2. Canonical scientific core" in text
     assert "crossed A × D × antagonist × pollinator interventions" in text
     assert "A×D×G×P separability diagnostic" in text
@@ -71,7 +71,7 @@ def test_scope_preserves_identification_boundaries() -> None:
     assert "marginal route recurrence" in text
     assert "!= total A×D interaction" in text
     assert "U_delta` is not kappa" in text
-    assert "29 Main pages + 11 Appendix pages" in text
+    assert "29 Main pages + 12 Appendix pages" in text
 
 
 def test_final_audit_records_current_empirical_boundary() -> None:

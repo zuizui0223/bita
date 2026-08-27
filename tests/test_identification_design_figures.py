@@ -5,7 +5,7 @@ from scripts.build_identification_design_figures_svg import build, _impatiens_ta
 
 
 def test_figure_inputs_have_expected_fixed_states() -> None:
-    assert len(_read_coverage()) == 16
+    assert len(_read_coverage()) == 17
     targets = _impatiens_targets()
     assert len(targets) == 8
     assert all(float(row["lo"]) < 0 < float(row["hi"]) for row in targets)

@@ -2,7 +2,16 @@
 
 ## Purpose
 
-The canonical paper preserves the original Mechanism → Pattern logic while distinguishing **recurrence**, **partial identification**, and **point identification**.
+The canonical paper preserves the original Mechanism → Pattern logic while distinguishing **recurrence**, **partial identification**, and **point identification**. At the coarsest empirical level, the original bridge remains:
+
+```text
+Mechanism
+→ constituent ecological recurrence
+→ identification coverage
+→ mechanism-allocation experiment
+```
+
+The refined inference sequence is:
 
 ```text
 Mechanism
@@ -100,4 +109,4 @@ and the fully crossed selective design when point identification is required
 
 ## Non-negotiable boundary
 
-Recurrence may establish that the framework's biological ingredients are not peculiar to one system. It may not validate the algebra, estimate channel interactions, imply natural prevalence, or establish a universal sign. Partial-identification statements are valid only under their declared restrictions. Residuals are not mechanisms by definition.
+The recurrence layer may support the statement that the framework's biological ingredients are not peculiar to one system. It may not be used to validate the algebra, estimate channel interactions, imply natural prevalence, or establish a universal sign. Partial-identification statements are valid only under their declared restrictions. Residuals are not mechanisms by definition.

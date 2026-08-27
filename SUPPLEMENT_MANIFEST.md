@@ -24,7 +24,7 @@ Primary implementation:
 - `empirical/identification_design/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json`
 - `empirical/mechanism_pattern_synthesis/`
 
-## 2. Scientific core
+## 2. Canonical scientific core
 
 ```text
 Delta_AD W = W11 - W10 - W01 + W00
@@ -38,7 +38,7 @@ Inference sequence:
 interaction detection
 → identified set
 → partial identification under explicit restrictions
-→ selective crossed interventions
+→ crossed A × D × antagonist × pollinator interventions
 → m0 correction + four-way separability test
 → point identification of biotic channels
 → independent joint-channel assay / diagnostic
@@ -58,18 +58,18 @@ Required boundaries:
 - total `Delta_AD W` does not uniquely allocate rho/iota/kappa;
 - partial-identification statements must name their bounds/assumptions;
 - the 16-cell design still requires selective interventions and comparable A/D coordinates;
-- rho/iota invariance views are one four-way interaction up to sign;
+- rho/iota invariance views are one four-way interaction up to sign; this is the `A×D×G×P separability diagnostic`;
 - non-zero four-way coupling rejects separability;
 - total iota requires `m0_delta` handling;
 - `U_delta` is unallocated, not kappa by definition;
-- kappa requires independent evidence.
+- kappa requires an independent A×D joint-cost assay.
 
-## 3. Mechanism → Pattern / identification frontier
+## 3. Mechanism → Pattern recurrence layer
 
 Retained recurrence layer:
 
 ```text
-56 route records
+56 source-adjudicated route records
 25 independent biological clusters
 A -> pollination: 5
 A -> antagonism:  8
@@ -79,16 +79,21 @@ same-system:      14
 context/sign switch: 17
 ```
 
-These counts establish recurrence only.
+These counts establish recurrence only and do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`.
 
 Across the 16-system high-information screen, trait-factorial, consumer-factorial, randomized context-modification, and selective-defence information occurs in complementary studies. No screened system closes all allocation dimensions and no independent joint-cost assay is present. The audit is therefore interpreted as a **fragmented identification frontier**, not merely a 0/16 failure count.
 
-## 4. Existing-data anchors
+## 4. Existing-data identification stress tests
 
-- Kessler 2008: trait-factorial anchor; aggregate `Delta_AD` approximately +0.19 to +0.25, interaction OR approximately 2.77 to 4.71; formal uncertainty and systemic-D scope remain unresolved.
-- Egan 2021: complementary consumer-factorial anchor.
-- *Impatiens capensis*: observational A×D plus randomized context modification; all eight target HC3 intervals cross zero.
-- *Pedicularis rex*: selective-access defence anchor without independent attraction manipulation.
+- **Kessler et al. 2008 — trait-factorial anchor:** aggregate `Delta_AD` approximately +0.19 to +0.25, interaction OR approximately 2.77 to 4.71; formal uncertainty and systemic-D scope remain unresolved.
+- **Egan et al. 2021 — consumer-factorial anchor:** complementary consumer-factorial structure.
+- **Soper Gorden & Adler 2018 — public-data retrofit:** observational A×D plus randomized context modification; all eight target HC3 intervals cross zero.
+- **Pedicularis rex:** selective-access defence anchor without independent attraction manipulation.
+
+```text
+independent joint-cost assay:       0
+full rho/iota/kappa identification: 0
+```
 
 These studies are not assigned invented rho/iota/kappa values or bounds.
 
@@ -115,9 +120,9 @@ The active Appendix retains:
 
 Leal and Sasidharan remain reproducible historical modules, not Main evidence.
 
-## 7. Historical provenance
+## 7. Historical quantitative provenance retained
 
-Leal et al. 2025 pins remain unchanged:
+Leal et al. 2025 provenance remains pinned:
 
 ```text
 canonical commit: ed33b25593c0d90ad6657753f6f5501d9efc7b82
@@ -126,7 +131,7 @@ first results:    965d657
 source synthesis: doi:10.1002/ecy.70036
 ```
 
-Historical values and Sasidharan reconstruction remain preserved with their original inference boundaries.
+Historical values and the Sasidharan reconstruction remain preserved with their original inference boundaries and do not validate the identification framework.
 
 ## 8. Open Research package
 
