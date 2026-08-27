@@ -23,9 +23,19 @@ replace(
     "## Mechanism → Pattern fit / partial-identification fit\n",
 )
 replace(
+    "submission/ECOLOGY_CONCEPTS_SYNTHESIS_FIT_AUDIT.md",
+    "The 56-route / 25-cluster synthesis supports only cross-system recurrence of the four constituent pathway families; it does not estimate natural prevalence or rho/iota/kappa.\n",
+    "The 56-route / 25-cluster synthesis supports only the statement that the constituent ecological channels recur across systems; it does not estimate natural prevalence or rho/iota/kappa.\n",
+)
+replace(
     "SUPPLEMENT_MANIFEST.md",
     "## 2. Scientific core\n",
     "## 2. Canonical scientific core\n",
+)
+replace(
+    "SUPPLEMENT_MANIFEST.md",
+    "→ selective crossed interventions\n",
+    "→ crossed A × D × antagonist × pollinator interventions\n",
 )
 replace(
     "SUPPLEMENT_MANIFEST.md",
@@ -36,6 +46,11 @@ replace(
     "SUPPLEMENT_MANIFEST.md",
     "Leal et al. 2025 pins remain unchanged:\n",
     "Leal et al. 2025 provenance remains pinned:\n",
+)
+replace(
+    "SUPPLEMENT_MANIFEST.md",
+    "Historical values and Sasidharan reconstruction remain preserved with their original inference boundaries.\n",
+    "Historical values and the Sasidharan reconstruction remain preserved with their original inference boundaries and do not validate the identification framework.\n",
 )
 replace(
     "docs/SUBMISSION_SCOPE.md",
@@ -56,6 +71,11 @@ replace(
     "docs/MECHANISM_PATTERN_IDENTIFICATION_BRIDGE.md",
     "Recurrence may establish that the framework's biological ingredients are not peculiar to one system.",
     "The recurrence layer may support the statement that the framework's biological ingredients are not peculiar to one system.",
+)
+replace(
+    "docs/MECHANISM_PATTERN_IDENTIFICATION_BRIDGE.md",
+    "It may not validate the algebra, estimate channel interactions, imply natural prevalence, or establish a universal sign.",
+    "It may not be used to validate the algebra, estimate channel interactions, imply natural prevalence, or establish a universal sign.",
 )
 replace(
     "submission/COVER_LETTER_ECOLOGY_CONCEPTS_SYNTHESIS.md",
