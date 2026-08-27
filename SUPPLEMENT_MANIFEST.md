@@ -81,7 +81,7 @@ context/sign switch: 17
 
 These counts establish recurrence only and do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`.
 
-Across the 16-system high-information screen, trait-factorial, consumer-factorial, randomized context-modification, and selective-defence information occurs in complementary studies. No screened system closes all allocation dimensions and no independent joint-cost assay is present. The audit is therefore interpreted as a **fragmented identification frontier**, not merely a 0/16 failure count.
+Across the 17-system high-information screen, trait-factorial, consumer-factorial, randomized context-modification, and selective-defence information occurs in complementary studies. No screened system closes all allocation dimensions and no independent joint-cost assay is present. The audit is therefore interpreted as a **fragmented identification frontier**, not merely a 0/16 failure count.
 
 ## 4. Existing-data identification stress tests
 
@@ -113,7 +113,7 @@ The active Appendix retains:
 - distinction between structural projection intervals and sampling uncertainty intervals;
 - Kessler 2008 reconstruction;
 - *Impatiens* retrofit;
-- 16-system identification-frontier details;
+- 17-system identification-frontier details;
 - 56/25 recurrence evidence and boundary;
 - 2,592 finite evaluations and 77.2% grid-specific precision as technical sensitivity only;
 - continuous-limit / finite-difference and response-shape sensitivity material.

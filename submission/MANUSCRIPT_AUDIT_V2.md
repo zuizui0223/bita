@@ -56,7 +56,7 @@ context switches: 17
 
 These counts establish recurrence capacity only.
 
-The 16-system audit is interpreted as a **fragmented identification frontier**. Kessler 2008, Egan 2021, *Impatiens capensis*, and *Pedicularis rex* occupy complementary design faces. Screened-set facts remain independent joint-cost assay = 0 and full rho/iota/kappa point identification = 0, but the stronger result is that existing studies already constrain different dimensions of the allocation problem.
+The 17-system audit is interpreted as a **fragmented identification frontier**. Kessler 2008, Egan 2021, *Impatiens capensis*, and *Pedicularis rex* occupy complementary design faces. Screened-set facts remain independent joint-cost assay = 0 and full rho/iota/kappa point identification = 0, but the stronger result is that existing studies already constrain different dimensions of the allocation problem.
 
 ## 3. Existing-data anchors — PASS with boundaries
 

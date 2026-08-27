@@ -43,7 +43,7 @@ Main figures:
 1. **Figure 1 — identified set, not unique mechanism.** A measured `Delta_AD W` is compatible with multiple channel allocations.
 2. **Figure 2 — crossed intervention design.** `A × D × antagonist × pollinator` supplies the 16-cell point-identification structure and four-way separability diagnostic.
 3. **Figure 3 — independent joint-channel assay.** `U_delta` remains unallocated until independent evidence constrains interpretation.
-4. **Figure 4 — recurrence + fragmented frontier.** 56/25 establishes recurrence; empirical anchors and the 16-system audit show complementary identification faces.
+4. **Figure 4 — recurrence + fragmented frontier.** 56/25 establishes recurrence; empirical anchors and the 17-system audit show complementary identification faces.
 5. **Figure 5 — roadmap.** Interaction detection → partial identification → mechanism identification, including informative failure modes.
 
 The 56/25 synthesis is recurrence evidence only. The 2,592 finite evaluations and 77.2% precision remain Appendix technical sensitivity. Leal/Sasidharan remain historical reproducibility modules rather than Main evidence.
@@ -52,7 +52,7 @@ The 56/25 synthesis is recurrence evidence only. The 2,592 finite evaluations an
 
 Canonical source: `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`.
 
-Appendix S1 retains exact identified-set projection algebra, structural-vs-sampling-uncertainty boundary, continuous-limit checks, 2,592/77.2% technical sensitivity, Kessler reconstruction, *Impatiens* retrofit, 16-system frontier, and full 56/25 recurrence details.
+Appendix S1 retains exact identified-set projection algebra, structural-vs-sampling-uncertainty boundary, continuous-limit checks, 2,592/77.2% technical sensitivity, Kessler reconstruction, *Impatiens* retrofit, 17-system frontier, and full 56/25 recurrence details.
 
 ## 4. Open Research package
 

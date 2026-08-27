@@ -72,7 +72,7 @@ kappa_delta >= 0
 
 This is an assumption-indexed partial-identification result. It is not presented as a general invention of partial identification or a universal ecological sign law.
 
-The 16-system audit then asks which allocation dimensions current studies already constrain. Kessler 2008, Egan 2021, *Impatiens*, and *Pedicularis* occupy complementary faces, yielding a **design-fragmentation pattern** rather than merely `full identification = 0`.
+The 17-system audit then asks which allocation dimensions current studies already constrain. Kessler 2008, Egan 2021, *Impatiens*, and *Pedicularis* occupy complementary faces, yielding a **design-fragmentation pattern** rather than merely `full identification = 0`.
 
 This strengthens Concepts & Synthesis fit: the paper starts from a mechanistic decomposition, demonstrates recurrent biological ingredients, states exactly what incomplete evidence can already constrain, and derives the interventions required to move to point identification.
 

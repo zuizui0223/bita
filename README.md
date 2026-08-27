@@ -70,7 +70,7 @@ context/sign switch:     17
 
 These overlapping counts show that the **constituent ecological pathways recur across systems**. They are not natural-prevalence estimates and they do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`.
 
-The stricter 16-system audit shows a second pattern: **design fragmentation**. Existing studies occupy complementary faces of an identification frontier rather than all failing in the same way. Kessler et al. (2008) supplies the closest trait-factorial side; Egan et al. (2021) the complementary consumer-factorial side; the public *Impatiens capensis* retrofit reaches randomized context modification of an observational `A×D`; *Pedicularis rex* supplies a selective-defence system anchor. No screened system closes all allocation dimensions or contains an independent joint-cost assay.
+The stricter 17-system audit shows a second pattern: **design fragmentation**. Existing studies occupy complementary faces of an identification frontier rather than all failing in the same way. Kessler et al. (2008) supplies the closest trait-factorial side; Egan et al. (2021) the complementary consumer-factorial side; the public *Impatiens capensis* retrofit reaches randomized context modification of an observational `A×D`; *Pedicularis rex* supplies a selective-defence system anchor. No screened system closes all allocation dimensions or contains an independent joint-cost assay.
 
 The cross-system conclusion retains the earlier boundary:
 

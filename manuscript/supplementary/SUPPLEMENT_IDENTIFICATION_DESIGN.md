@@ -175,16 +175,28 @@ The matrix is a deliberately high-information design audit rather than a systema
 
 ### S4.2 Current coverage state
 
-The current matrix contains 16 systems. Fixed conclusions are:
+The current matrix contains 17 systems. Fixed conclusions are:
 
 ```text
-closest full A×D-like trait factorial:      Kessler et al. 2008
+closest full A×D-like trait factorial:       Kessler et al. 2008
+A×G×pollination-supplementation bridge:      Theis & Adler 2012
+D×G×pollination-supplementation bridge:      Santangelo et al. 2019
 closest crossed G×P-like consumer factorial: Egan et al. 2021
-independent kappa assay:                    0
-full rho/iota/kappa identification:         0
+independent kappa assay:                     0
+full rho/iota/kappa identification:          0
 ```
 
-The main empirical pattern is not absence of sophisticated experiments, but separation of the required components across different studies.
+The main empirical pattern is design fragmentation: complementary lower-dimensional faces of the target A×D×G×P architecture occur in different systems. Supplemental hand pollination is not treated as a pollinator-access toggle, and whole-plant defence is not relabelled as flower-specific D.
+
+Derived frontier products:
+
+```text
+empirical/identification_design/IDENTIFICATION_FRONTIER_AUGMENTATION_V1.csv
+empirical/identification_design/IDENTIFICATION_FRONTIER_AUGMENTATION_V1.md
+empirical/identification_design/HYPERCUBE_FACE_COVERAGE_V1.csv
+empirical/identification_design/HYPERCUBE_FACE_COVERAGE_V1.md
+empirical/identification_design/THEIS_ADLER_2012_IDENTIFICATION_REAUDIT_V1.md
+```
 
 Authoritative table:
 

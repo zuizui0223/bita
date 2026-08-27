@@ -46,7 +46,7 @@ context switches: 17
 
 These overlapping counts establish constituent-channel recurrence only.
 
-The 16-system audit then reveals a **fragmented identification frontier**. Kessler 2008 is closest to the trait-factorial face; Egan 2021 to the consumer-factorial face; *Impatiens* reaches randomized context modification; *Pedicularis* supplies a selective-defence system anchor. No screened system closes all allocation dimensions or includes an independent joint-cost assay.
+The 17-system audit then reveals a **fragmented identification frontier**. Kessler 2008 is closest to the trait-factorial face; Egan 2021 to the consumer-factorial face; *Impatiens* reaches randomized context modification; *Pedicularis* supplies a selective-defence system anchor. No screened system closes all allocation dimensions or includes an independent joint-cost assay.
 
 The stronger synthesis is therefore:
 

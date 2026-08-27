@@ -25,7 +25,7 @@
 - [x] same-system multi-route = 14; context/sign-switch = 17
 - [x] route counts overlap and are not natural-prevalence estimates
 - [x] marginal recurrence is not relabelled as Delta_AD W, rho, iota, or kappa
-- [x] 16-system audit is interpreted as a **fragmented identification frontier**, not only a binary 0/16 result
+- [x] 17-system audit is interpreted as a **fragmented identification frontier**, not only a binary 0/16 result
 - [x] Kessler 2008 = closest trait-factorial anchor; aggregate Delta_AD sign positive, formal interaction uncertainty unresolved, systemic-D caveat retained
 - [x] Egan 2021 = complementary consumer-factorial anchor, not a manipulated floral A×D design
 - [x] *Impatiens capensis* = observational A×D + randomized context modification; all eight target HC3 intervals cross zero
@@ -67,7 +67,7 @@
 - [x] exact identified-set projection algebra and partial-identification examples included
 - [x] structural identified-set intervals are distinguished from sampling uncertainty intervals
 - [x] Kessler 2008 reconstruction and *Impatiens* retrofit documented
-- [x] 16-system identification frontier documented
+- [x] 17-system identification frontier documented
 - [x] 56/25 recurrence source layer and non-identification boundary documented
 - [x] 2,592 / 77.2% remain technical Appendix material
 - [x] validated pre-metadata Appendix render = **12 pages**

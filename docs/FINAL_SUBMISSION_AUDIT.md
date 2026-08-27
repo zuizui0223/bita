@@ -72,7 +72,7 @@ context switches: 17
 
 These overlapping categories establish constituent-channel recurrence, not natural prevalence or rho/iota/kappa magnitudes.
 
-The 16-system audit is now interpreted as a **fragmented identification frontier**. Kessler 2008, Egan 2021, *Impatiens capensis*, and *Pedicularis rex* occupy complementary design faces. Screened-set facts remain:
+The 17-system audit is now interpreted as a **fragmented identification frontier**. Kessler 2008, Egan 2021, *Impatiens capensis*, and *Pedicularis rex* occupy complementary design faces. Screened-set facts remain:
 
 ```text
 independent joint-cost assay:       0

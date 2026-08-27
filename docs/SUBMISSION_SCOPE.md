@@ -86,7 +86,7 @@ These overlapping categories establish recurrence capacity only. The source-adju
 
 ## Pattern layer 2 — fragmented identification frontier
 
-The 16-system high-information audit asks which dimensions of the identified set are already constrained by existing experiments. The main complementary faces are:
+The 17-system high-information audit asks which dimensions of the identified set are already constrained by existing experiments. The main complementary faces are:
 
 1. Kessler et al. 2008 — trait-factorial side;
 2. Egan et al. 2021 — consumer-factorial side;
