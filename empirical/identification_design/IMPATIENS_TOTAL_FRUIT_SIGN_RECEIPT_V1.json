@@ -1,0 +1,16 @@
+{
+  "analysis_workflow_run": 33165656343,
+  "causal_status": "OBSERVATIONAL_A_D_NOT_CAUSAL_ESCAPE",
+  "ci95_lower": -0.3790914087680389,
+  "ci95_upper": 0.031637519327888775,
+  "dataset_doi": "10.5061/dryad.0j96d17",
+  "dryad_version_archive": "https://datadryad.org/api/v2/versions/4805/download",
+  "endpoint": "Total_Fruits_Per_Day",
+  "endpoint_scope": "Deposited CH+CL total-fruit endpoint; more integrative than CH-only fruit production but not total lifetime seed fitness",
+  "estimate": -0.17372694472007505,
+  "hc3_se": 0.10477778777957338,
+  "model": "hierarchical HC3 OLS with full randomized R*F*P factorial, observational A/D lower-order hierarchy, A:D and A:D:treatment modifiers, phenology adjustment",
+  "n_complete": 170,
+  "sign_status": "CROSSES_ZERO",
+  "study_doi": "10.1002/ajb2.1182"
+}
