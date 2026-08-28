@@ -98,6 +98,33 @@ class PartialIdentificationResult:
         )
 
 
+def classify_escape_criterion(delta_w_bounds: Interval) -> str:
+    """Classify the strict escape inequality from a total-interaction interval.
+
+    Because the declared bookkeeping identity is
+
+        Delta_AD W = rho_delta - iota_delta - kappa_delta,
+
+    the biological escape criterion
+
+        rho_delta > iota_delta + kappa_delta
+
+    is exactly equivalent to ``Delta_AD W > 0`` on the same declared outcome
+    scale. Point-identifying rho, iota and kappa is therefore *not* required to
+    decide whether the strict inequality holds. Full allocation is required to
+    explain which channel generated the sign.
+
+    This helper only classifies an already justified interval for the total
+    interaction. It does not create that interval, assume commensurability, or
+    promote a channel-specific interaction to total fitness.
+    """
+    if delta_w_bounds.low > 0:
+        return "ESCAPE_IDENTIFIED"
+    if delta_w_bounds.high <= 0:
+        return "ESCAPE_REFUTED"
+    return "ESCAPE_UNRESOLVED"
+
+
 def partial_identification_from_total(
     delta_w: float,
     *,
