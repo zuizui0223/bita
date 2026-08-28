@@ -10,6 +10,8 @@ READOUT = ROOT / "docs" / "DEFENCE_ESCAPE_ROUTE_HYPOTHESIS_RECOVERY.md"
 MANUSCRIPT = ROOT / "manuscript" / "MANUSCRIPT_IDENTIFICATION_DESIGN.md"
 PRIMARY_AUDIT = ROOT / "docs" / "BITA_DEFENCE_ESCAPE_ROUTE_PRIMARY_SOURCE_AUDIT_V1.md"
 PUBLICATION_LEDGER = ROOT / "docs" / "PUBLICATION_MATERIAL_RECOVERY_LEDGER.md"
+KESSLER_ACCESS = ROOT / "empirical" / "identification_design" / "KESSLER_2008_SUPPLEMENT_ACCESS_RECEIPT_V1.md"
+KESSLER_BOUNDS = ROOT / "empirical" / "identification_design" / "KESSLER_2008_AGGREGATE_BOUNDS_V1.md"
 
 
 def _rows() -> dict[str, dict[str, str]]:
@@ -23,10 +25,13 @@ def test_escape_route_ledger_is_complete_and_fail_closed() -> None:
     assert all(row["positive_answer"] for row in rows.values())
     assert all(row["claim_ceiling"] for row in rows.values())
     assert all(row["next_valid_gate"] for row in rows.values())
+    assert rows["ER6"]["current_status"] == "DIRECT_FACTORIAL_SIGN_POSITIVE_FORMAL_UNCERTAINTY_UNRESOLVED"
     assert rows["ER7"]["current_status"] == "NOT_ACHIEVED_ZERO_OF_SIXTEEN"
     assert rows["ER8"]["current_status"] == "NOT_ACHIEVED_ZERO_STRICT"
     assert rows["ER9"]["current_status"] == "UNRESOLVED_TOTAL_SIGN_CURRENT_EVIDENCE"
     assert rows["ER10"]["current_status"] == "ACHIEVED_METHOD_RESULT"
+    assert "Kessler" in rows["ER6"]["current_evidence"]
+    assert "source uncertainty" in rows["ER9"]["next_valid_gate"]
 
 
 def test_readout_separates_escape_decision_from_mechanism_allocation() -> None:
@@ -40,6 +45,22 @@ def test_readout_separates_escape_decision_from_mechanism_allocation() -> None:
     assert "zero recovered cost assays does not imply zero cost" in text.lower()
     assert "Decide whether escape occurs" in text
     assert "Explain why it occurs" in text
+    assert "manipulated two-trait common reproductive surface exists" in text
+    assert "SIGN_ROBUST_FORMAL_SOURCE_UNCERTAINTY_UNRESOLVED" in text
+    assert "do not describe the next empirical search as looking for the first manipulated A×D surface" in text
+
+
+def test_kessler_registered_recovery_preserves_sign_uncertainty_separation() -> None:
+    access = KESSLER_ACCESS.read_text(encoding="utf-8")
+    bounds = KESSLER_BOUNDS.read_text(encoding="utf-8")
+    assert "NOT_RECOVERED_FROM_REGISTERED_PUBLIC_ROUTES" in access
+    assert "HTTP 403" in access
+    assert "formal interval wholly > 0" in access
+    assert "minimum probability-scale Delta" in bounds
+    assert "+0.1710" in bounds
+    assert "-0.2049" in bounds
+    assert "positive factorial sign is robust" in bounds
+    assert "source/design-based interaction CI" in bounds
 
 
 def test_main_manuscript_frames_D_as_the_second_trait_escape_hypothesis() -> None:
@@ -48,6 +69,7 @@ def test_main_manuscript_frames_D_as_the_second_trait_escape_hypothesis() -> Non
     assert "a two-trait allocation hypothesis" in text
     assert "answers part of the escape-route question positively" in text
     assert "the complete escape inequality remains a generated test" in text
+    assert "Direct attraction-by-defence-like trait factorials are not wholly absent" in text
 
 
 def test_primary_audit_and_publication_ledger_preserve_directness_boundaries() -> None:
