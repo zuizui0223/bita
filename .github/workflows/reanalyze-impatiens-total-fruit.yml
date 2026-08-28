@@ -1,0 +1,95 @@
+name: Reanalyze Impatiens total fruit
+
+on:
+  pull_request:
+    paths:
+      - "scripts/reanalyze_impatiens_identification_retrofit.py"
+      - "tests/test_impatiens_identification_retrofit.py"
+      - ".github/workflows/reanalyze-impatiens-total-fruit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reanalyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and test dependencies
+        run: python -m pip install -e ".[dev]"
+
+      - name: Test retrofit and endpoint boundary
+        run: python -m pytest -q tests/test_impatiens_identification_retrofit.py
+
+      - name: Download fixed Dryad version archive
+        run: |
+          mkdir -p /tmp/impatiens-dryad
+          curl --location --fail --retry 3 \
+            --output /tmp/impatiens-dryad/archive.zip \
+            https://datadryad.org/api/v2/versions/4805/download
+          unzip -q /tmp/impatiens-dryad/archive.zip -d /tmp/impatiens-dryad/unpacked
+          find /tmp/impatiens-dryad/unpacked -maxdepth 3 -type f -printf '%P\n'
+
+      - name: Locate exact processed table
+        id: locate
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="$(find /tmp/impatiens-dryad/unpacked -type f -name 'Soper_Gorden_Adler_AJB_2018_Flower_Insect_Interactions_Processed_Data.csv' -print -quit)"
+          test -n "$target"
+          echo "processed_csv=$target" >> "$GITHUB_OUTPUT"
+
+      - name: Recompute bounded identification retrofit
+        run: |
+          mkdir -p artifacts/impatiens_total_fruit
+          python scripts/reanalyze_impatiens_identification_retrofit.py \
+            "${{ steps.locate.outputs.processed_csv }}" \
+            artifacts/impatiens_total_fruit/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V2.json \
+            artifacts/impatiens_total_fruit/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V2.md
+
+      - name: Extract total-fruit sign receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          src = Path('artifacts/impatiens_total_fruit/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V2.json')
+          report = json.loads(src.read_text())
+          total = next(m for m in report['model_summaries'] if m['outcome_field'] == 'Total_Fruits_Per_Day')
+          axd = total['target_coefficients']['A_z:D_z']
+          lo, hi = axd['ci95_lower'], axd['ci95_upper']
+          if lo > 0:
+              sign = 'POSITIVE_INTERVAL'
+          elif hi < 0:
+              sign = 'NEGATIVE_INTERVAL'
+          else:
+              sign = 'CROSSES_ZERO'
+          receipt = {
+              'endpoint': 'Total_Fruits_Per_Day',
+              'endpoint_scope': total['outcome_scope'],
+              'n_complete': total['n_complete'],
+              'estimate': axd['estimate'],
+              'hc3_se': axd['hc3_se'],
+              'ci95_lower': lo,
+              'ci95_upper': hi,
+              'sign_status': sign,
+              'causal_status': 'OBSERVATIONAL_A_D_NOT_CAUSAL_ESCAPE',
+          }
+          Path('artifacts/impatiens_total_fruit/IMPATIENS_TOTAL_FRUIT_SIGN_RECEIPT_V1.json').write_text(
+              json.dumps(receipt, indent=2, sort_keys=True)
+          )
+          print(json.dumps(receipt, sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: impatiens-total-fruit-reanalysis
+          path: artifacts/impatiens_total_fruit/
+          if-no-files-found: error
