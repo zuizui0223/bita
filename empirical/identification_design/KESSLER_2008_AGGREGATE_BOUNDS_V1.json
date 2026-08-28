@@ -1,6 +1,8 @@
 {
   "analysis_id": "kessler_2008_aggregate_bounds_v1",
   "doi": "10.1126/science.1160072",
+  "workflow_run": 33188639818,
+  "workflow_head_sha": "1fa325e95b654d497f7a8d5d86163384f365819b",
   "published_constraints": {
     "informative_flowers": 474,
     "capsules": 87,
@@ -12,48 +14,45 @@
     {
       "max_denominator_ratio": 1.25,
       "feasible_allocation_count": 137477,
-      "probability_delta_min": 0.17307692307692307,
-      "probability_delta_max": 0.24097222222222223,
-      "probability_wald_z_min": 2.461,
-      "probability_wald_z_max": 3.454,
-      "probability_design_effect_to_cross_1_96_at_min_z": 1.576,
-      "logit_beta_min": 0.8914,
-      "logit_beta_max": 1.499,
-      "logit_wald_z_min": 1.763,
-      "logit_wald_z_max": 2.724,
-      "logit_ci95_lower_min": -0.0998
+      "probability_delta_min": 0.17307348670985034,
+      "probability_wald_z_min": 2.460933700733941,
+      "probability_design_effect_to_cross_1_96_at_min_z": 1.5764771656101755,
+      "logit_beta_min": 0.8913855447703427,
+      "logit_wald_z_min": 1.7633261024040534,
+      "logit_ci95_lower_min": -0.0997537654446411
     },
     {
       "max_denominator_ratio": 1.5,
       "feasible_allocation_count": 528045,
-      "probability_delta_min": 0.1719,
-      "probability_wald_z_min": 2.431,
-      "probability_design_effect_to_cross_1_96_at_min_z": 1.539,
-      "logit_beta_min": 0.8821,
-      "logit_wald_z_min": 1.727,
-      "logit_ci95_lower_min": -0.1193
+      "probability_delta_min": 0.17191076012468012,
+      "probability_wald_z_min": 2.4314473371881227,
+      "probability_design_effect_to_cross_1_96_at_min_z": 1.5389254876924228,
+      "logit_beta_min": 0.8821412745399213,
+      "logit_wald_z_min": 1.7267359698212865,
+      "logit_ci95_lower_min": -0.11932744725327105
     },
     {
       "max_denominator_ratio": 2.0,
       "feasible_allocation_count": 1455471,
-      "probability_delta_min": 0.1711,
-      "probability_wald_z_min": 2.368,
-      "probability_design_effect_to_cross_1_96_at_min_z": 1.459,
-      "logit_beta_min": 0.8766,
-      "logit_wald_z_min": 1.686,
-      "logit_ci95_lower_min": -0.1427
+      "probability_delta_min": 0.17111462352908596,
+      "probability_wald_z_min": 2.367779603662454,
+      "probability_design_effect_to_cross_1_96_at_min_z": 1.4593867793419217,
+      "logit_beta_min": 0.8766197945350505,
+      "logit_wald_z_min": 1.6856868009929118,
+      "logit_ci95_lower_min": -0.14265305987458876
     },
     {
       "max_denominator_ratio": 3.0,
       "feasible_allocation_count": 3052260,
       "probability_delta_min": 0.17102387942745256,
       "probability_wald_z_min": 2.2960104459122324,
-      "probability_design_effect_to_cross_1_96_at_min_z": 1.372,
-      "logit_beta_min": 0.8759,
+      "probability_design_effect_to_cross_1_96_at_min_z": 1.372257384354979,
+      "logit_beta_min": 0.8758869253193979,
       "logit_wald_z_min": 1.5932234266659968,
       "logit_ci95_lower_min": -0.20488492012888293
     }
   ],
   "decision": "SIGN_ROBUST_FORMAL_SOURCE_UNCERTAINTY_UNRESOLVED",
+  "decision_rule": "Aggregate sign robustness is strengthened if every feasible profile keeps Delta > 0. Formal escape remains unresolved if source/design-based uncertainty is unavailable or if reasonable auxiliary scales/profiles do not uniformly exclude zero.",
   "estimand_boundary": "These are auxiliary pooled independent-binomial sensitivity calculations. They do not recover the source day-stratified ANOVA, plant-level clustering, or Fig. S8A values and therefore cannot be promoted to a source interaction CI."
 }
