@@ -1,0 +1,59 @@
+{
+  "analysis_id": "kessler_2008_aggregate_bounds_v1",
+  "doi": "10.1126/science.1160072",
+  "published_constraints": {
+    "informative_flowers": 474,
+    "capsules": 87,
+    "EV_fraction_band": [0.345, 0.355],
+    "low_fraction_band": [0.115, 0.145],
+    "fraction_band_note": "Bands deliberately widen the article's approximate 35% and 12-14% summaries to allow rounding."
+  },
+  "profiles": [
+    {
+      "max_denominator_ratio": 1.25,
+      "feasible_allocation_count": 137477,
+      "probability_delta_min": 0.17307692307692307,
+      "probability_delta_max": 0.24097222222222223,
+      "probability_wald_z_min": 2.461,
+      "probability_wald_z_max": 3.454,
+      "probability_design_effect_to_cross_1_96_at_min_z": 1.576,
+      "logit_beta_min": 0.8914,
+      "logit_beta_max": 1.499,
+      "logit_wald_z_min": 1.763,
+      "logit_wald_z_max": 2.724,
+      "logit_ci95_lower_min": -0.0998
+    },
+    {
+      "max_denominator_ratio": 1.5,
+      "feasible_allocation_count": 528045,
+      "probability_delta_min": 0.1719,
+      "probability_wald_z_min": 2.431,
+      "probability_design_effect_to_cross_1_96_at_min_z": 1.539,
+      "logit_beta_min": 0.8821,
+      "logit_wald_z_min": 1.727,
+      "logit_ci95_lower_min": -0.1193
+    },
+    {
+      "max_denominator_ratio": 2.0,
+      "feasible_allocation_count": 1455471,
+      "probability_delta_min": 0.1711,
+      "probability_wald_z_min": 2.368,
+      "probability_design_effect_to_cross_1_96_at_min_z": 1.459,
+      "logit_beta_min": 0.8766,
+      "logit_wald_z_min": 1.686,
+      "logit_ci95_lower_min": -0.1427
+    },
+    {
+      "max_denominator_ratio": 3.0,
+      "feasible_allocation_count": 3052260,
+      "probability_delta_min": 0.17102387942745256,
+      "probability_wald_z_min": 2.2960104459122324,
+      "probability_design_effect_to_cross_1_96_at_min_z": 1.372,
+      "logit_beta_min": 0.8759,
+      "logit_wald_z_min": 1.5932234266659968,
+      "logit_ci95_lower_min": -0.20488492012888293
+    }
+  ],
+  "decision": "SIGN_ROBUST_FORMAL_SOURCE_UNCERTAINTY_UNRESOLVED",
+  "estimand_boundary": "These are auxiliary pooled independent-binomial sensitivity calculations. They do not recover the source day-stratified ANOVA, plant-level clustering, or Fig. S8A values and therefore cannot be promoted to a source interaction CI."
+}
