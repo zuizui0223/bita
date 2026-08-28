@@ -25,17 +25,21 @@ def test_escape_route_ledger_is_complete_and_fail_closed() -> None:
     assert all(row["next_valid_gate"] for row in rows.values())
     assert rows["ER7"]["current_status"] == "NOT_ACHIEVED_ZERO_OF_SIXTEEN"
     assert rows["ER8"]["current_status"] == "NOT_ACHIEVED_ZERO_STRICT"
-    assert rows["ER9"]["current_status"] == "NOT_EVALUABLE_CURRENT_EVIDENCE"
+    assert rows["ER9"]["current_status"] == "UNRESOLVED_TOTAL_SIGN_CURRENT_EVIDENCE"
     assert rows["ER10"]["current_status"] == "ACHIEVED_METHOD_RESULT"
 
 
-def test_readout_states_positive_recovery_without_promoting_full_escape() -> None:
+def test_readout_separates_escape_decision_from_mechanism_allocation() -> None:
     text = READOUT.read_text(encoding="utf-8")
     assert "What the ecological evidence has positively answered" in text
-    assert "constituent mechanisms and the switching rule" in text
+    assert "constituent mechanisms" in text
     assert "rho_delta > iota_delta + kappa_delta" in text
-    assert "not currently evaluable for a complete observed system" in text
-    assert "zero recovered assays does not imply zero cost" in text
+    assert "Delta_AD W > 0" in text
+    assert "full channel point identification is not required" in text
+    assert "UNRESOLVED_CURRENT_TOTAL_EVIDENCE" in text
+    assert "zero recovered cost assays does not imply zero cost" in text.lower()
+    assert "Decide whether escape occurs" in text
+    assert "Explain why it occurs" in text
 
 
 def test_main_manuscript_frames_D_as_the_second_trait_escape_hypothesis() -> None:
