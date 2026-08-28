@@ -1,0 +1,17 @@
+{
+  "analysis_workflow_run": 33166169176,
+  "causal_status": "DERIVED_PROXY_WITH_OBSERVATIONAL_A_D_NOT_CAUSAL_ESCAPE",
+  "ci95_lower": -0.5487371936627722,
+  "ci95_upper": 0.854413158955308,
+  "dataset_doi": "10.5061/dryad.0j96d17",
+  "dryad_version_archive": "https://datadryad.org/api/v2/versions/4805/download",
+  "endpoint": "__estimated_mature_seed_output_per_day__",
+  "endpoint_formula": "Mature_CH_Fruits_Per_Day * Average_Seeds_Per_CH_Fruit + Mature_CL_Fruits_Per_Day * Average_Seeds_Per_CL_Fruit",
+  "endpoint_scope": "Derived CH+CL mature-seed-output proxy; sensitivity only, not a deposited endpoint or lifetime fitness",
+  "estimate": 0.15283798264626788,
+  "hc3_se": 0.35794651852502046,
+  "model": "hierarchical HC3 OLS with full randomized R*F*P factorial, observational A/D lower-order hierarchy, A:D and A:D:treatment modifiers, phenology adjustment",
+  "n_complete": 70,
+  "sign_status": "CROSSES_ZERO",
+  "study_doi": "10.1002/ajb2.1182"
+}
