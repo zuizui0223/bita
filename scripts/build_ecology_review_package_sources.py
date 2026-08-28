@@ -99,6 +99,11 @@ def build_open_research_manifest() -> str:
             DATA_OUT / "question_method_explanation_matrix.csv",
             "Question-by-method explanatory reach, current evidence state, claim ceiling, and next valid identification gate.",
         ),
+        (
+            ROOT / "empirical" / "identification_design" / "DEFENCE_ESCAPE_ROUTE_HYPOTHESIS_RECOVERY_V1.csv",
+            DATA_OUT / "defence_escape_route_hypothesis_recovery.csv",
+            "Hypothesis-by-hypothesis recovery of defence as an escape route, including positive ecological results, unevaluable complete-system terms, and next valid gates.",
+        ),
     ]
     for src, dst, _ in additions:
         if not src.exists():

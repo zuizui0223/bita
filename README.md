@@ -78,6 +78,8 @@ The cross-system conclusion is therefore:
 
 In that bounded sense, their **joint allocation remains unidentified**.
 
+Read as the second step after the one-trait shared-cue problem, BITA asks whether a distinct defence coordinate provides an escape route. Current evidence answers the mechanism layer positively: antagonist-reducing routes, pollinator-preserving guarded states, and the separated/overlapped/bypassable switching architecture recur. It does not yet establish the complete-system inequality `rho_delta > iota_delta + kappa_delta`. The explicit hypothesis-by-hypothesis recovery is recorded in `docs/DEFENCE_ESCAPE_ROUTE_HYPOTHESIS_RECOVERY.md`.
+
 The useful next question is no longer only “is the mechanism identified?” but **which additional measurement or intervention most shrinks the remaining identified set?**
 
 The explicit question → method → explanatory-reach contract is recorded in `docs/QUESTION_METHOD_EXPLANATION_MATRIX.md` and its machine-readable source `empirical/identification_design/QUESTION_METHOD_EXPLANATION_MATRIX_V1.csv`. It distinguishes what BITA has already explained empirically, what is only assumption-indexed, and what still requires new data.
@@ -104,6 +106,8 @@ Current reader-facing sources:
 - `docs/PARTIAL_IDENTIFICATION_FRONTIER_V1.md` — identified-set / bound derivation
 - `docs/MECHANISM_PATTERN_IDENTIFICATION_BRIDGE.md` — recurrence/identification boundary
 - `docs/QUESTION_METHOD_EXPLANATION_MATRIX.md` — method-specific explanatory reach and claim ceilings
+- `docs/DEFENCE_ESCAPE_ROUTE_HYPOTHESIS_RECOVERY.md` — positive ecological recovery and the unevaluated complete escape condition
+- `docs/BITA_DEFENCE_ESCAPE_ROUTE_PRIMARY_SOURCE_AUDIT_V1.md` — direct/indirect/boundary adjudication of six high-information systems
 - `docs/PUBLICATION_MATERIAL_RECOVERY_LEDGER.md` — paperization material state and remaining gates
 - `submission/` — Ecology review-package and portal documents
 

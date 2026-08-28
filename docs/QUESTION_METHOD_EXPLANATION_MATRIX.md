@@ -23,6 +23,8 @@ The machine-readable contract is `empirical/identification_design/QUESTION_METHO
 
 The paper currently explains three things empirically: the constituent channels recur; close studies occupy different faces of the required design; and the missing information is structurally identifiable as a set of specific measurements or interventions. It also explains mathematically what an observed total interaction would constrain and how explicit restrictions would narrow that constraint.
 
+Under the defence-as-escape-route interpretation, these levels give a positive staged answer. Current evidence recovers antagonist reduction, recurrent guarded states and a route-separation switching architecture; sparse total and channel-specific anchors recover only parts of the `A x D` surface; and the full inequality `rho_delta > iota_delta + kappa_delta` remains unevaluable because no complete system identifies all three terms. The hypothesis-specific ledger is `empirical/identification_design/DEFENCE_ESCAPE_ROUTE_HYPOTHESIS_RECOVERY_V1.csv`.
+
 It does **not** recover a realized `rho_delta`, `iota_delta`, or `kappa_delta` for any complete system, estimate natural prevalence, or test the separate one-trait shared-cue hypothesis. The strongest paper-level formulation is therefore:
 
 > BITA locates current evidence on an explanation ladder, shows what each design can and cannot identify, and derives the smallest valid augmentation needed to move one level further.

@@ -17,9 +17,11 @@ This ledger distinguishes material already ready for the BITA paper, evidence re
 | Impatiens public-data retrofit | Randomized-context anchor | reproducible | Observational A-by-D modification with HC3 intervals | All target intervals include zero; no upward reclassification |
 | Pedicularis selective barrier | Selective-defence anchor | source-adjudicated | Biologically selective access mechanism | Requires an independent attraction manipulation |
 | Question-method explanation matrix | Claim architecture | added and machine-readable | Shows exactly which method explains which part of the question | Keep synchronized with Main and Open Research manifest |
+| Defence escape-route hypothesis ledger | Hypothesis recovery | source-ready and machine-readable | States positively which mechanisms and switching patterns are recovered and where the complete inequality stops | Keep `rho_delta > iota_delta + kappa_delta` unevaluable until one linked system identifies all terms |
+| Escape-route primary-source audit | Primary evidence verification | six high-information systems source-checked | Links Kessler 2008, Egan 2021, Impatiens, Pedicularis, Kessler 2019 and Knauer 2018 to direct, indirect and boundary roles | Targeted audit is not prevalence and does not replace the 16-system design matrix |
 | Independent joint-cost assay | Required for `kappa_delta` interpretation | missing | None | New empirical assay; absence remains a result |
 | Complete 16-cell point-ID system | Required for full channel allocation | missing | None | New experiment or a newly recovered qualifying dataset |
-| One-trait shared-cue hypothesis | Separate paper | externalized to SCH | Not a BITA result | Develop in `zuizui0223/sch` |
+| One-trait shared-cue hypothesis | Dissertation Chapter 1 / separate paper | externalized to SCH | Motivates the prior one-coordinate constraint; not a BITA result | Develop the coverage and evolutionary-outcome audits in `zuizui0223/sch` |
 | Author names, affiliations and declarations | Submission metadata | blocked on authors | None until approved | Human completion, all-author sign-off and exact final QA |
 | Immutable archive DOI | Release provenance | acceptance-stage | None at review stage | Deposit exact accepted code/data release |
 
