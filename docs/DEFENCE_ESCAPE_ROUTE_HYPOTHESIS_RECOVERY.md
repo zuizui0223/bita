@@ -131,6 +131,10 @@ The *Impatiens* upgrade now supplies a practical stopping rule: **do not spend t
 
 This ordering prevents an unnecessarily strong mechanism gate from blocking a valid outcome-level result while preserving the stricter standard for causal explanation.
 
+## Validation state
+
+The fixed Dryad reanalysis, candidate identification package, Ecology submission package, submission-scope guard, and the complete Python 3.10/3.11/3.12 pytest matrix all pass on PR #153 after the endpoint and stopping-rule updates. The earlier CI failure was a machine-readable CSV quoting/schema regression plus a legacy status-token mismatch; both were corrected without changing the scientific estimates or claim ceilings.
+
 ## Positive paper-level claim
 
 > Nature repeatedly implements antagonist-reducing traits and selective route architectures that can preserve pollination. BITA separates two empirical questions that previous framing conflated: whether the attraction-by-defence fitness interaction is positive, which can be decided from a valid total fitness surface, and which relief, interference and cost channels generate that sign, which requires additional selective interventions and an independent cost assay. Reanalysis of the strongest public observational trait-pair system now includes its broader deposited CH+CL fruit-production endpoint plus a derived mature-seed-output sensitivity; both intervals cross zero and their point estimates differ in sign. Existing evidence therefore strongly recovers the constituent mechanisms and switching rule but does not yet provide a robust positive total interaction in a causally interpretable complete system.
