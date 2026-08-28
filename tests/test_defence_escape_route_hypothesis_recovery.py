@@ -56,7 +56,7 @@ def test_kessler_registered_recovery_preserves_sign_uncertainty_separation() -> 
     assert "NOT_RECOVERED_FROM_REGISTERED_PUBLIC_ROUTES" in access
     assert "403" in access
     assert "formal interval wholly > 0" in access
-    assert "minimum probability-scale Delta" in bounds
+    assert "min probability Δ" in bounds
     assert "+0.1710" in bounds
     assert "-0.2049" in bounds
     assert "sign" in bounds.lower() and "robust" in bounds.lower()
