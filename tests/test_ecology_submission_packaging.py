@@ -90,10 +90,12 @@ def test_open_research_package_includes_identification_and_pattern_outputs(tmp_p
         "pattern_expansion_screening.csv",
         "high_information_identification_coverage.csv",
         "impatiens_identification_retrofit.json",
+        "question_method_explanation_matrix.csv",
     ):
         assert expected in names
     assert "Identification-design additions" in manifest
     assert "screened-set coverage, not literature prevalence" in manifest
+    assert "Question-by-method explanatory reach" in manifest
 
 
 def test_cover_letter_matches_under_30_page_identification_package() -> None:

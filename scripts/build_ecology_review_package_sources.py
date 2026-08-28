@@ -94,6 +94,11 @@ def build_open_research_manifest() -> str:
             DATA_OUT / "impatiens_identification_retrofit.json",
             "Aggregate model coefficients, HC3 intervals, cell counts, and identification boundaries for the public-data retrofit; no individual records.",
         ),
+        (
+            ROOT / "empirical" / "identification_design" / "QUESTION_METHOD_EXPLANATION_MATRIX_V1.csv",
+            DATA_OUT / "question_method_explanation_matrix.csv",
+            "Question-by-method explanatory reach, current evidence state, claim ceiling, and next valid identification gate.",
+        ),
     ]
     for src, dst, _ in additions:
         if not src.exists():

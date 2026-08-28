@@ -6,6 +6,8 @@
 
 The historical `MANUSCRIPT_THEORETICAL_ECOLOGY.md` remains versioned for provenance only; it does not define the current paper or submission package.
 
+The original first-order shared-cue question is also kept outside this submission mainline. Its coverage audit and paper framework now belong to the separate [SCH repository](https://github.com/zuizui0223/sch). That transfer does not change the estimand or claim ceiling of the canonical BITA manuscript.
+
 ## Current paper architecture
 
 The canonical paper is an explicit **Mechanism → Pattern → Identification** synthesis with a partial-identification middle layer:

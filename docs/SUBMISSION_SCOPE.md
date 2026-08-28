@@ -84,6 +84,10 @@ context switches: 17
 
 These overlapping categories establish recurrence capacity only. They are not prevalence estimates and do not estimate `Delta_AD W`, rho, iota, or kappa.
 
+The source-adjudicated route ledger is **not itself a grand meta-analysis**. Constituent channels recur, but their joint allocation remains unidentified.
+
+The explanation ladder is method-specific: route synthesis establishes recurrence; a trait factorial estimates total interaction; identified-set and partial-identification methods constrain compatible allocations; selective crossed interventions allocate biotic channels; and an independent assay is required to validate the joint channel. Current evidence does not reach the final two levels.
+
 ## Pattern layer 2 — fragmented identification frontier
 
 The 16-system high-information audit asks which dimensions of the identified set are already constrained by existing experiments. The main complementary faces are:

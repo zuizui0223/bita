@@ -98,6 +98,8 @@ use the smallest informative augmentation where possible,
 and the fully crossed selective design when point identification is required
 ```
 
+The corresponding question-by-method claim ceiling is frozen in `docs/QUESTION_METHOD_EXPLANATION_MATRIX.md` and `empirical/identification_design/QUESTION_METHOD_EXPLANATION_MATRIX_V1.csv`. These files distinguish a method's theoretical capability from the level actually reached by current BITA evidence.
+
 ## Non-negotiable boundary
 
 Recurrence may establish that the framework's biological ingredients are not peculiar to one system. It may not validate the algebra, estimate channel interactions, imply natural prevalence, or establish a universal sign. Partial-identification statements are valid only under their declared restrictions. Residuals are not mechanisms by definition.

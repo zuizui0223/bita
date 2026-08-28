@@ -56,6 +56,13 @@ def test_figure4_visually_connects_recurrence_to_identification_gap() -> None:
 
 def test_bridge_document_preserves_two_layer_inference() -> None:
     text = BRIDGE.read_text(encoding="utf-8")
-    assert "Mechanism\n→ constituent ecological recurrence\n→ identification coverage\n→ mechanism-allocation experiment" in text
-    assert "The recurrence layer may support" in text
-    assert "It may not be used to validate the algebra" in text
+    assert (
+        "Mechanism\n"
+        "→ constituent ecological recurrence\n"
+        "→ total-interaction identified set\n"
+        "→ fragmented identification frontier\n"
+        "→ assumption-indexed partial identification\n"
+        "→ selective mechanism-allocation experiment"
+    ) in text
+    assert "Recurrence may establish that the framework's biological ingredients are not peculiar to one system" in text
+    assert "It may not validate the algebra" in text

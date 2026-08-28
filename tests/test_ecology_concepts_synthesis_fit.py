@@ -101,6 +101,6 @@ def test_fit_audit_records_current_package_and_acceptance_stage_archive() -> Non
     assert "29 pages" in text
     assert "standard 30-page" in text
     assert "acceptance-stage" in text
-    assert "Identification invariants preserved" in text
-    assert "Mechanism → Pattern fit" in text
+    assert "## Identification invariants preserved" in text
+    assert "Mechanism → Pattern fit is preserved" in text
     assert "constituent ecological channels recur" in text

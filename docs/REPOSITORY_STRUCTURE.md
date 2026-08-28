@@ -1,6 +1,6 @@
 # Repository structure and source-of-truth policy
 
-This repository has entered **paperization mode**. The scientific conclusion is frozen at the Mechanism → Pattern boundary carried by `main`; repository changes should now improve reproducibility, clarity, or submission readiness without reopening broad discovery by default.
+This repository is in **paperization mode** for the canonical identification manuscript. Repository changes should improve reproducibility, clarity, or submission readiness without silently promoting historical analyses or the separate one-trait companion question into the active paper.
 
 ## 1. Canonical scientific source of truth
 
@@ -8,17 +8,21 @@ These files define the paper-facing scientific state.
 
 ### Manuscript
 
-- `manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md` — canonical article text.
-- `manuscript/TABLES_THEORETICAL_ECOLOGY.md` — canonical main tables.
-- `manuscript/figures/` — canonical main-figure sources.
-- `manuscript/supplementary/` — canonical supplementary text, figures, and tables.
+- `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md` — sole active article text.
+- `manuscript/IDENTIFICATION_DESIGN_REFERENCES.md` — focused reference spine.
+- `manuscript/identification_figures/` — canonical main-figure sources.
+- `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md` — active Appendix S1.
+
+`manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md`, its earlier tables/figures, and the Leal/Sasidharan modules remain versioned for provenance and reproducibility. They do not define the current submission package.
 
 ### Scientific boundaries
 
-- `docs/MECHANISM_PATTERN_STORY_BOUNDARY.md` — frozen integrated conclusion.
-- `docs/NOVELTY_POSITIONING.md` — what is and is not claimed as novel.
-- `docs/SELECTIVITY_WINDOW_BOUND.md` — one-sided theorem, finite verification, and falsification gate.
-- `docs/PART_I_ROBUSTNESS_PROTOCOL.md` and `configs/part_i_robustness_grid.json` — declared finite-design contract.
+- `docs/SUBMISSION_SCOPE.md` — active submission and inference boundary.
+- `docs/PARTIAL_IDENTIFICATION_FRONTIER_V1.md` — identified-set and partial-bound derivation.
+- `docs/MECHANISM_PATTERN_IDENTIFICATION_BRIDGE.md` — recurrence/identification bridge.
+- `docs/HYPOTHESIS_RECOVERY_MAP.md` — audit of the historical one-trait target and its separation from BITA.
+- `docs/QUESTION_METHOD_EXPLANATION_MATRIX.md` — which method answers which part of the two-trait question.
+- `docs/PUBLICATION_MATERIAL_RECOVERY_LEDGER.md` — editorial state of Main, Appendix, evidence and remaining gates.
 
 No historical readout, exploratory note, or old PR description overrides these files.
 
@@ -28,12 +32,14 @@ The core theory implementation is under `trait_architecture/`.
 
 Primary paper-facing modules:
 
+- `identification.py` — discrete crossed-intervention estimands and causal gates.
+- `partial_identification.py` — identified sets and assumption-indexed bounds.
 - `model.py` — declared biological parameterization and parameter constraints.
 - `sign_criterion.py` — local sign logic and orientation-facing quantities.
 - `robustness.py` — mixed-partial decomposition and response-shape robustness.
 - `theory_evidence_interface.py` / `theory_meta_validation.py` — explicit theory-to-evidence boundary checks.
 
-The main theorem regression is `tests/test_selectivity_bound.py`. Core CI must continue to discover and run it.
+The current identification regressions include `tests/test_identification.py`, `tests/test_identification_four_way.py`, `tests/test_partial_identification.py`, and `tests/test_identification_coverage.py`. Historical theorem and robustness regressions remain active because Appendix S1 preserves those analyses under a lower claim ceiling.
 
 Paper-facing generation and validation scripts under `scripts/` are retained when they reproduce a declared analysis, table, figure, supplement, source receipt, or validation state. Examples include:
 
@@ -53,7 +59,17 @@ Paper-facing generation and validation scripts under `scripts/` are retained whe
 
 ### `empirical/mechanism_pattern_synthesis/`
 
-This is the primary Part II paper-facing evidence layer: route ledgers, source-adjudicated system audits, context/sign-switch records, saturation receipts, direct-design audits, and quantitative-module receipts.
+This is the retained recurrence/provenance layer: route ledgers, source-adjudicated system audits, context/sign-switch records, saturation receipts, direct-design audits, and quantitative-module receipts. Its marginal routes establish recurrence and do not identify channel interactions.
+
+### `empirical/identification_design/`
+
+This is the active empirical identification layer: the 16-system high-information audit, direct interaction anchors, public-data retrofit, and source-package receipts.
+
+`QUESTION_METHOD_EXPLANATION_MATRIX_V1.csv` is the machine-readable claim architecture linking each scientific question to its minimum information, current BITA evidence, claim ceiling and next valid gate.
+
+### External one-trait companion
+
+The historical one-trait shared-cue question, its coverage audit and its paper framework belong to [SCH](https://github.com/zuizui0223/sch). BITA retains source-adjudicated marginal routes only because they are constituent evidence for its two-trait decomposition.
 
 ### `empirical/broad_reality_evidence/`
 
@@ -122,12 +138,12 @@ From this point forward, proposed changes should be classified before implementa
 - **Scientific correction:** change to an estimate, theorem, admitted evidence state, or inference boundary. Requires an explicit reason and revalidation of all downstream manuscript claims.
 - **New discovery:** new broad search, new Pattern class, new model family, or new empirical programme. Out of scope for the current paper unless the frozen conclusion is actually falsified.
 
-## 8. Frozen scientific endpoint for this paper
+## 8. Current scientific endpoint for this paper
 
-The paper supports:
+The canonical paper supports:
 
-> **a one-sided mechanistic theorem plus a recurrent but context-dependent empirical Pattern**
+> **interaction detection → identified set → assumption-indexed partial identification → selective mechanism identification**
 
-Under non-negative joint-cost curvature, complementarity cannot occur outside the selectivity window. The window is not sufficient for complementarity. Antagonist exposure can open the relief opportunity on average but is heterogeneous among systems. Direct joint-cost curvature remains unmeasured, and sufficiently negative joint-cost curvature is the unique escape route from the one-sided bound in the declared functional family.
+The four marginal channel families recur across independent systems, but the 16 screened high-information studies occupy fragmented faces of the identification frontier. No screened study point-identifies the full channel allocation or supplies an independent joint-cost assay. The historical one-sided result is retained as a partial-identification bound under an explicit non-negative joint-cost restriction, not as a standalone universal theorem.
 
-The next empirical work is therefore generated by the paper rather than required to complete it: first test the sign of the joint-cost interaction with a 2 × 2 allocation design; then, separately, use a full `A × D` factorial to estimate total interaction and channel allocation.
+The separate one-trait shared-cue question is not a missing section of this paper. It has its own estimand and coverage gate in SCH, while the source-adjudicated BITA routes remain preserved under their existing claim ceilings.

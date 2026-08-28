@@ -1,6 +1,6 @@
 # Biotic Interaction Trait Architecture
 
-A reproducible **Mechanism → Pattern → Identification** study of floral attraction and defence. The canonical paper asks an operational question: **when attraction (`A`) and a flower-associated antagonist-reducing trait (`D`) interact on reproduction, what can the observed interaction already constrain, and what additional observations are required to identify the ecological channels that generated it?**
+A reproducible **Mechanism → Pattern → Identification** study of floral attraction-defence trade-offs and complementarity. The canonical paper asks an operational question: **when attraction (`A`) and a flower-associated antagonist-reducing trait (`D`) interact on reproduction, what can the observed interaction already constrain, and what additional observations are required to identify the ecological channels that generated it?**
 
 ## Current scientific result
 
@@ -76,7 +76,21 @@ The cross-system conclusion is therefore:
 
 > **The constituent channels recur, current studies constrain different parts of their allocation, but the full joint mechanism is not yet point-identified.**
 
+In that bounded sense, their **joint allocation remains unidentified**.
+
 The useful next question is no longer only “is the mechanism identified?” but **which additional measurement or intervention most shrinks the remaining identified set?**
+
+The explicit question → method → explanatory-reach contract is recorded in `docs/QUESTION_METHOD_EXPLANATION_MATRIX.md` and its machine-readable source `empirical/identification_design/QUESTION_METHOD_EXPLANATION_MATRIX_V1.csv`. It distinguishes what BITA has already explained empirically, what is only assumption-indexed, and what still requires new data.
+
+### Boundary to the one-trait companion project
+
+The attraction-side routes also define a distinct first-order question that the canonical two-trait estimand does not answer: how a single attraction/display contrast changes pollinator benefit, antagonist cost and plant reproduction. In general,
+
+```text
+Delta_A W = Delta_A M - Delta_A G - Delta_A C
+```
+
+and `S_A = Delta_A M - Delta_A G` is valid only when direct attraction cost is standardized or measured independently. This target does not require `D` or `Delta_AD W`, but total `W(A)` alone still does not allocate the channels. The fail-closed coverage audit and shared-cue paper now belong to the separate [SCH repository](https://github.com/zuizui0223/sch). BITA retains only the constituent-route evidence needed by its two-trait Mechanism → Pattern → Identification argument.
 
 ## Canonical paper
 
@@ -89,6 +103,8 @@ Current reader-facing sources:
 - `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md` — Appendix S1
 - `docs/PARTIAL_IDENTIFICATION_FRONTIER_V1.md` — identified-set / bound derivation
 - `docs/MECHANISM_PATTERN_IDENTIFICATION_BRIDGE.md` — recurrence/identification boundary
+- `docs/QUESTION_METHOD_EXPLANATION_MATRIX.md` — method-specific explanatory reach and claim ceilings
+- `docs/PUBLICATION_MATERIAL_RECOVERY_LEDGER.md` — paperization material state and remaining gates
 - `submission/` — Ecology review-package and portal documents
 
 The historical theorem-led manuscript and its analyses remain versioned for provenance; they are not the canonical submission source.
