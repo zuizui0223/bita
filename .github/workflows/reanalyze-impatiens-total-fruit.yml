@@ -54,7 +54,7 @@ jobs:
             artifacts/impatiens_total_fruit/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V2.json \
             artifacts/impatiens_total_fruit/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V2.md
 
-      - name: Extract total-fruit sign receipt
+      - name: Extract sign receipts
         run: |
           python - <<'PY'
           import json
@@ -62,30 +62,43 @@ jobs:
 
           src = Path('artifacts/impatiens_total_fruit/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V2.json')
           report = json.loads(src.read_text())
-          total = next(m for m in report['model_summaries'] if m['outcome_field'] == 'Total_Fruits_Per_Day')
-          axd = total['target_coefficients']['A_z:D_z']
-          lo, hi = axd['ci95_lower'], axd['ci95_upper']
-          if lo > 0:
-              sign = 'POSITIVE_INTERVAL'
-          elif hi < 0:
-              sign = 'NEGATIVE_INTERVAL'
-          else:
-              sign = 'CROSSES_ZERO'
-          receipt = {
-              'endpoint': 'Total_Fruits_Per_Day',
-              'endpoint_scope': total['outcome_scope'],
-              'n_complete': total['n_complete'],
-              'estimate': axd['estimate'],
-              'hc3_se': axd['hc3_se'],
-              'ci95_lower': lo,
-              'ci95_upper': hi,
-              'sign_status': sign,
-              'causal_status': 'OBSERVATIONAL_A_D_NOT_CAUSAL_ESCAPE',
-          }
-          Path('artifacts/impatiens_total_fruit/IMPATIENS_TOTAL_FRUIT_SIGN_RECEIPT_V1.json').write_text(
-              json.dumps(receipt, indent=2, sort_keys=True)
+
+          def receipt_for(field, output_name, causal_status):
+              model = next(m for m in report['model_summaries'] if m['outcome_field'] == field)
+              axd = model['target_coefficients']['A_z:D_z']
+              lo, hi = axd['ci95_lower'], axd['ci95_upper']
+              if lo > 0:
+                  sign = 'POSITIVE_INTERVAL'
+              elif hi < 0:
+                  sign = 'NEGATIVE_INTERVAL'
+              else:
+                  sign = 'CROSSES_ZERO'
+              receipt = {
+                  'endpoint': field,
+                  'endpoint_scope': model['outcome_scope'],
+                  'n_complete': model['n_complete'],
+                  'estimate': axd['estimate'],
+                  'hc3_se': axd['hc3_se'],
+                  'ci95_lower': lo,
+                  'ci95_upper': hi,
+                  'sign_status': sign,
+                  'causal_status': causal_status,
+              }
+              Path('artifacts/impatiens_total_fruit', output_name).write_text(
+                  json.dumps(receipt, indent=2, sort_keys=True)
+              )
+              print(json.dumps(receipt, sort_keys=True))
+
+          receipt_for(
+              'Total_Fruits_Per_Day',
+              'IMPATIENS_TOTAL_FRUIT_SIGN_RECEIPT_V1.json',
+              'OBSERVATIONAL_A_D_NOT_CAUSAL_ESCAPE',
           )
-          print(json.dumps(receipt, sort_keys=True))
+          receipt_for(
+              '__estimated_mature_seed_output_per_day__',
+              'IMPATIENS_RECONSTRUCTED_SEED_OUTPUT_SIGN_RECEIPT_V1.json',
+              'DERIVED_PROXY_WITH_OBSERVATIONAL_A_D_NOT_CAUSAL_ESCAPE',
+          )
           PY
 
       - uses: actions/upload-artifact@v4
