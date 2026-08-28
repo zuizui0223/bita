@@ -49,19 +49,35 @@ Trait factorials, consumer factorials, selective defence manipulations, observat
 
 ### 5. The escape decision is formally easier than mechanism attribution
 
-The strict escape condition is a sign question about total `Delta_AD W`. If a valid total interaction interval is entirely positive, the inequality is decided even while the compatible `(rho, iota, kappa)` allocations remain a plane or bounded set. The new `classify_escape_criterion` helper in `trait_architecture/partial_identification.py` encodes exactly this distinction and does not infer a total interaction from channel-specific data.
+The strict escape condition is a sign question about total `Delta_AD W`. If a valid total interaction interval is entirely positive, the inequality is decided even while the compatible `(rho, iota, kappa)` allocations remain a plane or bounded set. The `classify_escape_criterion` helper in `trait_architecture/partial_identification.py` encodes exactly this distinction and does not infer a total interaction from channel-specific data.
+
+### 6. The broadest deposited Impatiens fruit endpoint has now been checked
+
+The public Soper Gorden & Adler *Impatiens capensis* panel was rerun against the fixed Dryad v4805 archive using the same hierarchical HC3 retrofit. In addition to the previously inspected CH-fruit and seed-per-CH-fruit components, the deposited `Total_Fruits_Per_Day` endpoint combines CH and CL fruit production.
+
+For that broader fruit-production endpoint:
+
+```text
+A:D estimate = -0.1737
+HC3 95% CI   = [-0.3791, +0.0316]
+n             = 170
+sign status   = CROSSES_ZERO
+```
+
+The randomized context modifiers `A:D:Robbing`, `A:D:Florivory`, and `A:D:Pollination` also all cross zero. This is a stronger endpoint-coverage result than the earlier component-only audit, but it remains observational in A and D and `Total_Fruits_Per_Day` is not total lifetime seed fitness. The full receipt is `empirical/identification_design/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V2.md`.
 
 ## Where the evidence stops
 
 The present evidence does **not yet identify a positive escape event in one complete observed system**, but the reason is now more precise.
 
-- Total `A x D` reproductive-outcome anchors are sparse. The `Impatiens` reconstruction remains the cleaner total candidate, but its interaction confidence intervals cross zero and component point signs differ.
+- The closest public observational trait-pair system has now been extended to the deposited CH+CL total-fruit endpoint. Its A×D estimate is negative in point value and its 95% interval crosses zero, so it does not supply a positive escape-sign anchor.
+- The `Impatiens` A and D traits are observational. Even an interval wholly above zero would have been an observational reproductive association rather than a causal `do(A) x do(D)` escape estimate.
 - Kessler trait factorials are valuable channel-specific reproductive-service anchors, but they cannot be promoted to total `Delta_AD W` because antagonist loss and remaining cost are not on the same outcome surface.
-- Consequently, no currently screened system supplies a defensible total `Delta_AD W` interval wholly above zero on the declared common reproductive scale. The escape sign is therefore `UNRESOLVED_CURRENT_TOTAL_EVIDENCE`.
+- Consequently, no currently screened system supplies a defensible causal or randomized total `Delta_AD W` interval wholly above zero on the declared common reproductive scale. The escape sign remains `UNRESOLVED_TOTAL_SIGN_CURRENT_EVIDENCE`.
 - Separately, no screened system point-identifies both `rho_delta` and `iota_delta` with the full selective crossed design, and no strict independent assay identifies `kappa_delta`. Mechanism allocation remains unresolved even if a future total interaction were positive.
 - Zero recovered cost assays does not imply zero cost.
 
-Thus the statement “escape is currently unresolved” remains correct, but **it must not be justified by saying that all three channels must first be point-identified**. A positive total interaction would decide the inequality; the full crossed consumer and cost design would then explain why it is positive.
+Thus the statement “escape is currently unresolved” remains correct, but **it must not be justified by saying that all three channels must first be point-identified**. A positive valid total interaction would decide the inequality; the full crossed consumer and cost design would then explain why it is positive.
 
 ## Hypothesis-by-hypothesis result
 
@@ -71,8 +87,9 @@ Thus the statement “escape is currently unresolved” remains correct, but **i
 | Marginal antagonist reduction by D | Recurrent strong evidence |
 | Pollinator-preserving selective defence | Recurrent, quantitative but still provisional across screened systems |
 | Route-separation switching rule | Recurrent strong retrospective candidate |
-| Total `Delta_AD W` | Sparse partial anchors; sign unresolved on a valid common total outcome |
-| Escape outcome `Delta_AD W > 0` | `UNRESOLVED_CURRENT_TOTAL_EVIDENCE`; decidable from total sign without full allocation in principle |
+| Observational broad fruit-production A×D | *Impatiens* `Total_Fruits_Per_Day`: -0.1737, HC3 CI [-0.3791, +0.0316], crosses zero |
+| Causal/valid total `Delta_AD W` | Sparse partial anchors; no positive interval on a manipulated common total outcome |
+| Escape outcome `Delta_AD W > 0` | `UNRESOLVED_TOTAL_SIGN_CURRENT_EVIDENCE`; decidable from total sign without full allocation in principle |
 | `rho_delta` and `iota_delta` allocation | Not point-identified in 0/16 screened systems |
 | Independent `kappa_delta` | 0 strict estimates; documented evidence gap |
 | Mechanism-resolved escape explanation | Not evaluable in current complete-system evidence |
@@ -85,10 +102,12 @@ The empirical program is now naturally two-stage.
 1. **Decide whether escape occurs.** Run or recover a defensible randomized/causal `A x D` factorial on one common reproductive outcome and propagate uncertainty for `Delta_AD W`. An interval wholly above zero identifies the strict escape inequality.
 2. **Explain why it occurs.** Add selective antagonist and pollinator interventions, characterize `M0_delta`, test separability, and independently assay the remaining joint cost. These measurements allocate the positive or negative total interaction among `rho_delta`, `iota_delta` and `kappa_delta`.
 
+The *Impatiens* upgrade also clarifies what is **not** the next best use of effort: adding another nearby observational reproductive component is unlikely to close the causal outcome gate. The highest-value next empirical target is a genuinely manipulated A×D total reproductive surface, not further relabeling of observational trait associations.
+
 This ordering prevents an unnecessarily strong mechanism gate from blocking a valid outcome-level result while preserving the stricter standard for causal explanation.
 
 ## Positive paper-level claim
 
-> Nature repeatedly implements antagonist-reducing traits and selective route architectures that can preserve pollination. BITA separates two empirical questions that previous framing conflated: whether the attraction-by-defence fitness interaction is positive, which can be decided from a valid total fitness surface, and which relief, interference and cost channels generate that sign, which requires additional selective interventions and an independent cost assay. Existing evidence strongly recovers the constituent mechanisms and switching rule but does not yet provide a robust positive total interaction in a complete system.
+> Nature repeatedly implements antagonist-reducing traits and selective route architectures that can preserve pollination. BITA separates two empirical questions that previous framing conflated: whether the attraction-by-defence fitness interaction is positive, which can be decided from a valid total fitness surface, and which relief, interference and cost channels generate that sign, which requires additional selective interventions and an independent cost assay. Reanalysis of the strongest public observational trait-pair system now includes its broader deposited CH+CL fruit-production endpoint and still yields an interval crossing zero. Existing evidence therefore strongly recovers the constituent mechanisms and switching rule but does not yet provide a robust positive total interaction in a causally interpretable complete system.
 
 This statement is stronger than “the mechanism was not identified” and narrower than claiming that defence has already been shown to release the one-trait conflict in a complete empirical system.
