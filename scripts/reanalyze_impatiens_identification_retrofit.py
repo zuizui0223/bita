@@ -8,12 +8,15 @@ pre-treatment traits. The registered question is narrower:
     Does the observational A x D fitness-component association change across
     randomized agent assignments?
 
-Two reproductive components are analyzed with the same transforms as the prior
-source-audited rerun. A single hierarchical model per outcome contains the full
-randomized R x F x P factorial plus A/D main effects, all A- or D-by-treatment
-lower-order terms needed for hierarchy, A x D, and the three targeted
-A x D x treatment modifiers. HC3 uncertainty is reported. No individual raw
-records are written to output.
+Three reproductive outcomes are analyzed with one unchanged hierarchical model:
+CH fruit production, the deposited total-fruit production endpoint, and seeds
+per CH fruit. ``Total_Fruits_Per_Day`` is more integrative than the CH-only fruit
+component because the deposited variable combines CH and CL fruit production,
+but it is still not total lifetime seed fitness and A/D remain observational.
+A single hierarchical model per outcome contains the full randomized R x F x P
+factorial plus A/D main effects, all A- or D-by-treatment lower-order terms
+needed for hierarchy, A x D, and the three targeted A x D x treatment modifiers.
+HC3 uncertainty is reported. No individual raw records are written to output.
 
 Usage:
     python scripts/reanalyze_impatiens_identification_retrofit.py \
@@ -37,8 +40,14 @@ D_FIELD = "Early_Season_Condensed_Tannins"
 PHENOLOGY_FIELD = "Date_of_First_CH_Flower"
 TREATMENTS = ("Robbing", "Florivory", "Pollination")
 MODELS = (
-    ("ch_fruits_per_plant_per_day", "Average_CH_Fruits_Per_Day", "log1p"),
-    ("seeds_per_ch_fruit", "Average_Seeds_Per_CH_Fruit", "identity"),
+    ("ch_fruits_per_plant_per_day", "Average_CH_Fruits_Per_Day", "log1p", "CH fruit-production component"),
+    (
+        "total_fruits_per_plant_per_day",
+        "Total_Fruits_Per_Day",
+        "log1p",
+        "Deposited CH+CL total-fruit endpoint; more integrative than CH-only fruit production but not total lifetime seed fitness",
+    ),
+    ("seeds_per_ch_fruit", "Average_Seeds_Per_CH_Fruit", "identity", "Seeds per CH fruit component"),
 )
 
 TERMS = (
@@ -151,7 +160,7 @@ def _cell_counts(records: list[dict[str, float]]) -> dict[str, int]:
 
 def analyze(rows: list[dict[str, str]]) -> dict[str, object]:
     summaries = []
-    for analysis_id, outcome_field, transform in MODELS:
+    for analysis_id, outcome_field, transform, outcome_scope in MODELS:
         records, omitted = _prepare(rows, outcome_field, transform)
         result = fit_ols_hc3(
             [row["y"] for row in records],
@@ -165,6 +174,7 @@ def analyze(rows: list[dict[str, str]]) -> dict[str, object]:
             "analysis_id": analysis_id,
             "outcome_field": outcome_field,
             "outcome_transform": transform,
+            "outcome_scope": outcome_scope,
             "n_complete": result.n,
             "n_omitted": omitted,
             "parameter_count": result.parameter_count,
@@ -187,7 +197,8 @@ def analyze(rows: list[dict[str, str]]) -> dict[str, object]:
         "registered_model": "hierarchical HC3 OLS with full R*F*P factorial, A/D-by-treatment lower-order terms, A:D, A:D:R, A:D:F, A:D:P, and pre-treatment phenology adjustment",
         "causal_boundary": (
             "Randomized treatment modifiers are causal assignment effect-modification contrasts, but A and D are observational traits. "
-            "Robbing/florivory/pollination were simulated increases, not selective consumer exclusions. Results therefore do not identify rho_delta, iota_delta, M0_delta, or kappa_delta."
+            "Robbing/florivory/pollination were simulated increases, not selective consumer exclusions. Results therefore do not identify rho_delta, iota_delta, M0_delta, or kappa_delta. "
+            "A positive Total_Fruits_Per_Day A:D interval would be an observational total-fruit association, not a causal escape estimate; the deposited endpoint also does not include seeds per fruit and is not total lifetime seed fitness."
         ),
         "model_summaries": summaries,
     }
@@ -209,7 +220,9 @@ def render_markdown(report: dict[str, object]) -> str:
         "",
         "## Registered model",
         "",
-        "For each of the two previously audited reproductive components, standardized outcome is regressed on standardized early flower redness (A), standardized early floral condensed tannins (D), the full randomized Robbing × Florivory × Pollination factorial, all A- and D-by-treatment lower-order interactions needed for hierarchy, A×D, the three targeted A×D×treatment modifiers, and standardized pre-treatment flowering date. HC3 intervals are reported.",
+        "The same hierarchical model is fit to three deposited reproductive outcomes: CH fruit production, Total_Fruits_Per_Day, and seeds per CH fruit. Total_Fruits_Per_Day combines CH and CL fruit production in the deposited table, so it is more integrative than the prior CH-only component; it still omits seeds per fruit and lifetime reproduction and therefore must not be called total fitness.",
+        "",
+        "For each outcome, standardized response is regressed on standardized early flower redness (A), standardized early floral condensed tannins (D), the full randomized Robbing × Florivory × Pollination factorial, all A- and D-by-treatment lower-order interactions needed for hierarchy, A×D, the three targeted A×D×treatment modifiers, and standardized pre-treatment flowering date. HC3 intervals are reported.",
         "",
         "Because treatments are effect-coded N=-0.5 / Y=+0.5, each A×D×treatment coefficient is the difference in the observational A×D slope between the randomized Y and N assignment levels, conditional on the declared model.",
         "",
@@ -219,6 +232,8 @@ def render_markdown(report: dict[str, object]) -> str:
     for summary in report["model_summaries"]:  # type: ignore[index]
         lines += [
             f"### {summary['analysis_id']}",
+            "",
+            f"Outcome scope: {summary['outcome_scope']}.",
             "",
             f"Complete cases: {summary['n_complete']}; residual df: {summary['residual_df']}; randomized-cell n range: {summary['minimum_cell_n']}–{summary['maximum_cell_n']}.",
             "",
@@ -237,6 +252,8 @@ def render_markdown(report: dict[str, object]) -> str:
         "## Identification interpretation",
         "",
         "The A×D term is still an observational trait association. The A×D×Robbing, A×D×Florivory, and A×D×Pollination terms ask whether randomized supplemental agent assignments modify that association. Even if one of these terms is nonzero, it cannot be renamed rho or iota because the source treatments are intensity additions rather than selective present/excluded channel toggles.",
+        "",
+        "The added Total_Fruits_Per_Day model closes a narrower endpoint-coverage gap: it checks the deposited CH+CL fruit-production outcome rather than relying only on CH fruit production and seeds per CH fruit. It does not turn observational A and D into randomized traits and it does not create a complete lifetime-fitness outcome.",
         "",
         "This retrofit therefore has a deliberately asymmetric role: it shows how far a high-information public dataset can be pushed toward the new identification design while preserving the point at which identification fails.",
         "",
