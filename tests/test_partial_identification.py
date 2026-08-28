@@ -2,7 +2,11 @@ from math import inf
 
 import pytest
 
-from trait_architecture.partial_identification import Interval, partial_identification_from_total
+from trait_architecture.partial_identification import (
+    Interval,
+    classify_escape_criterion,
+    partial_identification_from_total,
+)
 
 
 def test_total_interaction_alone_does_not_bound_channels() -> None:
@@ -64,3 +68,18 @@ def test_incompatible_channel_bounds_are_detected() -> None:
     assert result.rho is None
     assert result.iota is None
     assert result.kappa is None
+
+
+def test_positive_total_interval_identifies_escape_without_channel_allocation() -> None:
+    assert classify_escape_criterion(Interval(0.05, 0.30)) == "ESCAPE_IDENTIFIED"
+    result = partial_identification_from_total(0.2)
+    assert not result.point_identified
+
+
+def test_nonpositive_total_interval_refutes_strict_escape() -> None:
+    assert classify_escape_criterion(Interval(-0.30, 0.0)) == "ESCAPE_REFUTED"
+
+
+def test_total_interval_crossing_zero_leaves_escape_unresolved() -> None:
+    assert classify_escape_criterion(Interval(-0.05, 0.30)) == "ESCAPE_UNRESOLVED"
+    assert classify_escape_criterion(Interval(0.0, 0.30)) == "ESCAPE_UNRESOLVED"
