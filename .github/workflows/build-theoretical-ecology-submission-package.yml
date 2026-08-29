@@ -33,7 +33,7 @@ jobs:
       - name: Install document toolchain
         run: |
           sudo apt-get update
-          sudo apt-get install -y pandoc libreoffice-writer poppler-utils
+          sudo apt-get install -y pandoc libreoffice-writer poppler-utils librsvg2-bin
           python -m pip install pytest
 
       - name: Test Theoretical Ecology submission contract
@@ -68,6 +68,14 @@ jobs:
             --to=docx \
             --output=COVER_LETTER_THEORETICAL_ECOLOGY.docx
 
+      - name: Validate Word figure embedding
+        run: |
+          MEDIA_COUNT=$(unzip -l submission/theoretical_ecology/generated/MANUSCRIPT_THEORETICAL_ECOLOGY.docx | grep -c 'word/media/' || true)
+          if [ "$MEDIA_COUNT" -ne 5 ]; then
+            echo "Expected five embedded identification figures; found $MEDIA_COUNT" >&2
+            exit 1
+          fi
+
       - name: Render companion PDFs
         run: |
           mkdir -p submission/theoretical_ecology/generated/rendered
@@ -96,7 +104,10 @@ jobs:
           grep -q 'Theoretical Ecology' "$RUNNER_TEMP/main.txt"
           grep -q 'Statements and Declarations' "$RUNNER_TEMP/main.txt"
           grep -q 'Kessler et al. (2008)' "$RUNNER_TEMP/main.txt"
-          grep -q 'source/design-based interaction uncertainty remains unresolved' "$RUNNER_TEMP/main.txt"
+          grep -q 'source/design-based interaction uncertainty' "$RUNNER_TEMP/main.txt"
+          grep -q 'remains unresolved' "$RUNNER_TEMP/main.txt"
+          grep -q 'Figure 1.' "$RUNNER_TEMP/main.txt"
+          grep -q 'Figure 5.' "$RUNNER_TEMP/main.txt"
           grep -q 'Online Resource 1' "$RUNNER_TEMP/supp.txt"
           grep -q 'Regular Article' "$RUNNER_TEMP/cover.txt"
           test "$(find submission/theoretical_ecology/generated/figures -maxdepth 1 -name 'Fig*.svg' | wc -l)" -eq 5
@@ -116,6 +127,7 @@ jobs:
         run: |
           MAIN_PAGES=$(pdfinfo submission/theoretical_ecology/generated/rendered/MANUSCRIPT_THEORETICAL_ECOLOGY.pdf | awk '/^Pages:/ {print $2}')
           SUPP_PAGES=$(pdfinfo submission/theoretical_ecology/generated/rendered/ONLINE_RESOURCE_1.pdf | awk '/^Pages:/ {print $2}')
+          MEDIA_COUNT=$(unzip -l submission/theoretical_ecology/generated/MANUSCRIPT_THEORETICAL_ECOLOGY.docx | grep -c 'word/media/' || true)
           {
             echo "target_journal=Theoretical Ecology"
             echo "article_type=Regular Article"
@@ -123,6 +135,7 @@ jobs:
             echo "companion_pdf=MANUSCRIPT_THEORETICAL_ECOLOGY.pdf"
             echo "main_pages=$MAIN_PAGES"
             echo "online_resource_1_pages=$SUPP_PAGES"
+            echo "embedded_main_figures=$MEDIA_COUNT"
             echo "automated_status=TECHNICALLY_READY"
             echo "human_status=BLOCKED_AUTHOR_METADATA"
             echo "legacy_ecology_page_limit_rule=NOT_APPLIED"
