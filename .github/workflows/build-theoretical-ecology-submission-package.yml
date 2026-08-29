@@ -1,0 +1,152 @@
+name: build-theoretical-ecology-submission-package
+
+on:
+  pull_request:
+    paths:
+      - 'manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md'
+      - 'manuscript/IDENTIFICATION_DESIGN_REFERENCES.md'
+      - 'manuscript/IDENTIFICATION_DESIGN_FIGURE_CAPTIONS.md'
+      - 'manuscript/identification_figures/**'
+      - 'manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md'
+      - 'submission/COVER_LETTER_THEORETICAL_ECOLOGY.md'
+      - 'submission/THEORETICAL_ECOLOGY_SUBMISSION_CONTRACT_V2.md'
+      - 'scripts/build_theoretical_ecology_submission_sources.py'
+      - 'tests/test_theoretical_ecology_submission_package.py'
+      - 'empirical/identification_design/HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv'
+      - 'empirical/identification_design/DEFENCE_ESCAPE_ROUTE_HYPOTHESIS_RECOVERY_V1.csv'
+      - 'empirical/identification_design/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json'
+      - 'empirical/identification_design/KESSLER_TYPE_REPLICATION_POWER_V1.json'
+      - 'empirical/identification_design/KESSLER_TYPE_STAGE1_TRIAL_TEMPLATE_V1.csv'
+      - '.github/workflows/build-theoretical-ecology-submission-package.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install document toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc libreoffice-writer poppler-utils
+          python -m pip install pytest
+
+      - name: Test Theoretical Ecology submission contract
+        run: python -m pytest -q tests/test_theoretical_ecology_submission_package.py
+
+      - name: Build target-journal sources and QA receipt
+        run: python scripts/build_theoretical_ecology_submission_sources.py
+
+      - name: Build main Word manuscript
+        run: |
+          cd submission/theoretical_ecology/generated
+          pandoc MANUSCRIPT_THEORETICAL_ECOLOGY.md \
+            --from=markdown+tex_math_single_backslash \
+            --to=docx \
+            --resource-path=. \
+            --output=MANUSCRIPT_THEORETICAL_ECOLOGY.docx
+
+      - name: Build Online Resource 1 PDF source
+        run: |
+          cd submission/theoretical_ecology/generated
+          pandoc ONLINE_RESOURCE_1.md \
+            --from=markdown+tex_math_single_backslash \
+            --to=docx \
+            --resource-path=. \
+            --output=ONLINE_RESOURCE_1.docx
+
+      - name: Build cover-letter PDF source
+        run: |
+          cd submission/theoretical_ecology/generated
+          pandoc COVER_LETTER_THEORETICAL_ECOLOGY.md \
+            --from=markdown \
+            --to=docx \
+            --output=COVER_LETTER_THEORETICAL_ECOLOGY.docx
+
+      - name: Render companion PDFs
+        run: |
+          mkdir -p submission/theoretical_ecology/generated/rendered
+          libreoffice --headless --convert-to pdf \
+            --outdir submission/theoretical_ecology/generated/rendered \
+            submission/theoretical_ecology/generated/MANUSCRIPT_THEORETICAL_ECOLOGY.docx
+          libreoffice --headless --convert-to pdf \
+            --outdir submission/theoretical_ecology/generated/rendered \
+            submission/theoretical_ecology/generated/ONLINE_RESOURCE_1.docx
+          libreoffice --headless --convert-to pdf \
+            --outdir submission/theoretical_ecology/generated/rendered \
+            submission/theoretical_ecology/generated/COVER_LETTER_THEORETICAL_ECOLOGY.docx
+
+      - name: Validate rendered package
+        run: |
+          MAIN_PDF=submission/theoretical_ecology/generated/rendered/MANUSCRIPT_THEORETICAL_ECOLOGY.pdf
+          SUPP_PDF=submission/theoretical_ecology/generated/rendered/ONLINE_RESOURCE_1.pdf
+          COVER_PDF=submission/theoretical_ecology/generated/rendered/COVER_LETTER_THEORETICAL_ECOLOGY.pdf
+          test -s "$MAIN_PDF"
+          test -s "$SUPP_PDF"
+          test -s "$COVER_PDF"
+          pdftotext "$MAIN_PDF" "$RUNNER_TEMP/main.txt"
+          pdftotext "$SUPP_PDF" "$RUNNER_TEMP/supp.txt"
+          pdftotext "$COVER_PDF" "$RUNNER_TEMP/cover.txt"
+          grep -q 'From floral trait interactions to mechanism identification' "$RUNNER_TEMP/main.txt"
+          grep -q 'Theoretical Ecology' "$RUNNER_TEMP/main.txt"
+          grep -q 'Statements and Declarations' "$RUNNER_TEMP/main.txt"
+          grep -q 'Kessler et al. (2008)' "$RUNNER_TEMP/main.txt"
+          grep -q 'source/design-based interaction uncertainty remains unresolved' "$RUNNER_TEMP/main.txt"
+          grep -q 'Online Resource 1' "$RUNNER_TEMP/supp.txt"
+          grep -q 'Regular Article' "$RUNNER_TEMP/cover.txt"
+          test "$(find submission/theoretical_ecology/generated/figures -maxdepth 1 -name 'Fig*.svg' | wc -l)" -eq 5
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('submission/theoretical_ecology/generated/PACKAGE_QA_RECEIPT.json')
+          data = json.loads(p.read_text())
+          assert data['automated_status'] == 'TECHNICALLY_READY', data
+          assert data['human_status'] == 'BLOCKED_AUTHOR_METADATA', data
+          assert 150 <= data['abstract_word_count'] <= 250
+          assert 4 <= data['keyword_count'] <= 6
+          assert data['reviewer_placeholder_count'] == 5
+          PY
+
+      - name: Write rendered QA summary
+        run: |
+          MAIN_PAGES=$(pdfinfo submission/theoretical_ecology/generated/rendered/MANUSCRIPT_THEORETICAL_ECOLOGY.pdf | awk '/^Pages:/ {print $2}')
+          SUPP_PAGES=$(pdfinfo submission/theoretical_ecology/generated/rendered/ONLINE_RESOURCE_1.pdf | awk '/^Pages:/ {print $2}')
+          {
+            echo "target_journal=Theoretical Ecology"
+            echo "article_type=Regular Article"
+            echo "main_word_file=MANUSCRIPT_THEORETICAL_ECOLOGY.docx"
+            echo "companion_pdf=MANUSCRIPT_THEORETICAL_ECOLOGY.pdf"
+            echo "main_pages=$MAIN_PAGES"
+            echo "online_resource_1_pages=$SUPP_PAGES"
+            echo "automated_status=TECHNICALLY_READY"
+            echo "human_status=BLOCKED_AUTHOR_METADATA"
+            echo "legacy_ecology_page_limit_rule=NOT_APPLIED"
+          } > submission/theoretical_ecology/generated/RENDERED_PACKAGE_QA.txt
+
+      - name: Remove intermediate supplement/cover Word files
+        if: always()
+        run: |
+          rm -f submission/theoretical_ecology/generated/ONLINE_RESOURCE_1.docx
+          rm -f submission/theoretical_ecology/generated/COVER_LETTER_THEORETICAL_ECOLOGY.docx
+
+      - name: Upload Theoretical Ecology package
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: theoretical-ecology-submission-package
+          path: |
+            submission/theoretical_ecology/generated/MANUSCRIPT_THEORETICAL_ECOLOGY.docx
+            submission/theoretical_ecology/generated/rendered/MANUSCRIPT_THEORETICAL_ECOLOGY.pdf
+            submission/theoretical_ecology/generated/rendered/ONLINE_RESOURCE_1.pdf
+            submission/theoretical_ecology/generated/rendered/COVER_LETTER_THEORETICAL_ECOLOGY.pdf
+            submission/theoretical_ecology/generated/COVER_LETTER_THEORETICAL_ECOLOGY.md
+            submission/theoretical_ecology/generated/PACKAGE_QA_RECEIPT.json
+            submission/theoretical_ecology/generated/RENDERED_PACKAGE_QA.txt
+            submission/theoretical_ecology/generated/open_research_data/*
+            submission/theoretical_ecology/generated/figures/*
+          if-no-files-found: error
