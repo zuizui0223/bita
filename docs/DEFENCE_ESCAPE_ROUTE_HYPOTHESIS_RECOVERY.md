@@ -104,6 +104,45 @@ sign status   = CROSSES_ZERO
 
 The point estimate reverses sign across the two summaries and both intervals cross zero. Moreover, the *Impatiens* A and D traits are observational. This system therefore supplies uncertainty-bearing reproductive associations but not a causal escape estimate. The sign instability supports a stopping rule against further nearby endpoint mining from the same panel.
 
+### 8. The next outcome-level experiment is now quantitatively specified
+
+A registered prospective planner converts the Kessler aggregate effect into a **Stage-1 replication benchmark**, without pretending the historical source supplied its missing uncertainty. The primary planning estimand is the additive probability-scale difference-in-differences and the decision target is a two-sided 95% interval lying wholly above zero.
+
+For the published-central planning scenario (`p11=0.35`, other three cells `0.13`, `Delta_AD=+0.22`):
+
+```text
+80% power effective n/cell:  92
+90% power effective n/cell: 124
+```
+
+After predeclared inflation for a design effect of 1.5 and 90% retention:
+
+```text
+80% power: 154 observations/cell = 616 total
+90% power: 207 observations/cell = 828 total
+```
+
+For an attenuated but still substantial interaction (`Delta_AD=+0.17`):
+
+```text
+80% power: 250 observations/cell = 1000 total
+90% power: 334 observations/cell = 1336 total
+```
+
+For a smaller `Delta_AD=+0.12`, the 80% design reaches 480 observations/cell (1920 total), showing why the expected biologically meaningful effect must be declared before field allocation.
+
+These are **planning calculations**, not a reconstructed Kessler CI. The 16-cell mechanism design must not be powered by multiplying these numbers by four and assuming the total Kessler interaction is also the three- or four-way channel effect. At the `Delta=0.17`, 80%, design-effect-1.5 benchmark, such multiplication would produce a 4000-observation budget, but this is only a budget warning. Channel-scale effects remain unknown.
+
+The executable plan therefore has three stages:
+
+```text
+Stage 1: confirm the total A x D escape sign
+Stage 2: pilot rho/iota/baseline/four-way channel contrasts on the same A/D coordinate
+Stage 3: re-power and execute the selective 16-cell mechanism experiment + independent cost assay
+```
+
+The registered files are `scripts/plan_kessler_type_replication.py`, `empirical/identification_design/KESSLER_TYPE_REPLICATION_POWER_V1.json`, and `docs/KESSLER_TYPE_REPLICATION_AND_AUGMENTATION_V1.md`.
+
 ## Where the evidence stops
 
 The present evidence does **not yet identify a positive escape event with a defensible source/design-based interval wholly above zero**, but the reason is now much sharper.
@@ -130,28 +169,30 @@ Thus the statement “escape is currently unresolved” remains correct, but **i
 | Observational broad fruit-production A×D | *Impatiens* `Total_Fruits_Per_Day`: -0.1737, HC3 CI [-0.3791, +0.0316], crosses zero |
 | Derived mature-seed-output A×D | *Impatiens* CH+CL proxy: +0.1528, HC3 CI [-0.5487, +0.8544], n=70, crosses zero |
 | Formal escape outcome `Delta_AD W > 0` | `UNRESOLVED_TOTAL_SIGN_CURRENT_EVIDENCE`; Kessler is the strongest positive sign anchor but lacks source/design uncertainty |
-| `rho_delta` and `iota_delta` allocation | Not point-identified in 0/16 screened systems |
+| Prospective Stage-1 closure | Registered: 616 total at central `Delta=0.22` or 1000 total at attenuated `Delta=0.17` for 80% power under design effect 1.5 and 90% retention |
+| `rho_delta` and `iota_delta` allocation | Not point-identified in 0/16 screened systems; channel pilot must precede mechanism-scale power calculation |
 | Independent `kappa_delta` | 0 strict estimates; documented evidence gap |
 | Mechanism-resolved escape explanation | Not evaluable in current complete-system evidence |
-| Experimental decision procedure | Achieved method result |
+| Experimental decision procedure | Achieved method result plus executable staged replication plan |
 
 ## Revised minimum augmentation
 
-The empirical program is now naturally two-stage, but stage 1 is narrower than before.
+The empirical program is now explicitly staged.
 
-1. **Decide whether escape occurs.** First attempt to recover Kessler's source/design-based A×D uncertainty from lawful supporting-material or author-deposited data. If that remains inaccessible, prioritize a second genuinely manipulated A×D common reproductive surface with complete uncertainty. A valid interval wholly above zero identifies the strict escape inequality.
-2. **Explain why it occurs.** Add selective antagonist and pollinator interventions, characterize `M0_delta`, test separability, and independently assay the remaining joint cost. These measurements allocate the positive or negative total interaction among `rho_delta`, `iota_delta` and `kappa_delta`.
+1. **Decide whether escape occurs.** Run the registered Stage-1 Kessler-type replication on one common reproductive outcome. A central planning benchmark is 154 observations per trait cell (616 total) for 80% power after design-effect and retention inflation; the attenuated `Delta=0.17` benchmark is 250 per cell (1000 total). Preserve plant/day/block structure in the actual uncertainty model. If feasible, prefer a flower-local or flower-restricted defence manipulation and verify that vegetative defence is unchanged.
+2. **Pilot the missing channels.** Only after the total interaction is estimated should selective antagonist and pollinator treatments be added to estimate plausible magnitudes/variance for `rho_delta`, `iota_delta`, `m0_delta`, and the four-way coupling diagnostic. Do **not** borrow the total Kessler `Delta` as a mechanism interaction effect size.
+3. **Explain why it occurs.** Re-power the full selective crossed design from the channel pilot, characterize `M0_delta`, test separability, and independently assay the remaining joint cost. These measurements allocate the positive or negative total interaction among `rho_delta`, `iota_delta` and `kappa_delta`.
 
 The *Impatiens* upgrade supplies a practical stopping rule: **do not spend the next development cycle constructing additional nearby observational reproductive summaries from the same panel**. The Kessler result likewise supplies a different stopping rule: **do not describe the next empirical search as looking for the first manipulated A×D surface**. That surface is already recovered; the missing object is its defensible uncertainty or an independent complete replication.
 
-This ordering prevents an unnecessarily strong mechanism gate from blocking a valid outcome-level result while preserving the stricter standard for causal explanation.
+This ordering prevents an unnecessarily strong mechanism gate from blocking a valid outcome-level result while avoiding a wasteful 16-cell design powered from the wrong effect scale.
 
 ## Validation state
 
-The Kessler supplement probe is regression-tested and its registered publisher access run completed successfully as a fail-closed probe. The aggregate-bound analysis is independently regression-tested and its registered Actions run completed successfully after enumerating all declared denominator profiles. The *Impatiens* fixed-Dryad reanalysis, candidate identification package, Ecology submission package, submission-scope guard, and complete Python 3.10/3.11/3.12 pytest matrix have also passed on PR #153 during this recovery branch.
+The Kessler supplement probe is regression-tested and its registered publisher access run completed successfully as a fail-closed probe. The aggregate-bound analysis is independently regression-tested and its registered Actions run completed successfully after enumerating all declared denominator profiles. The Kessler-type prospective power planner has also run successfully in Actions and its key sample-size receipts are regression guarded. The *Impatiens* fixed-Dryad reanalysis, candidate identification package, Ecology submission package, submission-scope guard, and complete Python 3.10/3.11/3.12 pytest matrix are monitored on PR #153.
 
 ## Positive paper-level claim
 
-> Nature repeatedly implements antagonist-reducing traits and selective route architectures that can preserve pollination. BITA separates two empirical questions that previous framing conflated: whether the attraction-by-defence fitness interaction is positive, and which relief, interference and cost channels generate that sign. A direct field manipulation of floral attraction and nicotine already supplies a positive, aggregate-sign-robust two-trait reproductive interaction, while an independent public observational system supplies uncertainty-bearing estimates that cross zero. What remains missing at the outcome level is a source/design-based positive interaction interval with clean trait scope; what remains missing at the mechanism level is selective channel and independent cost identification.
+> Nature repeatedly implements antagonist-reducing traits and selective route architectures that can preserve pollination. BITA separates two empirical questions that previous framing conflated: whether the attraction-by-defence fitness interaction is positive, and which relief, interference and cost channels generate that sign. A direct field manipulation of floral attraction and nicotine already supplies a positive, aggregate-sign-robust two-trait reproductive interaction, while an independent public observational system supplies uncertainty-bearing estimates that cross zero. What remains missing at the outcome level is a source/design-based positive interaction interval with clean trait scope; what remains missing at the mechanism level is selective channel and independent cost identification. The next outcome-level experiment is now prospectively specified rather than left as a generic recommendation.
 
 This statement is stronger than “the mechanism was not identified,” stronger than “direct A×D experimentation is absent,” and narrower than claiming that defence has already been formally shown to release the one-trait conflict in a complete empirical system.
