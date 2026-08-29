@@ -21,8 +21,13 @@ import json
 import math
 from pathlib import Path
 import random
+import sys
 
-from trait_architecture.partial_identification import Interval, classify_escape_criterion
+try:
+    from trait_architecture.partial_identification import Interval, classify_escape_criterion
+except ModuleNotFoundError:  # direct script execution from repository root
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from trait_architecture.partial_identification import Interval, classify_escape_criterion
 
 
 REQUIRED_FIELDS = (
