@@ -21,11 +21,18 @@ import json
 import math
 from pathlib import Path
 
-from scripts.plan_kessler_type_replication import (
-    DEFAULT_SCENARIOS,
-    additive_delta,
-    balanced_effective_n_per_cell,
-)
+try:  # imported as part of the repository test/package context
+    from scripts.plan_kessler_type_replication import (
+        DEFAULT_SCENARIOS,
+        additive_delta,
+        balanced_effective_n_per_cell,
+    )
+except ModuleNotFoundError:  # executed directly: python scripts/this_file.py
+    from plan_kessler_type_replication import (
+        DEFAULT_SCENARIOS,
+        additive_delta,
+        balanced_effective_n_per_cell,
+    )
 
 
 DEFAULT_CLUSTER_SIZES = (3, 5, 8, 10)
