@@ -12,6 +12,8 @@ PRIMARY_AUDIT = ROOT / "docs" / "BITA_DEFENCE_ESCAPE_ROUTE_PRIMARY_SOURCE_AUDIT_
 PUBLICATION_LEDGER = ROOT / "docs" / "PUBLICATION_MATERIAL_RECOVERY_LEDGER.md"
 KESSLER_ACCESS = ROOT / "empirical" / "identification_design" / "KESSLER_2008_SUPPLEMENT_ACCESS_RECEIPT_V1.md"
 KESSLER_BOUNDS = ROOT / "empirical" / "identification_design" / "KESSLER_2008_AGGREGATE_BOUNDS_V1.md"
+KESSLER_POWER = ROOT / "empirical" / "identification_design" / "KESSLER_TYPE_REPLICATION_POWER_V1.json"
+KESSLER_PLAN = ROOT / "docs" / "KESSLER_TYPE_REPLICATION_AND_AUGMENTATION_V1.md"
 
 
 def _rows() -> dict[str, dict[str, str]]:
@@ -31,7 +33,10 @@ def test_escape_route_ledger_is_complete_and_fail_closed() -> None:
     assert rows["ER9"]["current_status"] == "UNRESOLVED_TOTAL_SIGN_CURRENT_EVIDENCE"
     assert rows["ER10"]["current_status"] == "ACHIEVED_METHOD_RESULT"
     assert "Kessler" in rows["ER6"]["current_evidence"]
+    assert "154 observations per trait cell" in rows["ER6"]["next_valid_gate"]
+    assert "250 per cell" in rows["ER6"]["next_valid_gate"]
     assert "source uncertainty" in rows["ER9"]["next_valid_gate"]
+    assert "ESCAPE_IDENTIFIED" in rows["ER9"]["next_valid_gate"]
 
 
 def test_readout_separates_escape_decision_from_mechanism_allocation() -> None:
@@ -61,6 +66,20 @@ def test_kessler_registered_recovery_preserves_sign_uncertainty_separation() -> 
     assert "-0.2049" in bounds
     assert "sign" in bounds.lower() and "robust" in bounds.lower()
     assert "source/design-based interaction CI" in bounds
+
+
+def test_prospective_replication_is_staged_not_naive_sixteen_cell_scaling() -> None:
+    import json
+    power = json.loads(KESSLER_POWER.read_text(encoding="utf-8"))
+    plan = KESSLER_PLAN.read_text(encoding="utf-8")
+    central = {row["scenario"]: row for row in power["key_scenarios"]}["published_central"]
+    attenuated = {row["scenario"]: row for row in power["key_scenarios"]}["attenuated_delta_0_17"]
+    assert central["planned_total_four_cell_80pct_design_effect_1_5"] == 616
+    assert attenuated["planned_total_four_cell_80pct_design_effect_1_5"] == 1000
+    assert "Stage 1 — confirm the total escape sign" in plan
+    assert "Stage 2 — pilot the missing channel contrasts" in plan
+    assert "16-cell number is a budget warning" in plan
+    assert "not a power guarantee" in power["claim_boundary"]
 
 
 def test_main_manuscript_frames_D_as_the_second_trait_escape_hypothesis() -> None:
