@@ -5,7 +5,10 @@ from pathlib import Path
 import re
 import shutil
 
-import build_identification_candidate_package_sources as candidate
+try:  # direct execution from scripts/
+    import build_identification_candidate_package_sources as candidate
+except ModuleNotFoundError:  # imported as scripts.build_theoretical_ecology_submission_sources
+    from scripts import build_identification_candidate_package_sources as candidate
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -54,8 +57,7 @@ def _replace_abstract_and_keywords(text: str) -> str:
     if "## Abstract" not in text or "**Keywords:**" not in text:
         raise RuntimeError("canonical manuscript lacks Abstract/Keywords markers")
     before, after = text.split("## Abstract", 1)
-    abstract_body, after_keywords_marker = after.split("**Keywords:**", 1)
-    # Preserve everything after the existing keyword line beginning at the next section.
+    _, after_keywords_marker = after.split("**Keywords:**", 1)
     match = re.search(r"\n\n## 1\. Introduction", after_keywords_marker)
     if match is None:
         raise RuntimeError("cannot locate Introduction after keyword line")
@@ -111,7 +113,6 @@ def build_main_source() -> str:
         )
 
     journal_header = "**Journal:** Theoretical Ecology\n\n**Article type:** Regular Article"
-    # Keep the canonical title-page placeholders, but make the target/article type explicit.
     first_heading_end = pre_refs.find("\n")
     pre_refs = (
         pre_refs[:first_heading_end]
