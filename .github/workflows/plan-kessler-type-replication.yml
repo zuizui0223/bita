@@ -4,9 +4,11 @@ on:
   pull_request:
     paths:
       - 'scripts/plan_kessler_type_replication.py'
+      - 'scripts/plan_kessler_stage1_cluster_allocation.py'
       - 'scripts/analyze_kessler_type_stage1.py'
       - 'tests/test_kessler_type_replication_power.py'
       - 'tests/test_kessler_replication_plan_receipt.py'
+      - 'tests/test_kessler_stage1_cluster_allocation.py'
       - 'tests/test_kessler_type_stage1_analysis.py'
       - 'docs/KESSLER_TYPE_REPLICATION_AND_AUGMENTATION_V1.md'
       - 'docs/KESSLER_TYPE_STAGE1_DATA_CONTRACT_V1.md'
@@ -27,13 +29,17 @@ jobs:
           python -m pytest -q \
             tests/test_kessler_type_replication_power.py \
             tests/test_kessler_replication_plan_receipt.py \
+            tests/test_kessler_stage1_cluster_allocation.py \
             tests/test_kessler_type_stage1_analysis.py
-      - name: Build prospective plan
+      - name: Build prospective plans
         run: |
           mkdir -p artifacts/kessler_replication
           python scripts/plan_kessler_type_replication.py \
             artifacts/kessler_replication/KESSLER_TYPE_REPLICATION_POWER_V1.json \
             artifacts/kessler_replication/KESSLER_TYPE_REPLICATION_POWER_V1.md
+          python scripts/plan_kessler_stage1_cluster_allocation.py \
+            artifacts/kessler_replication/KESSLER_STAGE1_CLUSTER_ALLOCATION_V1.json \
+            artifacts/kessler_replication/KESSLER_STAGE1_CLUSTER_ALLOCATION_V1.md
       - uses: actions/upload-artifact@v4
         with:
           name: kessler-type-replication-power
