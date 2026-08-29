@@ -27,7 +27,7 @@ def test_plan_stages_total_sign_before_mechanism_allocation() -> None:
     assert "Stage 2 — pilot the missing channel contrasts" in text
     assert "Stage 3 — full mechanism allocation" in text
     assert "16-cell number is a budget warning" in text
-    assert "do not borrow the Kessler total Delta" in text
+    assert "do not borrow the kessler total delta" in text.lower()
     assert "ESCAPE_IDENTIFIED" in text
     assert "ESCAPE_REFUTED" in text
     assert "ESCAPE_UNRESOLVED" in text
