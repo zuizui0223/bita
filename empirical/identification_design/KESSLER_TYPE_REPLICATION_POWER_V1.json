@@ -1,0 +1,52 @@
+{
+  "analysis_id": "kessler_type_replication_power_v1",
+  "primary_estimand": "additive_probability_scale_Delta_AD",
+  "decision_target": "two-sided_95pct_interval_wholly_above_zero",
+  "planning_assumptions": {
+    "alpha_two_sided": 0.05,
+    "retention": 0.9,
+    "design_effect_grid": [1.0, 1.5, 2.0],
+    "power_grid": [0.8, 0.9]
+  },
+  "key_scenarios": [
+    {
+      "scenario": "published_central",
+      "cell_probabilities": {"p11": 0.35, "p10": 0.13, "p01": 0.13, "p00": 0.13},
+      "delta_ad": 0.22,
+      "effective_n_per_cell_80pct": 92,
+      "effective_n_per_cell_90pct": 124,
+      "planned_n_per_cell_80pct_design_effect_1_5": 154,
+      "planned_total_four_cell_80pct_design_effect_1_5": 616,
+      "planned_n_per_cell_90pct_design_effect_1_5": 207,
+      "planned_total_four_cell_90pct_design_effect_1_5": 828
+    },
+    {
+      "scenario": "attenuated_delta_0_17",
+      "cell_probabilities": {"p11": 0.30, "p10": 0.13, "p01": 0.13, "p00": 0.13},
+      "delta_ad": 0.17,
+      "effective_n_per_cell_80pct": 150,
+      "effective_n_per_cell_90pct": 200,
+      "planned_n_per_cell_80pct_design_effect_1_5": 250,
+      "planned_total_four_cell_80pct_design_effect_1_5": 1000,
+      "planned_n_per_cell_90pct_design_effect_1_5": 334,
+      "planned_total_four_cell_90pct_design_effect_1_5": 1336
+    },
+    {
+      "scenario": "attenuated_delta_0_12",
+      "cell_probabilities": {"p11": 0.25, "p10": 0.13, "p01": 0.13, "p00": 0.13},
+      "delta_ad": 0.12,
+      "effective_n_per_cell_80pct": 288,
+      "effective_n_per_cell_90pct": 385,
+      "planned_n_per_cell_80pct_design_effect_1_5": 480,
+      "planned_total_four_cell_80pct_design_effect_1_5": 1920,
+      "planned_n_per_cell_90pct_design_effect_1_5": 642,
+      "planned_total_four_cell_90pct_design_effect_1_5": 2568
+    }
+  ],
+  "claim_boundary": "The four-cell calculation powers only the total additive A x D interaction under declared probabilities. A 16-cell count obtained by multiplying n/cell is a budgeting extrapolation, not a power guarantee for A x D x antagonist, A x D x pollinator, or the four-way separability diagnostic. Mechanism contrasts require their own effect-size assumptions or pilot data.",
+  "provenance": {
+    "workflow": "Plan Kessler-type replication",
+    "workflow_run_id": 33224121931,
+    "source_head": "93e07ebdefbe118a2a0186d08bc2ba282c757ba6"
+  }
+}
