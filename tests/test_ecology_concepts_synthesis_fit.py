@@ -26,15 +26,19 @@ def _keywords(text: str) -> list[str]:
     return [item.strip() for item in payload.split(";") if item.strip()]
 
 
-def test_ecology_target_and_article_type_are_active() -> None:
+def test_ecology_package_is_preserved_as_legacy_while_theoretical_ecology_is_active() -> None:
     portal = PORTAL.read_text(encoding="utf-8")
     strategy = STRATEGY.read_text(encoding="utf-8")
+    # The Ecology portal template remains a reproducible fallback artifact.
     assert "- Article type: **Concepts & Synthesis**" in portal
     assert "- Target journal: **Ecology**" in portal
-    assert "**Ecology — Concepts & Synthesis**" in strategy
-    assert "Oikos — Forum" in strategy
-    assert "Theoretical Ecology — Regular Article" in strategy
-    assert "From floral trait interactions to mechanism identification" in strategy
+    # The active first choice has moved to the dedicated identification-first package.
+    assert "## Current first choice" in strategy
+    assert "**Theoretical Ecology — Regular Article**" in strategy
+    assert "not an Ecology Concepts & Synthesis submission" in strategy
+    assert "legacy/fallback" in strategy
+    assert "Oikos — Forum" not in strategy
+    assert "From floral trait interactions to mechanism identification" not in strategy or "identification-first" in strategy
 
 
 def test_ecology_abstract_and_keywords_fit_current_limits() -> None:
