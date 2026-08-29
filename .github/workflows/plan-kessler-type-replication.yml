@@ -4,7 +4,12 @@ on:
   pull_request:
     paths:
       - 'scripts/plan_kessler_type_replication.py'
+      - 'scripts/analyze_kessler_type_stage1.py'
       - 'tests/test_kessler_type_replication_power.py'
+      - 'tests/test_kessler_replication_plan_receipt.py'
+      - 'tests/test_kessler_type_stage1_analysis.py'
+      - 'docs/KESSLER_TYPE_REPLICATION_AND_AUGMENTATION_V1.md'
+      - 'docs/KESSLER_TYPE_STAGE1_DATA_CONTRACT_V1.md'
       - '.github/workflows/plan-kessler-type-replication.yml'
   workflow_dispatch:
 
@@ -16,10 +21,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Test prospective planning calculations
+      - name: Test prospective planning and Stage-1 analysis
         run: |
           python -m pip install pytest
-          python -m pytest -q tests/test_kessler_type_replication_power.py
+          python -m pytest -q \
+            tests/test_kessler_type_replication_power.py \
+            tests/test_kessler_replication_plan_receipt.py \
+            tests/test_kessler_type_stage1_analysis.py
       - name: Build prospective plan
         run: |
           mkdir -p artifacts/kessler_replication
