@@ -10,8 +10,12 @@ on:
       - 'tests/test_kessler_replication_plan_receipt.py'
       - 'tests/test_kessler_stage1_cluster_allocation.py'
       - 'tests/test_kessler_type_stage1_analysis.py'
+      - 'tests/test_kessler_stage1_contract_artifacts.py'
       - 'docs/KESSLER_TYPE_REPLICATION_AND_AUGMENTATION_V1.md'
       - 'docs/KESSLER_TYPE_STAGE1_DATA_CONTRACT_V1.md'
+      - 'docs/KESSLER_STAGE1_CLUSTER_ALLOCATION_READOUT_V1.md'
+      - 'empirical/identification_design/KESSLER_TYPE_STAGE1_TRIAL_TEMPLATE_V1.csv'
+      - 'empirical/identification_design/KESSLER_STAGE1_CLUSTER_ALLOCATION_RECEIPT_V1.json'
       - '.github/workflows/plan-kessler-type-replication.yml'
   workflow_dispatch:
 
@@ -30,10 +34,12 @@ jobs:
             tests/test_kessler_type_replication_power.py \
             tests/test_kessler_replication_plan_receipt.py \
             tests/test_kessler_stage1_cluster_allocation.py \
-            tests/test_kessler_type_stage1_analysis.py
-      - name: Smoke-test direct Stage-1 analysis CLI
+            tests/test_kessler_type_stage1_analysis.py \
+            tests/test_kessler_stage1_contract_artifacts.py
+      - name: Smoke-test direct Stage-1 CLI tools
         run: |
           python scripts/analyze_kessler_type_stage1.py --help >/dev/null
+          python scripts/plan_kessler_stage1_cluster_allocation.py --help >/dev/null
       - name: Build prospective plans
         run: |
           mkdir -p artifacts/kessler_replication
