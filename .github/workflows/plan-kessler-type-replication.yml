@@ -31,6 +31,9 @@ jobs:
             tests/test_kessler_replication_plan_receipt.py \
             tests/test_kessler_stage1_cluster_allocation.py \
             tests/test_kessler_type_stage1_analysis.py
+      - name: Smoke-test direct Stage-1 analysis CLI
+        run: |
+          python scripts/analyze_kessler_type_stage1.py --help >/dev/null
       - name: Build prospective plans
         run: |
           mkdir -p artifacts/kessler_replication
