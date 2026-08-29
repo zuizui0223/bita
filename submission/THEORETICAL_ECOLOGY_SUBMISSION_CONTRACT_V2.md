@@ -105,8 +105,40 @@ A generated package is `TECHNICALLY_READY` only if all automated gates pass:
 8. `Statements and Declarations` appears after `References`;
 9. Funding, Competing Interests, Author Contributions, and Data and code availability sections exist;
 10. generated Word and PDF contain the manuscript title and identification-first framing;
-11. five identification-design figure files are present in the review package;
+11. five identification-design figures are embedded in the Word manuscript and present in the review package;
 12. the main package contains no Ecology-specific 30/50-page decision rule.
+
+## Registered successful package validation
+
+The dedicated target-journal workflow has now completed successfully.
+
+```text
+source head:       add2b3634f39d878524c22eeac332c34d306ffa7
+workflow:          build-theoretical-ecology-submission-package
+run id:            33239061128
+run number:        4
+conclusion:        success
+artifact:          theoretical-ecology-submission-package
+artifact id:       9710804367
+artifact sha256:   ff7acdaa421d66590d960f8190159da6dffd2e8d26a8b6f23c42236330c491c2
+```
+
+The successful package validates:
+
+```text
+abstract:                 201 words
+keywords:                 6
+main Word manuscript:     generated
+companion main PDF:       generated
+Online Resource 1 PDF:    generated
+cover-letter PDF:         generated
+embedded main figures:    5
+Statements/Declarations:  after References
+technical status:         TECHNICALLY_READY
+human status:             BLOCKED_AUTHOR_METADATA
+```
+
+The workflow does not turn placeholders into approved author metadata and does not authorize portal submission.
 
 ## Human-controlled blockers
 
@@ -134,6 +166,6 @@ historical Kessler sign:    POSITIVE_AGGREGATE / SOURCE_CI_UNRESOLVED
 Stage-1 design:             EXECUTABLE
 mechanism allocation:       NOT YET EMPIRICALLY IDENTIFIED
 Theoretical Ecology fit:    GO
-technical package:          BUILD AND VALIDATE ON BRANCH
+technical package:          TECHNICALLY_READY / WORKFLOW GREEN
 final portal submission:    BLOCKED_AUTHOR_METADATA
 ```
