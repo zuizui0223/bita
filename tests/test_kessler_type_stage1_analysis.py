@@ -62,11 +62,12 @@ def test_positive_complete_blocks_identify_relief_and_constraint_release() -> No
     hierarchy = result["outcome_claim_hierarchy"]
     assert hierarchy["interaction_relief_status"] == "POSITIVE_INTERACTION_RELIEF_IDENTIFIED"
     assert hierarchy["constraint_release_status"] == "CONSTRAINT_RELEASE_IDENTIFIED"
-    assert hierarchy["strict_reversal_status"] == "STRICT_REVERSAL_UNRESOLVED"
+    # A0 is identified exactly at zero, so a strict negative-to-positive claim is refuted.
+    assert hierarchy["strict_reversal_status"] == "STRICT_REVERSAL_REFUTED"
     assert result["block_count"] == 6
     assert result["cells"]["p11"]["probability"] == pytest.approx(0.4)
     assert "does not allocate rho_delta" in result["claim_boundary"]
-    assert "does not" not in result["escape_status_semantics"].lower() or "not by itself" in result["escape_status_semantics"].lower()
+    assert "not by itself" in result["escape_status_semantics"]
 
 
 def test_zero_interaction_refutes_positive_relief_and_release() -> None:
