@@ -11,7 +11,7 @@ The machine-readable contract is `empirical/identification_design/QUESTION_METHO
 | Level | Method | What it explains | Current BITA reach | Claim ceiling |
 |---|---|---|---|---|
 | Constituent biology | Source-adjudicated route ledger | Whether the four marginal ecological routes recur | Achieved: 56 records from 25 clusters | Recurrence, not prevalence or interaction estimation |
-| Total joint selection | Same-scale `A x D` factorial | `Delta_AD W` | Partial empirical anchors; no general cross-system estimate | Total interaction, not mechanism allocation |
+| Total joint selection | Same-scale `A x D` factorial | `Delta_AD W` and, with design-based uncertainty, the outcome-level escape sign | Kessler 2008 supplies a manipulated positive aggregate-sign anchor; formal source/design uncertainty remains unavailable | Total interaction and escape sign on the declared scale, not mechanism allocation |
 | Compatible mechanisms | Identified-set algebra | `I(delta)`, the allocations compatible with an observed total | Framework established and tested | A set, not a realized mechanism |
 | Conditional explanation | Partial identification | Bounds on `rho_delta - iota_delta` under explicit `kappa_delta` restrictions | Achieved as an assumption-indexed result | No universal sign law and no separate channel values |
 | Literature position | 16-system design audit | Which identification dimensions existing studies constrain | Achieved: fragmented frontier | Screened-set structure, not literature prevalence |
@@ -19,12 +19,38 @@ The machine-readable contract is `empirical/identification_design/QUESTION_METHO
 | Model adequacy | Four-way separability diagnostic | Whether the simple channel allocation is internally coherent | Algebra established; complete empirical test absent | A failed diagnostic does not name the missing mechanism |
 | Joint-channel interpretation | Independent cost/allocation assay | Whether the residual is compatible with `kappa_delta` | Not achieved; zero strict assays | Unmeasured means unidentified, not zero |
 
+## Two questions that must remain separate
+
+For the declared two-level traits and reproductive outcome,
+
+```text
+Delta_AD W = rho_delta - iota_delta - kappa_delta.
+```
+
+This identity yields two different empirical questions:
+
+```text
+Did functional escape occur?
+A valid same-scale interval for Delta_AD W lying wholly above zero is sufficient.
+
+Why did it occur?
+Separate rho_delta, iota_delta and kappa_delta attribution requires selective
+consumer interventions, baseline handling, a separability diagnostic and an
+independent joint-channel assay.
+```
+
+Full channel point identification is therefore **not** a prerequisite for the outcome-level sign decision. Conversely, a positive total interaction does not reveal which mechanism produced the sign.
+
 ## Paper-level conclusion
 
 The paper currently explains three things empirically: the constituent channels recur; close studies occupy different faces of the required design; and the missing information is structurally identifiable as a set of specific measurements or interventions. It also explains mathematically what an observed total interaction would constrain and how explicit restrictions would narrow that constraint.
 
-Under the defence-as-escape-route interpretation, these levels give a positive staged answer. Current evidence recovers antagonist reduction, recurrent guarded states and a route-separation switching architecture; sparse total and channel-specific anchors recover only parts of the `A x D` surface; and the full inequality `rho_delta > iota_delta + kappa_delta` remains unevaluable because no complete system identifies all three terms. The hypothesis-specific ledger is `empirical/identification_design/DEFENCE_ESCAPE_ROUTE_HYPOTHESIS_RECOVERY_V1.csv`.
+Under the defence-as-escape-route interpretation, current evidence gives a staged answer. Antagonist reduction, recurrent guarded states and a route-separation switching architecture are recovered. Kessler 2008 supplies a manipulated `A x D`-like reproductive surface whose aggregate-compatible allocations preserve a positive total sign, but the source/design-based interaction interval is unavailable and the nicotine intervention is systemic rather than cleanly flower-restricted. Formal positive escape is therefore not yet uncertainty-identified on a fully bounded focal surface. This is an outcome-level uncertainty and intervention-scope gap, not evidence that all three channels must first be point-identified.
 
-It does **not** recover a realized `rho_delta`, `iota_delta`, or `kappa_delta` for any complete system, estimate natural prevalence, or test the separate one-trait shared-cue hypothesis. The strongest paper-level formulation is therefore:
+Separately, BITA does **not** recover a realized `rho_delta`, `iota_delta`, or `kappa_delta` for any complete system, estimate natural prevalence, or test the one-trait shared-cue hypothesis developed in SCH. The strongest paper-level formulation is therefore:
 
-> BITA locates current evidence on an explanation ladder, shows what each design can and cannot identify, and derives the smallest valid augmentation needed to move one level further.
+> BITA separates whether a second trait produces positive functional escape from why that sign arises, locates current evidence on this explanation ladder, and derives the smallest valid augmentation needed to move one level further.
+
+## Boundary with SCH
+
+SCH asks why one attraction coordinate becomes conflicted when pollinators and antagonists track the same cue, and whether signals become separable or private. BITA asks whether an additional antagonist-reducing coordinate restores the reproductive return to attraction. A positive `Delta_AD W` would establish **functional escape on the declared outcome scale**, not cue privatization, removal of shared detection, or a historical shared-to-private transition.
