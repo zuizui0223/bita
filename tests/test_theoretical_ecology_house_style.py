@@ -38,7 +38,8 @@ def test_abstract_and_keywords_fit_current_ecology_limits() -> None:
     assert "56 route records from 25 independent biological clusters" in abstract
     assert "recurrence, not channel identification" in abstract
     assert "16 screened high-information systems" in abstract
-    assert "The main empirical gap" in abstract
+    assert "The outcome-level gap" in abstract
+    assert "the mechanism-level gap" in abstract
 
     keywords = _manuscript_keywords(text)
     assert 6 <= len(keywords) <= 12
