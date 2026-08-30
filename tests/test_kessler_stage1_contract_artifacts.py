@@ -53,11 +53,15 @@ def test_readout_keeps_flower_counts_separate_from_independent_plant_replication
     assert "ESCAPE_IDENTIFIED / ESCAPE_REFUTED / ESCAPE_UNRESOLVED" in text
 
 
-def test_data_contract_preserves_scope_and_complete_block_gates() -> None:
+def test_data_contract_preserves_scope_complete_blocks_and_channel_boundary() -> None:
     text = CONTRACT.read_text(encoding="utf-8")
     assert "FLOWER_RESTRICTED_VALIDATED" in text
     assert "SYSTEMIC_SOURCE_FAITHFUL" in text
     assert "UNVERIFIED" in text
     assert "Each retained block" in text
     assert "all four A × D cells" in text
-    assert "does not identify `rho_delta`, `iota_delta`, or `kappa_delta`" in text
+    assert "None of the three outcome levels allocates the observed surface" in text
+    assert "rho_delta    antagonist relief" in text
+    assert "iota_delta   pollinator interference" in text
+    assert "kappa_delta  remaining joint channel" in text
+    assert "No Stage-1 result is allowed to manufacture channel values" in text
