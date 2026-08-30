@@ -8,9 +8,20 @@ on one predeclared binary reproductive endpoint. The input contract preserves
 plant identity, matched replicate blocks, retention/exclusions, assignment
 mode, and the organ scope of the D intervention.
 
-The first-pass uncertainty analysis resamples complete matched blocks. It does
-not pretend individual flowers are exchangeable. The resulting 95% interval is
-passed directly to ``classify_escape_criterion``. Mechanism allocation is not
+The same four-cell surface also identifies two conditional attraction effects:
+
+    A0 = p10 - p00   (attraction effect when defence is low)
+    A1 = p11 - p01   (attraction effect when defence is high)
+
+so that Delta_AD = A1 - A0. A positive Delta_AD identifies interaction-level
+relief, but a stronger constraint-release claim requires A0 <= 0 and A1 > 0;
+a strict reversal requires A0 < 0 and A1 > 0.
+
+The first-pass uncertainty analysis resamples complete matched blocks and
+computes all three contrasts within each common bootstrap draw. It does not
+pretend individual flowers are exchangeable. The historical
+``ESCAPE_IDENTIFIED`` token is retained as a backwards-compatible label for the
+positive total-interaction inequality only. Mechanism allocation is not
 attempted here.
 """
 from __future__ import annotations
@@ -24,10 +35,18 @@ import random
 import sys
 
 try:
-    from trait_architecture.partial_identification import Interval, classify_escape_criterion
+    from trait_architecture.partial_identification import (
+        Interval,
+        classify_escape_claim_hierarchy,
+        classify_escape_criterion,
+    )
 except ModuleNotFoundError:  # direct script execution from repository root
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    from trait_architecture.partial_identification import Interval, classify_escape_criterion
+    from trait_architecture.partial_identification import (
+        Interval,
+        classify_escape_claim_hierarchy,
+        classify_escape_criterion,
+    )
 
 
 REQUIRED_FIELDS = (
@@ -56,6 +75,7 @@ ALLOWED_ASSIGNMENT = {
 }
 CELL_ORDER = ((1, 1), (1, 0), (0, 1), (0, 0))
 CELL_NAME = {(1, 1): "p11", (1, 0): "p10", (0, 1): "p01", (0, 0): "p00"}
+CONTRAST_ORDER = ("delta_ad", "a0", "a1")
 
 
 def _read_rows(path: Path) -> list[dict[str, str]]:
@@ -167,13 +187,19 @@ def _cell_probabilities(rows: list[dict[str, str]]) -> dict[tuple[int, int], flo
     return result
 
 
+def _contrasts(probabilities: dict[tuple[int, int], float]) -> dict[str, float]:
+    a0 = probabilities[(1, 0)] - probabilities[(0, 0)]
+    a1 = probabilities[(1, 1)] - probabilities[(0, 1)]
+    return {
+        "delta_ad": a1 - a0,
+        "a0": a0,
+        "a1": a1,
+    }
+
+
 def _delta(probabilities: dict[tuple[int, int], float]) -> float:
-    return (
-        probabilities[(1, 1)]
-        - probabilities[(1, 0)]
-        - probabilities[(0, 1)]
-        + probabilities[(0, 0)]
-    )
+    """Backwards-compatible internal helper for the total interaction."""
+    return _contrasts(probabilities)["delta_ad"]
 
 
 def _quantile(values: list[float], q: float) -> float:
@@ -191,6 +217,36 @@ def _quantile(values: list[float], q: float) -> float:
     return ordered[lower] * (1.0 - fraction) + ordered[upper] * fraction
 
 
+def _block_bootstrap_contrast_intervals(
+    rows: list[dict[str, str]],
+    *,
+    confidence: float,
+    iterations: int,
+    seed: int,
+) -> dict[str, Interval]:
+    retained = [row for row in rows if row["retained"] == "1"]
+    by_block: dict[str, list[dict[str, str]]] = {}
+    for row in retained:
+        by_block.setdefault(row["block_id"], []).append(row)
+    block_ids = sorted(by_block)
+    rng = random.Random(seed)
+    draws: dict[str, list[float]] = {name: [] for name in CONTRAST_ORDER}
+    for _ in range(iterations):
+        sampled = [rng.choice(block_ids) for _ in block_ids]
+        resampled = [row for block in sampled for row in by_block[block]]
+        sampled_contrasts = _contrasts(_cell_probabilities(resampled))
+        for name in CONTRAST_ORDER:
+            draws[name].append(sampled_contrasts[name])
+    alpha = 1.0 - confidence
+    return {
+        name: Interval(
+            _quantile(values, alpha / 2.0),
+            _quantile(values, 1.0 - alpha / 2.0),
+        )
+        for name, values in draws.items()
+    }
+
+
 def _block_bootstrap_delta_interval(
     rows: list[dict[str, str]],
     *,
@@ -198,19 +254,13 @@ def _block_bootstrap_delta_interval(
     iterations: int,
     seed: int,
 ) -> Interval:
-    retained = [row for row in rows if row["retained"] == "1"]
-    by_block: dict[str, list[dict[str, str]]] = {}
-    for row in retained:
-        by_block.setdefault(row["block_id"], []).append(row)
-    block_ids = sorted(by_block)
-    rng = random.Random(seed)
-    draws: list[float] = []
-    for _ in range(iterations):
-        sampled = [rng.choice(block_ids) for _ in block_ids]
-        resampled = [row for block in sampled for row in by_block[block]]
-        draws.append(_delta(_cell_probabilities(resampled)))
-    alpha = 1.0 - confidence
-    return Interval(_quantile(draws, alpha / 2.0), _quantile(draws, 1.0 - alpha / 2.0))
+    """Backwards-compatible wrapper around the joint contrast bootstrap."""
+    return _block_bootstrap_contrast_intervals(
+        rows,
+        confidence=confidence,
+        iterations=iterations,
+        seed=seed,
+    )["delta_ad"]
 
 
 def _cell_receipts(rows: list[dict[str, str]]) -> dict[str, dict[str, object]]:
@@ -233,6 +283,10 @@ def _cell_receipts(rows: list[dict[str, str]]) -> dict[str, dict[str, object]]:
     return receipts
 
 
+def _interval_receipt(interval: Interval) -> dict[str, float]:
+    return {"low": interval.low, "high": interval.high}
+
+
 def analyze_stage1(
     rows: list[dict[str, str]],
     *,
@@ -247,14 +301,19 @@ def analyze_stage1(
     identity = _validate_rows(rows, min_blocks=min_blocks)
     retained = [row for row in rows if row["retained"] == "1"]
     probabilities = _cell_probabilities(retained)
-    point = _delta(probabilities)
-    interval = _block_bootstrap_delta_interval(
+    points = _contrasts(probabilities)
+    intervals = _block_bootstrap_contrast_intervals(
         rows,
         confidence=0.95,
         iterations=iterations,
         seed=seed,
     )
-    decision = classify_escape_criterion(interval)
+    legacy_decision = classify_escape_criterion(intervals["delta_ad"])
+    hierarchy = classify_escape_claim_hierarchy(
+        intervals["delta_ad"],
+        a0_bounds=intervals["a0"],
+        a1_bounds=intervals["a1"],
+    )
 
     scope = str(identity["d_intervention_scope"])
     if scope == "FLOWER_RESTRICTED_VALIDATED":
@@ -265,22 +324,37 @@ def analyze_stage1(
         scope_ceiling = "D intervention scope is unverified; do not promote the result to a flower-specific defence claim."
 
     return {
-        "analysis_id": "kessler_type_stage1_trial_analysis_v1",
+        "analysis_id": "kessler_type_stage1_trial_analysis_v2",
         **identity,
         "primary_estimand": "additive_probability_scale_Delta_AD",
-        "delta_ad_point": point,
-        "delta_ad_95pct_block_bootstrap": {"low": interval.low, "high": interval.high},
-        "escape_status": decision,
-        "interval_method": "percentile_bootstrap_of_complete_matched_blocks",
+        "delta_ad_point": points["delta_ad"],
+        "delta_ad_95pct_block_bootstrap": _interval_receipt(intervals["delta_ad"]),
+        "a0_attraction_effect_without_defence_point": points["a0"],
+        "a0_95pct_block_bootstrap": _interval_receipt(intervals["a0"]),
+        "a1_attraction_effect_with_defence_point": points["a1"],
+        "a1_95pct_block_bootstrap": _interval_receipt(intervals["a1"]),
+        "escape_status": legacy_decision,
+        "escape_status_semantics": (
+            "Backwards-compatible token for the positive total-interaction inequality only; "
+            "it is equivalent to the interaction_relief_status and is not by itself a "
+            "constraint-release or strict-reversal claim."
+        ),
+        "outcome_claim_hierarchy": {
+            "interaction_relief_status": hierarchy.interaction_relief,
+            "constraint_release_status": hierarchy.constraint_release,
+            "strict_reversal_status": hierarchy.strict_reversal,
+        },
+        "interval_method": "joint_percentile_bootstrap_of_complete_matched_blocks",
         "bootstrap_iterations": iterations,
         "bootstrap_seed": seed,
         "cells": _cell_receipts(rows),
         "excluded_observations": sum(row["retained"] == "0" for row in rows),
         "scope_claim_ceiling": scope_ceiling,
         "claim_boundary": (
-            "Stage 1 decides only the total A x D sign on the declared binary reproductive outcome. "
-            "The block bootstrap is a prespecified first-pass design-based uncertainty lane and does not allocate rho_delta, iota_delta or kappa_delta. "
-            "A future hierarchical/randomization analysis may supersede the bootstrap if it preserves the same estimand and registered decision rule."
+            "Stage 1 estimates the total A x D interaction plus the attraction effect without defence (A0) and with defence (A1) on the declared binary reproductive outcome. "
+            "A positive total interaction identifies interaction-level relief only. Constraint release additionally requires A0 <= 0 and A1 > 0; strict reversal requires A0 < 0 and A1 > 0. "
+            "The common block bootstrap preserves their sampling dependence but does not allocate rho_delta, iota_delta or kappa_delta, demonstrate cue privacy, or infer an evolutionary trajectory. "
+            "A future hierarchical/randomization analysis may supersede the bootstrap if it preserves the same estimands and registered claim hierarchy."
         ),
     }
 
