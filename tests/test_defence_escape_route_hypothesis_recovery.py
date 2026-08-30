@@ -82,13 +82,17 @@ def test_prospective_replication_is_staged_not_naive_sixteen_cell_scaling() -> N
     assert "not a power guarantee" in power["claim_boundary"]
 
 
-def test_main_manuscript_frames_D_as_the_second_trait_escape_hypothesis() -> None:
+def test_main_manuscript_separates_functional_escape_from_mechanism_and_cue_privacy() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
     assert "a distinct defence trait is a candidate escape route" in text
     assert "a two-trait allocation hypothesis" in text
-    assert "answers part of the escape-route question positively" in text
-    assert "the complete escape inequality remains a generated test" in text
+    assert "positive functional escape" in text
+    assert "interval wholly above zero" in text
+    assert "does not by itself demonstrate cue privatization" in text
+    assert "formal positive functional escape is therefore not yet uncertainty-identified" in text.lower()
+    assert "a valid positive total interval would decide the escape sign" in text
     assert "Direct attraction-by-defence-like trait factorials are not wholly absent" in text
+    assert "the complete escape inequality remains a generated test" not in text
 
 
 def test_primary_audit_and_publication_ledger_preserve_directness_boundaries() -> None:
