@@ -2,10 +2,17 @@
 
 ## Purpose
 
-Stage 1 exists to answer one question before mechanism allocation:
+Stage 1 estimates a four-cell reproductive surface before mechanism allocation. It must answer three nested outcome questions without collapsing them:
 
 ```text
-Is the total additive A × D reproductive interaction > 0 with design-based uncertainty?
+Level 1 — interaction relief:
+Is the total additive A × D reproductive interaction > 0?
+
+Level 2 — constraint release:
+Is attraction non-beneficial without defence but beneficial with defence?
+
+Level 3 — strict reversal:
+Is attraction negative without defence and positive with defence?
 ```
 
 The analysis entry point is `scripts/analyze_kessler_type_stage1.py`. One CSV package contains one predeclared binary reproductive endpoint for one four-cell A × D experiment.
@@ -27,7 +34,7 @@ The analysis entry point is `scripts/analyze_kessler_type_stage1.py`. One CSV pa
 | `assignment_mode` | `RANDOMIZED_INTERVENTION`, `SOURCE_FAITHFUL_GENOTYPE`, or `OTHER_PREDECLARED` |
 | `exclusion_reason` | blank for retained rows; mandatory for excluded rows |
 
-## Fixed estimand
+## Fixed estimands
 
 For retained observations,
 
@@ -37,24 +44,73 @@ p10 = Pr(outcome=1 | A=1,D=0)
 p01 = Pr(outcome=1 | A=0,D=1)
 p00 = Pr(outcome=1 | A=0,D=0)
 
+A0 = p10 - p00
+     attraction effect when defence is low
+
+A1 = p11 - p01
+     attraction effect when defence is high
+
 Delta_AD = p11 - p10 - p01 + p00
+         = A1 - A0
 ```
 
-The Stage-1 decision is supplied by the 95% uncertainty interval for this same additive probability-scale interaction:
+All three contrasts are computed from each common block-bootstrap draw. This preserves their sampling dependence. The implementation does not reconstruct one interval from two marginal intervals.
+
+## Three nested decision levels
+
+### Level 1 — positive interaction relief
 
 ```text
-low > 0     -> ESCAPE_IDENTIFIED
-high <= 0   -> ESCAPE_REFUTED
-otherwise   -> ESCAPE_UNRESOLVED
+low(Delta_AD) > 0     -> POSITIVE_INTERACTION_RELIEF_IDENTIFIED
+high(Delta_AD) <= 0   -> POSITIVE_INTERACTION_RELIEF_REFUTED
+otherwise             -> POSITIVE_INTERACTION_RELIEF_UNRESOLVED
 ```
 
-This is the strict total-sign decision only. It does not identify `rho_delta`, `iota_delta`, or `kappa_delta`.
+The historical output field is retained for backwards compatibility:
+
+```text
+low(Delta_AD) > 0     -> ESCAPE_IDENTIFIED
+high(Delta_AD) <= 0   -> ESCAPE_REFUTED
+otherwise             -> ESCAPE_UNRESOLVED
+```
+
+`ESCAPE_IDENTIFIED` is therefore a legacy token for Level 1 only. It does not by itself establish that attraction crossed from non-beneficial or negative to positive.
+
+### Level 2 — constraint release
+
+```text
+high(A0) <= 0 and low(A1) > 0
+    -> CONSTRAINT_RELEASE_IDENTIFIED
+```
+
+The claim is refuted when the supplied intervals cannot contain the conjunction—for example, when `low(A0) > 0` or `high(A1) <= 0`. All overlapping cases remain unresolved.
+
+### Level 3 — strict negative-to-positive reversal
+
+```text
+high(A0) < 0 and low(A1) > 0
+    -> STRICT_REVERSAL_IDENTIFIED
+```
+
+A zero-compatible `A0` may support Level 2 but cannot identify strict reversal.
+
+## What no Stage-1 level identifies
+
+None of the three outcome levels allocates the observed surface among:
+
+```text
+rho_delta    antagonist relief
+iota_delta   pollinator interference
+kappa_delta  remaining joint channel / independently validated joint cost
+```
+
+They also do not demonstrate cue privacy, a historical shared-to-private transition, a trait optimum, an evolutionary trajectory, or a universal sign across trait/outcome transformations.
 
 ## Matched-block requirement
 
 The first-pass registered uncertainty lane resamples `block_id`. Each retained block must therefore contain observations from all four A × D cells. A block that loses an entire cell after exclusions is rejected by this analysis rather than silently converted into an unpaired pooled comparison.
 
-This requirement is a contract for the registered block-bootstrap lane, not a statement that incomplete blocks can never be analyzed scientifically. If real attrition produces incomplete blocks, a predeclared hierarchical/randomization analysis may supersede this lane, but it must preserve the same total estimand and decision rule and must not borrow individual-flower independence.
+This requirement is a contract for the registered block-bootstrap lane, not a statement that incomplete blocks can never be analyzed scientifically. If real attrition produces incomplete blocks, a predeclared hierarchical/randomization analysis may supersede this lane, but it must preserve `A0`, `A1`, `Delta_AD`, the outcome scale, and the three-level decision hierarchy. It must not borrow individual-flower independence.
 
 ## Plant-coordinate gate
 
@@ -68,34 +124,38 @@ The current power planner assumes 90% retention only for prospective budgeting. 
 
 ## Defence-scope claim ceiling
 
-The total sign can be calculated for any registered D intervention, but the biological claim changes with scope:
+The four-cell contrasts can be calculated for any registered D intervention, but the biological claim changes with scope:
 
 - `FLOWER_RESTRICTED_VALIDATED`: eligible for a flower-associated defence interpretation on the declared endpoint;
-- `SYSTEMIC_SOURCE_FAITHFUL`: source-faithful Kessler-type sign, but not a flower-exclusive defence claim;
-- `UNVERIFIED`: total manipulated-state sign only; do not promote to flower-specific defence.
+- `SYSTEMIC_SOURCE_FAITHFUL`: source-faithful Kessler-type contrast, but not a flower-exclusive defence claim;
+- `UNVERIFIED`: total manipulated-state contrast only; do not promote to flower-specific defence.
 
-Thus statistical sign identification and biological intervention scope remain separate gates.
+Thus statistical outcome classification and biological intervention scope remain separate gates.
 
-## First-pass uncertainty
+## First-pass uncertainty and output
 
 The registered script uses a percentile bootstrap over complete matched blocks, preserving all retained flowers inside each resampled block. The output records:
 
 ```text
 cell probabilities and retention
-point Delta_AD
-95% block-bootstrap interval
-ESCAPE_IDENTIFIED / REFUTED / UNRESOLVED
+point and 95% block-bootstrap interval for A0
+point and 95% block-bootstrap interval for A1
+point and 95% block-bootstrap interval for Delta_AD
+legacy ESCAPE_IDENTIFIED / REFUTED / UNRESOLVED token
+Level-1 interaction-relief status
+Level-2 constraint-release status
+Level-3 strict-reversal status
 D-scope claim ceiling
 ```
 
-A richer hierarchical model is expected when the final design contains additional plant/day/site nesting. Such a model may supersede the first-pass interval only if it keeps the same A/D coordinates, endpoint and total-sign decision rule.
+A richer hierarchical model is expected when the final design contains additional plant/day/site nesting. Such a model may supersede the first-pass interval only if it keeps the same A/D coordinates, endpoint and outcome-claim hierarchy.
 
 ## Relationship to Stage 2 and Stage 3
 
 ```text
-Stage 1: total A × D sign
+Stage 1: A0, A1 and total A × D outcome contrasts
 Stage 2: pilot selective antagonist/pollinator and m0/four-way contrasts
 Stage 3: re-powered 16-cell mechanism allocation + independent joint-cost assay
 ```
 
-No Stage-1 result is allowed to manufacture channel values. Conversely, full channel point identification is not required to decide a valid total sign.
+No Stage-1 result is allowed to manufacture channel values. Conversely, full channel point identification is not required to decide any valid outcome-level contrast whose uncertainty satisfies its registered inequalities.
