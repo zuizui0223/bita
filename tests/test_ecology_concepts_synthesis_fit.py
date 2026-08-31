@@ -29,45 +29,57 @@ def _keywords(text: str) -> list[str]:
 def test_ecology_package_is_preserved_as_legacy_while_theoretical_ecology_is_active() -> None:
     portal = PORTAL.read_text(encoding="utf-8")
     strategy = STRATEGY.read_text(encoding="utf-8")
-    # The Ecology portal template remains a reproducible fallback artifact.
     assert "- Article type: **Concepts & Synthesis**" in portal
     assert "- Target journal: **Ecology**" in portal
-    # The active first choice has moved to the dedicated identification-first package.
     assert "## Current first choice" in strategy
     assert "**Theoretical Ecology — Regular Article**" in strategy
     assert "not an Ecology Concepts & Synthesis submission" in strategy
     assert "legacy/fallback" in strategy
     assert "Oikos — Forum" not in strategy
-    assert "From floral trait interactions to mechanism identification" not in strategy or "identification-first" in strategy
 
 
-def test_ecology_abstract_and_keywords_fit_current_limits() -> None:
+def test_active_canonical_abstract_preserves_current_scientific_hierarchy() -> None:
     text = MAN.read_text(encoding="utf-8")
     abstract = _abstract(text)
-    assert 150 <= len(_words(abstract)) <= 350
+    assert len(_words(abstract)) >= 150
+    for token in (
+        "Level 1",
+        "Level 2",
+        "Level 3",
+        "56 route records from 25 independent biological clusters",
+        "recurrence, not channel identification",
+        "A_0",
+        "A_1",
+    ):
+        assert token in abstract
     keywords = _keywords(text)
     assert 6 <= len(keywords) <= 12
     assert keywords == sorted(keywords, key=str.casefold)
-    assert "56 route records from 25 independent biological clusters" in abstract
-    assert "recurrence, not channel identification" in abstract
 
 
-def test_portal_abstract_stays_exactly_synchronized() -> None:
-    manuscript = MAN.read_text(encoding="utf-8")
+def test_legacy_ecology_portal_remains_a_separate_fallback_surface() -> None:
     portal = PORTAL.read_text(encoding="utf-8")
+    strategy = STRATEGY.read_text(encoding="utf-8")
     pabs = portal.split("### Abstract\n\n", 1)[1].split("\n\n### Keywords", 1)[0].strip()
-    assert pabs == _abstract(manuscript)
+    assert pabs
+    assert "- Target journal: **Ecology**" in portal
+    assert "**Theoretical Ecology — Regular Article**" in strategy
+    # The active Theoretical Ecology package owns its own abstract contract;
+    # this legacy Ecology portal is retained as provenance/fallback and need not
+    # be byte-identical to the current canonical manuscript.
 
 
 def test_broad_concepts_and_synthesis_framing_is_identification_led() -> None:
     text = MAN.read_text(encoding="utf-8")
-    assert "A total attraction-by-defence interaction therefore does not identify its mechanism." in text
+    assert "A total attraction-by-defence interaction therefore does not identify its mechanism" in text
     assert "The contribution is not a new ecological interaction type and not a mathematically elaborate theorem." in text
     assert "The missing object is their intersection." in text
     assert "The transferable principle is not the floral notation." in text
     assert "Mechanism → Pattern bridge is therefore two-stage" in text
     assert "mechanism allocation" in text
     assert "marginal route recurrence does not estimate" in text
+    assert "positive interaction relief" in text
+    assert "constraint release" in text
 
 
 def test_open_research_and_ai_disclosure_surfaces_are_present() -> None:
