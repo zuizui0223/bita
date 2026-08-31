@@ -1,8 +1,10 @@
-# Identification-frontier design v1
+# Identification frontier and minimum augmentation — candidate v2
 
 ## Purpose
 
-The 16-system audit should not end at `full identification = 0`. Existing studies carry different pieces of the required information. This document defines an auditable, non-scalar way to represent those pieces and to ask what additional intervention would move each study to the next identification layer.
+The canonical submission manuscript currently uses the validated 16-system V1 coverage audit. A separately versioned **17-system candidate frontier** asks a different question: what information does each near-target study already contribute, and what additional module would move it toward mechanism identification?
+
+The 17-system candidate is stored in `HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V2.csv`; it does not silently change the canonical V1 denominator.
 
 ## Information layers
 
@@ -19,14 +21,15 @@ The layers are ordered by what the data can identify, not by study quality.
 
 The layers form an information frontier rather than a scalar quality score. A study can contain a strong consumer factorial while lacking the trait factorial, or a strong trait factorial while lacking consumer interventions.
 
-## Canonical frontier anchors in the current screened set
+## Candidate frontier anchors
 
-- **Kessler et al. 2008** — strongest direct trait-factorial anchor; direct discrete A×D sign is positive under published aggregate constraints, but D has a systemic-scope caveat and no crossed selective consumer toggles are present.
-- **Egan et al. 2021** — strongest consumer-factorial anchor; pollination and herbivory are experimentally crossed, but the focal attraction and defence traits are measured rather than independently crossed and defence is leaf-derived.
-- **Soper Gorden & Adler 2018** — randomized-context anchor; an observational A×D term can be tested for randomized robbing/florivory/pollination modification, but the traits are not randomized and treatments are intensity additions rather than selective exclusions.
-- **Sun & Huang 2015 / Pedicularis rex** — selective-D system anchor; a physical flower-associated defence manipulation selectively affects seed predation without a detected visitation effect, but no independent attraction manipulation exists.
+- **Kessler et al. 2008** — direct A×D-like trait-factorial anchor. The post-PR-153 registered result is authoritative: `A1` is uniformly positive under the declared aggregate restrictions, `A0` remains narrowly zero-compatible, Level 1 has a strong aggregate anchor, and Level 2/3 remain unresolved under source/design uncertainty.
+- **Egan et al. 2021** — consumer-factorial anchor; pollination and herbivory are crossed, while focal floral A/D are not independently crossed and defence is leaf-derived.
+- **Soper Gorden & Adler 2018** — observational A/D plus randomized context modification, not selective G/P access.
+- **Sun & Huang 2015 / Pedicularis rex** — selective flower-associated D manipulation without independent A.
+- **Theis & Adler 2012** — manipulated fragrance crossed with repeated beetle removal and supplemental hand pollination. This is `A × G × P_supplementation`, not a true pollinator-access toggle, and it has no independent D.
 
-These four anchors are deliberately complementary. None dominates the others across all information dimensions.
+These anchors are deliberately complementary. None dominates the others across all information dimensions.
 
 ## Minimum-augmentation principle
 
@@ -34,29 +37,29 @@ For each system, the next question is not `does this study fully identify the me
 
 > What is the smallest biologically defensible addition that moves this existing design to a strictly more informative identification layer?
 
-This is not a cell-count optimization. A technically small manipulation can be biologically invalid, whereas a larger experiment can be the minimum valid augmentation. The matrix therefore records missing *modules* rather than assigning an arbitrary scalar distance.
+This is not a cell-count optimization. A technically small manipulation can be biologically invalid, whereas a larger experiment can be the minimum valid augmentation. The matrix therefore records missing modules rather than assigning an arbitrary scalar distance.
 
-## Conditional partial identification from existing total-interaction anchors
+## Conditional partial-identification boundary
 
-When a total interaction is available, it can constrain the identified set before full crossed interventions. For
+The candidate frontier preserves the older source-rounded Kessler `Delta_AD = +0.19 to +0.25` statement only as provenance for an assumption-indexed sensitivity calculation. It is not a confidence interval and must not replace the canonical registered A0/A1 result.
+
+For the accounting identity
 
 `Delta_AD W = rho_delta - iota_delta - kappa_delta`,
 
-`kappa_delta >= 0` implies
+an explicit same-scale restriction `kappa_delta >= 0` implies
 
 `rho_delta - iota_delta >= Delta_AD W`.
 
-For Kessler et al. 2008, the published rounded probability-scale interaction range is `+0.19 to +0.25`. Conditional on treating that rounded range as the available aggregate constraint and on the explicit same-scale restriction `kappa_delta >= 0`, the biotic balance is bounded below by `+0.19`. This is **not a confidence bound** because formal A×D uncertainty is unrecovered, and it is **not an empirical estimate of kappa**. It is an assumption-indexed partial-identification consequence of the published aggregate interaction range.
+This remains a structural bound conditional on both the declared outcome scale and the auxiliary restriction. It does not identify `rho_delta`, `iota_delta`, or `kappa_delta` separately.
 
-The break-even interpretation is also useful: a negative hidden joint channel would need to be at least as large in magnitude as the positive total interaction to erase the positive biotic balance. Under the rounded probability-scale constraints, that threshold lies between `-0.19` and `-0.25`, again as an aggregate-constraint sensitivity statement rather than a sampling interval.
+## Candidate-to-canonical promotion rule
 
-## Output boundary
+A later promotion PR may replace the canonical 16-system V1 count with this 17-system candidate only if manuscript, Figure 4, supplement, references, target-journal package, and regression tests are updated together while preserving:
 
-The companion frontier matrix preserves the original audit columns and adds only transparent derived labels:
+- the Level 1 / Level 2 / Level 3 outcome hierarchy;
+- the registered Kessler A0/A1 partial-identification result;
+- Theis & Adler as supplementation rather than P-access;
+- `m0_delta = 0/17`, independent `kappa = 0/17`, and full allocation closure `= 0/17` as screened-set coverage rather than literature prevalence.
 
-- `frontier_face`
-- `next_major_augmentation`
-- `remaining_gates_after_next_step`
-- `conditional_partial_id_note`
-
-No study-specific `rho_delta`, `iota_delta`, or `kappa_delta` point values are inferred. No scalar study ranking is produced.
+Until then, V2 is a validated candidate frontier and V1 remains the canonical submission input.
