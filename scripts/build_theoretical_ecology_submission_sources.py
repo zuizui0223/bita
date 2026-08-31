@@ -144,7 +144,7 @@ def build_supplement_source() -> str:
 def copy_open_research_data() -> list[dict[str, str]]:
     DATA_OUT.mkdir(parents=True, exist_ok=True)
     sources = [
-        ("HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv", "high_information_identification_coverage.csv"),
+        ("HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V2.csv", "high_information_identification_coverage.csv"),
         ("DEFENCE_ESCAPE_ROUTE_HYPOTHESIS_RECOVERY_V1.csv", "defence_escape_route_hypothesis_recovery.csv"),
         ("IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json", "impatiens_identification_retrofit.json"),
         ("KESSLER_2008_STAGE1_PARTIAL_IDENTIFICATION_RECEIPT_V2.json", "kessler_2008_stage1_partial_identification.json"),

@@ -42,6 +42,8 @@ def test_generated_main_source_is_identification_first_theoretical_ecology() -> 
     assert "positive interaction relief" in text
     assert "constraint release" in text
     assert "strict reversal" in text
+    assert "Seventeen high-information systems were retained" in text
+    assert "Theis and Adler (2012)" in text
 
 
 def test_cover_letter_matches_current_identification_framing_and_has_five_reviewer_slots() -> None:

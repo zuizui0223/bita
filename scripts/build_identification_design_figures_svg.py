@@ -13,7 +13,7 @@ from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "manuscript" / "identification_figures"
-COVERAGE = ROOT / "empirical" / "identification_design" / "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv"
+COVERAGE = ROOT / "empirical" / "identification_design" / "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V2.csv"
 IMPATIENS = ROOT / "empirical" / "identification_design" / "IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json"
 PATTERN_STATUS = ROOT / "empirical" / "mechanism_pattern_synthesis" / "COMPLETION_STATUS_V2.md"
 

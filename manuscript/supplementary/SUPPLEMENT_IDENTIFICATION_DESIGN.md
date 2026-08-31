@@ -175,13 +175,14 @@ The matrix is a deliberately high-information design audit rather than a systema
 
 ### S4.2 Current coverage state
 
-The current matrix contains 16 systems. Fixed conclusions are:
+The current matrix contains 17 systems. Fixed conclusions are:
 
 ```text
 closest full A×D-like trait factorial:      Kessler et al. 2008
+A×G×pollination-supplementation bridge:     Theis & Adler 2012
 closest crossed G×P-like consumer factorial: Egan et al. 2021
-independent kappa assay:                    0
-full rho/iota/kappa identification:         0
+independent kappa assay:                    0/17
+full rho/iota/kappa identification:         0/17
 ```
 
 The main empirical pattern is not absence of sophisticated experiments, but separation of the required components across different studies.
@@ -189,7 +190,7 @@ The main empirical pattern is not absence of sophisticated experiments, but sepa
 Authoritative table:
 
 ```text
-empirical/identification_design/HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv
+empirical/identification_design/HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V2.csv
 ```
 
 ### S4.3 Distinct near-miss classes
@@ -204,6 +205,7 @@ Representative failures include:
 6. **Whole-plant defence rather than flower-specific D** — Santangelo et al. 2019 and Strauss et al. 1999.
 7. **A and D jointly measured but no A×D term** — Irwin & Adler 2006 and García et al. 2024.
 8. **One dual-function chemical trait rather than two axes** — Gronquist et al. 2001.
+9. **Manipulated attraction × antagonist removal × pollination supplementation without D or true P-access** — Theis & Adler 2012.
 
 These classes motivate the experimental roadmap in Main Fig. 5.
 
