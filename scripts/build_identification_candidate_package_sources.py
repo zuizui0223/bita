@@ -24,8 +24,8 @@ def _focused_reference_text() -> str:
         if not p.startswith("# ")
         and not p.startswith("This bibliography")
     ]
-    if len(entries) != 12:
-        raise RuntimeError(f"expected 12 focused bibliography entries, found {len(entries)}")
+    if len(entries) != 13:
+        raise RuntimeError(f"expected 13 focused bibliography entries, found {len(entries)}")
     return "\n\n".join(entries)
 
 
@@ -53,80 +53,37 @@ def build_main_source() -> str:
 
     pre_refs = text.split("## References", 1)[0].rstrip()
     # Keep title-page metadata and abstract in the candidate text, but insert a
-    # real section break before the abstract so line-number formatting can be
-    # reused from the established Ecology formatter.
-    if "## Abstract" not in pre_refs:
+    # marker after the title block for a section break in the Word build.
+    title_end = pre_refs.find("\n\n## Abstract")
+    if title_end < 0:
         raise RuntimeError("candidate manuscript has no Abstract heading")
-    front, rest = pre_refs.split("## Abstract", 1)
-    front = front.rstrip()
-    body = "## Abstract" + rest
-
+    pre_refs = pre_refs[:title_end] + f"\n\n{TITLE_BREAK}" + pre_refs[title_end:]
     refs = _focused_reference_text()
-    captions = _figure_captions()
-
-    # This generated Markdown lives four directories below repository root:
-    # submission/ecology/identification_candidate/generated/. Keep figure paths
-    # relative to the Markdown file so pandoc embeds the actual SVGs rather than
-    # silently replacing them with alt text. REF_BREAK already advances to a new
-    # page, so only Figures 2–5 need an explicit page break.
-    figure_blocks: list[str] = []
-    for idx, caption in enumerate(captions, 1):
-        page_prefix = "" if idx == 1 else f"{PAGE_BREAK}\n\n"
-        figure_blocks.append(
-            f"{page_prefix}{caption}\n\n"
-            f"![](../../../../manuscript/identification_figures/FIGURE_{idx}_IDENTIFICATION_DESIGN.svg)"
-        )
-
-    # Do not insert a standalone "Figure captions" heading after References.
+    figures = _figure_captions()
+    figure_block = "\n\n".join(
+        f"{caption}\n\n![](../../../manuscript/identification_figures/FIGURE_{idx}_IDENTIFICATION_DESIGN.svg)"
+        for idx, caption in enumerate(figures, 1)
+    )
     return (
-        front
-        + "\n\n**Journal:** Ecology\n\n**Manuscript type:** Concepts & Synthesis\n\n"
-        + TITLE_BREAK
-        + "\n\n"
-        + body.strip()
+        pre_refs
         + "\n\n## References\n\n"
         + refs
-        + "\n\n"
-        + REF_BREAK
-        + "\n\n"
-        + "\n\n".join(figure_blocks)
+        + f"\n\n{REF_BREAK}\n\n"
+        + "## Figures\n\n"
+        + figure_block
         + "\n"
     )
 
 
 def build_supplement_source() -> str:
-    manuscript = MANUSCRIPT.read_text(encoding="utf-8")
-    title = manuscript.splitlines()[0].removeprefix("# ").strip()
-    author_match = re.search(r"\*\*Authors and affiliations:\*\*.*", manuscript)
-    if author_match is None:
-        raise RuntimeError("candidate manuscript missing authors field")
-
-    supplement = SUPPLEMENT.read_text(encoding="utf-8").strip()
-    old_s1 = "../../../../manuscript/supplementary/figures/FIGURE_S1_DERIVATIVE_AGREEMENT.svg"
-    old_s2 = "../../../../manuscript/supplementary/figures/FIGURE_S2_SCENARIO_SIGN_MAPS.svg"
-
-    return (
-        "# Appendix S1 — Identification design\n\n"
-        + author_match.group(0)
-        + f"\n\n**Manuscript title:** {title}\n\n**Journal:** Ecology\n\n"
-        + supplement
-        + f"\n\n{PAGE_BREAK}\n\n## Supplementary Figure S1 — continuous-limit implementation check\n\n"
-        + "The analytic mixed partial and central finite-difference implementation are compared across the original finite sensitivity design. This is a software check, not empirical validation.\n\n"
-        + f"![]({old_s1})\n\n"
-        + f"{PAGE_BREAK}\n\n## Supplementary Figure S2 — response-shape sensitivity maps\n\n"
-        + "Scenario-specific sign maps show the original response-shape sensitivity analysis. Cell occupancy reflects the chosen finite grid and is not ecological prevalence.\n\n"
-        + f"![]({old_s2})\n"
-    )
+    text = SUPPLEMENT.read_text(encoding="utf-8").strip()
+    return text + "\n"
 
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    main_path = OUT / "MANUSCRIPT_IDENTIFICATION_CANDIDATE.md"
-    supp_path = OUT / "APPENDIX_IDENTIFICATION_CANDIDATE.md"
-    main_path.write_text(build_main_source(), encoding="utf-8")
-    supp_path.write_text(build_supplement_source(), encoding="utf-8")
-    print(main_path)
-    print(supp_path)
+    (OUT / "MANUSCRIPT_IDENTIFICATION_CANDIDATE.md").write_text(build_main_source(), encoding="utf-8")
+    (OUT / "APPENDIX_IDENTIFICATION_CANDIDATE.md").write_text(build_supplement_source(), encoding="utf-8")
 
 
 if __name__ == "__main__":
