@@ -1,0 +1,21 @@
+{
+  "article_doi": "10.1093/aob/mcad064",
+  "article_title": "Floral volatiles evoke partially similar responses in both florivores and pollinators and are correlated with non-volatile reward chemicals",
+  "recovery_workflow_run_id": 33351104986,
+  "recovery_workflow_head_sha": "d4e1eb22268eff19e8ec054cfcfbd334873eb271",
+  "artifact_id": 9743632857,
+  "artifact_name": "sasidharan2023-gate-c",
+  "artifact_sha256": "fd0159aaf65705fb8923646ccd2c7e835f6bc7300efc22b5ab3be1e5a96516dd",
+  "source_route": "article-resolved signed OUP CDN supplementary-data link",
+  "workbook_sha256": "c6c0a2e48268c479786379b3995ca90732cdf2d724e5addc2e0f1c7e04f0cc19",
+  "workbook_bytes": 173597,
+  "sheet_count": 5,
+  "sheet_inventory": [
+    {"sheet":"S1","max_row":521,"max_column":20,"nonempty_rows":518,"nonempty_cells":7864},
+    {"sheet":"S2","max_row":26,"max_column":14,"nonempty_rows":24,"nonempty_cells":291},
+    {"sheet":"S3","max_row":55,"max_column":8,"nonempty_rows":50,"nonempty_cells":367},
+    {"sheet":"S4","max_row":4359,"max_column":7,"nonempty_rows":2315,"nonempty_cells":9261},
+    {"sheet":"S5","max_row":83,"max_column":4,"nonempty_rows":80,"nonempty_cells":320}
+  ],
+  "interpretation_boundary": "The workbook is source material. FVOC x insect rows are dependent within publications and are not independent studies. Gate C uses publication-reference-cluster resampling and is not a strict B-role or full A x B meta-analysis."
+}
