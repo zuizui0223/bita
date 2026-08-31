@@ -1,0 +1,25 @@
+{
+  "A0_identified_set_across_profiles": [
+    -0.029927536231884058,
+    0.029927536231884058
+  ],
+  "A1_identified_set_across_profiles": [
+    0.20013274336283185,
+    0.23983870967741938
+  ],
+  "A1_uniformly_positive_all_profiles": true,
+  "doi": "10.1126/science.1160072",
+  "estimand_boundary": "These are auxiliary pooled independent-binomial sensitivity calculations. They do not recover the source day-stratified ANOVA, plant-level clustering, or Fig. S8A values and therefore cannot be promoted to a source interaction CI. The A0/A1 ranges are identified sets under the declared aggregate bands and denominator-balance restrictions, not recovered original cell means.",
+  "level2_strict_identified_all_profiles": false,
+  "level3_strict_identified_all_profiles": false,
+  "max_A0_upper_tolerance_to_zero": 0.029927536231884058,
+  "min_logit_ci95_lower": -0.20488492012888293,
+  "min_logit_wald_z": 1.5932234266659968,
+  "min_probability_delta": 0.17102387942745256,
+  "min_probability_wald_z": 2.2960104459122324,
+  "profile_count": 4,
+  "stage1_partial_identification_decision": "A1_POSITIVE_A0_SIGN_UNRESOLVED_PARTIAL_IDENTIFICATION",
+  "total_interaction_decision": "SIGN_ROBUST_FORMAL_SOURCE_UNCERTAINTY_UNRESOLVED",
+  "workflow_run_id": 33357523448,
+  "workflow_head_sha": "a0ee9d04f312a715b0ad7360f314bb131a94494c"
+}
