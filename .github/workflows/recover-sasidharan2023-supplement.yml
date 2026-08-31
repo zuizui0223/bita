@@ -1,0 +1,31 @@
+name: Recover Sasidharan 2023 supplement
+
+on:
+  push:
+    branches:
+      - analysis/complete-constituent-path-meta-v1
+    paths:
+      - scripts/recover_sasidharan2023_supplement.py
+      - .github/workflows/recover-sasidharan2023-supplement.yml
+  workflow_dispatch:
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install workbook dependency
+        run: python -m pip install openpyxl
+      - name: Recover and export supplement
+        run: python scripts/recover_sasidharan2023_supplement.py sasidharan2023_recovery
+      - name: Show inventory
+        run: |
+          cat sasidharan2023_recovery/workbook_inventory.csv
+          cat sasidharan2023_recovery/source_receipt.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sasidharan2023-supplement-recovery
+          path: sasidharan2023_recovery/
