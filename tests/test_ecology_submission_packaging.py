@@ -53,6 +53,7 @@ def test_main_submission_source_is_identification_design() -> None:
     assert "\\mathcal I(\\delta)" in text
     assert "\\kappa_\\Delta\\ge0" in text
     assert "fragmented identification frontier" in text
+    assert "Seventeen high-information systems were retained" in text
 
 
 def test_main_has_five_identification_figures_and_no_main_tables() -> None:
@@ -71,7 +72,7 @@ def test_appendix_is_identification_supplement() -> None:
     assert "77.2%" in text
     assert "KESSLER_2008_IDENTIFICATION_REAUDIT_V2.md" in text
     assert "IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json" in text
-    assert "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv" in text
+    assert "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V2.csv" in text
     assert "Constituent mechanism recurrence supporting the Main Pattern layer" in text
     assert "Identified-set algebra and projection bounds" in text
 
