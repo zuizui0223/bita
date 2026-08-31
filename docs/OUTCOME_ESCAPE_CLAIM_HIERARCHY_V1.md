@@ -103,42 +103,61 @@ lower(A1) > 0
 
 This establishes a strict negative-to-positive reversal of the attraction effect between the two defence states. A zero-compatible `A0` can support Level 2 but cannot support Level 3.
 
-## Kessler 2008: arithmetic pattern versus formal inference
+## Kessler 2008 — current partial-identification result
 
-Kessler, Gase & Baldwin (2008; DOI `10.1126/science.1160072`) provides the closest manipulated `A × D`-like field surface. Using the published rounded capsule proportions registered in the repository,
+Kessler, Gase & Baldwin (2008; DOI `10.1126/science.1160072`) provides the closest manipulated `A × D`-like field surface. The current registered aggregate enumeration uses the published 474 informative flowers, 87 capsules, EV proportion band 34.5–35.5%, low-cell bands 11.5–14.5%, and four denominator-balance profiles.
+
+Across every compatible integer allocation in those profiles:
 
 ```text
-W11 approximately 0.35
-W10, W01 and W00 approximately 0.12–0.14
+A0 = W10 - W00       in [-0.0299275, +0.0299275]
+A1 = W11 - W01       in [+0.2001327, +0.2398387]
+Delta_AD W            minimum +0.1710239
 ```
 
-the arithmetic ranges are
+The ordering is now sharper than a rounded arithmetic example:
 
 ```text
-A0 = W10 - W00       approximately [-0.02, +0.02]
-A1 = W11 - W01       approximately [+0.21, +0.23]
-Delta_AD W = A1-A0   approximately [+0.19, +0.25]
+A1 > 0 for every compatible allocation
+A0 spans zero
+Delta_AD > 0 for every compatible allocation
 ```
 
-These rounded-value ranges show a robust descriptive ordering:
+Thus the aggregate evidence partially identifies the Stage-1 surface:
 
 ```text
-A1 > A0
-A1 > 0
-A0 unresolved around zero
+Level 1 total-interaction sign:        strong positive aggregate anchor
+A1 defended attraction effect:         sign-identified positive under declared restrictions
+A0 undefended attraction effect:       sign unresolved within approximately ±0.03
+Level 2:                               unresolved because A0_max > 0
+Level 3:                               unresolved because A0_max > 0
 ```
 
-They therefore provide a strong **Level-1 sign anchor** and leave Levels 2 and 3 unresolved.
+The smallest descriptive epsilon for which every compatible allocation satisfies `A0 <= epsilon` is `0.0299275`, about three percentage points on the capsule-probability scale. This is an identified-set width, **not** a retrospectively chosen equivalence margin and not a basis for relabeling Level 2.
 
-However, the rounded bands are not source/design-based confidence intervals. Exact genotype-by-day denominators and the original interaction uncertainty have not been recovered. Consequently the formal current status remains:
+The registered decision is therefore
 
 ```text
-Level 1: positive point/sign anchor; formal source uncertainty unresolved
+A1_POSITIVE_A0_SIGN_UNRESOLVED_PARTIAL_IDENTIFICATION
+```
+
+rather than an undifferentiated `Levels 2/3 unresolved` statement.
+
+However, these sets are not source/design-based confidence intervals. Exact genotype-by-day denominators, plant clustering and the source ANOVA remain unrecovered. The broadest auxiliary logit 95% interval can cross zero. Consequently the formal source-scale status remains:
+
+```text
+Level 1: positive sign anchor; formal source uncertainty unresolved
 Level 2: unresolved
 Level 3: unresolved
 ```
 
 Systemic nicotine suppression also limits the intervention-scope claim. The source-faithful surface is not automatically a flower-exclusive defence experiment.
+
+Canonical receipts:
+
+- `empirical/identification_design/KESSLER_2008_STAGE1_PARTIAL_IDENTIFICATION_RECEIPT_V2.json`
+- `empirical/identification_design/KESSLER_2008_STAGE1_PARTIAL_IDENTIFICATION_RECEIPT_V2.md`
+- `empirical/identification_design/KESSLER_2008_IDENTIFICATION_REAUDIT_V3.md`
 
 ## Separate mechanism-identification ladder
 
@@ -179,8 +198,8 @@ BITA asks whether a distinct antagonist-reducing trait changes the reproductive 
 Every analysis or manuscript statement about escape must report four items:
 
 1. the declared `A`, `D` and outcome scale;
-2. `A0`, `A1` and `Delta_AD W` with compatible uncertainty;
+2. `A0`, `A1` and `Delta_AD W` with compatible uncertainty or an explicit identified set;
 3. the highest supported outcome level;
 4. the separate mechanism-identification and intervention-scope status.
 
-Do not use an unqualified statement such as “defence released the conflict” when only `Delta_AD W > 0` is established.
+Do not use an unqualified statement such as “defence released the conflict” when only `Delta_AD W > 0` is established. When `A1` is sign-identified but `A0` spans zero, report that asymmetry directly rather than collapsing both contrasts into `unresolved`.
