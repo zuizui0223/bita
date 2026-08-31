@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MATRIX = ROOT / "empirical" / "identification_design" / "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv"
+MATRIX = ROOT / "empirical" / "identification_design" / "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V2.csv"
 
 
 def _rows():
@@ -21,6 +21,7 @@ def test_high_information_coverage_has_declared_systems() -> None:
     assert "Egan_2021_Fragaria" in ids
     assert "Gorden_Adler_2018_Impatiens_capensis" in ids
     assert "Sun_Huang_2015_Pedicularis_rex" in ids
+    assert "Theis_Adler_2012_Cucurbita" in ids
 
 
 def test_trait_factorial_and_consumer_factorial_are_split_across_anchors() -> None:
