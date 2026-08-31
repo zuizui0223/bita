@@ -89,15 +89,16 @@ def test_prospective_replication_separates_level1_from_strict_release_and_mechan
     assert "not a power guarantee" in power["claim_boundary"]
 
 
-def test_main_manuscript_separates_functional_escape_from_mechanism_and_cue_privacy() -> None:
+def test_main_manuscript_separates_interaction_relief_release_mechanism_and_cue_privacy() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
-    assert "a distinct defence trait is a candidate escape route" in text
-    assert "a two-trait allocation hypothesis" in text
-    assert "positive functional escape" in text
-    assert "interval wholly above zero" in text
+    assert "a distinct defence trait is a candidate route for releasing attraction" in text
+    assert "positive interaction relief" in text
+    assert "functional constraint release" in text
+    assert "Level 1" in text
+    assert "Level 2" in text
+    assert "Level 3" in text
+    assert "A_0" in text and "A_1" in text
     assert "does not by itself demonstrate cue privatization" in text
-    assert "formal positive functional escape is therefore not yet uncertainty-identified" in text.lower()
-    assert "a valid positive total interval would decide the escape sign" in text
     assert "Direct attraction-by-defence-like trait factorials are not wholly absent" in text
     assert "the complete escape inequality remains a generated test" not in text
 
