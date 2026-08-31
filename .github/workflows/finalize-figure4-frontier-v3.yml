@@ -36,7 +36,7 @@ jobs:
               b.append(_box(875,85,390,220,"A×G×Pₛ — Theis 2012",["fragrance × beetle removal", "× supplemental hand pollination", "three-factor reproductive bridge", "missing: distinct D axis", "P supplementation ≠ access toggle"],"dark"))
               b.append('<text x="650" y="345" text-anchor="middle" class="sub">The missing object is their intersection</text>')
               b.append(f'<text x="650" y="378" text-anchor="middle" class="tiny">Mechanism Pattern: {pattern["records"]} routes / {pattern["clusters"]} clusters | A→P {pattern["a_poll"]} | A→G {pattern["a_ant"]} | D→G {pattern["d_ant"]} | D→P {pattern["d_poll"]} | same-system {pattern["same"]} | switches {pattern["switch"]}</text>')
-              b.append(f'<text x="650" y="405" text-anchor="middle" class="small">Route recurrence ≠ channel identification | {len(rows)}-system frontier: independent κ assay 0; full identification 0</text>')
+              b.append(f'<text x="650" y="405" text-anchor="middle" class="small">Route recurrence ≠ channel identification | {len(rows)}-system audit | {len(rows)}-system frontier: independent κ assay 0; full identification 0</text>')
               b.append('<text x="60" y="430" class="sub">Impatiens public-data retrofit: observational A×D and randomized-agent modifiers</text>')
               x0=600; w=600
               for tick in [-1.5,-1.0,-0.5,0,0.5,1.0]:
@@ -58,7 +58,6 @@ jobs:
               b.append('<text x="900" y="885" text-anchor="middle" class="small">All eight target intervals cross zero; context modification is estimable but unresolved.</text>')
               return _svg(1300,920,"".join(b))
           '''
-          # de-indent the literal from workflow source indentation
           import textwrap
           new = textwrap.dedent(new)
           desired = text[:start] + new.rstrip() + '\n' + text[end+1:]
@@ -83,6 +82,7 @@ jobs:
           python -m pip install pytest
           python -m pytest -q tests/test_identification_design_figures.py tests/test_mechanism_pattern_identification_bridge.py tests/test_theoretical_ecology_house_style.py
           grep -q 'Theis 2012' manuscript/identification_figures/FIGURE_4_IDENTIFICATION_DESIGN.svg
+          grep -q '17-system audit' manuscript/identification_figures/FIGURE_4_IDENTIFICATION_DESIGN.svg
           grep -q '17-system frontier' manuscript/identification_figures/FIGURE_4_IDENTIFICATION_DESIGN.svg
           grep -q 'The missing object is their intersection' manuscript/identification_figures/FIGURE_4_IDENTIFICATION_DESIGN.svg
       - name: Commit synchronized Figure 4
