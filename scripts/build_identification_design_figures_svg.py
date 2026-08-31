@@ -137,11 +137,12 @@ def _xscale(value: float, x0: float=600, lo: float=-1.8, hi: float=1.3, width: f
 def fig4() -> str:
     rows=_read_coverage(); targets=_impatiens_targets(); pattern=_pattern_counts()
     b=['<text x="650" y="42" text-anchor="middle" class="title">Constituent channels recur, but mechanism allocation remains unidentified</text>']
-    b.append(_box(50,85,565,220,"Trait-factorial side — Kessler et al. 2008",["manipulated floral benzylacetone × nicotine", "direct discrete A×D-like reproductive interaction", "published aggregate sign: positive", "Δ probability scale ≈ +0.19 to +0.25", "missing: selective G and P toggles; systemic-D caveat"],"dark"))
-    b.append(_box(685,85,565,220,"Consumer-factorial side — Egan et al. 2021",["crossed herbivory × pollination environment", "selection on attraction/defence-related traits", "consumer-context structure is strong", "missing: independently manipulated floral A×D", "several defence metabolites are leaf-derived"],"dark"))
+    b.append(_box(35,85,390,220,"A×D face — Kessler 2008",["benzylacetone × nicotine", "direct reproductive A×D-like interaction", "published Δ ≈ +0.19 to +0.25", "missing: selective G/P toggles", "systemic-D caveat"],"dark"))
+    b.append(_box(455,85,390,220,"G×P face — Egan 2021",["herbivory × pollination environment", "attraction/defence traits measured", "strong consumer-factorial backbone", "missing: manipulated floral A×D", "defence partly leaf-derived"],"dark"))
+    b.append(_box(875,85,390,220,"A×G×Pₛ — Theis 2012",["fragrance × beetle removal", "× supplemental hand pollination", "three-factor reproductive bridge", "missing: distinct D axis", "P supplementation ≠ access toggle"],"dark"))
     b.append('<text x="650" y="345" text-anchor="middle" class="sub">The missing object is their intersection</text>')
     b.append(f'<text x="650" y="378" text-anchor="middle" class="tiny">Mechanism Pattern: {pattern["records"]} routes / {pattern["clusters"]} clusters | A→P {pattern["a_poll"]} | A→G {pattern["a_ant"]} | D→G {pattern["d_ant"]} | D→P {pattern["d_poll"]} | same-system {pattern["same"]} | switches {pattern["switch"]}</text>')
-    b.append(f'<text x="650" y="405" text-anchor="middle" class="small">Route counts overlap; recurrence ≠ channel identification | {len(rows)}-system audit: independent κ assay 0; full identification 0</text>')
+    b.append(f'<text x="650" y="405" text-anchor="middle" class="small">Route recurrence ≠ channel identification | {len(rows)}-system audit | {len(rows)}-system frontier: independent κ assay 0; full identification 0</text>')
     b.append('<text x="60" y="430" class="sub">Impatiens public-data retrofit: observational A×D and randomized-agent modifiers</text>')
     x0=600; w=600
     for tick in [-1.5,-1.0,-0.5,0,0.5,1.0]:
@@ -162,8 +163,6 @@ def fig4() -> str:
         y+=38
     b.append('<text x="900" y="885" text-anchor="middle" class="small">All eight target intervals cross zero; context modification is estimable but unresolved.</text>')
     return _svg(1300,920,"".join(b))
-
-
 def fig5() -> str:
     b=['<text x="600" y="42" text-anchor="middle" class="title">An executable path from interaction detection to mechanism identification</text>']
     steps=[

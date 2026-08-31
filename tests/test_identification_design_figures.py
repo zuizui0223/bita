@@ -29,6 +29,8 @@ def test_main_messages_are_present(tmp_path: Path) -> None:
     assert "A×D×G×P four-way coupling" in texts[1]
     assert "Do not define the joint cost as a residual" in texts[2]
     assert "The missing object is their intersection" in texts[3]
+    assert "Theis 2012" in texts[3]
+    assert "17-system frontier" in texts[3]
     assert "17-system audit" in texts[3]
     assert "All eight target intervals cross zero" in texts[3]
     assert "An executable path from interaction detection to mechanism identification" in texts[4]
