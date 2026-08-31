@@ -1,0 +1,78 @@
+{
+  "analysis_id": "kessler_stage1_cluster_allocation_receipt_v1",
+  "source_workflow_run_id": 33237737070,
+  "source_head_sha": "d4701bfb55bc8ab07b8b703e25f1e00f8f1f9b05",
+  "source_artifact_id": 9710411717,
+  "source_artifact_name": "kessler-type-replication-power",
+  "source_artifact_sha256": "631c62c38b1fd09aca07c86b0897e96cd052ded91605b0a6b0b010292aff1008",
+  "design_effect_formula": "1 + (flowers_per_plant - 1) * ICC",
+  "retention": 0.90,
+  "anchors": [
+    {
+      "scenario": "published_central",
+      "delta_ad": 0.22,
+      "power": 0.80,
+      "flowers_per_plant": 5,
+      "icc": 0.10,
+      "effective_n_per_cell": 92,
+      "design_effect": 1.40,
+      "plants_per_cell": 29,
+      "total_plants_four_cells": 116,
+      "total_introduced_flowers_four_cells": 580,
+      "matched_blocks_if_one_plant_per_cell_per_block": 29
+    },
+    {
+      "scenario": "published_central",
+      "delta_ad": 0.22,
+      "power": 0.90,
+      "flowers_per_plant": 5,
+      "icc": 0.10,
+      "effective_n_per_cell": 124,
+      "design_effect": 1.40,
+      "plants_per_cell": 39,
+      "total_plants_four_cells": 156,
+      "total_introduced_flowers_four_cells": 780,
+      "matched_blocks_if_one_plant_per_cell_per_block": 39
+    },
+    {
+      "scenario": "attenuated_delta_0_17",
+      "delta_ad": 0.17,
+      "power": 0.80,
+      "flowers_per_plant": 5,
+      "icc": 0.10,
+      "effective_n_per_cell": 150,
+      "design_effect": 1.40,
+      "plants_per_cell": 47,
+      "total_plants_four_cells": 188,
+      "total_introduced_flowers_four_cells": 940,
+      "matched_blocks_if_one_plant_per_cell_per_block": 47
+    },
+    {
+      "scenario": "attenuated_delta_0_17",
+      "delta_ad": 0.17,
+      "power": 0.90,
+      "flowers_per_plant": 5,
+      "icc": 0.10,
+      "effective_n_per_cell": 200,
+      "design_effect": 1.40,
+      "plants_per_cell": 63,
+      "total_plants_four_cells": 252,
+      "total_introduced_flowers_four_cells": 1260,
+      "matched_blocks_if_one_plant_per_cell_per_block": 63
+    },
+    {
+      "scenario": "published_central_high_icc_sensitivity",
+      "delta_ad": 0.22,
+      "power": 0.80,
+      "flowers_per_plant": 10,
+      "icc": 0.20,
+      "effective_n_per_cell": 92,
+      "design_effect": 2.80,
+      "plants_per_cell": 29,
+      "total_plants_four_cells": 116,
+      "total_introduced_flowers_four_cells": 1160,
+      "matched_blocks_if_one_plant_per_cell_per_block": 29
+    }
+  ],
+  "claim_boundary": "This receipt freezes selected planning anchors from the registered exchangeable-ICC grid. It is not a hierarchical or randomization-based power guarantee, does not include additional day/site correlation, and does not power the Stage-2/3 channel interactions. Final Stage-1 inference must use realized plant/block structure."
+}

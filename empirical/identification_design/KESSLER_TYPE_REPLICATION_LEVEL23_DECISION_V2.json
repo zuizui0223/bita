@@ -1,0 +1,31 @@
+{
+  "analysis_id": "kessler_type_replication_power_v2",
+  "boundary_A0_zero": {
+    "asymptotic_max_joint_decision_probability": 0.025,
+    "status": "TARGET_POWER_NOT_ATTAINABLE_UNDER_STRICT_ZERO_CI_RULE",
+    "target_80pct_attainable": false
+  },
+  "claim_boundary": "The Level-1 four-cell calculation powers only the total additive A x D interaction under the declared probabilities. The Level-2/3 calculation separately evaluates the joint A0/A1 interval decision and can correctly return an unattainable target at the A0=0 boundary. A positive A0 margin would define a different prospectively justified practical-release claim and is not selected from the historical data. The 16-cell total remains a budgeting extrapolation, not a power guarantee for A x D x antagonist, A x D x pollinator, or the four-way separability diagnostic. Mechanism contrasts require their own effect-size assumptions or pilot data.",
+  "moderate_negative_A0_minus_0_05": {
+    "effective_n_per_cell_80pct": 587,
+    "effective_n_per_cell_90pct": 785,
+    "planned_four_cell_total_80pct_DE1_5_retention_0_90": 3916,
+    "planned_four_cell_total_90pct_DE1_5_retention_0_90": 5236,
+    "planned_n_per_cell_80pct_DE1_5_retention_0_90": 979,
+    "planned_n_per_cell_90pct_DE1_5_retention_0_90": 1309
+  },
+  "strict_zero_rule": "upper95_A0_at_or_below_zero_AND_lower95_A1_above_zero",
+  "weak_negative_A0_minus_0_03": {
+    "effective_n_per_cell_80pct": 1772,
+    "effective_n_per_cell_90pct": 2372,
+    "planned_four_cell_total_80pct_DE1_5_retention_0_90": 11816,
+    "planned_four_cell_total_90pct_DE1_5_retention_0_90": 15816,
+    "planned_n_per_cell_80pct_DE1_5_retention_0_90": 2954,
+    "planned_n_per_cell_90pct_DE1_5_retention_0_90": 3954
+  },
+  "provenance": {
+    "workflow": "Plan Kessler-type replication",
+    "workflow_run_id": 33358087717,
+    "source_head": "2febf4d0aa8518a73c2c7627c8ddf1b21ff21978"
+  }
+}

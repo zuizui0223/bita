@@ -16,6 +16,7 @@ def test_candidate_main_is_identification_led() -> None:
     assert "2,592" not in text.split("## References", 1)[0]
     assert "77.2%" not in text.split("## References", 1)[0]
     assert "Theorem 1" not in text
+    assert "which method explains which part of the question" in text
 
 
 def test_candidate_main_has_five_figure_pages_without_blank_leader() -> None:

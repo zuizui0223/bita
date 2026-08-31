@@ -1,0 +1,40 @@
+{
+  "analysis_id": "kessler_2008_supplement_probe_v1",
+  "doi": "10.1126/science.1160072",
+  "workflow_run": 33187904211,
+  "workflow_head_sha": "d4dcc805422626adf0b4cafeecfb78b692b1614f",
+  "supplement_status": "NOT_RECOVERED_FROM_REGISTERED_PUBLIC_ROUTES",
+  "figure_s8a_text_status": "NOT_EVALUABLE",
+  "registered_routes": [
+    {
+      "url": "https://www.science.org/doi/10.1126/science.1160072",
+      "result": "HTTP_403"
+    },
+    {
+      "url": "https://science.sciencemag.org/content/suppl/2008/08/28/321.5893.1200.DC1",
+      "result": "HTTP_403"
+    },
+    {
+      "url": "http://www.sciencemag.org/cgi/content/full/321/5893/1200/DC1",
+      "result": "HTTP_403"
+    },
+    {
+      "url": "https://www.science.org/doi/suppl/10.1126/science.1160072/suppl_file/kessler.som.pdf",
+      "result": "HTTP_403"
+    },
+    {
+      "url": "https://www.science.org/doi/suppl/10.1126/science.1160072/suppl_file/1160072s1.pdf",
+      "result": "HTTP_403"
+    }
+  ],
+  "main_article_constraints": {
+    "informative_antherectomized_flowers": 474,
+    "capsules_before_later_losses": 87,
+    "wind_day_flowers_with_zero_capsules": 127,
+    "ev_mean_capsule_fraction_approx": 0.35,
+    "low_genotype_mean_capsule_fraction_range_approx": [0.12, 0.14],
+    "published_design": "BA and nicotine biosynthesis blocked in all four combinations"
+  },
+  "current_interaction_status": "DIRECT_FACTORIAL_SIGN_POSITIVE_FORMAL_UNCERTAINTY_UNRESOLVED",
+  "claim_boundary": "Do not infer a formal A:D interaction SE or CI from rounded genotype means. The inaccessible day-by-genotype supplement prevents recovery of the source-scale interaction uncertainty; aggregate sign robustness remains valid at its declared sensitivity level."
+}

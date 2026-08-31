@@ -1,0 +1,110 @@
+name: Plan Kessler-type replication
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/plan_kessler_type_replication.py'
+      - 'scripts/plan_kessler_stage1_cluster_allocation.py'
+      - 'scripts/analyze_kessler_type_stage1.py'
+      - 'tests/test_kessler_type_replication_power.py'
+      - 'tests/test_kessler_replication_plan_receipt.py'
+      - 'tests/test_kessler_stage1_cluster_allocation.py'
+      - 'tests/test_kessler_type_stage1_analysis.py'
+      - 'tests/test_kessler_stage1_contract_artifacts.py'
+      - 'docs/KESSLER_TYPE_REPLICATION_AND_AUGMENTATION_V1.md'
+      - 'docs/KESSLER_TYPE_STAGE1_DATA_CONTRACT_V1.md'
+      - 'docs/KESSLER_STAGE1_CLUSTER_ALLOCATION_READOUT_V1.md'
+      - 'empirical/identification_design/KESSLER_TYPE_STAGE1_TRIAL_TEMPLATE_V1.csv'
+      - 'empirical/identification_design/KESSLER_STAGE1_CLUSTER_ALLOCATION_RECEIPT_V1.json'
+      - '.github/workflows/plan-kessler-type-replication.yml'
+  workflow_dispatch:
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test prospective planning and Stage-1 analysis
+        run: |
+          python -m pip install pytest
+          python -m pytest -q \
+            tests/test_kessler_type_replication_power.py \
+            tests/test_kessler_replication_plan_receipt.py \
+            tests/test_kessler_stage1_cluster_allocation.py \
+            tests/test_kessler_type_stage1_analysis.py \
+            tests/test_kessler_stage1_contract_artifacts.py
+      - name: Smoke-test direct Stage-1 CLI tools
+        run: |
+          python scripts/analyze_kessler_type_stage1.py --help >/dev/null
+          python scripts/plan_kessler_stage1_cluster_allocation.py --help >/dev/null
+      - name: Build prospective plans
+        run: |
+          mkdir -p artifacts/kessler_replication
+          python scripts/plan_kessler_type_replication.py \
+            artifacts/kessler_replication/KESSLER_TYPE_REPLICATION_POWER_V2.json \
+            artifacts/kessler_replication/KESSLER_TYPE_REPLICATION_POWER_V2.md
+          python scripts/plan_kessler_stage1_cluster_allocation.py \
+            artifacts/kessler_replication/KESSLER_STAGE1_CLUSTER_ALLOCATION_V1.json \
+            artifacts/kessler_replication/KESSLER_STAGE1_CLUSTER_ALLOCATION_V1.md
+      - name: Emit strict-release planning receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          src = Path('artifacts/kessler_replication/KESSLER_TYPE_REPLICATION_POWER_V2.json')
+          data = json.loads(src.read_text())
+          rows = data['level23_rows']
+
+          def pick(scenario, power, design_effect=1.5):
+              return next(
+                  row for row in rows
+                  if row['scenario'] == scenario
+                  and row['target_joint_power'] == power
+                  and row['design_effect'] == design_effect
+              )
+
+          boundary = pick('boundary_A0_zero', 0.80)
+          weak80 = pick('weak_negative_A0_minus_0_03', 0.80)
+          weak90 = pick('weak_negative_A0_minus_0_03', 0.90)
+          moderate80 = pick('moderate_negative_A0_minus_0_05', 0.80)
+          moderate90 = pick('moderate_negative_A0_minus_0_05', 0.90)
+
+          receipt = {
+              'analysis_id': data['analysis_id'],
+              'strict_zero_rule': data['level23_target']['decision'],
+              'boundary_A0_zero': {
+                  'asymptotic_max_joint_decision_probability': boundary['asymptotic_max_joint_decision_probability'],
+                  'target_80pct_attainable': boundary['effective_n_per_trait_cell'] is not None,
+                  'status': boundary['status'],
+              },
+              'weak_negative_A0_minus_0_03': {
+                  'effective_n_per_cell_80pct': weak80['effective_n_per_trait_cell'],
+                  'planned_n_per_cell_80pct_DE1_5_retention_0_90': weak80['planned_observations_per_cell'],
+                  'planned_four_cell_total_80pct_DE1_5_retention_0_90': weak80['planned_total_four_cell_trait_factorial'],
+                  'effective_n_per_cell_90pct': weak90['effective_n_per_trait_cell'],
+                  'planned_n_per_cell_90pct_DE1_5_retention_0_90': weak90['planned_observations_per_cell'],
+                  'planned_four_cell_total_90pct_DE1_5_retention_0_90': weak90['planned_total_four_cell_trait_factorial'],
+              },
+              'moderate_negative_A0_minus_0_05': {
+                  'effective_n_per_cell_80pct': moderate80['effective_n_per_trait_cell'],
+                  'planned_n_per_cell_80pct_DE1_5_retention_0_90': moderate80['planned_observations_per_cell'],
+                  'planned_four_cell_total_80pct_DE1_5_retention_0_90': moderate80['planned_total_four_cell_trait_factorial'],
+                  'effective_n_per_cell_90pct': moderate90['effective_n_per_trait_cell'],
+                  'planned_n_per_cell_90pct_DE1_5_retention_0_90': moderate90['planned_observations_per_cell'],
+                  'planned_four_cell_total_90pct_DE1_5_retention_0_90': moderate90['planned_total_four_cell_trait_factorial'],
+              },
+              'claim_boundary': data['claim_boundary'],
+          }
+          Path('artifacts/kessler_replication/KESSLER_TYPE_REPLICATION_LEVEL23_DECISION_V2.json').write_text(
+              json.dumps(receipt, indent=2, sort_keys=True)
+          )
+          print(json.dumps(receipt, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kessler-type-replication-power
+          path: artifacts/kessler_replication/

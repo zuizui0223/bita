@@ -32,7 +32,8 @@ def test_abstract_keeps_recurrence_without_claiming_identification() -> None:
     abstract = text.split("## Abstract\n\n", 1)[1].split("\n\n**Keywords:**", 1)[0]
     assert "56 route records from 25 independent biological clusters" in abstract
     assert "this establishes recurrence, not channel identification" in abstract
-    assert "no study combines the trait factorial" in abstract
+    assert "16 screened high-information systems" in abstract
+    assert "combines the full allocation design and independent joint-cost assay" in abstract
 
 
 def test_supplement_keeps_source_detail_and_inference_boundary() -> None:
@@ -56,6 +57,13 @@ def test_figure4_visually_connects_recurrence_to_identification_gap() -> None:
 
 def test_bridge_document_preserves_two_layer_inference() -> None:
     text = BRIDGE.read_text(encoding="utf-8")
-    assert "Mechanism\n→ constituent ecological recurrence\n→ identification coverage\n→ mechanism-allocation experiment" in text
-    assert "The recurrence layer may support" in text
-    assert "It may not be used to validate the algebra" in text
+    assert (
+        "Mechanism\n"
+        "→ constituent ecological recurrence\n"
+        "→ total-interaction identified set\n"
+        "→ fragmented identification frontier\n"
+        "→ assumption-indexed partial identification\n"
+        "→ selective mechanism-allocation experiment"
+    ) in text
+    assert "Recurrence may establish that the framework's biological ingredients are not peculiar to one system" in text
+    assert "It may not validate the algebra" in text

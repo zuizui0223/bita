@@ -2,13 +2,11 @@
 
 ## Source
 
-Kessler D, Gase K, Baldwin IT. 2008. Field experiments with transformed plants reveal the sense of floral scents. Science 321:1200-1202. DOI `10.1126/science.1160072`.
+Kessler D, Gase K, Baldwin IT. 2008. Field experiments with transformed plants reveal the sense of floral scents. *Science* 321:1200-1202. DOI `10.1126/science.1160072`.
 
 ## Why this source matters
 
-This study is substantially closer to the Part I identification target than the previously catalogued agent-factorial and trait-selection near misses.
-
-The authors generated four transformed `Nicotiana attenuata` states by blocking the dominant floral attractant benzylacetone (BA; `Nachal1`) and nicotine production (`Napmt1/2`) in all combinations:
+This study is the strongest direct trait-factorial anchor currently recovered for the BITA outcome question. The authors generated four transformed *Nicotiana attenuata* states by blocking the dominant floral attractant benzylacetone (`Nachal1`) and nicotine production (`Napmt1/2`) in all combinations:
 
 ```text
 EV:   BA present, nicotine present
@@ -23,9 +21,7 @@ The source measured floral visitation, nectar removal, florivory, nectar robbing
 
 ### Attraction axis A
 
-BA has a directly validated floral-attraction role. Plants lacking BA received fewer hummingbird and hawkmoth visits than BA-producing flowers.
-
-Candidate mapping:
+BA has a directly validated floral-attraction role. Candidate mapping:
 
 ```text
 A = floral benzylacetone emission
@@ -33,99 +29,119 @@ A = floral benzylacetone emission
 
 ### Defence/access axis D candidate
 
-Nicotine in floral nectar is a directly validated floral repellent and the source reports that nicotine reduces florivory and nectar robbing. Earlier and linked experiments show that nectar nicotine changes visitor handling/removal.
-
-Candidate mapping:
+Nicotine in floral nectar is a directly validated floral repellent and the source reports reduced florivory and nectar robbing when nicotine is present. Candidate mapping:
 
 ```text
 D = floral-nectar nicotine / nicotine-associated repellent state
 ```
 
-This passes the **functional role** part of the flower-specific D gate at the floral phenotype level.
+This passes the functional-role gate at the floral phenotype level, with an intervention-scope caveat because `Napmt1/2` silencing is systemic.
 
 ## Shared-outcome 2 x 2 result
 
-Female outcrossing was measured after antherectomy so capsule maturation required cross-pollination. Across four informative experimental days, the source reports average capsule production of approximately:
+Female outcrossing was measured after antherectomy so capsule maturation required cross-pollination. The article provides these aggregate constraints:
 
 ```text
-A+, D+  (EV):    35%
-A+, D-  (PMT):   12-14%
-A-, D+  (CHAL):  12-14%
-A-, D-  (CP):    12-14%
+601 antherectomized flowers across five days
+127 flowers on a wind-only day -> zero capsules
+474 informative flowers on the remaining four days
+87 capsules before later losses
+A+,D+ EV mean near 35%
+A+,D- / A-,D+ / A-,D- means near 12-14%
 ```
 
-The three transformed states lacking either BA, nicotine, or both were significantly lower than EV.
+The source-reported rounded range gives a positive descriptive discrete factorial interaction. Earlier sensitivity work placed the probability-scale contrast around +0.19 to +0.25 and the logit interaction around +1.019 to +1.551.
 
-Using only the source-reported rounded range, the descriptive discrete factorial interaction
+Male fitness also shows joint dependence: across the season EV plants sired 1.9x more seeds than CHAL, 2.2x more than PMT, and 4.7x more than CP. These ratios support a joint reproductive phenotype but are not converted into a common interaction coefficient.
+
+## Registered uncertainty recovery
+
+The previous audit left two actions open: recover Fig. S8A and quantify how much the aggregate constraints alone identify. Both have now been executed.
+
+### Publisher supplement probe
+
+A registered GitHub Actions probe tested five current and legacy Science supporting-material routes. All returned HTTP 403. Exact Fig. S8A day-by-genotype values and the original factorial uncertainty therefore remain inaccessible from the declared public routes.
+
+Receipt: `empirical/identification_design/KESSLER_2008_SUPPLEMENT_ACCESS_RECEIPT_V1.md`.
+
+### Aggregate integer-allocation bounds
+
+A separate registered analysis enumerated integer allocations satisfying the published 474-flower / 87-capsule totals while allowing EV to vary from 34.5–35.5%, each low cell from 11.5–14.5%, and maximum denominator ratios from 1.25 to 3.0.
+
+Across the declared profiles:
 
 ```text
-Delta_AD = W11 - W10 - W01 + W00
+feasible allocations per profile:     137,477 to 3,052,260
+minimum probability Delta:             +0.1731 to +0.1710
+minimum naive probability z:           2.461 to 2.296
+minimum logit beta:                     +0.891 to +0.876
+minimum logit z:                        1.763 to 1.593
+minimum logit CI lower bound:           -0.100 to -0.205
 ```
 
-lies approximately between +0.19 and +0.25 if all three low states fall inside the reported 12-14% band. A central 13% illustration gives:
+Thus the interaction **sign** is robust to every declared aggregate-compatible allocation. Formal uncertainty is not. The logit auxiliary interval can cross zero and modest variance inflation from the unavailable day/plant clustering can erase nominal independent-flower probability significance.
+
+Receipt: `empirical/identification_design/KESSLER_2008_AGGREGATE_BOUNDS_V1.md`.
+
+## Why this is not automatically a strict escape confirmation
+
+Two gates remain.
+
+### 1. Source/design-based uncertainty
+
+The registered aggregate bounds deliberately treat flowers as an auxiliary pooled binomial sensitivity. They do not reproduce the source day-stratified analysis or plant-level clustering. Consequently:
 
 ```text
-0.35 - 0.13 - 0.13 + 0.13 = +0.22
+positive aggregate sign:              YES
+source/design interval wholly > 0:    NOT ESTABLISHED
 ```
 
-This is a **descriptive reconstruction**, not a source-reported interaction coefficient and not a local mixed derivative `W_AD`.
+### 2. Intervention specificity
 
-Male fitness also shows joint dependence: across the season EV plants sired 1.9x more seeds than CHAL, 2.2x more than PMT, and 4.7x more than CP. This pattern is compatible with nonadditivity but cannot be converted into a common interaction estimate from the published ratios alone.
-
-## Why it is not automatically promoted to a strict second W_AD cluster
-
-Two identification issues remain.
-
-### 1. Intervention specificity
-
-The focal empirical traits are floral BA and floral-nectar nicotine, but the genetic interventions are not obviously flower-exclusive.
-
-- `Nachal1` is reported as expressed in flowers and leaves, even though BA is operationally treated as the dominant floral attractant.
-- `Napmt1/2` silencing suppresses nicotine biosynthesis systemically; nicotine is a whole-plant antiherbivore defence as well as a floral nectar repellent.
-
-Therefore a plant-level fitness difference could in principle contain non-floral consequences of the transformations. The shared-outcome interaction is much closer to the target than a pollinator x herbivore agent factorial, but intervention-level organ specificity is not perfect.
-
-### 2. Published interaction inference
-
-The main article reports genotype means/post-hoc groups rather than an explicit BA x nicotine factorial interaction coefficient with uncertainty. The four cells are present, but a formal uncertainty-bearing interaction must be reconstructed from the supporting/raw data before it can replace the descriptive rounded contrast.
+The focal empirical traits are floral BA and floral/nectar nicotine, but the genetic interventions are not perfectly flower-exclusive. `Napmt1/2` silencing suppresses nicotine biosynthesis systemically. Plant-level consequences outside flowers cannot be excluded from every fitness component.
 
 ## Adjudication
 
+The candidate is now promoted beyond a generic high-priority near miss:
+
 ```text
-independent A manipulation:             YES
-independent D-candidate manipulation:   YES
-same 2 x 2 experimental plants:         YES
-shared reproductive outcome:            YES
-A role validation:                       STRONG
-floral D role validation:                STRONG
-intervention flower specificity:         IMPERFECT / SYSTEMIC-NICOTINE CAVEAT
-source-reported A x D coefficient:       NO
-reconstructable 2 x 2 contrast:          YES, pending exact cell data
-current registry state:                  DIRECT_AXD_HIGH_PRIORITY_CANDIDATE
-strict W_AD promotion:                   PENDING
-kappa identification:                    NO
+independent A manipulation:                    YES
+independent D-candidate manipulation:          YES
+same 2 x 2 experimental plants:                YES
+shared reproductive outcome:                   YES
+A role validation:                              STRONG
+floral D role validation:                       STRONG
+intervention flower specificity:                IMPERFECT / SYSTEMIC-NICOTINE CAVEAT
+aggregate discrete A x D sign:                  POSITIVE
+aggregate sign robustness:                      ACHIEVED
+source/design interaction uncertainty:          UNRESOLVED
+current registry state:                         DIRECT_FACTORIAL_SIGN_POSITIVE_FORMAL_UNCERTAINTY_UNRESOLVED
+kappa identification:                           NO
 ```
 
 ## Theory-facing interpretation
 
-This study materially narrows the U7 field-design gap. It shows that a true attraction-like axis and a defence/repellent-like floral chemistry axis have been crossed experimentally on the same plants and evaluated on shared male/female reproductive outcomes.
+Kessler 2008 materially changes the outcome-level BITA gap. A true attraction-like axis and a defence/repellent-like axis have been crossed experimentally on the same plants and evaluated on common reproductive outcomes. The positive interaction direction is robust to millions of aggregate-compatible allocations.
 
-The current evidence is compatible with a **positive discrete attraction x nicotine interaction** on female outcross capsule set: the joint A+,D+ state has substantially higher outcross capsule production than any state missing either component.
+What is still not identified is the strict uncertainty-bearing escape decision or its mechanism allocation. The correct ordering is:
 
-However, the evidence must not be described as a clean estimate of the local theoretical `W_AD` until the systemic nicotine intervention and exact factorial uncertainty are resolved.
+```text
+manipulated factorial existence:  ACHIEVED
+positive aggregate sign:          ACHIEVED
+formal source interaction CI:     UNRESOLVED
+rho/iota/kappa allocation:        UNRESOLVED
+```
 
 ## Boundary
 
 ```text
 discrete 2 x 2 interaction != local mixed partial automatically
+aggregate sign robustness != source day-stratified interaction test
 floral nicotine function != flower-exclusive genetic intervention
-positive rounded factorial contrast != formal interaction significance
+positive total sign != rho/iota/kappa allocation
 A x D candidate != kappa
 ```
 
 ## Next action
 
-1. Recover Science supporting material / exact day-by-genotype capsule counts if lawfully available.
-2. Reconstruct a binomial or day-stratified BA x nicotine interaction with uncertainty.
-3. Audit whether transformed lines changed vegetative nicotine/defence in ways capable of contributing to the specific antherectomized-flower outcome.
-4. If the shared reproductive contrast remains positive and non-floral confounding is bounded, promote as the second direct A x D cluster with a discrete-factorial label rather than pretending it is a continuous local derivative.
+Do not restart a broad search for the first manipulated A×D surface; it already exists. Target either lawful recovery of Kessler's source-scale uncertainty or an independent manipulated A×D reproductive factorial with complete uncertainty and cleaner floral D scope. Mechanism recovery then requires selective consumer interventions and an independent cost assay.

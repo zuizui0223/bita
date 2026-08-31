@@ -22,6 +22,7 @@ Primary implementation:
 - `trait_architecture/partial_identification.py`
 - `empirical/identification_design/HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv`
 - `empirical/identification_design/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json`
+- `empirical/identification_design/QUESTION_METHOD_EXPLANATION_MATRIX_V1.csv`
 - `empirical/mechanism_pattern_synthesis/`
 
 ## 2. Scientific core
@@ -115,9 +116,9 @@ The active Appendix retains:
 
 Leal and Sasidharan remain reproducible historical modules, not Main evidence.
 
-## 7. Historical provenance
+## 7. Historical quantitative provenance retained
 
-Leal et al. 2025 pins remain unchanged:
+Leal et al. 2025 provenance remains pinned:
 
 ```text
 canonical commit: ed33b25593c0d90ad6657753f6f5501d9efc7b82
@@ -127,6 +128,8 @@ source synthesis: doi:10.1002/ecy.70036
 ```
 
 Historical values and Sasidharan reconstruction remain preserved with their original inference boundaries.
+
+These historical quantitative modules do not validate the identification framework and are not Main evidence.
 
 ## 8. Open Research package
 

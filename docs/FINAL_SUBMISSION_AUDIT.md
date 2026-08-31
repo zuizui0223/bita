@@ -81,6 +81,8 @@ full rho/iota/kappa identification: 0
 
 but the stronger conclusion is that existing studies already constrain different dimensions of the allocation problem while none closes all of them.
 
+The constituent channels recur, but their joint allocation remains unidentified.
+
 ## 3. Existing-data anchors
 
 - **Kessler et al. 2008:** closest trait-factorial anchor; published aggregate constraints preserve a positive discrete reproductive interaction, with formal uncertainty and systemic-nicotine scope unresolved.

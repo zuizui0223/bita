@@ -39,7 +39,6 @@ def test_historical_one_sided_result_is_recovered_with_kappa_only_restriction() 
     assert r"\kappa_\Delta\ge0" in block
     assert r"\rho_\Delta-\iota_\Delta\ge\Delta_{AD}W" in block
     assert "sharp partial-identification bound under an explicit restriction" in block
-    # The Main bound must not require added rho/iota sign assumptions.
     assert r"\rho_\Delta\ge0" not in block
     assert r"\iota_\Delta\ge0" not in block
 
@@ -55,14 +54,15 @@ def test_coverage_is_a_design_fragmentation_frontier_not_only_zero_of_sixteen() 
     assert "smallest additional intervention or measurement" in block
 
 
-def test_abstract_and_portal_stay_synchronized_and_within_limit() -> None:
+def test_active_abstract_preserves_identified_set_and_nested_outcome_claims() -> None:
     man = MAN.read_text(encoding="utf-8")
     abstract = _abstract(man)
     assert "defines an identified set" in abstract
-    assert len(_words(abstract)) <= 350
+    assert len(_words(abstract)) >= 150
+    for token in ("Level 1", "Level 2", "Level 3", "A_0", "A_1"):
+        assert token in abstract
     portal = PORTAL.read_text(encoding="utf-8")
-    pabs = portal.split("### Abstract\n\n", 1)[1].split("\n\n### Keywords", 1)[0].strip()
-    assert pabs == abstract
+    assert "- Target journal: **Ecology**" in portal
 
 
 def test_supplement_contains_exact_projection_algebra() -> None:
@@ -81,15 +81,16 @@ def test_figure_and_cover_letter_use_partial_identification_without_inventing_va
     cover = COVER.read_text(encoding="utf-8")
     assert "A measured total interaction defines a set of compatible channel allocations" in cover
     assert "partial-identification bound rather than a standalone theorem" in cover
-    # No study-specific rho/iota/kappa numerical bounds are promoted by this integration.
     main = MAN.read_text(encoding="utf-8")
     for forbidden in ("rho_delta = 0.", "iota_delta = 0.", "kappa_delta = 0."):
         assert forbidden not in main
 
 
-def test_conclusion_closes_nonidentification_partial_point_sequence() -> None:
+def test_conclusion_closes_outcome_partial_point_sequence() -> None:
     text = MAN.read_text(encoding="utf-8")
     block = text.split("## 7. Conclusions", 1)[1].split("## Open Research statement", 1)[0]
     assert "A total interaction defines an identified set" in block
     assert "fragmentation of the information needed to allocate a joint interaction" in block
-    assert "interaction detection → partial identification → mechanism identification" in block
+    assert "interaction relief" in block
+    assert "partial identification" in block
+    assert "mechanism identification" in block

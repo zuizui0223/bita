@@ -15,24 +15,36 @@ def test_readme_declares_identification_and_bounded_pattern_story() -> None:
     assert "joint allocation remains unidentified" in text
     assert "route counts are not prevalence estimates" in text
     assert "finite-grid fractions are not probabilities of natural regimes" in text
-    assert "29 Main pages + 11 Appendix pages" in text
+    assert "29 Main pages + 12 Appendix pages" in text
+
+
+def test_one_trait_shared_cue_lane_is_externalized_to_sch() -> None:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    manuscript = (ROOT / "manuscript" / "MANUSCRIPT_IDENTIFICATION_DESIGN.md").read_text(encoding="utf-8")
+    limits = manuscript.split("### 6.4 Limits", 1)[1].split("## 7. Conclusions", 1)[0]
+    assert "https://github.com/zuizui0223/sch" in readme
+    assert "does not test" in limits
+    assert "five attraction-to-pollination and eight attraction-to-antagonism clusters" in limits
+    assert "constituent evidence" in limits
+    assert not any((ROOT / "empirical" / "one_trait_shared_cue").glob("*"))
+    assert not any((ROOT / "related_work" / "one_trait_shared_cue").glob("*"))
 
 
 def test_manifest_pins_identification_core_and_bounded_pattern_provenance() -> None:
     text = (ROOT / "SUPPLEMENT_MANIFEST.md").read_text(encoding="utf-8")
-    assert "# Supplement manifest — canonical identification-design paper" in text
-    assert "## 2. Canonical scientific core" in text
-    assert "crossed A × D × antagonist × pollinator interventions" in text
-    assert "A×D×G×P separability diagnostic" in text
-    assert "independent A×D joint-cost assay" in text
-    assert "## 3. Mechanism → Pattern recurrence layer" in text
-    assert "56 source-adjudicated route records" in text
-    assert "do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`" in text
-    assert "## 4. Existing-data identification stress tests" in text
-    assert "Kessler et al. 2008 — trait-factorial anchor" in text
-    assert "Egan et al. 2021 — consumer-factorial anchor" in text
-    assert "Soper Gorden & Adler 2018 — public-data retrofit" in text
-    assert "independent joint-cost assay:       0" in text
+    assert "# Supplement manifest — canonical partial-identification paper" in text
+    assert "## 2. Scientific core" in text
+    assert "selective crossed interventions" in text
+    assert "four-way separability test" in text
+    assert "independent joint-channel assay" in text
+    assert "## 3. Mechanism → Pattern / identification frontier" in text
+    assert "56 route records" in text
+    assert "These counts establish recurrence only." in text
+    assert "## 4. Existing-data anchors" in text
+    assert "Kessler 2008: trait-factorial anchor" in text
+    assert "Egan 2021: complementary consumer-factorial anchor" in text
+    assert "Impatiens capensis" in text
+    assert "No screened system closes all allocation dimensions and no independent joint-cost assay is present." in text
     assert "ed33b25593c0d90ad6657753f6f5501d9efc7b82" in text
     assert "Main Document: 29 pages" in text
 
@@ -71,7 +83,7 @@ def test_scope_preserves_identification_boundaries() -> None:
     assert "marginal route recurrence" in text
     assert "!= total A×D interaction" in text
     assert "U_delta` is not kappa" in text
-    assert "29 Main pages + 11 Appendix pages" in text
+    assert "29 Main pages + 12 Appendix pages" in text
 
 
 def test_final_audit_records_current_empirical_boundary() -> None:
