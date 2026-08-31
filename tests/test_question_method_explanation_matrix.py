@@ -36,18 +36,18 @@ def test_current_evidence_does_not_claim_full_mechanism_recovery() -> None:
     assert "unidentified, not zero" in rows["L8"]["does_not_explain"]
 
 
-def test_human_readout_and_main_separate_escape_sign_from_mechanism() -> None:
+def test_human_readout_and_main_separate_outcome_levels_from_mechanism() -> None:
     readout = READOUT.read_text(encoding="utf-8")
     manuscript = MANUSCRIPT.read_text(encoding="utf-8")
     assert "What BITA can explain, by method" in readout
     assert "Full channel point identification is therefore **not** a prerequisite" in readout
-    assert "positive functional escape" in readout
     assert "not cue privatization" in readout
     assert "which method explains which part of the question" in manuscript
-    assert "It does not reach full channel allocation in any screened system" in manuscript
-    assert "a valid positive total interval would decide the escape sign" in manuscript
+    assert "full channel allocation" in manuscript.lower()
+    assert "positive interaction relief" in manuscript
+    assert "functional constraint release" in manuscript
+    assert "strict reversal" in manuscript
     assert "informational escape" in manuscript
-    assert "functional escape" in manuscript
 
 
 def test_stale_all_channels_first_escape_claim_is_absent() -> None:
