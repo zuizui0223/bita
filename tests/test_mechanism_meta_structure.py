@@ -28,11 +28,9 @@ def test_current_pattern_layer_does_not_overclaim_grand_meta_analysis() -> None:
     current = CURRENT_MANUSCRIPT.read_text(encoding="utf-8")
     scope = SCOPE.read_text(encoding="utf-8")
 
-    # The historical synthesis remains available as provenance for the route ledger.
     assert "We use **meta-analysis** only where study outcomes can be expressed on a defensible common quantitative scale" in historical
     assert "we did not fit a cross-outcome grand moderator coefficient" in historical
 
-    # The canonical paper reuses the route architecture only for recurrence.
     assert "The source-adjudicated route ledger is **not itself a grand meta-analysis**" in scope
     assert "Constituent channels recur, but their joint allocation remains unidentified." in scope
     assert "marginal route recurrence does not estimate" in current
@@ -51,5 +49,8 @@ def test_current_manuscript_is_identification_led() -> None:
     text = CURRENT_MANUSCRIPT.read_text(encoding="utf-8")
     assert "## 4. From mechanism to pattern: recurrence before identification" in text
     assert "The Mechanism → Pattern bridge is therefore two-stage" in text
-    assert "A total attraction-by-defence interaction therefore does not identify its mechanism." in text
+    assert "A total attraction-by-defence interaction therefore does not identify its mechanism" in text
+    assert "positive interaction relief" in text
+    assert "constraint release" in text
+    assert "strict reversal" in text
     assert "The missing object is their intersection." in text
