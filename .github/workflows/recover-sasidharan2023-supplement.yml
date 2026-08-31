@@ -7,6 +7,7 @@ on:
     paths:
       - scripts/recover_sasidharan2023_supplement.py
       - scripts/recover_sasidharan2023_supplement_v2.py
+      - scripts/analyze_sasidharan2023_publication_clusters.py
       - .github/workflows/recover-sasidharan2023-supplement.yml
   workflow_dispatch:
 
@@ -22,11 +23,14 @@ jobs:
         run: python -m pip install openpyxl
       - name: Recover and export supplement
         run: python scripts/recover_sasidharan2023_supplement_v2.py sasidharan2023_recovery
-      - name: Show inventory
+      - name: Publication-cluster sensitivity
+        run: python scripts/analyze_sasidharan2023_publication_clusters.py sasidharan2023_recovery/sheets/01_S1.csv sasidharan2023_recovery/analysis
+      - name: Show Gate C outputs
         run: |
           cat sasidharan2023_recovery/workbook_inventory.csv
-          cat sasidharan2023_recovery/source_receipt.json
+          cat sasidharan2023_recovery/analysis/SASIDHARAN2023_PUBLICATION_CLUSTER_SUMMARY_V1.csv
+          cat sasidharan2023_recovery/analysis/SASIDHARAN2023_PUBLICATION_CLUSTER_READOUT_V1.md
       - uses: actions/upload-artifact@v4
         with:
-          name: sasidharan2023-supplement-recovery
+          name: sasidharan2023-gate-c
           path: sasidharan2023_recovery/
