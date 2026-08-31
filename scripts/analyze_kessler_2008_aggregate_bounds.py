@@ -15,13 +15,23 @@ Because the article reports day-level percentages and multiple flowers per plant
 independent-binomial Wald intervals are not source-level uncertainty estimates.
 The analysis therefore fail-closes on that boundary even when an auxiliary
 probability-scale interval is positive.
+
+In addition to the total interaction, the enumeration now tracks the Stage-1
+attraction contrasts
+
+    A0 = p10 - p00   (attraction effect when defence is low)
+    A1 = p11 - p01   (attraction effect when defence is high)
+
+so that strict Level-2/3 release can be separated from a merely positive total
+interaction.  This is especially useful for Kessler 2008: the published aggregate
+bands may strongly identify A1 while leaving the sign of A0 unresolved.
 """
 from __future__ import annotations
 
 import argparse
 import json
 import math
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from collections import defaultdict
 from typing import Iterable
@@ -41,6 +51,14 @@ class Cell:
 class ProfileSummary:
     max_denominator_ratio: float
     feasible_allocation_count: int = 0
+    a0_min: float = math.inf
+    a0_max: float = -math.inf
+    a1_min: float = math.inf
+    a1_max: float = -math.inf
+    a0_upper_tolerance_to_zero: float = math.inf
+    a1_uniformly_positive: bool = False
+    level2_strict_identified: bool = False
+    level3_strict_identified: bool = False
     probability_delta_min: float = math.inf
     probability_delta_max: float = -math.inf
     probability_wald_z_min: float = math.inf
@@ -81,7 +99,9 @@ def _profile_n_bounds(total_n: int, ratio: float) -> tuple[int, int]:
 
 def _update(summary: ProfileSummary, cells: tuple[Cell, Cell, Cell, Cell]) -> None:
     p11, p10, p01, p00 = (cell.p for cell in cells)
-    delta = p11 - p10 - p01 + p00
+    a0 = p10 - p00
+    a1 = p11 - p01
+    delta = a1 - a0
     se_delta = math.sqrt(sum(cell.p * (1.0 - cell.p) / cell.n for cell in cells))
     z_delta = delta / se_delta
 
@@ -91,6 +111,10 @@ def _update(summary: ProfileSummary, cells: tuple[Cell, Cell, Cell, Cell]) -> No
     ci_lo = beta - 1.96 * se_beta
 
     summary.feasible_allocation_count += 1
+    summary.a0_min = min(summary.a0_min, a0)
+    summary.a0_max = max(summary.a0_max, a0)
+    summary.a1_min = min(summary.a1_min, a1)
+    summary.a1_max = max(summary.a1_max, a1)
     summary.probability_delta_min = min(summary.probability_delta_min, delta)
     summary.probability_delta_max = max(summary.probability_delta_max, delta)
     summary.probability_wald_z_min = min(summary.probability_wald_z_min, z_delta)
@@ -109,6 +133,8 @@ def _update(summary: ProfileSummary, cells: tuple[Cell, Cell, Cell, Cell]) -> No
             "logit_beta": beta,
             "logit_se": se_beta,
             "logit_ci95_lower": ci_lo,
+            "A0": a0,
+            "A1": a1,
             "probability_delta": delta,
             "probability_wald_z": z_delta,
             "cells": {
@@ -116,6 +142,29 @@ def _update(summary: ProfileSummary, cells: tuple[Cell, Cell, Cell, Cell]) -> No
                 for label, cell in zip(labels, cells)
             },
         }
+
+
+def _finalize(summary: ProfileSummary) -> None:
+    if summary.feasible_allocation_count == 0:
+        raise ValueError("cannot finalize an empty allocation set")
+
+    # Smallest epsilon >= 0 such that every compatible allocation satisfies
+    # A0 <= epsilon.  This is a descriptive partial-identification width, not a
+    # biological equivalence margin unless one is prospectively declared.
+    summary.a0_upper_tolerance_to_zero = max(0.0, summary.a0_max)
+    summary.a1_uniformly_positive = summary.a1_min > 0.0
+
+    # Claim-set logic: a strict Level-2 or Level-3 statement is identified only
+    # when *every* compatible allocation satisfies the required inequalities.
+    summary.level2_strict_identified = summary.a0_max <= 0.0 and summary.a1_min > 0.0
+    summary.level3_strict_identified = summary.a0_max < 0.0 and summary.a1_min > 0.0
+
+    # If a naive independent-binomial z is z_min, multiplying its variance by
+    # design_effect reduces z by sqrt(design_effect). This threshold shows how
+    # little unmodelled clustering would be needed to erase nominal 1.96.
+    summary.probability_design_effect_to_cross_1_96_at_min_z = (
+        summary.probability_wald_z_min / 1.96
+    ) ** 2
 
 
 def enumerate_profile(
@@ -149,12 +198,7 @@ def enumerate_profile(
     if summary.feasible_allocation_count == 0:
         raise ValueError(f"no feasible allocations for denominator ratio <= {max_denominator_ratio}")
 
-    # If a naive independent-binomial z is z_min, multiplying its variance by
-    # design_effect reduces z by sqrt(design_effect). This threshold shows how
-    # little unmodelled clustering would be needed to erase nominal 1.96.
-    summary.probability_design_effect_to_cross_1_96_at_min_z = (
-        summary.probability_wald_z_min / 1.96
-    ) ** 2
+    _finalize(summary)
     return summary
 
 
@@ -177,7 +221,7 @@ def analyze(
         for profile in profiles
     ]
     return {
-        "analysis_id": "kessler_2008_aggregate_bounds_v1",
+        "analysis_id": "kessler_2008_aggregate_bounds_v2",
         "doi": "10.1126/science.1160072",
         "published_constraints": {
             "informative_flowers": total_n,
@@ -186,23 +230,36 @@ def analyze(
             "low_fraction_band": list(low_range),
             "fraction_band_note": "Bands deliberately widen the article's approximate 35% and 12-14% summaries to allow rounding.",
         },
+        "stage1_contrasts": {
+            "A0": "p10 - p00; attraction effect when defence is low",
+            "A1": "p11 - p01; attraction effect when defence is high",
+            "Delta_AD": "A1 - A0",
+            "Level_2": "A0 <= 0 and A1 > 0",
+            "Level_3": "A0 < 0 and A1 > 0",
+        },
         "profiles": [asdict(summary) for summary in summaries],
         "estimand_boundary": (
             "These are auxiliary pooled independent-binomial sensitivity calculations. "
             "They do not recover the source day-stratified ANOVA, plant-level clustering, "
-            "or Fig. S8A values and therefore cannot be promoted to a source interaction CI."
+            "or Fig. S8A values and therefore cannot be promoted to a source interaction CI. "
+            "The A0/A1 ranges are identified sets under the declared aggregate bands and "
+            "denominator-balance restrictions, not recovered original cell means."
         ),
         "decision_rule": (
-            "Aggregate sign robustness is strengthened if every feasible profile keeps Delta > 0. "
-            "Formal escape remains unresolved if source/design-based uncertainty is unavailable or "
-            "if reasonable auxiliary scales/profiles do not uniformly exclude zero."
+            "Aggregate interaction relief is strengthened if every feasible profile keeps Delta_AD > 0. "
+            "Strict Level-2 release requires every compatible allocation to satisfy A0 <= 0 and A1 > 0; "
+            "strict Level-3 reversal requires A0 < 0 and A1 > 0. If A1 is uniformly positive but A0 "
+            "spans zero, the defended attraction response is partially identified while strict release "
+            "remains unresolved. The A0 upper tolerance reports the smallest epsilon for which all "
+            "compatible allocations satisfy A0 <= epsilon; epsilon is not an equivalence margin unless "
+            "prospectively declared."
         ),
     }
 
 
 def render_markdown(report: dict[str, object]) -> str:
     lines = [
-        "# Kessler 2008 aggregate uncertainty bounds v1",
+        "# Kessler 2008 aggregate uncertainty bounds v2",
         "",
         "## Scope",
         "",
@@ -210,24 +267,33 @@ def render_markdown(report: dict[str, object]) -> str:
         "",
         "Published informative total: 474 flowers and 87 capsules. EV is allowed to range from 34.5–35.5%; each low cell is allowed 11.5–14.5% to be conservative about rounding.",
         "",
-        "| max denominator ratio | feasible allocations | min probability Δ | min naive z(Δ) | design effect needed to reduce min z to 1.96 | min logit β | min logit z | minimum logit CI lower bound |",
-        "|---:|---:|---:|---:|---:|---:|---:|---:|",
+        "The Stage-1 decomposition is `A0 = p10 - p00`, `A1 = p11 - p01`, and `Delta_AD = A1 - A0`. Strict Level 2 requires `A0 <= 0` and `A1 > 0`; strict Level 3 requires `A0 < 0` and `A1 > 0`.",
+        "",
+        "| max denominator ratio | feasible allocations | min A0 | max A0 | min A1 | max A1 | A0 upper tolerance to 0 | min probability Δ | min naive z(Δ) | min logit z | minimum logit CI lower bound |",
+        "|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for profile in report["profiles"]:  # type: ignore[index]
         lines.append(
-            "| {max_denominator_ratio:.2f} | {feasible_allocation_count} | {probability_delta_min:+.4f} | "
-            "{probability_wald_z_min:.3f} | {probability_design_effect_to_cross_1_96_at_min_z:.3f} | "
-            "{logit_beta_min:+.4f} | {logit_wald_z_min:.3f} | {logit_ci95_lower_min:+.4f} |".format(**profile)
+            "| {max_denominator_ratio:.2f} | {feasible_allocation_count} | {a0_min:+.4f} | {a0_max:+.4f} | "
+            "{a1_min:+.4f} | {a1_max:+.4f} | {a0_upper_tolerance_to_zero:.4f} | "
+            "{probability_delta_min:+.4f} | {probability_wald_z_min:.3f} | {logit_wald_z_min:.3f} | "
+            "{logit_ci95_lower_min:+.4f} |".format(**profile)
         )
     lines += [
         "",
-        "## Interpretation",
+        "## Stage-1 partial-identification readout",
+        "",
+        "Across the declared profiles, inspect `A1` and `A0` separately before using the word release. If every profile has `A1_min > 0`, the attraction effect under defence is sign-identified as positive under the aggregate restrictions. Strict Level 2 still requires `A0_max <= 0`; strict Level 3 requires `A0_max < 0`.",
+        "",
+        "When `A0` spans zero, the correct result is not 'no evidence of release'. It is narrower: the defended attraction response is positive, while the sign of the undefended attraction response is not identified. The reported A0 upper tolerance gives the smallest descriptive epsilon needed to make `A0 <= epsilon` hold for every compatible allocation. It must not be relabeled a biological equivalence margin after seeing the data.",
+        "",
+        "## Total-interaction uncertainty",
         "",
         "Across all declared denominator-balance profiles, the aggregate probability-scale interaction remains positive. Under a naive independent-binomial calculation its minimum z also exceeds 1.96. However, this is not source-level uncertainty: the source used repeated experimental days and multiple flowers per plant, and those clustering structures are unavailable without Fig. S8A / exact design cells.",
         "",
-        "The auxiliary logit interaction is also positive in sign but its 95% Wald interval can cross zero under feasible allocations. The conclusion is therefore intentionally asymmetric: **the positive factorial sign is robust, while formal uncertainty identification is not**.",
+        "The auxiliary logit interaction is also positive in sign but its 95% Wald interval can cross zero under feasible allocations. The conclusion is therefore intentionally asymmetric: **the positive factorial sign is robust, while formal source/design uncertainty identification is not**.",
         "",
-        "The design-effect column quantifies the fragility of treating flowers as independent. It gives the variance inflation needed to reduce the worst-case probability-scale z to 1.96; values near 1 mean that modest unmodelled clustering can erase nominal significance.",
+        "The design-effect quantity remains available in the JSON output. It gives the variance inflation needed to reduce the worst-case probability-scale z to 1.96; values near 1 mean that modest unmodelled clustering can erase nominal significance.",
         "",
         "## Boundary",
         "",
@@ -255,6 +321,9 @@ def main(argv: list[str] | None = None) -> int:
     print(json.dumps({
         "analysis_id": report["analysis_id"],
         "profile_count": len(report["profiles"]),
+        "max_A0_upper_bound": max(p["a0_max"] for p in report["profiles"]),
+        "min_A1_lower_bound": min(p["a1_min"] for p in report["profiles"]),
+        "level2_strict_identified_all_profiles": all(p["level2_strict_identified"] for p in report["profiles"]),
         "min_probability_delta": min(p["probability_delta_min"] for p in report["profiles"]),
         "min_logit_ci_lower": min(p["logit_ci95_lower_min"] for p in report["profiles"]),
     }, sort_keys=True))
