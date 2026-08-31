@@ -15,7 +15,9 @@ on:
       - 'empirical/identification_design/HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv'
       - 'empirical/identification_design/DEFENCE_ESCAPE_ROUTE_HYPOTHESIS_RECOVERY_V1.csv'
       - 'empirical/identification_design/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json'
+      - 'empirical/identification_design/KESSLER_2008_STAGE1_PARTIAL_IDENTIFICATION_RECEIPT_V2.json'
       - 'empirical/identification_design/KESSLER_TYPE_REPLICATION_POWER_V1.json'
+      - 'empirical/identification_design/KESSLER_TYPE_REPLICATION_LEVEL23_DECISION_V2.json'
       - 'empirical/identification_design/KESSLER_TYPE_STAGE1_TRIAL_TEMPLATE_V1.csv'
       - '.github/workflows/build-theoretical-ecology-submission-package.yml'
   workflow_dispatch:
@@ -105,7 +107,10 @@ jobs:
           grep -q 'Theoretical Ecology' "$RUNNER_TEMP/main.txt"
           grep -q 'Statements and Declarations' "$RUNNER_TEMP/main.txt"
           grep -q 'Kessler et al. (2008)' "$RUNNER_TEMP/main.txt"
-          grep -q 'source/design-based interaction uncertainty' "$RUNNER_TEMP/main.txt"
+          grep -q 'source/design-based uncertainty' "$RUNNER_TEMP/main.txt"
+          grep -q 'Level-1 interaction relief' "$RUNNER_TEMP/main.txt"
+          grep -q 'Level-2 constraint release' "$RUNNER_TEMP/main.txt"
+          grep -q 'Level-3 strict reversal' "$RUNNER_TEMP/main.txt"
           grep -q 'remains unresolved' "$RUNNER_TEMP/main.txt"
           grep -q 'Figure 1.' "$RUNNER_TEMP/main.txt"
           grep -q 'Figure 5.' "$RUNNER_TEMP/main.txt"
@@ -122,6 +127,7 @@ jobs:
           assert 150 <= data['abstract_word_count'] <= 250
           assert 4 <= data['keyword_count'] <= 6
           assert data['reviewer_placeholder_count'] == 5
+          assert data['automated_gates']['level1_level2_level3_hierarchy_present'] is True
           PY
 
       - name: Write rendered QA summary
@@ -139,6 +145,7 @@ jobs:
             echo "embedded_main_figures=$MEDIA_COUNT"
             echo "automated_status=TECHNICALLY_READY"
             echo "human_status=BLOCKED_AUTHOR_METADATA"
+            echo "outcome_hierarchy=LEVEL1_RELIEF_LEVEL2_RELEASE_LEVEL3_REVERSAL"
             echo "legacy_ecology_page_limit_rule=NOT_APPLIED"
           } > submission/theoretical_ecology/generated/RENDERED_PACKAGE_QA.txt
 
