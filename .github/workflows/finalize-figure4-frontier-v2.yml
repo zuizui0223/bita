@@ -1,0 +1,87 @@
+name: finalize-figure4-frontier-v2
+
+on:
+  push:
+    branches:
+      - analysis/identification-frontier-promotion-v1
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/identification-frontier-promotion-v1
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Replace Figure 4 builder with 17-system frontier view
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('scripts/build_identification_design_figures_svg.py')
+          text = p.read_text(encoding='utf-8')
+          start = text.index('def fig4() -> str:\n')
+          end = text.index('\ndef fig5() -> str:', start)
+          replacement = '''def fig4() -> str:
+              rows=_read_coverage(); targets=_impatiens_targets(); pattern=_pattern_counts()
+              b=['<text x="650" y="42" text-anchor="middle" class="title">Experimental faces recur, but mechanism allocation remains unidentified</text>']
+              b.append(_box(35,85,390,220,"A×D face — Kessler 2008",["benzylacetone × nicotine", "direct reproductive A×D-like interaction", "registered Level-1 aggregate anchor", "A0 narrowly zero-compatible", "missing: selective G/P toggles"],"dark"))
+              b.append(_box(455,85,390,220,"G×P face — Egan 2021",["herbivory × pollination environment", "attraction/defence traits measured", "strong consumer-factorial backbone", "missing: manipulated floral A×D", "defence partly leaf-derived"],"dark"))
+              b.append(_box(875,85,390,220,"A×G×Pₛ — Theis 2012",["fragrance × beetle removal", "× supplemental hand pollination", "three-factor reproductive bridge", "missing: distinct D axis", "P supplementation ≠ access toggle"],"dark"))
+              b.append('<text x="650" y="345" text-anchor="middle" class="sub">The missing object is closure of these faces in one valid A×D×G×P experiment</text>')
+              b.append(f'<text x="650" y="378" text-anchor="middle" class="tiny">Mechanism Pattern: {pattern["records"]} routes / {pattern["clusters"]} clusters | A→P {pattern["a_poll"]} | A→G {pattern["a_ant"]} | D→G {pattern["d_ant"]} | D→P {pattern["d_poll"]} | same-system {pattern["same"]} | switches {pattern["switch"]}</text>')
+              b.append(f'<text x="650" y="405" text-anchor="middle" class="small">Route recurrence ≠ channel identification | {len(rows)}-system frontier: independent κ assay 0; full identification 0</text>')
+              b.append('<text x="60" y="430" class="sub">Impatiens public-data retrofit: observational A×D and randomized-agent modifiers</text>')
+              x0=600; w=600
+              for tick in [-1.5,-1.0,-0.5,0,0.5,1.0]:
+                  x=_xscale(tick,x0=x0,width=w)
+                  b.append(f'<line x1="{x}" y1="455" x2="{x}" y2="830" class="dash"/><text x="{x}" y="850" text-anchor="middle" class="tiny">{tick:+.1f}</text>')
+              label_map={"A_z:D_z":"A×D","A_z:D_z:Robbing_c":"A×D×Robbing","A_z:D_z:Florivory_c":"A×D×Florivory","A_z:D_z:Pollination_c":"A×D×Pollination"}
+              order=["A_z:D_z","A_z:D_z:Robbing_c","A_z:D_z:Florivory_c","A_z:D_z:Pollination_c"]
+              targets=sorted(targets,key=lambda r:(str(r["analysis"]), order.index(str(r["term"]))))
+              y=485; last_analysis=None
+              for r in targets:
+                  analysis=str(r["analysis"])
+                  if analysis!=last_analysis:
+                      short="CH fruits/day" if "fruit" in analysis.lower() and "seed" not in analysis.lower() else "seeds/CH fruit"
+                      b.append(f'<text x="70" y="{y}" class="small">{escape(short)}</text>'); y+=25; last_analysis=analysis
+                  lo=_xscale(float(r["lo"]),x0=x0,width=w); hi=_xscale(float(r["hi"]),x0=x0,width=w); est=_xscale(float(r["estimate"]),x0=x0,width=w)
+                  b.append(f'<text x="230" y="{y+5}" class="tiny">{escape(label_map.get(str(r["term"]),str(r["term"])))}</text>')
+                  b.append(f'<line x1="{lo}" y1="{y}" x2="{hi}" y2="{y}" class="line"/><circle cx="{est}" cy="{y}" r="5" fill="#222"/>')
+                  y+=38
+              b.append('<text x="900" y="885" text-anchor="middle" class="small">All eight target intervals cross zero; context modification is estimable but unresolved.</text>')
+              return _svg(1300,920,"".join(b))
+          '''
+          import textwrap
+          replacement = textwrap.dedent(replacement)
+          p.write_text(text[:start] + replacement + text[end:], encoding='utf-8')
+          PY
+
+      - name: Regenerate canonical figures
+        run: python scripts/build_identification_design_figures_svg.py
+
+      - name: Validate frontier figure contracts
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_identification_design_figures.py tests/test_mechanism_pattern_identification_bridge.py
+          grep -q '17-system frontier' manuscript/identification_figures/FIGURE_4_IDENTIFICATION_DESIGN.svg
+          grep -q 'Theis 2012' manuscript/identification_figures/FIGURE_4_IDENTIFICATION_DESIGN.svg
+          grep -q 'P supplementation ≠ access toggle' manuscript/identification_figures/FIGURE_4_IDENTIFICATION_DESIGN.svg
+
+      - name: Commit reproducible figure and remove one-shot workflow
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/finalize-figure4-frontier-v2.yml
+          git add scripts/build_identification_design_figures_svg.py manuscript/identification_figures/
+          git commit -m "Regenerate Figure 4 for 17-system frontier"
+          git push origin HEAD:analysis/identification-frontier-promotion-v1
