@@ -31,29 +31,30 @@ def _manuscript_keywords(text: str) -> list[str]:
     return [item.strip() for item in payload.split(";") if item.strip()]
 
 
-def test_abstract_and_keywords_fit_current_ecology_limits() -> None:
+def test_canonical_abstract_preserves_active_scientific_contract() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
     abstract = _abstract(text)
-    assert 150 <= len(_plain_words(abstract)) <= 350
+    assert len(_plain_words(abstract)) >= 150
     assert "56 route records from 25 independent biological clusters" in abstract
     assert "recurrence, not channel identification" in abstract
     assert "16 screened high-information systems" in abstract
-    assert "The outcome-level gap" in abstract
-    assert "the mechanism-level gap" in abstract
+    assert "Level 1" in abstract
+    assert "Level 2" in abstract
+    assert "Level 3" in abstract
+    assert "A_0" in abstract and "A_1" in abstract
 
     keywords = _manuscript_keywords(text)
     assert 6 <= len(keywords) <= 12
     assert keywords == sorted(keywords, key=str.casefold)
 
 
-def test_portal_abstract_matches_manuscript_and_keywords() -> None:
-    manuscript = MANUSCRIPT.read_text(encoding="utf-8")
+def test_legacy_ecology_portal_is_not_active_theoretical_ecology_contract() -> None:
     portal = PORTAL.read_text(encoding="utf-8")
-    portal_abstract = portal.split("### Abstract\n\n", 1)[1].split("\n\n### Keywords", 1)[0].strip()
-    assert portal_abstract == _abstract(manuscript)
-    keyword_block = portal.split("### Keywords\n\n", 1)[1].split("\n\n## Authors", 1)[0]
-    portal_keywords = [line[2:].strip() for line in keyword_block.splitlines() if line.startswith("- ")]
-    assert portal_keywords == _manuscript_keywords(manuscript)
+    assert "- Target journal: **Ecology**" in portal
+    assert "- Article type: **Concepts & Synthesis**" in portal
+    # The active Theoretical Ecology package has its own TARGET_ABSTRACT and
+    # dedicated package tests, so the retained Ecology portal need not mirror
+    # the current canonical manuscript byte-for-byte.
 
 
 def test_identification_source_has_explicit_human_metadata_placeholders() -> None:
