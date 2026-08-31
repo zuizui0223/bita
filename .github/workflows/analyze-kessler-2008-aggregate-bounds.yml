@@ -32,28 +32,49 @@ jobs:
         run: |
           mkdir -p artifacts/kessler_2008_aggregate_bounds
           python scripts/analyze_kessler_2008_aggregate_bounds.py \
-            artifacts/kessler_2008_aggregate_bounds/KESSLER_2008_AGGREGATE_BOUNDS_V1.json \
-            artifacts/kessler_2008_aggregate_bounds/KESSLER_2008_AGGREGATE_BOUNDS_V1.md
+            artifacts/kessler_2008_aggregate_bounds/KESSLER_2008_AGGREGATE_BOUNDS_V2.json \
+            artifacts/kessler_2008_aggregate_bounds/KESSLER_2008_AGGREGATE_BOUNDS_V2.md
 
       - name: Emit decision receipt
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          src = Path('artifacts/kessler_2008_aggregate_bounds/KESSLER_2008_AGGREGATE_BOUNDS_V1.json')
+          src = Path('artifacts/kessler_2008_aggregate_bounds/KESSLER_2008_AGGREGATE_BOUNDS_V2.json')
           report = json.loads(src.read_text())
           profiles = report['profiles']
+          a0_min = min(p['a0_min'] for p in profiles)
+          a0_max = max(p['a0_max'] for p in profiles)
+          a1_min = min(p['a1_min'] for p in profiles)
+          a1_max = max(p['a1_max'] for p in profiles)
+          level2_all = all(p['level2_strict_identified'] for p in profiles)
+          level3_all = all(p['level3_strict_identified'] for p in profiles)
+          if level3_all:
+              stage1_decision = 'LEVEL3_STRICT_REVERSAL_IDENTIFIED_UNDER_AGGREGATE_RESTRICTIONS'
+          elif level2_all:
+              stage1_decision = 'LEVEL2_CONSTRAINT_RELEASE_IDENTIFIED_UNDER_AGGREGATE_RESTRICTIONS'
+          elif a1_min > 0 and a0_min <= 0 <= a0_max:
+              stage1_decision = 'A1_POSITIVE_A0_SIGN_UNRESOLVED_PARTIAL_IDENTIFICATION'
+          else:
+              stage1_decision = 'STAGE1_CONTRASTS_UNRESOLVED'
           receipt = {
               'doi': report['doi'],
               'profile_count': len(profiles),
+              'A0_identified_set_across_profiles': [a0_min, a0_max],
+              'A1_identified_set_across_profiles': [a1_min, a1_max],
+              'max_A0_upper_tolerance_to_zero': max(p['a0_upper_tolerance_to_zero'] for p in profiles),
+              'A1_uniformly_positive_all_profiles': all(p['a1_uniformly_positive'] for p in profiles),
+              'level2_strict_identified_all_profiles': level2_all,
+              'level3_strict_identified_all_profiles': level3_all,
+              'stage1_partial_identification_decision': stage1_decision,
               'min_probability_delta': min(p['probability_delta_min'] for p in profiles),
               'min_probability_wald_z': min(p['probability_wald_z_min'] for p in profiles),
               'min_logit_wald_z': min(p['logit_wald_z_min'] for p in profiles),
               'min_logit_ci95_lower': min(p['logit_ci95_lower_min'] for p in profiles),
-              'decision': 'SIGN_ROBUST_FORMAL_SOURCE_UNCERTAINTY_UNRESOLVED',
+              'total_interaction_decision': 'SIGN_ROBUST_FORMAL_SOURCE_UNCERTAINTY_UNRESOLVED',
               'estimand_boundary': report['estimand_boundary'],
           }
-          Path('artifacts/kessler_2008_aggregate_bounds/KESSLER_2008_AGGREGATE_BOUNDS_DECISION_V1.json').write_text(
+          Path('artifacts/kessler_2008_aggregate_bounds/KESSLER_2008_AGGREGATE_BOUNDS_DECISION_V2.json').write_text(
               json.dumps(receipt, indent=2, sort_keys=True)
           )
           print(json.dumps(receipt, sort_keys=True))
