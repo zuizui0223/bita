@@ -53,7 +53,10 @@ def test_identification_gates_are_explicit() -> None:
         "m_{0,\\Delta}",
         "independent cost assay",
         "unallocated",
-        "secant interaction",
+        "secant contrast",
+        "Level 1",
+        "Level 2",
+        "Level 3",
     ]
     for phrase in required:
         assert phrase in text
