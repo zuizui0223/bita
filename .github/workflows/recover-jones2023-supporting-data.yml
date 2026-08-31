@@ -6,6 +6,7 @@ on:
       - analysis/complete-constituent-path-meta-v1
     paths:
       - "scripts/recover_jones2023_supporting_data.py"
+      - "scripts/inventory_jones2023_supporting_data.py"
       - ".github/workflows/recover-jones2023-supporting-data.yml"
   workflow_dispatch:
 
@@ -25,6 +26,10 @@ jobs:
       - name: Recover the published supporting CSVs
         run: |
           python scripts/recover_jones2023_supporting_data.py artifacts/jones2023
+
+      - name: Inventory experimental structure
+        run: |
+          python scripts/inventory_jones2023_supporting_data.py artifacts/jones2023 artifacts/jones2023/inventory.json
 
       - name: Upload source files and receipt
         uses: actions/upload-artifact@v4
