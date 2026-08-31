@@ -15,7 +15,7 @@ def _rows():
 
 def test_high_information_coverage_has_declared_systems() -> None:
     rows = _rows()
-    assert len(rows) == 16
+    assert len(rows) == 17
     ids = {row["study_id"] for row in rows}
     assert "Kessler_Gase_Baldwin_2008_Nicotiana" in ids
     assert "Egan_2021_Fragaria" in ids
