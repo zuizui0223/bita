@@ -22,8 +22,17 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Apply fail-closed V2 promotion
-        run: python scripts/promote_identification_frontier_v2.py
+      - name: Apply fail-closed V2 promotion when needed
+        run: |
+          set -euo pipefail
+          if grep -q 'none of 16 screened high-information systems' manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md; then
+            python scripts/promote_identification_frontier_v2.py
+          else
+            grep -q 'none of 17 screened high-information systems' manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md
+            grep -q 'Seventeen high-information systems were retained' manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md
+            grep -q 'Theis and Adler (2012)' manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md
+            echo 'V2 promotion already applied; validating current state.'
+          fi
 
       - name: Validate promoted source contracts
         run: |
