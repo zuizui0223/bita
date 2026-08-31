@@ -21,14 +21,14 @@ FIG_OUT = OUT / "figures"
 TARGET_TITLE = "From floral trait interactions to mechanism identification: a crossed-intervention framework for attraction and defence"
 TARGET_ABSTRACT = (
     "Trait interactions can be measured without identifying the ecological pathways that generate them. "
-    "We use floral attraction and defence to develop an experimental identification framework for this problem. "
-    "The primary estimand is the measurable two-level interaction Delta_AD W = W11 - W10 - W01 + W00. "
-    "A total interaction defines an identified set of compatible antagonist-relief, pollinator-interference and remaining joint-channel allocations rather than a unique mechanism. "
-    "Explicit bounds or channel measurements shrink that set, while a crossed attraction × defence × antagonist × pollinator design can allocate the biotic channels when interventions are selective and a four-way separability diagnostic is satisfied. "
-    "An independent assay is required before the remaining residual is interpreted as joint cost. "
-    "Published systems locate different points on this identification sequence. Kessler et al. (2008) supplies a manipulated attraction-by-defence-like field factorial whose published female-outcrossing summaries retain a positive aggregate interaction sign under registered sensitivity analysis, but source/design-based interaction uncertainty remains unresolved. "
-    "A public Impatiens capensis reanalysis supplies uncertainty-bearing observational interactions whose intervals cross zero. "
-    "We therefore separate deciding whether complementarity occurs from explaining why it occurs, and provide a staged prospective programme in which a four-cell Stage-1 experiment identifies the total sign before channel-specific pilot data are used to power a full mechanism experiment."
+    "We use floral attraction and defence to develop an experimental identification framework that separates three nested outcome claims from mechanism allocation. "
+    "The primary estimands are the attraction effects without and with defence, A0 and A1, and their difference-in-differences Delta_AD W = A1 - A0. "
+    "A positive total interaction identifies Level-1 interaction relief; Level-2 constraint release additionally requires A0 <= 0 and A1 > 0, and Level-3 strict reversal requires A0 < 0 and A1 > 0. "
+    "The total interaction still defines an identified set of compatible antagonist-relief, pollinator-interference and remaining joint-channel allocations rather than a unique mechanism. "
+    "Explicit bounds or channel measurements shrink that set, while a crossed attraction × defence × antagonist × pollinator design can allocate biotic channels when interventions are selective and a four-way separability diagnostic is satisfied. "
+    "Kessler et al. (2008) supplies a manipulated attraction-by-defence-like field factorial: under registered aggregate restrictions A1 is uniformly positive, A0 remains within approximately ±0.03, and Delta_AD remains positive, while source/design-based uncertainty remains unresolved. "
+    "A public Impatiens capensis reanalysis remains zero-compatible. Prospective calculations show that strict Level-2/3 confirmation becomes extremely demanding when A0 is near zero. "
+    "We therefore separate interaction relief, functional constraint release, and mechanism identification, and use each unresolved dimension to define the next experiment."
 )
 TARGET_KEYWORDS = (
     "causal identification",
@@ -147,7 +147,9 @@ def copy_open_research_data() -> list[dict[str, str]]:
         ("HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv", "high_information_identification_coverage.csv"),
         ("DEFENCE_ESCAPE_ROUTE_HYPOTHESIS_RECOVERY_V1.csv", "defence_escape_route_hypothesis_recovery.csv"),
         ("IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json", "impatiens_identification_retrofit.json"),
-        ("KESSLER_TYPE_REPLICATION_POWER_V1.json", "kessler_type_replication_power.json"),
+        ("KESSLER_2008_STAGE1_PARTIAL_IDENTIFICATION_RECEIPT_V2.json", "kessler_2008_stage1_partial_identification.json"),
+        ("KESSLER_TYPE_REPLICATION_POWER_V1.json", "kessler_type_replication_level1_power.json"),
+        ("KESSLER_TYPE_REPLICATION_LEVEL23_DECISION_V2.json", "kessler_type_replication_level23_decision.json"),
         ("KESSLER_TYPE_STAGE1_TRIAL_TEMPLATE_V1.csv", "kessler_type_stage1_trial_template.csv"),
     ]
     copied: list[dict[str, str]] = []
@@ -210,9 +212,19 @@ def build_qa_receipt(main_source: str, copied_data: list[dict[str, str]], figure
         "data_code_heading_present": "### Data and code availability" in main_source,
         "five_identification_figures_present": len(figures) == 5,
         "no_ecology_page_limit_rule": "30_PAGE" not in main_source and "Concepts & Synthesis" not in main_source,
+        "level1_level2_level3_hierarchy_present": all(
+            token in main_source
+            for token in (
+                "Level 1",
+                "Level 2",
+                "Level 3",
+                "A_0",
+                "A_1",
+            )
+        ),
     }
     return {
-        "analysis_id": "theoretical_ecology_submission_package_v2",
+        "analysis_id": "theoretical_ecology_submission_package_v3",
         "target_journal": "Theoretical Ecology",
         "article_type": "Regular Article",
         "title": title,
@@ -235,7 +247,8 @@ def build_qa_receipt(main_source: str, copied_data: list[dict[str, str]], figure
         "figure_files": figures,
         "claim_boundary": (
             "Technical readiness does not authorize scientific overclaiming or portal submission. "
-            "Kessler remains aggregate-sign-positive with source/design uncertainty unresolved; Stage 1 decides only the total A x D sign, not channel allocation."
+            "Kessler provides a strong aggregate Level-1 anchor with A1 sign-identified positive and A0 narrowly zero-compatible under declared restrictions; "
+            "source/design uncertainty, strict Level-2/3 release and mechanism allocation remain unresolved."
         ),
     }
 
