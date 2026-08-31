@@ -37,7 +37,7 @@ def test_canonical_abstract_preserves_active_scientific_contract() -> None:
     assert len(_plain_words(abstract)) >= 150
     assert "56 route records from 25 independent biological clusters" in abstract
     assert "recurrence, not channel identification" in abstract
-    assert "16 screened high-information systems" in abstract
+    assert "17 screened high-information systems" in abstract
     assert "Level 1" in abstract
     assert "Level 2" in abstract
     assert "Level 3" in abstract

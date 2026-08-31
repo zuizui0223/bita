@@ -32,7 +32,7 @@ def test_abstract_keeps_recurrence_without_claiming_identification() -> None:
     abstract = text.split("## Abstract\n\n", 1)[1].split("\n\n**Keywords:**", 1)[0]
     assert "56 route records from 25 independent biological clusters" in abstract
     assert "this establishes recurrence, not channel identification" in abstract
-    assert "16 screened high-information systems" in abstract
+    assert "17 screened high-information systems" in abstract
     assert "combines the full allocation design and independent joint-cost assay" in abstract
 
 

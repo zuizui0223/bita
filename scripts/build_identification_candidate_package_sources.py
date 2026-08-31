@@ -24,8 +24,8 @@ def _focused_reference_text() -> str:
         if not p.startswith("# ")
         and not p.startswith("This bibliography")
     ]
-    if len(entries) != 12:
-        raise RuntimeError(f"expected 12 focused bibliography entries, found {len(entries)}")
+    if len(entries) != 13:
+        raise RuntimeError(f"expected 13 focused bibliography entries, found {len(entries)}")
     return "\n\n".join(entries)
 
 
