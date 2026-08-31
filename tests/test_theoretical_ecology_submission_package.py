@@ -15,8 +15,12 @@ def test_target_abstract_and_keywords_match_current_springer_contract() -> None:
     assert len(te.TARGET_KEYWORDS) == 6
     assert "identified set" in te.TARGET_ABSTRACT
     assert "Kessler et al. (2008)" in te.TARGET_ABSTRACT
-    assert "source/design-based interaction uncertainty remains unresolved" in te.TARGET_ABSTRACT
+    assert "source/design-based uncertainty remains unresolved" in te.TARGET_ABSTRACT
     assert "Impatiens capensis" in te.TARGET_ABSTRACT
+    assert "Level-1 interaction relief" in te.TARGET_ABSTRACT
+    assert "Level-2 constraint release" in te.TARGET_ABSTRACT
+    assert "Level-3 strict reversal" in te.TARGET_ABSTRACT
+    assert "A0" in te.TARGET_ABSTRACT and "A1" in te.TARGET_ABSTRACT
 
 
 def test_generated_main_source_is_identification_first_theoretical_ecology() -> None:
@@ -35,6 +39,9 @@ def test_generated_main_source_is_identification_first_theoretical_ecology() -> 
     assert "AI-assisted workflow transparency" in text
     assert "Concepts & Synthesis" not in text
     assert "30_PAGE" not in text
+    assert "positive interaction relief" in text
+    assert "constraint release" in text
+    assert "strict reversal" in text
 
 
 def test_cover_letter_matches_current_identification_framing_and_has_five_reviewer_slots() -> None:
