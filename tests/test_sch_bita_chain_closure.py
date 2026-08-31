@@ -63,15 +63,17 @@ def test_outcome_hierarchy_keeps_three_nested_claims_distinct() -> None:
     assert "Do not use an unqualified statement" in text
 
 
-def test_kessler_example_is_bounded_at_level_one() -> None:
+def test_kessler_example_is_partially_identified_but_not_level_two() -> None:
     text = HIERARCHY.read_text(encoding="utf-8")
     for token in (
-        "A0 = W10 - W00       approximately [-0.02, +0.02]",
-        "A1 = W11 - W01       approximately [+0.21, +0.23]",
-        "Delta_AD W = A1-A0   approximately [+0.19, +0.25]",
-        "strong **Level-1 sign anchor**",
-        "Levels 2 and 3 unresolved",
-        "rounded bands are not source/design-based confidence intervals",
+        "A0 = W10 - W00       in [-0.0299275, +0.0299275]",
+        "A1 = W11 - W01       in [+0.2001327, +0.2398387]",
+        "Delta_AD W            minimum +0.1710239",
+        "A1 > 0 for every compatible allocation",
+        "A0 spans zero",
+        "A1_POSITIVE_A0_SIGN_UNRESOLVED_PARTIAL_IDENTIFICATION",
+        "Level 2:                               unresolved because A0_max > 0",
+        "The broadest auxiliary logit 95% interval can cross zero",
         "Systemic nicotine suppression",
     ):
         assert token in text
