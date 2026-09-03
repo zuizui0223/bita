@@ -26,13 +26,33 @@ def test_main_candidate_uses_integrated_chapter2_source() -> None:
     assert "## References added for the Chapter 2 reframe" not in text
 
 
+def test_main_candidate_separates_structural_propositions_from_quadratic_corollary() -> None:
+    text = candidate.build_main_source()
+    general = text.split("### 2.1 General architecture propositions", 1)[1].split(
+        "### 2.2 Shared-axis architecture", 1
+    )[0]
+    quadratic = text.split("### 2.2 Shared-axis architecture", 1)[1].split(
+        "## 3. Robustness beyond quadratic response shapes", 1
+    )[0]
+    for token in (
+        "nested-architecture weak dominance",
+        "R(\\lambda)\\ge0",
+        "residual-coupling monotonicity",
+        "does not require quadratic, convex or smooth loss functions",
+    ):
+        assert token in general, token
+    assert "R=sL_S^*" not in general
+    assert "\\boxed{R=sL_S^*.}" in quadratic
+    assert "\\boxed{\\Delta_{arch}=W_D^*-W_S^*=sL_S^*-K.}" in quadratic
+
+
 def test_ecology_abstract_and_keywords_fit_current_submission_contract() -> None:
     text = candidate.build_main_source()
     abstract = text.split("## Abstract", 1)[1].split("**Keywords:**", 1)[0]
-    # Count lexical tokens rather than Markdown equation fragments; the goal is to
-    # fail closed before the Ecology 350-word abstract ceiling is approached.
     words = re.findall(r"\b[\w]+(?:[-'][\w]+)*\b", abstract, flags=re.UNICODE)
-    assert 200 <= len(words) <= 350, len(words)
+    assert 250 <= len(words) <= 330, len(words)
+    assert "cannot be lower than the best shared compromise" in abstract
+    assert "stronger coupling cannot increase" in abstract
     keywords = text.split("**Keywords:**", 1)[1].split("\n", 1)[0]
     assert len([term for term in keywords.split(";") if term.strip()]) >= 5
 
@@ -53,7 +73,6 @@ def test_main_candidate_has_lean_integrated_reference_spine() -> None:
     for token in expected:
         assert token in text, token
     assert len(candidate.MAIN_REFERENCE_PREFIXES) == 9
-    # Broader floral review sources remain in the reusable pool/supplement, not Main.
     for unused_main in (
         "McCall AC, Irwin RE (2006)",
         "Lucas-Barbosa D (2016)",
@@ -76,15 +95,16 @@ def test_candidate_appendix_keeps_new_theory_and_old_identification_provenance()
     for token in (
         "# Appendix S1 — Trait differentiation and mechanism identification",
         "## S1. Shared-versus-differentiated architecture derivation",
+        "Proposition 1 — a nested differentiated architecture weakly dominates before fixed cost",
+        "Proposition 2 — stronger non-negative residual coupling cannot increase recoverable loss",
         "## S2. Nonquadratic robustness design and readout",
         "## S3. Cross-system architecture-state anchors",
         "## S4. Retained floral mechanism-identification supplement",
-        "300",
+        "2,592 declared sensitivity evaluations",
         "continuous-limit implementation check",
         "response-shape sensitivity maps for the floral worked case",
     ):
         assert token in text, token
-    # The retained standalone supplement must be nested, not introduce a second H1.
     assert "\n# Supplementary material — identification-design manuscript" not in text
     assert "## Supplementary material — identification-design manuscript" in text
 
