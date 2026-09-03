@@ -82,12 +82,12 @@ def test_manuscript_does_not_promote_trait_interaction_to_historical_differentia
     text = _text().lower()
     assert "does not reconstruct the historical origin" in text or "does not establish" in text
     assert "does not specify whether a lineage can reach that architecture" in text
-    assert "historical causation remains" not in text or "historical" in text
+    assert "historical" in text
 
 
 def test_final_programme_closes_balance_to_differentiation_to_identification() -> None:
     text = _text()
     conclusion = text.split("## 7. Conclusions", 1)[1]
-    assert "SCH asks how conflicting functions balance on one trait" in conclusion
-    assert "BITA asks when evolution can stop compromising" in conclusion
-    assert "mechanism" in conclusion.lower()
+    assert "how conflicting functions balance on one trait" in conclusion
+    assert "when the conflict is worth partitioning across traits" in conclusion
+    assert "identify the mechanism" in conclusion.lower()
