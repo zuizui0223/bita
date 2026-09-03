@@ -36,51 +36,78 @@ The central question is:
 
 This is the new BITA mainline.
 
-## 2. Minimal theoretical contrast
+## 2. Implemented theoretical baseline
+
+The quadratic baseline is now implemented in `trait_architecture/differentiation.py` and tested in `tests/test_trait_differentiation.py`.
 
 Shared architecture:
 
 \[
-W_S(z)=B_1(z)+B_2(z)-C_S(z),
-\]
-
-\[
-W_S^*=\max_z W_S(z).
+W_S(z)=-w_1(z-\theta_1)^2-w_2(z-\theta_2)^2.
 \]
 
 Differentiated architecture:
 
 \[
-W_D(x,y)=B_1(x,y)+B_2(x,y)-C_D(x,y)-K,
+W_D(x,y)=
+-w_1(x-\theta_1)^2
+-w_2(y-\theta_2)^2
+-\lambda(x-y)^2
+-K.
 \]
+
+After optimization,
 
 \[
-W_D^*=\max_{x,y}W_D(x,y).
+\Delta_{arch}=W_D^*-W_S^*
+=
+\frac{w_1^2w_2^2(\theta_1-\theta_2)^2}
+{(w_1+w_2)[w_1w_2+\lambda(w_1+w_2)]}
+-K.
 \]
 
-Architecture gain:
+Therefore the baseline differentiation condition is
 
 \[
-\Delta_{arch}=W_D^*-W_S^*.
+K <
+\frac{w_1^2w_2^2(\theta_1-\theta_2)^2}
+{(w_1+w_2)[w_1w_2+\lambda(w_1+w_2)]}.
 \]
 
-The Chapter 2 decision is therefore
+Interpretation:
 
 ```text
-Delta_arch > 0  -> differentiation is favoured
-Delta_arch < 0  -> integrated compromise is favoured
+stronger conflict between function-specific optima -> differentiation more likely
+stronger residual coupling / cross-talk          -> differentiation less likely
+larger architecture cost K                       -> differentiation less likely
+same functional optimum                          -> no baseline gain from splitting
 ```
 
-The theory should map how this boundary moves with:
+The full derivation is frozen in `theory/TRAIT_DIFFERENTIATION_EXTENSION.md`.
 
-1. distance between function-specific optima / conflict strength;
-2. ability of the second axis to decouple the functions;
-3. residual cross-talk between the differentiated traits and functions;
-4. fixed maintenance/developmental cost of an additional module;
-5. joint or coordination costs of expressing the traits together;
-6. ecological weighting of the competing functions.
+## 3. Prior theory and novelty boundary
 
-## 3. Recommended title direction
+The general idea that multifunctional modules can evolve functional specialization is not new. The Introduction must explicitly position against at least:
+
+- Rueffler, Hermisson & Wagner (2012), *Evolution of functional specialization and division of labor*, PNAS, DOI `10.1073/pnas.1110521109`;
+- Guillaume & Otto (2012), *Gene Functional Trade-Offs and the Evolution of Pleiotropy*, Genetics, DOI `10.1534/genetics.112.143214`;
+- Sack & Buckley (2020), *Trait Multi-Functionality in Plant Stress Response*, Integrative and Comparative Biology, DOI `10.1093/icb/icz152`.
+
+The quadratic threshold is therefore an **operational baseline for this programme**, not a claim to have invented specialization theory.
+
+The defensible contribution is the bridge:
+
+```text
+measured ecological balance on one trait axis
+-> explicit shared-versus-differentiated architecture comparison
+-> empirical identification of the channels once two trait axes interact
+```
+
+The mature BITA identification framework makes this bridge distinctive: observing a differentiated phenotype or a positive two-trait interaction still does not identify which ecological process generated the apparent release.
+
+Detailed positioning is in `docs/TRAIT_DIFFERENTIATION_POSITIONING.md`.
+
+## 4. Recommended title direction
 
 ### Preferred working title
 
@@ -96,13 +123,13 @@ The theory should map how this boundary moves with:
 
 Do not lead the title with pollination or defence unless the final empirical scope remains deliberately floral.
 
-## 4. One-sentence target claim
+## 5. One-sentence paper claim
 
-> **When one trait is pulled toward conflicting functional optima, differentiation across trait axes is favoured only when the fitness recovered by function-specific trait states exceeds the extra costs and residual cross-talk of maintaining a modular architecture.**
+> **When one trait is pulled toward conflicting functional optima, a differentiated architecture becomes favourable when the fitness recoverable by allowing function-specific trait states exceeds the additional architecture cost; residual coupling reduces both the amount of differentiation and the range of costs under which it pays.**
 
-This is currently the **target theorem/result**, not yet a completed BITA result. The architecture comparison must be implemented before this sentence is promoted to the Abstract as an established finding.
+This is established for the current quadratic baseline. The final Abstract must label its scope correctly until robustness across alternative fitness shapes is complete.
 
-## 5. Role of the current BITA manuscript
+## 6. Role of the current BITA manuscript
 
 The current `MANUSCRIPT_IDENTIFICATION_DESIGN.md` should not be discarded. It contains a strong mechanistic subproblem:
 
@@ -119,9 +146,9 @@ separability diagnostic
 independent joint-channel assay
 ```
 
-This solves **how differentiated axes function**, not yet **why differentiation is favoured over a shared architecture**.
+This solves **how differentiated axes function**, not by itself **how the two-axis architecture historically originated**.
 
-## 6. Floral attraction–defence is a worked case, not the scope
+## 7. Floral attraction–defence is a worked case, not the scope
 
 The existing floral evidence remains useful because it gives a concrete system in which functions can conflict and multiple traits can redistribute those consequences.
 
@@ -140,7 +167,7 @@ The 56 route records across 25 clusters establish recurrence of the relevant eco
 
 Neither result estimates the prevalence of trait differentiation or reconstructs the origin of separate trait modules.
 
-## 7. Final manuscript architecture
+## 8. Final manuscript architecture
 
 ### Section 1 — Why compromise is not the only solution to a trade-off
 
@@ -154,27 +181,33 @@ versus
 functional partitioning across coordinates
 ```
 
+Immediately acknowledge the division-of-labor / pleiotropy literature and state that the present paper's aim is to connect that architecture problem to measurable ecological trait interactions and their causal identification.
+
 ### Section 2 — Shared-axis model
 
-Define `W_S(z)` and the best compromise `W_S*`. Show how conflict strength is represented without assuming any specific consumer class.
+Define `W_S(z)` and the best compromise `W_S*`.
 
 ### Section 3 — Differentiated-axis model
 
-Define `W_D(x,y)`, architecture cost and cross-talk. Derive/map `Delta_arch`.
+Define `W_D(x,y)`, residual coupling `lambda`, architecture cost `K`, and the analytic `Delta_arch` threshold.
 
-The first major result should be the boundary between compromise and differentiation.
+The first major result is the baseline boundary between compromise and differentiation.
 
-### Section 4 — What happens after two axes exist?
+### Section 4 — Robustness beyond the quadratic baseline
+
+Test whether the qualitative boundary survives saturating, asymmetric and otherwise non-quadratic benefit/cost mappings. Distinguish what is structural from what is quadratic-specific.
+
+### Section 5 — What happens after two axes exist?
 
 Bring in the current BITA interaction logic. A two-axis architecture can still fail if the traits interfere, share costs or merely move the same trade-off into a different coordinate system.
 
 Use `Delta_AD W` and the identified set to show that a positive two-trait interaction is not a mechanism label.
 
-### Section 5 — Mechanism identification
+### Section 6 — Mechanism identification
 
 Use the crossed-intervention framework to allocate the biological channels in the worked floral case. Keep the current 16-cell design, four-way separability diagnostic and independent joint-channel assay.
 
-### Section 6 — Empirical reality check
+### Section 7 — Empirical reality check
 
 Use the floral evidence as a stress test:
 
@@ -183,7 +216,7 @@ Use the floral evidence as a stress test:
 - existing studies occupy complementary design faces;
 - direct evidence for historical trait splitting remains limited.
 
-### Section 7 — Discussion
+### Section 8 — Discussion
 
 Organize around three outcomes:
 
@@ -193,9 +226,7 @@ Organize around three outcomes:
 3. incomplete differentiation: multiple traits exist but cross-talk/costs keep the trade-off coupled
 ```
 
-This gives BITA a stronger ecological/evolutionary identity than a methods-only identification paper.
-
-## 8. Sister-paper non-overlap
+## 9. Sister-paper non-overlap
 
 | Question | SCH / Chapter 1 | BITA / Chapter 2 |
 |---|---|---|
@@ -207,7 +238,7 @@ This gives BITA a stronger ecological/evolutionary identity than a methods-only 
 | Mechanism allocation | secondary | important for explaining how the differentiated architecture works |
 | Historical transition | may motivate conflict persistence/change | required only if claiming observed evolutionary origin of differentiation |
 
-## 9. What is already reusable
+## 10. What is already reusable
 
 Do not throw away the mature BITA work. Reuse:
 
@@ -221,26 +252,33 @@ Do not throw away the mature BITA work. Reuse:
 - Kessler, Egan, *Impatiens* and *Pedicularis* as mechanistic/design case studies;
 - figure infrastructure where it can be nested under the new architecture story.
 
-## 10. What must now be added
+## 11. Remaining scientific work
 
-The Chapter 2 reframe creates real scientific work; it is not only an editorial change.
+Completed in this branch:
 
 ```text
-A. implement shared-axis fitness model
-B. implement differentiated-axis fitness model
-C. compute Delta_arch across parameter space
-D. identify the minimal sufficient conditions for differentiation
-E. test alternate benefit/cost shapes
-F. decide empirical ceiling:
-   - floral mechanistic worked case only, or
-   - add historical/comparative/experimental-evolution differentiation evidence
-G. rewrite canonical manuscript only after A–F are stable
+A. shared-axis quadratic model
+B. differentiated-axis quadratic model
+C. analytic Delta_arch threshold
+D. unit/regression tests for the baseline result
+E. novelty audit against the closest specialization theory
 ```
 
-Until this is done, the previous 29-page + 12-page package should be treated as a mature component paper, not the final SCH sister Chapter 2.
+Still required:
 
-## 11. Reader takeaway
+```text
+F. non-quadratic robustness analysis
+G. decide empirical ceiling:
+   - floral mechanistic worked case only, or
+   - add historical/comparative/experimental-evolution differentiation evidence
+H. integrate the stable theory into the canonical manuscript
+I. rebuild figures and submission package
+```
+
+Until F–H are complete, the previous 29-page + 12-page package should be treated as a mature component paper, not the final SCH sister Chapter 2.
+
+## 12. Reader takeaway
 
 The programme should ultimately close as:
 
-> **SCH asks how a trait under conflicting demands finds a balance. BITA asks when evolution can stop compromising on that one trait and instead divide the functions among differentiated traits.**
+> **SCH asks how a trait under conflicting demands finds a balance. BITA asks when evolution can stop compromising on that one trait and instead divide the functions among differentiated traits—and how we can identify the ecological mechanism once that division occurs.**
