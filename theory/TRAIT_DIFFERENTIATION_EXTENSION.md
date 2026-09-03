@@ -18,7 +18,7 @@ Pollinator–antagonist floral systems remain a useful empirical case, but they 
 
 ## 1. Shared-axis architecture: balance
 
-Let `z` be one trait that contributes to two functions or selective demands, `F1` and `F2`, whose preferred trait states need not coincide. Write
+Let `z` be one trait that contributes to two functions or selective demands, `F1` and `F2`, whose preferred states need not coincide. Write
 
 \[
 W_S(z)=B_1(z)+B_2(z)-C_S(z).
@@ -72,9 +72,102 @@ Delta_arch < 0  -> one shared compromise trait remains favoured
 
 This comparison is the Chapter 2 target. It asks whether a trade-off is resolved by compromise on one axis or by partitioning functions across axes.
 
-## 3. Partial differentiation and cross-talk
+## 3. Quadratic baseline: an analytic differentiation threshold
 
-Real traits need not be perfectly private to one function. A more general differentiated architecture is
+The first implemented baseline gives both functions quadratic fitness losses around their own preferred trait states `theta_1` and `theta_2`, with positive importance weights `w_1` and `w_2`.
+
+For the shared architecture,
+
+\[
+W_S(z)=-w_1(z-\theta_1)^2-w_2(z-\theta_2)^2.
+\]
+
+The best compromise is
+
+\[
+z^*=\frac{w_1\theta_1+w_2\theta_2}{w_1+w_2},
+\]
+
+with maximum fitness
+
+\[
+W_S^*=-\frac{w_1w_2}{w_1+w_2}(\theta_1-\theta_2)^2.
+\]
+
+Thus the cost of remaining on one shared axis rises quadratically with the distance between the function-specific optima.
+
+For the differentiated architecture, allow residual coupling/cross-talk `lambda >= 0` and fixed architecture cost `K >= 0`:
+
+\[
+W_D(x,y)=
+-w_1(x-\theta_1)^2
+-w_2(y-\theta_2)^2
+-\lambda(x-y)^2
+-K.
+\]
+
+Let
+
+\[
+Q=w_1w_2+\lambda(w_1+w_2).
+\]
+
+The optimized trait states are
+
+\[
+x^*=\frac{w_1w_2\theta_1+w_1\lambda\theta_1+w_2\lambda\theta_2}{Q},
+\]
+
+\[
+y^*=\frac{w_1w_2\theta_2+w_1\lambda\theta_1+w_2\lambda\theta_2}{Q}.
+\]
+
+Their separation is
+
+\[
+x^*-y^*=\frac{w_1w_2}{Q}(\theta_1-\theta_2),
+\]
+
+so stronger residual coupling directly compresses trait differentiation.
+
+The best differentiated fitness is
+
+\[
+W_D^*=
+-\frac{w_1w_2\lambda}{w_1w_2+\lambda(w_1+w_2)}
+(\theta_1-\theta_2)^2
+-K.
+\]
+
+Therefore
+
+\[
+\Delta_{arch}
+=
+\frac{w_1^2w_2^2(\theta_1-\theta_2)^2}
+{(w_1+w_2)\left[w_1w_2+\lambda(w_1+w_2)\right]}
+-K.
+\]
+
+The baseline differentiation condition is exactly
+
+\[
+K <
+\frac{w_1^2w_2^2(\theta_1-\theta_2)^2}
+{(w_1+w_2)\left[w_1w_2+\lambda(w_1+w_2)\right]}.
+\]
+
+This is the first clean Chapter 2 result:
+
+> **Trait differentiation is favoured when the fitness recovered by escaping a shared-axis compromise exceeds the cost of maintaining the differentiated architecture. The recoverable gain increases with conflict between functional optima and decreases with residual coupling between the trait modules.**
+
+At `lambda = 0`, the two traits can independently reach their function-specific optima and the recoverable gain equals the full shared-axis compromise loss. As `lambda -> infinity`, the two axes become effectively locked together, their separation tends to zero, and the maximum architecture cost compatible with differentiation tends to zero.
+
+This result is implemented in `trait_architecture/differentiation.py` and regression-tested in `tests/test_trait_differentiation.py`.
+
+## 4. Partial differentiation and biological interpretation
+
+Real traits need not be perfectly private to one function. The quadratic baseline uses `lambda` as a compact residual-coupling term, but a more general architecture is
 
 \[
 W_D(x,y)=B_1(x,y)+B_2(x,y)-C_D(x,y)-K,
@@ -82,7 +175,7 @@ W_D(x,y)=B_1(x,y)+B_2(x,y)-C_D(x,y)-K,
 
 where each function may still respond partly to both traits. Functional differentiation therefore varies continuously from a fully shared architecture to near-independent trait modules.
 
-The key quantities are:
+The key biological quantities are:
 
 1. **conflict strength** — how far apart the function-specific preferred states are on the original shared axis;
 2. **decoupling capacity** — how much a second trait reduces cross-talk between the functions;
@@ -92,21 +185,19 @@ The key quantities are:
 
 Trait differentiation should not be defined merely by `x != y`. The biological claim requires that the two axes become differentially associated with the conflicting functions.
 
-## 4. Immediate qualitative predictions
+## 5. Immediate predictions
 
-The minimal architecture comparison predicts that differentiation becomes more likely when:
+The baseline now gives explicit predictions:
 
-- the function-specific optima on the shared axis are farther apart;
-- cross-talk can be reduced substantially by allocating the functions to different traits;
-- the additional maintenance/developmental cost `K` is small;
-- joint expression does not impose a large positive coordination cost;
-- each differentiated trait can approach its function-specific optimum more closely than the shared compromise can.
+- greater distance `|theta_1-theta_2|` makes differentiation more likely, quadratically;
+- greater residual coupling `lambda` makes differentiation less likely and compresses `|x*-y*|`;
+- greater architecture cost `K` makes differentiation less likely linearly;
+- if the two functions share the same optimum, the architecture gain is zero before paying `K`, so differentiation has no baseline advantage;
+- when one function is weakly weighted, the benefit of splitting is smaller because the shared compromise is already close to the dominant optimum.
 
-Conversely, a single compromise trait is favoured when the functional optima are close, the traits cannot be decoupled, or maintaining separate modules is too costly.
+Alternative smooth benefit/cost shapes are still needed to determine which parts of this threshold are form-robust rather than quadratic-specific.
 
-These are programme-level predictions. They are not yet claimed as demonstrated results of the current BITA empirical synthesis.
-
-## 5. Relation to the existing BITA `A x D` framework
+## 6. Relation to the existing BITA `A x D` framework
 
 The existing BITA analyses remain useful, but their role changes.
 
@@ -129,25 +220,19 @@ positive A x D interaction
 
 The existing floral attraction/defence case should therefore be retained as a worked example of how a differentiated or differentiating architecture can function once two relevant trait axes exist.
 
-## 6. What Chapter 2 must add before claiming trait differentiation
+## 7. What Chapter 2 must still add
 
-A genuine trait-differentiation paper needs an explicit architecture comparison in addition to the current interaction-identification machinery.
+The analytic quadratic baseline closes the first theory gate, but a full trait-differentiation paper still needs:
 
-Minimum theoretical additions:
+1. numerical robustness across non-quadratic benefit functions;
+2. asymmetric and nonlinear architecture costs;
+3. cases in which one differentiated trait still affects both functions;
+4. ecological-regime variation in `w_1` and `w_2`;
+5. a decision on the empirical ceiling: floral mechanistic worked case only, or direct historical/comparative/experimental-evolution evidence for trait differentiation.
 
-1. define the shared-axis optimum `W_S*`;
-2. define the differentiated optimum `W_D*`;
-3. derive or numerically map the sign of `Delta_arch`;
-4. vary conflict strength, decoupling, cross-talk and architecture cost;
-5. show when the one-axis compromise loses to functional partitioning.
+Current floral evidence may support recurrent conflicting functions, second-trait effects and channel mechanisms. It does **not** yet demonstrate an evolutionary transition from shared to differentiated architecture.
 
-Minimum empirical claim discipline:
-
-- current floral evidence may support recurrent conflicting functions, second-trait effects and channel mechanisms;
-- it does **not** yet demonstrate an evolutionary transition from shared to differentiated architecture;
-- historical, comparative, experimental-evolution or developmental evidence is required for that stronger transition claim.
-
-## 7. Chapter pair
+## 8. Chapter pair
 
 The programme should therefore be summarized as:
 
