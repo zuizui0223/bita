@@ -15,6 +15,8 @@ ROBUSTNESS = ROOT / "docs" / "TRAIT_DIFFERENTIATION_ROBUSTNESS.md"
 ROBUSTNESS_JSON = ROOT / "docs" / "TRAIT_DIFFERENTIATION_ROBUSTNESS_READOUT.json"
 EMPIRICAL_BRIDGES = ROOT / "docs" / "TRAIT_DIFFERENTIATION_EMPIRICAL_BRIDGES.md"
 IDENTIFICATION_SUPPLEMENT = ROOT / "manuscript" / "supplementary" / "SUPPLEMENT_IDENTIFICATION_DESIGN.md"
+HIGH_INFO_COVERAGE = ROOT / "empirical" / "identification_design" / "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V2.csv"
+IMPATIENS_RETROFIT = ROOT / "empirical" / "identification_design" / "IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json"
 OUT = ROOT / "submission" / "ecology" / "trait_differentiation_candidate" / "generated"
 DATA_OUT = OUT / "open_research_data"
 
@@ -215,12 +217,12 @@ def build_open_research_manifest() -> str:
             "Registered finite-family trait-differentiation robustness readout.",
         ),
         (
-            ROOT / "empirical" / "identification_design" / "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv",
+            HIGH_INFO_COVERAGE,
             DATA_OUT / "high_information_identification_coverage.csv",
-            "High-information floral identification-coverage matrix; screened-set coverage, not prevalence.",
+            "Authoritative V2 high-information floral identification-coverage matrix; screened-set coverage, not prevalence.",
         ),
         (
-            ROOT / "empirical" / "identification_design" / "IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json",
+            IMPATIENS_RETROFIT,
             DATA_OUT / "impatiens_identification_retrofit.json",
             "Aggregate public-data retrofit used in the floral mechanism-identification worked case.",
         ),
