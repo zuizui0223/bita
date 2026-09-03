@@ -59,7 +59,9 @@ def test_candidate_appendix_keeps_new_theory_and_old_identification_provenance()
         "response-shape sensitivity maps for the floral worked case",
     ):
         assert token in text, token
-    assert text.count("# Supplementary material — identification-design manuscript") == 0
+    # The retained standalone supplement must be nested, not introduce a second H1.
+    assert "\n# Supplementary material — identification-design manuscript" not in text
+    assert "## Supplementary material — identification-design manuscript" in text
 
 
 def test_open_research_candidate_sources_exist() -> None:
