@@ -1,149 +1,203 @@
 # Repository structure and source-of-truth policy
 
-This repository is in **paperization mode** for the canonical identification manuscript. Repository changes should improve reproducibility, clarity, or submission readiness without silently promoting historical analyses or the separate one-trait companion question into the active paper.
+This repository is in **Chapter 2 integration mode**. The mature identification manuscript and package remain preserved while a broader SCH-sister manuscript is validated around the transition from shared-trait balance to trait differentiation.
 
-## 1. Canonical scientific source of truth
+## 1. Two source states during the reframe
 
-These files define the paper-facing scientific state.
+### Preserved canonical source for the old validated package
 
-### Manuscript
+Until promotion gates are complete, the existing submission build continues to point to:
 
-- `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md` — sole active article text.
-- `manuscript/IDENTIFICATION_DESIGN_REFERENCES.md` — focused reference spine.
-- `manuscript/identification_figures/` — canonical main-figure sources.
-- `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md` — active Appendix S1.
+- `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md` — mature two-trait mechanism-identification article;
+- `manuscript/IDENTIFICATION_DESIGN_REFERENCES.md` — its focused reference spine;
+- `manuscript/identification_figures/` — its five validated Main figures;
+- `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md` — its active Appendix S1.
 
-`manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md`, its earlier tables/figures, and the Leal/Sasidharan modules remain versioned for provenance and reproducibility. They do not define the current submission package.
+This package is preserved as a scientifically valid component/provenance source. It is **not** the final SCH sister Chapter 2 after the balance-to-differentiation reframe.
 
-### Scientific boundaries
+### Active Chapter 2 integration candidate
 
-- `docs/SUBMISSION_SCOPE.md` — active submission and inference boundary.
-- `docs/PARTIAL_IDENTIFICATION_FRONTIER_V1.md` — identified-set and partial-bound derivation.
-- `docs/MECHANISM_PATTERN_IDENTIFICATION_BRIDGE.md` — recurrence/identification bridge.
-- `docs/HYPOTHESIS_RECOVERY_MAP.md` — audit of the historical one-trait target and its separation from BITA.
-- `docs/QUESTION_METHOD_EXPLANATION_MATRIX.md` — which method answers which part of the two-trait question.
-- `docs/PUBLICATION_MATERIAL_RECOVERY_LEDGER.md` — editorial state of Main, Appendix, evidence and remaining gates.
+The new programme-level manuscript state is defined by:
 
-No historical readout, exploratory note, or old PR description overrides these files.
+- `manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md` — integrated draft: balance -> differentiation -> mechanism identification;
+- `manuscript/TRAIT_DIFFERENTIATION_REFERENCES_V1.md` — merged architecture + floral reference spine;
+- `manuscript/TRAIT_DIFFERENTIATION_FIGURE_PLAN_V1.md` — five-figure integrated argument;
+- `manuscript/TRAIT_DIFFERENTIATION_FIGURE_CAPTIONS_V1.md` — caption draft;
+- `manuscript/trait_differentiation_figures/` — five integrated SVG sources;
+- `manuscript/CLAIM_FREEZE.md` — active scientific claim ceiling for the reframe;
+- `docs/CHAPTER2_SUBMISSION_SCOPE_V1.md` — promotion contract that must pass before canonical repointing.
 
-## 2. Reproduction-critical implementation
+`manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md`, earlier tables/figures and historical Leal/Sasidharan products remain versioned for provenance and lower-ceiling supporting analyses. They do not override the active claim freeze.
 
-The core theory implementation is under `trait_architecture/`.
+## 2. SCH / BITA scientific spine
 
-Primary paper-facing modules:
+The programme is defined at the trait-architecture level:
 
-- `identification.py` — discrete crossed-intervention estimands and causal gates.
-- `partial_identification.py` — identified sets and assumption-indexed bounds.
-- `model.py` — declared biological parameterization and parameter constraints.
-- `sign_criterion.py` — local sign logic and orientation-facing quantities.
-- `robustness.py` — mixed-partial decomposition and response-shape robustness.
-- `theory_evidence_interface.py` / `theory_meta_validation.py` — explicit theory-to-evidence boundary checks.
+```text
+SCH / Chapter 1 — BALANCE
+conflicting functions remain coupled on one trait axis
+-> characterize the maintained compromise
 
-The current identification regressions include `tests/test_identification.py`, `tests/test_identification_four_way.py`, `tests/test_partial_identification.py`, and `tests/test_identification_coverage.py`. Historical theorem and robustness regressions remain active because Appendix S1 preserves those analyses under a lower claim ceiling.
+BITA / Chapter 2 — DIFFERENTIATION
+compare the best shared compromise with a partially decoupled multi-axis architecture
+-> determine when differentiation pays
+-> identify the mechanism once multiple axes exist
+```
 
-Paper-facing generation and validation scripts under `scripts/` are retained when they reproduce a declared analysis, table, figure, supplement, source receipt, or validation state. Examples include:
+Pollinator-antagonist floral conflict is one empirical realization, not the general definition of either chapter.
 
-- `run_part_i_robustness.py`
-- `build_part_i_regime_figure_svg.py`
-- `build_mechanism_coverage_audit.py`
-- `build_empirical_mechanism_figure_svg.py`
-- `build_pattern_expansion_readout.py`
-- `run_leal_modern_estimator_sensitivity.py`
-- Sasidharan reconstruction/adjudication scripts
-- supplementary table/figure builders
-- `export_manuscript_figures.sh`
+## 3. Chapter 2 theory implementation
 
-## 3. Empirical evidence layers
+Primary new theory modules:
 
-`empirical/` contains evidence products at different inferential levels. They are intentionally not interchangeable.
+- `trait_architecture/differentiation.py` — analytic quadratic shared-versus-differentiated architecture model;
+- `trait_architecture/differentiation_robustness.py` — deterministic convex power-loss robustness model;
+- `theory/TRAIT_DIFFERENTIATION_EXTENSION.md` — derivation and inference limits;
+- `scripts/analyze_trait_differentiation_robustness.py` — registered finite sweep;
+- `docs/TRAIT_DIFFERENTIATION_ROBUSTNESS_READOUT.json` — machine-readable registered result;
+- `docs/TRAIT_DIFFERENTIATION_ROBUSTNESS.md` — result interpretation and claim ceiling.
+
+The reader-facing quadratic identity is
+
+```text
+shared conflict load       L_S*
+decoupling fraction        s
+architecture cost          K
+
+recoverable conflict loss  R = s L_S*
+architecture gain          Delta_arch = s L_S* - K
+```
+
+where
+
+```text
+s = |x* - y*| / |theta1 - theta2|
+  = w1*w2 / [w1*w2 + lambda*(w1+w2)].
+```
+
+The same factor `s` is both the retained function-specific trait separation and the fraction of shared-axis compromise loss recovered before paying `K` in the quadratic baseline.
+
+## 4. Robustness and empirical architecture-state layers
+
+The registered convex-family robustness layer contains 300 matched-curvature evaluations and additional mismatched-curvature checks. Its finite claim ceiling is documented in `docs/TRAIT_DIFFERENTIATION_ROBUSTNESS.md`.
+
+Non-floral architecture-state anchors are documented in:
+
+- `docs/TRAIT_DIFFERENTIATION_POSITIONING.md` — prior specialization/multifunctionality theory and novelty boundary;
+- `docs/TRAIT_DIFFERENTIATION_EMPIRICAL_BRIDGES.md` — cichlid partial differentiation and *Dalechampia* historical role redeployment.
+
+These empirical systems establish biological reality of partial differentiation/reorganization. They are not estimates of `s`, `lambda`, `K`, or `Delta_arch` and are not causal reconstructions of the origin of a second trait axis.
+
+## 5. Existing BITA mechanism-identification layer
+
+The mature identification implementation remains active because it answers the second-stage question after multiple axes exist.
+
+Primary modules:
+
+- `identification.py` — discrete crossed-intervention estimands and causal gates;
+- `partial_identification.py` — identified sets and assumption-indexed bounds;
+- `model.py` — declared biological parameterization and parameter constraints;
+- `sign_criterion.py` — local sign logic and orientation-facing quantities;
+- `robustness.py` — historical mixed-partial decomposition and response-shape robustness;
+- `theory_evidence_interface.py` / `theory_meta_validation.py` — theory-to-evidence boundary checks.
+
+Reusable scientific results include:
+
+- `Delta_AD W` and the interaction-relief / functional-release / strict-reversal hierarchy;
+- identified-set and partial-identification geometry;
+- crossed `A x D x antagonist x pollinator` channel allocation;
+- four-way separability diagnostic;
+- independent joint-channel assay;
+- 56 route records / 25 independent biological clusters;
+- 17-system fragmented identification frontier.
+
+These results identify how a multi-trait architecture functions; they do not establish its historical origin.
+
+## 6. Empirical evidence directories
 
 ### `empirical/mechanism_pattern_synthesis/`
 
-This is the retained recurrence/provenance layer: route ledgers, source-adjudicated system audits, context/sign-switch records, saturation receipts, direct-design audits, and quantitative-module receipts. Its marginal routes establish recurrence and do not identify channel interactions.
+Retained recurrence/provenance layer: route ledgers, system audits, context/sign-switch records, saturation receipts, direct-design audits and quantitative-module receipts. Marginal routes establish recurrence and do not identify channel interactions or prevalence of differentiated architectures.
 
 ### `empirical/identification_design/`
 
-This is the active empirical identification layer: the 16-system high-information audit, direct interaction anchors, public-data retrofit, and source-package receipts.
+Active floral identification layer: high-information system audit, direct interaction anchors, public-data retrofit and source-package receipts.
 
-`QUESTION_METHOD_EXPLANATION_MATRIX_V1.csv` is the machine-readable claim architecture linking each scientific question to its minimum information, current BITA evidence, claim ceiling and next valid gate.
+### External SCH companion
 
-### External one-trait companion
-
-The historical one-trait shared-cue question, its coverage audit and its paper framework belong to [SCH](https://github.com/zuizui0223/sch). BITA retains source-adjudicated marginal routes only because they are constituent evidence for its two-trait decomposition.
+The first-order shared-axis balance/shared-cue programme lives in [SCH](https://github.com/zuizui0223/sch). BITA uses that problem as the Chapter 1 antecedent but does not duplicate SCH's one-trait estimands or historical shared/private-cue ladder.
 
 ### `empirical/broad_reality_evidence/`
 
-This contains source recovery, screening, extraction, and provenance products developed before and during the final synthesis. It is retained because some canonical results are pinned to immutable historical commits and because the audit trail matters for reproducibility. It is **provenance**, not a competing manuscript source of truth.
+Source recovery, screening, extraction and provenance products required by historical or retained synthesis modules. This is provenance/supporting infrastructure rather than a competing manuscript source of truth.
 
-### Other empirical directories
+## 7. Tests and regression graph
 
-Other empirical directories may contain supporting or earlier calibration products. They can remain when tests, admitted evidence, or reproducibility depend on them, but they should not be cited as current scientific conclusions unless promoted through the canonical manuscript-facing evidence architecture.
+New Chapter 2 guards include:
 
-## 4. What is deliberately removed from the main working path
+- `tests/test_trait_differentiation.py` — analytic architecture identities and comparative statics;
+- `tests/test_trait_differentiation_robustness.py` — nonquadratic robustness and quadratic/numerical agreement;
+- `tests/test_trait_differentiation_manuscript.py` — integrated manuscript claim/narrative ceiling;
+- `tests/test_trait_differentiation_figures.py` — integrated SVG validity and message ceiling;
+- updated `tests/test_claim_freeze.py` — preserves historical theorem checks while guarding the new balance-to-differentiation mainline.
 
-One-off files whose only role was to mutate already-frozen manuscript prose or labels are not part of the scientific reproduction path. The paperization cleanup therefore removes completed manuscript-promotion/restructure/relabel scripts and their dedicated workflows.
+Historical identification/theorem regressions remain active because the integrated paper reuses those analyses at a lower or worked-case claim level.
 
-Unrelated scratch analysis from another research programme is also removed from the repository root.
+## 8. Workflow policy
 
-Git history remains the archive for those implementation steps. We do not preserve dead machinery merely because it once produced a manuscript revision.
+Keep workflows active when they validate:
 
-## 5. Workflow policy
-
-Keep a workflow active when it validates at least one of the following:
-
-1. core theory or regression tests;
-2. a canonical manuscript/supplement asset;
-3. an admitted empirical reconstruction or source receipt;
+1. active or preserved core theory;
+2. a manuscript/supplement asset on either the preserved canonical graph or Chapter 2 promotion graph;
+3. an admitted empirical reconstruction/source receipt;
 4. a submission-facing reproducibility contract.
 
-Do not keep a workflow active solely because it once rewrote prose, relabelled a frozen figure, or promoted an already-admitted Pattern batch.
+Do not repoint the existing submission builder to `MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md` until the explicit promotion gates in `docs/CHAPTER2_SUBMISSION_SCOPE_V1.md` are closed.
 
-Network-dependent source-audit workflows are provenance/validation tools, not the default research loop. Broad searching is not reopened unless a specific manuscript claim, reviewer request, or provenance gate requires it.
+## 9. Graph-integrity policy
 
-The two secondary-synthesis receipt reconstructions are exposed through one
-read-only, manually dispatched workflow:
-`.github/workflows/audit-secondary-synthesis-receipts.yml`. It uploads newly
-generated receipts for inspection and never commits to a historical analysis
-branch.
-
-## 6. Graph-integrity policy
-
-Repository organization follows a paper-spine dependency graph rather than file
-type alone:
+During the reframe there are two intentional graphs:
 
 ```text
-canonical manuscript / tables / figures
-    <- deterministic builders
-    <- admitted theory or empirical inputs
-    <- source receipts and declared provenance
-    <- regression tests and read-only workflows
+PRESERVED PACKAGE
+MANUSCRIPT_IDENTIFICATION_DESIGN
+    <- existing figures/builders
+    <- identification + empirical inputs
+    <- regression tests / provenance
+
+CHAPTER 2 PROMOTION GRAPH
+MANUSCRIPT_TRAIT_DIFFERENTIATION_V1
+    <- new architecture figures + focused references
+    <- differentiation theory + robustness
+    <- preserved identification module
+    <- cross-system architecture-state evidence
+    <- new + historical regression tests
 ```
 
-A file remains on the active graph when it is reachable from a canonical paper
-asset or when the Supplement Manifest explicitly licenses it as provenance for an
-admitted empirical module. A script that imports a retired local module, a
-workflow that calls a missing script, or a workflow that writes to a retired
-research branch is dead machinery rather than reproducibility infrastructure.
+The graphs converge only after promotion QA. This avoids destroying a validated paper while the broader sister-paper integration is still being checked.
 
-`tests/test_repository_graph_integrity.py` enforces those executable edges.
-`tests/test_submission_scope.py` separately prevents retired scientific
-architectures from returning.
+## 10. Change policy
 
-## 7. Paperization change policy
+Classify changes before implementation:
 
-From this point forward, proposed changes should be classified before implementation:
+- **Editorial:** wording, flow, titles, captions, reference formatting.
+- **Reproducibility:** tests, deterministic builders, provenance receipts, graph documentation.
+- **Scientific correction:** changed estimate, derivation, admitted evidence or inference ceiling; requires downstream revalidation.
+- **New discovery:** new model family or empirical programme; admissible only when it directly advances the Chapter 2 question and its claim ceiling is explicit.
 
-- **Editorial:** wording, flow, title/abstract, figure readability, references, submission metadata. Allowed if scientific claims and numbers are unchanged.
-- **Reproducibility:** tests, deterministic builders, provenance receipts, source-of-truth documentation. Allowed if they preserve the frozen inference boundary.
-- **Scientific correction:** change to an estimate, theorem, admitted evidence state, or inference boundary. Requires an explicit reason and revalidation of all downstream manuscript claims.
-- **New discovery:** new broad search, new Pattern class, new model family, or new empirical programme. Out of scope for the current paper unless the frozen conclusion is actually falsified.
+The present branch is a substantive scientific reframe because it adds an architecture comparison and robustness layer. It deliberately preserves the old manuscript until the new graph is validated.
 
-## 8. Current scientific endpoint for this paper
+## 11. Current endpoint
 
-The canonical paper supports:
+The current Chapter 2 integration supports the staged claim:
 
-> **interaction detection → identified set → assumption-indexed partial identification → selective mechanism identification**
+```text
+shared-axis compromise
+-> architecture gain = recoverable conflict loss - extra architecture cost
+-> partial differentiation under residual coupling
+-> multi-trait interaction detection
+-> identified set / partial identification
+-> selective mechanism identification.
+```
 
-The four marginal channel families recur across independent systems, but the 16 screened high-information studies occupy fragmented faces of the identification frontier. No screened study point-identifies the full channel allocation or supplies an independent joint-cost assay. The historical one-sided result is retained as a partial-identification bound under an explicit non-negative joint-cost restriction, not as a standalone universal theorem.
-
-The separate one-trait shared-cue question is not a missing section of this paper. It has its own estimand and coverage gate in SCH, while the source-adjudicated BITA routes remain preserved under their existing claim ceilings.
+It does not claim that every multifunctional trade-off evolves toward modularity or that the floral two-trait corpus reconstructs a historical splitting event.
