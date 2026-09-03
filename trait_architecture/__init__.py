@@ -1,5 +1,14 @@
 """Active theory API for the submission supplement."""
 
+from .differentiation import (
+    ArchitectureComparison,
+    DifferentiatedAxisOptimum,
+    SharedAxisOptimum,
+    compare_architectures,
+    differentiated_axis_optimum,
+    differentiation_threshold,
+    shared_axis_optimum,
+)
 from .identification import (
     CrossedIdentificationResult,
     IdentificationAssumptions,
@@ -35,6 +44,13 @@ __all__ = [
     "InteractionRegime",
     "ModelParameters",
     "fitness",
+    "ArchitectureComparison",
+    "DifferentiatedAxisOptimum",
+    "SharedAxisOptimum",
+    "compare_architectures",
+    "differentiated_axis_optimum",
+    "differentiation_threshold",
+    "shared_axis_optimum",
     "OrientedSignCriterion",
     "RegimeDerivativeBalance",
     "RegimeScaledCriterion",
