@@ -139,6 +139,11 @@ def _clean_supporting_doc(path: Path) -> str:
     return text
 
 
+def _demote_all_headings(text: str) -> str:
+    """Nest a retained standalone document inside the assembled Appendix."""
+    return re.sub(r"^(#{1,5})(\s+)", lambda m: "#" + m.group(1) + m.group(2), text, flags=re.M)
+
+
 def build_appendix_source() -> str:
     manuscript = MANUSCRIPT.read_text(encoding="utf-8")
     title = manuscript.splitlines()[0].removeprefix("# ").strip()
@@ -149,7 +154,9 @@ def build_appendix_source() -> str:
     theory = _clean_supporting_doc(THEORY)
     robustness = _clean_supporting_doc(ROBUSTNESS)
     bridges = _clean_supporting_doc(EMPIRICAL_BRIDGES)
-    identification = IDENTIFICATION_SUPPLEMENT.read_text(encoding="utf-8").strip()
+    identification = _demote_all_headings(
+        IDENTIFICATION_SUPPLEMENT.read_text(encoding="utf-8").strip()
+    )
     old_s1 = "../../../../manuscript/supplementary/figures/FIGURE_S1_DERIVATIVE_AGREEMENT.svg"
     old_s2 = "../../../../manuscript/supplementary/figures/FIGURE_S2_SCENARIO_SIGN_MAPS.svg"
 
