@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850"><defs>
+<style>
+.title{font:700 29px DejaVu Sans,Arial,sans-serif}.panel{font:700 21px DejaVu Sans,Arial,sans-serif}.body{font:18px DejaVu Sans,Arial,sans-serif}.small{font:15px DejaVu Sans,Arial,sans-serif}.tiny{font:13px DejaVu Sans,Arial,sans-serif}
+.box{fill:#fff;stroke:#222;stroke-width:2}.soft{fill:#f4f4f4;stroke:#333;stroke-width:1.8}.dark{fill:#e3e3e3;stroke:#111;stroke-width:2.3}.empty{fill:#fff;stroke:#222;stroke-width:2;stroke-dasharray:7 6}
+.line{stroke:#222;stroke-width:2;fill:none}.dash{stroke:#555;stroke-width:1.8;fill:none;stroke-dasharray:7 6}
+</style>
+</defs><rect width="100%" height="100%" fill="#fff"/>
+<text x="700" y="42" text-anchor="middle" class="title">Relevant floral biology is recurrent, but the information needed for mechanism allocation is fragmented</text>
+
+<!-- top three faces -->
+<rect x="45" y="85" width="395" height="205" rx="14" class="dark"/>
+<text x="242" y="118" text-anchor="middle" class="panel">Trait-factorial face</text>
+<text x="242" y="150" text-anchor="middle" class="body">Kessler 2008</text>
+<text x="70" y="185" class="small">manipulated attraction × defence-like axes</text>
+<text x="70" y="212" class="small">positive reproductive interaction retained</text>
+<text x="70" y="239" class="small">missing: selective consumer toggles</text>
+<text x="70" y="266" class="small">scope / source-uncertainty caveats remain</text>
+
+<rect x="502" y="85" width="395" height="205" rx="14" class="dark"/>
+<text x="699" y="118" text-anchor="middle" class="panel">Consumer-factorial face</text>
+<text x="699" y="150" text-anchor="middle" class="body">Egan 2021</text>
+<text x="527" y="185" class="small">herbivory × pollination environment</text>
+<text x="527" y="212" class="small">strong randomized interaction backbone</text>
+<text x="527" y="239" class="small">missing: independently manipulated focal A × D</text>
+<text x="527" y="266" class="small">trait axes partly measured rather than crossed</text>
+
+<rect x="960" y="85" width="395" height="205" rx="14" class="dark"/>
+<text x="1157" y="118" text-anchor="middle" class="panel">Context-modification face</text>
+<text x="1157" y="150" text-anchor="middle" class="body">Impatiens public reanalysis</text>
+<text x="985" y="185" class="small">observational attraction × defence traits</text>
+<text x="985" y="212" class="small">randomized consumer contexts</text>
+<text x="985" y="239" class="small">interaction modification estimable</text>
+<text x="985" y="266" class="small">target intervals remain unresolved</text>
+
+<!-- convergence arrows -->
+<path d="M242 305 L560 365" class="line"/><path d="M699 305 L699 365" class="line"/><path d="M1157 305 L838 365" class="line"/>
+<polygon points="560,365 548,355 545,371" fill="#222"/><polygon points="699,365 691,352 707,352" fill="#222"/><polygon points="838,365 851,355 853,371" fill="#222"/>
+
+<rect x="500" y="365" width="400" height="100" rx="14" class="empty"/>
+<text x="700" y="402" text-anchor="middle" class="panel">Missing intersection</text>
+<text x="700" y="432" text-anchor="middle" class="body">trait factorial × selective consumers × independent joint assay</text>
+<text x="700" y="455" text-anchor="middle" class="small">no screened high-information system closes the full design</text>
+
+<!-- lower evidence -->
+<rect x="45" y="515" width="630" height="225" rx="14" class="soft"/>
+<text x="360" y="548" text-anchor="middle" class="panel">Constituent ecological pathways recur</text>
+<text x="360" y="608" text-anchor="middle" class="body">56 source-adjudicated route records</text>
+<text x="360" y="640" text-anchor="middle" class="body">25 independent biological clusters</text>
+<text x="360" y="685" text-anchor="middle" class="small">all four marginal pathway families represented</text>
+<text x="360" y="712" text-anchor="middle" class="small">recurrence capacity ≠ prevalence ≠ channel interaction</text>
+
+<rect x="725" y="515" width="630" height="225" rx="14" class="soft"/>
+<text x="1040" y="548" text-anchor="middle" class="panel">Identification frontier</text>
+<text x="1040" y="608" text-anchor="middle" class="body">17 high-information systems screened</text>
+<text x="1040" y="640" text-anchor="middle" class="body">complementary design faces, zero full closure</text>
+<text x="1040" y="685" text-anchor="middle" class="small">the biology is present, but the needed measurements</text>
+<text x="1040" y="712" text-anchor="middle" class="small">are distributed across different experiments</text>
+
+<text x="700" y="800" text-anchor="middle" class="panel">The empirical gap is fragmented identification—not evidence that trait differentiation is absent</text>
+</svg>
