@@ -25,16 +25,29 @@ def test_main_candidate_uses_integrated_chapter2_source() -> None:
     assert "## References added for the Chapter 2 reframe" not in text
 
 
-def test_main_candidate_has_integrated_reference_spine() -> None:
+def test_main_candidate_has_lean_integrated_reference_spine() -> None:
     text = candidate.build_main_source()
-    for token in (
-        "Rüffler C, Hermisson J, Wagner GP (2012)",
-        "Guillaume F, Otto SP (2012)",
+    expected = (
+        "Armbruster WS, Lee J, Baldwin BG (2009)",
         "Burress ED, Martinez CM, Wainwright PC (2020)",
-        "Kessler D, Gase K, Baldwin IT (2008)",
+        "Conith AJ, Albertson RC (2021)",
+        "Guillaume F, Otto SP (2012)",
+        "Rüffler C, Hermisson J, Wagner GP (2012)",
+        "Sack L, Buckley TN (2020)",
         "Egan PA, Muola A, Parachnowitsch AL, Stenberg JA (2021)",
-    ):
+        "Kessler D, Gase K, Baldwin IT (2008)",
+        "Soper Gorden NL, Adler LS (2018)",
+    )
+    for token in expected:
         assert token in text, token
+    assert len(candidate.MAIN_REFERENCE_PREFIXES) == 9
+    # Broader floral review sources remain in the reusable pool/supplement, not Main.
+    for unused_main in (
+        "McCall AC, Irwin RE (2006)",
+        "Lucas-Barbosa D (2016)",
+        "Theis N, Adler LS (2012)",
+    ):
+        assert unused_main not in candidate._reference_text(), unused_main
 
 
 def test_main_candidate_embeds_exactly_five_chapter2_figures() -> None:
