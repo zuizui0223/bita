@@ -7,7 +7,7 @@
 </style>
 </defs>
 <rect width="100%" height="100%" fill="#fff"/>
-<text x="700" y="42" text-anchor="middle" class="title">The balance-to-differentiation result survives a declared nonquadratic family</text>
+<text x="700" y="42" text-anchor="middle" class="title">Nonquadratic tests establish strict recovery and verify the structural coupling result</text>
 
 <!-- A -->
 <rect x="45" y="85" width="405" height="310" rx="14" class="box"/>
@@ -22,24 +22,25 @@
 
 <!-- B -->
 <rect x="485" y="85" width="405" height="310" rx="14" class="dark"/>
-<text x="687" y="118" text-anchor="middle" class="panel">B. Recoverable conflict loss</text>
+<text x="687" y="118" text-anchor="middle" class="panel">B. Shape-dependent strictness</text>
 <text x="687" y="185" text-anchor="middle" class="big">300 / 300</text>
-<text x="687" y="218" text-anchor="middle" class="body">positive at nonzero functional conflict</text>
+<text x="687" y="218" text-anchor="middle" class="body">strictly positive R at nonzero conflict</text>
 <text x="687" y="280" text-anchor="middle" class="panel">60 / 60</text>
 <text x="687" y="310" text-anchor="middle" class="body">series increase with optimum distance</text>
-<text x="687" y="355" text-anchor="middle" class="small">stronger conflict → more fitness available to recover</text>
+<text x="687" y="355" text-anchor="middle" class="small">finite-family result: stronger conflict → more loss recoverable</text>
 
 <!-- C -->
 <rect x="925" y="85" width="430" height="310" rx="14" class="dark"/>
-<text x="1140" y="118" text-anchor="middle" class="panel">C. Residual coupling</text>
+<text x="1140" y="118" text-anchor="middle" class="panel">C. Structural coupling check</text>
 <text x="1140" y="185" text-anchor="middle" class="big">60 / 60</text>
 <text x="1140" y="218" text-anchor="middle" class="body">series never gain with larger λ</text>
+<text x="1140" y="246" text-anchor="middle" class="small">implementation check of R(λ₂) ≤ R(λ₁)</text>
 <path d="M990 305 L1270 305" class="line"/>
 <polygon points="1270,305 1257,297 1257,313" fill="#222"/>
 <text x="990" y="282" class="small">low λ</text>
 <text x="1270" y="282" text-anchor="end" class="small">high λ</text>
 <path d="M1015 335 C1080 320 1145 330 1210 365" class="line"/>
-<text x="1140" y="385" text-anchor="middle" class="small">more cross-talk → less of the compromise is recoverable</text>
+<text x="1140" y="385" text-anchor="middle" class="small">proof comes from the non-negative scaled coupling term</text>
 
 <!-- D -->
 <rect x="45" y="435" width="1310" height="295" rx="14" class="box"/>
@@ -60,5 +61,5 @@
 <text x="258" y="680" text-anchor="middle" class="small">Dalechampia: historical role redeployment + added defense lines</text>
 <path d="M413 674 L520 610" class="dash"/>
 
-<text x="700" y="780" text-anchor="middle" class="panel">Finite robustness supports the qualitative boundary; empirical anchors show that incomplete differentiation and architecture reorganization are biologically real</text>
+<text x="700" y="780" text-anchor="middle" class="panel">Structural propositions set weak bounds; the finite family tests strictness and conflict-strength scaling</text>
 </svg>
