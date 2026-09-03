@@ -1,272 +1,246 @@
 # Paperization pass — SCH sister / Chapter 2
 
-This file is the editorial plan for the active canonical manuscript `MANUSCRIPT_IDENTIFICATION_DESIGN.md`. It supersedes the older theorem-led paperization plan and does not reopen the frozen analyses.
+This editorial plan supersedes the earlier floral attraction–defence-only Chapter 2 framing.
 
-## 1. Chapter-level role
+## 1. Programme spine
 
-BITA is the second mechanistic chapter of a two-paper floral-conflict programme.
-
-### SCH / Chapter 1 — one-trait dual-audience problem
-
-For one attraction/display coordinate `A`, SCH asks whether pollinators and antagonists respond to the same cue and whether the first-order attraction–antagonism conflict can be escaped by cue separation, modularization, population differentiation, or historical signal change.
-
-Its natural first-order objects are
+The SCH/BITA pair should read as a single evolutionary problem with two different resolutions.
 
 ```text
-M_A
-G_A
-S_A = M_A - G_A
+conflicting functions / selective demands
+               |
+               v
+        one shared trait axis
+               |
+        ------------------
+        |                |
+        v                v
+   BALANCE            DIFFERENTIATION
+   Chapter 1          Chapter 2
+   SCH                BITA
 ```
 
-and it deliberately does not require a second trait `D` or an attraction-by-defence interaction.
+### SCH / Chapter 1 — balance
 
-### BITA / Chapter 2 — two-trait escape-route and identification problem
+When one trait performs or signals more than one function, opposing demands can pull the same coordinate toward different optima. Chapter 1 asks how that conflict is maintained on the shared axis: compromise, stabilizing balance, polymorphism, context dependence or directional bias.
 
-BITA introduces a distinct flower-associated antagonist-reducing trait `D` and asks three progressively stronger questions:
+The biological example may be a floral cue seen by mutualists and antagonists, but the chapter-level object is broader: **one trait, competing consequences, one compromise coordinate**.
+
+### BITA / Chapter 2 — trait differentiation
+
+Chapter 2 asks when the one-axis compromise is no longer the best architecture. A second trait axis can allow the conflicting functions to be partitioned, reducing interference at the cost of maintaining, coordinating and constructing separate modules.
+
+The central question is:
+
+> **When does a trait trade-off resolve by differentiation rather than compromise?**
+
+This is the new BITA mainline.
+
+## 2. Minimal theoretical contrast
+
+Shared architecture:
+
+\[
+W_S(z)=B_1(z)+B_2(z)-C_S(z),
+\]
+
+\[
+W_S^*=\max_z W_S(z).
+\]
+
+Differentiated architecture:
+
+\[
+W_D(x,y)=B_1(x,y)+B_2(x,y)-C_D(x,y)-K,
+\]
+
+\[
+W_D^*=\max_{x,y}W_D(x,y).
+\]
+
+Architecture gain:
+
+\[
+\Delta_{arch}=W_D^*-W_S^*.
+\]
+
+The Chapter 2 decision is therefore
 
 ```text
-1. Does D make the reproductive effect of A more positive?
-   -> positive A×D interaction relief
-
-2. Is that improvement large enough to make A beneficial when it was not beneficial without D?
-   -> functional constraint release / strict reversal
-
-3. Which biological channel generated the A×D interaction?
-   -> antagonist relief, pollinator interference, or remaining joint channel
+Delta_arch > 0  -> differentiation is favoured
+Delta_arch < 0  -> integrated compromise is favoured
 ```
 
-The narrative transition is therefore:
+The theory should map how this boundary moves with:
 
-> A floral signal can face a dual-audience conflict (SCH). A distinct defence trait is one possible functional escape route, but observing that escape does not reveal why it occurred (BITA).
+1. distance between function-specific optima / conflict strength;
+2. ability of the second axis to decouple the functions;
+3. residual cross-talk between the differentiated traits and functions;
+4. fixed maintenance/developmental cost of an additional module;
+5. joint or coordination costs of expressing the traits together;
+6. ecological weighting of the competing functions.
 
-This is the Chapter 2 hook. It turns BITA from a generic causal-identification paper into the mechanistic continuation of a specific ecological problem.
+## 3. Recommended title direction
 
-## 2. Recommended title
+### Preferred working title
 
-### Preferred
+**When does a trait trade-off resolve by differentiation rather than compromise?**
 
-**Can floral defence release attraction from antagonist constraint? From trait interaction to mechanism identification**
+### More explicit alternative
 
-Why this is preferred:
+**From compromise to trait differentiation: resolving conflicting functions through trait architecture**
 
-- it makes the Chapter 1 -> Chapter 2 transition visible without requiring the reader to know SCH;
-- it distinguishes positive interaction from the stronger functional-release claim;
-- it retains mechanism identification as the paper's actual methodological contribution;
-- it keeps the biology before the inference machinery.
+### Empirical-case subtitle option
 
-### Conservative alternative
+**From compromise to trait differentiation: a general framework with floral conflict as a mechanistic case**
 
-**From floral trait interactions to mechanism identification: a crossed-intervention framework for attraction and defence**
+Do not lead the title with pollination or defence unless the final empirical scope remains deliberately floral.
 
-This is the current canonical title and remains defensible if a more methods-facing journal fit is preferred.
+## 4. One-sentence target claim
 
-Avoid titles implying that BITA demonstrates cue privatization, historical signal evolution, or a universal attraction-defence sign.
+> **When one trait is pulled toward conflicting functional optima, differentiation across trait axes is favoured only when the fitness recovered by function-specific trait states exceeds the extra costs and residual cross-talk of maintaining a modular architecture.**
 
-## 3. One-sentence paper claim
+This is currently the **target theorem/result**, not yet a completed BITA result. The architecture comparison must be implemented before this sentence is promoted to the Abstract as an established finding.
 
-> **A positive attraction-by-defence interaction can identify functional release only when the attraction effect crosses a predeclared outcome threshold, and identifying why that release occurs requires crossed trait-by-consumer interventions plus an independent assay of the remaining joint channel.**
+## 5. Role of the current BITA manuscript
 
-The empirical contribution is that existing floral systems repeatedly contain the required biological pieces but distribute the necessary identification dimensions across different experiments.
+The current `MANUSCRIPT_IDENTIFICATION_DESIGN.md` should not be discarded. It contains a strong mechanistic subproblem:
 
-## 4. Abstract architecture
+> once two trait axes exist, what does their interaction mean, and how do we identify which ecological channel produced it?
 
-The final abstract should contain five moves in this order.
-
-1. **Ecological problem:** an attraction trait can increase pollinator benefit and antagonist exposure.
-2. **Chapter 2 move:** a distinct defence trait is a candidate escape route, but a positive `A×D` interaction is weaker than release and does not identify mechanism.
-3. **Framework:** define `A_0`, `A_1`, `Delta_AD W`, the nested Level 1/2/3 outcome claims, and the identified set of compatible channel allocations.
-4. **Identification design:** selective `A×D×antagonist×pollinator` intervention allocates the biotic channels; the remaining joint channel requires independent measurement.
-5. **Reality check:** existing systems occupy complementary design faces; 56 route records / 25 clusters establish recurrence, while none of 17 high-information systems closes the full design.
-
-The abstract should end on the missing intersection of existing experiments, not on a generic call for more data.
-
-## 5. Introduction architecture
-
-The current canonical Introduction already contains the correct scientific ingredients. The editorial goal is now to sharpen the chapter transition and remove any remaining appearance that SCH and BITA ask the same question.
-
-### Paragraph 1 — general inference problem
-
-Keep the current opening: net ecological outcomes can conceal opposing causal channels.
-
-### Paragraph 2 — floral dual-audience biology
-
-Establish that attraction can recruit mutualists and antagonists and that defence can reduce antagonism while changing pollinator use. Do not yet discuss identification algebra.
-
-### Paragraph 3 — explicit bridge from Chapter 1
-
-Use the ecological transition in reader-facing form:
-
-> A first-order floral conflict arises when one attraction coordinate carries both pollinator benefit and antagonist exposure. Introducing a distinct defence trait creates a possible functional escape route: defence may preserve the reproductive value generated by attraction without requiring the attraction cue itself to become private. But this immediately creates a new inference problem. A positive attraction-by-defence interaction shows that defence makes attraction less bad or more good; it does not show that attraction has become beneficial, and it does not identify whether the improvement arose through antagonist relief, pollinator interference, or another joint pathway.
-
-This is the conceptual hinge of the paper.
-
-### Paragraph 4 — nested outcome claims
-
-Introduce the distinction:
+Its core objects become the mechanistic middle section of the Chapter 2 paper:
 
 ```text
-Level 1: Delta_AD W > 0
-Level 2: A_0 <= 0 < A_1
-Level 3: A_0 < 0 < A_1
+Delta_AD W
+identified set of channel allocations
+partial identification
+crossed trait × consumer intervention
+separability diagnostic
+independent joint-channel assay
 ```
 
-This should appear before the full channel decomposition because it answers the biological question before the mechanistic allocation question.
+This solves **how differentiated axes function**, not yet **why differentiation is favoured over a shared architecture**.
 
-### Paragraph 5 — identification gap in existing experimental traditions
+## 6. Floral attraction–defence is a worked case, not the scope
 
-Contrast trait factorials with consumer factorials. Explain that both are informative but occupy different design faces.
+The existing floral evidence remains useful because it gives a concrete system in which functions can conflict and multiple traits can redistribute those consequences.
 
-### Final paragraph — contribution
-
-State the contribution as an operational sequence:
+Use it as:
 
 ```text
-interaction detection
--> release threshold
--> identified set
--> partial identification
--> crossed channel interventions
--> separability diagnostic
--> independent joint-channel assay
+general theory:
+function 1 versus function 2 on trait architecture
+
+worked case:
+floral attraction / mutualist benefit / antagonist exposure
++ a second antagonist-reducing or access-modifying trait
 ```
 
-Then state that the cross-system synthesis asks where existing biology sits on this sequence.
+The 56 route records across 25 clusters establish recurrence of the relevant ecological pathways in the floral case. The 17-system frontier shows that the information needed to allocate two-trait interactions is fragmented across existing experiments.
 
-## 6. Results narrative
+Neither result estimates the prevalence of trait differentiation or reconstructs the origin of separate trait modules.
 
-Do not organize Results as a tour of repository modules. Organize them as answers to the Chapter 2 questions.
+## 7. Final manuscript architecture
 
-### Result 1 — interaction is not release
+### Section 1 — Why compromise is not the only solution to a trade-off
 
-Lead with `Delta_AD W = A_1 - A_0` and the nested claim hierarchy. This is the first reader payoff.
+Open generally. Many traits serve multiple functions or audiences. If the functions favour different trait states, the organism can either tolerate a compromise or alter its architecture so the functions become more separable.
 
-### Result 2 — total interaction is not mechanism
-
-Show the identified set
+The key distinction is:
 
 ```text
-I(delta) = {(rho, iota, kappa): rho - iota - kappa = delta}
+phenotypic compromise on one coordinate
+versus
+functional partitioning across coordinates
 ```
 
-and the partial-identification logic. The point is structural underdetermination, not algebraic novelty.
+### Section 2 — Shared-axis model
 
-### Result 3 — the crossed experiment can allocate the biotic channels
+Define `W_S(z)` and the best compromise `W_S*`. Show how conflict strength is represented without assuming any specific consumer class.
 
-Present the `A×D×G×P` design, pollinator-independent reproduction term, and four-way separability diagnostic as the minimum general identification design.
+### Section 3 — Differentiated-axis model
 
-### Result 4 — the residual is not automatically cost
+Define `W_D(x,y)`, architecture cost and cross-talk. Derive/map `Delta_arch`.
 
-Make the independent joint-channel assay a separate result. This is important because it prevents residual labelling.
+The first major result should be the boundary between compromise and differentiation.
 
-### Result 5 — existing systems occupy complementary design faces
+### Section 4 — What happens after two axes exist?
 
-Use Kessler 2008, Egan 2021, *Impatiens capensis*, *Pedicularis rex*, and the full 17-system frontier as a design-space result rather than a literature list.
+Bring in the current BITA interaction logic. A two-axis architecture can still fail if the traits interfere, share costs or merely move the same trade-off into a different coordinate system.
 
-### Result 6 — constituent biology recurs, complete identification does not
+Use `Delta_AD W` and the identified set to show that a positive two-trait interaction is not a mechanism label.
 
-The 56 route records / 25 independent clusters support recurrence capacity of all four marginal pathway families. They do not estimate channel-interaction magnitudes or prevalence.
+### Section 5 — Mechanism identification
 
-## 7. Discussion architecture
+Use the crossed-intervention framework to allocate the biological channels in the worked floral case. Keep the current 16-cell design, four-way separability diagnostic and independent joint-channel assay.
 
-The Discussion should be driven by four ecological questions.
+### Section 6 — Empirical reality check
 
-### 7.1 What does defence actually release?
+Use the floral evidence as a stress test:
 
-Distinguish positive interaction relief from functional constraint release and strict reversal. Emphasize that improving the return to attraction is not equivalent to changing the attraction cue itself.
+- recurrent conflicting pathways exist;
+- distinct trait axes can change one another's functional returns;
+- existing studies occupy complementary design faces;
+- direct evidence for historical trait splitting remains limited.
 
-This is the main conceptual connection back to SCH:
+### Section 7 — Discussion
+
+Organize around three outcomes:
 
 ```text
-SCH asks whether the cue conflict is shared/separable.
-BITA asks whether a second trait can functionally release the reproductive consequence of that conflict.
+1. balance: one trait remains at a compromise
+2. differentiation: functions become partitioned across traits
+3. incomplete differentiation: multiple traits exist but cross-talk/costs keep the trade-off coupled
 ```
 
-Functional release can occur while the attraction cue remains visible to antagonists.
+This gives BITA a stronger ecological/evolutionary identity than a methods-only identification paper.
 
-### 7.2 Why is the mechanism not identified by the interaction?
+## 8. Sister-paper non-overlap
 
-Return to the identified-set geometry. Different relief/interference/joint-channel allocations can produce the same total `A×D` interaction. This is why mechanistic interpretation requires intervention design rather than a stronger regression model on the same four trait cells.
-
-### 7.3 Why does the literature look rich but remain incomplete?
-
-The 17-system frontier is the positive result: the biology is not missing. Trait factorials, consumer manipulations, fitness endpoints, and mechanistic measurements already exist, but they are distributed among systems. The missing object is their intersection in one design.
-
-Phrase this as **fragmented identification**, not absence of evidence.
-
-### 7.4 What is the decisive next experiment?
-
-End with the executable sequence:
-
-```text
-A×D four-cell reproductive factorial
--> estimate A_0, A_1, Delta_AD W
--> cross selective antagonist and pollinator access
--> test the A×D×G×P separability term
--> estimate pollinator-independent reproduction
--> independently assay the remaining joint channel
-```
-
-This is stronger than ending with “more factorial experiments are needed.”
-
-## 8. Explicit sister-paper non-overlap
-
-| Topic | SCH / Chapter 1 | BITA / Chapter 2 |
+| Question | SCH / Chapter 1 | BITA / Chapter 2 |
 |---|---|---|
-| Focal dimensionality | one trait `A` | two traits `A×D` |
-| Main ecological problem | dual-audience cue conflict | defence as functional escape route |
-| Core estimand | `M_A`, `G_A`, `S_A` | `A_0`, `A_1`, `Delta_AD W` and channel allocation |
-| Cue sharing/private cues | primary | motivation/boundary only |
-| Functional constraint release | not primary | primary nested outcome claim |
-| Mechanism allocation | not required for first-order screen | central |
-| Historical cue transition | SCH ladder L0-L4 | not inferred |
-| Crossed consumer identification | supporting at most | central design |
-| Joint-cost assay | outside first-order question | required for point interpretation of remaining channel |
+| Main problem | how conflicting demands balance on a shared trait | when the shared compromise gives way to trait differentiation |
+| Architecture | one focal coordinate | comparison of shared versus multi-axis architecture |
+| Main outcome | compromise / maintenance / context-dependent balance | functional differentiation / modularization |
+| Floral pollinator–antagonist conflict | primary empirical realization | one worked case, not the scope |
+| Two-trait interaction | not required | mechanistic subproblem after differentiation |
+| Mechanism allocation | secondary | important for explaining how the differentiated architecture works |
+| Historical transition | may motivate conflict persistence/change | required only if claiming observed evolutionary origin of differentiation |
 
-This table is an editorial guardrail. It need not appear verbatim in either submitted manuscript.
+## 9. What is already reusable
 
-## 9. Novelty statement for reviewers
+Do not throw away the mature BITA work. Reuse:
 
-Do not claim novelty for floral conflict, pollinator–herbivore interactions, correlational selection, factorial experiments, or causal decomposition in the abstract.
-
-The defensible novelty is the combination of:
-
-1. separating positive interaction relief from the stronger sign-crossing definition of functional constraint release;
-2. treating the total `A×D` interaction as an identified set of compatible mechanisms rather than as a mechanism label;
-3. specifying the crossed trait-by-consumer intervention and four-way separability diagnostic required for biotic channel allocation;
-4. requiring independent evidence before the remaining joint channel is called cost;
-5. showing empirically that existing floral systems cover complementary design faces but not their full intersection.
-
-Within the SCH/BITA pair, the additional conceptual novelty is the progression from **one-trait dual-audience conflict** to **two-trait functional escape and mechanism identification**.
-
-## 10. What should not be reopened
-
-The following are complete enough for this paper and should not be reopened merely to improve narrative symmetry with SCH:
-
-- 56-route / 25-cluster constituent recurrence synthesis;
-- 17-system identification frontier;
-- Kessler, Egan and *Impatiens* reconstruction logic;
-- the discrete `A×D` estimand and nested Level 1/2/3 outcomes;
+- the two-trait interaction estimand;
+- nested interaction-relief / sign-crossing distinctions;
 - identified-set and partial-identification algebra;
-- 16-cell crossed consumer design;
-- four-way separability diagnostic;
+- crossed consumer design;
 - independent joint-channel assay logic;
-- existing supplementary provenance and figure architecture.
+- 56/25 recurrence synthesis;
+- 17-system fragmented identification frontier;
+- Kessler, Egan, *Impatiens* and *Pedicularis* as mechanistic/design case studies;
+- figure infrastructure where it can be nested under the new architecture story.
 
-SCH-specific unfinished historical L4 recovery is not a blocker to BITA.
+## 10. What must now be added
 
-## 11. Submission-facing state
-
-The scientific package is already at pre-metadata paper stage. Remaining work should focus on editorial consistency rather than new analysis:
+The Chapter 2 reframe creates real scientific work; it is not only an editorial change.
 
 ```text
-1. enforce Chapter 2 framing in title/Abstract/Introduction/Discussion
-2. remove theorem-era wording that is no longer canonical
-3. ensure every direct-result sentence respects the identification ceiling
-4. rebuild the main manuscript + Appendix S1
-5. page-by-page QA
-6. fill author-controlled metadata and submit
+A. implement shared-axis fitness model
+B. implement differentiated-axis fitness model
+C. compute Delta_arch across parameter space
+D. identify the minimal sufficient conditions for differentiation
+E. test alternate benefit/cost shapes
+F. decide empirical ceiling:
+   - floral mechanistic worked case only, or
+   - add historical/comparative/experimental-evolution differentiation evidence
+G. rewrite canonical manuscript only after A–F are stable
 ```
 
-The final reader takeaway should be:
+Until this is done, the previous 29-page + 12-page package should be treated as a mature component paper, not the final SCH sister Chapter 2.
 
-> **Shared floral attraction can create a one-trait conflict; defence can functionally release that conflict, but only a crossed intervention design can tell us why.**
+## 11. Reader takeaway
+
+The programme should ultimately close as:
+
+> **SCH asks how a trait under conflicting demands finds a balance. BITA asks when evolution can stop compromising on that one trait and instead divide the functions among differentiated traits.**
