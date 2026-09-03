@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 import sys
 
 
@@ -23,6 +24,17 @@ def test_main_candidate_uses_integrated_chapter2_source() -> None:
     assert "Dalechampia" in text
     assert "56 route records from 25 independent biological study clusters" in text
     assert "## References added for the Chapter 2 reframe" not in text
+
+
+def test_ecology_abstract_and_keywords_fit_current_submission_contract() -> None:
+    text = candidate.build_main_source()
+    abstract = text.split("## Abstract", 1)[1].split("**Keywords:**", 1)[0]
+    # Count lexical tokens rather than Markdown equation fragments; the goal is to
+    # fail closed before the Ecology 350-word abstract ceiling is approached.
+    words = re.findall(r"\b[\w]+(?:[-'][\w]+)*\b", abstract, flags=re.UNICODE)
+    assert 200 <= len(words) <= 350, len(words)
+    keywords = text.split("**Keywords:**", 1)[1].split("\n", 1)[0]
+    assert len([term for term in keywords.split(";") if term.strip()]) >= 5
 
 
 def test_main_candidate_has_lean_integrated_reference_spine() -> None:
