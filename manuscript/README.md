@@ -1,100 +1,151 @@
 # Manuscript directory
 
-## Canonical manuscript
+## Current source state
 
-`MANUSCRIPT_IDENTIFICATION_DESIGN.md` is the sole active submission manuscript source.
+`MANUSCRIPT_IDENTIFICATION_DESIGN.md` remains the most developed manuscript source for the existing BITA analyses, but after the SCH/BITA chapter reframe it is **not yet the final Chapter 2 manuscript**.
 
-The historical `MANUSCRIPT_THEORETICAL_ECOLOGY.md` remains versioned for provenance only; it does not define the current paper or submission package.
+The current identification manuscript answers a narrower two-trait mechanism question. It will be retained as a mechanistic/empirical module while the Chapter 2 theory is broadened from floral attraction–defence to the general transition from a shared-trait compromise to differentiated trait architecture.
 
-The original first-order shared-cue question is also kept outside this submission mainline. Its coverage audit and paper framework now belong to the separate [SCH repository](https://github.com/zuizui0223/sch). That transfer does not change the estimand or claim ceiling of the canonical BITA manuscript.
+The new theory target is defined in `theory/TRAIT_DIFFERENTIATION_EXTENSION.md`.
 
-## Sister-paper / Chapter 2 position
+## SCH / BITA programme
 
-BITA is the mechanistic second chapter of a two-paper floral conflict programme.
+The chapter pair is now fixed at the level of trait architecture rather than consumer identity.
 
-- **SCH / Chapter 1 — one trait, dual audience.** For one attraction/display coordinate `A`, ask whether pollinators and antagonists track the same cue and whether the resulting first-order attraction–antagonism conflict can be escaped. Its natural estimands are `M_A`, `G_A`, and `S_A = M_A - G_A`; it does not require a second trait `D` or an attraction-by-defence interaction.
-- **BITA / Chapter 2 — two traits, mechanism allocation.** Introduce a distinct antagonist-reducing trait `D` and ask whether defence changes the reproductive return to attraction, whether that change is large enough to release a non-beneficial attraction effect, and which biological channel generated the observed `A×D` interaction.
+### SCH / Chapter 1 — balance on a shared trait axis
 
-The chapter transition is therefore
-
-```text
-SCH:  A -> pollinator benefit and antagonist exposure
-          |
-          v
-      Is the one-trait conflict shared, separable, or evolvable?
-
-BITA: add D as a candidate escape route
-          |
-          v
-      Does D improve the return to A, does it cross the release threshold,
-      and can the resulting A×D interaction be allocated to mechanism?
-```
-
-This division prevents duplicate publication claims. SCH owns shared-cue overlap, one-trait trade-off/evolvability, cue modularization and historical shared-to-private transitions. BITA owns two-trait interaction relief, functional constraint release, partial/point identification of antagonist-relief and pollinator-interference channels, the crossed consumer design, and the independent joint-cost assay. BITA may cite the one-trait problem as motivation but must not claim that an `A×D` interaction demonstrates cue privatization or historical signal evolution.
-
-Reader-facing framing should therefore present BITA as a conditional escape-route paper: **given a floral attraction axis that can carry both mutualist benefit and antagonist exposure, when can adding defence restore the reproductive return to attraction, and what experiment identifies why?**
-
-## Current paper architecture
-
-The canonical paper is an explicit **Mechanism → Pattern → Identification** synthesis with a partial-identification middle layer:
+One trait coordinate is affected by two functions or selective demands whose preferred states differ.
 
 ```text
-1. measure the discrete A×D interaction
-2. represent compatible channel allocations as an identified set
-3. shrink that set with explicit biological bounds / partial measurements
-4. establish cross-system recurrence of the constituent ecological channels
-5. audit which identification dimensions existing studies already cover
-6. use selective A×D×antagonist×pollinator interventions for point identification
-7. validate any remaining joint channel with an independent cost assay
+function 1  ->
+              one shared trait z -> maintained compromise
+function 2  ->
 ```
 
-The central algebra is
+The Chapter 1 question is:
+
+> **When conflicting demands act on the same trait, where and how is the compromise maintained?**
+
+Pollinator–antagonist cue sharing is one floral realization of this general trade-off, not the programme definition.
+
+### BITA / Chapter 2 — differentiation of trait architecture
+
+Chapter 2 asks what happens when the conflict no longer has to remain on one axis.
 
 ```text
-Delta_AD W = rho_delta - iota_delta - kappa_delta
+shared axis z under conflict
+        |
+        v
+is one compromise still best?
+        |
+        +---- yes -> retain integrated trait architecture
+        |
+        +---- no  -> partition functions across x and y
+                    -> trait differentiation / modularization
 ```
 
-and, for `Delta_AD W = delta`, the total interaction alone defines
+The Chapter 2 question is:
+
+> **When does a shared-trait compromise become inferior to splitting conflicting functions across differentiated traits?**
+
+This is the primary BITA direction.
+
+## General architecture criterion
+
+The shared architecture is represented by
 
 ```text
-I(delta) = {(rho, iota, kappa): rho - iota - kappa = delta}.
+W_S* = max_z W_S(z)
 ```
 
-A key recoverable partial-identification statement is
+and the differentiated architecture by
 
 ```text
-kappa_delta >= 0
-=> rho_delta - iota_delta >= Delta_AD W.
+W_D* = max_{x,y} W_D(x,y)
 ```
 
-This is an assumption-indexed bound on the biotic balance, not a universal theorem. Point identification requires selective channel interventions, explicit handling of `m0_delta`, a successful `A×D×G×P` separability diagnostic, and independent evidence for the joint-cost channel.
-
-## Mechanism → Pattern result
-
-The retained recurrence synthesis contains 56 route records across 25 independent biological clusters and covers all four constituent marginal pathway families. These records establish recurrence capacity, not natural prevalence or channel-interaction magnitudes.
-
-The 16-system high-information audit is interpreted as a **fragmented identification frontier**. Kessler 2008, Egan 2021, *Impatiens capensis*, and *Pedicularis rex* occupy complementary design faces; no screened system closes all dimensions. Thus existing biology is not absent—the information needed for mechanism allocation is distributed across different experiments.
-
-## Main figures
-
-1. Figure 1 — a total A×D interaction defines an identified set rather than a unique mechanism.
-2. Figure 2 — the 16-cell crossed consumer design and four-way separability diagnostic.
-3. Figure 3 — independent joint-cost assay versus the unallocated residual.
-4. Figure 4 — constituent-channel recurrence plus the fragmented identification frontier.
-5. Figure 5 — executable roadmap from interaction detection through partial to point identification.
-
-## Supporting Information
-
-`manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md` is the active Appendix S1. It retains the detailed identified-set projection algebra, Kessler reconstruction, *Impatiens* retrofit, 16-system audit, 56/25 recurrence details, and the historical 2,592-grid / 77.2% technical sensitivity material.
-
-## Current package state
-
-Validated pre-metadata package:
+with
 
 ```text
-Main Document: 29 pages
-Appendix S1:   12 pages
-Main figures:   5
+Delta_arch = W_D* - W_S*.
 ```
 
-All 41 pages have been visually inspected. Remaining external-submission work is author-controlled metadata/sign-off followed by one exact rebuild and final page-by-page QA.
+The target claim is conditional:
+
+```text
+Delta_arch > 0  -> differentiated architecture is favoured
+Delta_arch < 0  -> shared compromise remains favoured
+```
+
+The biological determinants to map are conflict strength, decoupling capacity, cross-talk, joint/coordination costs and environmental loading of the competing functions.
+
+## Role of the existing floral BITA analyses
+
+The current attraction–defence machinery remains valuable but is no longer the chapter definition.
+
+Its discrete two-trait interaction
+
+```text
+Delta_AD W = W11 - W10 - W01 + W00
+```
+
+and its identified-set / crossed-intervention framework ask how two already-distinct trait axes interact and which ecological channel generated that interaction.
+
+Under the Chapter 2 framing, this becomes a **worked mechanistic case inside a differentiated two-axis architecture**:
+
+```text
+general question:
+shared trait compromise vs differentiated architecture
+
+worked floral case:
+attraction axis A + antagonist-reducing axis D
+-> does the second axis release the first?
+-> what channel causes the A×D effect?
+```
+
+The 56-route / 25-cluster recurrence synthesis and 17-system identification frontier remain valid evidence for the floral mechanism module. They do not establish the evolutionary origin or prevalence of trait differentiation.
+
+## Claim boundary
+
+Do not equate any of the following:
+
+```text
+positive A×D interaction
+!= trait differentiation
+!= origin of a second trait axis
+!= population differentiation
+!= historical transition from integrated to modular architecture
+```
+
+A Chapter 2 paper that uses the word **differentiation** as its main result must add an explicit shared-versus-differentiated architecture comparison and either historical/comparative, experimental-evolution or developmental evidence for the transition claim.
+
+## Revised paper architecture
+
+The intended final paper is:
+
+```text
+1. General problem — one trait, conflicting functional optima
+2. Shared architecture — compromise solution
+3. Differentiated architecture — two-axis solution
+4. Architecture criterion — Delta_arch
+5. Mechanistic worked case — existing BITA A×D framework
+6. Empirical reality check — floral conflict and identification frontier
+7. Transition evidence / limits — what demonstrates actual differentiation
+8. Discussion — compromise versus division of function
+```
+
+The existing `MANUSCRIPT_IDENTIFICATION_DESIGN.md` supplies sections 5–6 and part of 7; it should not be discarded.
+
+## Submission state
+
+The previous 29-page main document + 12-page Appendix S1 remains a validated package for the narrower identification paper, but the **Chapter 2 reframe reopens scientific integration**. It should not be submitted unchanged as the final SCH sister paper.
+
+Current next task:
+
+```text
+shared-axis model
+-> differentiated-axis model
+-> map Delta_arch
+-> integrate the existing A×D module as a worked mechanism
+-> then rewrite title / Abstract / Introduction / Discussion
+```
