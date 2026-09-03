@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820">
 <defs>
 <style>
-.title{font:700 30px DejaVu Sans,Arial,sans-serif}.panel{font:700 22px DejaVu Sans,Arial,sans-serif}.body{font:18px DejaVu Sans,Arial,sans-serif}.small{font:15px DejaVu Sans,Arial,sans-serif}.eq{font:700 20px DejaVu Sans,Arial,sans-serif}
+.title{font:700 30px DejaVu Sans,Arial,sans-serif}.panel{font:700 22px DejaVu Sans,Arial,sans-serif}.body{font:18px DejaVu Sans,Arial,sans-serif}.small{font:15px DejaVu Sans,Arial,sans-serif}.tiny{font:13px DejaVu Sans,Arial,sans-serif}.eq{font:700 20px DejaVu Sans,Arial,sans-serif}
 .box{fill:#fff;stroke:#222;stroke-width:2}.soft{fill:#f3f3f3;stroke:#333;stroke-width:1.8}.dark{fill:#e2e2e2;stroke:#111;stroke-width:2.3}
 .line{stroke:#222;stroke-width:2.3;fill:none}.thin{stroke:#555;stroke-width:1.8;fill:none}.dash{stroke:#555;stroke-width:1.8;fill:none;stroke-dasharray:7 6}.guide{stroke:#999;stroke-width:1.4;fill:none;stroke-dasharray:5 5}
 </style>
@@ -67,9 +67,9 @@
 <rect x="565" y="420" width="325" height="120" rx="10" class="soft"/>
 <text x="727" y="455" text-anchor="middle" class="eq">decoupling fraction</text>
 <text x="727" y="490" text-anchor="middle" class="eq">s = |x* − y*| / |θ₁ − θ₂|</text>
-<text x="727" y="520" text-anchor="middle" class="small">s = 1: complete separation; 0 &lt; s &lt; 1: partial differentiation</text>
+<text x="727" y="520" text-anchor="middle" class="small">quadratic baseline: s = 1 complete; 0 &lt; s &lt; 1 partial</text>
 
-<text x="727" y="585" text-anchor="middle" class="body">higher λ  →  smaller s</text>
+<text x="727" y="585" text-anchor="middle" class="body">higher λ  →  smaller recoverable loss R</text>
 <text x="727" y="615" text-anchor="middle" class="small">structural separation does not require functional independence</text>
 
 <!-- Arrow -->
@@ -79,25 +79,27 @@
 <!-- Panel C -->
 <rect x="1005" y="80" width="350" height="600" rx="14" class="dark"/>
 <text x="1180" y="115" text-anchor="middle" class="panel">C. Architecture decision</text>
-<text x="1180" y="150" text-anchor="middle" class="small">Only the decoupled fraction of the compromise is recoverable</text>
+<text x="1180" y="148" text-anchor="middle" class="small">General nested architecture</text>
 
-<rect x="1035" y="195" width="290" height="90" rx="10" class="box"/>
-<text x="1180" y="230" text-anchor="middle" class="eq">recoverable loss</text>
-<text x="1180" y="262" text-anchor="middle" class="eq">R = s L<tspan baseline-shift="sub" font-size="14">S</tspan>*</text>
+<rect x="1035" y="175" width="290" height="100" rx="10" class="box"/>
+<text x="1180" y="208" text-anchor="middle" class="small">recoverable compromise loss</text>
+<text x="1180" y="240" text-anchor="middle" class="eq">R ≥ 0</text>
+<text x="1180" y="263" text-anchor="middle" class="tiny">before extra fixed architecture cost</text>
 
-<text x="1180" y="325" text-anchor="middle" class="eq">Δ<tspan baseline-shift="sub" font-size="14">arch</tspan> = s L<tspan baseline-shift="sub" font-size="14">S</tspan>* − K</text>
+<text x="1180" y="315" text-anchor="middle" class="eq">Δ<tspan baseline-shift="sub" font-size="14">arch</tspan> = R − K</text>
 
-<rect x="1035" y="365" width="290" height="100" rx="10" class="soft"/>
-<text x="1180" y="402" text-anchor="middle" class="eq">K &lt; s L<tspan baseline-shift="sub" font-size="14">S</tspan>*</text>
-<text x="1180" y="435" text-anchor="middle" class="body">differentiation favored</text>
+<rect x="1035" y="345" width="290" height="95" rx="10" class="soft"/>
+<text x="1180" y="378" text-anchor="middle" class="eq">K &lt; R</text>
+<text x="1180" y="410" text-anchor="middle" class="body">differentiation favored</text>
 
-<rect x="1035" y="490" width="290" height="100" rx="10" class="soft"/>
-<text x="1180" y="527" text-anchor="middle" class="eq">K &gt; s L<tspan baseline-shift="sub" font-size="14">S</tspan>*</text>
-<text x="1180" y="560" text-anchor="middle" class="body">shared compromise favored</text>
+<rect x="1035" y="465" width="290" height="105" rx="10" class="box"/>
+<text x="1180" y="498" text-anchor="middle" class="small">quadratic corollary</text>
+<text x="1180" y="530" text-anchor="middle" class="eq">R = s L<tspan baseline-shift="sub" font-size="14">S</tspan>*</text>
+<text x="1180" y="557" text-anchor="middle" class="small">so the boundary is K = s L<tspan baseline-shift="sub" font-size="12">S</tspan>*</text>
 
-<text x="1180" y="625" text-anchor="middle" class="small">conflict load × actual decoupling</text>
-<text x="1180" y="648" text-anchor="middle" class="small">must pay for the extra architecture</text>
+<text x="1180" y="615" text-anchor="middle" class="small">general: recoverable loss must pay for K</text>
+<text x="1180" y="642" text-anchor="middle" class="small">quadratic: R equals conflict load × decoupling</text>
 
-<text x="700" y="735" text-anchor="middle" class="panel">BALANCE → DIFFERENTIATION: conflict load × decoupling − architecture cost</text>
+<text x="700" y="735" text-anchor="middle" class="panel">BALANCE → DIFFERENTIATION: recoverable compromise loss − architecture cost</text>
 <text x="700" y="770" text-anchor="middle" class="small">The floral BITA module then asks a separate question: once multiple axes exist, which ecological channel makes their interaction beneficial?</text>
 </svg>
