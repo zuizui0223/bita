@@ -30,21 +30,46 @@ FIGURES = [
     "FIGURE_5_FRAGMENTED_IDENTIFICATION.svg",
 ]
 
+# Main is intentionally lean. The reference source file is a reusable pool for the
+# integrated paper and supplement, whereas Main carries only sources directly
+# invoked in the current prose or directly underlying the worked empirical case.
+MAIN_REFERENCE_PREFIXES = (
+    "Armbruster WS,",
+    "Burress ED,",
+    "Conith AJ,",
+    "Guillaume F,",
+    "Rüffler C,",
+    "Sack L,",
+    "Egan PA,",
+    "Kessler D, Gase K, Baldwin IT (2008)",
+    "Soper Gorden NL, Adler LS (2018)",
+)
+
 
 def _reference_text() -> str:
     text = REFERENCES.read_text(encoding="utf-8")
     if "## Reference-use guardrail" in text:
         text = text.split("## Reference-use guardrail", 1)[0]
     paragraphs = [p.strip() for p in re.split(r"\n\s*\n", text) if p.strip()]
-    entries = [
+    pool = [
         p
         for p in paragraphs
         if not p.startswith("#")
         and not p.startswith("This bibliography merges")
     ]
-    if len(entries) < 15:
-        raise RuntimeError(f"expected a focused integrated bibliography, found only {len(entries)} entries")
-    return "\n\n".join(entries)
+
+    selected: list[str] = []
+    for prefix in MAIN_REFERENCE_PREFIXES:
+        matches = [entry for entry in pool if entry.startswith(prefix)]
+        if len(matches) != 1:
+            raise RuntimeError(
+                f"expected exactly one Main reference beginning {prefix!r}, found {len(matches)}"
+            )
+        selected.append(matches[0])
+
+    if len(selected) != 9:
+        raise RuntimeError(f"expected 9 Main references, found {len(selected)}")
+    return "\n\n".join(selected)
 
 
 def _figure_captions() -> list[str]:
