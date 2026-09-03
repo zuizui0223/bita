@@ -1,155 +1,272 @@
-# Paperization pass v1
+# Paperization pass — SCH sister / Chapter 2
 
-This file converts the frozen scientific result into an editorial plan. It does not reopen analysis.
+This file is the editorial plan for the active canonical manuscript `MANUSCRIPT_IDENTIFICATION_DESIGN.md`. It supersedes the older theorem-led paperization plan and does not reopen the frozen analyses.
 
-## Recommended title
+## 1. Chapter-level role
 
-**When are floral attraction and defence complementary? A one-sided mechanistic bound and cross-system patterns**
+BITA is the second mechanistic chapter of a two-paper floral-conflict programme.
 
-Why this is preferred over the current title:
+### SCH / Chapter 1 — one-trait dual-audience problem
 
-- it places the strongest new result in the title rather than the generic phrase “mechanistic theory”;
-- it avoids implying that every Part II component is a conventional meta-analysis;
-- it remains readable to a broad ecological audience and makes the biological question primary.
+For one attraction/display coordinate `A`, SCH asks whether pollinators and antagonists respond to the same cue and whether the first-order attraction–antagonism conflict can be escaped by cue separation, modularization, population differentiation, or historical signal change.
 
-A conservative alternative is the current title:
+Its natural first-order objects are
 
-**When are floral attraction and defence complementary? Mechanistic theory and meta-analytic patterns across mutualists and antagonists**
+```text
+M_A
+G_A
+S_A = M_A - G_A
+```
 
-Do not use “universal criterion”, “general law of complementarity”, or equivalent two-sided wording.
+and it deliberately does not require a second trait `D` or an attraction-by-defence interaction.
 
-## Revised abstract candidate
+### BITA / Chapter 2 — two-trait escape-route and identification problem
 
-Flowers must attract mutualists while limiting exploitation by antagonists, creating the possibility that attraction and defence either reinforce or obstruct one another. We ask when one focal attraction trait and one flower-specific antagonist-reducing trait are locally complementary, and which parts of that mechanism recur across biological systems. After an explicit orientation gate, their local mixed fitness effect can be organized as antagonist relief minus pollinator interference minus direct joint-cost curvature, `W_AD = rho - iota - kappa`. The decomposition itself is bookkeeping, but it yields a stronger one-sided result: when joint-cost curvature is non-negative, complementarity can occur only where antagonist relief exceeds pollinator interference. Across 2,592 declared evaluations and four response-shape variants we find no counterexample, whereas about 23% of points inside this selectivity window remain substitutable, so the window is necessary but not sufficient. A mechanism-first synthesis then maps 56 route-level records from 25 independent biological study clusters. Floral larceny reduces female fitness on average (log response ratio `-0.210`; 48 clusters), yet only 35/48 effects are negative, the 95% prediction interval spans `-1.13` to `+0.71`, and declared moderators explain only 0–8% of heterogeneity. Thus the constituent mechanisms and switching architecture recur, but their realized balance is strongly context dependent. Direct attraction × defence evidence remains sparse and direct joint-cost curvature unmeasured. The resulting theory is therefore a one-sided mechanistic bound, not a universal sign rule; the sign of joint-cost curvature is the minimal next test of its biological applicability.
+BITA introduces a distinct flower-associated antagonist-reducing trait `D` and asks three progressively stronger questions:
 
-## Main-text revision priorities
+```text
+1. Does D make the reproductive effect of A more positive?
+   -> positive A×D interaction relief
 
-### 1. Introduction: shorten before strengthening
+2. Is that improvement large enough to make A beneficial when it was not beneficial without D?
+   -> functional constraint release / strict reversal
 
-The current Introduction is scientifically sound but repeats the same inference gap through several formulations. The final version should reach the paper's distinctive question faster.
+3. Which biological channel generated the A×D interaction?
+   -> antagonist relief, pollinator interference, or remaining joint channel
+```
 
-Target flow:
+The narrative transition is therefore:
 
-1. flowers simultaneously face mutualists and antagonists;
-2. attraction can increase value and exposure, while defence can reduce antagonism and interfere with mutualists;
-3. existing multivariate selection/fitness-surface theory identifies total cross-trait curvature but not its ecological channel allocation;
-4. our question is therefore mechanistic: what balance determines the sign, and is any part of that balance structurally general?;
-5. contribution: oriented decomposition → non-identifiability → one-sided bound → mechanism-first empirical Pattern.
+> A floral signal can face a dual-audience conflict (SCH). A distinct defence trait is one possible functional escape route, but observing that escape does not reveal why it occurred (BITA).
 
-Editorial target: reduce Introduction length by roughly 15–25% without removing prior-art citations or inference boundaries.
+This is the Chapter 2 hook. It turns BITA from a generic causal-identification paper into the mechanistic continuation of a specific ecological problem.
 
-### 2. Make Theorem 1 the first unmistakable payoff
+## 2. Recommended title
 
-The paper should not make the reader wait through the finite-grid details to understand the strongest result. The theorem is algebraic and should be presented as such. Its importance is ecological, not mathematical difficulty:
+### Preferred
 
-- it converts a many-channel trade-off into a one-sided impossibility statement;
-- it separates a necessary permissive window from the false sufficient rule;
-- it identifies the exact type of biological assumption that can break the bound.
+**Can floral defence release attraction from antagonist constraint? From trait interaction to mechanism identification**
 
-Keep the 2,592 evaluations as implementation verification and looseness diagnostics, not as the proof.
+Why this is preferred:
 
-### 3. Separate three ideas in the Discussion
+- it makes the Chapter 1 -> Chapter 2 transition visible without requiring the reader to know SCH;
+- it distinguishes positive interaction from the stronger functional-release claim;
+- it retains mechanism identification as the paper's actual methodological contribution;
+- it keeps the biology before the inference machinery.
 
-Use the compact triad:
+### Conservative alternative
 
-- **discrimination** — can defence separate antagonist effects from pollinator interference?;
-- **exposure** — are antagonist and pollinator pressures actually loaded strongly enough for discrimination to matter?;
-- **affordability** — does simultaneous attraction and defence carry positive, zero, or negative joint cost?;
+**From floral trait interactions to mechanism identification: a crossed-intervention framework for attraction and defence**
 
-The selectivity window captures the first two channel magnitudes before joint cost is charged; `c_AD` supplies the affordability gate. This is a reader-facing interpretation, not a new fitted model.
+This is the current canonical title and remains defensible if a more methods-facing journal fit is preferred.
 
-### 4. Move search-history detail out of the narrative
+Avoid titles implying that BITA demonstrates cue privatization, historical signal evolution, or a universal attraction-defence sign.
 
-Main text should retain only the registered inclusion logic, evidence levels, and saturation rule needed to interpret the synthesis. Detailed statements about individual source-access failures, historical search batches, promotion steps, or workflow evolution belong in the supplement/provenance layer unless they directly change an admitted inference.
+## 3. One-sentence paper claim
 
-The reader should see a deliberate synthesis design, not the chronology of repository development.
+> **A positive attraction-by-defence interaction can identify functional release only when the attraction effect crosses a predeclared outcome threshold, and identifying why that release occurs requires crossed trait-by-consumer interventions plus an independent assay of the remaining joint channel.**
 
-### 5. Keep the Leal result as an exposure-gate result
+The empirical contribution is that existing floral systems repeatedly contain the required biological pieces but distribute the necessary identification dimensions across different experiments.
 
-The female-fitness mean, prediction interval, robustness, and moderator failure are important because they show:
+## 4. Abstract architecture
 
-- antagonist pressure is not generically zero;
-- the effect is repeatable at the pooled-direction level;
-- realized state remains strongly system dependent;
-- current coarse moderators do not solve new-system prediction.
+The final abstract should contain five moves in this order.
 
-Do not let the Leal module drift into a claim that it estimates `rho` or validates `W_AD`.
+1. **Ecological problem:** an attraction trait can increase pollinator benefit and antagonist exposure.
+2. **Chapter 2 move:** a distinct defence trait is a candidate escape route, but a positive `A×D` interaction is weaker than release and does not identify mechanism.
+3. **Framework:** define `A_0`, `A_1`, `Delta_AD W`, the nested Level 1/2/3 outcome claims, and the identified set of compatible channel allocations.
+4. **Identification design:** selective `A×D×antagonist×pollinator` intervention allocates the biotic channels; the remaining joint channel requires independent measurement.
+5. **Reality check:** existing systems occupy complementary design faces; 56 route records / 25 clusters establish recurrence, while none of 17 high-information systems closes the full design.
 
-### 6. Keep Sasidharan secondary to the main logical arc
+The abstract should end on the missing intersection of existing experiments, not on a generic call for more data.
 
-The Sasidharan reconstruction is useful support for shared consumer tracking and composition dependence, but it is not the paper's main quantitative payoff. In the final manuscript it should occupy less conceptual space than the one-sided theorem and H-gate result.
+## 5. Introduction architecture
 
-### 7. Tighten the Integration section
+The current canonical Introduction already contains the correct scientific ingredients. The editorial goal is now to sharpen the chapter transition and remove any remaining appearance that SCH and BITA ask the same question.
 
-Section 6 currently contains the right content but repeats several boundaries already established in Methods/Results. The final discussion should be organized around four questions:
+### Paragraph 1 — general inference problem
 
-1. What became general? — the one-sided bound under its declared premise.
-2. What recurs biologically? — constituent mechanisms and switching architectures.
-3. What remains context dependent? — exposure and the realized balance inside the window.
-4. What is the decisive next test? — the sign/magnitude of joint-cost curvature, followed separately by a full `A × D` calibration factorial.
+Keep the current opening: net ecological outcomes can conceal opposing causal channels.
 
-### 8. Shorten the Conclusion
+### Paragraph 2 — floral dual-audience biology
 
-The final Conclusion should fit in three compact paragraphs:
+Establish that attraction can recruit mutualists and antagonists and that defence can reduce antagonism while changing pollinator use. Do not yet discuss identification algebra.
 
-- one-sided theorem and failed converse;
-- recurrent but heterogeneous empirical Pattern;
-- `c_AD` as generated falsification gate and the distinction between the cheap 2 × 2 cost test and hard full factorial.
+### Paragraph 3 — explicit bridge from Chapter 1
 
-Do not end on “more data are needed.” End on a specific falsifiable prediction produced by the theory.
+Use the ecological transition in reader-facing form:
 
-## Reviewer-risk audit
+> A first-order floral conflict arises when one attraction coordinate carries both pollinator benefit and antagonist exposure. Introducing a distinct defence trait creates a possible functional escape route: defence may preserve the reproductive value generated by attraction without requiring the attraction cue itself to become private. But this immediately creates a new inference problem. A positive attraction-by-defence interaction shows that defence makes attraction less bad or more good; it does not show that attraction has become beneficial, and it does not identify whether the improvement arose through antagonist relief, pollinator interference, or another joint pathway.
 
-### Risk A — “The theorem is mathematically trivial”
+This is the conceptual hinge of the paper.
 
-Expected response: agree that the proof is immediate. The claim is not mathematical sophistication. The contribution is extracting a form-robust ecological impossibility boundary from the mechanism decomposition, showing that the intuitive two-sided selectivity rule is false, and converting the boundary into a specific falsification experiment.
+### Paragraph 4 — nested outcome claims
 
-### Risk B — “The selectivity window is definitional or circular”
+Introduce the distinction:
 
-Expected response: the window is deliberately defined from the relief/interference balance before joint cost. It is not claimed to predict complementarity by itself. Its empirical and theoretical value comes from the one-sided implication and the identified failure mode, not from calling the ratio/region a new universal index.
+```text
+Level 1: Delta_AD W > 0
+Level 2: A_0 <= 0 < A_1
+Level 3: A_0 < 0 < A_1
+```
 
-### Risk C — “Part II does not estimate the theory parameters”
+This should appear before the full channel decomposition because it answers the biological question before the mechanistic allocation question.
 
-Expected response: correct, by design. Proposition 1 and the evidence hierarchy explain why marginal and same-system evidence cannot be relabelled as the total mixed partial. Part II tests recurrence, gate opening, conditionality, and identification gaps rather than pretending to calibrate `rho`, `iota`, `kappa`, or `W_AD`.
+### Paragraph 5 — identification gap in existing experimental traditions
 
-### Risk D — “The route ledger is not a meta-analysis”
+Contrast trait factorials with consumer factorials. Explain that both are informative but occupy different design faces.
 
-Expected response: correct. The manuscript must call it a source-adjudicated cross-study Pattern scaffold. Meta-analysis is reserved for effect-compatible modules. This is one reason the recommended title uses “cross-system patterns” rather than describing the entire Part II as meta-analytic.
+### Final paragraph — contribution
 
-### Risk E — “The H-gate is too heterogeneous to be useful”
+State the contribution as an operational sequence:
 
-Expected response: the heterogeneity is part of the result. The gate is open on average, but its location varies and is not explained by the declared coarse moderators. This is precisely why the paper stops at a one-sided structural result rather than claiming prospective prediction from H alone.
+```text
+interaction detection
+-> release threshold
+-> identified set
+-> partial identification
+-> crossed channel interventions
+-> separability diagnostic
+-> independent joint-channel assay
+```
 
-### Risk F — “`c_AD` is assumed rather than measured”
+Then state that the cross-system synthesis asks where existing biology sits on this sequence.
 
-Expected response: yes. The deployed non-negative parameterization is explicitly a premise, not established biology. The theorem identifies the premise's exact empirical vulnerability and reduces the first applicability test to a tractable 2 × 2 allocation experiment. A sufficiently negative cross-cost is a direct falsifier for the focal trait pair.
+## 6. Results narrative
 
-### Risk G — “Why Theoretical Ecology?”
+Do not organize Results as a tour of repository modules. Organize them as answers to the Chapter 2 questions.
 
-The paper uses a compact theoretical mechanism to answer an ecological question, then tests the recurrence and limits of the derived architecture across systems. The final manuscript should prioritize biological interpretation and readability over additional algebra.
+### Result 1 — interaction is not release
 
-## Work that is complete and should not be reopened by default
+Lead with `Delta_AD W = A_1 - A_0` and the nested claim hierarchy. This is the first reader payoff.
 
-- broad Pattern discovery and registered saturation;
-- the 2,592-evaluation finite robustness design;
-- the one-sided theorem and regression test;
-- Leal primary pooled estimates and registered sensitivity family;
-- Sasidharan 32-component dependence topology;
-- direct-design and direct-joint-cost targeted exhaustion for the current claim set;
-- main figure and supplementary reproducibility architecture.
+### Result 2 — total interaction is not mechanism
 
-## Remaining human-controlled items
+Show the identified set
 
-These block external submission but not scientific paperization:
+```text
+I(delta) = {(rho, iota, kappa): rho - iota - kappa = delta}
+```
 
-- final author order and publication names;
-- affiliations and corresponding-author details;
-- ORCIDs;
-- CRediT roles;
-- funding and acknowledgements;
-- competing-interest confirmation;
-- repository licence choice;
-- archival release/DOI;
-- reviewer suggestions/conflict checks;
-- author-approved final rendered manuscript and supplement;
-- authenticated journal-portal submission.
+and the partial-identification logic. The point is structural underdetermination, not algebraic novelty.
+
+### Result 3 — the crossed experiment can allocate the biotic channels
+
+Present the `A×D×G×P` design, pollinator-independent reproduction term, and four-way separability diagnostic as the minimum general identification design.
+
+### Result 4 — the residual is not automatically cost
+
+Make the independent joint-channel assay a separate result. This is important because it prevents residual labelling.
+
+### Result 5 — existing systems occupy complementary design faces
+
+Use Kessler 2008, Egan 2021, *Impatiens capensis*, *Pedicularis rex*, and the full 17-system frontier as a design-space result rather than a literature list.
+
+### Result 6 — constituent biology recurs, complete identification does not
+
+The 56 route records / 25 independent clusters support recurrence capacity of all four marginal pathway families. They do not estimate channel-interaction magnitudes or prevalence.
+
+## 7. Discussion architecture
+
+The Discussion should be driven by four ecological questions.
+
+### 7.1 What does defence actually release?
+
+Distinguish positive interaction relief from functional constraint release and strict reversal. Emphasize that improving the return to attraction is not equivalent to changing the attraction cue itself.
+
+This is the main conceptual connection back to SCH:
+
+```text
+SCH asks whether the cue conflict is shared/separable.
+BITA asks whether a second trait can functionally release the reproductive consequence of that conflict.
+```
+
+Functional release can occur while the attraction cue remains visible to antagonists.
+
+### 7.2 Why is the mechanism not identified by the interaction?
+
+Return to the identified-set geometry. Different relief/interference/joint-channel allocations can produce the same total `A×D` interaction. This is why mechanistic interpretation requires intervention design rather than a stronger regression model on the same four trait cells.
+
+### 7.3 Why does the literature look rich but remain incomplete?
+
+The 17-system frontier is the positive result: the biology is not missing. Trait factorials, consumer manipulations, fitness endpoints, and mechanistic measurements already exist, but they are distributed among systems. The missing object is their intersection in one design.
+
+Phrase this as **fragmented identification**, not absence of evidence.
+
+### 7.4 What is the decisive next experiment?
+
+End with the executable sequence:
+
+```text
+A×D four-cell reproductive factorial
+-> estimate A_0, A_1, Delta_AD W
+-> cross selective antagonist and pollinator access
+-> test the A×D×G×P separability term
+-> estimate pollinator-independent reproduction
+-> independently assay the remaining joint channel
+```
+
+This is stronger than ending with “more factorial experiments are needed.”
+
+## 8. Explicit sister-paper non-overlap
+
+| Topic | SCH / Chapter 1 | BITA / Chapter 2 |
+|---|---|---|
+| Focal dimensionality | one trait `A` | two traits `A×D` |
+| Main ecological problem | dual-audience cue conflict | defence as functional escape route |
+| Core estimand | `M_A`, `G_A`, `S_A` | `A_0`, `A_1`, `Delta_AD W` and channel allocation |
+| Cue sharing/private cues | primary | motivation/boundary only |
+| Functional constraint release | not primary | primary nested outcome claim |
+| Mechanism allocation | not required for first-order screen | central |
+| Historical cue transition | SCH ladder L0-L4 | not inferred |
+| Crossed consumer identification | supporting at most | central design |
+| Joint-cost assay | outside first-order question | required for point interpretation of remaining channel |
+
+This table is an editorial guardrail. It need not appear verbatim in either submitted manuscript.
+
+## 9. Novelty statement for reviewers
+
+Do not claim novelty for floral conflict, pollinator–herbivore interactions, correlational selection, factorial experiments, or causal decomposition in the abstract.
+
+The defensible novelty is the combination of:
+
+1. separating positive interaction relief from the stronger sign-crossing definition of functional constraint release;
+2. treating the total `A×D` interaction as an identified set of compatible mechanisms rather than as a mechanism label;
+3. specifying the crossed trait-by-consumer intervention and four-way separability diagnostic required for biotic channel allocation;
+4. requiring independent evidence before the remaining joint channel is called cost;
+5. showing empirically that existing floral systems cover complementary design faces but not their full intersection.
+
+Within the SCH/BITA pair, the additional conceptual novelty is the progression from **one-trait dual-audience conflict** to **two-trait functional escape and mechanism identification**.
+
+## 10. What should not be reopened
+
+The following are complete enough for this paper and should not be reopened merely to improve narrative symmetry with SCH:
+
+- 56-route / 25-cluster constituent recurrence synthesis;
+- 17-system identification frontier;
+- Kessler, Egan and *Impatiens* reconstruction logic;
+- the discrete `A×D` estimand and nested Level 1/2/3 outcomes;
+- identified-set and partial-identification algebra;
+- 16-cell crossed consumer design;
+- four-way separability diagnostic;
+- independent joint-channel assay logic;
+- existing supplementary provenance and figure architecture.
+
+SCH-specific unfinished historical L4 recovery is not a blocker to BITA.
+
+## 11. Submission-facing state
+
+The scientific package is already at pre-metadata paper stage. Remaining work should focus on editorial consistency rather than new analysis:
+
+```text
+1. enforce Chapter 2 framing in title/Abstract/Introduction/Discussion
+2. remove theorem-era wording that is no longer canonical
+3. ensure every direct-result sentence respects the identification ceiling
+4. rebuild the main manuscript + Appendix S1
+5. page-by-page QA
+6. fill author-controlled metadata and submit
+```
+
+The final reader takeaway should be:
+
+> **Shared floral attraction can create a one-trait conflict; defence can functionally release that conflict, but only a crossed intervention design can tell us why.**
