@@ -8,6 +8,32 @@ The historical `MANUSCRIPT_THEORETICAL_ECOLOGY.md` remains versioned for provena
 
 The original first-order shared-cue question is also kept outside this submission mainline. Its coverage audit and paper framework now belong to the separate [SCH repository](https://github.com/zuizui0223/sch). That transfer does not change the estimand or claim ceiling of the canonical BITA manuscript.
 
+## Sister-paper / Chapter 2 position
+
+BITA is the mechanistic second chapter of a two-paper floral conflict programme.
+
+- **SCH / Chapter 1 — one trait, dual audience.** For one attraction/display coordinate `A`, ask whether pollinators and antagonists track the same cue and whether the resulting first-order attraction–antagonism conflict can be escaped. Its natural estimands are `M_A`, `G_A`, and `S_A = M_A - G_A`; it does not require a second trait `D` or an attraction-by-defence interaction.
+- **BITA / Chapter 2 — two traits, mechanism allocation.** Introduce a distinct antagonist-reducing trait `D` and ask whether defence changes the reproductive return to attraction, whether that change is large enough to release a non-beneficial attraction effect, and which biological channel generated the observed `A×D` interaction.
+
+The chapter transition is therefore
+
+```text
+SCH:  A -> pollinator benefit and antagonist exposure
+          |
+          v
+      Is the one-trait conflict shared, separable, or evolvable?
+
+BITA: add D as a candidate escape route
+          |
+          v
+      Does D improve the return to A, does it cross the release threshold,
+      and can the resulting A×D interaction be allocated to mechanism?
+```
+
+This division prevents duplicate publication claims. SCH owns shared-cue overlap, one-trait trade-off/evolvability, cue modularization and historical shared-to-private transitions. BITA owns two-trait interaction relief, functional constraint release, partial/point identification of antagonist-relief and pollinator-interference channels, the crossed consumer design, and the independent joint-cost assay. BITA may cite the one-trait problem as motivation but must not claim that an `A×D` interaction demonstrates cue privatization or historical signal evolution.
+
+Reader-facing framing should therefore present BITA as a conditional escape-route paper: **given a floral attraction axis that can carry both mutualist benefit and antagonist exposure, when can adding defence restore the reproductive return to attraction, and what experiment identifies why?**
+
 ## Current paper architecture
 
 The canonical paper is an explicit **Mechanism → Pattern → Identification** synthesis with a partial-identification middle layer:
