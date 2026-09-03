@@ -1,14 +1,14 @@
 """Minimal shared-axis versus differentiated-axis trait-architecture model.
 
-This module is deliberately general.  It does not define the competing functions
-as pollination, defence, attraction, or antagonism.  Two functions may favour
-different states of one shared trait coordinate.  The model compares the best
+This module is deliberately general. It does not define the competing functions
+as pollination, defence, attraction, or antagonism. Two functions may favour
+different states of one shared trait coordinate. The model compares the best
 fitness attainable under that integrated compromise with the best fitness under
 a two-axis architecture that can partially decouple the functions.
 
 The quadratic form is a baseline theorem-generating model, not a claim that all
-biological fitness surfaces are quadratic.  Alternative response shapes belong in
-subsequent robustness analyses.
+biological fitness surfaces are quadratic. Alternative response shapes are tested
+in :mod:`trait_architecture.differentiation_robustness`.
 """
 
 from __future__ import annotations
@@ -64,6 +64,8 @@ class ArchitectureComparison:
 
     shared: SharedAxisOptimum
     differentiated: DifferentiatedAxisOptimum
+    decoupling_fraction: float
+    recoverable_conflict_loss: float
     differentiation_threshold: float
     architecture_gain: float
     preferred_architecture: str
@@ -78,7 +80,7 @@ def shared_axis_optimum(
     """Return the best one-axis compromise for two quadratic functional demands.
 
     Fitness is normalized so that each function contributes zero loss at its own
-    preferred state.  The shared architecture maximizes
+    preferred state. The shared architecture maximizes
 
     ``-w1 * (z - theta1)^2 - w2 * (z - theta2)^2``.
     """
@@ -98,6 +100,38 @@ def shared_axis_optimum(
         conflict_loss=conflict_loss,
         fitness=-conflict_loss,
     )
+
+
+def decoupling_fraction(
+    weight_1: float = 1.0,
+    weight_2: float = 1.0,
+    coupling: float = 0.0,
+) -> float:
+    """Fraction of the function-specific optimum separation retained after coupling.
+
+    In the quadratic baseline,
+
+    ``|x* - y*| / |theta1 - theta2|``
+
+    equals
+
+    ``w1*w2 / (w1*w2 + coupling*(w1+w2))``
+
+    whenever ``theta1 != theta2``. The same quantity also equals the fraction of
+    the shared-axis conflict loss that the differentiated architecture can recover
+    before paying its fixed architecture cost.
+
+    It ranges from 1 under full decoupling (``coupling = 0``) toward 0 as residual
+    coupling becomes arbitrarily strong.
+    """
+
+    _positive(weight_1, "weight_1")
+    _positive(weight_2, "weight_2")
+    _non_negative(coupling, "coupling")
+
+    numerator = weight_1 * weight_2
+    denominator = numerator + coupling * (weight_1 + weight_2)
+    return numerator / denominator
 
 
 def differentiated_axis_optimum(
@@ -126,11 +160,7 @@ def differentiated_axis_optimum(
     _non_negative(coupling, "coupling")
     _non_negative(architecture_cost, "architecture_cost")
 
-    denominator = (
-        weight_1 * weight_2
-        + coupling * weight_1
-        + coupling * weight_2
-    )
+    denominator = weight_1 * weight_2 + coupling * weight_1 + coupling * weight_2
 
     trait_1 = (
         weight_1 * weight_2 * optimum_1
@@ -175,32 +205,25 @@ def differentiation_threshold(
 
     ``architecture_cost < differentiation_threshold(...)``.
 
-    The closed-form threshold is
+    The threshold is the shared-axis conflict loss multiplied by the decoupling
+    fraction. In closed form it is
 
     ``w1^2 w2^2 (theta1-theta2)^2 /
       ((w1+w2) * (w1*w2 + coupling*(w1+w2)))``.
     """
 
-    _finite(optimum_1, "optimum_1")
-    _finite(optimum_2, "optimum_2")
-    _positive(weight_1, "weight_1")
-    _positive(weight_2, "weight_2")
-    _non_negative(coupling, "coupling")
-
-    conflict = optimum_1 - optimum_2
-    numerator = (
-        weight_1
-        * weight_1
-        * weight_2
-        * weight_2
-        * conflict
-        * conflict
+    shared = shared_axis_optimum(
+        optimum_1=optimum_1,
+        optimum_2=optimum_2,
+        weight_1=weight_1,
+        weight_2=weight_2,
     )
-    denominator = (
-        (weight_1 + weight_2)
-        * (weight_1 * weight_2 + coupling * (weight_1 + weight_2))
+    fraction = decoupling_fraction(
+        weight_1=weight_1,
+        weight_2=weight_2,
+        coupling=coupling,
     )
-    return numerator / denominator
+    return shared.conflict_loss * fraction
 
 
 def compare_architectures(
@@ -230,6 +253,12 @@ def compare_architectures(
         coupling=coupling,
         architecture_cost=architecture_cost,
     )
+    fraction = decoupling_fraction(
+        weight_1=weight_1,
+        weight_2=weight_2,
+        coupling=coupling,
+    )
+    recoverable = shared.conflict_loss - differentiated.residual_conflict_loss
     threshold = differentiation_threshold(
         optimum_1=optimum_1,
         optimum_2=optimum_2,
@@ -249,6 +278,8 @@ def compare_architectures(
     return ArchitectureComparison(
         shared=shared,
         differentiated=differentiated,
+        decoupling_fraction=fraction,
+        recoverable_conflict_loss=recoverable,
         differentiation_threshold=threshold,
         architecture_gain=gain,
         preferred_architecture=preferred,
