@@ -1,0 +1,157 @@
+name: build-trait-differentiation-candidate
+
+on:
+  pull_request:
+    paths:
+      - 'manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md'
+      - 'manuscript/TRAIT_DIFFERENTIATION_*'
+      - 'manuscript/trait_differentiation_figures/**'
+      - 'manuscript/supplementary/**'
+      - 'theory/TRAIT_DIFFERENTIATION_EXTENSION.md'
+      - 'docs/TRAIT_DIFFERENTIATION_*'
+      - 'trait_architecture/differentiation*.py'
+      - 'scripts/build_trait_differentiation_candidate_package_sources.py'
+      - 'scripts/format_ecology_submission_docx.py'
+      - 'tests/test_trait_differentiation*.py'
+      - '.github/workflows/build-trait-differentiation-candidate.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install document toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc libreoffice-writer poppler-utils librsvg2-bin
+          python -m pip install python-docx pytest
+
+      - name: Run Chapter 2 theory and package regressions
+        run: |
+          python -m pytest -q \
+            tests/test_trait_differentiation.py \
+            tests/test_trait_differentiation_robustness.py \
+            tests/test_trait_differentiation_manuscript.py \
+            tests/test_trait_differentiation_figures.py \
+            tests/test_trait_differentiation_candidate_package.py \
+            tests/test_identification.py \
+            tests/test_partial_identification.py
+
+      - name: Build Chapter 2 candidate sources
+        run: python scripts/build_trait_differentiation_candidate_package_sources.py
+
+      - name: Build candidate Main DOCX
+        run: |
+          cd submission/ecology/trait_differentiation_candidate/generated
+          pandoc MANUSCRIPT_TRAIT_DIFFERENTIATION_CANDIDATE.md \
+            --from=markdown+tex_math_single_backslash \
+            --to=docx \
+            --output=MANUSCRIPT_TRAIT_DIFFERENTIATION_RAW.docx
+          cd ../../../..
+          python scripts/format_ecology_submission_docx.py \
+            submission/ecology/trait_differentiation_candidate/generated/MANUSCRIPT_TRAIT_DIFFERENTIATION_RAW.docx \
+            submission/ecology/trait_differentiation_candidate/generated/MANUSCRIPT_TRAIT_DIFFERENTIATION_CANDIDATE.docx
+
+      - name: Build candidate Appendix DOCX
+        run: |
+          cd submission/ecology/trait_differentiation_candidate/generated
+          pandoc APPENDIX_S1_TRAIT_DIFFERENTIATION.md \
+            --from=markdown+tex_math_single_backslash \
+            --to=docx \
+            --output=APPENDIX_S1_TRAIT_DIFFERENTIATION_RAW.docx
+          cd ../../../..
+          python scripts/format_ecology_submission_docx.py \
+            submission/ecology/trait_differentiation_candidate/generated/APPENDIX_S1_TRAIT_DIFFERENTIATION_RAW.docx \
+            submission/ecology/trait_differentiation_candidate/generated/APPENDIX_S1_TRAIT_DIFFERENTIATION.docx \
+            --appendix
+
+      - name: Validate embedded Main figures
+        run: |
+          DOCX=submission/ecology/trait_differentiation_candidate/generated/MANUSCRIPT_TRAIT_DIFFERENTIATION_CANDIDATE.docx
+          MEDIA_COUNT=$(unzip -l "$DOCX" | grep -c 'word/media/' || true)
+          if [ "$MEDIA_COUNT" -lt 5 ]; then
+            echo "Expected at least five embedded Chapter 2 Main figures; found $MEDIA_COUNT" >&2
+            exit 1
+          fi
+
+      - name: Render candidate PDFs
+        run: |
+          OUT=submission/ecology/trait_differentiation_candidate/generated
+          mkdir -p "$OUT/rendered"
+          libreoffice --headless --convert-to pdf --outdir "$OUT/rendered" \
+            "$OUT/MANUSCRIPT_TRAIT_DIFFERENTIATION_CANDIDATE.docx"
+          libreoffice --headless --convert-to pdf --outdir "$OUT/rendered" \
+            "$OUT/APPENDIX_S1_TRAIT_DIFFERENTIATION.docx"
+
+      - name: Validate rendered Chapter 2 package
+        run: |
+          OUT=submission/ecology/trait_differentiation_candidate/generated
+          MAIN="$OUT/rendered/MANUSCRIPT_TRAIT_DIFFERENTIATION_CANDIDATE.pdf"
+          APP="$OUT/rendered/APPENDIX_S1_TRAIT_DIFFERENTIATION.pdf"
+          MAIN_TXT="$RUNNER_TEMP/chapter2_main.txt"
+          APP_TXT="$RUNNER_TEMP/chapter2_appendix.txt"
+          test -s "$MAIN"
+          test -s "$APP"
+          MAIN_PAGES=$(pdfinfo "$MAIN" | awk '/^Pages:/ {print $2}')
+          APP_PAGES=$(pdfinfo "$APP" | awk '/^Pages:/ {print $2}')
+          pdftotext "$MAIN" "$MAIN_TXT"
+          pdftotext "$APP" "$APP_TXT"
+
+          grep -q 'When does a trait trade-off resolve by differentiation rather than compromise' "$MAIN_TXT"
+          grep -qi 'decoupling fraction' "$MAIN_TXT"
+          grep -q '300 nonzero-conflict evaluations' "$MAIN_TXT"
+          grep -qi 'cichlid' "$MAIN_TXT"
+          grep -q 'Dalechampia' "$MAIN_TXT"
+          grep -q '56 route records from 25 independent biological study clusters' "$MAIN_TXT"
+          grep -q 'Figure 5.' "$MAIN_TXT"
+          grep -q 'Trait differentiation and mechanism identification' "$APP_TXT"
+          grep -q 'Nonquadratic robustness' "$APP_TXT"
+          grep -q '2,592' "$APP_TXT"
+          test -s "$OUT/open_research_data/trait_differentiation_robustness_readout.json"
+          test -s "$OUT/open_research_data/high_information_identification_coverage.csv"
+
+          if [ "$MAIN_PAGES" -gt 50 ]; then
+            echo "Chapter 2 candidate Main is $MAIN_PAGES pages; exceeds Ecology Concepts & Synthesis 50-page maximum." >&2
+            exit 1
+          fi
+
+          if [ "$MAIN_PAGES" -le 30 ]; then
+            LENGTH_STATE='WITHIN_30_PAGE_STANDARD_TARGET'
+          else
+            LENGTH_STATE='OVER_30_REQUIRES_TWO_PART_COVER_JUSTIFICATION'
+          fi
+          {
+            echo "main_pages=$MAIN_PAGES"
+            echo "appendix_pages=$APP_PAGES"
+            echo "length_state=$LENGTH_STATE"
+            echo "limit_state=PASS_AT_OR_BELOW_50"
+            echo "candidate_manuscript=manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md"
+            echo "chapter_spine=balance_to_differentiation_to_identification"
+            echo "main_figures=5"
+            echo "historical_transition_claim=not_established"
+          } > "$OUT/PACKAGE_QA_RECEIPT.txt"
+
+      - name: Remove raw intermediates
+        if: always()
+        run: |
+          rm -f submission/ecology/trait_differentiation_candidate/generated/*_RAW.docx
+
+      - name: Upload Chapter 2 candidate package
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trait-differentiation-chapter2-candidate
+          path: |
+            submission/ecology/trait_differentiation_candidate/generated/MANUSCRIPT_TRAIT_DIFFERENTIATION_CANDIDATE.docx
+            submission/ecology/trait_differentiation_candidate/generated/APPENDIX_S1_TRAIT_DIFFERENTIATION.docx
+            submission/ecology/trait_differentiation_candidate/generated/rendered/*.pdf
+            submission/ecology/trait_differentiation_candidate/generated/OPEN_RESEARCH_DATA_MANIFEST.md
+            submission/ecology/trait_differentiation_candidate/generated/open_research_data/*
+            submission/ecology/trait_differentiation_candidate/generated/PACKAGE_QA_RECEIPT.txt
+          if-no-files-found: warn
