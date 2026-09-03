@@ -1,4 +1,4 @@
-"""Basic publication guards for the new Chapter 2 SVG figure sources."""
+"""Publication guards for the integrated Chapter 2 SVG figure sources."""
 
 from pathlib import Path
 from xml.etree import ElementTree
@@ -24,28 +24,34 @@ def test_trait_differentiation_figures_are_valid_svg_xml() -> None:
         _parse(path)
 
 
-def test_figure1_contains_the_chapter2_identity_and_partial_differentiation() -> None:
+def test_figure1_separates_general_rule_from_quadratic_corollary() -> None:
     text = _parse(FIG1)
     for token in (
         "Shared axis: BALANCE",
         "Two axes: DIFFERENTIATION",
-        "decoupling fraction",
+        "recoverable compromise loss",
+        "R ≥ 0",
+        "Δ",
+        "= R − K",
+        "quadratic corollary",
         "R = s L",
-        "architecture cost",
         "partial differentiation",
     ):
         assert token in text, token
 
 
-def test_figure2_contains_the_architecture_boundary_and_coupling_shift() -> None:
+def test_figure2_is_explicitly_a_quadratic_boundary_visualization() -> None:
     text = _parse(FIG2)
     for token in (
+        "Quadratic corollary",
+        "General rule: Δarch = R − K",
+        "quadratic baseline: R = s L_S*",
         "shared-axis conflict load",
         "extra architecture cost",
         "s = 1.0",
         "s = 0.6",
         "s = 0.3",
-        "Residual coupling",
+        "not a universal linear boundary",
     ):
         assert token in text, token
 
