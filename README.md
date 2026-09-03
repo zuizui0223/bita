@@ -71,6 +71,8 @@ adding the function-2 coordinate y
 
 This is stronger than merely detecting a favorable `x x y` interaction.
 
+The benchmark is executable in `trait_architecture/functional_differentiation.py` and regression-tested by `tests/test_functional_differentiation.py`.
+
 ## Floral attraction-defence implementation
 
 The current mapping is
@@ -171,7 +173,9 @@ They show that:
 - antagonist-reducing traits recur across systems;
 - defence is not uniformly costly to pollination;
 - separated, overlapped, and bypassable effective domains recur;
-- component partitioning and conditional gating occur in floral systems;
+- floral scent components can carry differentiated ecological functions;
+- conditional / temporal gating occurs;
+- floral versus extrafloral nectaries illustrate spatial functional differentiation of nectar-producing structures, without implying one ancestral split;
 - a manipulated `A x D`-like reproductive surface exists in *Nicotiana attenuata*;
 - existing studies occupy complementary identification faces rather than one complete design.
 
@@ -224,28 +228,28 @@ This is the main programme-level sequence.
 ## Canonical reader path
 
 - `manuscript/MANUSCRIPT_FUNCTIONAL_DIFFERENTIATION.md` — **canonical Chapter-2 manuscript**
+- `manuscript/FUNCTIONAL_DIFFERENTIATION_FIGURE_MAP_V1.md` — main figure plan
 - `docs/FUNCTIONAL_DIFFERENTIATION_MODULARIZATION_FRAMEWORK_V1.md` — generalized architecture theory
 - `docs/FUNCTIONAL_DIFFERENTIATION_IDENTIFICATION_CONTRACT_V1.md` — experiment and claim hierarchy
+- `docs/BROAD_FUNCTIONAL_DIFFERENTIATION_REALITY_CHECK_V1.md` — broad architecture grounding
 - `docs/CHAPTER_1_SCH_TO_CHAPTER_2_BITA_POSITIONING_V1.md` — cross-chapter positioning
+- `empirical/identification_design/BITA_FUNCTIONAL_DIFFERENTIATION_PREDICTION_LEDGER_V1.csv` — machine-readable prediction contract
 - `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md` — detailed attraction-defence identification implementation
 - `docs/DEFENCE_ESCAPE_ROUTE_HYPOTHESIS_RECOVERY.md` — attraction-defence evidence recovery
 - `docs/PARTIAL_IDENTIFICATION_FRONTIER_V1.md` — identified-set / bound derivation
-- `docs/MECHANISM_PATTERN_IDENTIFICATION_BRIDGE.md` — recurrence / identification boundary
-- `docs/QUESTION_METHOD_EXPLANATION_MATRIX.md` — explanatory reach and claim ceilings
-- `docs/BITA_DEFENCE_ESCAPE_ROUTE_PRIMARY_SOURCE_AUDIT_V1.md` — high-information source audit.
+- `docs/MECHANISM_PATTERN_IDENTIFICATION_BRIDGE.md` — recurrence / identification boundary.
 
 ## Reproducibility core
 
-Primary identification implementation and tests remain:
+Primary implementation includes:
 
 - `trait_architecture/identification.py`
 - `trait_architecture/partial_identification.py`
+- `trait_architecture/functional_differentiation.py`
 - `tests/test_identification.py`
 - `tests/test_identification_four_way.py`
-- `tests/test_identification_coverage.py`
 - `tests/test_partial_identification.py`
-- `tests/test_partial_identification_balance.py`
-- `tests/test_partial_identification_manuscript_integration.py`.
+- `tests/test_functional_differentiation.py`.
 
 ## Inference boundaries
 
