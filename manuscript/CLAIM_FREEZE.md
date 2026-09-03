@@ -1,134 +1,121 @@
 # Manuscript claim freeze
 
-This file is the editorial guardrail for the current paper. It does not add a result; it states which claims are frozen, which claims are prohibited, and which unknowns belong to the next experiment rather than to the completion of this manuscript.
+This file is the editorial guardrail for the SCH/BITA chapter programme after the Chapter 2 reframe.
 
-## Sister-paper / Chapter 2 boundary
+## Chapter boundary
 
-BITA is the two-trait mechanistic sister paper to the one-trait SCH synthesis.
+The programme is not defined by pollination versus defence. It is defined by how organisms resolve conflicting functional demands on trait architecture.
 
-SCH owns the first-order question on a single attraction/display coordinate `A`: whether pollinators and antagonists track the same cue, whether their responses are shared or separable, and what that implies for one-trait conflict, cue modularization, and historical shared-to-private transitions.
+### SCH / Chapter 1 — BALANCE
 
-BITA begins only after a distinct antagonist-reducing trait `D` is introduced. Its chapter-level question is:
+A single trait coordinate `z` contributes to two functions or selective demands with different preferred states.
 
-> **Can defence improve the reproductive return to attraction enough to release a one-trait conflict, and which channel generated the observed `A×D` interaction?**
+> **Chapter 1 asks how opposing demands are balanced while they remain coupled on one trait axis.**
 
-The reader-facing progression is therefore `one-trait conflict -> candidate two-trait escape route -> mechanism identification`. BITA may use the SCH problem as motivation, but an `A×D` interaction must not be described as evidence of cue privatization, historical signal divergence, or escape from shared-cue detection unless those quantities are independently measured.
+Pollinator–antagonist shared-cue conflict is one empirical realization of this shared-axis problem.
 
-## Core claim
+### BITA / Chapter 2 — DIFFERENTIATION
 
-The paper's central result is:
+The second chapter asks whether the conflict remains on one axis or is partitioned across distinct trait coordinates.
 
-> **Floral attraction-defence complementarity is confined to a one-sided selectivity window under non-negative joint-cost curvature, while empirical systems repeatedly express the constituent mechanisms and switching architecture without a universal total sign.**
+> **Chapter 2 asks when a shared-trait compromise becomes inferior to functional differentiation across two or more trait axes.**
 
-The compact decomposition is
-
-```text
-W_AD = rho - iota - kappa
-```
-
-but the identity itself is not presented as the novelty.
-
-## Claim 1 — One-sided theorem
-
-Within the declared relief-minus-interference-minus-cost family, if direct joint-cost curvature is non-negative (`kappa >= 0`),
+The working architecture contrast is
 
 ```text
-W_AD > 0  =>  rho > iota
+W_S* = max_z W_S(z)
+W_D* = max_{x,y} W_D(x,y)
+Delta_arch = W_D* - W_S*
 ```
 
-Therefore complementarity cannot occur outside the selectivity window. The signs of `rho` and `iota` are not required for this implication; their non-negative magnitude interpretation belongs to the orientation gate used by the baseline mechanism.
+with differentiation favoured only when `Delta_arch > 0` after accounting for decoupling, cross-talk, maintenance and joint costs.
 
-The converse is not claimed. The declared finite design contains zero counterexamples to the forward implication, while about 23% of in-window evaluations are substitutable. At zero joint cost the window and the sign criterion coincide exactly.
+## Current evidence versus target Chapter 2 claim
 
-## Claim 2 — Failure mode
+The current BITA repository already contains a strong two-trait interaction and mechanism-identification framework, but it does **not yet demonstrate trait differentiation as an evolutionary outcome**.
 
-Outside-window complementarity requires
+Frozen current results include:
+
+- the discrete two-trait interaction `Delta_AD W` and nested outcome distinctions;
+- identified-set and partial-identification logic for compatible mechanism allocations;
+- the crossed `A×D×consumer` intervention design and separability diagnostic;
+- the independent joint-channel assay requirement;
+- 56 source-adjudicated route records across 25 independent biological clusters;
+- the 17-system fragmented identification frontier;
+- floral attraction–defence and mutualist–antagonist systems as worked ecological cases.
+
+These results support the statement that once two relevant trait axes exist, their joint fitness effect is mechanistically underdetermined unless the contributing channels are separately identified.
+
+They do **not** by themselves establish:
 
 ```text
-kappa < rho - iota <= 0
+one shared trait -> two differentiated traits
 ```
 
-Hence negative joint-cost curvature is necessary for failure of the one-sided bound, and a sufficiently negative value is sufficient within the declared family.
+or that a differentiated architecture is favoured over the best shared-axis compromise.
 
-Do not write that any negative `c_AD` automatically falsifies the bound for an observed system; the magnitude must be sufficient relative to the relief-interference difference.
+## Chapter 2 target claim
 
-## Claim 3 — Cross-system empirical Pattern
+The target claim to be established by the new theory layer is:
 
-The admitted Part II evidence supports:
+> **Conflicting functional optima need not be resolved by a single compromise trait; functional differentiation is favoured when the fitness recovered by allowing function-specific trait states exceeds the developmental, coordination and cross-talk costs of maintaining separate trait axes.**
 
-> **recurrent constituent mechanisms + context-dependent balance inside a moving permissive window**
+This sentence is a research target until the shared-versus-differentiated architecture comparison is implemented and stress-tested. It must not yet be written as an empirical result.
 
-The saturated route architecture contains 56 source-adjudicated records from 25 independent biological study clusters. These counts document recurrence and evidence capacity, not prevalence.
+## Role of the existing floral A×D module
 
-## Claim 4 — Antagonist-pressure gate
+The attraction–defence framework becomes one worked case, not the universal scope.
 
-The floral-larceny synthesis supports an average antagonist-pressure cost, including female-fitness LRR about `-0.210` across 48 independent clusters. The sign is not universal: 35/48 female-fitness clusters are negative and the 95% prediction interval spans approximately `-1.13` to `+0.71`.
+In that case:
 
-The declared moderators explain only 0–8% of the heterogeneity. The supported conclusion is therefore that the exposure gate can be open on average while its realized magnitude and sign remain system dependent. The current moderators do not locate the window reliably in a new system.
+```text
+A = one trait axis contributing mainly to one function
+D = a second trait axis capable of modifying the cost/benefit structure of A
+```
 
-## Claim 5 — Mechanism-chain boundary
+A positive `A×D` interaction can show functional relief inside a two-axis architecture and the intervention framework can identify why that relief occurs.
 
-The pooled nectar, visitation, and female-fitness directions do not demonstrate an end-to-end reward-mediated larceny mechanism. Only five clusters measured all three outcomes, two had all three negative, and the shared nectar-visitation subset has `r = -0.17`.
+But:
 
-Use the phrase **constituent-path evidence**, not causal-chain validation.
-
-## Claim 6 — Direct evidence boundary
-
-Direct total `A × D` evidence is sparse and does not establish a universal sign of `W_AD`. Direct crossed floral factorial evidence can show consumer-context-dependent channel interaction signs, but channel-specific contrasts are not automatically total `W_AD`.
-
-Direct joint-cost curvature has zero strict empirical estimates in the admitted evidence layer. The correct state is **unidentified**, not zero.
-
-## Novelty claim
-
-The paper may claim novelty for the combination of:
-
-1. a mechanism-facing inference architecture that separates antagonist relief, pollinator interference, and direct joint cost after an explicit orientation gate;
-2. the one-sided selectivity-window theorem as a necessary permissive region rather than a two-sided universal sign criterion;
-3. identification of sufficiently negative joint-cost curvature as the unique escape route from that bound in the declared family;
-4. conversion of the strongest theorem's empirical applicability into a tractable 2 × 2 joint-allocation sign test before the harder full `A × D` fitness factorial;
-5. a theory-structured Mechanism → Pattern synthesis that keeps incompatible outcome scales separate while testing recurrence, switching, same-system linkage, and identification gaps.
-
-In the sister-paper framing, the novelty is specifically **second-order**: SCH asks what happens along one attraction coordinate seen by multiple audiences; BITA asks what becomes identifiable when a second antagonist-reducing trait is introduced as a candidate functional escape route. Do not collapse these into a single shared-cue claim.
+```text
+positive A×D interaction
+!= trait differentiation
+!= origin of D
+!= historical modularization
+!= population divergence
+```
 
 ## Claims that must not appear
 
-Do not claim any of the following:
+Do not claim any of the following without new evidence:
 
-- cross-trait curvature or correlational selection is newly invented here;
-- pollinators and antagonists jointly affecting plant fitness is new;
-- floral attraction exposing plants to antagonists is new;
-- defence carrying a pollination cost is new;
-- context dependence itself is new;
-- the selectivity window is sufficient for complementarity;
-- `W_AD` has a universal positive or negative sign in nature;
-- the 2,592-grid occupancy estimates natural prevalence or probability;
-- the Part II route counts estimate prevalence;
-- Leal pooled effects estimate `rho`, `iota`, `kappa`, or `W_AD`;
-- the reward → visitation → fitness chain is demonstrated;
-- `kappa = 0` because no strict empirical estimate was found;
-- a 2 × 2 cost experiment establishes global universality across all trait pairs;
-- `W_AD` alone predicts phenotypic covariance, genetic correlation, evolutionary trajectory, or equilibrium;
-- positive `A × D` interaction proves that the one-trait shared cue has become private;
-- functional constraint release proves a historical shared-cue → private-cue transition;
-- BITA estimates the prevalence of shared versus private floral cues, which belongs to SCH.
+- pollination and defence define the general theory;
+- trait differentiation has already been demonstrated by the current BITA analyses;
+- two interacting traits necessarily evolved by splitting one ancestral trait;
+- positive cross-trait curvature is evidence of differentiation;
+- the 56/25 recurrence corpus estimates the prevalence of differentiated architectures;
+- the 17-system frontier reconstructs historical trait splitting;
+- a local `A×D` fitness interaction predicts an evolutionary endpoint without an explicit architecture/dynamics model;
+- population differentiation and within-organism functional trait differentiation are the same object.
 
-## What is no longer a blocker to this paper
+Retain the current identification ceilings for the floral worked case: marginal pathway recurrence is not total interaction identification, an unmeasured residual is not automatically cost, and direct joint-channel curvature remains unidentified where not independently measured.
 
-The following are next-study questions, not holes that require reopening the present manuscript:
+## Required additions before the Chapter 2 paper is scientifically closed
 
-- which fine-scale ecological variables predict where the selectivity window lies in a new system;
-- whether joint construction is synergistically cheap enough for `c_AD` to be sufficiently negative in any focal trait pair;
-- the calibrated total `W_AD` and channel allocation in a full attraction × defence factorial;
-- predictive performance of the framework prospectively across new systems;
-- whether repeated functional release by defence eventually produces cue privatization or historical signal divergence; that is a bridge between BITA and SCH, not a claim required for either current paper.
+1. Implement the shared-axis architecture and obtain `W_S*`.
+2. Implement the differentiated architecture and obtain `W_D*`.
+3. Map the sign of `Delta_arch` across conflict strength, decoupling, cross-talk and architecture costs.
+4. Test robustness across alternative smooth benefit/cost shapes.
+5. Decide the empirical ceiling: mechanistic floral worked case only, or add direct historical/comparative/experimental evidence of trait differentiation.
+6. Only then rewrite the canonical title, Abstract, Introduction and Discussion around differentiation.
 
 ## Editorial test
 
-Every Abstract, Introduction, Discussion, title, figure caption, cover letter, and reviewer response should pass four questions:
+Every Chapter 2 claim should pass four questions:
 
-1. Does it preserve the one-sided rather than two-sided theorem?
-2. Does it separate recurrence of constituent mechanisms from direct estimation of total `W_AD`?
-3. Does it treat `c_AD` and new-system prediction as generated next tests rather than unresolved internal gaps?
-4. Does it preserve the sister-paper boundary: SCH = one-trait shared-cue/evolvability; BITA = two-trait functional release/mechanism identification?
+1. Is the general object a conflict between functions on trait architecture rather than a pollination/defence label?
+2. Does the text distinguish compromise on one trait from differentiation across traits?
+3. Does it distinguish evidence that two traits interact from evidence that a differentiated architecture evolved?
+4. Are the current floral analyses presented as a mechanistic worked case unless a broader transition analysis is added?
 
-If the answer to any is no, revise the wording before submission.
+If any answer is no, revise before submission.
