@@ -4,25 +4,29 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_readme_declares_identification_and_bounded_pattern_story() -> None:
+def test_readme_declares_balance_differentiation_and_preserved_identification_story() -> None:
     text = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "Mechanism → Pattern → Identification" in text
+    assert "SCH / Chapter 1 — BALANCE" in text
+    assert "BITA / Chapter 2 — DIFFERENTIATION" in text
+    assert "Delta_arch = s * L_S* - K" in text
+    assert "300 / 300" in text
+    assert "60 / 60" in text
     assert "Delta_AD W = W11 - W10 - W01 + W00" in text
-    assert "A × D × antagonist × pollinator" in text
     assert "56 route records" in text
     assert "25 independent biological clusters" in text
-    assert "constituent ecological pathways recur" in text
-    assert "joint allocation remains unidentified" in text
-    assert "route counts are not prevalence estimates" in text
-    assert "finite-grid fractions are not probabilities of natural regimes" in text
+    assert "17 systems" in text
+    assert "fragmented identification" in text.lower()
+    assert "route recurrence" in text
+    assert "!= prevalence" in text
     assert "29 Main pages + 12 Appendix pages" in text
+    assert "not yet declared submission-ready" in text
 
 
 def test_one_trait_shared_cue_lane_is_externalized_to_sch() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     manuscript = (ROOT / "manuscript" / "MANUSCRIPT_IDENTIFICATION_DESIGN.md").read_text(encoding="utf-8")
     limits = manuscript.split("### 6.4 Limits", 1)[1].split("## 7. Conclusions", 1)[0]
-    assert "https://github.com/zuizui0223/sch" in readme
+    assert "SCH / Chapter 1" in readme
     assert "does not test" in limits
     assert "five attraction-to-pollination and eight attraction-to-antagonism clusters" in limits
     assert "constituent evidence" in limits
@@ -86,7 +90,18 @@ def test_scope_preserves_identification_boundaries() -> None:
     assert "29 Main pages + 12 Appendix pages" in text
 
 
-def test_final_audit_records_current_empirical_boundary() -> None:
+def test_chapter2_scope_explicitly_delays_canonical_repointing() -> None:
+    text = (ROOT / "docs" / "CHAPTER2_SUBMISSION_SCOPE_V1.md").read_text(encoding="utf-8")
+    assert "does not replace `docs/SUBMISSION_SCOPE.md`" in text
+    assert "MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md" in text
+    assert "MANUSCRIPT_IDENTIFICATION_DESIGN.md" in text
+    assert "K < s L_S*" in text
+    assert "300/300" in text
+    assert "17-system fragmented identification frontier" in text
+    assert "do not repoint the existing submission build" in text
+
+
+def test_final_audit_records_preserved_identification_package_boundary() -> None:
     text = (ROOT / "docs" / "FINAL_SUBMISSION_AUDIT.md").read_text(encoding="utf-8")
     assert "identification framework" in text
     assert "56 route records" in text
