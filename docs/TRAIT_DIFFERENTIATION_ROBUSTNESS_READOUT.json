@@ -1,0 +1,73 @@
+{
+  "conflict_monotonic_series": {
+    "passed": 60,
+    "total": 60
+  },
+  "coupling_monotonic_series": {
+    "passed": 60,
+    "total": 60
+  },
+  "declared_grid": {
+    "conflict_distances": [
+      0.1,
+      0.25,
+      0.5,
+      1.0,
+      2.0
+    ],
+    "couplings": [
+      0.0,
+      0.1,
+      0.5,
+      2.0,
+      10.0
+    ],
+    "functional_powers": [
+      1.5,
+      2.0,
+      3.0,
+      4.0
+    ],
+    "weights": [
+      [
+        1.0,
+        1.0
+      ],
+      [
+        0.4,
+        2.0
+      ],
+      [
+        3.0,
+        0.7
+      ]
+    ]
+  },
+  "grid_n": 300,
+  "mismatched_curvature_checks": [
+    {
+      "above_threshold_preference": "shared",
+      "below_threshold_preference": "differentiated",
+      "coupling_power": 2.0,
+      "functional_power": 1.5,
+      "threshold": 0.297722627887798
+    },
+    {
+      "above_threshold_preference": "shared",
+      "below_threshold_preference": "differentiated",
+      "coupling_power": 4.0,
+      "functional_power": 2.0,
+      "threshold": 0.682023111899656
+    },
+    {
+      "above_threshold_preference": "shared",
+      "below_threshold_preference": "differentiated",
+      "coupling_power": 2.0,
+      "functional_power": 4.0,
+      "threshold": 0.61597385742017
+    }
+  ],
+  "positive_recoverable_gain_n": 300,
+  "recoverable_gain_max": 2.6557405397604192,
+  "recoverable_gain_min": 4.457459826734799e-06
+}
