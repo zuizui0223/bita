@@ -77,10 +77,11 @@ def test_candidate_appendix_keeps_new_theory_and_old_identification_provenance()
     assert "## Supplementary material — identification-design manuscript" in text
 
 
-def test_open_research_candidate_sources_exist() -> None:
+def test_open_research_candidate_sources_exist_and_use_current_coverage() -> None:
     for path in (
         candidate.ROBUSTNESS_JSON,
-        ROOT / "empirical" / "identification_design" / "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv",
-        ROOT / "empirical" / "identification_design" / "IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json",
+        candidate.HIGH_INFO_COVERAGE,
+        candidate.IMPATIENS_RETROFIT,
     ):
         assert path.exists(), path
+    assert candidate.HIGH_INFO_COVERAGE.name == "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V2.csv"
