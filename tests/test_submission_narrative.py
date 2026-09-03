@@ -4,25 +4,25 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_readme_declares_identification_and_bounded_pattern_story() -> None:
+def test_readme_declares_functional_differentiation_and_operational_special_case() -> None:
     text = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "Mechanism → Pattern → Identification" in text
+    assert "functional differentiation / modularization" in text
+    assert "Can increasing trait dimensionality release a compromise" in text
+    assert "Delta_mod" in text
     assert "Delta_AD W = W11 - W10 - W01 + W00" in text
-    assert "A × D × antagonist × pollinator" in text
+    assert "A x D x antagonist x pollinator" in text
     assert "56 route records" in text
     assert "25 independent biological clusters" in text
-    assert "constituent ecological pathways recur" in text
-    assert "joint allocation remains unidentified" in text
     assert "route counts are not prevalence estimates" in text
-    assert "finite-grid fractions are not probabilities of natural regimes" in text
-    assert "29 Main pages + 12 Appendix pages" in text
+    assert "historical modularization" in text
 
 
-def test_one_trait_shared_cue_lane_is_externalized_to_sch() -> None:
+def test_chapter_one_lane_is_externalized_while_operational_limits_remain_guarded() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     manuscript = (ROOT / "manuscript" / "MANUSCRIPT_IDENTIFICATION_DESIGN.md").read_text(encoding="utf-8")
     limits = manuscript.split("### 6.4 Limits", 1)[1].split("## 7. Conclusions", 1)[0]
-    assert "https://github.com/zuizui0223/sch" in readme
+    assert "Chapter 1 / SCH" in readme
+    assert "Chapter 2 / BITA" in readme
     assert "does not test" in limits
     assert "five attraction-to-pollination and eight attraction-to-antagonism clusters" in limits
     assert "constituent evidence" in limits
