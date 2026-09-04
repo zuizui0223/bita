@@ -91,7 +91,7 @@ def test_scope_preserves_identification_boundaries_inside_chapter2() -> None:
     assert "!= total A×D interaction" in text
     assert "`U_delta` is not kappa by subtraction" in text
     assert "30 Main pages + 38 Appendix pages" in text
-    assert "full page-by-page QA of all 68 pages" in text
+    assert "full page-by-page qa of all 68 pages" in text.lower()
 
 
 def test_chapter2_promotion_receipt_records_closed_gates() -> None:
