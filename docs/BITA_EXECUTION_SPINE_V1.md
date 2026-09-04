@@ -6,7 +6,7 @@
 SCH identifies a one-dimensional shared-trait compromise
 -> BITA adds a second functional coordinate
 -> test preferential loading
--> test x-optimum release toward SCH function-1 optimum
+-> test x-optimum release toward the declared SCH reference
 -> test joint fitness improvement
 -> allocate the mechanism with the selective 16-cell design
 -> keep historical modularization separate.
@@ -20,15 +20,23 @@ BITA starts only after SCH supplies a positive causal-compromise receipt:
 MODEL_SUPPORTED_CAUSAL_COMPROMISE_CANDIDATE.
 ```
 
-Required imported quantities include:
+The default imported quantities are:
 
 ```text
-z_function1
-z_shared_combined
+z_P* = observed_estimands.z_pollinator_context
+z_C* = observed_estimands.z_combined
 causal optimum-shift evidence.
 ```
 
+`z_P*` is the pollinator-present / antagonist-suppressed **state-specific reproductive optimum**. It is not automatically the pure theoretical `z_F1*` because direct/background trait consequences can remain in the state surface.
+
 BITA does not re-estimate or redefine the Chapter-1 optimum after seeing Chapter-2 data.
+
+A stricter pure-function reference is allowed only if SCH independently supplies:
+
+```text
+identified_pure_function_optima.z_F1.
+```
 
 ## Gate B1 — trait-coordinate identity
 
@@ -89,10 +97,18 @@ The analyzer estimates:
 ```text
 x0* = optimum under y0
 x1* = optimum under y1
-R   = |x0* - z_function1| - |x1* - z_function1|.
+R   = |x0* - z_ref| - |x1* - z_ref|.
 ```
 
-Positive `R` means the extra y dimension releases x toward the function-1 optimum identified in SCH.
+Default:
+
+```text
+z_ref = z_P* = SCH state-specific P1G0 optimum.
+```
+
+Only a preregistered `pure_function` mode with an independently identified SCH `z_F1*` may use the pure function optimum as `z_ref`.
+
+Positive `R` means the extra y dimension releases x toward the **declared SCH reference**.
 
 Registered analysis details are in:
 
@@ -114,7 +130,7 @@ requires:
 ```text
 y targets function 2
 y preserves function 1 within tolerance
-x optimum moves toward SCH z_function1
+x optimum moves toward the declared SCH reference
 best y1 fitness exceeds best y0 fitness by the declared amount
 released y1 surface retains an interior optimum.
 ```
@@ -212,7 +228,7 @@ If y improves function 2 only by causing an equally large loss in function 1, re
 
 ### Stop B2 — no optimum release
 
-If x1* does not move toward the SCH function-1 optimum, do not call the second dimension an escape from Chapter-1 compromise even if total fitness changes.
+If x1* does not move toward the declared SCH reference, do not call the second dimension an escape from Chapter-1 compromise even if total fitness changes.
 
 ### Stop B3 — release without fitness gain
 
@@ -243,19 +259,28 @@ ancestral shared architecture
 ## Full SCH -> BITA chain
 
 ```text
-SCH
+SCH empirical default
 shared z
--> z_function1, z_function2, z_combined
+-> z_P*, z_G*, z_C*
 -> causal compromise
 
 BITA
 add y
 -> preferential functional loading
--> x optimum moves toward z_function1
+-> x optimum moves toward z_P* by default
 -> joint fitness improves
 -> 16-cell mechanism explains why
 -> residual coupling quantifies partial modularity.
 ```
+
+Optional stricter lane:
+
+```text
+SCH independently identifies z_F1*
+-> BITA additionally tests release toward pure z_F1*.
+```
+
+State-specific release and pure-function release are reported separately.
 
 This is the operational meaning of:
 
