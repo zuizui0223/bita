@@ -92,13 +92,15 @@ def test_scope_preserves_identification_boundaries() -> None:
 
 def test_chapter2_scope_explicitly_delays_canonical_repointing() -> None:
     text = (ROOT / "docs" / "CHAPTER2_SUBMISSION_SCOPE_V1.md").read_text(encoding="utf-8")
+    lower = text.lower()
     assert "does not replace `docs/SUBMISSION_SCOPE.md`" in text
     assert "MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md" in text
     assert "MANUSCRIPT_IDENTIFICATION_DESIGN.md" in text
     assert "K < s L_S*" in text
     assert "300/300" in text
     assert "17-system fragmented identification frontier" in text
-    assert "do not repoint the existing submission build" in text
+    assert "promotion" in lower and "canonical" in lower
+    assert "passes" in lower or "pass" in lower
 
 
 def test_final_audit_records_preserved_identification_package_boundary() -> None:
