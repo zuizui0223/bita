@@ -7,7 +7,14 @@ from trait_architecture.dimensional_release import analyze_dimensional_release
 
 def _sch_receipt() -> dict:
     return {
+        "receipt_schema_version": "SCH_CAUSAL_COMPROMISE_STATE_OPTIMA_V1",
         "status": "MODEL_SUPPORTED_CAUSAL_COMPROMISE_CANDIDATE",
+        "optimum_semantics": {
+            "z_pollinator_context": "STATE_SPECIFIC_P1G0_REPRODUCTIVE_OPTIMUM_NOT_AUTOMATICALLY_PURE_F1",
+            "z_antagonist_context": "STATE_SPECIFIC_P0G1_REPRODUCTIVE_OPTIMUM_NOT_AUTOMATICALLY_PURE_F2",
+            "z_combined": "STATE_SPECIFIC_P1G1_COMBINED_REPRODUCTIVE_OPTIMUM",
+            "pure_function_optima_identified_by_default": False,
+        },
         "observed_estimands": {
             "z_pollinator_context": 2.0,
             "z_antagonist_context": -2.0,
@@ -67,6 +74,7 @@ def test_positive_dimensional_release_uses_state_specific_reference_by_default()
     assert all(result["decisions"].values())
     assert result["sch_reference"]["reference_type"] == "STATE_SPECIFIC_P1G0_OPTIMUM"
     assert result["sch_reference"]["source_field"] == "observed_estimands.z_pollinator_context"
+    assert result["sch_reference"]["receipt_schema_version"] == "SCH_CAUSAL_COMPROMISE_STATE_OPTIMA_V1"
     assert "not automatically pure z_F1*" in result["sch_reference"]["interpretation"]
     est = result["observed_estimands"]
     assert abs(est["x_optimum_y0"]) < 1e-8
@@ -88,6 +96,20 @@ def test_sch_positive_receipt_is_required() -> None:
     receipt = _sch_receipt()
     receipt["status"] = "COMPROMISE_CRITERIA_NOT_ALL_RECOVERED"
     with pytest.raises(ValueError, match="positive causal-compromise"):
+        analyze_dimensional_release(_rows(True), receipt, _config())
+
+
+def test_legacy_or_ambiguous_sch_receipt_is_rejected() -> None:
+    receipt = _sch_receipt()
+    receipt.pop("receipt_schema_version")
+    with pytest.raises(ValueError, match="legacy or ambiguous receipts are not accepted"):
+        analyze_dimensional_release(_rows(True), receipt, _config())
+
+
+def test_wrong_state_semantics_are_rejected() -> None:
+    receipt = _sch_receipt()
+    receipt["optimum_semantics"]["z_pollinator_context"] = "PURE_F1_OPTIMUM"
+    with pytest.raises(ValueError, match="state-specific P1G0 reproductive optimum"):
         analyze_dimensional_release(_rows(True), receipt, _config())
 
 
