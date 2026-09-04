@@ -44,7 +44,25 @@ jobs:
             tests/test_partial_identification.py
 
       - name: Build Chapter 2 candidate sources
-        run: python scripts/build_trait_differentiation_candidate_package_sources.py
+        run: |
+          python scripts/build_trait_differentiation_candidate_package_sources.py
+          # Figures 3 and 4 are already tall enough to force the following figure
+          # onto a new page in the Ecology rendering. An explicit break after them
+          # can spill onto its own otherwise blank page, so remove only those two
+          # redundant markers before Word/PDF generation.
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('submission/ecology/trait_differentiation_candidate/generated/MANUSCRIPT_TRAIT_DIFFERENTIATION_CANDIDATE.md')
+          text = path.read_text(encoding='utf-8')
+          for idx in (4, 5):
+              text = text.replace(
+                  f'[[ECOLOGY_PAGE_BREAK]]\n\n**Figure {idx}.',
+                  f'**Figure {idx}.',
+                  1,
+              )
+          path.write_text(text, encoding='utf-8')
+          PY
 
       - name: Build candidate Main DOCX
         run: |
@@ -108,7 +126,9 @@ jobs:
           grep -q '300 nonzero-conflict evaluations' "$MAIN_TXT"
           grep -qi 'cichlid' "$MAIN_TXT"
           grep -q 'Dalechampia' "$MAIN_TXT"
-          grep -q '56 route records from 25 independent biological study clusters' "$MAIN_TXT"
+          # Keep this robust to line-number insertion and PDF line wrapping.
+          grep -q '56 route records from' "$MAIN_TXT"
+          grep -q '25 independent biological study clusters' "$MAIN_TXT"
           grep -q 'Figure 5.' "$MAIN_TXT"
           grep -q 'Trait differentiation and mechanism identification' "$APP_TXT"
           grep -q 'Nonquadratic robustness' "$APP_TXT"
