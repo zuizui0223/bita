@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 from pathlib import Path
+import shutil
 
+import build_ecology_submission_sources as legacy
 import build_trait_differentiation_candidate_package_sources as candidate
 
 
@@ -34,21 +36,73 @@ def build_main_submission_source() -> str:
 
 
 def build_appendix_source() -> str:
+    """Build the canonical Appendix from the same Chapter 2 source graph."""
+
     text = candidate.build_appendix_source()
     return text.replace("../../../../manuscript/", "../../../manuscript/")
 
 
 def build_open_research_manifest() -> str:
-    """Build the canonical Open Research export from the same candidate graph."""
+    """Retain historical machine-readable products and add active Chapter 2 outputs."""
 
-    old_out, old_data = candidate.OUT, candidate.DATA_OUT
+    old_legacy_out, old_legacy_data = legacy.OUT, legacy.DATA_OUT
     try:
-        candidate.OUT = OUT
-        candidate.DATA_OUT = DATA_OUT
-        return candidate.build_open_research_manifest()
+        legacy.OUT = OUT
+        legacy.DATA_OUT = DATA_OUT
+        manifest = legacy.build_open_research_manifest().rstrip()
     finally:
-        candidate.OUT = old_out
-        candidate.DATA_OUT = old_data
+        legacy.OUT = old_legacy_out
+        legacy.DATA_OUT = old_legacy_data
+
+    DATA_OUT.mkdir(parents=True, exist_ok=True)
+    additions = [
+        (
+            candidate.ROBUSTNESS_JSON,
+            DATA_OUT / "trait_differentiation_robustness_readout.json",
+            "Registered finite-family trait-differentiation robustness readout.",
+        ),
+        (
+            candidate.HIGH_INFO_COVERAGE,
+            DATA_OUT / "high_information_identification_coverage.csv",
+            "Authoritative V2 high-information identification-coverage matrix; screened-set coverage, not literature prevalence.",
+        ),
+        (
+            candidate.IMPATIENS_RETROFIT,
+            DATA_OUT / "impatiens_identification_retrofit.json",
+            "Aggregate public-data retrofit used in the floral mechanism-identification worked case; no individual records.",
+        ),
+        (
+            ROOT / "empirical" / "identification_design" / "QUESTION_METHOD_EXPLANATION_MATRIX_V1.csv",
+            DATA_OUT / "question_method_explanation_matrix.csv",
+            "Question-by-method explanatory reach, current evidence state, claim ceiling, and next valid identification gate.",
+        ),
+        (
+            ROOT / "empirical" / "identification_design" / "DEFENCE_ESCAPE_ROUTE_HYPOTHESIS_RECOVERY_V1.csv",
+            DATA_OUT / "defence_escape_route_hypothesis_recovery.csv",
+            "Hypothesis-by-hypothesis recovery of defence as an escape route, including positive ecological results, unevaluable complete-system terms, and next valid gates.",
+        ),
+    ]
+    for src, dst, _ in additions:
+        if not src.exists():
+            raise RuntimeError(f"missing Chapter 2 Open Research source: {src}")
+        shutil.copyfile(src, dst)
+
+    lines = [
+        manifest,
+        "",
+        "## Chapter 2 additions",
+        "",
+        "| Deposition file | Canonical repository source | Contents |",
+        "|---|---|---|",
+    ]
+    for src, dst, description in additions:
+        lines.append(f"| `{dst.name}` | `{src.relative_to(ROOT)}` | {description} |")
+    lines += [
+        "",
+        "The six historical mechanism/Pattern machine-readable products are retained for provenance and supplementary sensitivity work. The active Chapter 2 adds the trait-differentiation robustness readout and the authoritative floral identification products without treating either route counts or finite-grid occupancy as natural prevalence.",
+        "",
+    ]
+    return "\n".join(lines)
 
 
 def main() -> None:
