@@ -13,6 +13,7 @@ on:
       - 'scripts/build_trait_differentiation_candidate_package_sources.py'
       - 'scripts/format_ecology_submission_docx.py'
       - 'tests/test_trait_differentiation*.py'
+      - 'tests/test_ecology_formatter_math.py'
       - '.github/workflows/build-trait-differentiation-candidate.yml'
   workflow_dispatch:
 
@@ -40,6 +41,7 @@ jobs:
             tests/test_trait_differentiation_manuscript.py \
             tests/test_trait_differentiation_figures.py \
             tests/test_trait_differentiation_candidate_package.py \
+            tests/test_ecology_formatter_math.py \
             tests/test_identification.py \
             tests/test_partial_identification.py
 
