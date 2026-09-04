@@ -173,7 +173,9 @@ def test_sch_receipt_without_independent_predator_provenance_is_rejected() -> No
 def test_contract_keeps_dimensional_release_non_circular_and_below_delta_mod_history() -> None:
     text = CONTRACT.read_text(encoding="utf-8")
     assert "SCH_PEDICULARIS_FULL_SURFACE_WRAPPER_V2" in text
-    assert "independent seed-predator" in text
+    assert "G0 = SEED_PREDATOR_INDEPENDENTLY_EXCLUDED" in text
+    assert "G1 = SEED_PREDATOR_EXPOSED" in text
+    assert "non-circular" in text
     assert "R_state = |x0* - z_P*| - |x1* - z_P*|" in text
     assert "not as `Delta_mod`" in text
     assert "historical modularization" in text
