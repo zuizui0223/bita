@@ -34,8 +34,19 @@ The Pedicularis SCH provenance must additionally show:
 G0 = SEED_PREDATOR_INDEPENDENTLY_EXCLUDED
 G1 = SEED_PREDATOR_EXPOSED
 water_y = HELD_FIXED_ACROSS_ALL_SCH_CELLS
-readiness_reference.g_schema = SCH_PEDICULARIS_PREDATOR_WEIGHT_V2.
+readiness_reference.g_schema = SCH_PEDICULARIS_PREDATOR_METHOD_V3
+readiness_reference.predator_method_requirement contains POLLINATOR_ACCESS_PRESERVED.
 ```
+
+`SCH_PEDICULARIS_PREDATOR_METHOD_V3` means the antagonist intervention passed both:
+
+```text
+predator-effect/selectivity gates
+and
+method-timing gates showing that the barrier was applied in a registered post-pollination / pre-ovary-swelling window (or an equivalently qualified local barrier) without covering the pollinator-entry zone.
+```
+
+A positive predator-effect receipt without that timing / access qualification is insufficient for the same-species SCH -> BITA chain.
 
 Legacy Pedicularis SCH receipts that used water retained / drained as the Chapter-1 antagonist `G` are rejected.
 
@@ -113,7 +124,7 @@ R_state = |x0* - z_P*| - |x1* - z_P*|.
 
 Positive `R_state` means the water-defence axis releases exsertion toward the pollination-facing SCH reference.
 
-Because the required SCH reference comes from `SCH_PEDICULARIS_FULL_SURFACE_WRAPPER_V2`, where water-y was held fixed and antagonist exposure was manipulated independently, this is a **non-circular** release test.
+Because the required SCH reference comes from `SCH_PEDICULARIS_FULL_SURFACE_WRAPPER_V2`, where water-y was held fixed and antagonist exposure was manipulated independently with a method-qualified predator intervention, this is a **non-circular** release test.
 
 ## Preferential loading
 
