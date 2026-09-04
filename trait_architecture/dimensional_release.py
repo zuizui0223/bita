@@ -2,7 +2,7 @@
 
 Default inference uses the state-specific function-1-facing optimum directly
 identified by SCH (z_pollinator_context / P1G0), not a relabeled pure F1
-optimum.  A pure-function reference is allowed only when the SCH receipt
+optimum. A pure-function reference is allowed only when the SCH receipt
 contains an independently identified pure function optimum.
 """
 
@@ -24,6 +24,10 @@ REQUIRED_FIELDS = (
     "function2_value",
     "fitness_value",
 )
+
+SCH_STATE_RECEIPT_SCHEMA = "SCH_CAUSAL_COMPROMISE_STATE_OPTIMA_V1"
+SCH_P1G0_SEMANTICS = "STATE_SPECIFIC_P1G0_REPRODUCTIVE_OPTIMUM_NOT_AUTOMATICALLY_PURE_F1"
+SCH_P1G1_SEMANTICS = "STATE_SPECIFIC_P1G1_COMBINED_REPRODUCTIVE_OPTIMUM"
 
 
 def _num(row: dict[str, str], field: str) -> float:
@@ -156,10 +160,25 @@ def _x_range(rows: list[dict[str, str]], field: str, y_state: int, min_levels: i
     return max(values) - min(values)
 
 
+def _validate_sch_state_receipt_semantics(sch_receipt: dict) -> None:
+    if sch_receipt.get("receipt_schema_version") != SCH_STATE_RECEIPT_SCHEMA:
+        raise ValueError(
+            f"SCH receipt must use schema {SCH_STATE_RECEIPT_SCHEMA!r}; legacy or ambiguous receipts are not accepted"
+        )
+    semantics = sch_receipt.get("optimum_semantics")
+    if not isinstance(semantics, dict):
+        raise ValueError("SCH receipt lacks optimum_semantics")
+    if semantics.get("z_pollinator_context") != SCH_P1G0_SEMANTICS:
+        raise ValueError("SCH receipt does not declare z_pollinator_context as the state-specific P1G0 reproductive optimum")
+    if semantics.get("z_combined") != SCH_P1G1_SEMANTICS:
+        raise ValueError("SCH receipt does not declare z_combined as the state-specific P1G1 reproductive optimum")
+
+
 def _resolve_sch_reference(sch_receipt: dict, config: dict) -> dict:
     if sch_receipt.get("status") != "MODEL_SUPPORTED_CAUSAL_COMPROMISE_CANDIDATE":
         raise ValueError("SCH receipt must contain a positive causal-compromise candidate before BITA release testing")
 
+    _validate_sch_state_receipt_semantics(sch_receipt)
     mode = str(config.get("sch_reference_mode", "state_specific"))
     try:
         z_combined = float(sch_receipt["observed_estimands"]["z_combined"])
@@ -176,6 +195,7 @@ def _resolve_sch_reference(sch_receipt: dict, config: dict) -> dict:
             "reference_type": "STATE_SPECIFIC_P1G0_OPTIMUM",
             "source_field": "observed_estimands.z_pollinator_context",
             "z_shared_combined": z_combined,
+            "receipt_schema_version": sch_receipt["receipt_schema_version"],
             "interpretation": "function-1-facing state optimum; not automatically pure z_F1*",
         }
 
@@ -191,6 +211,7 @@ def _resolve_sch_reference(sch_receipt: dict, config: dict) -> dict:
             "reference_type": "PURE_FUNCTION_F1_OPTIMUM_INDEPENDENTLY_IDENTIFIED",
             "source_field": "identified_pure_function_optima.z_F1",
             "z_shared_combined": z_combined,
+            "receipt_schema_version": sch_receipt["receipt_schema_version"],
             "interpretation": "pure function-1 optimum supplied by an independent SCH assay",
         }
 
