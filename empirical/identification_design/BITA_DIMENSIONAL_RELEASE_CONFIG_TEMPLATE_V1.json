@@ -3,6 +3,7 @@
   "random_seed": 20260904,
   "min_x_levels": 5,
   "min_valid_bootstrap_fraction": 0.8,
+  "sch_reference_mode": "state_specific",
   "min_dimensional_release": "REQUIRED_BEFORE_USE",
   "min_within_bita_fitness_gain": "REQUIRED_BEFORE_USE",
   "min_y_function2_gain": "REQUIRED_BEFORE_USE",
