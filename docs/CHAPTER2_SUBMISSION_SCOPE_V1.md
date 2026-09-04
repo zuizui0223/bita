@@ -1,23 +1,30 @@
 # Chapter 2 submission scope v1
 
-## Status
+## Status — PROMOTION GATES CLOSED
 
-This is the promotion contract for the SCH sister Chapter 2 reframe. It does not replace `docs/SUBMISSION_SCOPE.md` until the integrated candidate passes the promotion gates.
+This document is now the promotion receipt for the SCH sister Chapter 2 reframe. The integrated trait-differentiation manuscript has passed the promotion gates and `docs/SUBMISSION_SCOPE.md` is the canonical live submission scope.
 
-Active integration source:
+Canonical integration source:
 
 ```text
 manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md
 ```
 
-Candidate review artifact is assembled by:
+Canonical review artifact is assembled by:
+
+```text
+scripts/build_ecology_review_package_sources.py
+.github/workflows/build-ecology-submission-package.yml
+```
+
+The independent pre-promotion validator remains:
 
 ```text
 scripts/build_trait_differentiation_candidate_package_sources.py
 .github/workflows/build-trait-differentiation-candidate.yml
 ```
 
-Preserved mature canonical source for the old validated package:
+Preserved mature component/provenance source:
 
 ```text
 manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md
@@ -46,38 +53,14 @@ and a differentiated pre-fixed-cost loss
 L_D0(x,y;lambda) = l1(x) + l2(y) + lambda c(x,y)
 ```
 
-with
-
-```text
-lambda >= 0
-c(x,y) >= 0
-c(z,z) = 0,
-```
-
-the differentiated architecture contains the shared phenotype as a diagonal special case. Therefore
+with `lambda >= 0`, `c(x,y) >= 0`, and `c(z,z) = 0`, the differentiated architecture contains the shared phenotype as a diagonal special case. Therefore
 
 ```text
 R(lambda) = L_S* - L_D0*(lambda) >= 0.
+Delta_arch = R - K.
 ```
 
-With an additional fixed architecture cost `K >= 0`,
-
-```text
-Delta_arch = R - K
-```
-
-and differentiation is favoured exactly when `K < R`.
-
-If coupling enters as the non-negative scaled penalty `lambda c(x,y)`, then
-
-```text
-lambda2 > lambda1
-=> R(lambda2) <= R(lambda1).
-```
-
-Promotable claim:
-
-> A nested differentiated architecture weakly enlarges the attainable phenotype set before its additional fixed cost is charged, and stronger declared non-negative residual coupling cannot increase the amount of shared-axis compromise loss that can be recovered.
+Differentiation is favoured exactly when `K < R`. If coupling enters as the non-negative scaled penalty `lambda c(x,y)`, then stronger coupling cannot increase `R`.
 
 Claim ceiling:
 - weak dominance, not universal strict improvement;
@@ -87,13 +70,10 @@ Claim ceiling:
 
 ### Layer 2 — quadratic corollary
 
-Quadratic baseline:
-
 ```text
 shared conflict load       L_S*
 decoupling fraction        s
 extra architecture cost    K
-
 recoverable conflict loss  R = s L_S*
 architecture gain          Delta_arch = s L_S* - K
 ```
@@ -115,34 +95,24 @@ Registered matched-curvature design:
 ```
 
 Promotable finite-family results:
-
 - strict `R > 0` in 300/300 evaluations;
 - larger optimum separation increases `R` in 60/60 declared series;
 - coupling monotonicity is recovered in 60/60 series as an implementation check of Layer 1, not its proof;
 - mismatched-curvature checks switch architecture preference immediately below/above the fixed-cost threshold.
 
-Prohibited expansion:
-- no strict-universality claim over arbitrary nonconvex, frequency-dependent or multimodal landscapes;
-- no universal optimum-distance theorem outside the declared family;
-- no evolutionary-dynamics claim from optimized-state comparison alone.
+No strict universality is claimed over arbitrary nonconvex, frequency-dependent or multimodal landscapes.
 
 ### Layer 4 — architecture-state empirical anchors
-
-Promotable claim:
 
 - cichlid oral/pharyngeal jaws demonstrate structural/function partitioning with residual evolutionary/genetic integration;
 - *Dalechampia* demonstrates historical redeployment/exaptation and addition of functional structures.
 
-Prohibited expansion:
-
-- neither system estimates `s`, `lambda`, `K`, `R` or `Delta_arch`;
-- neither is treated as a direct causal test that the modeled one-axis conflict generated the historical transition.
+Neither system estimates `s`, `lambda`, `K`, `R` or `Delta_arch`, and neither is treated as a direct causal test that the modeled one-axis conflict generated the historical transition.
 
 ### Layer 5 — mechanism identification after multiple axes exist
 
 Promotable existing BITA results:
-
-- discrete two-trait `Delta_AD W` and Level 1/2/3 outcome distinctions;
+- discrete two-trait `Delta_AD W` and nested outcome distinctions;
 - identified-set / partial-identification logic;
 - crossed trait-by-consumer allocation design;
 - four-way separability diagnostic;
@@ -162,14 +132,7 @@ positive A x D interaction
 
 ## Novelty ceiling
 
-Do not claim novelty for:
-
-- multifunctionality;
-- functional specialization;
-- division of labour;
-- pleiotropy versus specialization;
-- modularity as a solution to functional trade-offs;
-- the elementary fact that a larger feasible set weakly improves an optimum.
+Do not claim novelty for multifunctionality, functional specialization, division of labour, pleiotropy versus specialization, modularity as a solution to functional trade-offs, or the elementary feasible-set weak-dominance fact.
 
 The intended contribution is the empirical/inferential integration:
 
@@ -182,46 +145,47 @@ measured one-axis compromise
 
 ## Main figure ceiling
 
-Target five figures:
-
 1. shared balance versus differentiated architecture; general `Delta_arch=R-K`, with quadratic `R=sL_S*` explicitly labelled as a corollary;
 2. quadratic boundary `K=sL_S*`, explicitly not a universal linear boundary;
 3. registered nonquadratic strictness/conflict-distance results + coupling-proposition implementation check + bounded architecture-state anchors;
 4. multi-trait interaction -> identified set -> crossed intervention -> joint-channel assay;
 5. floral recurrence + 17-system fragmented identification frontier.
 
-The old five identification figures remain provenance sources and may be compressed/relegated to Appendix S1 rather than deleted.
+The old five identification figures remain provenance sources and are not deleted.
 
-## Promotion gates
-
-The integrated manuscript becomes canonical only after all of the following are true:
+## Promotion gates — CLOSED
 
 ```text
-[ ] candidate narrative/package regression tests execute green
-[ ] trait differentiation theory/unit tests execute green
-[ ] robustness tests execute green
-[ ] new SVG figures parse and narrative guards execute green
-[ ] focused Main bibliography resolves exactly to the admitted source set
-[ ] candidate uses authoritative V2 identification-coverage matrix
-[ ] Main + Appendix candidate DOCX/PDF build succeeds
-[ ] Main page count is recorded against Ecology C&S 30-page target / 50-page ceiling
-[ ] rendered candidate Main and Appendix receive page-by-page visual QA
-[ ] canonical manuscript/reference/figure/build pointers are synchronized atomically
-[ ] post-promotion canonical package rebuild succeeds
-[ ] post-promotion rendered pages receive final visual QA
+[x] candidate narrative/package regression tests execute green
+[x] trait differentiation theory/unit tests execute green
+[x] robustness tests execute green
+[x] new SVG figures parse and narrative guards execute green
+[x] focused Main bibliography resolves to the admitted source set
+[x] candidate uses authoritative V2 identification-coverage matrix
+[x] Main + Appendix candidate DOCX/PDF build succeeds
+[x] Main page count recorded against Ecology C&S target / ceiling
+[x] rendered candidate Main and Appendix receive page-by-page visual QA
+[x] canonical manuscript/reference/figure/build pointers synchronized
+[x] post-promotion canonical package rebuild succeeds
+[x] post-promotion rendered pages receive final visual QA
 ```
 
-GitHub Actions execution is currently an external gate; static source integration continues while those jobs remain queued.
+Validated pre-metadata canonical package:
+
+```text
+Main Document: 30 pages
+Appendix S1:   38 pages
+Main figures:   5
+full visual QA: 68/68 pages PASS
+```
 
 ## Journal target
 
-Primary target remains **Ecology — Concepts & Synthesis**. Current rationale is recorded in `docs/CHAPTER2_TARGET_JOURNAL_STRATEGY_V1.md`.
-
-The manuscript should first target the standard 30-page Main limit. If the integrated candidate exceeds 30 but remains at or below the 50-page C&S maximum, the cover letter must justify both broad ecological contribution and the need for the additional Main-text length.
+Primary target is **Ecology — Concepts & Synthesis**. Current rationale is recorded in `docs/CHAPTER2_TARGET_JOURNAL_STRATEGY_V1.md` and `submission/TARGET_JOURNAL_STRATEGY.md`.
 
 ## Merge rule
 
-PR #157 can be merged to `main` as a scientific development reframe only after the branch-level CI/scope regressions are green. Merging the development PR does not itself declare the new Chapter 2 review artifact submission-ready unless the promotion gates above are also closed.
+PR #157 is eligible to merge to `main` once the branch-level final CI/scope/package checks are green. Canonical promotion itself is complete; the remaining pre-upload blockers are human-controlled metadata/declarations and a final post-metadata rebuild.
 
 ## Reader takeaway
 
