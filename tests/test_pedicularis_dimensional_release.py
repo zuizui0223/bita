@@ -20,9 +20,25 @@ def _sch_receipt(population: str = "P_REX_TEST", season: str = "S1") -> dict:
         "receipt_schema_version": "SCH_CAUSAL_COMPROMISE_STATE_OPTIMA_V1",
         "analysis": "sch_multilevel_causal_compromise_surface",
         "status": "MODEL_SUPPORTED_CAUSAL_COMPROMISE_CANDIDATE",
+        "system_wrapper_schema_version": "SCH_PEDICULARIS_FULL_SURFACE_WRAPPER_V2",
         "system": "Pedicularis rex",
         "population_id": population,
         "season_id": season,
+        "pedicularis_state_mapping": {
+            "P0": "SUPPLEMENTED_OPEN_POLLINATION_DEPENDENCE_NEUTRALIZED",
+            "P1": "NATURAL_OPEN_POLLINATION_DEPENDENCE_ACTIVE",
+            "G0": "SEED_PREDATOR_INDEPENDENTLY_EXCLUDED",
+            "G1": "SEED_PREDATOR_EXPOSED",
+            "water_y": "HELD_FIXED_ACROSS_ALL_SCH_CELLS",
+            "fitness_value": "UNDAMAGED_MATURE_SEED_COUNT_PER_FOCAL_FLOWER",
+        },
+        "readiness_reference": {
+            "schema": "SCH_PEDICULARIS_FULL_SURFACE_READINESS_V2",
+            "status": "PEDICULARIS_FULL_SURFACE_READY",
+            "population_id": population,
+            "season_id": season,
+            "g_schema": "SCH_PEDICULARIS_PREDATOR_WEIGHT_V2",
+        },
         "optimum_semantics": {
             "z_pollinator_context": "STATE_SPECIFIC_P1G0_REPRODUCTIVE_OPTIMUM_NOT_AUTOMATICALLY_PURE_F1",
             "z_antagonist_context": "STATE_SPECIFIC_P0G1_REPRODUCTIVE_OPTIMUM_NOT_AUTOMATICALLY_PURE_F2",
@@ -101,11 +117,14 @@ def test_template_and_config_are_registered_fail_closed_inputs() -> None:
     assert "DO_NOT_RUN" in config["status"]
 
 
-def test_pedicularis_water_defence_releases_exsertion_toward_sch_reference() -> None:
+def test_pedicularis_water_defence_releases_exsertion_toward_non_circular_sch_reference() -> None:
     result = analyze(_rows(), _sch_receipt(), _config())
     assert result["status"] == "FUNCTIONAL_DIFFERENTIATION_OUTCOME_SUPPORTED"
     assert result["system"] == "Pedicularis rex"
-    assert result["system_wrapper_schema_version"] == "BITA_PEDICULARIS_DIMENSIONAL_RELEASE_WRAPPER_V1"
+    assert result["system_wrapper_schema_version"] == "BITA_PEDICULARIS_DIMENSIONAL_RELEASE_WRAPPER_V2"
+    assert result["sch_reference_provenance"]["system_wrapper_schema_version"] == "SCH_PEDICULARIS_FULL_SURFACE_WRAPPER_V2"
+    assert result["sch_reference_provenance"]["independent_predator_g_schema"] == "SCH_PEDICULARIS_PREDATOR_WEIGHT_V2"
+    assert result["sch_reference_provenance"]["water_y_was_fixed_during_sch"] is True
     assert result["pedicularis_mapping"]["y0"].startswith("DRAINED")
     assert result["pedicularis_mapping"]["y1"].startswith("PROTECTED")
     est = result["observed_estimands"]
@@ -133,8 +152,28 @@ def test_sch_context_mismatch_fails_closed() -> None:
         analyze(_rows(), _sch_receipt(season="S2"), _config())
 
 
-def test_contract_keeps_dimensional_release_below_delta_mod_and_history() -> None:
+def test_legacy_water_as_G_sch_receipt_is_rejected() -> None:
+    receipt = _sch_receipt()
+    receipt["system_wrapper_schema_version"] = "SCH_PEDICULARIS_FULL_SURFACE_WRAPPER_V1"
+    receipt["pedicularis_state_mapping"] = {
+        "G0": "PROTECTED_WATER_RETAINED_ANTAGONIST_PRESSURE_SUPPRESSED",
+        "G1": "DRAINED_ANTAGONIST_PRESSURE_ACTIVE",
+    }
+    with pytest.raises(ValueError, match="legacy water-as-G SCH receipts are rejected"):
+        analyze(_rows(), receipt, _config())
+
+
+def test_sch_receipt_without_independent_predator_provenance_is_rejected() -> None:
+    receipt = _sch_receipt()
+    receipt["readiness_reference"]["g_schema"] = "SCH_PEDICULARIS_ANTAGONIST_WEIGHT_V1"
+    with pytest.raises(ValueError, match="SCH_PEDICULARIS_PREDATOR_WEIGHT_V2"):
+        analyze(_rows(), receipt, _config())
+
+
+def test_contract_keeps_dimensional_release_non_circular_and_below_delta_mod_history() -> None:
     text = CONTRACT.read_text(encoding="utf-8")
+    assert "SCH_PEDICULARIS_FULL_SURFACE_WRAPPER_V2" in text
+    assert "independent seed-predator" in text
     assert "R_state = |x0* - z_P*| - |x1* - z_P*|" in text
     assert "not as `Delta_mod`" in text
     assert "historical modularization" in text
