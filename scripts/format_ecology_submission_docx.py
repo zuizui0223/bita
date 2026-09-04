@@ -13,6 +13,7 @@ from docx.shared import Inches, Pt
 TITLE_BREAK = "[[ECOLOGY_SECTION_BREAK_AFTER_TITLE]]"
 REF_BREAK = "[[ECOLOGY_SECTION_BREAK_AFTER_REFERENCES]]"
 PAGE_BREAK = "[[ECOLOGY_PAGE_BREAK]]"
+MATH_NS = "http://schemas.openxmlformats.org/officeDocument/2006/math"
 
 
 def _remove_all_runs(paragraph) -> None:
@@ -87,6 +88,31 @@ def _set_run_font(run, size: Pt) -> None:
         rfonts.set(qn(f"w:{attr}"), "Times New Roman")
 
 
+def _normalize_libreoffice_math_superscripts(doc: Document) -> int:
+    """Replace OMML superscript '*' with 'opt' before LibreOffice rendering.
+
+    LibreOffice 24 on the GitHub runner renders a lone superscript asterisk in
+    OMML math with a broken fallback glyph.  In this manuscript those stars mark
+    optimized quantities (z*, x*, L_S*, W_D*, etc.), so use an explicit textual
+    superscript 'opt'.  Only a superscript whose complete math text is exactly '*'
+    is changed; ordinary asterisks and multiplication symbols are untouched.
+    """
+
+    sup_tag = f"{{{MATH_NS}}}sup"
+    text_tag = f"{{{MATH_NS}}}t"
+    replacements = 0
+    for sup in doc._element.iter(sup_tag):
+        text_nodes = list(sup.iter(text_tag))
+        combined = "".join(node.text or "" for node in text_nodes).strip()
+        if combined != "*" or not text_nodes:
+            continue
+        text_nodes[0].text = "opt"
+        for node in text_nodes[1:]:
+            node.text = ""
+        replacements += 1
+    return replacements
+
+
 def _set_page_field(paragraph) -> None:
     paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
     run = paragraph.add_run()
@@ -159,6 +185,7 @@ def _format_document(doc: Document, *, appendix: bool) -> None:
                     for paragraph in cell.paragraphs:
                         _suppress_line_numbers(paragraph)
 
+    _normalize_libreoffice_math_superscripts(doc)
     _configure_sections(doc)
 
     normal = doc.styles["Normal"]
