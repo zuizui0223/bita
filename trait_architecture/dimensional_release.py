@@ -1,9 +1,9 @@
 """Empirical SCH -> BITA dimensional-release analysis.
 
-This module tests whether adding a second functional coordinate y moves the
-optimum of the retained x coordinate toward the function-1 optimum identified
-in SCH.  It deliberately separates within-BITA fitness improvement from a true
-architecture-level Delta_mod comparison.
+Default inference uses the state-specific function-1-facing optimum directly
+identified by SCH (z_pollinator_context / P1G0), not a relabeled pure F1
+optimum.  A pure-function reference is allowed only when the SCH receipt
+contains an independently identified pure function optimum.
 """
 
 from __future__ import annotations
@@ -93,12 +93,12 @@ def _fit_quadratic(points: list[tuple[float, float]]) -> dict:
         [[n, s1, s2], [s1, s2, s3], [s2, s3, s4]],
         [t0, t1, t2],
     )
-    zmin, zmax = min(xs), max(xs)
+    xmin, xmax = min(xs), max(xs)
     discrete = points[max(range(len(points)), key=lambda i: points[i][1])][0]
     vertex = None
     if c < 0:
         candidate = -b / (2 * c)
-        if zmin <= candidate <= zmax:
+        if xmin <= candidate <= xmax:
             vertex = candidate
     optimum = vertex if vertex is not None else discrete
     optimum_value = a + b * optimum + c * optimum * optimum
@@ -106,8 +106,8 @@ def _fit_quadratic(points: list[tuple[float, float]]) -> dict:
         "a": a,
         "b": b,
         "c": c,
-        "x_min": zmin,
-        "x_max": zmax,
+        "x_min": xmin,
+        "x_max": xmax,
         "primary_optimum": optimum,
         "optimum_value": optimum_value,
         "optimum_class": "INTERIOR_CONCAVE" if vertex is not None else "BOUNDARY_OR_NONCONCAVE",
@@ -130,7 +130,7 @@ def _cell_means(rows: list[dict[str, str]], field: str) -> dict[tuple[str, int],
 
 def _fitness_fit(rows: list[dict[str, str]], y_state: int, min_levels: int) -> dict:
     cells = _cell_means(rows, "fitness_value")
-    points = [value for (level, y), value in cells.items() if y == y_state]
+    points = [value for (_, y), value in cells.items() if y == y_state]
     if len(points) < min_levels:
         raise ValueError(f"y={y_state} has {len(points)} x levels; requires >= {min_levels}")
     return _fit_quadratic(sorted(points))
@@ -150,13 +150,54 @@ def _equal_level_y_effect(rows: list[dict[str, str]], field: str, min_levels: in
 
 def _x_range(rows: list[dict[str, str]], field: str, y_state: int, min_levels: int) -> float:
     cells = _cell_means(rows, field)
-    values = [value[1] for (level, y), value in cells.items() if y == y_state]
+    values = [value[1] for (_, y), value in cells.items() if y == y_state]
     if len(values) < min_levels:
         raise ValueError(f"field {field}, y={y_state} lacks enough x levels")
     return max(values) - min(values)
 
 
-def _metrics(rows: list[dict[str, str]], sch_z1: float, config: dict) -> dict:
+def _resolve_sch_reference(sch_receipt: dict, config: dict) -> dict:
+    if sch_receipt.get("status") != "MODEL_SUPPORTED_CAUSAL_COMPROMISE_CANDIDATE":
+        raise ValueError("SCH receipt must contain a positive causal-compromise candidate before BITA release testing")
+
+    mode = str(config.get("sch_reference_mode", "state_specific"))
+    try:
+        z_combined = float(sch_receipt["observed_estimands"]["z_combined"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise ValueError("SCH receipt lacks z_combined") from exc
+
+    if mode == "state_specific":
+        try:
+            value = float(sch_receipt["observed_estimands"]["z_pollinator_context"])
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError("SCH receipt lacks z_pollinator_context state-specific reference") from exc
+        return {
+            "reference_value": value,
+            "reference_type": "STATE_SPECIFIC_P1G0_OPTIMUM",
+            "source_field": "observed_estimands.z_pollinator_context",
+            "z_shared_combined": z_combined,
+            "interpretation": "function-1-facing state optimum; not automatically pure z_F1*",
+        }
+
+    if mode == "pure_function":
+        try:
+            value = float(sch_receipt["identified_pure_function_optima"]["z_F1"])
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError(
+                "pure_function mode requires SCH receipt identified_pure_function_optima.z_F1 from an independent identification lane"
+            ) from exc
+        return {
+            "reference_value": value,
+            "reference_type": "PURE_FUNCTION_F1_OPTIMUM_INDEPENDENTLY_IDENTIFIED",
+            "source_field": "identified_pure_function_optima.z_F1",
+            "z_shared_combined": z_combined,
+            "interpretation": "pure function-1 optimum supplied by an independent SCH assay",
+        }
+
+    raise ValueError("sch_reference_mode must be 'state_specific' or 'pure_function'")
+
+
+def _metrics(rows: list[dict[str, str]], sch_reference: float, config: dict) -> dict:
     min_levels = int(config.get("min_x_levels", 5))
     fit0 = _fitness_fit(rows, 0, min_levels)
     fit1 = _fitness_fit(rows, 1, min_levels)
@@ -169,16 +210,16 @@ def _metrics(rows: list[dict[str, str]], sch_z1: float, config: dict) -> dict:
     x1 = fit1["primary_optimum"]
     x0_sch = offset + multiplier * x0
     x1_sch = offset + multiplier * x1
-    d0 = abs(x0_sch - sch_z1)
-    d1 = abs(x1_sch - sch_z1)
+    d0 = abs(x0_sch - sch_reference)
+    d1 = abs(x1_sch - sch_reference)
 
     return {
         "x_optimum_y0": x0,
         "x_optimum_y1": x1,
         "x_optimum_y0_on_sch_scale": x0_sch,
         "x_optimum_y1_on_sch_scale": x1_sch,
-        "distance_to_sch_z1_y0": d0,
-        "distance_to_sch_z1_y1": d1,
+        "distance_to_sch_reference_y0": d0,
+        "distance_to_sch_reference_y1": d1,
         "dimensional_release": d0 - d1,
         "within_bita_optimum_fitness_gain": fit1["optimum_value"] - fit0["optimum_value"],
         "y_effect_function1": _equal_level_y_effect(rows, "function1_value", min_levels),
@@ -206,13 +247,8 @@ def _bootstrap_rows(rows: list[dict[str, str]], rng: random.Random) -> list[dict
 
 
 def analyze_dimensional_release(rows: list[dict[str, str]], sch_receipt: dict, config: dict) -> dict:
-    if sch_receipt.get("status") != "MODEL_SUPPORTED_CAUSAL_COMPROMISE_CANDIDATE":
-        raise ValueError("SCH receipt must contain a positive causal-compromise candidate before BITA release testing")
-    try:
-        sch_z1 = float(sch_receipt["observed_estimands"]["z_pollinator_context"])
-        sch_zc = float(sch_receipt["observed_estimands"]["z_combined"])
-    except (KeyError, TypeError, ValueError) as exc:
-        raise ValueError("SCH receipt lacks required observed z optima") from exc
+    reference = _resolve_sch_reference(sch_receipt, config)
+    sch_reference = float(reference["reference_value"])
 
     min_levels = int(config.get("min_x_levels", 5))
     if min_levels < 3:
@@ -221,14 +257,14 @@ def analyze_dimensional_release(rows: list[dict[str, str]], sch_receipt: dict, c
     if reps < 200:
         raise ValueError("bootstrap_reps must be >= 200")
 
-    observed = _metrics(rows, sch_z1, config)
+    observed = _metrics(rows, sch_reference, config)
     rng = random.Random(int(config.get("random_seed", 20260904)))
     boot = []
     interior_y1 = 0
     for _ in range(reps):
         sample = _bootstrap_rows(rows, rng)
         try:
-            item = _metrics(sample, sch_z1, config)
+            item = _metrics(sample, sch_reference, config)
         except ValueError:
             continue
         boot.append(item)
@@ -257,7 +293,7 @@ def analyze_dimensional_release(rows: list[dict[str, str]], sch_receipt: dict, c
     decisions = {
         "y_targets_function2": f2_ci[0] >= min_target,
         "y_preserves_function1": f1_ci[0] >= -max_cross_penalty,
-        "x_optimum_released_toward_sch_function1": release_ci[0] >= min_release,
+        "x_optimum_released_toward_sch_reference": release_ci[0] >= min_release,
         "within_bita_joint_fitness_improves": gain_ci[0] >= min_gain,
         "released_surface_has_interior_optimum": observed["y1_interior"] and interior_fraction >= min_interior,
     }
@@ -265,8 +301,7 @@ def analyze_dimensional_release(rows: list[dict[str, str]], sch_receipt: dict, c
     return {
         "analysis": "bita_empirical_dimensional_release",
         "sch_reference": {
-            "z_function1": sch_z1,
-            "z_shared_combined": sch_zc,
+            **reference,
             "receipt_status": sch_receipt["status"],
         },
         "n_rows": len(rows),
@@ -286,6 +321,6 @@ def analyze_dimensional_release(rows: list[dict[str, str]], sch_receipt: dict, c
         "status": "FUNCTIONAL_DIFFERENTIATION_OUTCOME_SUPPORTED"
         if all(decisions.values())
         else "FUNCTIONAL_DIFFERENTIATION_OUTCOME_NOT_FULLY_RECOVERED",
-        "claim_ceiling": "outcome_level_dimensional_release_only_mechanism_allocation_requires_selective_crossed_design",
+        "claim_ceiling": "outcome_level_dimensional_release_toward_declared_sch_reference_only_mechanism_allocation_requires_selective_crossed_design",
         "delta_mod_status": "NOT_IDENTIFIED_UNLESS_SHARED_AND_DIFFERENTIATED_FITNESS_SCALES_ARE_EXPLICITLY_COMMENSURABLE",
     }
