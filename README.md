@@ -25,57 +25,68 @@ The attraction (`A`) by antagonist-reducing trait (`D`) framework is the first f
 
 ## Scientific target
 
-Chapter 1 identifies a multifunctional conflict on one shared coordinate `z`. Chapter 2 asks whether two partially distinct coordinates `x` and `y` make the functions more independently tunable.
+Chapter 1 identifies a causal one-dimensional compromise on a shared coordinate `z`. Chapter 2 asks whether two partially distinct coordinates `x` and `y` make the functions more independently tunable.
 
-A differentiated architecture requires more than two traits. It requires **preferential functional loading**:
+A differentiated architecture requires more than two traits. It requires **preferential functional loading** with cross-functional effects measured rather than assumed away.
+
+## Theory bridge and empirical reference
+
+At the theory level, pure function-specific objectives may have optima:
 
 ```text
-trait x -> function 1 strongly / selectively
-trait y -> function 2 strongly / selectively
+z_F1*
+z_F2*.
 ```
 
-with cross-functional effects measured rather than assumed away.
-
-## Analytic bridge from SCH
-
-Under the local Chapter-1 benchmark
+The ideal local quadratic benchmark is:
 
 ```text
 L_shared(z)
-  = a (z - z1*)^2
-  + b (z - z2*)^2,
+  = a (z - z_F1*)^2
+  + b (z - z_F2*)^2
 ```
 
-the one-dimensional compromise penalty is
+with theoretical compromise penalty:
 
 ```text
-L_compromise*
-  = [a b / (a + b)] (z1* - z2*)^2.
+L_compromise,theory*
+  = [a b / (a + b)] (z_F1* - z_F2*)^2.
 ```
 
-If two differentiated coordinates can independently approach the function-specific optima but cost an additional amount `K`, the ideal architecture-level gain is
+If differentiated coordinates can independently approach the pure function optima but cost an additional amount `K`, the ideal theory-level gain is:
 
 ```text
 Delta_mod
-  = [a b / (a + b)] (z1* - z2*)^2 - K.
+  = [a b / (a + b)] (z_F1* - z_F2*)^2 - K.
 ```
 
-Thus the potential value of differentiation grows with the strength of the compromise identified in SCH and disappears if the extra architecture cost is too large.
-
-The strongest cross-chapter prediction is an **optimum release**:
+This is a theory benchmark. The crossed SCH experiment directly identifies state-specific reproductive optima:
 
 ```text
-adding the function-2 coordinate y
--> x* shifts toward the function-1 optimum z1* identified in SCH.
+z_P* = observed_estimands.z_pollinator_context
+z_G* = observed_estimands.z_antagonist_context
+z_C* = observed_estimands.z_combined.
 ```
 
-This is stronger than merely detecting a favorable `x x y` interaction.
+Because direct/background effects can remain in those state surfaces:
 
-The benchmark is executable in `trait_architecture/functional_differentiation.py` and regression-tested by `tests/test_functional_differentiation.py`.
+```text
+z_P* != automatically z_F1*
+z_G* != automatically z_F2*.
+```
+
+The **default empirical dimensional-release test** therefore asks whether adding `y` moves `x*` toward `z_P*`.
+
+A stricter pure-function release test is allowed only when SCH independently exports `identified_pure_function_optima.z_F1`.
+
+This distinction is implemented in `trait_architecture/dimensional_release.py` with:
+
+```text
+sch_reference_mode = state_specific   # default
+sch_reference_mode = pure_function    # requires independent SCH z_F1*
+```
 
 ## Floral attraction-defence implementation
-
-The current mapping is
 
 ```text
 function 1 = pollinator-mediated reproductive gain
@@ -85,7 +96,7 @@ trait x = attraction trait A
 trait y = antagonist-reducing trait D.
 ```
 
-For two declared attraction and defence levels, retain
+For two declared attraction and defence levels, retain:
 
 ```text
 Delta_AD W = W11 - W10 - W01 + W00
@@ -107,11 +118,46 @@ Level 3 — strict reversal
 A0 < 0 < A1.
 ```
 
-Under the broader framing, these test whether the second functional coordinate improves, releases, or reverses the outcome of the focal attraction trait. A positive interaction alone does not prove modularity.
+A positive interaction alone does not prove modularity.
+
+## Empirical dimensional release
+
+Use multiple `x` levels and at least two `y` states:
+
+```text
+x0* = argmax W(x | y0)
+x1* = argmax W(x | y1).
+```
+
+Default release estimand:
+
+```text
+R_state
+  = |x0* - z_P*| - |x1* - z_P*|.
+```
+
+Positive `R_state` means the added function-2-facing coordinate moves `x` toward the function-1-facing state identified in SCH.
+
+Optional strict lane, only with independently identified `z_F1*`:
+
+```text
+R_pure
+  = |x0* - z_F1*| - |x1* - z_F1*|.
+```
+
+State-specific and pure-function release are reported separately.
+
+Within-BITA improvement is reported as:
+
+```text
+within_bita_optimum_fitness_gain
+```
+
+and is not called empirical `Delta_mod` unless shared and differentiated architecture fitness scales are explicitly commensurable and added architecture costs are included.
 
 ## Mechanism identification
 
-The full floral design crosses
+The full floral design crosses:
 
 ```text
 A x D x antagonist x pollinator
@@ -119,13 +165,7 @@ A x D x antagonist x pollinator
 
 in 16 cells.
 
-The total interaction does not point-identify antagonist relief (`rho_delta`), pollinator interference (`iota_delta`), and the remaining joint channel (`kappa_delta`). Compatible allocations satisfy
-
-```text
-rho_delta - iota_delta - kappa_delta = Delta_AD W.
-```
-
-The inference ladder remains
+The total interaction does not point-identify antagonist relief (`rho_delta`), pollinator interference (`iota_delta`), and the remaining joint channel. The inference ladder remains:
 
 ```text
 interaction detection
@@ -135,7 +175,7 @@ interaction detection
 -> independent joint-channel validation.
 ```
 
-The residual
+The residual:
 
 ```text
 U_delta = rho_delta - iota_delta - Delta_AD W
@@ -144,8 +184,6 @@ U_delta = rho_delta - iota_delta - Delta_AD W
 remains unallocated. It is not called `kappa` by subtraction.
 
 ## Functional modularity as an empirical property
-
-The same 16-cell decomposition now has an architecture-level interpretation.
 
 A strongly differentiated `D` should reduce antagonist-mediated loss without an equivalent pollinator penalty. A strongly differentiated `A` should preserve its pollination function while `D` carries more of the antagonist-reduction function.
 
@@ -156,7 +194,7 @@ The `A x D x antagonist x pollinator` four-way term is therefore also a **residu
 ```text
 D0  distinct measured trait coordinates
 D1  preferential functional loading
-D2  functional / dimensional release beyond the constrained reference
+D2  dimensional release toward the declared SCH reference
 D3  mechanism-resolved differentiation
 D4  stable ecological / developmental modularity across contexts
 D5  historical modularization from an ancestral integrated state.
@@ -166,24 +204,15 @@ BITA can experimentally target D0-D3. D5 requires independent historical evidenc
 
 ## Real-world evidence role
 
-The route ledger and primary-source audits now serve as a **real-world functional-architecture evidence layer**.
-
-They show that:
-
-- antagonist-reducing traits recur across systems;
-- defence is not uniformly costly to pollination;
-- separated, overlapped, and bypassable effective domains recur;
-- floral scent components can carry differentiated ecological functions;
-- conditional / temporal gating occurs;
-- floral versus extrafloral nectaries illustrate spatial functional differentiation of nectar-producing structures, without implying one ancestral split;
-- a manipulated `A x D`-like reproductive surface exists in *Nicotiana attenuata*;
-- existing studies occupy complementary identification faces rather than one complete design.
+The route ledger and primary-source audits are a **real-world functional-architecture evidence layer**. They show that antagonist-reducing traits recur, defence is not uniformly costly to pollination, separated/overlapped/bypassable effective domains recur, component partitioning and conditional gating occur, and a manipulated `A x D`-like reproductive surface exists in *Nicotiana attenuata*.
 
 Current bounded status:
 
 ```text
 REAL_WORLD_FUNCTIONAL_SEPARATION_RECOVERED
 INTERACTION_LEVEL_RELEASE_ANCHOR_RECOVERED
+STATE_SPECIFIC_DIMENSIONAL_RELEASE_ANALYZER_READY
+PURE_FUNCTION_RELEASE_REQUIRES_STRONGER_SCH_INPUT
 COMPLETE_DIFFERENTIATION_CHAIN_NOT_YET_IDENTIFIED
 HISTORICAL_MODULARIZATION_NOT_YET_IDENTIFIED.
 ```
@@ -200,22 +229,23 @@ The existing BITA results remain intact:
 - `A1` uniformly positive while `A0` remains close to and spanning zero under the recovered aggregate bounds;
 - complete channel allocation and an independent joint-cost assay remain absent.
 
-These are positive pieces of the functional-differentiation story, but no current system starts from a directly identified SCH compromise and closes the whole D0-D3 sequence.
+These are recurrence and anchor results; route counts are not prevalence estimates.
 
 ## SCH -> BITA experiment
 
 ```text
 SCH
-recover z1*, z2*, zc*
+recover z_P*, z_G*, z_C*
 show causal optimum shifts when either function is weakened
         ↓
 BITA
 validate x and y
 estimate all four trait-to-function arrows
         ↓
-show x* moves toward z1* when y carries more function 2
+show x* moves toward z_P* when y carries more function 2
         ↓
-measure total dimensional release
+optional stricter lane if SCH identifies z_F1*
+show x* moves toward pure z_F1*
         ↓
 A x D x antagonist x pollinator
 allocate why the release occurs
@@ -223,54 +253,43 @@ allocate why the release occurs
 independent architecture / joint-cost assay.
 ```
 
-This is the main programme-level sequence.
-
 ## Canonical reader path
 
 - `manuscript/MANUSCRIPT_FUNCTIONAL_DIFFERENTIATION.md` — **canonical Chapter-2 manuscript**
-- `manuscript/FUNCTIONAL_DIFFERENTIATION_FIGURE_MAP_V1.md` — main figure plan
-- `docs/FUNCTIONAL_DIFFERENTIATION_MODULARIZATION_FRAMEWORK_V1.md` — generalized architecture theory
+- `docs/BITA_EMPIRICAL_DIMENSIONAL_RELEASE_ANALYSIS_V1.md` — empirical release estimand and claim boundary
+- `docs/BITA_EXECUTION_SPINE_V1.md` — end-to-end execution sequence
 - `docs/FUNCTIONAL_DIFFERENTIATION_IDENTIFICATION_CONTRACT_V1.md` — experiment and claim hierarchy
+- `docs/FUNCTIONAL_DIFFERENTIATION_MODULARIZATION_FRAMEWORK_V1.md` — generalized architecture theory
+- `manuscript/FUNCTIONAL_DIFFERENTIATION_FIGURE_MAP_V1.md` — main figure plan
 - `docs/BROAD_FUNCTIONAL_DIFFERENTIATION_REALITY_CHECK_V1.md` — broad architecture grounding
-- `docs/CHAPTER_1_SCH_TO_CHAPTER_2_BITA_POSITIONING_V1.md` — cross-chapter positioning
 - `empirical/identification_design/BITA_FUNCTIONAL_DIFFERENTIATION_PREDICTION_LEDGER_V1.csv` — machine-readable prediction contract
-- `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md` — detailed attraction-defence identification implementation
-- `docs/DEFENCE_ESCAPE_ROUTE_HYPOTHESIS_RECOVERY.md` — attraction-defence evidence recovery
-- `docs/PARTIAL_IDENTIFICATION_FRONTIER_V1.md` — identified-set / bound derivation
-- `docs/MECHANISM_PATTERN_IDENTIFICATION_BRIDGE.md` — recurrence / identification boundary.
+- `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md` — detailed attraction-defence identification implementation.
 
 ## Reproducibility core
 
 Primary implementation includes:
 
-- `trait_architecture/identification.py`
-- `trait_architecture/partial_identification.py`
 - `trait_architecture/functional_differentiation.py`
-- `tests/test_identification.py`
-- `tests/test_identification_four_way.py`
-- `tests/test_partial_identification.py`
-- `tests/test_functional_differentiation.py`.
+- `trait_architecture/dimensional_release.py`
+- `scripts/analyze_bita_dimensional_release.py`
+- `tests/test_functional_differentiation.py`
+- `tests/test_dimensional_release.py`
+- existing identification and partial-identification code/tests.
 
 ## Inference boundaries
 
 ```text
 marginal route recurrence
 != total A x D interaction
-!= functional release
+!= state-specific dimensional release
+!= pure-function dimensional release
 != preferential functional loading
 != channel allocation
 != contemporary functional modularity
 != historical modularization.
 ```
 
-Accordingly:
-
-- route counts are not prevalence estimates;
-- `Delta_AD W` alone leaves an identified set rather than a unique mechanism;
-- positive interaction relief does not imply zero crossing;
-- extant two-trait specialization does not prove an ancestral one-trait split;
-- a non-zero four-way interaction indicates residual coupling rather than complete modularity;
-- zero independent joint-cost assays does not imply zero architecture cost.
+Accordingly, positive interaction relief does not imply modularization; state-specific release does not imply pure-function release; extant two-trait specialization does not prove an ancestral one-trait split; and zero independent joint-cost assays does not imply zero architecture cost.
 
 ## Submission state
 
