@@ -65,7 +65,7 @@ def test_broad_concepts_and_synthesis_framing_is_architecture_led() -> None:
         "balance → differentiation → identification",
         "Our contribution is therefore a bridge rather than a claim of theoretical priority.",
         "structural differentiation can remain incomplete",
-        "their total fitness interaction still does not identify mechanism",
+        "their fitness interaction still does not identify mechanism",
         "fragmented identification",
     ):
         assert token.lower() in text.lower(), token
