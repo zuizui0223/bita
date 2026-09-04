@@ -81,7 +81,10 @@ def test_floral_identification_work_is_retained_as_worked_case() -> None:
 def test_manuscript_does_not_promote_trait_interaction_to_historical_differentiation() -> None:
     text = _text().lower()
     assert "does not reconstruct the historical origin" in text or "does not establish" in text
-    assert "does not specify whether a lineage can reach that architecture" in text
+    assert (
+        "does not specify whether a lineage can reach that architecture" in text
+        or "do not specify whether a lineage can reach that architecture" in text
+    )
     assert "historical" in text
 
 
