@@ -18,7 +18,7 @@ Target journal/type: **Ecology — Concepts & Synthesis**.
 - retained floral identification supplement: `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`
 - canonical package builder: `scripts/build_ecology_review_package_sources.py`
 
-`manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md` remains a mature mechanistic component/provenance source; it is no longer the canonical article.
+`manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md` remains a mature mechanism-identification component/provenance source; it is no longer the canonical article. `manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md` remains historical provenance only.
 
 ## 2. Scientific core
 
@@ -71,7 +71,7 @@ Delta_AD W = W11 - W10 - W01 + W00
 I(delta) = {(rho,iota,kappa): rho-iota-kappa=delta}
 ```
 
-plus partial identification, the selective `A x D x antagonist x pollinator` design, `m0` handling, the four-way separability diagnostic, and an independent remaining-channel assay.
+plus partial identification, selective crossed interventions, the four-way separability test, `m0` handling, and an independent joint-channel assay.
 
 Empirical coverage:
 
@@ -81,7 +81,9 @@ Empirical coverage:
 17 high-information systems
 ```
 
-This establishes recurrent constituent biology plus fragmented identification. It does not establish prevalence or historical differentiation.
+These counts establish recurrence only. No screened system closes all allocation dimensions and no independent joint-cost assay is present. The result is recurrent constituent biology plus a fragmented identification frontier, not prevalence of trait differentiation.
+
+Representative complementary anchors remain Kessler 2008 (trait-factorial side), Egan 2021 (consumer-factorial side), *Impatiens capensis* (observational traits plus randomized context modification), and *Pedicularis rex* (selective defence/access side).
 
 ## 6. Main figures
 
@@ -107,17 +109,38 @@ The canonical Appendix combines:
 
 Leal/Sasidharan and the theorem-led manuscript remain reproducible historical provenance, not Main Chapter 2 evidence.
 
-## 8. Open Research package
+## 8. Historical quantitative provenance retained
 
-Canonical exports include:
+Leal et al. 2025 provenance remains pinned:
 
+```text
+canonical commit: ed33b25593c0d90ad6657753f6f5501d9efc7b82
+preregistration:  0e36eac
+first results:    965d657
+source synthesis: doi:10.1002/ecy.70036
+```
+
+The local contributing-effect assets and modern-estimator sensitivity code remain versioned in the repository. Sasidharan reconstruction products are retained under their original inference boundaries. These historical quantitative modules do not validate the identification framework and are not Main evidence.
+
+## 9. Open Research package
+
+Canonical exports preserve the six historical machine-readable mechanism/Pattern products and add the active Chapter 2 outputs:
+
+- `model_parameters_and_scaling.csv`;
+- `finite_grid_local_cases.csv`;
+- `mechanism_pattern_route_ledger.csv`;
+- `conditionality_context_records.csv`;
+- `direct_identification_audits.csv`;
+- `pattern_expansion_screening.csv`;
 - `trait_differentiation_robustness_readout.json`;
 - authoritative V2 `high_information_identification_coverage.csv`;
-- aggregate `impatiens_identification_retrofit.json`.
+- aggregate `impatiens_identification_retrofit.json`;
+- `question_method_explanation_matrix.csv`;
+- `defence_escape_route_hypothesis_recovery.csv`.
 
 The broader route corpus and source receipts remain in the public repository. A permanent archive of the accepted exact version is an acceptance-stage task.
 
-## 9. Validated rendered state
+## 10. Validated rendered state
 
 ```text
 Main Document: 30 pages
@@ -125,8 +148,8 @@ Appendix S1:   38 pages
 Main figures:   5
 ```
 
-The promoted Chapter 2 candidate has passed CI and package builds and is within the standard 30-page Main target. Full visual QA found and corrected a LibreOffice OMML superscript-star fallback; optimized quantities are now rendered explicitly with `opt` superscripts. No intentional blank figure pages remain.
+The promoted Chapter 2 canonical package has passed build validation and is within the standard 30-page Main target. Full page-by-page visual QA of all **30 Main + 38 Appendix = 68 pages** found no blank pages, clipping, overlap, missing figure content, or broken equations. A LibreOffice OMML superscript-star fallback was corrected by normalizing optimized quantities to explicit `opt` superscripts before PDF export.
 
-## 10. External-submission boundary
+## 11. External-submission boundary
 
 Remaining fields are author-controlled: author list/order, affiliations, corresponding author/e-mail, ORCIDs, CRediT, funding, acknowledgments, competing interests, licence and any portal-requested reviewer information. After insertion, rebuild and visually inspect the exact submitted files again.
