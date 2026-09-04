@@ -29,7 +29,9 @@ RAW_FIELDS = (
 Y_MAP = {"DRAINED": 0, "PROTECTED": 1}
 SCH_SCHEMA = "SCH_CAUSAL_COMPROMISE_STATE_OPTIMA_V1"
 SCH_STATUS = "MODEL_SUPPORTED_CAUSAL_COMPROMISE_CANDIDATE"
-WRAPPER_SCHEMA = "BITA_PEDICULARIS_DIMENSIONAL_RELEASE_WRAPPER_V1"
+SCH_PEDICULARIS_WRAPPER_V2 = "SCH_PEDICULARIS_FULL_SURFACE_WRAPPER_V2"
+SCH_PREDATOR_G_SCHEMA = "SCH_PEDICULARIS_PREDATOR_WEIGHT_V2"
+WRAPPER_SCHEMA = "BITA_PEDICULARIS_DIMENSIONAL_RELEASE_WRAPPER_V2"
 
 
 def _num(row: dict[str, str], field: str) -> float:
@@ -114,6 +116,22 @@ def _validate_sch_receipt(sch_receipt: dict, population: str, season: str) -> No
     if sch_receipt.get("population_id") != population or sch_receipt.get("season_id") != season:
         raise ValueError("BITA raw data must match the population and season of the SCH reference receipt")
 
+    if sch_receipt.get("system_wrapper_schema_version") != SCH_PEDICULARIS_WRAPPER_V2:
+        raise ValueError(
+            "Pedicularis BITA requires the non-circular SCH_PEDICULARIS_FULL_SURFACE_WRAPPER_V2 receipt; "
+            "legacy water-as-G SCH receipts are rejected"
+        )
+    mapping = sch_receipt.get("pedicularis_state_mapping")
+    if not isinstance(mapping, dict):
+        raise ValueError("Pedicularis SCH V2 receipt lacks pedicularis_state_mapping")
+    if mapping.get("G0") != "SEED_PREDATOR_INDEPENDENTLY_EXCLUDED" or mapping.get("G1") != "SEED_PREDATOR_EXPOSED":
+        raise ValueError("Pedicularis SCH receipt does not use independent seed-predator G states")
+    if mapping.get("water_y") != "HELD_FIXED_ACROSS_ALL_SCH_CELLS":
+        raise ValueError("Pedicularis SCH receipt did not hold the Chapter-2 water-y axis fixed")
+    readiness = sch_receipt.get("readiness_reference")
+    if not isinstance(readiness, dict) or readiness.get("g_schema") != SCH_PREDATOR_G_SCHEMA:
+        raise ValueError("Pedicularis SCH receipt is not grounded in SCH_PEDICULARIS_PREDATOR_WEIGHT_V2")
+
 
 def _seed_survival(row: dict[str, str]) -> float:
     undamaged = _num(row, "undamaged_seed_count")
@@ -151,6 +169,11 @@ def analyze(rows: list[dict[str, str]], sch_receipt: dict, config: dict) -> dict
     result["system"] = "Pedicularis rex"
     result["population_id"] = population
     result["season_id"] = season
+    result["sch_reference_provenance"] = {
+        "system_wrapper_schema_version": sch_receipt["system_wrapper_schema_version"],
+        "independent_predator_g_schema": sch_receipt["readiness_reference"]["g_schema"],
+        "water_y_was_fixed_during_sch": True,
+    }
     result["pedicularis_mapping"] = {
         "x": "REALIZED_COROLLA_EXSERTION",
         "y0": "DRAINED_WATER_DEFENCE_DISABLED",
@@ -160,7 +183,8 @@ def analyze(rows: list[dict[str, str]], sch_receipt: dict, config: dict) -> dict
         "fitness_value": "UNDAMAGED_MATURE_SEED_COUNT_PER_FOCAL_FLOWER",
     }
     result["pedicularis_claim_ceiling"] = (
-        "contemporary_outcome_level_functional_differentiation_only; "
+        "contemporary_non_circular_functional_state_dimensional_release_only; "
+        "structural trait differentiation requires the separate retention-performance promotion gate; "
         "mechanism allocation requires crossed P/G intervention; "
         "historical modularization not identified"
     )
@@ -168,7 +192,7 @@ def analyze(rows: list[dict[str, str]], sch_receipt: dict, config: dict) -> dict
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run the Pedicularis x-y surface through the registered BITA dimensional-release analyzer")
+    parser = argparse.ArgumentParser(description="Run non-circular Pedicularis x-y release using an SCH V2 independent-predator reference")
     parser.add_argument("csv_path", type=Path)
     parser.add_argument("sch_receipt", type=Path)
     parser.add_argument("config_path", type=Path)
