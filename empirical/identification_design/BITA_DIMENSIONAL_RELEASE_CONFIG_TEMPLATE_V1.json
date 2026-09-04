@@ -1,0 +1,14 @@
+{
+  "bootstrap_reps": 2000,
+  "random_seed": 20260904,
+  "min_x_levels": 5,
+  "min_valid_bootstrap_fraction": 0.8,
+  "min_dimensional_release": "REQUIRED_BEFORE_USE",
+  "min_within_bita_fitness_gain": "REQUIRED_BEFORE_USE",
+  "min_y_function2_gain": "REQUIRED_BEFORE_USE",
+  "max_y_function1_penalty": "REQUIRED_BEFORE_USE",
+  "min_y1_interior_bootstrap_fraction": "REQUIRED_BEFORE_USE",
+  "x_to_sch_multiplier": 1.0,
+  "x_to_sch_offset": 0.0,
+  "status": "TEMPLATE_ONLY_DO_NOT_RUN_UNTIL_THRESHOLDS_ARE_PROSPECTIVELY_FROZEN"
+}
