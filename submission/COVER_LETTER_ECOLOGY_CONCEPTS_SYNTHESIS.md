@@ -12,9 +12,9 @@ We distinguish these structural results from the response-shape-dependent claims
 
 The paper then connects architecture to empirical reality without over-interpreting comparative examples. Cichlid oral and pharyngeal jaws demonstrate that structural/function partitioning can coexist with evolutionary and genetic integration, providing a clear biological analogue of partial differentiation. Comparative work in *Dalechampia* demonstrates repeated redeployment, exaptation and addition of functional structures. Neither system is treated as an estimate of the model parameters or as proof that the modeled trade-off caused the historical transition.
 
-The second major contribution is the connection from differentiation to mechanism identification. Floral attraction and defence provide the detailed worked case. Once two trait axes exist, their total fitness interaction still defines a set of compatible ecological channel allocations rather than one mechanism. The retained BITA identification framework therefore moves from total interaction, through assumption-indexed partial identification, to a selective `A × D × antagonist × pollinator` design with explicit baseline handling, a four-way separability diagnostic and an independent assay for the remaining joint channel.
+The second major contribution is the connection from differentiation to mechanism identification. Floral attraction and defence provide the detailed worked case. **A measured total interaction defines a set of compatible channel allocations rather than a unique ecological mechanism.** The retained BITA identification framework therefore moves from total interaction, through assumption-indexed partial identification, to a selective `A × D × antagonist × pollinator` design with explicit baseline handling, a four-way separability diagnostic and an independent assay for the remaining joint channel. Where the older one-sided relation is used, it is presented as an assumption-indexed **partial-identification bound rather than a standalone theorem**.
 
-The empirical synthesis shows why this identification step is not merely hypothetical. Across 56 source-adjudicated route records from 25 independent biological study clusters, the constituent pathways recur. A stricter 17-system high-information audit shows that trait manipulations, consumer interventions, reproductive endpoints and mechanistic measurements occupy complementary design faces rather than one complete experiment. We describe this as **fragmented identification**, not absence of relevant biology and not prevalence of differentiated architectures.
+The empirical synthesis shows why this identification step is not merely hypothetical. Across **56 source-adjudicated route records from 25 independent biological clusters**, the constituent pathways recur. A stricter 17-system high-information audit shows that trait manipulations, consumer interventions, reproductive endpoints and mechanistic measurements occupy complementary design faces rather than one complete experiment. We describe this as **fragmented identification**, not absence of relevant biology and not prevalence of differentiated architectures.
 
 The conceptual advance is therefore the three-layer bridge:
 
@@ -22,13 +22,13 @@ The conceptual advance is therefore the three-layer bridge:
 
 We believe this fits *Ecology*'s Concepts & Synthesis section because the framework joins established theory on multifunctionality and functional specialization to an explicit ecological inference sequence and generates prospective measurements rather than only a verbal synthesis. We do not claim to invent specialization, division of labour or modularity; the novelty is in connecting a measurable one-axis compromise to architecture gain and then to causal identification of a multi-trait phenotype.
 
-The current Ecology-formatted review package renders to **30 Main Document pages** including five Main figures, within the standard 30-page target, plus a separate **38-page Appendix S1**. The Appendix contains the architecture derivation, nonquadratic robustness, bounded empirical architecture-state evidence and the retained floral identification details and provenance. Review-stage code, registered robustness products and aggregate audit outputs are available in the associated public repository; the exact accepted version will be frozen in a permanent archive at the acceptance stage.
+The current Ecology-formatted review package renders to **30 Main Document pages** including five Main figures, within the standard 30-page Concepts & Synthesis target, plus a separate **38-page Appendix S1**. The Appendix contains the architecture derivation, nonquadratic robustness, bounded empirical architecture-state evidence and the retained floral identification details and provenance. Review-stage code, registered robustness products and aggregate audit outputs are available in the associated public repository; the exact accepted version will be frozen in a permanent archive at the acceptance stage.
 
 [Author confirmation required before submission: this manuscript is not under consideration elsewhere, all authors approve the submitted version, and all authors agree to submission to *Ecology*.]
 
 ## Potential reviewers, if requested by the submission portal
 
-[Complete only the number and fields requested by the live portal. Do not infer reviewer identities from the repository.]
+[Complete the number and fields requested by ScholarOne. Do not infer reviewer identities from the repository.]
 
 ## Opposed reviewer, if justified
 
