@@ -33,11 +33,12 @@ def _sch_receipt(population: str = "P_REX_TEST", season: str = "S1") -> dict:
             "fitness_value": "UNDAMAGED_MATURE_SEED_COUNT_PER_FOCAL_FLOWER",
         },
         "readiness_reference": {
-            "schema": "SCH_PEDICULARIS_FULL_SURFACE_READINESS_V2",
+            "schema": "SCH_PEDICULARIS_FULL_SURFACE_READINESS_V3",
             "status": "PEDICULARIS_FULL_SURFACE_READY",
             "population_id": population,
             "season_id": season,
-            "g_schema": "SCH_PEDICULARIS_PREDATOR_WEIGHT_V2",
+            "g_schema": "SCH_PEDICULARIS_PREDATOR_METHOD_V3",
+            "predator_method_requirement": "TIMED_POST_POLLINATION_OR_LOCAL_BARRIER_QUALIFIED_WITH_POLLINATOR_ACCESS_PRESERVED",
         },
         "optimum_semantics": {
             "z_pollinator_context": "STATE_SPECIFIC_P1G0_REPRODUCTIVE_OPTIMUM_NOT_AUTOMATICALLY_PURE_F1",
@@ -123,7 +124,8 @@ def test_pedicularis_water_defence_releases_exsertion_toward_non_circular_sch_re
     assert result["system"] == "Pedicularis rex"
     assert result["system_wrapper_schema_version"] == "BITA_PEDICULARIS_DIMENSIONAL_RELEASE_WRAPPER_V2"
     assert result["sch_reference_provenance"]["system_wrapper_schema_version"] == "SCH_PEDICULARIS_FULL_SURFACE_WRAPPER_V2"
-    assert result["sch_reference_provenance"]["independent_predator_g_schema"] == "SCH_PEDICULARIS_PREDATOR_WEIGHT_V2"
+    assert result["sch_reference_provenance"]["independent_predator_g_schema"] == "SCH_PEDICULARIS_PREDATOR_METHOD_V3"
+    assert "POLLINATOR_ACCESS_PRESERVED" in result["sch_reference_provenance"]["predator_method_requirement"]
     assert result["sch_reference_provenance"]["water_y_was_fixed_during_sch"] is True
     assert result["pedicularis_mapping"]["y0"].startswith("DRAINED")
     assert result["pedicularis_mapping"]["y1"].startswith("PROTECTED")
@@ -163,10 +165,17 @@ def test_legacy_water_as_G_sch_receipt_is_rejected() -> None:
         analyze(_rows(), receipt, _config())
 
 
-def test_sch_receipt_without_independent_predator_provenance_is_rejected() -> None:
+def test_predator_weight_v2_without_timing_qualification_is_rejected() -> None:
     receipt = _sch_receipt()
-    receipt["readiness_reference"]["g_schema"] = "SCH_PEDICULARIS_ANTAGONIST_WEIGHT_V1"
-    with pytest.raises(ValueError, match="SCH_PEDICULARIS_PREDATOR_WEIGHT_V2"):
+    receipt["readiness_reference"]["g_schema"] = "SCH_PEDICULARIS_PREDATOR_WEIGHT_V2"
+    with pytest.raises(ValueError, match="SCH_PEDICULARIS_PREDATOR_METHOD_V3"):
+        analyze(_rows(), receipt, _config())
+
+
+def test_missing_pollinator_access_preservation_provenance_is_rejected() -> None:
+    receipt = _sch_receipt()
+    receipt["readiness_reference"]["predator_method_requirement"] = "UNKNOWN_METHOD"
+    with pytest.raises(ValueError, match="preserving pollinator access"):
         analyze(_rows(), receipt, _config())
 
 
