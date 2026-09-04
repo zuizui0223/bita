@@ -48,11 +48,7 @@ recoverable loss           R = s L_S*
 architecture gain          Delta_arch = s L_S* - K
 ```
 
-so the decision boundary is
-
-```text
-K = s L_S*.
-```
+so the decision boundary is `K = s L_S*`.
 
 This closed form makes incomplete differentiation explicit: two trait axes can relax a conflict while retaining residual functional, developmental, genetic or ecological coupling.
 
@@ -68,7 +64,7 @@ recovery increases with optimum separation:         60 / 60 declared series
 coupling monotonicity implementation check:          60 / 60 declared series
 ```
 
-The first and optimum-distance results establish strictness only for the declared convex family. The coupling result numerically verifies the structural proposition. No claim is made for arbitrary nonconvex, multimodal, frequency-dependent or evolutionary-dynamic landscapes.
+The strictness and optimum-distance claims are finite-family results. Coupling monotonicity is a structural result under the declared non-negative penalty and is checked numerically in the registered sweep. No claim is made for arbitrary nonconvex, multimodal, frequency-dependent or evolutionary-dynamic landscapes.
 
 ## 4. Empirical architecture-state ceiling
 
@@ -105,9 +101,17 @@ interaction detection
 -> independent assay of the remaining joint channel
 ```
 
-Existing evidence contributes 56 source-adjudicated route records across 25 independent biological clusters and a 17-system high-information frontier. The pathways recur, but the required identification dimensions remain fragmented across experiments. These numbers do not estimate the prevalence or historical origin of differentiated architectures.
+### Pattern layer 1 — constituent ecological recurrence
 
-## 6. Required boundaries
+The source-adjudicated route ledger contains 56 route records across 25 independent biological clusters. The source-adjudicated route ledger is **not itself a grand meta-analysis**. These overlapping route classes establish recurrence capacity only; they are not prevalence estimates and do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`.
+
+### Pattern layer 2 — fragmented identification frontier
+
+The authoritative high-information audit contains 17 systems occupying complementary design faces. No screened system closes the full allocation design plus independent joint-channel assay. The empirical result is **fragmented identification**, not absence of relevant biology.
+
+The constituent channels recur, but their joint allocation remains unidentified.
+
+## 6. Required inference boundaries
 
 ```text
 one-trait compromise
@@ -120,10 +124,16 @@ positive A x D interaction
 != trait differentiation
 != historical splitting
 
+marginal route recurrence
+!= total A×D interaction
+!= partial channel allocation
+!= point-identified mechanism
+
 route recurrence
 != prevalence
-!= total cross-trait mechanism
 ```
+
+`U_delta` is not kappa by subtraction; the remaining joint channel requires independent evidence. A positive total interaction does not demonstrate cue privacy or a historical shared-to-private transition.
 
 The current paper compares optimized architecture states; it does not model mutation, inheritance, transition time or evolutionary accessibility. A causal historical claim that one shared-axis conflict produced a particular new module requires additional transition evidence.
 
@@ -142,7 +152,7 @@ The current paper compares optimized architecture states; it does not model muta
 
 ## 8. Validated pre-metadata package
 
-The promoted candidate has passed theory, manuscript, figure, identification and packaging regressions and renders as:
+The promoted canonical package has passed theory, manuscript, figure, identification and packaging validation and renders as:
 
 ```text
 Main Document: 30 pages
@@ -150,7 +160,9 @@ Appendix S1:   38 pages
 Main figures:   5
 ```
 
-The Main is within the standard 30-page Ecology Concepts & Synthesis target. The renderer-specific superscript-star failure has been normalized to explicit `opt` notation in OMML math before PDF export.
+Current validated package shorthand: **30 Main pages + 38 Appendix pages**. The Main is within the standard 30-page Ecology Concepts & Synthesis target. The renderer-specific superscript-star failure was normalized to explicit `opt` notation in OMML math before PDF export.
+
+Full page-by-page QA of all 68 pages found no blank pages, clipping, overlap, missing figure content, broken glyphs or broken equations.
 
 ## 9. Remaining external-submission boundary
 
