@@ -21,9 +21,18 @@ def test_template_and_config_are_registered_fail_closed_inputs() -> None:
     with TEMPLATE.open(encoding="utf-8", newline="") as handle:
         assert tuple(next(csv.reader(handle))) == REQUIRED_FIELDS
     config = json.loads(CONFIG.read_text(encoding="utf-8"))
+    assert config["sch_reference_mode"] == "state_specific"
     assert config["min_dimensional_release"] == "REQUIRED_BEFORE_USE"
     assert config["min_y_function2_gain"] == "REQUIRED_BEFORE_USE"
     assert "DO_NOT_RUN" in config["status"]
+
+
+def test_contract_keeps_state_specific_and_pure_references_separate() -> None:
+    text = CONTRACT.read_text(encoding="utf-8")
+    assert "STATE_SPECIFIC_P1G0_OPTIMUM" in text
+    assert "not automatically a pure function-1 optimum" in text
+    assert "identified_pure_function_optima.z_F1" in text
+    assert "state-specific release\n!= pure-function release" in text
 
 
 def test_contract_keeps_within_bita_gain_separate_from_delta_mod() -> None:
@@ -38,7 +47,8 @@ def test_execution_spine_requires_sch_handoff_before_release() -> None:
     text = SPINE.read_text(encoding="utf-8")
     assert "MODEL_SUPPORTED_CAUSAL_COMPROMISE_CANDIDATE" in text
     assert "BITA does not re-estimate or redefine the Chapter-1 optimum" in text
-    assert "x optimum moves toward SCH z_function1" in text
+    assert "z_ref = z_P*" in text
+    assert "identified_pure_function_optima.z_F1" in text
     assert "MECHANISM_ALLOCATION_UNRESOLVED" in text
 
 
