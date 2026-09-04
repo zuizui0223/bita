@@ -11,7 +11,7 @@ def test_readme_declares_functional_differentiation_and_operational_special_case
     assert "Delta_mod" in text
     assert "Delta_AD W = W11 - W10 - W01 + W00" in text
     assert "A x D x antagonist x pollinator" in text
-    assert "56 route records" in text
+    assert "56 directional route records" in text
     assert "25 independent biological clusters" in text
     assert "route counts are not prevalence estimates" in text
     assert "historical modularization" in text
