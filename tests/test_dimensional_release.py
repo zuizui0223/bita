@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import pytest
+
 from trait_architecture.dimensional_release import analyze_dimensional_release
 
 
@@ -8,6 +10,7 @@ def _sch_receipt() -> dict:
         "status": "MODEL_SUPPORTED_CAUSAL_COMPROMISE_CANDIDATE",
         "observed_estimands": {
             "z_pollinator_context": 2.0,
+            "z_antagonist_context": -2.0,
             "z_combined": 0.0,
         },
     }
@@ -19,6 +22,7 @@ def _config() -> dict:
         "random_seed": 5,
         "min_x_levels": 5,
         "min_valid_bootstrap_fraction": 0.8,
+        "sch_reference_mode": "state_specific",
         "min_dimensional_release": 0.5,
         "min_within_bita_fitness_gain": 1.0,
         "min_y_function2_gain": 1.0,
@@ -57,10 +61,13 @@ def _rows(released: bool = True) -> list[dict[str, str]]:
     return rows
 
 
-def test_positive_dimensional_release_moves_x_toward_sch_function1_optimum() -> None:
+def test_positive_dimensional_release_uses_state_specific_reference_by_default() -> None:
     result = analyze_dimensional_release(_rows(True), _sch_receipt(), _config())
     assert result["status"] == "FUNCTIONAL_DIFFERENTIATION_OUTCOME_SUPPORTED"
     assert all(result["decisions"].values())
+    assert result["sch_reference"]["reference_type"] == "STATE_SPECIFIC_P1G0_OPTIMUM"
+    assert result["sch_reference"]["source_field"] == "observed_estimands.z_pollinator_context"
+    assert "not automatically pure z_F1*" in result["sch_reference"]["interpretation"]
     est = result["observed_estimands"]
     assert abs(est["x_optimum_y0"]) < 1e-8
     assert abs(est["x_optimum_y1"] - 1.5) < 1e-8
@@ -71,18 +78,32 @@ def test_positive_dimensional_release_moves_x_toward_sch_function1_optimum() -> 
     assert result["delta_mod_status"].startswith("NOT_IDENTIFIED")
 
 
-def test_shift_away_from_sch_optimum_is_not_called_functional_release() -> None:
+def test_shift_away_from_sch_reference_is_not_called_functional_release() -> None:
     result = analyze_dimensional_release(_rows(False), _sch_receipt(), _config())
-    assert result["decisions"]["x_optimum_released_toward_sch_function1"] is False
+    assert result["decisions"]["x_optimum_released_toward_sch_reference"] is False
     assert result["status"] == "FUNCTIONAL_DIFFERENTIATION_OUTCOME_NOT_FULLY_RECOVERED"
 
 
 def test_sch_positive_receipt_is_required() -> None:
     receipt = _sch_receipt()
     receipt["status"] = "COMPROMISE_CRITERIA_NOT_ALL_RECOVERED"
-    try:
+    with pytest.raises(ValueError, match="positive causal-compromise"):
         analyze_dimensional_release(_rows(True), receipt, _config())
-    except ValueError as exc:
-        assert "positive causal-compromise" in str(exc)
-    else:
-        raise AssertionError("expected fail-closed rejection of non-positive SCH receipt")
+
+
+def test_pure_function_mode_fails_closed_without_independent_sch_optimum() -> None:
+    config = _config()
+    config["sch_reference_mode"] = "pure_function"
+    with pytest.raises(ValueError, match="identified_pure_function_optima.z_F1"):
+        analyze_dimensional_release(_rows(True), _sch_receipt(), config)
+
+
+def test_pure_function_mode_uses_explicit_independent_reference() -> None:
+    config = _config()
+    config["sch_reference_mode"] = "pure_function"
+    receipt = _sch_receipt()
+    receipt["identified_pure_function_optima"] = {"z_F1": 2.0}
+    result = analyze_dimensional_release(_rows(True), receipt, config)
+    assert result["sch_reference"]["reference_type"] == "PURE_FUNCTION_F1_OPTIMUM_INDEPENDENTLY_IDENTIFIED"
+    assert result["sch_reference"]["source_field"] == "identified_pure_function_optima.z_F1"
+    assert result["status"] == "FUNCTIONAL_DIFFERENTIATION_OUTCOME_SUPPORTED"
