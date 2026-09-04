@@ -4,7 +4,7 @@
 
 This analysis is the direct Chapter-2 continuation of a positive SCH causal-compromise receipt.
 
-SCH supplies an intervention-defined function-1 optimum and shared combined optimum. BITA then asks whether adding a second trait coordinate `y` changes the optimum of retained coordinate `x` in the predicted direction.
+SCH supplies a combined shared optimum plus a directly identified function-1-facing **state-specific reference optimum**. BITA asks whether adding a second trait coordinate `y` moves the optimum of retained coordinate `x` toward that reference while improving the intended function-2 outcome.
 
 Implementation:
 
@@ -20,14 +20,53 @@ The analyzer requires a positive SCH receipt:
 status = MODEL_SUPPORTED_CAUSAL_COMPROMISE_CANDIDATE
 ```
 
-and imports:
+The default reference mode is:
 
 ```text
-z_function1 = observed_estimands.z_pollinator_context
-z_shared    = observed_estimands.z_combined.
+sch_reference_mode = state_specific
 ```
 
-BITA does not re-estimate these Chapter-1 quantities.
+which imports:
+
+```text
+reference = observed_estimands.z_pollinator_context
+combined  = observed_estimands.z_combined.
+```
+
+The reference is labeled:
+
+```text
+STATE_SPECIFIC_P1G0_OPTIMUM
+```
+
+and means the pollinator-present / antagonist-suppressed reproductive optimum. It is **not automatically a pure function-1 optimum** because direct/background trait consequences may remain in `W10(z)`.
+
+BITA does not re-estimate or relabel these Chapter-1 quantities.
+
+## Optional pure-function mode
+
+A stricter mode is available only when SCH independently identifies a pure function-1 objective:
+
+```text
+sch_reference_mode = pure_function
+```
+
+This requires the SCH receipt to contain:
+
+```text
+identified_pure_function_optima.z_F1
+```
+
+from an independent direct/background-cost identification lane. Without that field, pure-function mode fails closed.
+
+Thus:
+
+```text
+state-specific release
+!= pure-function release
+```
+
+unless the stronger SCH identification is actually available.
 
 ## BITA data
 
@@ -54,7 +93,7 @@ fitness_value.
 
 ## Multi-level release surface
 
-For `y=0` and `y=1`, fit the local quadratic fitness surfaces:
+For `y=0` and `y=1`, fit local quadratic fitness surfaces:
 
 ```text
 W(x | y0)
@@ -74,13 +113,15 @@ The x coordinate must be on the SCH z scale or mapped to it by a preregistered a
 x_SCH = offset + multiplier * x.
 ```
 
-The primary dimensional-release estimand is:
+Let `z_ref` be the declared SCH reference. The primary dimensional-release estimand is:
 
 ```text
-R = |x0*_SCH - z1*| - |x1*_SCH - z1*|.
+R = |x0*_SCH - z_ref| - |x1*_SCH - z_ref|.
 ```
 
-Positive `R` means the added y state moves x closer to the function-1 optimum identified in Chapter 1.
+Positive `R` means the added `y` state moves `x` closer to the declared SCH reference.
+
+By default, `z_ref = z_P* = z_pollinator_context`. Only pure-function mode may set `z_ref = z_F1*`.
 
 ## Functional-loading check
 
@@ -155,7 +196,7 @@ requires all registered gates:
 ```text
 y targets function 2
 y preserves function 1 within tolerance
-x optimum shifts toward SCH function-1 optimum
+x optimum shifts toward the declared SCH reference
 joint y1 optimum improves within-BITA fitness
 y1 fitness surface retains an interior optimum with sufficient bootstrap support.
 ```
@@ -168,9 +209,9 @@ FUNCTIONAL_DIFFERENTIATION_OUTCOME_NOT_FULLY_RECOVERED.
 
 ## Claim ceiling
 
-A positive result supports contemporary outcome-level dimensional release.
+A positive default result supports **contemporary outcome-level dimensional release toward the SCH state-specific function-1-facing optimum**.
 
-It does not by itself allocate the mechanism among:
+It does not by itself show release toward the pure `z_F1*`, and it does not allocate the mechanism among:
 
 ```text
 antagonist relief
@@ -179,17 +220,24 @@ joint construction / allocation cost
 other residual pathways.
 ```
 
-That still requires the selective crossed Chapter-2 design, including the current `A x D x antagonist x pollinator` 16-cell special case.
+Mechanism allocation still requires the selective crossed Chapter-2 design, including the current `A x D x antagonist x pollinator` 16-cell special case.
 
 Likewise, contemporary dimensional release is not historical modularization. An ancestral shared architecture and repeated derived increases in functional independence remain separate historical claims.
 
 ## Cross-chapter interpretation
 
-The two chapters now share an explicit quantity:
+The default measured bridge is:
 
 ```text
-SCH: z1* and zc*
-BITA: distance of x* from z1* before and after adding y.
+SCH: z_P* and z_C*
+BITA: distance of x* from z_P* before and after adding y.
 ```
 
-This makes the Chapter-2 result a measured release of the Chapter-1 constraint rather than a generic positive trait interaction.
+A stricter optional bridge is:
+
+```text
+SCH: independently identified z_F1*
+BITA: distance of x* from z_F1* before and after adding y.
+```
+
+These two lanes must not be silently conflated.
