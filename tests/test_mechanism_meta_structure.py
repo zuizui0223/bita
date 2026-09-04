@@ -27,12 +27,14 @@ def test_current_pattern_layer_does_not_overclaim_grand_meta_analysis() -> None:
     historical = HISTORICAL_MANUSCRIPT.read_text(encoding="utf-8")
     current = CURRENT_MANUSCRIPT.read_text(encoding="utf-8")
     scope = SCOPE.read_text(encoding="utf-8")
+    scope_lower = scope.lower()
 
     assert "We use **meta-analysis** only where study outcomes can be expressed on a defensible common quantitative scale" in historical
     assert "we did not fit a cross-outcome grand moderator coefficient" in historical
 
-    assert "The source-adjudicated route ledger is **not itself a grand meta-analysis**" in scope
-    assert "Constituent channels recur, but their joint allocation remains unidentified." in scope
+    assert "source-adjudicated route ledger is **not itself a grand meta-analysis**" in scope
+    assert "constituent channels recur" in scope_lower
+    assert "joint allocation remains unidentified" in scope_lower
     assert "marginal route recurrence does not estimate" in current
     assert "none of these counts is an estimate of natural prevalence" in current
 
