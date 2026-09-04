@@ -67,7 +67,7 @@
 <rect x="565" y="420" width="325" height="120" rx="10" class="soft"/>
 <text x="727" y="455" text-anchor="middle" class="eq">decoupling fraction</text>
 <text x="727" y="490" text-anchor="middle" class="eq">s = |x* − y*| / |θ₁ − θ₂|</text>
-<text x="727" y="520" text-anchor="middle" class="small">quadratic baseline: s = 1 complete; 0 &lt; s &lt; 1 partial</text>
+<text x="727" y="520" text-anchor="middle" class="small">quadratic baseline: s = 1 complete; 0 &lt; s &lt; 1 partial differentiation</text>
 
 <text x="727" y="585" text-anchor="middle" class="body">higher λ  →  smaller recoverable loss R</text>
 <text x="727" y="615" text-anchor="middle" class="small">structural separation does not require functional independence</text>
