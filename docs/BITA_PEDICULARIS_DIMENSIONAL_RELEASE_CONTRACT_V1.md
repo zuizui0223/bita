@@ -4,7 +4,7 @@
 
 This contract maps a `Pedicularis rex` multi-level exsertion-by-water-defence experiment onto the registered BITA dimensional-release analyzer.
 
-The analysis starts only after SCH has identified a positive Pedicularis compromise in the **same population and season**.
+The analysis starts only after SCH has identified a positive Pedicularis compromise in the **same population and season** using an antagonist intervention that is independent of the Chapter-2 water-defence axis.
 
 ## Coordinates
 
@@ -16,7 +16,7 @@ y1 = water retained / water defence active.
 
 The acute water manipulation is a functional-state intervention. It does not by itself establish a genetically or developmentally independent module.
 
-## Required SCH input
+## Required non-circular SCH input
 
 The SCH receipt must satisfy:
 
@@ -24,8 +24,22 @@ The SCH receipt must satisfy:
 receipt_schema_version = SCH_CAUSAL_COMPROMISE_STATE_OPTIMA_V1
 status = MODEL_SUPPORTED_CAUSAL_COMPROMISE_CANDIDATE
 system = Pedicularis rex
+system_wrapper_schema_version = SCH_PEDICULARIS_FULL_SURFACE_WRAPPER_V2
 population_id and season_id match the BITA experiment.
 ```
+
+The Pedicularis SCH provenance must additionally show:
+
+```text
+G0 = SEED_PREDATOR_INDEPENDENTLY_EXCLUDED
+G1 = SEED_PREDATOR_EXPOSED
+water_y = HELD_FIXED_ACROSS_ALL_SCH_CELLS
+readiness_reference.g_schema = SCH_PEDICULARIS_PREDATOR_WEIGHT_V2.
+```
+
+Legacy Pedicularis SCH receipts that used water retained / drained as the Chapter-1 antagonist `G` are rejected.
+
+This is essential because BITA now manipulates water defence as `y`. The SCH reference must therefore be estimated without using the same water-y contrast that BITA later tests.
 
 Default release reference:
 
@@ -99,6 +113,8 @@ R_state = |x0* - z_P*| - |x1* - z_P*|.
 
 Positive `R_state` means the water-defence axis releases exsertion toward the pollination-facing SCH reference.
 
+Because the required SCH reference comes from `SCH_PEDICULARIS_FULL_SURFACE_WRAPPER_V2`, where water-y was held fixed and antagonist exposure was manipulated independently, this is a **non-circular** release test.
+
 ## Preferential loading
 
 The registered BITA gate additionally requires:
@@ -111,9 +127,11 @@ y does not reduce function 1 beyond the preregistered tolerance.
 
 For Pedicularis this means water protection must increase seed survival without an equivalent pollen-receipt penalty.
 
+Published no-detected-effect results from the earlier drainage experiment are background evidence only; the new experiment must use a prospective cross-effect tolerance or equivalence criterion rather than infer equivalence from non-significance.
+
 ## Fitness-release gate
 
-The protected architecture must also increase the best attainable common reproductive outcome by at least the prospectively frozen amount.
+The protected functional state must also increase the best attainable common reproductive outcome by at least the prospectively frozen amount.
 
 This is reported as:
 
@@ -123,12 +141,18 @@ within_bita_optimum_fitness_gain
 
 and not as `Delta_mod`.
 
+## Structural-trait promotion is separate
+
+Water ON/OFF is a causal functional-state `y`. Stronger trait differentiation requires a repeatable structural/performance coordinate such as standardized water-holding capacity or retention duration.
+
+Use the separate structural-y promotion contract/evaluator for that claim. A positive functional-state release does not by itself establish a second heritable trait module.
+
 ## Run command
 
 ```bash
 python scripts/analyze_pedicularis_dimensional_release.py \
   <pedicularis_xy.csv> \
-  <sch_pedicularis_receipt.json> \
+  <sch_pedicularis_v2_receipt.json> \
   <frozen_config.json> \
   --output <bita_pedicularis_receipt.json>
 ```
@@ -138,12 +162,13 @@ python scripts/analyze_pedicularis_dimensional_release.py \
 A positive result supports:
 
 ```text
-contemporary outcome-level functional differentiation / dimensional release.
+contemporary non-circular outcome-level functional-state differentiation / dimensional release.
 ```
 
 It does not yet establish:
 
 ```text
+structural trait differentiation without the structural-y promotion gate
 mechanism allocation across pollination and antagonist channels
 architecture-level Delta_mod
 structural or developmental independence
