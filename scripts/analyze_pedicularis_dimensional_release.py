@@ -30,7 +30,7 @@ Y_MAP = {"DRAINED": 0, "PROTECTED": 1}
 SCH_SCHEMA = "SCH_CAUSAL_COMPROMISE_STATE_OPTIMA_V1"
 SCH_STATUS = "MODEL_SUPPORTED_CAUSAL_COMPROMISE_CANDIDATE"
 SCH_PEDICULARIS_WRAPPER_V2 = "SCH_PEDICULARIS_FULL_SURFACE_WRAPPER_V2"
-SCH_PREDATOR_G_SCHEMA = "SCH_PEDICULARIS_PREDATOR_WEIGHT_V2"
+SCH_PREDATOR_G_SCHEMA = "SCH_PEDICULARIS_PREDATOR_METHOD_V3"
 WRAPPER_SCHEMA = "BITA_PEDICULARIS_DIMENSIONAL_RELEASE_WRAPPER_V2"
 
 
@@ -130,7 +130,10 @@ def _validate_sch_receipt(sch_receipt: dict, population: str, season: str) -> No
         raise ValueError("Pedicularis SCH receipt did not hold the Chapter-2 water-y axis fixed")
     readiness = sch_receipt.get("readiness_reference")
     if not isinstance(readiness, dict) or readiness.get("g_schema") != SCH_PREDATOR_G_SCHEMA:
-        raise ValueError("Pedicularis SCH receipt is not grounded in SCH_PEDICULARIS_PREDATOR_WEIGHT_V2")
+        raise ValueError("Pedicularis SCH receipt is not grounded in SCH_PEDICULARIS_PREDATOR_METHOD_V3")
+    method_requirement = readiness.get("predator_method_requirement", "")
+    if "POLLINATOR_ACCESS_PRESERVED" not in str(method_requirement):
+        raise ValueError("Pedicularis SCH receipt lacks timed predator-method provenance preserving pollinator access")
 
 
 def _seed_survival(row: dict[str, str]) -> float:
@@ -172,6 +175,7 @@ def analyze(rows: list[dict[str, str]], sch_receipt: dict, config: dict) -> dict
     result["sch_reference_provenance"] = {
         "system_wrapper_schema_version": sch_receipt["system_wrapper_schema_version"],
         "independent_predator_g_schema": sch_receipt["readiness_reference"]["g_schema"],
+        "predator_method_requirement": sch_receipt["readiness_reference"].get("predator_method_requirement"),
         "water_y_was_fixed_during_sch": True,
     }
     result["pedicularis_mapping"] = {
@@ -192,7 +196,7 @@ def analyze(rows: list[dict[str, str]], sch_receipt: dict, config: dict) -> dict
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run non-circular Pedicularis x-y release using an SCH V2 independent-predator reference")
+    parser = argparse.ArgumentParser(description="Run non-circular Pedicularis x-y release using a method-qualified SCH V2 independent-predator reference")
     parser.add_argument("csv_path", type=Path)
     parser.add_argument("sch_receipt", type=Path)
     parser.add_argument("config_path", type=Path)
