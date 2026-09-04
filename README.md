@@ -1,162 +1,152 @@
 # Biotic Interaction Trait Architecture
 
-A reproducible **Mechanism → Pattern → Identification** study of floral attraction-defence trade-offs and complementarity. The canonical paper asks an operational question: **when attraction (`A`) and a flower-associated antagonist-reducing trait (`D`) interact on reproduction, what can the observed interaction already constrain, and what additional observations are required to identify the ecological channels that generated it?**
+BITA is the **Chapter 2 / trait-differentiation** half of the SCH–BITA programme.
 
-## Current scientific result
+```text
+SCH / Chapter 1 — BALANCE
+conflicting functions remain coupled on one trait
+-> characterize the maintained compromise
 
-For two experimentally meaningful attraction and defence levels, the primary estimand is
+BITA / Chapter 2 — DIFFERENTIATION
+allow multiple trait axes
+-> determine when recovered compromise loss pays for the extra architecture
+-> identify the ecological mechanism once multiple axes exist
+```
+
+The programme is about **trait trade-offs and architecture**, not specifically pollination versus defence. Floral mutualist–antagonist conflict is BITA's detailed mechanism-identification worked case.
+
+## Canonical Chapter 2 result
+
+### General nested-architecture result
+
+If the differentiated architecture contains every shared phenotype on its diagonal before the extra fixed architecture cost is charged, optimizing over the larger phenotype space gives
+
+```text
+R >= 0
+Delta_arch = R - K
+Delta_arch > 0  <=>  K < R
+```
+
+where `R` is the shared-compromise loss recoverable by the differentiated architecture and `K` is its additional fixed cost.
+
+If residual coupling is represented by a non-negative scaled penalty, stronger coupling cannot increase `R`.
+
+### Quadratic corollary
+
+For two function-specific optima `theta1` and `theta2`, the quadratic baseline gives
+
+```text
+shared conflict load       L_S*
+decoupling fraction        s = |x_opt-y_opt| / |theta1-theta2|
+recoverable conflict loss  R = s L_S*
+architecture gain          Delta_arch = s L_S* - K
+```
+
+Thus differentiation is favoured when the part of the one-trait compromise that can actually be released by partial decoupling exceeds the cost of the extra architecture.
+
+More trait axes do **not** imply complete functional independence.
+
+## Nonquadratic robustness
+
+Registered convex-family design:
+
+```text
+300 nonzero-conflict evaluations
+strict positive pre-cost recovery:                 300 / 300
+recovery increases with optimum separation:         60 / 60 series
+coupling monotonicity implementation check:          60 / 60 series
+```
+
+The finite sweep tests strictness and distance dependence; coupling monotonicity is already a structural consequence of the declared non-negative coupling penalty. No universality claim is made for arbitrary nonconvex, multimodal, frequency-dependent or evolutionary-dynamic landscapes.
+
+Core files:
+
+- `trait_architecture/differentiation.py`
+- `trait_architecture/differentiation_robustness.py`
+- `theory/TRAIT_DIFFERENTIATION_EXTENSION.md`
+- `docs/TRAIT_DIFFERENTIATION_ROBUSTNESS.md`
+- `docs/TRAIT_DIFFERENTIATION_ROBUSTNESS_READOUT.json`
+
+## Prior-art boundary
+
+BITA does **not** claim to invent specialization, division of labour, modularity or reduced pleiotropy under trade-offs. The closest theoretical anchors include Rüffler, Hermisson & Wagner (2012), Guillaume & Otto (2012), and Sack & Buckley (2020).
+
+The contribution is the bridge:
+
+```text
+measurable one-axis ecological compromise
+-> architecture gain with explicit partial decoupling
+-> causal mechanism identification after multiple axes exist
+```
+
+## Empirical architecture-state anchors
+
+- **Cichlid oral + pharyngeal jaws:** function partitioning with residual evolutionary/genetic integration; an empirical analogue of incomplete differentiation.
+- **Dalechampia:** historical redeployment, exaptation and addition of functional/defensive structures.
+
+Neither system estimates `s`, `lambda`, `K` or `Delta_arch`, and neither is treated as proof that the modeled trade-off caused the historical transition.
+
+## Floral BITA: mechanism identification after differentiation
+
+For two focal trait axes,
 
 ```text
 Delta_AD W = W11 - W10 - W01 + W00
 ```
 
-A total `Delta_AD W` does not point-identify antagonist relief (`rho_delta`), pollinator interference (`iota_delta`), and the remaining joint channel (`kappa_delta`). If `Delta_AD W = delta`, compatible allocations form the identified set
-
-```text
-I(delta) = {(rho, iota, kappa): rho - iota - kappa = delta}
-```
-
-so measuring the same total surface more precisely cannot by itself collapse mechanism uncertainty to one point. Explicit biological restrictions or channel-specific measurements can, however, shrink this set. In particular,
-
-```text
-kappa_delta >= 0
-=> rho_delta - iota_delta >= Delta_AD W
-```
-
-which recovers the historical one-sided result as a **partial-identification bound on the biotic balance**, not as a universal theorem about nature.
-
-The inference ladder is therefore:
+but the total interaction does not uniquely identify the ecological channels that generated it. The retained inference ladder is
 
 ```text
 interaction detection
-→ identified set
-→ partial identification under declared bounds
-→ point identification after selective crossed interventions
-→ independent joint-channel validation
+-> identified set
+-> partial identification
+-> selective A x D x antagonist x pollinator intervention
+-> four-way separability diagnostic
+-> independent remaining-channel assay
 ```
 
-## Point-identification design
+The empirical layer contains **56 source-adjudicated route records / 25 independent biological clusters** and an authoritative **17-system high-information frontier**. The result is recurrent constituent biology plus **fragmented identification**, not prevalence of trait differentiation.
 
-The repository implements a crossed
+Strict boundary:
 
 ```text
-A × D × antagonist × pollinator
+positive A x D interaction
+!= trait differentiation
+!= historical splitting
+
+structural separation
+!= functional independence
+
+route recurrence
+!= prevalence
 ```
 
-16-cell design. Channel contrasts are interpretable only when consumer interventions are selective and the same A/D coordinates are maintained across cells. Pollinator-independent reproduction (`m0_delta`) is measured or justified rather than assumed away. Dependence of the antagonist contrast on pollinator state and dependence of the pollinator contrast on antagonist state are the same `A×D×G×P` four-way interaction up to sign, providing an internal separability diagnostic.
+## Canonical manuscript graph
 
-The remaining residual
+- `manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md` — canonical scientific source
+- `manuscript/TRAIT_DIFFERENTIATION_REFERENCES_V1.md` — focused reference pool
+- `manuscript/TRAIT_DIFFERENTIATION_FIGURE_CAPTIONS_V1.md` — figure captions
+- `manuscript/trait_differentiation_figures/` — Figures 1–5
+- `manuscript/CLAIM_FREEZE.md` — scientific claim ceiling
+- `docs/SUBMISSION_SCOPE.md` — canonical submission scope
+- `scripts/build_ecology_review_package_sources.py` — canonical package builder
+
+`manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md` remains versioned as the mature mechanism-identification component/provenance source. It is no longer the canonical article.
+
+## Validated package state
+
+Canonical pre-metadata package:
 
 ```text
-U_delta = rho_delta - iota_delta - Delta_AD W
+Main Document: 30 pages
+Appendix S1:   38 pages
+Main figures:   5
 ```
 
-is kept **unallocated**. It is not called `kappa` by subtraction. A joint construction/allocation channel requires an independent `A×D` assay under standardized or suppressed biotic pathways.
-
-## Mechanism → Pattern bridge
-
-The source-adjudicated recurrence layer contains:
-
-```text
-56 route records
-25 independent biological clusters
-A -> pollination:         5 clusters
-A -> antagonism:          8
-D -> antagonism:         18
-D -> pollination:        10
-same-system multi-route: 14
-context/sign switch:     17
-```
-
-These overlapping counts show that the **constituent ecological pathways recur across systems**. They are not natural-prevalence estimates and they do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`.
-
-The stricter 16-system audit shows a second pattern: **design fragmentation**. Existing studies occupy complementary faces of an identification frontier rather than all failing in the same way. Kessler et al. (2008) supplies the closest trait-factorial side; Egan et al. (2021) the complementary consumer-factorial side; the public *Impatiens capensis* retrofit reaches randomized context modification of an observational `A×D`; *Pedicularis rex* supplies a selective-defence system anchor. No screened system closes all allocation dimensions or contains an independent joint-cost assay.
-
-The cross-system conclusion is therefore:
-
-> **The constituent channels recur, current studies constrain different parts of their allocation, but the full joint mechanism is not yet point-identified.**
-
-In that bounded sense, their **joint allocation remains unidentified**.
-
-Read as the second step after the one-trait shared-cue problem, BITA asks whether a distinct defence coordinate provides an escape route. Current evidence answers the mechanism layer positively: antagonist-reducing routes, pollinator-preserving guarded states, and the separated/overlapped/bypassable switching architecture recur. It does not yet establish the complete-system inequality `rho_delta > iota_delta + kappa_delta`. The explicit hypothesis-by-hypothesis recovery is recorded in `docs/DEFENCE_ESCAPE_ROUTE_HYPOTHESIS_RECOVERY.md`.
-
-The useful next question is no longer only “is the mechanism identified?” but **which additional measurement or intervention most shrinks the remaining identified set?**
-
-The explicit question → method → explanatory-reach contract is recorded in `docs/QUESTION_METHOD_EXPLANATION_MATRIX.md` and its machine-readable source `empirical/identification_design/QUESTION_METHOD_EXPLANATION_MATRIX_V1.csv`. It distinguishes what BITA has already explained empirically, what is only assumption-indexed, and what still requires new data.
-
-### Boundary to the one-trait companion project
-
-The attraction-side routes also define a distinct first-order question that the canonical two-trait estimand does not answer: how a single attraction/display contrast changes pollinator benefit, antagonist cost and plant reproduction. In general,
-
-```text
-Delta_A W = Delta_A M - Delta_A G - Delta_A C
-```
-
-and `S_A = Delta_A M - Delta_A G` is valid only when direct attraction cost is standardized or measured independently. This target does not require `D` or `Delta_AD W`, but total `W(A)` alone still does not allocate the channels. The fail-closed coverage audit and shared-cue paper now belong to the separate [SCH repository](https://github.com/zuizui0223/sch). BITA retains only the constituent-route evidence needed by its two-trait Mechanism → Pattern → Identification argument.
-
-## Canonical paper
-
-Current reader-facing sources:
-
-- `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md` — canonical scientific text
-- `manuscript/IDENTIFICATION_DESIGN_REFERENCES.md` — focused reference spine
-- `manuscript/IDENTIFICATION_DESIGN_FIGURE_CAPTIONS.md` — Main figure captions
-- `manuscript/identification_figures/` — canonical Figures 1–5
-- `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md` — Appendix S1
-- `docs/PARTIAL_IDENTIFICATION_FRONTIER_V1.md` — identified-set / bound derivation
-- `docs/MECHANISM_PATTERN_IDENTIFICATION_BRIDGE.md` — recurrence/identification boundary
-- `docs/QUESTION_METHOD_EXPLANATION_MATRIX.md` — method-specific explanatory reach and claim ceilings
-- `docs/DEFENCE_ESCAPE_ROUTE_HYPOTHESIS_RECOVERY.md` — positive ecological recovery and the unevaluated complete escape condition
-- `docs/BITA_DEFENCE_ESCAPE_ROUTE_PRIMARY_SOURCE_AUDIT_V1.md` — direct/indirect/boundary adjudication of six high-information systems
-- `docs/PUBLICATION_MATERIAL_RECOVERY_LEDGER.md` — paperization material state and remaining gates
-- `submission/` — Ecology review-package and portal documents
-
-The historical theorem-led manuscript and its analyses remain versioned for provenance; they are not the canonical submission source.
-
-## Reproducibility core
-
-Primary identification implementation and tests:
-
-- `trait_architecture/identification.py`
-- `trait_architecture/partial_identification.py`
-- `tests/test_identification.py`
-- `tests/test_identification_four_way.py`
-- `tests/test_identification_coverage.py`
-- `tests/test_partial_identification.py`
-- `tests/test_partial_identification_balance.py`
-- `tests/test_partial_identification_manuscript_integration.py`
-
-Empirical products include:
-
-- `empirical/identification_design/HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv`
-- `empirical/identification_design/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json`
-- `empirical/mechanism_pattern_synthesis/` — retained route-level recurrence evidence
-
-The former 2,592 finite evaluations and 77.2% window precision remain implementation/model-family sensitivity in Appendix S1. They are not empirical validation or natural-regime frequencies. Leal and Sasidharan quantitative modules remain reproducible historical analyses but are not Main identification evidence.
-
-## Inference boundaries
-
-```text
-marginal route recurrence
-!= total A×D interaction
-!= partial channel bounds
-!= point-identified channel interaction
-!= full mechanism allocation
-```
-
-Accordingly:
-
-- route counts are not prevalence estimates;
-- total `Delta_AD W` alone leaves an identified set rather than a unique mechanism;
-- partial-identification claims are conditional on explicitly declared bounds;
-- randomized context modification is not selective consumer exclusion;
-- a non-zero `A×D×G×P` contrast rejects the simple separable-channel representation;
-- `U_delta` is not `kappa` by definition;
-- zero independent joint-cost assays does not imply `kappa = 0`;
-- finite-grid fractions are not probabilities of natural regimes.
+Theory, robustness, manuscript, figure, identification, formatter and package regressions pass. The Main is within the standard 30-page Ecology Concepts & Synthesis target. A LibreOffice OMML superscript-star rendering defect found during visual QA is normalized to explicit `opt` superscripts before PDF export.
 
 ## Submission state
 
-The current pre-metadata Ecology Concepts & Synthesis package renders to **29 Main pages + 12 Appendix pages**, with five Main figures, and remains within the standard 30-page target with one Main-page margin. CI and canonical/candidate package builds passed for the integrated scientific head, and all **41 rendered pages** were visually inspected with no blank pages, clipping, overlap, broken glyphs, missing figures, or broken equations.
+**Science and pre-metadata package: GO.** Remaining blockers are author-controlled metadata/declarations/sign-off: final author list/order, affiliations, corresponding author/e-mail, ORCIDs, CRediT, funding, acknowledgments, competing interests, licence, portal-requested reviewer information if any, all-author approval and no-simultaneous-submission confirmation.
 
-External submission remains blocked only by author-controlled fields and sign-off: final author order/names, affiliations, corresponding author/e-mail, ORCIDs, CRediT, funding, acknowledgments, competing interests, licence statement, any portal-requested reviewer information, all-author approval, and the final post-metadata rebuild/QA.
+After those fields are supplied, rebuild the exact canonical package and visually inspect every Main and Appendix page before upload.

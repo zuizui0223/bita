@@ -1,122 +1,115 @@
-# Supplement manifest — canonical partial-identification paper
+# Supplement manifest — canonical trait-differentiation Chapter 2
 
 Canonical target:
 
-> **From floral trait interactions to mechanism identification: a crossed-intervention framework for attraction and defence**
+> **When does a trait trade-off resolve by differentiation rather than compromise? Linking trait architecture to mechanism identification**
 
-The theorem-led manuscript remains provenance only. The active Main is the identification-design manuscript with Mechanism → Pattern recurrence and an explicit partial-identification layer.
+Target journal/type: **Ecology — Concepts & Synthesis**.
 
 ## 1. Canonical sources
 
-- Main: `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`
-- references: `manuscript/IDENTIFICATION_DESIGN_REFERENCES.md`
-- captions: `manuscript/IDENTIFICATION_DESIGN_FIGURE_CAPTIONS.md`
-- figures: `manuscript/identification_figures/`
-- Appendix: `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`
-- identified-set derivation: `docs/PARTIAL_IDENTIFICATION_FRONTIER_V1.md`
-- package builder: `scripts/build_ecology_review_package_sources.py`
+- Main scientific source: `manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md`
+- focused references: `manuscript/TRAIT_DIFFERENTIATION_REFERENCES_V1.md`
+- figure captions: `manuscript/TRAIT_DIFFERENTIATION_FIGURE_CAPTIONS_V1.md`
+- Main figures: `manuscript/trait_differentiation_figures/`
+- architecture derivation: `theory/TRAIT_DIFFERENTIATION_EXTENSION.md`
+- nonquadratic robustness: `docs/TRAIT_DIFFERENTIATION_ROBUSTNESS.md`
+- empirical architecture bridges: `docs/TRAIT_DIFFERENTIATION_EMPIRICAL_BRIDGES.md`
+- retained floral identification supplement: `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`
+- canonical package builder: `scripts/build_ecology_review_package_sources.py`
 
-Primary implementation:
-
-- `trait_architecture/identification.py`
-- `trait_architecture/partial_identification.py`
-- `empirical/identification_design/HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V1.csv`
-- `empirical/identification_design/IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json`
-- `empirical/identification_design/QUESTION_METHOD_EXPLANATION_MATRIX_V1.csv`
-- `empirical/mechanism_pattern_synthesis/`
+`manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md` remains a mature mechanism-identification component/provenance source; it is no longer the canonical article. `manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md` remains historical provenance only.
 
 ## 2. Scientific core
 
+General nested-architecture result:
+
+```text
+recoverable shared-compromise loss  R >= 0
+architecture gain                   Delta_arch = R - K
+differentiation favoured            K < R
+```
+
+When residual coupling is a non-negative scaled penalty, stronger coupling cannot increase `R`.
+
+Quadratic corollary:
+
+```text
+shared conflict load  L_S*
+decoupling fraction   s
+R = s L_S*
+Delta_arch = s L_S* - K
+```
+
+The paper therefore distinguishes **balance on one axis**, **partial differentiation across axes**, and **mechanism identification after several axes exist**.
+
+## 3. Robustness layer
+
+Registered finite convex-family results:
+
+```text
+strict positive pre-cost recovery:         300 / 300
+optimum-distance monotonic series:           60 / 60
+coupling monotonicity implementation check:  60 / 60
+```
+
+These counts do not prove universality across arbitrary fitness landscapes.
+
+## 4. Empirical architecture-state layer
+
+- cichlid oral/pharyngeal jaws: structural functional partitioning with residual evolutionary/genetic integration;
+- *Dalechampia*: repeated functional redeployment/exaptation and addition of structures.
+
+These are bounded architecture-state anchors, not estimates of `s`, `lambda`, `K`, `Delta_arch`, or causal reconstructions of trait splitting.
+
+## 5. Retained floral identification layer
+
+The detailed worked case retains:
+
 ```text
 Delta_AD W = W11 - W10 - W01 + W00
-Delta_AD W = rho_delta - iota_delta - kappa_delta
 I(delta) = {(rho,iota,kappa): rho-iota-kappa=delta}
 ```
 
-Inference sequence:
+plus partial identification, selective crossed interventions, the four-way separability test, `m0` handling, and an independent joint-channel assay.
 
-```text
-interaction detection
-→ identified set
-→ partial identification under explicit restrictions
-→ selective crossed interventions
-→ m0 correction + four-way separability test
-→ point identification of biotic channels
-→ independent joint-channel assay / diagnostic
-```
-
-Central recovered partial bound:
-
-```text
-kappa_delta >= 0
-=> rho_delta - iota_delta >= Delta_AD W
-```
-
-This is conditional on a defensible kappa restriction. It is not a universal theorem.
-
-Required boundaries:
-
-- total `Delta_AD W` does not uniquely allocate rho/iota/kappa;
-- partial-identification statements must name their bounds/assumptions;
-- the 16-cell design still requires selective interventions and comparable A/D coordinates;
-- rho/iota invariance views are one four-way interaction up to sign;
-- non-zero four-way coupling rejects separability;
-- total iota requires `m0_delta` handling;
-- `U_delta` is unallocated, not kappa by definition;
-- kappa requires independent evidence.
-
-## 3. Mechanism → Pattern / identification frontier
-
-Retained recurrence layer:
+Empirical coverage:
 
 ```text
 56 route records
 25 independent biological clusters
-A -> pollination: 5
-A -> antagonism:  8
-D -> antagonism: 18
-D -> pollination: 10
-same-system:      14
-context/sign switch: 17
+17 high-information systems
 ```
 
-These counts establish recurrence only.
+These counts establish recurrence only. No screened system closes all allocation dimensions and no independent joint-cost assay is present. The result is recurrent constituent biology plus a fragmented identification frontier, not prevalence of trait differentiation.
 
-Across the 16-system high-information screen, trait-factorial, consumer-factorial, randomized context-modification, and selective-defence information occurs in complementary studies. No screened system closes all allocation dimensions and no independent joint-cost assay is present. The audit is therefore interpreted as a **fragmented identification frontier**, not merely a 0/16 failure count.
+Representative complementary anchors remain Kessler 2008 (trait-factorial side), Egan 2021 (consumer-factorial side), *Impatiens capensis* (observational traits plus randomized context modification), and *Pedicularis rex* (selective defence/access side).
 
-## 4. Existing-data anchors
+## 6. Main figures
 
-- Kessler 2008: trait-factorial anchor; aggregate `Delta_AD` approximately +0.19 to +0.25, interaction OR approximately 2.77 to 4.71; formal uncertainty and systemic-D scope remain unresolved.
-- Egan 2021: complementary consumer-factorial anchor.
-- *Impatiens capensis*: observational A×D plus randomized context modification; all eight target HC3 intervals cross zero.
-- *Pedicularis rex*: selective-access defence anchor without independent attraction manipulation.
+1. Figure 1 — shared-axis balance versus differentiated architecture; general `Delta_arch = R-K`, with the quadratic `R=sL_S*` corollary.
+2. Figure 2 — quadratic architecture boundary `K=sL_S*` and the effect of incomplete decoupling.
+3. Figure 3 — registered nonlinear robustness plus bounded cichlid/*Dalechampia* architecture-state anchors.
+4. Figure 4 — once several axes exist, trait interaction still requires mechanism identification.
+5. Figure 5 — floral recurrence and the 17-system fragmented identification frontier.
 
-These studies are not assigned invented rho/iota/kappa values or bounds.
+## 7. Appendix S1
 
-## 5. Main figures
+The canonical Appendix combines:
 
-1. Figure 1 — total trait interaction defines an identified set rather than a unique mechanism.
-2. Figure 2 — crossed 16-cell intervention design and separability diagnostic.
-3. Figure 3 — independent joint-channel assay versus unallocated residual.
-4. Figure 4 — 56/25 recurrence plus fragmented identification frontier and empirical anchors.
-5. Figure 5 — executable roadmap from interaction detection through partial to point identification.
+- general shared-versus-differentiated architecture derivation;
+- nonquadratic robustness design/readout;
+- cross-system architecture-state evidence;
+- the retained floral mechanism-identification supplement;
+- Kessler reconstruction and *Impatiens* retrofit;
+- 17-system identification frontier;
+- 56/25 recurrence provenance;
+- the historical 2,592 / 77.2% exercise as technical sensitivity only;
+- continuous-limit and response-shape implementation checks.
 
-## 6. Appendix S1 boundary
+Leal/Sasidharan and the theorem-led manuscript remain reproducible historical provenance, not Main Chapter 2 evidence.
 
-The active Appendix retains:
-
-- exact identified-set projection algebra and assumption-indexed partial-identification examples;
-- distinction between structural projection intervals and sampling uncertainty intervals;
-- Kessler 2008 reconstruction;
-- *Impatiens* retrofit;
-- 16-system identification-frontier details;
-- 56/25 recurrence evidence and boundary;
-- 2,592 finite evaluations and 77.2% grid-specific precision as technical sensitivity only;
-- continuous-limit / finite-difference and response-shape sensitivity material.
-
-Leal and Sasidharan remain reproducible historical modules, not Main evidence.
-
-## 7. Historical quantitative provenance retained
+## 8. Historical quantitative provenance retained
 
 Leal et al. 2025 provenance remains pinned:
 
@@ -127,24 +120,36 @@ first results:    965d657
 source synthesis: doi:10.1002/ecy.70036
 ```
 
-Historical values and Sasidharan reconstruction remain preserved with their original inference boundaries.
+The local contributing-effect assets and modern-estimator sensitivity code remain versioned in the repository. Sasidharan reconstruction products are retained under their original inference boundaries. These historical quantitative modules do not validate the identification framework and are not Main evidence.
 
-These historical quantitative modules do not validate the identification framework and are not Main evidence.
+## 9. Open Research package
 
-## 8. Open Research package
+Canonical exports preserve the six historical machine-readable mechanism/Pattern products and add the active Chapter 2 outputs:
 
-Exports include the route ledger, high-information identification coverage, *Impatiens* aggregate retrofit, and historical provenance products. Review-stage access is via public GitHub; accepted-version permanent archiving is an acceptance-stage requirement.
+- `model_parameters_and_scaling.csv`;
+- `finite_grid_local_cases.csv`;
+- `mechanism_pattern_route_ledger.csv`;
+- `conditionality_context_records.csv`;
+- `direct_identification_audits.csv`;
+- `pattern_expansion_screening.csv`;
+- `trait_differentiation_robustness_readout.json`;
+- authoritative V2 `high_information_identification_coverage.csv`;
+- aggregate `impatiens_identification_retrofit.json`;
+- `question_method_explanation_matrix.csv`;
+- `defence_escape_route_hypothesis_recovery.csv`.
 
-## 9. Current rendered state
+The broader route corpus and source receipts remain in the public repository. A permanent archive of the accepted exact version is an acceptance-stage task.
+
+## 10. Validated rendered state
 
 ```text
-Main Document: 29 pages
-Appendix S1:   12 pages
+Main Document: 30 pages
+Appendix S1:   38 pages
 Main figures:   5
 ```
 
-All **41 pages** were visually inspected after partial-identification integration and Main compaction. No blank pages, clipping, overlap, broken glyphs, missing figure content, or broken equations were found. The Main remains within the 30-page target with one-page headroom.
+The promoted Chapter 2 canonical package has passed build validation and is within the standard 30-page Main target. Full page-by-page visual QA of all **30 Main + 38 Appendix = 68 pages** found no blank pages, clipping, overlap, missing figure content, or broken equations. A LibreOffice OMML superscript-star fallback was corrected by normalizing optimized quantities to explicit `opt` superscripts before PDF export.
 
-## 10. External-submission boundary
+## 11. External-submission boundary
 
-Only author-controlled metadata/sign-off remains: author order/names/affiliations, corresponding author/e-mail, ORCIDs, CRediT, funding, acknowledgments, competing interests, licence, portal-only reviewer fields if requested, all-author approval and no-simultaneous-consideration confirmation. After insertion, rebuild and inspect the exact package again.
+Remaining fields are author-controlled: author list/order, affiliations, corresponding author/e-mail, ORCIDs, CRediT, funding, acknowledgments, competing interests, licence and any portal-requested reviewer information. After insertion, rebuild and visually inspect the exact submitted files again.

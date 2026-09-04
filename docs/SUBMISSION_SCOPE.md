@@ -1,158 +1,169 @@
-# Submission scope
+# Submission scope — canonical SCH sister Chapter 2
 
-This repository supports one integrated **identification-design regular article** for the current Theoretical Ecology submission path, with an explicit Mechanism → Pattern bridge and a partial-identification middle layer.
+Primary target: **Ecology — Concepts & Synthesis**.
+
+Canonical question:
+
+> **When does a trait trade-off resolve by differentiation rather than compromise, and how can the ecological mechanism of the resulting multi-trait architecture be identified?**
+
+The programme is defined by trait architecture, not by pollination versus defence.
 
 ```text
-Mechanism
-measurable A×D interaction / channel allocation identity
+SCH / Chapter 1 — BALANCE
+conflicting functions remain coupled on one trait axis
+-> characterize the maintained compromise
 
-Identification layer 1
-identified set from the total interaction
-
-Identification layer 2
-partial identification under explicit biological/channel bounds
-
-Pattern layer 1
-cross-system recurrence of constituent ecological pathways
-
-Pattern layer 2
-fragmented identification frontier across existing studies
-
-Endpoint
-selective A×D×antagonist×pollinator design + m0 + separability + independent joint-channel assay
+BITA / Chapter 2 — DIFFERENTIATION
+compare that shared compromise with a partially decoupled multi-axis architecture
+-> determine when differentiation pays
+-> identify the mechanism once multiple axes exist
 ```
 
-## Fixed identification core
+Floral attraction/defence is the detailed mechanism-identification worked case, not the general scope.
 
-For one declared attraction trait `A`, one declared flower-associated antagonist-reducing trait `D`, and one outcome scale `W`,
+## 1. General architecture result
+
+Let `L_S*` be the minimum loss attainable when two functions must share one trait. Let the differentiated architecture contain every shared phenotype on its diagonal before an extra fixed architecture cost is charged. Define `R` as the loss recovered by optimizing over the larger differentiated phenotype space.
+
+Then, structurally,
+
+```text
+R >= 0
+Delta_arch = R - K
+Delta_arch > 0  <=>  K < R
+```
+
+where `K >= 0` is the additional fixed architecture cost.
+
+If residual coupling enters as a non-negative scaled penalty `lambda*c(x,y)`, increasing `lambda` cannot increase `R`. These weak-dominance and coupling-monotonicity results are not quadratic-specific.
+
+## 2. Quadratic corollary
+
+For the declared quadratic baseline,
+
+```text
+shared conflict load       L_S*
+decoupling fraction        s = |x_opt-y_opt| / |theta1-theta2|
+recoverable loss           R = s L_S*
+architecture gain          Delta_arch = s L_S* - K
+```
+
+so the decision boundary is `K = s L_S*`.
+
+This closed form makes incomplete differentiation explicit: two trait axes can relax a conflict while retaining residual functional, developmental, genetic or ecological coupling.
+
+## 3. Nonquadratic robustness ceiling
+
+The registered convex power-loss design contains 300 nonzero-conflict evaluations across four functional powers, three weighting schemes, five optimum distances and five residual-coupling strengths, plus mismatched-curvature checks.
+
+Current finite-family results:
+
+```text
+strict positive pre-cost recovery:                 300 / 300
+recovery increases with optimum separation:         60 / 60 declared series
+coupling monotonicity implementation check:          60 / 60 declared series
+```
+
+The strictness and optimum-distance claims are finite-family results. Coupling monotonicity is a structural result under the declared non-negative penalty and is checked numerically in the registered sweep. No claim is made for arbitrary nonconvex, multimodal, frequency-dependent or evolutionary-dynamic landscapes.
+
+## 4. Empirical architecture-state ceiling
+
+- Cichlid oral/pharyngeal jaws anchor partial differentiation with residual evolutionary/genetic integration.
+- *Dalechampia* anchors historical functional redeployment, exaptation and addition of functional structures.
+
+These systems demonstrate biologically real architecture states. They do not estimate `s`, `lambda`, `K` or `Delta_arch`, and they do not prove that a measured shared-axis trade-off caused the historical transition.
+
+## 5. Floral mechanism-identification worked case
+
+Once multiple axes exist, their total fitness interaction still does not identify mechanism. For the focal floral traits `A` and `D`,
 
 ```text
 Delta_AD W = W11 - W10 - W01 + W00
+Delta_AD W = rho_delta - iota_delta - kappa_delta
 ```
 
-and
+and a measured total `delta` defines
 
 ```text
-Delta_AD W = rho_delta - iota_delta - kappa_delta.
+I(delta) = {(rho,iota,kappa): rho-iota-kappa=delta}
 ```
 
-If `Delta_AD W = delta` is the only channel-allocation information, compatible mechanisms form
+rather than a unique mechanism.
+
+The retained inference ladder is:
 
 ```text
-I(delta) = {(rho, iota, kappa): rho - iota - kappa = delta}.
+interaction detection
+-> identified set
+-> partial identification under declared restrictions
+-> selective A x D x antagonist x pollinator intervention
+-> m0 handling + four-way separability diagnostic
+-> independent assay of the remaining joint channel
 ```
 
-This is structural non-identification, not a sampling-power problem. Explicit restrictions can still shrink the set. The principal recovered bound is
+### Pattern layer 1 — constituent ecological recurrence
+
+The source-adjudicated route ledger contains 56 route records across 25 independent biological clusters. The source-adjudicated route ledger is **not itself a grand meta-analysis**. These overlapping route classes establish recurrence capacity only; they are not prevalence estimates and do not estimate `Delta_AD W`, `rho_delta`, `iota_delta`, or `kappa_delta`.
+
+### Pattern layer 2 — fragmented identification frontier
+
+The authoritative high-information audit contains 17 systems occupying complementary design faces. No screened system closes the full allocation design plus independent joint-channel assay. The empirical result is **fragmented identification**, not absence of relevant biology.
+
+The constituent channels recur, but their joint allocation remains unidentified.
+
+## 6. Required inference boundaries
 
 ```text
-kappa_delta >= 0
-=> rho_delta - iota_delta >= Delta_AD W.
-```
+one-trait compromise
+!= proof that differentiation evolved
 
-For positive `Delta_AD W`, the biotic balance is therefore forced positive under the stated kappa restriction even when rho and iota remain individually unidentified. The restriction must be defended biologically; it is not treated as a universal law.
+structural separation
+!= functional independence
 
-### Escape decision is not mechanism allocation
+positive A x D interaction
+!= trait differentiation
+!= historical splitting
 
-On a predeclared reproductive scale, a valid same-scale `A × D` interval wholly above zero is sufficient to identify **positive functional escape**: the second trait has increased the joint reproductive return to attraction. The full `rho_delta`, `iota_delta`, `kappa_delta` decomposition is not required for that sign decision.
-
-Channel allocation answers the harder question of why the interaction is positive or negative. It requires selective crossed interventions, pollinator-independent baseline handling, the four-way separability diagnostic and an independent joint-channel assay. A positive total interaction therefore identifies neither the realized channel values nor cue privatization. It may relax the fitness cost of a shared signal while antagonists continue to detect that same cue.
-
-Point identification uses a 16-cell
-
-```text
-A × D × antagonist access × pollinator access
-```
-
-design with selective interventions and invariant A/D coordinates. Pollinator-independent reproduction is measured or justified through `m0_delta`. The apparent rho and iota cross-context invariance checks are the same `A×D×G×P` four-way contrast up to sign; a non-zero value rejects the simple separable-channel representation.
-
-The residual
-
-```text
-U_delta = rho_delta - iota_delta - Delta_AD W
-```
-
-remains unallocated. It is not kappa by subtraction; kappa requires an independent A×D assay.
-
-## Pattern layer 1 — constituent ecological recurrence
-
-Retained source-adjudicated synthesis:
-
-```text
-56 route records
-25 independent biological clusters
-A -> pollination: 5
-A -> antagonism:  8
-D -> antagonism: 18
-D -> pollination: 10
-same-system:      14
-context switches: 17
-```
-
-These overlapping categories establish recurrence capacity only. They are not prevalence estimates and do not estimate `Delta_AD W`, rho, iota, or kappa.
-
-The source-adjudicated route ledger is **not itself a grand meta-analysis**. Constituent channels recur, but their joint allocation remains unidentified.
-
-The explanation ladder is method-specific: route synthesis establishes recurrence; a trait factorial estimates total interaction and can decide its outcome-level sign when design-based uncertainty excludes zero; identified-set and partial-identification methods constrain compatible allocations; selective crossed interventions allocate biotic channels; and an independent assay is required to validate the joint channel. Current evidence does not reach the final two levels.
-
-## Pattern layer 2 — fragmented identification frontier
-
-The 16-system high-information audit asks which dimensions of the identified set are already constrained by existing experiments. The main complementary faces are:
-
-1. Kessler et al. 2008 — trait-factorial side and strongest positive aggregate-sign anchor;
-2. Egan et al. 2021 — consumer-factorial side;
-3. *Impatiens capensis* — observational A×D plus randomized context modification;
-4. *Pedicularis rex* — selective flower-associated defence system anchor;
-5. other systems exposing trait-orientation, organ-scope, intervention, baseline, or cost-assay gaps.
-
-Screened-set facts remain:
-
-```text
-independent joint-cost assay:       0
-full rho/iota/kappa identification: 0
-```
-
-but the stronger synthesis is not simply `0/16`. Existing studies occupy complementary faces of the allocation problem. The practical question is therefore **which smallest additional measurement or intervention most shrinks the remaining identified set?**
-
-Kessler 2008 changes the outcome-level premise: a manipulated `A × D`-like reproductive surface exists and aggregate-compatible allocations preserve a positive sign. What remains unresolved is the source/design-based interaction interval and the intervention-scope caveat created by systemic nicotine suppression. Thus formal positive escape is not yet uncertainty-identified, but this does not justify requiring full channel allocation before the sign can be decided.
-
-## Required inference boundary
-
-```text
 marginal route recurrence
 != total A×D interaction
-!= outcome-level escape sign with design-based uncertainty
-!= partial channel bounds
-!= point-identified channel interaction
-!= full mechanism allocation
+!= partial channel allocation
+!= point-identified mechanism
+
+route recurrence
+!= prevalence
 ```
 
-Accordingly:
+`U_delta` is not kappa by subtraction; the remaining joint channel requires independent evidence. A positive total interaction does not demonstrate cue privacy or a historical shared-to-private transition.
 
-- route/context counts are not prevalence;
-- finite-grid fractions are not natural frequencies;
-- total `Delta_AD W` alone defines a set, not a unique mechanism;
-- a valid positive total interval can decide functional escape without identifying that mechanism;
-- partial-identification claims must name their assumptions/bounds;
-- randomized context modification is not selective exclusion;
-- zero independent cost assays means kappa is unmeasured, not zero;
-- `U_delta` is not kappa by subtraction;
-- a non-zero four-way interaction rejects separability;
-- a positive total interaction does not demonstrate cue privacy or a historical shared-to-private transition;
-- the 2,592/77.2% finite-grid exercise remains technical Appendix sensitivity only.
+The current paper compares optimized architecture states; it does not model mutation, inheritance, transition time or evolutionary accessibility. A causal historical claim that one shared-axis conflict produced a particular new module requires additional transition evidence.
 
-## Active package
+## 7. Canonical source graph
 
-- Main: `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`
-- Figures 1–5: `manuscript/identification_figures/`
-- Appendix S1: `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`
-- partial-identification derivation: `docs/PARTIAL_IDENTIFICATION_FRONTIER_V1.md`
-- bridge guardrail: `docs/MECHANISM_PATTERN_IDENTIFICATION_BRIDGE.md`
-- escape-decision recovery: `docs/DEFENCE_ESCAPE_ROUTE_HYPOTHESIS_RECOVERY.md`
-- explanation ladder: `docs/QUESTION_METHOD_EXPLANATION_MATRIX.md`
-- release checklist: `submission/SUBMISSION_CHECKLIST.md`
+- Main scientific source: `manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md`
+- focused reference pool: `manuscript/TRAIT_DIFFERENTIATION_REFERENCES_V1.md`
+- captions: `manuscript/TRAIT_DIFFERENTIATION_FIGURE_CAPTIONS_V1.md`
+- Figures 1–5: `manuscript/trait_differentiation_figures/`
+- theory derivation: `theory/TRAIT_DIFFERENTIATION_EXTENSION.md`
+- robustness: `docs/TRAIT_DIFFERENTIATION_ROBUSTNESS.md`
+- canonical package builder: `scripts/build_ecology_review_package_sources.py`
+- retained identification supplement: `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`
 
-Current validated pre-metadata package: **29 Main pages + 12 Appendix pages**, five Main figures, all 41 pages visually inspected before the present wording synchronization. The package must be rebuilt and visually rechecked after the canonical manuscript correction.
+`manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md` remains versioned as the mature mechanistic component/provenance source; it is no longer the canonical submitted article.
 
-## Remaining external-submission work
+## 8. Validated pre-metadata package
 
-Author-controlled fields/sign-off remain: author order/names/affiliations, corresponding author/e-mail, ORCIDs, CRediT, funding, acknowledgments, competing interests, licence, any portal-requested reviewer fields, all-author approval and no-simultaneous-submission confirmation. After the scientific wording is synchronized, run one exact package rebuild and final page-by-page QA before authenticated journal-portal submission.
+The promoted canonical package has passed theory, manuscript, figure, identification and packaging validation and renders as:
+
+```text
+Main Document: 30 pages
+Appendix S1:   38 pages
+Main figures:   5
+```
+
+Current validated package shorthand: **30 Main pages + 38 Appendix pages**. The Main is within the standard 30-page Ecology Concepts & Synthesis target. The renderer-specific superscript-star failure was normalized to explicit `opt` notation in OMML math before PDF export.
+
+Full page-by-page QA of all 68 pages found no blank pages, clipping, overlap, missing figure content, broken glyphs or broken equations.
+
+## 9. Remaining external-submission boundary
+
+Only author-controlled metadata/declarations and final post-metadata QA remain: final author list/order, affiliations, corresponding author/e-mail, ORCIDs, CRediT, funding, acknowledgments, competing interests, licence, portal-requested reviewer fields if any, all-author approval and no-simultaneous-submission confirmation. After those fields are inserted, rebuild and visually inspect the exact submitted package again.

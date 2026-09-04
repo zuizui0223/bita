@@ -1,74 +1,113 @@
 # Manuscript directory
 
-## Canonical manuscript
+## Canonical source
 
-`MANUSCRIPT_IDENTIFICATION_DESIGN.md` is the sole active submission manuscript source.
+The active SCH-sister Chapter 2 manuscript is:
 
-The historical `MANUSCRIPT_THEORETICAL_ECOLOGY.md` remains versioned for provenance only; it does not define the current paper or submission package.
+- `MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md` — canonical scientific source for **BALANCE -> DIFFERENTIATION -> IDENTIFICATION**.
+- `TRAIT_DIFFERENTIATION_REFERENCES_V1.md` — focused architecture + floral worked-case reference pool.
+- `TRAIT_DIFFERENTIATION_FIGURE_CAPTIONS_V1.md` — canonical figure captions.
+- `trait_differentiation_figures/` — canonical Figures 1–5.
 
-The original first-order shared-cue question is also kept outside this submission mainline. Its coverage audit and paper framework now belong to the separate [SCH repository](https://github.com/zuizui0223/sch). That transfer does not change the estimand or claim ceiling of the canonical BITA manuscript.
+Retained component/provenance sources:
 
-## Current paper architecture
+- `MANUSCRIPT_IDENTIFICATION_DESIGN.md` — mature floral mechanism-identification manuscript; now a component/provenance source rather than the submitted article.
+- `MANUSCRIPT_THEORETICAL_ECOLOGY.md` — historical theorem-led source retained for provenance only.
+- `supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md` — retained technical floral identification layer nested inside the integrated Appendix S1.
 
-The canonical paper is an explicit **Mechanism → Pattern → Identification** synthesis with a partial-identification middle layer:
-
-```text
-1. measure the discrete A×D interaction
-2. represent compatible channel allocations as an identified set
-3. shrink that set with explicit biological bounds / partial measurements
-4. establish cross-system recurrence of the constituent ecological channels
-5. audit which identification dimensions existing studies already cover
-6. use selective A×D×antagonist×pollinator interventions for point identification
-7. validate any remaining joint channel with an independent cost assay
-```
-
-The central algebra is
+## SCH / BITA programme
 
 ```text
-Delta_AD W = rho_delta - iota_delta - kappa_delta
+SCH / Chapter 1 — BALANCE
+one shared trait carries conflicting functions
+-> where/how is the compromise maintained?
+
+BITA / Chapter 2 — DIFFERENTIATION
+compare the shared compromise with a multi-axis architecture
+-> when does recovered loss pay for extra architecture?
+-> how is the mechanism identified once several axes exist?
 ```
 
-and, for `Delta_AD W = delta`, the total interaction alone defines
+Pollinator/antagonist and attraction/defence labels define one empirical realization, not the general theory.
+
+## Architecture result
+
+General nested-architecture result:
 
 ```text
-I(delta) = {(rho, iota, kappa): rho - iota - kappa = delta}.
+R >= 0
+Delta_arch = R - K
+differentiation iff K < R
 ```
 
-A key recoverable partial-identification statement is
+with stronger non-negative scaled residual coupling unable to increase `R`.
+
+Quadratic corollary:
 
 ```text
-kappa_delta >= 0
-=> rho_delta - iota_delta >= Delta_AD W.
+R = s L_S*
+Delta_arch = s L_S* - K
+s = |x_opt-y_opt| / |theta1-theta2|
 ```
 
-This is an assumption-indexed bound on the biotic balance, not a universal theorem. Point identification requires selective channel interventions, explicit handling of `m0_delta`, a successful `A×D×G×P` separability diagnostic, and independent evidence for the joint-cost channel.
+The corollary explicitly permits partial differentiation.
 
-## Mechanism → Pattern result
+## Robustness
 
-The retained recurrence synthesis contains 56 route records across 25 independent biological clusters and covers all four constituent marginal pathway families. These records establish recurrence capacity, not natural prevalence or channel-interaction magnitudes.
+Registered convex-family results:
 
-The 16-system high-information audit is interpreted as a **fragmented identification frontier**. Kessler 2008, Egan 2021, *Impatiens capensis*, and *Pedicularis rex* occupy complementary design faces; no screened system closes all dimensions. Thus existing biology is not absent—the information needed for mechanism allocation is distributed across different experiments.
+```text
+strict recovery:                    300 / 300
+optimum-distance monotonicity:       60 / 60
+coupling implementation check:       60 / 60
+```
+
+These do not establish universality across arbitrary fitness landscapes or evolutionary transition dynamics.
+
+## Empirical roles
+
+- cichlid jaw systems: partial differentiation with residual integration;
+- *Dalechampia*: historical functional redeployment/addition;
+- floral BITA: detailed mechanism-identification worked case after multiple axes exist.
+
+The floral case retains `Delta_AD W`, identified sets, partial identification, crossed consumer interventions, the four-way separability diagnostic, the independent remaining-channel assay, 56/25 recurrence evidence and the 17-system fragmented identification frontier.
 
 ## Main figures
 
-1. Figure 1 — a total A×D interaction defines an identified set rather than a unique mechanism.
-2. Figure 2 — the 16-cell crossed consumer design and four-way separability diagnostic.
-3. Figure 3 — independent joint-cost assay versus the unallocated residual.
-4. Figure 4 — constituent-channel recurrence plus the fragmented identification frontier.
-5. Figure 5 — executable roadmap from interaction detection through partial to point identification.
+1. shared balance vs differentiated architecture;
+2. quadratic `K=sL_S*` boundary;
+3. nonquadratic robustness + bounded reality anchors;
+4. mechanism identification after multiple axes exist;
+5. floral recurrence + fragmented identification frontier.
 
-## Supporting Information
+## Canonical package
 
-`manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md` is the active Appendix S1. It retains the detailed identified-set projection algebra, Kessler reconstruction, *Impatiens* retrofit, 16-system audit, 56/25 recurrence details, and the historical 2,592-grid / 77.2% technical sensitivity material.
+The package builder is `scripts/build_ecology_review_package_sources.py`, which reuses the validated Chapter 2 source-generation logic rather than maintaining a second prose implementation.
 
-## Current package state
-
-Validated pre-metadata package:
+Validated pre-metadata render:
 
 ```text
-Main Document: 29 pages
-Appendix S1:   12 pages
-Main figures:   5
+Main:       30 pages
+Appendix:   38 pages
+Main figs:   5
 ```
 
-All 41 pages have been visually inspected. Remaining external-submission work is author-controlled metadata/sign-off followed by one exact rebuild and final page-by-page QA.
+The Main meets the standard Ecology Concepts & Synthesis 30-page target. Renderer-specific broken superscript stars are normalized to explicit `opt` notation during DOCX formatting.
+
+## Claim ceiling
+
+Do not equate:
+
+```text
+positive A x D interaction
+!= trait differentiation
+!= historical origin
+
+structural separation
+!= functional independence
+
+optimized-state advantage
+!= evolutionary accessibility/dynamics
+```
+
+The final historical-transition claim remains outside the current evidence ceiling.

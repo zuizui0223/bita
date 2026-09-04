@@ -4,10 +4,10 @@ Complete the author-controlled fields before upload. Do not infer or auto-fill m
 
 ## Manuscript
 
-- Final title: **From floral trait interactions to mechanism identification: a crossed-intervention framework for attraction and defence**
+- Final title: **When does a trait trade-off resolve by differentiation rather than compromise? Linking trait architecture to mechanism identification**
 - Article type: **Concepts & Synthesis**
 - Target journal: **Ecology**
-- Running title: **Identifying attraction–defence mechanisms**
+- Running title: **From trait compromise to differentiation**
 - Corresponding author:
 - Corresponding-author email:
 - Repository URL: `https://github.com/zuizui0223/bita`
@@ -16,19 +16,19 @@ Complete the author-controlled fields before upload. Do not infer or auto-fill m
 
 ### Abstract
 
-Ecologists often detect trait interactions on fitness without knowing which ecological pathway produced them. Floral attraction and defence make this problem clear: attraction can increase pollination and antagonist exposure, whereas defence can reduce damage while impeding pollinators or imposing joint costs. A total attraction-by-defence interaction therefore does not identify its mechanism. We separate two questions. On a predeclared reproductive scale, a design-based interval for the total attraction-by-defence interaction lying wholly above zero identifies positive functional escape by defence; the same total interaction does not identify why it is positive. We define the measurable two-level interaction, \(\Delta_{AD}W=W_{11}-W_{10}-W_{01}+W_{00}\), and show that it defines an identified set of compatible antagonist-relief, pollinator-interference and joint-channel allocations. Explicit restrictions or partial channel measurements shrink this set. A crossed \(A\times D\times\) antagonist \(\times\) pollinator experiment can allocate the biotic channels when consumer interventions are selective, attraction and defence contrasts remain invariant, pollinator-independent reproduction is measured, and the four-way interaction supports channel separability. The remaining joint channel requires an independent assay rather than residual labelling. Published systems occupy complementary parts of this design. Kessler et al. (2008) supplies a manipulated attraction-by-defence-like factorial whose aggregate constraints preserve a positive sign, but exact source/design-based uncertainty and flower-restricted defence scope remain unresolved. Egan et al. (2021) supplies the complementary consumer factorial, and a public *Impatiens capensis* reanalysis reaches randomized context modification of observational traits. Across 56 route records from 25 independent biological clusters, all four constituent marginal pathways recur; this establishes recurrence, not channel identification, but none of 16 screened high-information systems combines the full allocation design and independent joint-cost assay. The outcome-level gap is therefore an uncertainty-identified positive interaction with bounded trait scope; the mechanism-level gap is the missing intersection of existing design components. This staged framework distinguishes functional escape from cue privatization and turns both gaps into concrete experiments.
+Multifunctional traits can face conflicting functional optima. One solution is compromise on a shared trait axis; another is differentiation across partly independent axes. General specialization theory establishes that trade-offs can favour division of labour, but it does not by itself connect an observed ecological compromise to the mechanism of a resulting multi-trait phenotype. We formulate that bridge as an architecture comparison. If a differentiated architecture contains the shared phenotype on its diagonal, its optimized fitness before any extra fixed architecture cost cannot be lower than the best shared compromise. If residual coupling enters as a non-negative penalty, stronger coupling cannot increase the fitness recoverable by differentiation. In a quadratic baseline, the shared-axis conflict load is `L_S^opt`, residual coupling leaves a decoupling fraction `s` of the function-specific separation, and the same fraction of conflict loss is recoverable. Thus `Delta_arch = s L_S^opt - K`, where `K` is the additional architecture cost. Differentiation is favoured when the recovered compromise loss exceeds `K`. A registered 300-condition convex power-loss design finds strict positive recovery in all 300 nonzero-conflict evaluations and increasing recovery with optimum separation in 60/60 declared series; coupling monotonicity in 60/60 series verifies the structural result numerically. Cichlid oral and pharyngeal jaws illustrate partial differentiation with residual integration, whereas *Dalechampia* illustrates historical redeployment and addition of functional structures. We then use floral attraction and defence as a worked case showing that, once multiple trait axes exist, their total fitness interaction still does not identify the ecological pathway producing the apparent release. Across 56 route records from 25 independent biological study clusters and a 17-system high-information audit, the constituent pathways recur but the required identification dimensions remain fragmented across experiments. The framework therefore links shared-trait balance, incomplete differentiation and causal mechanism identification without equating structural separation with evolutionary independence or historical trait splitting.
 
 ### Keywords
 
 Use the exact manuscript keywords; keep them synchronized after final copy-editing:
 
+- functional trade-off
+- multifunctionality
+- trait differentiation
+- modularity
+- specialization
 - causal identification
-- factorial experiment
-- floral defence
-- floral traits
-- florivory
-- pollination
-- trait interaction
+- ecological interactions
 
 ## Authors
 
@@ -81,13 +81,13 @@ Details:
 
 ### Ethics
 
-This is a theoretical/computational and literature/data-reanalysis study using no newly collected human or animal subjects. Confirm whether any retained literature-derived material or external data creates an additional ethics requirement.
+This is a theoretical/computational, literature-synthesis and aggregate/public-data reanalysis study using no newly collected human or animal subjects. Confirm whether any retained external material creates an additional ethics requirement.
 
 ### Data and code availability
 
 Current draft portal statement:
 
-> Review-stage analysis code, discrete identification estimands, source-audit products, the aggregate *Impatiens capensis* retrofit, the sixteen-system high-information identification-coverage matrix, and retained provenance products are maintained in the public GitHub repository `https://github.com/zuizui0223/bita`. Individual source-data records are not redistributed where licence or source restrictions do not permit it. The exact accepted data/code version will be frozen in a permanent versioned archive and cited in the final article at the acceptance stage.
+> Review-stage theory and identification code, registered trait-differentiation robustness products, source-audit products, the aggregate *Impatiens capensis* retrofit, and the authoritative V2 high-information identification-coverage matrix are maintained in the public GitHub repository `https://github.com/zuizui0223/bita`. Individual source-data records are not redistributed where licence or source restrictions do not permit it. The exact accepted data/code version will be frozen in a permanent versioned archive and cited in the final article at the acceptance stage.
 
 Final statement must also confirm:
 
@@ -100,29 +100,23 @@ Final statement must also confirm:
 
 Current review-stage title-page statement:
 
-> Review-stage analysis code, identification estimands, source-audit products, the *Impatiens* public-data retrofit, and machine-readable identification-coverage products are available in the public project repository. The exact accepted data/code version will be deposited in a permanent versioned archive and cited in the final article at the acceptance stage.
+> Review-stage theory code, robustness readouts, source-audited empirical bridge materials, and retained floral identification products are maintained in the public project repository. The accepted exact data/code release will be archived permanently and cited in the final article.
 
 ### Use of generative AI or language tools
 
-Current manuscript disclosure:
-
-> OpenAI ChatGPT and Anthropic Claude were used for code-generation assistance, structured literature triage, reproducibility checks, and manuscript drafting/editing. AI-generated output was not treated as empirical evidence, and these tools did not determine study inclusion, evidence classification, or statistical conclusions. Source claims, numerical results, code, and citations were checked against the underlying analyses and sources. The authors retain responsibility for all scientific decisions and content.
-
-Preserve the disclosure required by the final journal/portal and obtain author approval of the exact submitted wording.
+Retain the exact journal-compliant disclosure approved by the authors. Existing repository provenance records AI-assisted coding, structured literature triage, reproducibility checking and drafting/editing, with source claims, numerical results, code and citations checked against underlying analyses and sources. AI output is not empirical evidence and does not determine study inclusion or statistical conclusions.
 
 ## Reviewer suggestions
 
-Complete only the number and fields requested by the live ScholarOne portal. Do not treat an arbitrary fixed reviewer count as a manuscript-level prerequisite.
+Complete only the fields requested by the live portal. Do not treat an arbitrary reviewer count as a manuscript prerequisite.
 
 | Name | Institution | Email | Expertise | Reason | Conflict check |
 |---|---|---|---|---|---|
 |  |  |  |  |  |  |
 
-Exclude recent collaborators, current institutional colleagues, close personal relationships, dissertation supervisors/students where conflicts remain relevant, and anyone with a direct stake in the manuscript.
-
 ## Opposed reviewers
 
-List only when there is a specific defensible conflict, not because a reviewer may be critical.
+List only when there is a specific defensible conflict.
 
 | Name | Reason |
 |---|---|
@@ -130,13 +124,13 @@ List only when there is a specific defensible conflict, not because a reviewer m
 
 ## Portal checks
 
-- [x] title matches `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`;
-- [x] abstract matches the identification manuscript;
-- [x] article framing is Mechanism → constituent ecological recurrence → identification coverage → mechanism allocation;
-- [x] portal abstract contains the total escape-sign decision, 16-cell allocation design, separability test, M0 baseline, independent joint-cost requirement, 56/25 recurrence result, and existing-study identification gap;
+- [x] title matches the canonical Chapter 2 package;
+- [x] abstract matches the canonical candidate builder;
+- [x] article framing is BALANCE -> DIFFERENTIATION -> IDENTIFICATION;
+- [x] portal abstract contains the structural architecture result, quadratic decoupling corollary, registered robustness, bounded architecture-state anchors and fragmented floral identification result;
 - [x] 2,592 / 77.2% are not portal-abstract headline results;
-- [x] five identification-design figures have canonical SVG sources and EPS export workflow;
-- [x] keywords are synchronized with the canonical manuscript;
+- [x] five trait-differentiation Main figures have canonical SVG sources;
+- [x] keywords are synchronized with the Chapter 2 manuscript;
 - [ ] author list matches title page and portal;
 - [ ] funding statement matches portal fields;
 - [ ] competing-interest statement matches portal fields;

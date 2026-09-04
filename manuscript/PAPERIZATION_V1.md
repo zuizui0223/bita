@@ -1,155 +1,319 @@
-# Paperization pass v1
+# Paperization pass — SCH sister / Chapter 2
 
-This file converts the frozen scientific result into an editorial plan. It does not reopen analysis.
+This file tracks the active paperization state after the balance-to-differentiation reframe. The general theory, finite nonquadratic robustness and first integrated manuscript now exist; the remaining work is integration/QA rather than reopening the central architecture question.
 
-## Recommended title
+## 1. Programme spine
 
-**When are floral attraction and defence complementary? A one-sided mechanistic bound and cross-system patterns**
+```text
+conflicting functions / selective demands
+               |
+               v
+        one shared trait axis
+               |
+        ------------------
+        |                |
+        v                v
+     BALANCE        DIFFERENTIATION
+     SCH / Ch.1     BITA / Ch.2
+```
 
-Why this is preferred over the current title:
+### SCH / Chapter 1 — BALANCE
 
-- it places the strongest new result in the title rather than the generic phrase “mechanistic theory”;
-- it avoids implying that every Part II component is a conventional meta-analysis;
-- it remains readable to a broad ecological audience and makes the biological question primary.
+Ask how opposing functional demands are resolved while they remain coupled on one trait axis: compromise, stabilizing balance, polymorphism, directional bias or context-dependent shifts.
 
-A conservative alternative is the current title:
+### BITA / Chapter 2 — DIFFERENTIATION
 
-**When are floral attraction and defence complementary? Mechanistic theory and meta-analytic patterns across mutualists and antagonists**
+Ask when the best shared compromise is inferior to partitioning the conflicting functions across partially independent trait axes.
 
-Do not use “universal criterion”, “general law of complementarity”, or equivalent two-sided wording.
+The reader-facing question is:
 
-## Revised abstract candidate
+> **When does a trait trade-off resolve by differentiation rather than compromise?**
 
-Flowers must attract mutualists while limiting exploitation by antagonists, creating the possibility that attraction and defence either reinforce or obstruct one another. We ask when one focal attraction trait and one flower-specific antagonist-reducing trait are locally complementary, and which parts of that mechanism recur across biological systems. After an explicit orientation gate, their local mixed fitness effect can be organized as antagonist relief minus pollinator interference minus direct joint-cost curvature, `W_AD = rho - iota - kappa`. The decomposition itself is bookkeeping, but it yields a stronger one-sided result: when joint-cost curvature is non-negative, complementarity can occur only where antagonist relief exceeds pollinator interference. Across 2,592 declared evaluations and four response-shape variants we find no counterexample, whereas about 23% of points inside this selectivity window remain substitutable, so the window is necessary but not sufficient. A mechanism-first synthesis then maps 56 route-level records from 25 independent biological study clusters. Floral larceny reduces female fitness on average (log response ratio `-0.210`; 48 clusters), yet only 35/48 effects are negative, the 95% prediction interval spans `-1.13` to `+0.71`, and declared moderators explain only 0–8% of heterogeneity. Thus the constituent mechanisms and switching architecture recur, but their realized balance is strongly context dependent. Direct attraction × defence evidence remains sparse and direct joint-cost curvature unmeasured. The resulting theory is therefore a one-sided mechanistic bound, not a universal sign rule; the sign of joint-cost curvature is the minimal next test of its biological applicability.
+Pollinator-antagonist floral conflict is one worked ecological realization, not the programme definition.
 
-## Main-text revision priorities
+## 2. Main theoretical payoff
 
-### 1. Introduction: shorten before strengthening
+Shared quadratic architecture:
 
-The current Introduction is scientifically sound but repeats the same inference gap through several formulations. The final version should reach the paper's distinctive question faster.
+\[
+W_S(z)=-w_1(z-\theta_1)^2-w_2(z-\theta_2)^2.
+\]
 
-Target flow:
+The optimized shared-axis conflict loss is
 
-1. flowers simultaneously face mutualists and antagonists;
-2. attraction can increase value and exposure, while defence can reduce antagonism and interfere with mutualists;
-3. existing multivariate selection/fitness-surface theory identifies total cross-trait curvature but not its ecological channel allocation;
-4. our question is therefore mechanistic: what balance determines the sign, and is any part of that balance structurally general?;
-5. contribution: oriented decomposition → non-identifiability → one-sided bound → mechanism-first empirical Pattern.
+\[
+L_S^*=\frac{w_1w_2}{w_1+w_2}(\theta_1-\theta_2)^2.
+\]
 
-Editorial target: reduce Introduction length by roughly 15–25% without removing prior-art citations or inference boundaries.
+Differentiated architecture with residual coupling \(\lambda\) and additional fixed architecture cost \(K\):
 
-### 2. Make Theorem 1 the first unmistakable payoff
+\[
+W_D(x,y)=
+-w_1(x-\theta_1)^2
+-w_2(y-\theta_2)^2
+-\lambda(x-y)^2-K.
+\]
 
-The paper should not make the reader wait through the finite-grid details to understand the strongest result. The theorem is algebraic and should be presented as such. Its importance is ecological, not mathematical difficulty:
+Define the optimized **decoupling fraction**
 
-- it converts a many-channel trade-off into a one-sided impossibility statement;
-- it separates a necessary permissive window from the false sufficient rule;
-- it identifies the exact type of biological assumption that can break the bound.
+\[
+s=\frac{|x^*-y^*|}{|\theta_1-\theta_2|}
+=\frac{w_1w_2}{w_1w_2+\lambda(w_1+w_2)}.
+\]
 
-Keep the 2,592 evaluations as implementation verification and looseness diagnostics, not as the proof.
+The same fraction gives the proportion of the original shared-axis conflict loss that the differentiated architecture can recover before paying \(K\):
 
-### 3. Separate three ideas in the Discussion
+\[
+R=sL_S^*.
+\]
 
-Use the compact triad:
+Therefore
 
-- **discrimination** — can defence separate antagonist effects from pollinator interference?;
-- **exposure** — are antagonist and pollinator pressures actually loaded strongly enough for discrimination to matter?;
-- **affordability** — does simultaneous attraction and defence carry positive, zero, or negative joint cost?;
+\[
+\boxed{\Delta_{arch}=sL_S^*-K}
+\]
 
-The selectivity window captures the first two channel magnitudes before joint cost is charged; `c_AD` supplies the affordability gate. This is a reader-facing interpretation, not a new fitted model.
+and
 
-### 4. Move search-history detail out of the narrative
+\[
+\boxed{\Delta_{arch}>0\iff K<sL_S^*.}
+\]
 
-Main text should retain only the registered inclusion logic, evidence levels, and saturation rule needed to interpret the synthesis. Detailed statements about individual source-access failures, historical search batches, promotion steps, or workflow evolution belong in the supplement/provenance layer unless they directly change an admitted inference.
+This is the preferred reader-facing form. It decomposes the architecture decision into:
 
-The reader should see a deliberate synthesis design, not the chronology of repository development.
+```text
+conflict load on the shared trait
+x actual degree of functional decoupling
+- extra architecture cost.
+```
 
-### 5. Keep the Leal result as an exposure-gate result
+The older expanded threshold expression remains useful in Methods/Supplement, but the compact identity should lead the Results and Discussion.
 
-The female-fitness mean, prediction interval, robustness, and moderator failure are important because they show:
+## 3. Robustness gate — CLOSED
 
-- antagonist pressure is not generically zero;
-- the effect is repeatable at the pooled-direction level;
-- realized state remains strongly system dependent;
-- current coarse moderators do not solve new-system prediction.
+The nonquadratic robustness analysis is implemented in `trait_architecture/differentiation_robustness.py`, tested in `tests/test_trait_differentiation_robustness.py`, reproduced by `scripts/analyze_trait_differentiation_robustness.py`, and frozen in `docs/TRAIT_DIFFERENTIATION_ROBUSTNESS_READOUT.json`.
 
-Do not let the Leal module drift into a claim that it estimates `rho` or validates `W_AD`.
+Declared matched-curvature grid:
 
-### 6. Keep Sasidharan secondary to the main logical arc
+```text
+functional power p = 1.5, 2, 3, 4
+weights            = (1,1), (0.4,2), (3,0.7)
+residual coupling  = 0, 0.1, 0.5, 2, 10
+optimum distance   = 0.1, 0.25, 0.5, 1, 2
+K                  = 0 for the recoverable-loss screen
+N                  = 300
+```
 
-The Sasidharan reconstruction is useful support for shared consumer tracking and composition dependence, but it is not the paper's main quantitative payoff. In the final manuscript it should occupy less conceptual space than the one-sided theorem and H-gate result.
+Results:
 
-### 7. Tighten the Integration section
+```text
+positive recoverable loss:        300 / 300
+conflict-distance monotonicity:     60 / 60
+coupling monotonicity:              60 / 60
+```
 
-Section 6 currently contains the right content but repeats several boundaries already established in Methods/Results. The final discussion should be organized around four questions:
+Additional mismatched `(p,q)` checks preserve the below/above cost-threshold switch.
 
-1. What became general? — the one-sided bound under its declared premise.
-2. What recurs biologically? — constituent mechanisms and switching architectures.
-3. What remains context dependent? — exposure and the realized balance inside the window.
-4. What is the decisive next test? — the sign/magnitude of joint-cost curvature, followed separately by a full `A × D` calibration factorial.
+Claim ceiling:
 
-### 8. Shorten the Conclusion
+> Within the declared convex power-loss family, stronger conflict raises the value potentially recoverable through differentiation, residual cross-talk lowers it, and differentiation pays only if the recovered amount exceeds the extra architecture cost.
 
-The final Conclusion should fit in three compact paragraphs:
+Do not call this a universal theorem across nonconvex, multimodal or frequency-dependent landscapes.
 
-- one-sided theorem and failed converse;
-- recurrent but heterogeneous empirical Pattern;
-- `c_AD` as generated falsification gate and the distinction between the cheap 2 × 2 cost test and hard full factorial.
+## 4. Prior theory / novelty boundary — CLOSED
 
-Do not end on “more data are needed.” End on a specific falsifiable prediction produced by the theory.
+The Introduction must explicitly acknowledge that specialization and division of labour under functional trade-offs are established theory. At minimum position against:
 
-## Reviewer-risk audit
+- Rüffler, Hermisson & Wagner (2012), *Evolution of functional specialization and division of labor*;
+- Guillaume & Otto (2012), *Gene Functional Trade-Offs and the Evolution of Pleiotropy*;
+- Sack & Buckley (2020), *Trait Multi-Functionality in Plant Stress Response*.
 
-### Risk A — “The theorem is mathematically trivial”
+Do not claim:
 
-Expected response: agree that the proof is immediate. The claim is not mathematical sophistication. The contribution is extracting a form-robust ecological impossibility boundary from the mechanism decomposition, showing that the intuitive two-sided selectivity rule is false, and converting the boundary into a specific falsification experiment.
+```text
+first theory of trait differentiation
+first demonstration that trade-offs favour specialization
+new discovery of division of labour
+```
 
-### Risk B — “The selectivity window is definitional or circular”
+Defensible novelty:
 
-Expected response: the window is deliberately defined from the relief/interference balance before joint cost. It is not claimed to predict complementarity by itself. Its empirical and theoretical value comes from the one-sided implication and the identified failure mode, not from calling the ratio/region a new universal index.
+```text
+measurable shared-axis compromise
+-> architecture gain with explicit incomplete decoupling
+-> causal mechanism identification after multiple axes exist.
+```
 
-### Risk C — “Part II does not estimate the theory parameters”
+This bridge is where the mature BITA identification framework adds something that generic specialization theory does not supply.
 
-Expected response: correct, by design. Proposition 1 and the evidence hierarchy explain why marginal and same-system evidence cannot be relabelled as the total mixed partial. Part II tests recurrence, gate opening, conditionality, and identification gaps rather than pretending to calibrate `rho`, `iota`, `kappa`, or `W_AD`.
+## 5. Empirical ceiling — CLOSED FOR CURRENT PAPER
 
-### Risk D — “The route ledger is not a meta-analysis”
+### Architecture-state reality checks
 
-Expected response: correct. The manuscript must call it a source-adjudicated cross-study Pattern scaffold. Meta-analysis is reserved for effect-compatible modules. This is one reason the recommended title uses “cross-system patterns” rather than describing the entire Part II as meta-analytic.
+Use non-floral systems sparingly to establish that the modeled states are biologically real.
 
-### Risk E — “The H-gate is too heterogeneous to be useful”
+**Cichlid oral/pharyngeal jaws** — structural partitioning of prey capture and processing can relax a force-motion trade-off, yet the jaw systems retain evolutionary/genetic integration. This supports incomplete differentiation / residual coupling, not an estimate of `s`, `lambda` or `Delta_arch`.
 
-Expected response: the heterogeneity is part of the result. The gate is open on average, but its location varies and is not explained by the declared coarse moderators. This is precisely why the paper stops at a one-sided structural result rather than claiming prospective prediction from H alone.
+**Dalechampia** — comparative history shows repeated functional redeployment, exaptation and addition of defensive lines. This supports historical reorganization of function-structure architecture, not a direct causal test that the BITA threshold generated those transitions.
 
-### Risk F — “`c_AD` is assumed rather than measured”
+### Floral BITA worked case
 
-Expected response: yes. The deployed non-negative parameterization is explicitly a premise, not established biology. The theorem identifies the premise's exact empirical vulnerability and reduces the first applicability test to a tractable 2 × 2 allocation experiment. A sufficiently negative cross-cost is a direct falsifier for the focal trait pair.
+Retain the existing identification machinery as the answer to the next question:
 
-### Risk G — “Why Theoretical Ecology?”
+> once multiple axes exist, what does their interaction mean and how can the responsible ecological channel be identified?
 
-The paper uses a compact theoretical mechanism to answer an ecological question, then tests the recurrence and limits of the derived architecture across systems. The final manuscript should prioritize biological interpretation and readability over additional algebra.
+Keep:
 
-## Work that is complete and should not be reopened by default
+- `Delta_AD W` and the Level 1/2/3 outcome hierarchy;
+- identified-set and partial-identification geometry;
+- crossed `A x D x antagonist x pollinator` intervention;
+- four-way separability diagnostic;
+- independent remaining-channel assay;
+- Kessler/Egan/*Impatiens* reconstruction logic;
+- 56 route records / 25 biological clusters;
+- 17-system fragmented identification frontier.
 
-- broad Pattern discovery and registered saturation;
-- the 2,592-evaluation finite robustness design;
-- the one-sided theorem and regression test;
-- Leal primary pooled estimates and registered sensitivity family;
-- Sasidharan 32-component dependence topology;
-- direct-design and direct-joint-cost targeted exhaustion for the current claim set;
-- main figure and supplementary reproducibility architecture.
+Strict boundary:
 
-## Remaining human-controlled items
+```text
+positive A x D interaction
+!= trait differentiation
+!= historical origin of a second axis.
+```
 
-These block external submission but not scientific paperization:
+## 6. Integrated manuscript — FIRST PASS COMPLETE
 
-- final author order and publication names;
-- affiliations and corresponding-author details;
-- ORCIDs;
-- CRediT roles;
-- funding and acknowledgements;
-- competing-interest confirmation;
-- repository licence choice;
-- archival release/DOI;
-- reviewer suggestions/conflict checks;
-- author-approved final rendered manuscript and supplement;
-- authenticated journal-portal submission.
+`MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md` now joins the programme into one article.
+
+Working title:
+
+> **When does a trait trade-off resolve by differentiation rather than compromise? Linking trait architecture to mechanism identification**
+
+Current architecture:
+
+```text
+1. multifunctionality and the shared-trait compromise
+2. analytic balance-to-differentiation boundary
+3. nonquadratic robustness
+4. incomplete differentiation / architecture-state evidence
+5. floral BITA mechanism-identification worked case
+6. implications, predictions and limits
+7. conclusions
+```
+
+This file is the active integration candidate, **not yet the canonical submission source**. `MANUSCRIPT_IDENTIFICATION_DESIGN.md` remains preserved as the mature component/provenance source and current canonical source for the old validated package until the integrated draft passes the remaining QA gates.
+
+## 7. Abstract architecture
+
+The final Abstract should make five moves in this order:
+
+1. multifunctional traits can face conflicting optima and therefore a compromise cost;
+2. architecture may resolve the conflict by differentiating functions across axes, but structural separation can remain incomplete;
+3. analytic payoff: `Delta_arch = s L_S* - K`;
+4. robustness: 300/300 positive recoverable-loss cases, 60/60 conflict and coupling monotonic series within the declared convex family;
+5. mechanism payoff: once multiple axes exist, their total interaction still does not identify why the architecture works; the floral BITA case supplies the identification design and fragmented empirical frontier.
+
+End on the bridge from architecture choice to mechanism identification, not on “more data are needed.”
+
+## 8. Introduction architecture
+
+1. Open with multifunctionality and conflicting functional optima, not flowers.
+2. Introduce shared compromise as one architecture.
+3. Acknowledge specialization/division-of-labour/pleiotropy theory before presenting novelty.
+4. Introduce incomplete differentiation: two structures can remain coupled.
+5. State the unresolved empirical bridge: measured conflict -> architecture gain -> mechanism identification.
+6. Use flowers only after the general problem is clear, as the high-resolution worked case.
+
+## 9. Results order
+
+### Result 1 — the shared compromise has a measurable conflict load
+
+Lead with `L_S*`.
+
+### Result 2 — differentiation pays only for the conflict it actually decouples
+
+Lead with
+
+```text
+R = s L_S*
+Delta_arch = s L_S* - K.
+```
+
+This is the main reader payoff.
+
+### Result 3 — the qualitative boundary survives the declared nonquadratic family
+
+Report 300/300 and both 60/60 monotonicity results with the finite-family ceiling.
+
+### Result 4 — differentiation can remain incomplete
+
+Use cichlid jaws as the biological reality check for residual coupling and *Dalechampia* as historical architecture-reorganization evidence.
+
+### Result 5 — after multiple axes exist, total fitness does not identify mechanism
+
+Bring in `Delta_AD W`, the identified set and crossed intervention.
+
+### Result 6 — existing experiments form a fragmented identification frontier
+
+Report Kessler/Egan/*Impatiens*, 56/25 recurrence and 17-system frontier without promoting them to evidence for historical trait splitting.
+
+## 10. Discussion structure
+
+Organize around four questions:
+
+1. **Why compromise?** — one shared axis can remain optimal if the conflict load is low, coupling is high or extra architecture is costly.
+2. **Why differentiation?** — differentiation pays when enough shared-axis loss is actually recoverable.
+3. **Why incomplete differentiation?** — residual developmental, genetic, biomechanical or ecological coupling means `0 < s < 1` is biologically important, not a nuisance case.
+4. **Why mechanism identification after differentiation?** — structural architecture does not label the causal pathway producing fitness.
+
+Return explicitly to the SCH/BITA pair:
+
+```text
+SCH: what balance is maintained on the shared trait?
+BITA: when is that balance costly enough and decouplable enough to justify a second axis, and what mechanism makes the resulting multi-trait architecture work?
+```
+
+## 11. Sister-paper non-overlap
+
+| Question | SCH / Chapter 1 | BITA / Chapter 2 |
+|---|---|---|
+| Focal architecture | one shared trait axis | shared vs differentiated axes |
+| Core problem | balance under conflicting demands | architecture transition / functional partitioning |
+| Main object | compromise state and its ecological loading | conflict load, decoupling fraction, architecture cost |
+| Floral shared-cue conflict | primary empirical realization | motivation + worked-case antecedent |
+| Multi-trait interaction | not required | mechanistic subproblem after differentiation |
+| Mechanism allocation | secondary | central second-stage inference problem |
+| Historical origin | not required for balance claim | not claimed unless direct transition evidence is added |
+
+## 12. Remaining work
+
+Closed in this branch:
+
+```text
+A. shared-axis model
+B. differentiated-axis model
+C. analytic Delta_arch boundary
+D. decoupling-fraction / recoverable-loss identity
+E. baseline regression tests
+F. nonquadratic convex-family robustness
+G. robustness readout and claim ceiling
+H. closest-prior-theory positioning
+I. empirical ceiling and non-floral architecture-state anchors
+J. first integrated Chapter 2 manuscript draft
+```
+
+Remaining mainline tasks:
+
+```text
+K. regression-test MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md
+L. merge/verify the full source-checked floral reference spine
+M. update figures for BALANCE -> DIFFERENTIATION -> IDENTIFICATION
+N. synchronize repository/submission-scope docs
+O. promote integrated manuscript to canonical after K-N pass
+P. rebuild Main + Appendix and page-by-page QA
+Q. merge PR only after CI/scope checks are green or diagnosed
+```
+
+## 13. Final reader takeaway
+
+> **SCH asks how conflicting functions find a balance on one trait. BITA asks when the cost of that compromise, multiplied by how much a new architecture can actually decouple the functions, is large enough to pay for trait differentiation—and how to identify the mechanism once multiple axes exist.**

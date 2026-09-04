@@ -5,12 +5,17 @@ on:
     paths:
       - 'manuscript/**'
       - 'submission/**'
-      - 'scripts/build_ecology_submission_sources.py'
+      - 'theory/TRAIT_DIFFERENTIATION_EXTENSION.md'
+      - 'docs/TRAIT_DIFFERENTIATION_*'
+      - 'empirical/identification_design/**'
+      - 'trait_architecture/differentiation*.py'
+      - 'trait_architecture/identification.py'
+      - 'trait_architecture/partial_identification.py'
       - 'scripts/build_ecology_review_package_sources.py'
-      - 'scripts/build_identification_candidate_package_sources.py'
+      - 'scripts/build_trait_differentiation_candidate_package_sources.py'
       - 'scripts/format_ecology_submission_docx.py'
-      - 'tests/test_ecology_submission_packaging.py'
-      - 'tests/test_identification_candidate_package.py'
+      - 'tests/test_trait_differentiation*.py'
+      - 'tests/test_ecology_formatter_math.py'
       - '.github/workflows/build-ecology-submission-package.yml'
   workflow_dispatch:
 
@@ -30,16 +35,19 @@ jobs:
           sudo apt-get install -y pandoc libreoffice-writer poppler-utils librsvg2-bin
           python -m pip install python-docx pytest
 
-      - name: Run canonical packaging regression tests
+      - name: Run canonical Chapter 2 regression tests
         run: |
           python -m pytest -q \
-            tests/test_ecology_submission_packaging.py \
-            tests/test_identification_candidate_package.py \
-            tests/test_identification_manuscript_draft.py \
-            tests/test_identification_manuscript_references.py \
-            tests/test_identification_design_figures.py
+            tests/test_trait_differentiation.py \
+            tests/test_trait_differentiation_robustness.py \
+            tests/test_trait_differentiation_manuscript.py \
+            tests/test_trait_differentiation_figures.py \
+            tests/test_trait_differentiation_candidate_package.py \
+            tests/test_ecology_formatter_math.py \
+            tests/test_identification.py \
+            tests/test_partial_identification.py
 
-      - name: Build canonical Ecology sources from identification manuscript
+      - name: Build canonical Ecology sources from Chapter 2 manuscript
         run: python scripts/build_ecology_review_package_sources.py
 
       - name: Build Main Document DOCX
@@ -78,7 +86,7 @@ jobs:
           cd "$GITHUB_WORKSPACE"
           MEDIA_COUNT=$(unzip -l submission/ecology/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.docx | grep -c 'word/media/' || true)
           if [ "$MEDIA_COUNT" -lt 5 ]; then
-            echo "Expected five embedded identification-design Main figures; found $MEDIA_COUNT" >&2
+            echo "Expected five embedded Chapter 2 Main figures; found $MEDIA_COUNT" >&2
             exit 1
           fi
 
@@ -92,7 +100,7 @@ jobs:
             --outdir submission/ecology/generated/rendered \
             submission/ecology/generated/APPENDIX_S1.docx
 
-      - name: Validate canonical identification package and page limits
+      - name: Validate canonical Chapter 2 package and page limits
         run: |
           MAIN_PDF=submission/ecology/generated/rendered/MANUSCRIPT_ECOLOGY_SUBMISSION.pdf
           APP_PDF=submission/ecology/generated/rendered/APPENDIX_S1.pdf
@@ -105,29 +113,23 @@ jobs:
           pdftotext "$MAIN_PDF" "$MAIN_TXT"
           pdftotext "$APP_PDF" "$APP_TXT"
 
-          grep -q 'From floral trait interactions to mechanism identification' "$MAIN_TXT"
-          grep -qi 'crossed intervention design' "$MAIN_TXT"
-          grep -q 'Kessler et al. (2008)' "$MAIN_TXT"
-          grep -q 'Egan et al. (2021)' "$MAIN_TXT"
+          grep -q 'When does a trait trade-off resolve by differentiation rather than compromise' "$MAIN_TXT"
+          grep -qi 'decoupling fraction' "$MAIN_TXT"
+          grep -q '300 nonzero-conflict evaluations' "$MAIN_TXT"
+          grep -qi 'cichlid' "$MAIN_TXT"
+          grep -q 'Dalechampia' "$MAIN_TXT"
+          grep -q '56 route records from' "$MAIN_TXT"
+          grep -q '25 independent biological study clusters' "$MAIN_TXT"
           grep -q 'Figure 5.' "$MAIN_TXT"
-          ! grep -q 'Theorem 1' "$MAIN_TXT"
-          ! grep -q '77.2%' "$MAIN_TXT"
-          grep -q 'Appendix S1' "$APP_TXT"
+          grep -q 'Trait differentiation and mechanism identification' "$APP_TXT"
+          grep -q 'Nonquadratic robustness' "$APP_TXT"
           grep -q '2,592' "$APP_TXT"
-          grep -q '77.2%' "$APP_TXT"
-          grep -q 'Kessler et al. 2008 aggregate reconstruction' "$APP_TXT"
+          test -s submission/ecology/generated/open_research_data/trait_differentiation_robustness_readout.json
           test -s submission/ecology/generated/open_research_data/high_information_identification_coverage.csv
           test -s submission/ecology/generated/open_research_data/impatiens_identification_retrofit.json
 
-          if [ "$MAIN_PAGES" -le 30 ]; then
-            LENGTH_STATE='WITHIN_30_PAGE_STANDARD_TARGET'
-          elif [ "$MAIN_PAGES" -le 50 ]; then
-            LENGTH_STATE='OVER_30_REQUIRES_TWO_PART_COVER_JUSTIFICATION'
-          else
-            LENGTH_STATE='FAIL_OVER_50'
-          fi
-          if [ "$MAIN_PAGES" -gt 50 ]; then
-            echo "Main Document is $MAIN_PAGES pages; Ecology Concepts & Synthesis maximum is 50." >&2
+          if [ "$MAIN_PAGES" -gt 30 ]; then
+            echo "Canonical Chapter 2 Main is $MAIN_PAGES pages; expected the validated <=30-page standard package." >&2
             exit 1
           fi
 
@@ -135,14 +137,14 @@ jobs:
           {
             echo "main_pages=$MAIN_PAGES"
             echo "appendix_pages=$APP_PAGES"
-            echo "length_state=$LENGTH_STATE"
-            echo "limit_state=PASS_AT_OR_BELOW_50"
-            echo "canonical_manuscript=manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md"
-            echo "main_headline=interaction_detection_to_mechanism_identification"
-            echo "main_figures=5 identification-design figures embedded"
+            echo "length_state=WITHIN_30_PAGE_STANDARD_TARGET"
+            echo "limit_state=PASS_AT_OR_BELOW_30"
+            echo "canonical_manuscript=manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md"
+            echo "main_headline=balance_to_differentiation_to_identification"
+            echo "main_figures=5 trait-differentiation figures embedded"
             echo "embedded_main_media=$MEDIA_COUNT"
-            echo "old_grid_status=supplement_only"
-            echo "open_research_identification_outputs=present"
+            echo "historical_transition_claim=not_established"
+            echo "old_identification_manuscript=provenance_mechanistic_component"
           } > submission/ecology/generated/PACKAGE_QA_RECEIPT.txt
 
       - name: Remove raw intermediate Word files

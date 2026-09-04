@@ -1,5 +1,23 @@
 """Active theory API for the submission supplement."""
 
+from .differentiation import (
+    ArchitectureComparison,
+    DifferentiatedAxisOptimum,
+    SharedAxisOptimum,
+    compare_architectures,
+    decoupling_fraction,
+    differentiated_axis_optimum,
+    differentiation_threshold,
+    shared_axis_optimum,
+)
+from .differentiation_robustness import (
+    PowerArchitectureComparison,
+    PowerDifferentiatedOptimum,
+    PowerSharedOptimum,
+    compare_power_architectures,
+    differentiated_power_optimum,
+    shared_power_optimum,
+)
 from .identification import (
     CrossedIdentificationResult,
     IdentificationAssumptions,
@@ -35,6 +53,20 @@ __all__ = [
     "InteractionRegime",
     "ModelParameters",
     "fitness",
+    "SharedAxisOptimum",
+    "DifferentiatedAxisOptimum",
+    "ArchitectureComparison",
+    "shared_axis_optimum",
+    "decoupling_fraction",
+    "differentiated_axis_optimum",
+    "differentiation_threshold",
+    "compare_architectures",
+    "PowerSharedOptimum",
+    "PowerDifferentiatedOptimum",
+    "PowerArchitectureComparison",
+    "shared_power_optimum",
+    "differentiated_power_optimum",
+    "compare_power_architectures",
     "OrientedSignCriterion",
     "RegimeDerivativeBalance",
     "RegimeScaledCriterion",

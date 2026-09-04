@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820">
+<defs>
+<style>
+.title{font:700 30px DejaVu Sans,Arial,sans-serif}.panel{font:700 22px DejaVu Sans,Arial,sans-serif}.body{font:18px DejaVu Sans,Arial,sans-serif}.small{font:15px DejaVu Sans,Arial,sans-serif}.tiny{font:13px DejaVu Sans,Arial,sans-serif}.eq{font:700 20px DejaVu Sans,Arial,sans-serif}
+.box{fill:#fff;stroke:#222;stroke-width:2}.soft{fill:#f3f3f3;stroke:#333;stroke-width:1.8}.dark{fill:#e2e2e2;stroke:#111;stroke-width:2.3}
+.line{stroke:#222;stroke-width:2.3;fill:none}.thin{stroke:#555;stroke-width:1.8;fill:none}.dash{stroke:#555;stroke-width:1.8;fill:none;stroke-dasharray:7 6}.guide{stroke:#999;stroke-width:1.4;fill:none;stroke-dasharray:5 5}
+</style>
+</defs>
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="700" y="42" text-anchor="middle" class="title">A trade-off can be resolved by compromise or by trait differentiation</text>
+
+<!-- Panel A -->
+<rect x="45" y="80" width="405" height="600" rx="14" class="box"/>
+<text x="247" y="115" text-anchor="middle" class="panel">A. Shared axis: BALANCE</text>
+<text x="247" y="145" text-anchor="middle" class="small">Two functions prefer different states of one trait z</text>
+
+<line x1="90" y1="360" x2="405" y2="360" class="line"/>
+<polygon points="405,360 392,352 392,368" fill="#222"/>
+<text x="247" y="390" text-anchor="middle" class="small">trait state z</text>
+
+<line x1="145" y1="195" x2="145" y2="365" class="guide"/>
+<line x1="350" y1="195" x2="350" y2="365" class="guide"/>
+<text x="145" y="188" text-anchor="middle" class="body">θ₁</text>
+<text x="350" y="188" text-anchor="middle" class="body">θ₂</text>
+
+<path d="M92 315 C118 245 137 215 145 210 C159 218 181 252 210 320" class="thin"/>
+<path d="M285 320 C315 252 339 218 350 210 C362 218 384 251 405 315" class="thin"/>
+<text x="112" y="235" class="small">function 1</text>
+<text x="330" y="235" text-anchor="middle" class="small">function 2</text>
+
+<circle cx="247" cy="360" r="8" fill="#222"/>
+<text x="247" y="340" text-anchor="middle" class="body">z*</text>
+<path d="M153 430 L239 430" class="dash"/>
+<path d="M255 430 L342 430" class="dash"/>
+<text x="247" y="457" text-anchor="middle" class="body">best compromise</text>
+
+<rect x="80" y="505" width="335" height="115" rx="10" class="soft"/>
+<text x="247" y="540" text-anchor="middle" class="eq">shared conflict loss</text>
+<text x="247" y="575" text-anchor="middle" class="eq">L<tspan baseline-shift="sub" font-size="14">S</tspan>*</text>
+<text x="247" y="605" text-anchor="middle" class="small">loss that cannot be avoided while both functions share z</text>
+
+<!-- Arrow -->
+<path d="M465 380 L510 380" class="line"/>
+<polygon points="510,380 497,372 497,388" fill="#222"/>
+
+<!-- Panel B -->
+<rect x="525" y="80" width="405" height="600" rx="14" class="box"/>
+<text x="727" y="115" text-anchor="middle" class="panel">B. Two axes: DIFFERENTIATION</text>
+<text x="727" y="145" text-anchor="middle" class="small">Functions can separate, but residual coupling λ resists divergence</text>
+
+<text x="575" y="205" class="body">function 1</text>
+<line x1="575" y1="230" x2="860" y2="230" class="line"/>
+<circle cx="625" cy="230" r="8" fill="#222"/>
+<text x="625" y="215" text-anchor="middle" class="body">x*</text>
+<text x="625" y="260" text-anchor="middle" class="small">toward θ₁</text>
+
+<text x="575" y="325" class="body">function 2</text>
+<line x1="575" y1="350" x2="860" y2="350" class="line"/>
+<circle cx="810" cy="350" r="8" fill="#222"/>
+<text x="810" y="335" text-anchor="middle" class="body">y*</text>
+<text x="810" y="380" text-anchor="middle" class="small">toward θ₂</text>
+
+<line x1="625" y1="285" x2="810" y2="285" class="dash"/>
+<path d="M625 278 L625 292 M810 278 L810 292" class="thin"/>
+<text x="717" y="275" text-anchor="middle" class="small">realized separation |x* − y*|</text>
+
+<rect x="565" y="420" width="325" height="120" rx="10" class="soft"/>
+<text x="727" y="455" text-anchor="middle" class="eq">decoupling fraction</text>
+<text x="727" y="490" text-anchor="middle" class="eq">s = |x* − y*| / |θ₁ − θ₂|</text>
+<text x="727" y="520" text-anchor="middle" class="small">quadratic baseline: s = 1 complete; 0 &lt; s &lt; 1 partial differentiation</text>
+
+<text x="727" y="585" text-anchor="middle" class="body">higher λ  →  smaller recoverable loss R</text>
+<text x="727" y="615" text-anchor="middle" class="small">structural separation does not require functional independence</text>
+
+<!-- Arrow -->
+<path d="M945 380 L990 380" class="line"/>
+<polygon points="990,380 977,372 977,388" fill="#222"/>
+
+<!-- Panel C -->
+<rect x="1005" y="80" width="350" height="600" rx="14" class="dark"/>
+<text x="1180" y="115" text-anchor="middle" class="panel">C. Architecture decision</text>
+<text x="1180" y="148" text-anchor="middle" class="small">General nested architecture</text>
+
+<rect x="1035" y="175" width="290" height="100" rx="10" class="box"/>
+<text x="1180" y="208" text-anchor="middle" class="small">recoverable compromise loss</text>
+<text x="1180" y="240" text-anchor="middle" class="eq">R ≥ 0</text>
+<text x="1180" y="263" text-anchor="middle" class="tiny">before extra fixed architecture cost</text>
+
+<text x="1180" y="315" text-anchor="middle" class="eq">Δ<tspan baseline-shift="sub" font-size="14">arch</tspan> = R − K</text>
+
+<rect x="1035" y="345" width="290" height="95" rx="10" class="soft"/>
+<text x="1180" y="378" text-anchor="middle" class="eq">K &lt; R</text>
+<text x="1180" y="410" text-anchor="middle" class="body">differentiation favored</text>
+
+<rect x="1035" y="465" width="290" height="105" rx="10" class="box"/>
+<text x="1180" y="498" text-anchor="middle" class="small">quadratic corollary</text>
+<text x="1180" y="530" text-anchor="middle" class="eq">R = s L<tspan baseline-shift="sub" font-size="14">S</tspan>*</text>
+<text x="1180" y="557" text-anchor="middle" class="small">so the boundary is K = s L<tspan baseline-shift="sub" font-size="12">S</tspan>*</text>
+
+<text x="1180" y="615" text-anchor="middle" class="small">general: recoverable loss must pay for K</text>
+<text x="1180" y="642" text-anchor="middle" class="small">quadratic: R equals conflict load × decoupling</text>
+
+<text x="700" y="735" text-anchor="middle" class="panel">BALANCE → DIFFERENTIATION: recoverable compromise loss − architecture cost</text>
+<text x="700" y="770" text-anchor="middle" class="small">The floral BITA module then asks a separate question: once multiple axes exist, which ecological channel makes their interaction beneficial?</text>
+</svg>

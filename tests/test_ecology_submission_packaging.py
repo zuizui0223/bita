@@ -18,19 +18,23 @@ builder = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(builder)
 
 
-def test_main_submission_source_is_identification_design() -> None:
+def test_main_submission_source_is_canonical_trait_differentiation_chapter2() -> None:
     text = builder.build_main_submission_source()
     ordered = [
-        "From floral trait interactions to mechanism identification",
+        "When does a trait trade-off resolve by differentiation rather than compromise?",
         "**Journal:** Ecology",
         "**Manuscript type:** Concepts & Synthesis",
         "**Open Research statement:**",
         builder.TITLE_BREAK,
         "## Abstract",
         "## 1. Introduction",
-        "### 2.2 From non-identification to an identified set",
-        "### 3.6 Partial identification before point identification",
-        "## 4. From mechanism to pattern: recurrence before identification",
+        "## 2. From shared-trait compromise to differentiated architecture",
+        "### 2.1 General architecture propositions",
+        "## 3. Robustness beyond quadratic response shapes",
+        "## 4. Trait differentiation is often incomplete in real systems",
+        "## 5. Once several trait axes exist, their fitness interaction still does not identify mechanism",
+        "## 6. Discussion",
+        "## 7. Conclusions",
         "## Acknowledgments",
         "## Author Contributions",
         "## Funding",
@@ -45,39 +49,58 @@ def test_main_submission_source_is_identification_design() -> None:
     ]
     positions = [text.index(token) for token in ordered]
     assert positions == sorted(positions)
+
+    for token in (
+        "nested-architecture weak dominance",
+        "residual-coupling monotonicity",
+        "300 nonzero-conflict evaluations",
+        "Cichlid",
+        "Dalechampia",
+        "56 route records from 25 independent biological study clusters",
+        "17-system high-information audit",
+        "fragmented identification",
+    ):
+        assert token.lower() in text.lower(), token
+
+    assert "Working integrated Chapter 2 draft" not in text
     assert "Theorem 1" not in text
-    assert "77.2%" not in text
-    assert "2,592" not in text.split("## References", 1)[0]
-    assert "56 directional route records from 25 independent biological study clusters" in text
-    assert "marginal route recurrence does not estimate" in text
-    assert "\\mathcal I(\\delta)" in text
-    assert "\\kappa_\\Delta\\ge0" in text
-    assert "fragmented identification frontier" in text
-    assert "Seventeen high-information systems were retained" in text
+    assert "77.2%" not in text.split("## References", 1)[0]
 
 
-def test_main_has_five_identification_figures_and_no_main_tables() -> None:
+def test_main_has_five_trait_differentiation_figures_and_no_main_tables() -> None:
     text = builder.build_main_submission_source()
-    for idx in range(1, 6):
-        assert f"FIGURE_{idx}_IDENTIFICATION_DESIGN.svg" in text
+    names = (
+        "FIGURE_1_BALANCE_TO_DIFFERENTIATION.svg",
+        "FIGURE_2_ARCHITECTURE_BOUNDARY.svg",
+        "FIGURE_3_ROBUSTNESS_AND_REALITY.svg",
+        "FIGURE_4_MECHANISM_IDENTIFICATION.svg",
+        "FIGURE_5_FRAGMENTED_IDENTIFICATION.svg",
+    )
+    for idx, name in enumerate(names, 1):
+        assert name in text
         assert f"**Figure {idx}." in text
     assert "## Table 1." not in text
-    assert text.count(builder.PAGE_BREAK) == 4
+    # Breaks before Figures 4 and 5 are removed because those tall figures
+    # naturally start new pages in the validated LibreOffice rendering.
+    assert text.count(builder.PAGE_BREAK) == 2
 
 
-def test_appendix_is_identification_supplement() -> None:
+def test_appendix_integrates_architecture_and_identification_support() -> None:
     text = builder.build_appendix_source()
-    assert text.startswith("# Appendix S1 — Identification design")
-    assert "2,592" in text
-    assert "77.2%" in text
-    assert "KESSLER_2008_IDENTIFICATION_REAUDIT_V2.md" in text
-    assert "IMPATIENS_2018_IDENTIFICATION_RETROFIT_V1.json" in text
-    assert "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V2.csv" in text
-    assert "Constituent mechanism recurrence supporting the Main Pattern layer" in text
-    assert "Identified-set algebra and projection bounds" in text
+    assert text.startswith("# Appendix S1 — Trait differentiation and mechanism identification")
+    for token in (
+        "Shared-versus-differentiated architecture derivation",
+        "Nonquadratic robustness design and readout",
+        "Cross-system architecture-state anchors",
+        "Retained floral mechanism-identification supplement",
+        "Identified-set algebra and projection bounds",
+        "2,592",
+        "77.2%",
+    ):
+        assert token in text, token
 
 
-def test_open_research_package_includes_identification_and_pattern_outputs(tmp_path, monkeypatch) -> None:
+def test_open_research_package_preserves_provenance_and_adds_chapter2_outputs(tmp_path, monkeypatch) -> None:
     monkeypatch.setattr(builder, "OUT", tmp_path)
     monkeypatch.setattr(builder, "DATA_OUT", tmp_path / "open_research_data")
     manifest = builder.build_open_research_manifest()
@@ -89,35 +112,36 @@ def test_open_research_package_includes_identification_and_pattern_outputs(tmp_p
         "conditionality_context_records.csv",
         "direct_identification_audits.csv",
         "pattern_expansion_screening.csv",
+        "trait_differentiation_robustness_readout.json",
         "high_information_identification_coverage.csv",
         "impatiens_identification_retrofit.json",
         "question_method_explanation_matrix.csv",
         "defence_escape_route_hypothesis_recovery.csv",
     ):
         assert expected in names
-    assert "Identification-design additions" in manifest
+    assert "Chapter 2 additions" in manifest
     assert "screened-set coverage, not literature prevalence" in manifest
-    assert "Question-by-method explanatory reach" in manifest
-    assert "Hypothesis-by-hypothesis recovery of defence as an escape route" in manifest
+    assert "historical mechanism/Pattern machine-readable products are retained" in manifest
 
 
-def test_cover_letter_matches_under_30_page_identification_package() -> None:
+def test_cover_letter_matches_canonical_30_page_chapter2_package() -> None:
     text = COVER.read_text(encoding="utf-8")
-    assert "From floral trait interactions to mechanism identification" in text
-    assert "currently renders to **29 Main Document pages**" in text
-    assert "**12-page Appendix S1**" in text
+    assert "When does a trait trade-off resolve by differentiation rather than compromise?" in text
+    assert "**30 Main Document pages**" in text
+    assert "**38-page Appendix S1**" in text
     assert "within the standard 30-page Concepts & Synthesis target" in text
     assert "56 source-adjudicated route records from 25 independent biological clusters" in text
-    assert "identified" in text and "partial" in text
-    assert "kappa_delta >= 0" in text
-    assert "## 1. Broad ecological contribution of the additional length" not in text
-    assert "one-sided mechanistic bound" not in text
+    assert "A measured total interaction defines a set of compatible channel allocations" in text
+    assert "partial-identification bound rather than a standalone theorem" in text
     assert "acceptance stage" in text
     assert "Potential reviewers, if requested by the submission portal" in text
+    assert "Complete the number and fields requested by ScholarOne" in text
 
 
-def test_canonical_builder_preserves_historical_manuscript_file() -> None:
+def test_canonical_builder_preserves_historical_and_component_manuscripts() -> None:
     assert (ROOT / "manuscript" / "MANUSCRIPT_THEORETICAL_ECOLOGY.md").exists()
+    assert (ROOT / "manuscript" / "MANUSCRIPT_IDENTIFICATION_DESIGN.md").exists()
     source = SCRIPT.read_text(encoding="utf-8")
-    assert "build_identification_candidate_package_sources" in source
-    assert "historical theorem-led manuscript remains" in source
+    assert "build_trait_differentiation_candidate_package_sources" in source
+    assert "build_ecology_submission_sources" in source
+    assert "Retain historical machine-readable products" in source

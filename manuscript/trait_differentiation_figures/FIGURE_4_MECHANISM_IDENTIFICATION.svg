@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="890" viewBox="0 0 1200 890"><defs>
+<style>
+.title{font:700 29px DejaVu Sans,Arial,sans-serif}.sub{font:700 21px DejaVu Sans,Arial,sans-serif}
+.body{font:18px DejaVu Sans,Arial,sans-serif}.small{font:15px DejaVu Sans,Arial,sans-serif}.tiny{font:13px DejaVu Sans,Arial,sans-serif}
+.box{fill:#fff;stroke:#222;stroke-width:2}.soft{fill:#f4f4f4;stroke:#333;stroke-width:1.8}.dark{fill:#e3e3e3;stroke:#111;stroke-width:2.4}
+.line{stroke:#222;stroke-width:2;fill:none}
+</style>
+</defs><rect width="100%" height="100%" fill="#fff"/><text x="600" y="42" text-anchor="middle" class="title">Once multiple trait axes exist, their interaction still requires mechanism identification</text><text x="600" y="70" text-anchor="middle" class="small">The floral BITA system is the worked case for the second-stage inference problem</text>
+<circle cx="115" cy="145" r="31" class="dark"/><text x="115" y="152" text-anchor="middle" class="sub">1</text><rect x="175" y="105" width="900" height="80" rx="13" class="soft"/><text x="200" y="135" class="sub">Choose two biologically distinct trait axes A and D</text><text x="200" y="164" class="small">Manipulate both coordinates independently; do not infer differentiation from their interaction</text>
+<line x1="115" y1="177" x2="115" y2="210" class="line"/>
+<circle cx="115" cy="250" r="31" class="dark"/><text x="115" y="257" text-anchor="middle" class="sub">2</text><rect x="175" y="210" width="900" height="80" rx="13" class="soft"/><text x="200" y="240" class="sub">Engineer selective antagonist and mutualist interventions</text><text x="200" y="269" class="small">Use access asymmetries that do not alter the focal trait manipulations</text>
+<line x1="115" y1="282" x2="115" y2="315" class="line"/>
+<circle cx="115" cy="355" r="31" class="dark"/><text x="115" y="362" text-anchor="middle" class="sub">3</text><rect x="175" y="315" width="900" height="80" rx="13" class="soft"/><text x="200" y="345" class="sub">Run A×D×G×P</text><text x="200" y="374" class="small">Estimate ΔAD W and the consumer-specific contrasts</text>
+<line x1="115" y1="387" x2="115" y2="420" class="line"/>
+<circle cx="115" cy="460" r="31" class="dark"/><text x="115" y="467" text-anchor="middle" class="sub">4</text><rect x="175" y="420" width="900" height="80" rx="13" class="soft"/><text x="200" y="450" class="sub">Measure the consumer-independent baseline interaction</text><text x="200" y="479" class="small">Do not assume residual reproduction or other baseline pathways have zero A×D interaction</text>
+<line x1="115" y1="492" x2="115" y2="525" class="line"/>
+<circle cx="115" cy="565" r="31" class="dark"/><text x="115" y="572" text-anchor="middle" class="sub">5</text><rect x="175" y="525" width="900" height="80" rx="13" class="soft"/><text x="200" y="555" class="sub">Test four-way separability</text><text x="200" y="584" class="small">A non-zero A×D×G×P term means the consumer channels themselves are coupled</text>
+<line x1="115" y1="597" x2="115" y2="630" class="line"/>
+<circle cx="115" cy="670" r="31" class="dark"/><text x="115" y="677" text-anchor="middle" class="sub">6</text><rect x="175" y="630" width="900" height="80" rx="13" class="soft"/><text x="200" y="660" class="sub">Run an independent A×D assay for the remaining joint channel</text><text x="200" y="689" class="small">Do not label an unallocated residual as construction or allocation cost without evidence</text>
+<line x1="115" y1="702" x2="115" y2="735" class="line"/>
+<circle cx="115" cy="775" r="31" class="dark"/><text x="115" y="782" text-anchor="middle" class="sub">7</text><rect x="175" y="735" width="900" height="80" rx="13" class="soft"/><text x="200" y="765" class="sub">Classify the multi-trait mechanism</text><text x="200" y="794" class="small">channel-resolved / non-separable / assay-discordant / hidden-channel sign constrained</text>
+<text x="600" y="855" text-anchor="middle" class="sub">Trait differentiation answers where functions are carried; crossed intervention answers why the resulting architecture works</text></svg>

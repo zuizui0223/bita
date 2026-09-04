@@ -1,139 +1,154 @@
-# Final submission audit — partial-identification canonical state
+# Final submission audit — canonical trait-differentiation Chapter 2
 
 Primary target: **Ecology — Concepts & Synthesis**
 
 Canonical paper:
 
-> **From floral trait interactions to mechanism identification: a crossed-intervention framework for attraction and defence**
-
-The governing contribution is an ecological identification framework joined to a bounded Mechanism → Pattern synthesis. The algebra is not sold as mathematical novelty.
+> **When does a trait trade-off resolve by differentiation rather than compromise? Linking trait architecture to mechanism identification**
 
 ## 1. Scientific spine
+
+The paper connects three levels:
+
+```text
+BALANCE
+shared functional conflict on one trait
+
+DIFFERENTIATION
+recoverable shared-compromise loss versus extra architecture cost
+
+IDENTIFICATION
+causal allocation of the resulting multi-trait fitness interaction
+```
+
+General architecture result:
+
+```text
+R >= 0
+Delta_arch = R - K
+Delta_arch > 0 <=> K < R
+```
+
+Quadratic corollary:
+
+```text
+R = s L_S*
+Delta_arch = s L_S* - K
+```
+
+where `s` is the fraction of function-specific separation retained after residual coupling. The linear `R=sL_S*` relation is not presented as shape-independent.
+
+Registered finite convex-family checks retain strict positive pre-cost recovery in 300/300 nonzero-conflict evaluations, increasing recovery with optimum separation in 60/60 declared series, and coupling monotonicity in 60/60 implementation-check series.
+
+## 2. Empirical architecture-state boundary
+
+Cichlid oral/pharyngeal jaws anchor structural/function partitioning with residual evolutionary/genetic integration. *Dalechampia* anchors historical redeployment, exaptation and addition of functional structures.
+
+Neither is treated as an estimate of `s`, `lambda`, `K`, `R` or `Delta_arch`, nor as causal proof that a measured one-axis compromise generated the historical transition.
+
+## 3. Retained floral identification framework
 
 Primary measurable interaction:
 
 ```text
 Delta_AD W = W11 - W10 - W01 + W00
-```
-
-Channel bookkeeping:
-
-```text
 Delta_AD W = rho_delta - iota_delta - kappa_delta
 ```
 
 If only `Delta_AD W = delta` is observed, channel allocation belongs to
 
 ```text
-I(delta) = {(rho, iota, kappa): rho - iota - kappa = delta}.
+I(delta) = {(rho,iota,kappa): rho - iota - kappa = delta}.
 ```
 
-Thus total-interaction estimation does not point-identify mechanism, but additional information can **partially identify** it. The central recovered bound is
+Total-interaction estimation therefore does not point-identify mechanism. Partial identification under explicit restrictions and selective crossed interventions remain the route to stronger allocation.
 
-```text
-kappa_delta >= 0
-=> rho_delta - iota_delta >= Delta_AD W.
-```
-
-For positive `Delta_AD W`, this forces a positive biotic balance conditional on the stated kappa restriction while leaving rho and iota individually unidentified.
-
-Point identification uses a selective 16-cell
-
-```text
-A × D × antagonist access × pollinator access
-```
-
-design. `m0_delta` is measured or justified. The rho and iota cross-context invariance gaps are one `A×D×G×P` four-way contrast up to sign, so a non-zero four-way value rejects the simple separable-channel model. `U_delta = rho_delta - iota_delta - Delta_AD W` remains unallocated; interpreting it as kappa requires an independent A×D assay.
-
-The final inference ladder is:
-
-```text
-interaction detection
-→ identified set
-→ partial identification
-→ point identification
-→ independent joint-channel validation
-```
-
-## 2. Mechanism → Pattern bridge
-
-Retained recurrence evidence:
-
-```text
-56 route records
-25 independent biological clusters
-A -> pollination: 5
-A -> antagonism:  8
-D -> antagonism: 18
-D -> pollination: 10
-same-system:      14
-context switches: 17
-```
-
-These overlapping categories establish constituent-channel recurrence, not natural prevalence or rho/iota/kappa magnitudes.
-
-The 16-system audit is now interpreted as a **fragmented identification frontier**. Kessler 2008, Egan 2021, *Impatiens capensis*, and *Pedicularis rex* occupy complementary design faces. Screened-set facts remain:
+The 17-system high-information audit retains the screened-set facts:
 
 ```text
 independent joint-cost assay:       0
 full rho/iota/kappa identification: 0
 ```
 
-but the stronger conclusion is that existing studies already constrain different dimensions of the allocation problem while none closes all of them.
+The source-adjudicated recurrence layer retains **56 route records / 25 independent biological clusters**. The constituent channels recur, but their joint allocation remains unidentified.
 
-The constituent channels recur, but their joint allocation remains unidentified.
+## 4. Canonical source and provenance boundary
 
-## 3. Existing-data anchors
-
-- **Kessler et al. 2008:** closest trait-factorial anchor; published aggregate constraints preserve a positive discrete reproductive interaction, with formal uncertainty and systemic-nicotine scope unresolved.
-- **Egan et al. 2021:** complementary consumer-factorial anchor; no independently manipulated floral A×D pair.
-- **Impatiens capensis:** observational A×D plus randomized interaction-treatment modification; all eight target HC3 intervals cross zero; not channel identification.
-- **Pedicularis rex:** selective-access defence-system anchor without independent attraction manipulation.
-
-No study-specific numerical rho/iota/kappa values or bounds are inferred from these near misses.
-
-## 4. Historical analyses retained but demoted
-
-The 2,592 finite evaluations and 77.2% selectivity-window precision remain Appendix technical sensitivity only. Leal and Sasidharan modules remain reproducible provenance/possible companion work. The theorem-led manuscript remains versioned but is not canonical.
-
-## 5. Inference boundaries
+Canonical Main:
 
 ```text
-marginal recurrence
-!= total interaction
-!= assumption-indexed partial identification
-!= point-identified channel interaction
-!= full allocation
+manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md
 ```
 
-Therefore route counts are not prevalence; total interaction is not a unique mechanism; partial bounds must declare assumptions; randomized context modification is not selective exclusion; `U_delta` is not kappa; zero cost assays does not imply kappa=0; and a non-zero four-way term rejects separability.
-
-## 6. Reader-facing and package QA
-
-Current canonical pre-metadata package:
+Canonical package builder:
 
 ```text
-Main Document: 29 pages
-Appendix S1:   12 pages
+scripts/build_ecology_review_package_sources.py
+```
+
+`manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md` remains a mature mechanistic component/provenance source. `manuscript/MANUSCRIPT_THEORETICAL_ECOLOGY.md`, Leal and Sasidharan products remain reproducible historical provenance. None overrides the active Chapter 2 claim freeze.
+
+## 5. Open Research audit
+
+The canonical package preserves the six historical machine-readable mechanism/Pattern products and adds:
+
+- trait-differentiation robustness readout;
+- authoritative V2 high-information identification coverage;
+- aggregate *Impatiens* retrofit;
+- question-method explanation matrix;
+- defence-escape hypothesis recovery matrix.
+
+This preserves provenance rather than shrinking the data graph during promotion.
+
+## 6. Reader-facing package QA
+
+Validated canonical pre-metadata package:
+
+```text
+Main Document: 30 pages
+Appendix S1:   38 pages
 Main figures:   5
+Total pages:    68
 ```
 
-Validated state for the fully integrated scientific head:
+Validation state:
 
-- CI — PASS on Python 3.10 / 3.11 / 3.12;
-- identification candidate build — PASS;
+- candidate Chapter 2 build — PASS;
 - canonical Ecology build — PASS;
-- page target — PASS with one Main-page margin;
-- full-page visual QA — PASS on all **29 Main + 12 Appendix = 41 pages**;
-- no blank pages, clipping, overlap, broken glyphs, missing figures, or broken equations;
-- identified-set equations, kappa-bound, design-fragmentation text, Figure 1 reinterpretation, and Appendix projection algebra — readable;
-- `Theorem 1` / 77.2% headline — absent from Main;
-- 2,592 / 77.2% — Appendix technical material only.
+- Main page target — PASS at exactly 30 pages;
+- embedded Main figures — 5/5;
+- canonical source pointer — `MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md`;
+- historical-transition overclaim gate — PASS / not established;
+- full-page visual QA — PASS on all 30 Main + 38 Appendix pages;
+- blank pages — none;
+- clipping/overlap — none detected;
+- missing figures — none;
+- broken equations/glyphs — none after the OMML optimized-superscript normalization.
 
-## 7. Submission decision
+The previous LibreOffice fallback for superscript `*` was corrected by rendering optimized quantities with explicit `opt` superscripts. The correction preserves the mathematical meaning and keeps the 30-page Main count unchanged.
 
-**Science: GO on the partial-identification claim set. Reader-facing scientific/package QA: PASS. External submission: pending author-controlled metadata/sign-off.**
+## 7. Inference boundaries
+
+```text
+one-trait compromise
+!= evidence that differentiation evolved
+
+structural differentiation
+!= functional independence
+
+positive A x D interaction
+!= historical trait splitting
+
+marginal route recurrence
+!= total interaction
+!= channel allocation
+!= prevalence
+```
+
+The paper compares attainable architecture states; it does not reconstruct mutation-by-mutation evolutionary transitions.
+
+## 8. Submission decision
+
+**Science: GO on the canonical balance → differentiation → identification claim set. Reader-facing pre-metadata package: PASS. External submission: pending author-controlled metadata/sign-off.**
 
 Remaining blockers are final authors/affiliations, corresponding author/e-mail, ORCIDs, CRediT, funding, acknowledgments, competing interests, licence, any portal-requested reviewer fields, all-author approval/no-simultaneous-submission confirmation, and one final rebuild/page-by-page QA after those fields are inserted.
-
-The governing rule is now: **state exactly what the current evidence constrains, distinguish bounds from point identification, and choose the next observation that most shrinks the remaining identified set.**

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820">
+<defs>
+<style>
+.title{font:700 29px DejaVu Sans,Arial,sans-serif}.panel{font:700 21px DejaVu Sans,Arial,sans-serif}.big{font:700 38px DejaVu Sans,Arial,sans-serif}.body{font:18px DejaVu Sans,Arial,sans-serif}.small{font:15px DejaVu Sans,Arial,sans-serif}.tiny{font:13px DejaVu Sans,Arial,sans-serif}
+.box{fill:#fff;stroke:#222;stroke-width:2}.soft{fill:#f4f4f4;stroke:#333;stroke-width:1.8}.dark{fill:#e3e3e3;stroke:#111;stroke-width:2.2}
+.line{stroke:#222;stroke-width:2.2;fill:none}.dash{stroke:#666;stroke-width:1.8;fill:none;stroke-dasharray:7 6}.grid{stroke:#d6d6d6;stroke-width:1;fill:none}
+</style>
+</defs>
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="700" y="42" text-anchor="middle" class="title">Nonquadratic tests establish strict recovery and verify the structural coupling result</text>
+
+<!-- A -->
+<rect x="45" y="85" width="405" height="310" rx="14" class="box"/>
+<text x="247" y="118" text-anchor="middle" class="panel">A. Registered robustness grid</text>
+<text x="75" y="160" class="body">functional power p</text><text x="410" y="160" text-anchor="end" class="body">1.5, 2, 3, 4</text>
+<text x="75" y="195" class="body">functional weights</text><text x="410" y="195" text-anchor="end" class="body">3 pairs</text>
+<text x="75" y="230" class="body">residual coupling λ</text><text x="410" y="230" text-anchor="end" class="body">5 levels</text>
+<text x="75" y="265" class="body">optimum distance</text><text x="410" y="265" text-anchor="end" class="body">5 levels</text>
+<line x1="75" y1="286" x2="410" y2="286" class="dash"/>
+<text x="247" y="330" text-anchor="middle" class="big">N = 300</text>
+<text x="247" y="365" text-anchor="middle" class="small">convex power-loss evaluations at K = 0</text>
+
+<!-- B -->
+<rect x="485" y="85" width="405" height="310" rx="14" class="dark"/>
+<text x="687" y="118" text-anchor="middle" class="panel">B. Shape-dependent strictness</text>
+<text x="687" y="185" text-anchor="middle" class="big">300 / 300</text>
+<text x="687" y="218" text-anchor="middle" class="body">strictly positive R at nonzero conflict</text>
+<text x="687" y="280" text-anchor="middle" class="panel">60 / 60</text>
+<text x="687" y="310" text-anchor="middle" class="body">series increase with optimum distance</text>
+<text x="687" y="355" text-anchor="middle" class="small">finite-family result: stronger conflict → more loss recoverable</text>
+
+<!-- C -->
+<rect x="925" y="85" width="430" height="310" rx="14" class="dark"/>
+<text x="1140" y="118" text-anchor="middle" class="panel">C. Structural coupling check</text>
+<text x="1140" y="185" text-anchor="middle" class="big">60 / 60</text>
+<text x="1140" y="218" text-anchor="middle" class="body">series never gain with larger λ</text>
+<text x="1140" y="246" text-anchor="middle" class="small">implementation check of R(λ₂) ≤ R(λ₁)</text>
+<path d="M990 305 L1270 305" class="line"/>
+<polygon points="1270,305 1257,297 1257,313" fill="#222"/>
+<text x="990" y="282" class="small">low λ</text>
+<text x="1270" y="282" text-anchor="end" class="small">high λ</text>
+<path d="M1015 335 C1080 320 1145 330 1210 365" class="line"/>
+<text x="1140" y="385" text-anchor="middle" class="small">proof comes from the non-negative scaled coupling term</text>
+
+<!-- D -->
+<rect x="45" y="435" width="1310" height="295" rx="14" class="box"/>
+<text x="700" y="470" text-anchor="middle" class="panel">D. Biological architecture states are continuous, not simply integrated versus independent</text>
+
+<line x1="135" y1="575" x2="1265" y2="575" class="line"/>
+<polygon points="1265,575 1252,567 1252,583" fill="#222"/>
+<text x="135" y="548" class="body">shared / integrated</text>
+<text x="1265" y="548" text-anchor="end" class="body">strong functional separation</text>
+
+<circle cx="690" cy="575" r="11" fill="#222"/>
+<text x="690" y="535" text-anchor="middle" class="panel">cichlid oral + pharyngeal jaws</text>
+<text x="690" y="615" text-anchor="middle" class="small">structural division of capture and processing</text>
+<text x="690" y="638" text-anchor="middle" class="small">yet evolutionary / genetic integration remains</text>
+<text x="690" y="661" text-anchor="middle" class="small">→ empirical analogue of partial differentiation, not an estimate of s</text>
+
+<rect x="103" y="650" width="310" height="48" rx="8" class="soft"/>
+<text x="258" y="680" text-anchor="middle" class="small">Dalechampia: historical role redeployment + added defense lines</text>
+<path d="M413 674 L520 610" class="dash"/>
+
+<text x="700" y="780" text-anchor="middle" class="panel">Structural propositions set weak bounds; the finite family tests strictness and conflict-strength scaling</text>
+</svg>
