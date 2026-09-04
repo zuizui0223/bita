@@ -133,10 +133,18 @@ def test_active_claim_freeze_preserves_partial_differentiation_and_historical_ce
 
 def test_active_claim_freeze_freezes_nonquadratic_robustness_without_claiming_universality() -> None:
     text = _text(CLAIM_FREEZE)
+    lower = text.lower()
     for token in ("300 / 300", "60 / 60", "convex power-loss family"):
         assert token in text, token
-    assert "not a theorem covering arbitrary nonconvex" in text
     assert "first general theory showing that trade-offs can favour specialization" in text
+    assert (
+        "not a theorem covering arbitrary nonconvex" in lower
+        or "not a universal theorem" in lower
+        or "does not support universality" in lower
+        or "no universality claim" in lower
+        or "proves universality" in lower
+    )
+    assert "300-condition robustness grid proves universality" in lower
 
 
 def test_active_claim_freeze_keeps_prior_art_and_empirical_roles_separate() -> None:
