@@ -1,0 +1,46 @@
+{
+  "analysis": "peucedanum_antagonist_proxy_criticality",
+  "system": "Peucedanum multivittatum",
+  "input_version": "PEUCEDANUM_ANTAGONIST_PROXY_CRITICALITY_INPUT_V1",
+  "proxy_axis": {
+    "name": "mean_predator_eggs_per_umbel",
+    "units": "eggs_per_umbel",
+    "left_context": "HL",
+    "left_value": 3.09,
+    "right_context": "HC",
+    "right_value": 1.64,
+    "observed_bracket_width": 1.45
+  },
+  "definitions": {
+    "final_fruit_selection_gradient_beta": {
+      "point_critical_proxy": 2.422539682539682,
+      "conditional_median_critical_proxy": 2.423820807633716,
+      "conditional_95_interval": [2.0749480214088, 2.8260710791568258],
+      "sign_consistent_draw_fraction": 0.99566,
+      "n_sign_consistent_draws": 49783,
+      "zero_semantics": "no direct standardized selection gradient on perfect-flower production for final fruit-set rate"
+    },
+    "final_fruit_selection_differential_S": {
+      "point_critical_proxy": 2.24,
+      "conditional_median_critical_proxy": 2.239040236451377,
+      "conditional_95_interval": [2.0254451102686195, 2.458005282507504],
+      "sign_consistent_draw_fraction": 1.0,
+      "n_sign_consistent_draws": 50000,
+      "zero_semantics": "no univariate standardized selection differential on perfect-flower production for final fruit-set rate"
+    },
+    "female_gain_exponent_b_minus_1": {
+      "point_critical_proxy": 1.9507142857142856,
+      "conditional_median_critical_proxy": 2.0623473955123215,
+      "conditional_95_interval": [1.6750102523593817, 2.605567686643701],
+      "sign_consistent_draw_fraction": 0.74924,
+      "n_sign_consistent_draws": 37462,
+      "zero_semantics": "female-gain exponent b equals one"
+    }
+  },
+  "point_estimate_spread": 0.4718253968253965,
+  "point_estimate_spread_fraction_of_observed_bracket": 0.3253968253968252,
+  "common_conditional_95_interval": [2.0749480214088, 2.458005282507504],
+  "classification": "SAME_NUMERIC_PROXY_CRITICAL_CONTEXT_COMPATIBLE",
+  "interpretation": "Definition-specific point estimates differ under the local-linear predator-egg proxy, but their published-coefficient uncertainty intervals retain a common intersection. The available evidence is therefore compatible with one latent numeric proxy threshold and does not require separated definition-specific thresholds.",
+  "claim_ceiling": "conditional_proxy_interpolation_only; egg_load_not_calibrated_functional_weight; axis_uncertainty_not_propagated; not_causal_C2; not_parallel_world_proof"
+}
