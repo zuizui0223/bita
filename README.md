@@ -1,13 +1,17 @@
 # Biotic Interaction Trait Architecture
 
-BITA is the **Chapter 2 / trait-differentiation** half of the SCH–BITA programme.
+BITA is **Chapter 3 / trait differentiation** in a three-world programme with [SCH](https://github.com/zuizui0223/sch) as Chapter 1 and [BALANCE](https://github.com/zuizui0223/balance) as Chapter 2.
 
 ```text
-SCH / Chapter 1 — BALANCE
-conflicting functions remain coupled on one trait
--> characterize the maintained compromise
+SCH / Chapter 1 — SHARED-COORDINATE WORLD
+conflicting functions are forced onto one trait
+-> establish causal conflict and locate the compromise
 
-BITA / Chapter 2 — DIFFERENTIATION
+BALANCE / Chapter 2 — MIDDLE WORLD
+conflict is real, but differentiated architecture still does not pay
+-> characterize domain position, depth, reserve, topology, and persistence
+
+BITA / Chapter 3 — DIFFERENTIATED-COORDINATE WORLD
 allow multiple trait axes
 -> determine when recovered compromise loss pays for the extra architecture
 -> identify the ecological mechanism once multiple axes exist
@@ -15,7 +19,7 @@ allow multiple trait axes
 
 The programme is about **trait trade-offs and architecture**, not specifically pollination versus defence. Floral mutualist–antagonist conflict is BITA's detailed mechanism-identification worked case.
 
-## Canonical Chapter 2 result
+## Canonical Chapter 3 result
 
 ### General nested-architecture result
 
@@ -46,6 +50,48 @@ Thus differentiation is favoured when the part of the one-trait compromise that 
 
 More trait axes do **not** imply complete functional independence.
 
+## SCH -> BALANCE -> BITA interface
+
+SCH owns the left-hand conflict boundary and, when identified on a common reproductive scale, supplies a fitness-scale conflict budget `L`.
+
+BALANCE studies the sandwiched region
+
+```text
+L > 0
+Phi = sL-K < 0.
+```
+
+Its BITA-facing reserve is
+
+```text
+rho = K-sL > 0.
+```
+
+BITA owns the right-hand architecture boundary:
+
+```text
+Phi = 0   architecture critical interface
+Phi > 0   differentiated architecture favoured.
+```
+
+Where direct matched architecture experiments are possible, define
+
+```text
+W_S* = optimized shared-world fitness
+W_D* = optimized differentiated-world fitness
+Delta_W = W_D* - W_S*.
+```
+
+Under the registered bridge,
+
+```text
+Delta_W = sL-K.
+```
+
+A mismatch between the direct worldline gap and the decomposed `sL-K` gap is a bridge failure to investigate, not a quantity to average away. It can indicate scale mismatch, omitted ecological channels, context mismatch, or a genuine landscape change after differentiation.
+
+See `docs/THREE_WORLD_PROGRAMME_V1.md` and the BALANCE repository's `docs/MIDDLE_WORLD_DEFINITION.md` and `docs/TWO_WORLDLINE_CONCORDANCE.md`.
+
 ## Nonquadratic robustness
 
 Registered convex-family design:
@@ -75,6 +121,7 @@ The contribution is the bridge:
 
 ```text
 measurable one-axis ecological compromise
+-> BALANCE-domain persistence before the architecture crossing
 -> architecture gain with explicit partial decoupling
 -> causal mechanism identification after multiple axes exist
 ```
@@ -129,6 +176,7 @@ route recurrence
 - `manuscript/trait_differentiation_figures/` — Figures 1–5
 - `manuscript/CLAIM_FREEZE.md` — scientific claim ceiling
 - `docs/SUBMISSION_SCOPE.md` — canonical submission scope
+- `docs/THREE_WORLD_PROGRAMME_V1.md` — Chapter 1 -> Chapter 2 -> Chapter 3 interface
 - `scripts/build_ecology_review_package_sources.py` — canonical package builder
 
 `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md` remains versioned as the mature mechanism-identification component/provenance source. It is no longer the canonical article.

@@ -4,10 +4,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_readme_declares_canonical_balance_differentiation_identification_story() -> None:
+def test_readme_declares_three_world_balance_differentiation_identification_story() -> None:
     text = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "SCH / Chapter 1 — BALANCE" in text
-    assert "BITA / Chapter 2 — DIFFERENTIATION" in text
+    assert "SCH / Chapter 1 — SHARED-COORDINATE WORLD" in text
+    assert "BALANCE / Chapter 2 — MIDDLE WORLD" in text
+    assert "BITA / Chapter 3 — DIFFERENTIATED-COORDINATE WORLD" in text
     assert "Delta_arch = R - K" in text
     assert "R = s L_S*" in text
     assert "Delta_arch = s L_S* - K" in text
@@ -22,6 +23,16 @@ def test_readme_declares_canonical_balance_differentiation_identification_story(
     assert "Main Document: 30 pages" in text
     assert "Appendix S1:   38 pages" in text
     assert "Science and pre-metadata package: GO" in text
+
+
+def test_three_world_contract_keeps_bita_on_the_right_hand_architecture_boundary() -> None:
+    text = (ROOT / "docs" / "THREE_WORLD_PROGRAMME_V1.md").read_text(encoding="utf-8")
+    assert "Chapter 1 / SCH" in text
+    assert "Chapter 2 / BALANCE" in text
+    assert "Chapter 3 / BITA" in text
+    assert "Phi = sL-K = 0" in text
+    assert "Delta_W = sL-K" in text
+    assert "BITA does not own the left-hand conflict boundary `L=0`" in text
 
 
 def test_one_trait_shared_cue_lane_is_externalized_to_sch() -> None:
