@@ -1,5 +1,6 @@
 {
   "status": "DO_NOT_RUN_UNTIL_THRESHOLDS_ARE_PREREGISTERED",
+  "design": "WITHIN_BLOCK_RANDOMIZED_Q_BY_G_FACTORIAL",
   "bootstrap_reps": 2000,
   "bootstrap_seed": 20260905,
   "min_blocks": 12,
@@ -7,12 +8,14 @@
   "min_units_per_q_by_g_cell": 10,
   "min_negative_optimum_shift_q": "REQUIRED_BEFORE_USE",
   "min_initial_high_vs_low_gain_z": "REQUIRED_BEFORE_USE",
+  "min_positive_q_oviposition_gain_z": "REQUIRED_BEFORE_USE",
   "min_predation_relief": "REQUIRED_BEFORE_USE",
   "min_positive_q_predation_interaction": "REQUIRED_BEFORE_USE",
   "initial_g_effect_tolerance_z": "REQUIRED_BEFORE_USE",
   "male_cell_range_tolerance_z": "REQUIRED_BEFORE_USE",
   "require_optimum_shift_bootstrap_upper_below_zero": true,
   "require_initial_gain_bootstrap_lower_above_minimum": true,
+  "require_oviposition_gain_bootstrap_lower_above_minimum": true,
   "require_predation_interaction_bootstrap_lower_above_minimum": true,
   "require_equivalence_bootstrap_upper_below_tolerance": true
 }
