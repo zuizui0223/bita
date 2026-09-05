@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import json
 import math
 import random
@@ -17,7 +16,7 @@ from scripts.evaluate_peucedanum_stage_b_manipulation import (
 
 G_REMOVED = "EGGS_REMOVED"
 G_RETAINED = "EGGS_RETAINED"
-RECEIPT_SCHEMA = "BITA_PEUCEDANUM_STAGE_B_CAUSAL_FITNESS_V1"
+RECEIPT_SCHEMA = "BITA_PEUCEDANUM_STAGE_B_CAUSAL_FITNESS_V2"
 PLACEHOLDER = "REQUIRED_BEFORE_USE"
 EXTRA_REQUIRED_FIELDS = (
     "g_state",
@@ -27,6 +26,7 @@ EXTRA_REQUIRED_FIELDS = (
     "predated_fruits",
     "male_fitness",
 )
+ASSIGNMENT_EXTRA_FIELDS = ("g_state", "outcome_observed")
 
 
 def _num(row: dict[str, str], field: str) -> float:
@@ -49,23 +49,22 @@ def _g(row: dict[str, str]) -> int:
 
 
 def read_rows(path: Path) -> list[dict[str, str]]:
+    """Read complete outcome rows.
+
+    Blocks are allowed to be incomplete after randomization. Completeness is
+    checked against the separate assignment ledger rather than enforced on
+    observed outcomes.
+    """
     rows = read_stage_b_validation_rows(path)
     missing = [field for field in EXTRA_REQUIRED_FIELDS if field not in rows[0]]
     if missing:
         raise ValueError(f"missing required Stage-B outcome columns: {', '.join(missing)}")
 
-    q_levels = sorted({_num(row, "q_target") for row in rows})
-    expected = {(q, g) for q in q_levels for g in (0, 1)}
-    by_block: dict[str, Counter[tuple[float, int]]] = defaultdict(Counter)
-
     for i, row in enumerate(rows, start=2):
         for field in EXTRA_REQUIRED_FIELDS:
             if row.get(field, "").strip() == "":
                 raise ValueError(f"blank required field {field!r} on CSV line {i}")
-        g = _g(row)
-        q = _num(row, "q_target")
-        by_block[row["block_id"]][(q, g)] += 1
-
+        _g(row)
         eggs = _num(row, "eggs_before_g_treatment")
         initial = _num(row, "initial_fruits")
         intact = _num(row, "final_intact_fruits")
@@ -78,12 +77,34 @@ def read_rows(path: Path) -> list[dict[str, str]]:
             raise ValueError("initial_fruits cannot exceed perfect_retained")
         if intact + predated > initial + 1e-6:
             raise ValueError("final_intact_fruits + predated_fruits cannot exceed initial_fruits")
+    return rows
+
+
+def read_assignment_rows(path: Path) -> list[dict[str, str]]:
+    """Read the pre-G assignment ledger containing every randomized unit."""
+    rows = read_stage_b_validation_rows(path)
+    missing = [field for field in ASSIGNMENT_EXTRA_FIELDS if field not in rows[0]]
+    if missing:
+        raise ValueError(f"missing required assignment columns: {', '.join(missing)}")
+
+    q_levels = sorted({_num(row, "q_target") for row in rows})
+    expected = {(q, g) for q in q_levels for g in (0, 1)}
+    by_block: dict[str, Counter[tuple[float, int]]] = defaultdict(Counter)
+    for i, row in enumerate(rows, start=2):
+        for field in ASSIGNMENT_EXTRA_FIELDS:
+            if row.get(field, "").strip() == "":
+                raise ValueError(f"blank assignment field {field!r} on CSV line {i}")
+        g = _g(row)
+        observed = _num(row, "outcome_observed")
+        if observed not in (0.0, 1.0):
+            raise ValueError("outcome_observed must be coded 0/1")
+        by_block[row["block_id"]][(_num(row, "q_target"), g)] += 1
 
     for block, counts in by_block.items():
         if set(counts) != expected or any(count != 1 for count in counts.values()):
             raise ValueError(
-                "each Stage-B block must contain exactly one unit for every q_target x G combination; "
-                f"block {block!r} is incomplete or duplicated"
+                "the assignment ledger must contain exactly one randomized unit for every q_target x G combination "
+                f"inside each block; block {block!r} is incomplete or duplicated"
             )
     return rows
 
@@ -91,6 +112,8 @@ def read_rows(path: Path) -> list[dict[str, str]]:
 def _require_config(config: dict) -> dict:
     if config.get("design") != "WITHIN_BLOCK_RANDOMIZED_Q_BY_G_FACTORIAL":
         raise ValueError("fitness config must declare WITHIN_BLOCK_RANDOMIZED_Q_BY_G_FACTORIAL")
+    if config.get("assignment_ledger_required") is not True:
+        raise ValueError("fitness config must require the pre-G assignment ledger")
     numeric_keys = (
         "bootstrap_reps",
         "bootstrap_seed",
@@ -98,6 +121,9 @@ def _require_config(config: dict) -> dict:
         "min_q_levels",
         "min_units_per_q_by_g_cell",
         "min_valid_predation_fraction_per_cell",
+        "max_post_randomization_attrition_fraction",
+        "max_attrition_rate_difference_across_cells",
+        "min_observed_fraction_per_cell",
         "min_negative_optimum_shift_q",
         "min_initial_high_vs_low_gain_z",
         "min_positive_q_oviposition_gain_z",
@@ -122,9 +148,84 @@ def _require_config(config: dict) -> dict:
     for key in numeric_keys[5:]:
         if out[key] < 0:
             raise ValueError(f"fitness config field {key!r} must be >= 0")
-    if out["min_valid_predation_fraction_per_cell"] > 1:
-        raise ValueError("min_valid_predation_fraction_per_cell must be <= 1")
+    for key in (
+        "min_valid_predation_fraction_per_cell",
+        "max_post_randomization_attrition_fraction",
+        "max_attrition_rate_difference_across_cells",
+        "min_observed_fraction_per_cell",
+    ):
+        if out[key] > 1:
+            raise ValueError(f"fitness config field {key!r} must be <= 1")
     return out
+
+
+def _validate_assignment_link(
+    outcome_rows: list[dict[str, str]], assignment_rows: list[dict[str, str]]
+) -> dict:
+    assignment_by_id = {row["unit_id"]: row for row in assignment_rows}
+    outcome_by_id = {row["unit_id"]: row for row in outcome_rows}
+    expected_observed = {
+        row["unit_id"] for row in assignment_rows if _num(row, "outcome_observed") == 1.0
+    }
+    if set(outcome_by_id) != expected_observed:
+        missing = sorted(expected_observed - set(outcome_by_id))
+        unexpected = sorted(set(outcome_by_id) - expected_observed)
+        raise ValueError(
+            "outcome rows must match outcome_observed=1 units in assignment ledger; "
+            f"missing={missing[:5]}, unexpected={unexpected[:5]}"
+        )
+
+    numeric_invariants = (
+        "q_target",
+        "q_realized",
+        "total_retained",
+        "perfect_retained",
+        "male_retained",
+    )
+    for unit_id, outcome in outcome_by_id.items():
+        assigned = assignment_by_id[unit_id]
+        if outcome["block_id"] != assigned["block_id"] or outcome["g_state"] != assigned["g_state"]:
+            raise ValueError(f"outcome assignment mismatch for unit {unit_id!r}")
+        for field in numeric_invariants:
+            a = _num(assigned, field)
+            b = _num(outcome, field)
+            if abs(a - b) > max(1e-8, 1e-8 * max(abs(a), abs(b), 1.0)):
+                raise ValueError(f"outcome {field} does not match assignment ledger for unit {unit_id!r}")
+
+    assigned_cells: dict[tuple[float, int], list[dict[str, str]]] = defaultdict(list)
+    observed_cells: dict[tuple[float, int], list[dict[str, str]]] = defaultdict(list)
+    for row in assignment_rows:
+        assigned_cells[(_num(row, "q_target"), _g(row))].append(row)
+        if _num(row, "outcome_observed") == 1.0:
+            observed_cells[(_num(row, "q_target"), _g(row))].append(row)
+
+    cell_summary = {}
+    observed_fractions = []
+    attrition_rates = []
+    for key, assigned in sorted(assigned_cells.items()):
+        observed_n = len(observed_cells.get(key, []))
+        fraction = observed_n / len(assigned)
+        attrition = 1.0 - fraction
+        observed_fractions.append(fraction)
+        attrition_rates.append(attrition)
+        q, g = key
+        cell_summary[f"q={q}|g={G_RETAINED if g else G_REMOVED}"] = {
+            "assigned_n": len(assigned),
+            "observed_n": observed_n,
+            "observed_fraction": fraction,
+            "attrition_rate": attrition,
+        }
+
+    overall_observed = len(outcome_rows) / len(assignment_rows)
+    return {
+        "randomized_n": len(assignment_rows),
+        "observed_n": len(outcome_rows),
+        "overall_observed_fraction": overall_observed,
+        "overall_attrition_fraction": 1.0 - overall_observed,
+        "minimum_cell_observed_fraction": min(observed_fractions),
+        "maximum_cell_attrition_rate_difference": max(attrition_rates) - min(attrition_rates),
+        "by_cell": cell_summary,
+    }
 
 
 def _solve3(matrix: list[list[float]], rhs: list[float]) -> tuple[float, float, float]:
@@ -197,7 +298,10 @@ def _cell_rows(rows: list[dict[str, str]]) -> dict[tuple[float, int], list[dict[
 
 
 def _cell_mean(groups: dict[tuple[float, int], list[dict[str, str]]], q: float, g: int, field: str) -> float:
-    return mean(_num(row, field) for row in groups[(q, g)])
+    group = groups.get((q, g), [])
+    if not group:
+        raise ValueError(f"no observed outcomes in q={q}, g={g} cell")
+    return mean(_num(row, field) for row in group)
 
 
 def _predation_cell_rates(groups: dict[tuple[float, int], list[dict[str, str]]]) -> tuple[dict[tuple[float, int], float], dict[tuple[float, int], float]]:
@@ -219,6 +323,12 @@ def _predation_cell_rates(groups: dict[tuple[float, int], list[dict[str, str]]])
 def _core_metrics(rows: list[dict[str, str]]) -> dict:
     groups = _cell_rows(rows)
     q_levels = sorted({q for q, _ in groups})
+    if len(q_levels) < 3:
+        raise ValueError("Stage-B fitness analysis requires at least three observed q levels")
+    for q in q_levels:
+        for g in (0, 1):
+            if not groups.get((q, g)):
+                raise ValueError(f"missing observed q={q}, g={g} cell")
     q_low, q_high = q_levels[0], q_levels[-1]
 
     final_surfaces = {}
@@ -341,27 +451,40 @@ def _bootstrap(rows: list[dict[str, str]], reps: int, seed: int) -> dict:
     }
 
 
-def analyze(rows: list[dict[str, str]], validation_config: dict, fitness_config: dict) -> dict:
-    validation_receipt = validate_stage_b_manipulation(rows, validation_config)
+def analyze(
+    rows: list[dict[str, str]],
+    assignment_rows: list[dict[str, str]],
+    validation_config: dict,
+    fitness_config: dict,
+) -> dict:
+    validation_receipt = validate_stage_b_manipulation(assignment_rows, validation_config)
     if validation_receipt["status"] != "PEUCEDANUM_STAGE_B_SEX_COMPOSITION_MANIPULATION_VALIDATED":
         return {
             "receipt_schema_version": RECEIPT_SCHEMA,
             "status": "BLOCKED_BY_INVALID_STAGE_B_MANIPULATION",
             "validation_receipt": validation_receipt,
-            "claim_ceiling": "no_fitness_inference_permitted_until_stage_b_manipulation_validation_passes",
+            "claim_ceiling": "no_fitness_inference_permitted_until_pre_G_stage_b_manipulation_validation_passes",
         }
 
     config = _require_config(fitness_config)
+    attrition = _validate_assignment_link(rows, assignment_rows)
     core = _core_metrics(rows)
     bootstrap = _bootstrap(rows, config["bootstrap_reps"], config["bootstrap_seed"])
     ci = bootstrap["intervals"]
     groups = _cell_rows(rows)
-    n_blocks = len({row["block_id"] for row in rows})
+    n_assignment_blocks = len({row["block_id"] for row in assignment_rows})
+    n_observed_blocks = len({row["block_id"] for row in rows})
     q_levels = core["q_levels"]
     cell_counts = {key: len(group) for key, group in groups.items()}
 
+    attrition_gate = (
+        attrition["overall_attrition_fraction"] <= config["max_post_randomization_attrition_fraction"]
+        and attrition["maximum_cell_attrition_rate_difference"] <= config["max_attrition_rate_difference_across_cells"]
+        and attrition["minimum_cell_observed_fraction"] >= config["min_observed_fraction_per_cell"]
+    )
     coverage_gate = (
-        n_blocks >= config["min_blocks"]
+        n_assignment_blocks >= config["min_blocks"]
+        and n_observed_blocks >= config["min_blocks"]
         and len(q_levels) >= config["min_q_levels"]
         and all(count >= config["min_units_per_q_by_g_cell"] for count in cell_counts.values())
         and all(
@@ -395,8 +518,9 @@ def analyze(rows: list[dict[str, str]], validation_config: dict, fitness_config:
         male_gate = core["male_cell_range_z"] <= config["male_cell_range_tolerance_z"]
 
     gates = {
-        "same_dataset_stage_b_manipulation_validated": True,
-        "factorial_coverage": coverage_gate,
+        "pre_G_stage_b_manipulation_validated_on_all_randomized_units": True,
+        "post_randomization_attrition_within_bounds": attrition_gate,
+        "factorial_outcome_coverage": coverage_gate,
         "female_opportunity_increases_with_q": initial_gain_gate,
         "G_does_not_change_initial_female_opportunity": initial_g_gate,
         "randomized_q_increases_predator_oviposition": oviposition_gate,
@@ -409,13 +533,15 @@ def analyze(rows: list[dict[str, str]], validation_config: dict, fitness_config:
 
     return {
         "receipt_schema_version": RECEIPT_SCHEMA,
-        "analysis": "validated_randomized_q_by_antagonist_factorial_in_peucedanum",
+        "analysis": "attrition_aware_validated_randomized_q_by_antagonist_factorial_in_peucedanum",
         "design": config["design"],
         "validation_receipt": validation_receipt,
-        "n_units": len(rows),
-        "n_blocks": n_blocks,
+        "assignment_and_attrition": attrition,
+        "n_outcome_units": len(rows),
+        "n_assignment_blocks": n_assignment_blocks,
+        "n_observed_blocks": n_observed_blocks,
         "q_levels": q_levels,
-        "n_by_q_by_g_cell": {
+        "n_by_observed_q_by_g_cell": {
             f"q={q}|g={G_RETAINED if g else G_REMOVED}": count for (q, g), count in cell_counts.items()
         },
         "primary_estimand": {
@@ -466,24 +592,26 @@ def analyze(rows: list[dict[str, str]], validation_config: dict, fitness_config:
             else "CAUSAL_PARTIAL_FUNCTIONAL_DIFFERENTIATION_NOT_FULLY_RECOVERED"
         ),
         "claim_ceiling": (
-            "contemporary_causal_partial_functional_differentiation_in_a_validated_post_male_phase_manipulation; "
+            "contemporary_causal_partial_functional_differentiation_with_explicit_post_randomization_attrition_audit; "
             "does_not_establish_natural_developmental_origin; not_complete_modularity; not_historical_origin_of_andromonoecy"
         ),
     }
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Analyze validated Peucedanum Stage-B randomized q x antagonist fitness data")
+    parser = argparse.ArgumentParser(description="Analyze attrition-aware Peucedanum Stage-B randomized q x antagonist fitness data")
     parser.add_argument("csv_path", type=Path)
+    parser.add_argument("assignment_ledger_path", type=Path)
     parser.add_argument("validation_config_path", type=Path)
     parser.add_argument("fitness_config_path", type=Path)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
 
     rows = read_rows(args.csv_path)
+    assignment_rows = read_assignment_rows(args.assignment_ledger_path)
     validation_config = json.loads(args.validation_config_path.read_text(encoding="utf-8"))
     fitness_config = json.loads(args.fitness_config_path.read_text(encoding="utf-8"))
-    result = analyze(rows, validation_config, fitness_config)
+    result = analyze(rows, assignment_rows, validation_config, fitness_config)
     payload = json.dumps(result, indent=2, sort_keys=True) + "\n"
     if args.output:
         args.output.write_text(payload, encoding="utf-8")
