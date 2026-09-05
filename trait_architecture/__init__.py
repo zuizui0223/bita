@@ -16,6 +16,13 @@ from .criticality import (
     empirical_release_margin,
     shared_conflict_load,
 )
+from .functional_weight_criticality import (
+    FunctionalWeightCriticality,
+    asymptotic_recoverable_loss,
+    critical_function2_weight,
+    monotonicity_log_derivative,
+    recoverable_loss_at_function2_weight,
+)
 from .differentiation import (
     ArchitectureComparison,
     DifferentiatedAxisOptimum,
@@ -96,6 +103,11 @@ __all__ = [
     "cross_world_equivalence_statement",
     "empirical_release_margin",
     "shared_conflict_load",
+    "FunctionalWeightCriticality",
+    "asymptotic_recoverable_loss",
+    "critical_function2_weight",
+    "monotonicity_log_derivative",
+    "recoverable_loss_at_function2_weight",
     "ZeroCrossing",
     "CriticalContextComparison",
     "zero_crossing",
