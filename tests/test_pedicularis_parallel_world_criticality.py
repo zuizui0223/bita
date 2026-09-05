@@ -1,3 +1,5 @@
+import math
+
 from scripts.analyze_pedicularis_parallel_world_criticality import analyze
 
 
@@ -30,8 +32,8 @@ def test_same_critical_context_when_projected_and_direct_margins_cross_together(
         _row("high", 2.0, 0.6, 0.5, 0.2, 0.1),
     ]
     result = analyze(rows, {"context_tolerance": 0.05})
-    assert result["projected_sch_critical_context"] == 1.0
-    assert result["direct_bita_critical_context"] == 1.0
+    assert math.isclose(result["projected_sch_critical_context"], 1.0, abs_tol=1e-12)
+    assert math.isclose(result["direct_bita_critical_context"], 1.0, abs_tol=1e-12)
     assert result["classification"] == "SAME_CRITICAL_CONTEXT_COMPATIBLE"
 
 
@@ -42,6 +44,6 @@ def test_parallel_world_context_when_direct_crossing_is_shifted() -> None:
         _row("high", 2.0, 0.6, 0.5, 0.2, 0.1),
     ]
     result = analyze(rows, {"context_tolerance": 0.1})
-    assert result["projected_sch_critical_context"] == 1.0
-    assert result["direct_bita_critical_context"] == 1.5
+    assert math.isclose(result["projected_sch_critical_context"], 1.0, abs_tol=1e-12)
+    assert math.isclose(result["direct_bita_critical_context"], 1.5, abs_tol=1e-12)
     assert result["classification"] == "PARALLEL_WORLD_CRITICAL_CONTEXTS"
