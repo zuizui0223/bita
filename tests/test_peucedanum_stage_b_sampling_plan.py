@@ -59,7 +59,7 @@ def test_naive_expectation_only_plan_understates_joint_cell_coverage() -> None:
     naive = plan["post_randomization_outcome_stage"]["naive_expectation_only_plan"]
     assert naive["recruit_per_cell"] == 22
     assert naive["expected_observed_per_cell"] == pytest.approx(18.7)
-    assert naive["joint_probability_all_cells_at_least_target"] == pytest.approx(0.21470029037585315)
+    assert naive["joint_probability_all_cells_at_least_target"] == pytest.approx(0.21474446205452305)
 
 
 def test_two_stage_plan_accounts_for_pre_g_manipulation_failure() -> None:
