@@ -1,0 +1,124 @@
+{
+  "receipt_version": "BITA_PEUCEDANUM_PUBLISHED_NUMERIC_RECEIPT_V1",
+  "system": "Peucedanum multivittatum",
+  "status": "PUBLISHED_NUMERIC_PARTIAL_DIFFERENTIATION_EVIDENCE_RECOVERED",
+  "data_status": "PUBLISHED_RESULTS_ONLY_NOT_RAW_DRYAD_REANALYSIS",
+  "sources": [
+    {
+      "citation": "Kudo & Shibata 2021, Ecology and Evolution 11:5646-5656",
+      "doi": "10.1002/ece3.7468",
+      "dryad_doi": "10.5061/dryad.b5mkkwhcq",
+      "design": "nine populations across a snowmelt/flowering gradient; 2017-2019",
+      "published_numeric_results": {
+        "population_male_flower_proportion_vs_seed_predation": {
+          "direction": "positive",
+          "r_squared": 0.64,
+          "p": "<0.0001",
+          "implied_positive_r_if_simple_linear_correlation": 0.8
+        },
+        "early_population_seed_predation_range": [0.29, 0.88],
+        "late_population_predation_description": "no predation damage reported for the late end of the phenological gradient",
+        "individual_predation_glmm": {
+          "perfect_flower_number": {"estimate": 0.0029, "se": 0.0025, "z": 1.16, "p": 0.24},
+          "male_flower_number": {"estimate": 0.0011, "se": 0.0023, "z": 0.48, "p": 0.63},
+          "flowering_time": {"estimate": -0.803, "se": 0.110, "z": -7.29, "p": "<0.0001"}
+        },
+        "fruit_set_glmm": {
+          "perfect_flower_number": {"estimate": 0.0078, "se": 0.0008, "z": 9.05, "p": "<0.0001"},
+          "male_flower_number": {"estimate": 0.0001, "se": 0.0008, "z": 0.127, "p": 0.90},
+          "flowering_time": {"estimate": -0.027, "se": 0.029, "z": -0.97, "p": 0.33}
+        }
+      },
+      "interpretation": "Within-population predation was driven primarily by phenological exposure rather than flower-number preference, while populations experiencing recurrent high predation were consistently more male-biased. This is a geographic selection-mosaic / allocation pattern, not a causal dimensional-release experiment."
+    },
+    {
+      "citation": "Kudo & Shibata 2025, Journal of Ecology 113:2832-2845",
+      "doi": "10.1111/1365-2745.70130",
+      "dryad_doi": "10.5061/dryad.w3r2280v5",
+      "design": "five plots across a flowering gradient, 2020-2023, plus a 2021 high-predation focal experiment and paternity analysis",
+      "published_numeric_results": {
+        "high_predation_focal_experiment_n": 106,
+        "mean_perfect_flowers_per_umbel": {"mean": 15.1, "sd": 10.0},
+        "mean_male_flowers_per_umbel": {"mean": 46.8, "sd": 20.5},
+        "mean_flower_height_cm": {"mean": 12.9, "sd": 4.4},
+        "perfect_vs_male_flower_correlation": {"r": -0.43, "p": "<0.001"},
+        "perfect_flower_vs_height_correlation": {"r": 0.43, "p": "<0.001"},
+        "male_flower_vs_height_correlation": {"r": 0.04, "p": 0.71},
+        "egg_removal_fruit_set": {"mean": 0.51, "sd": 0.35},
+        "estimated_no_egg_removal_final_fruit_set": {"mean": 0.19, "sd": 0.16},
+        "estimated_fruit_predation_rate": {"mean": 0.57, "sd": 0.28},
+        "oviposition_glmm": {
+          "perfect_flower_number": {"direction": "positive", "z": 5.97, "p": "<0.0001"},
+          "male_flower_number": {"direction": "negative", "z": -2.38, "p": 0.017},
+          "flower_height": {"direction": "positive", "z": 2.11, "p": 0.035}
+        },
+        "initial_fruit_set_selection_differentials": {
+          "perfect_flower_number": {"S": 0.100, "se": 0.024, "significance": "***"},
+          "male_flower_number": {"S": -0.042, "se": 0.014, "significance": "**"},
+          "flower_height": {"S": 0.237, "se": 0.016, "significance": "***"}
+        },
+        "predation_selection": {
+          "perfect_flower_number": {
+            "S": 0.218,
+            "S_se": 0.033,
+            "beta": 0.178,
+            "beta_se": 0.038,
+            "interpretation": "more perfect flowers increase predation risk"
+          },
+          "male_flower_number": {
+            "S": -0.087,
+            "S_se": 0.018,
+            "beta": -0.042,
+            "beta_se": 0.020,
+            "interpretation": "more male flowers reduce predation risk"
+          },
+          "flower_height": {
+            "S": 0.091,
+            "S_se": 0.028,
+            "beta": 0.024,
+            "beta_se": 0.031
+          }
+        },
+        "final_fruit_set_selection": {
+          "perfect_flower_number": {
+            "S": -0.065,
+            "S_se": 0.018,
+            "beta": -0.108,
+            "beta_se": 0.022,
+            "interpretation": "under severe predation, higher perfect-flower production directly lowers final fruit-set rate after controlling other floral traits"
+          },
+          "male_flower_number": {
+            "S": 0.033,
+            "S_se": 0.012,
+            "beta": 0.006,
+            "beta_se": 0.013,
+            "interpretation": "positive univariate association but no supported direct gradient after controlling other traits"
+          },
+          "flower_height": {
+            "S": 0.055,
+            "S_se": 0.013,
+            "beta": 0.100,
+            "beta_se": 0.017
+          }
+        },
+        "pollen_disperal_distance_m": {"mean": 2.1, "sd": 1.8, "n": 333, "maximum": 6.9}
+      },
+      "published_directional_results_without_numeric_coefficient_in_this_receipt": [
+        "greater total flower production increased siring success whereas perfect-flower production itself did not",
+        "selection on perfect-flower production shifted from negative in high-predation early populations to positive in low-predation late populations"
+      ],
+      "interpretation": "The later study closes key functional pieces missing in 2021: perfect flowers contribute to female opportunity but directly increase predation exposure, whereas male-flower allocation directly reduces predation while total flower display contributes to male fitness. This is strong real-world partial functional differentiation and a context-dependent selection mosaic, but not canonical R_state."
+    }
+  ],
+  "cross_study_recovery": {
+    "female_function_loading_on_perfect_flowers": "SUPPORTED",
+    "perfect_flower_predation_cross_loading": "SUPPORTED_WITH_2025_SELECTION_GRADIENT_BETA_POSITIVE",
+    "male_flower_predation_relief": "SUPPORTED_WITH_2025_SELECTION_GRADIENT_BETA_NEGATIVE",
+    "male_function_can_be_maintained_by_total_flower_display": "SUPPORTED_DIRECTIONALLY_BY_PATERNITY_ANALYSIS",
+    "population_selection_mosaic": "SUPPORTED",
+    "partial_functional_differentiation_interpretation": "SUPPORTED_AS_REAL_WORLD_ARCHITECTURE_ANCHOR",
+    "causal_R_state": "NOT_IDENTIFIED",
+    "historical_origin_of_andromonoecy": "NOT_IDENTIFIED"
+  },
+  "claim_ceiling": "published_numeric_and_directional_real_world_partial_differentiation_evidence_only; not_raw_reanalysis; not_causal_dimensional_release; not_historical_modularization"
+}
