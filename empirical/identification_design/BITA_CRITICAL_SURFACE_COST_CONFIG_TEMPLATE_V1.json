@@ -1,0 +1,10 @@
+{
+  "status": "DO_NOT_RUN_UNTIL_FROZEN",
+  "fitness_scale_id": "REQUIRED_BEFORE_USE",
+  "decoupling_fraction": "REQUIRED_BEFORE_USE",
+  "decoupling_fraction_95_ci": ["REQUIRED_BEFORE_USE", "REQUIRED_BEFORE_USE"],
+  "architecture_cost": "REQUIRED_BEFORE_USE",
+  "architecture_cost_95_ci": ["REQUIRED_BEFORE_USE", "REQUIRED_BEFORE_USE"],
+  "cost_semantics": "REQUIRED: FUNCTIONAL_STATE_DEPLOYMENT_COST or STRUCTURAL_ARCHITECTURE_MAINTENANCE_COST",
+  "cost_source": "REQUIRED_INDEPENDENT_ASSAY_NOT_KAPPA"
+}
