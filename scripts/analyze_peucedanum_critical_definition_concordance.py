@@ -40,8 +40,8 @@ def analyze(receipt: dict) -> dict:
         "source_receipt_version": receipt["receipt_version"],
         "ordered_contexts": list(DEFAULT_CONTEXTS),
         "definition_semantics": {
-            "final_fruit_selection_gradient_beta": "zero = no direct standardized selection gradient on perfect-flower production for final fruit set",
-            "final_fruit_selection_differential_S": "zero = no univariate standardized selection differential on perfect-flower production for final fruit set",
+            "final_fruit_selection_gradient_beta": "zero = no direct standardized selection gradient on perfect-flower production for final fruit-set rate",
+            "final_fruit_selection_differential_S": "zero = no univariate standardized selection differential on perfect-flower production for final fruit-set rate",
             "female_gain_exponent_b_minus_1": "zero = female-gain exponent b equals 1, the boundary between decelerating and accelerating female gain",
         },
         "brackets": [
