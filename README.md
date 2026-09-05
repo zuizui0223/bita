@@ -4,16 +4,53 @@ BITA is the **Chapter 2 / trait-differentiation** half of the SCH–BITA program
 
 ```text
 SCH / Chapter 1 — BALANCE
-conflicting functions remain coupled on one trait
--> characterize the maintained compromise
+conflicting functions remain coupled on one trait coordinate z
+-> best shared phenotype z*
+-> residual shared conflict load L_S*
 
 BITA / Chapter 2 — DIFFERENTIATION
-allow multiple trait axes
--> determine when recovered compromise loss pays for the extra architecture
+allow partly independent trait coordinates x,y
+-> recover R from the Chapter 1 conflict load L_S*
+-> pay the additional architecture cost K
+-> Delta_arch = R-K
 -> identify the ecological mechanism once multiple axes exist
 ```
 
 The programme is about **trait trade-offs and architecture**, not specifically pollination versus defence. Floral mutualist–antagonist conflict is BITA's detailed mechanism-identification worked case.
+
+## Exact Chapter 1 -> Chapter 2 interface
+
+The sister relationship is a mathematical handoff rather than only shared biological motivation.
+
+Chapter 1 keeps architecture fixed:
+
+```text
+L_S(z) = l1(z) + l2(z)
+z*     = argmin_z L_S(z)
+L_S*   = L_S(z*)
+```
+
+`z*` is the best phenotype attainable while the functions remain on one shared axis. `L_S*` is the residual shared-axis conflict load on the declared scale.
+
+BITA begins from that baseline. Let `R` be the part of the Chapter 1 conflict load recoverable after enlarging the phenotype space and let `K` be the additional fixed architecture cost:
+
+```text
+Delta_arch = R - K
+Delta_arch > 0  <=>  K < R.
+```
+
+For the quadratic baseline shared with the SCH Chapter 1 framing,
+
+```text
+z* = (w1 theta1 + w2 theta2)/(w1+w2)
+L_S* = [w1w2/(w1+w2)](theta1-theta2)^2
+
+BITA:
+R = s L_S*
+Delta_arch = s L_S* - K.
+```
+
+Thus SCH asks **how functions optimize while they remain coupled**, whereas BITA asks **whether relaxing that shared-axis constraint pays and how the resulting multi-trait phenotype works**. SCH's shared-cue system and BITA's attraction × defence system are empirical realizations of those two architectural stages, not their general definitions.
 
 ## Canonical Chapter 2 result
 
