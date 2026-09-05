@@ -1,0 +1,6 @@
+{
+  "min_populations_per_dataset": "REQUIRED_BEFORE_USE",
+  "min_positive_male_fraction_predation_rho": "REQUIRED_BEFORE_USE",
+  "max_negative_flowering_predation_rho": "REQUIRED_BEFORE_USE",
+  "status": "TEMPLATE_ONLY_DO_NOT_RUN_UNTIL_THRESHOLDS_ARE_PROSPECTIVELY_FROZEN"
+}

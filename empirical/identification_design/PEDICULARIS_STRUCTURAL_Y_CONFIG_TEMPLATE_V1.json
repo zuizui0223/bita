@@ -1,0 +1,14 @@
+{
+  "bootstrap_reps": 2000,
+  "random_seed": 20260904,
+  "primary_y_field": "retention_capacity_ml",
+  "min_plants": "REQUIRED_BEFORE_USE",
+  "min_repeats_per_plant": "REQUIRED_BEFORE_USE",
+  "max_within_plant_y_relative_spread": "REQUIRED_BEFORE_USE",
+  "min_among_plant_y_relative_range": "REQUIRED_BEFORE_USE",
+  "min_y_to_function2_standardized_beta": "REQUIRED_BEFORE_USE",
+  "max_abs_y_to_function1_standardized_beta": "REQUIRED_BEFORE_USE",
+  "max_abs_xy_correlation_for_low_coupling": "REQUIRED_BEFORE_USE",
+  "max_mechanical_damage_rate": "REQUIRED_BEFORE_USE",
+  "status": "TEMPLATE_ONLY_DO_NOT_RUN_UNTIL_THRESHOLDS_ARE_PROSPECTIVELY_FROZEN"
+}
