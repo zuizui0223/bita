@@ -1,0 +1,3 @@
+plant_id,block_id,g_state,perfect_flowers,male_flowers,total_flowers,q_perfect,flower_height,flowering_day,eggs_before,initial_fruits,final_intact_fruits,predated_fruits,male_fitness
+P001,B001,EGGS_REMOVED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED
+P002,B001,EGGS_RETAINED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED

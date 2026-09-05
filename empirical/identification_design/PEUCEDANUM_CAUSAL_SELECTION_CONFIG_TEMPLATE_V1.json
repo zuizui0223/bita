@@ -1,0 +1,17 @@
+{
+  "status": "DO_NOT_RUN_UNTIL_THRESHOLDS_ARE_PREREGISTERED",
+  "randomization_scheme": "WITHIN_BLOCK_EGG_REMOVAL_VS_RETENTION",
+  "bootstrap_reps": 2000,
+  "bootstrap_seed": 20260905,
+  "min_blocks": 20,
+  "min_units_per_g_state": 20,
+  "min_valid_predation_units_per_g_state": 15,
+  "max_abs_pretreatment_smd": "REQUIRED_BEFORE_USE",
+  "min_negative_delta_beta_q": "REQUIRED_BEFORE_USE",
+  "min_predation_relief": "REQUIRED_BEFORE_USE",
+  "initial_effect_tolerance_z": "REQUIRED_BEFORE_USE",
+  "male_effect_tolerance_z": "REQUIRED_BEFORE_USE",
+  "require_delta_beta_bootstrap_upper_below_zero": true,
+  "require_predation_relief_bootstrap_lower_above_minimum": true,
+  "require_equivalence_ci_inside_tolerance": true
+}
