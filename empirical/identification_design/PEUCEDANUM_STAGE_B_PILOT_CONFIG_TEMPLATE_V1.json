@@ -1,0 +1,8 @@
+{
+  "status": "DO_NOT_RUN_UNTIL_THRESHOLDS_ARE_PREREGISTERED",
+  "min_attempted_per_q_level": "REQUIRED_BEFORE_USE",
+  "min_qualified_per_q_level": "REQUIRED_BEFORE_USE",
+  "min_overall_qualification_fraction": "REQUIRED_BEFORE_USE",
+  "min_qualification_fraction_per_q_level": "REQUIRED_BEFORE_USE",
+  "max_qualification_fraction_difference_across_q": "REQUIRED_BEFORE_USE"
+}
