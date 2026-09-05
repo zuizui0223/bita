@@ -1,0 +1,55 @@
+{
+  "analysis": "peucedanum_critical_definition_concordance",
+  "system": "Peucedanum multivittatum",
+  "source_receipt_version": "BITA_PEUCEDANUM_OBSERVATIONAL_CRITICAL_BRACKET_V1",
+  "ordered_contexts": ["HA", "HL", "HC", "KD", "HD"],
+  "definition_semantics": {
+    "final_fruit_selection_gradient_beta": "zero = no direct standardized selection gradient on perfect-flower production for final fruit-set rate",
+    "final_fruit_selection_differential_S": "zero = no univariate standardized selection differential on perfect-flower production for final fruit-set rate",
+    "female_gain_exponent_b_minus_1": "zero = female-gain exponent b equals 1, the boundary between decelerating and accelerating female gain"
+  },
+  "brackets": [
+    {
+      "definition": "final_fruit_selection_gradient_beta",
+      "left_context": "HL",
+      "right_context": "HC",
+      "left_margin": -0.029,
+      "right_margin": 0.034,
+      "numeric_critical_context": null,
+      "status": "UNIQUE_ADJACENT_ZERO_CROSSING"
+    },
+    {
+      "definition": "final_fruit_selection_differential_S",
+      "left_context": "HL",
+      "right_context": "HC",
+      "left_margin": -0.051,
+      "right_margin": 0.036,
+      "numeric_critical_context": null,
+      "status": "UNIQUE_ADJACENT_ZERO_CROSSING"
+    },
+    {
+      "definition": "female_gain_exponent_b_minus_1",
+      "left_context": "HL",
+      "right_context": "HC",
+      "left_margin": -0.55,
+      "right_margin": 0.15,
+      "numeric_critical_context": null,
+      "status": "UNIQUE_ADJACENT_ZERO_CROSSING"
+    }
+  ],
+  "classification": "SAME_COARSE_CRITICAL_BRACKET",
+  "common_contexts": ["HL", "HC"],
+  "numeric_critical_context": null,
+  "numeric_nonidentification_reason": "The published contexts are ordered phenology/predation states, not a preregistered common scalar environmental coordinate for interpolation.",
+  "source_verification": {
+    "paper": "Kudo & Shibata 2025, Journal of Ecology 113:2832-2845, DOI 10.1111/1365-2745.70130",
+    "table": "Table 3 for final-fruit-set S and beta; female-gain exponent results in main text / Figure S4",
+    "verified_values": {
+      "final_fruit_S": {"HA": -0.027, "HL": -0.051, "HC": 0.036, "KD": 0.021, "HD": 0.024},
+      "final_fruit_beta": {"HA": -0.035, "HL": -0.029, "HC": 0.034, "KD": 0.008, "HD": 0.026},
+      "female_gain_exponent_b": {"HA": 0.63, "HL": 0.45, "HC": 1.15, "KD": 1.26, "HD": 1.55}
+    }
+  },
+  "interpretation": "Three operational definitions independently place their coarse transition in the HL-HC bracket. This supports one concordant observational critical region rather than visibly separated definition-specific regions at the available resolution.",
+  "claim_ceiling": "same_coarse_observational_bracket_only; not_same_numeric_critical_point; not_causal_C2; not_calibrated_functional_weight; not_historical_modularization"
+}
