@@ -1,0 +1,17 @@
+{
+  "status": "DO_NOT_RUN_UNTIL_THRESHOLDS_ARE_PREREGISTERED",
+  "min_q_levels": 3,
+  "min_units_per_q_level": 10,
+  "target_total_retained_count": "REQUIRED_BEFORE_USE",
+  "max_abs_q_realization_error": "REQUIRED_BEFORE_USE",
+  "min_q_target_separation": "REQUIRED_BEFORE_USE",
+  "min_classification_accuracy_lower95": "REQUIRED_BEFORE_USE",
+  "max_pre_manipulation_egg_positive_fraction": "REQUIRED_BEFORE_USE",
+  "max_mean_pre_manipulation_eggs": "REQUIRED_BEFORE_USE",
+  "max_total_retained_relative_deviation": "REQUIRED_BEFORE_USE",
+  "max_handling_group_relative_range": "REQUIRED_BEFORE_USE",
+  "max_abs_pretreatment_group_smd": "REQUIRED_BEFORE_USE",
+  "max_mechanical_damage_rate": "REQUIRED_BEFORE_USE",
+  "max_mechanical_damage_group_difference": "REQUIRED_BEFORE_USE",
+  "min_male_phase_complete_fraction": "REQUIRED_BEFORE_USE"
+}
