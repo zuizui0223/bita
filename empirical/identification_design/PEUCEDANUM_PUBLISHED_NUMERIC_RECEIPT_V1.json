@@ -47,25 +47,74 @@
         "egg_removal_fruit_set": {"mean": 0.51, "sd": 0.35},
         "estimated_no_egg_removal_final_fruit_set": {"mean": 0.19, "sd": 0.16},
         "estimated_fruit_predation_rate": {"mean": 0.57, "sd": 0.28},
+        "oviposition_glmm": {
+          "perfect_flower_number": {"direction": "positive", "z": 5.97, "p": "<0.0001"},
+          "male_flower_number": {"direction": "negative", "z": -2.38, "p": 0.017},
+          "flower_height": {"direction": "positive", "z": 2.11, "p": 0.035}
+        },
         "initial_fruit_set_selection_differentials": {
-          "perfect_flower_number": {"S": 0.100, "se": 0.024, "significance": "p<0.001"},
-          "male_flower_number": {"S": -0.042, "se": 0.014, "significance": "p<0.01"},
-          "flower_height": {"S": 0.237, "se": 0.016, "significance": "p<0.001"}
-        }
+          "perfect_flower_number": {"S": 0.100, "se": 0.024, "significance": "***"},
+          "male_flower_number": {"S": -0.042, "se": 0.014, "significance": "**"},
+          "flower_height": {"S": 0.237, "se": 0.016, "significance": "***"}
+        },
+        "predation_selection": {
+          "perfect_flower_number": {
+            "S": 0.218,
+            "S_se": 0.033,
+            "beta": 0.178,
+            "beta_se": 0.038,
+            "interpretation": "more perfect flowers increase predation risk"
+          },
+          "male_flower_number": {
+            "S": -0.087,
+            "S_se": 0.018,
+            "beta": -0.042,
+            "beta_se": 0.020,
+            "interpretation": "more male flowers reduce predation risk"
+          },
+          "flower_height": {
+            "S": 0.091,
+            "S_se": 0.028,
+            "beta": 0.024,
+            "beta_se": 0.031
+          }
+        },
+        "final_fruit_set_selection": {
+          "perfect_flower_number": {
+            "S": -0.065,
+            "S_se": 0.018,
+            "beta": -0.108,
+            "beta_se": 0.022,
+            "interpretation": "under severe predation, higher perfect-flower production directly lowers final fruit-set rate after controlling other floral traits"
+          },
+          "male_flower_number": {
+            "S": 0.033,
+            "S_se": 0.012,
+            "beta": 0.006,
+            "beta_se": 0.013,
+            "interpretation": "positive univariate association but no supported direct gradient after controlling other traits"
+          },
+          "flower_height": {
+            "S": 0.055,
+            "S_se": 0.013,
+            "beta": 0.100,
+            "beta_se": 0.017
+          }
+        },
+        "pollen_disperal_distance_m": {"mean": 2.1, "sd": 1.8, "n": 333, "maximum": 6.9}
       },
       "published_directional_results_without_numeric_coefficient_in_this_receipt": [
-        "predator moths tended to oviposit on umbels with more perfect flowers, fewer male flowers and taller stems",
         "greater total flower production increased siring success whereas perfect-flower production itself did not",
-        "male-flower production was negatively related to oviposition preference",
         "selection on perfect-flower production shifted from negative in high-predation early populations to positive in low-predation late populations"
       ],
-      "interpretation": "The later study closes key functional pieces missing in 2021: perfect flowers contribute to female opportunity but expose seeds to predation, whereas shifting allocation toward male flowers can retain/display male function while reducing the seed-bearing target. This supports partial functional differentiation and a context-dependent selection mosaic, but not canonical R_state."
+      "interpretation": "The later study closes key functional pieces missing in 2021: perfect flowers contribute to female opportunity but directly increase predation exposure, whereas male-flower allocation directly reduces predation while total flower display contributes to male fitness. This is strong real-world partial functional differentiation and a context-dependent selection mosaic, but not canonical R_state."
     }
   ],
   "cross_study_recovery": {
     "female_function_loading_on_perfect_flowers": "SUPPORTED",
-    "male_function_can_be_maintained_by_male_flower_allocation": "SUPPORTED_DIRECTIONALLY",
-    "predation_cost_concentrated_on_seed_bearing_perfect_flower_investment": "SUPPORTED",
+    "perfect_flower_predation_cross_loading": "SUPPORTED_WITH_2025_SELECTION_GRADIENT_BETA_POSITIVE",
+    "male_flower_predation_relief": "SUPPORTED_WITH_2025_SELECTION_GRADIENT_BETA_NEGATIVE",
+    "male_function_can_be_maintained_by_total_flower_display": "SUPPORTED_DIRECTIONALLY_BY_PATERNITY_ANALYSIS",
     "population_selection_mosaic": "SUPPORTED",
     "partial_functional_differentiation_interpretation": "SUPPORTED_AS_REAL_WORLD_ARCHITECTURE_ANCHOR",
     "causal_R_state": "NOT_IDENTIFIED",
