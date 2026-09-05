@@ -14,7 +14,6 @@ ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = ROOT / "empirical" / "identification_design" / "BITA_DIMENSIONAL_RELEASE_TEMPLATE_V1.csv"
 CONFIG = ROOT / "empirical" / "identification_design" / "BITA_DIMENSIONAL_RELEASE_CONFIG_TEMPLATE_V1.json"
 CONTRACT = ROOT / "docs" / "BITA_EMPIRICAL_DIMENSIONAL_RELEASE_ANALYSIS_V1.md"
-SPINE = ROOT / "docs" / "BITA_EXECUTION_SPINE_V1.md"
 
 
 def test_template_and_config_are_registered_fail_closed_inputs() -> None:
@@ -43,13 +42,13 @@ def test_contract_keeps_within_bita_gain_separate_from_delta_mod() -> None:
     assert "contemporary dimensional release is not historical modularization" in text
 
 
-def test_execution_spine_requires_sch_handoff_before_release() -> None:
-    text = SPINE.read_text(encoding="utf-8")
+def test_empirical_contract_requires_sch_handoff_before_release() -> None:
+    text = CONTRACT.read_text(encoding="utf-8")
     assert "MODEL_SUPPORTED_CAUSAL_COMPROMISE_CANDIDATE" in text
-    assert "BITA does not re-estimate or redefine the Chapter-1 optimum" in text
-    assert "z_ref = z_P*" in text
+    assert "BITA does not re-estimate or relabel these Chapter-1 quantities" in text
+    assert "z_ref = z_P* = z_pollinator_context" in text
     assert "identified_pure_function_optima.z_F1" in text
-    assert "MECHANISM_ALLOCATION_UNRESOLVED" in text
+    assert "Mechanism allocation still requires" in text
 
 
 def test_cli_reader_rejects_duplicate_units(tmp_path: Path) -> None:
