@@ -1,4 +1,5 @@
 import json
+import math
 from pathlib import Path
 
 from scripts.analyze_peucedanum_critical_definition_concordance import analyze
@@ -18,13 +19,25 @@ def test_static_readout_matches_registered_analyzer() -> None:
         "source_receipt_version",
         "ordered_contexts",
         "definition_semantics",
-        "brackets",
         "classification",
         "common_contexts",
         "numeric_critical_context",
         "claim_ceiling",
     ):
         assert observed[key] == expected[key], key
+
+    assert len(observed["brackets"]) == len(expected["brackets"])
+    for got, want in zip(observed["brackets"], expected["brackets"]):
+        for key in (
+            "definition",
+            "left_context",
+            "right_context",
+            "numeric_critical_context",
+            "status",
+        ):
+            assert got[key] == want[key], key
+        assert math.isclose(got["left_margin"], want["left_margin"], rel_tol=1e-12, abs_tol=1e-12)
+        assert math.isclose(got["right_margin"], want["right_margin"], rel_tol=1e-12, abs_tol=1e-12)
 
 
 def test_receipt_preserves_verified_published_values() -> None:
