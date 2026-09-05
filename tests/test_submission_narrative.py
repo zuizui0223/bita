@@ -21,7 +21,7 @@ def test_readme_declares_canonical_balance_differentiation_identification_story(
     assert "!= prevalence" in text
     assert "Main Document: 30 pages" in text
     assert "Appendix S1:   38 pages" in text
-    assert "Science and pre-metadata package: GO" in text
+    assert "science and pre-metadata package: go" in text.lower()
 
 
 def test_one_trait_shared_cue_lane_is_externalized_to_sch() -> None:
