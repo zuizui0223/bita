@@ -27,7 +27,23 @@ def test_published_receipt_recovers_key_cross_study_results_without_overclaim() 
     assert study_2025["estimated_fruit_predation_rate"]["mean"] == 0.57
     assert study_2025["initial_fruit_set_selection_differentials"]["perfect_flower_number"]["S"] == 0.100
 
+    predation = study_2025["predation_selection"]
+    assert predation["perfect_flower_number"]["beta"] == 0.178
+    assert predation["male_flower_number"]["beta"] == -0.042
+    assert predation["perfect_flower_number"]["S"] == 0.218
+    assert predation["male_flower_number"]["S"] == -0.087
+
+    final_fruit = study_2025["final_fruit_set_selection"]
+    assert final_fruit["perfect_flower_number"]["beta"] == -0.108
+    assert final_fruit["male_flower_number"]["beta"] == 0.006
+
+    oviposition = study_2025["oviposition_glmm"]
+    assert oviposition["perfect_flower_number"]["z"] == 5.97
+    assert oviposition["male_flower_number"]["z"] == -2.38
+
     recovery = receipt["cross_study_recovery"]
+    assert recovery["perfect_flower_predation_cross_loading"].startswith("SUPPORTED")
+    assert recovery["male_flower_predation_relief"].startswith("SUPPORTED")
     assert recovery["partial_functional_differentiation_interpretation"].startswith("SUPPORTED")
     assert recovery["causal_R_state"] == "NOT_IDENTIFIED"
     assert recovery["historical_origin_of_andromonoecy"] == "NOT_IDENTIFIED"
