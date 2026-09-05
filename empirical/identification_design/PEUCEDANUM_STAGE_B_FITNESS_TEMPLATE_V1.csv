@@ -1,0 +1,3 @@
+unit_id,block_id,q_target,q_realized,total_before,total_retained,perfect_retained,male_retained,classification_checked_n,classification_correct_n,eggs_before_manipulation,removal_load,handling_actions,mechanical_damage_count,male_phase_complete,flower_height,flowering_day,g_state,eggs_before_g_treatment,initial_fruits,final_intact_fruits,predated_fruits,male_fitness
+U001,B001,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,EGGS_REMOVED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED
+U002,B001,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,EGGS_RETAINED,REQUIRED,REQUIRED,REQUIRED,REQUIRED,REQUIRED
