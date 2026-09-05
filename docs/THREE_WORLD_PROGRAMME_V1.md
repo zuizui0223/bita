@@ -17,6 +17,12 @@ differentiated-coordinate world
 -> determine when additional dimensionality wins and identify its mechanism
 ```
 
+## Programme numbering versus legacy package labels
+
+BITA is now **Chapter 3 at the programme level**. Some validated submission-package filenames, audit receipts, and text generated before the BALANCE repository was separated still contain the historical label `Chapter 2`. Those strings are provenance labels for an already-QA'd package, not the current programme order.
+
+Do not mass-rename those package surfaces inside this framing change. A later package-renumbering pass must rebuild and visually QA the complete submission artifact before the legacy labels are removed.
+
 ## BITA-facing interface
 
 BITA owns the differentiated-world comparison. In the general bridge,
