@@ -1,6 +1,13 @@
 """Active theory API for the submission supplement."""
 
 from .critical_context import CriticalContextComparison, ZeroCrossing, compare_critical_contexts, zero_crossing
+from .critical_definition_concordance import (
+    CrossingBracket,
+    DefinitionConcordance,
+    analyze_definitions,
+    compare_definition_brackets,
+    crossing_bracket,
+)
 from .criticality import (
     CriticalityMap,
     architecture_margin,
@@ -108,6 +115,11 @@ __all__ = [
     "critical_function2_weight",
     "monotonicity_log_derivative",
     "recoverable_loss_at_function2_weight",
+    "CrossingBracket",
+    "DefinitionConcordance",
+    "crossing_bracket",
+    "compare_definition_brackets",
+    "analyze_definitions",
     "ZeroCrossing",
     "CriticalContextComparison",
     "zero_crossing",
