@@ -172,7 +172,13 @@ The current ceiling remains **implemented / not yet executed**. The water treatm
 
 ## Local cross-trait relief is not dimensional release
 
-The existing two-level floral hierarchy remains useful:
+The local two-trait interaction remains explicitly defined as
+
+```text
+Delta_AD W = W11 - W10 - W01 + W00
+```
+
+with the existing hierarchy:
 
 ```text
 Level 1  positive interaction relief: Delta_AD W > 0
