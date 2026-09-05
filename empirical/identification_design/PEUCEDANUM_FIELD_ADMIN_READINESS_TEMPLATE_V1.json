@@ -1,0 +1,38 @@
+{
+  "schema_version": "BITA_PEUCEDANUM_FIELD_ADMIN_READINESS_V1",
+  "site_code": "HA",
+  "exact_site_coordinates_verified": "REQUIRED_BEFORE_USE",
+  "municipality": "REQUIRED_BEFORE_USE",
+  "national_park_zone": "REQUIRED_BEFORE_USE",
+  "responsible_environment_office": "REQUIRED_BEFORE_USE",
+  "planned_field_start": "REQUIRED_BEFORE_USE",
+  "planned_field_end": "REQUIRED_BEFORE_USE",
+  "plant_q_manipulation": {
+    "planned": true,
+    "regulatory_status": "REQUIRED_BEFORE_USE",
+    "authorization_id": "REQUIRED_BEFORE_USE",
+    "authorization_valid_from": "REQUIRED_BEFORE_USE",
+    "authorization_valid_until": "REQUIRED_BEFORE_USE"
+  },
+  "leaf_sampling_for_genotyping": {
+    "planned": true,
+    "regulatory_status": "REQUIRED_BEFORE_USE",
+    "authorization_id": "REQUIRED_BEFORE_USE",
+    "authorization_valid_from": "REQUIRED_BEFORE_USE",
+    "authorization_valid_until": "REQUIRED_BEFORE_USE"
+  },
+  "predator_egg_removal": {
+    "planned": true,
+    "regulatory_status": "REQUIRED_BEFORE_USE",
+    "authorization_id": "REQUIRED_BEFORE_USE",
+    "authorization_valid_from": "REQUIRED_BEFORE_USE",
+    "authorization_valid_until": "REQUIRED_BEFORE_USE"
+  },
+  "land_manager_or_site_owner": {
+    "identified": "REQUIRED_BEFORE_USE",
+    "access_and_research_status": "REQUIRED_BEFORE_USE",
+    "authorization_id": "REQUIRED_BEFORE_USE"
+  },
+  "other_required_authorizations_checked": "REQUIRED_BEFORE_USE",
+  "notes": "Do not promote to administrative readiness from legal inference alone. Each planned action must be explicitly permitted or confirmed not to require permission by the responsible authority."
+}
