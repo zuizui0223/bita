@@ -124,7 +124,8 @@ m(t)=R(\lambda(t))-K.
 Theory predicts that `m(t)` is both non-decreasing and convex. Therefore:
 
 - the shared-to-BITA static crossing occurs at most once;
-- the zero set is empty, one point, or one tie interval;
+- if both negative and positive margins occur on the ray, the exact zero is a single critical point;
+- a nontrivial zero plateau is compatible only when no negative side precedes it in the observed feasible ray;
 - consecutive secant slopes across ordered dose levels are non-decreasing;
 - a negative sampled margin followed by a positive sampled margin gives a fail-closed critical bracket;
 - sign re-entry or a robust decrease in secant slopes falsifies the registered fixed-ray convex model rather than creating a second critical threshold.
@@ -138,6 +139,62 @@ Where differentiable,
 so the projected active coupling penalty is itself predicted to stay constant or increase as decoupling progresses.
 
 This is particularly suitable for a scalar graded coupling manipulation when a full multi-channel surface is impractical.
+
+### B5. Three-point convex threshold refinement
+
+Once ordered dose levels satisfy
+
+\[
+t_0<t_1<t_2,
+\qquad
+m_0\le m_1<0<m_2,
+\]
+
+define consecutive secant slopes
+
+\[
+s_{01}=\frac{m_1-m_0}{t_1-t_0},
+\qquad
+s_{12}=\frac{m_2-m_1}{t_2-t_1}.
+\]
+
+The convexity audit requires
+
+\[
+s_{01}\le s_{12}.
+\]
+
+The chord through the straddling pair crosses zero at
+
+\[
+t_L=t_1-\frac{m_1}{s_{12}},
+\]
+
+and convexity makes this a **lower bound**, not a point estimate:
+
+\[
+t_c\ge t_L.
+\]
+
+If `s_01>0`, the previous secant gives an upper bound
+
+\[
+t_U=\min\left(t_2,\;t_1-\frac{m_1}{s_{01}}\right).
+\]
+
+If `s_01=0`, use `t_U=t_2`. Therefore
+
+\[
+\boxed{t_L\le t_c\le t_U.}
+\]
+
+This can tighten the raw sign bracket `[t_1,t_2]` on both sides without fitting a quadratic or other parametric curve. If `s_01>s_12` beyond uncertainty, no refined bracket is issued; the sampled ray fails the convexity gate.
+
+A useful sequential design is therefore:
+
+1. locate one negative and one positive dose;
+2. retain or add one earlier negative dose;
+3. use the three-point convex bracket to choose the next dose level.
 
 ---
 
@@ -176,7 +233,7 @@ Empirical programme:
 
 A crossing below the model's impossible-budget bound is a strong falsifier.
 
-The fixed-ray theorem in B4 gives an additional shape audit for experiments that realize these budget levels along one direction.
+The fixed-ray and three-point results in B4-B5 provide shape and nonparametric threshold audits for experiments that realize these budget levels along one direction.
 
 ---
 
@@ -278,7 +335,7 @@ This is an experimental-design calculation. It does not mean evolution literally
 - one-dimensional/scalar dimensional release;
 - water-state preferential loading;
 - direct total-fitness consequence;
-- with sufficient graded manipulation, a scalar coupling-response curve and fixed-ray threshold bracket.
+- with sufficient graded manipulation, a scalar coupling-response curve, fixed-ray shape audit and threshold bracket/refinement.
 
 ### Later generality systems are preferable for
 
