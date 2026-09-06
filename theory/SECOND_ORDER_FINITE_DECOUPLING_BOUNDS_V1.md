@@ -1,0 +1,287 @@
+# BITA second-order finite-decoupling bounds v1
+
+## Purpose
+
+Sharpen the finite-decoupling guarantee by adding curvature information. The first-order active-penalty term gives a global lower bound under convexity. If the Hessian is also bounded over the intervention segment, the realized gain can be bracketed from both sides. This yields two different certificates:
+
+- a budget large enough to **guarantee** a static architecture crossing;
+- a budget so small that **no feasible intervention within that budget can cross** under the declared model.
+
+These are static optimized-fitness statements, not PAYOFF invasion statements.
+
+## Setup
+
+Let recoverable fitness be a twice differentiable convex function
+
+\[
+R(\boldsymbol\lambda),
+\]
+
+with residual-coupling vector `lambda`. At the current point `lambda_0`, define
+
+\[
+\mathbf c_0=-\nabla R(\boldsymbol\lambda_0)\ge0.
+\]
+
+A finite decoupling move is
+
+\[
+x\ge0,\qquad \boldsymbol\lambda_1=\boldsymbol\lambda_0-x,
+\]
+
+with the whole line segment remaining inside the declared coupling domain.
+
+Assume the Hessian along that segment obeys the Loewner bounds
+
+\[
+0\preceq A\preceq \nabla^2R(\boldsymbol\lambda_0-tx)\preceq B,
+\qquad 0\le t\le1,
+\]
+
+where `A` and `B` are positive-semidefinite matrices. The minimal convex assumption corresponds to `A=0`.
+
+## Theorem 1 — exact second-order integral identity
+
+Taylor's theorem along the straight decoupling path gives
+
+\[
+R(\lambda_0-x)-R(\lambda_0)
+=
+\mathbf c_0^\top x
++
+\int_0^1(1-t)
+\,x^\top\nabla^2R(\lambda_0-tx)x\,dt.
+\]
+
+Thus the departure from the tangent prediction is exactly accumulated coupling-space curvature.
+
+## Theorem 2 — finite gain bracket
+
+Using the Hessian bounds inside the integral,
+
+\[
+\boxed{
+\mathbf c_0^\top x+
+\frac12x^\top A x
+\le
+\Delta R(x)
+\le
+\mathbf c_0^\top x+
+\frac12x^\top B x
+}
+\]
+
+where
+
+\[
+\Delta R(x)=R(\lambda_0-x)-R(\lambda_0).
+\]
+
+Under convexity alone, `A=0`, recovering the earlier certified floor
+
+\[
+\Delta R(x)\ge\mathbf c_0^\top x.
+\]
+
+The upper bracket is new: it limits how much hidden curvature can rescue an intervention whose first-order effect is small.
+
+## Corollary 2a — scalar Euclidean curvature bound
+
+If
+
+\[
+0\preceq\nabla^2R\preceq\beta I
+\]
+
+throughout the segment, then
+
+\[
+\boxed{
+\mathbf c_0^\top x
+\le
+\Delta R(x)
+\le
+\mathbf c_0^\top x+
+\frac{\beta}{2}\|x\|_2^2.
+}
+\]
+
+If additionally `alpha I <= Hessian`, then
+
+\[
+\Delta R(x)
+\ge
+\mathbf c_0^\top x+
+\frac{\alpha}{2}\|x\|_2^2.
+\]
+
+## Static crossing problem
+
+Suppose the current architecture is shared-favored by deficit
+
+\[
+\delta=K-R(\lambda_0)>0,
+\]
+
+with architecture cost `K` fixed during the intervention. A decoupling move crosses to the BITA side exactly when
+
+\[
+\Delta R(x)>\delta.
+\]
+
+### Theorem 3 — sufficient crossing certificate
+
+Any feasible `x` satisfying
+
+\[
+\boxed{
+\mathbf c_0^\top x+
+\frac12x^\top A x>
+\delta
+}
+\]
+
+is guaranteed to cross the static architecture boundary.
+
+With convexity only, this reduces to the earlier sufficient condition
+
+\[
+\mathbf c_0^\top x>\delta.
+\]
+
+### Theorem 4 — impossible-with-this-move certificate
+
+Any specific feasible move satisfying
+
+\[
+\boxed{
+\mathbf c_0^\top x+
+\frac12x^\top B x\le\delta
+}
+\]
+
+cannot cross the architecture boundary under the declared curvature bound.
+
+This is stronger than merely failing the first-order sufficient condition: it certifies that even the maximum curvature contribution allowed by `B` is not enough.
+
+## Theorem 5 — Euclidean budget exclusion and sufficiency
+
+Consider all feasible decoupling moves with
+
+\[
+\|x\|_2\le\varepsilon,
+\]
+
+and temporarily ignore componentwise saturation `x_i<=lambda_{0i}`.
+
+Let
+
+\[
+c=\|\mathbf c_0\|_2.
+\]
+
+Under `Hessian <= beta I`, every move in the Euclidean ball obeys
+
+\[
+\Delta R(x)
+\le
+c\varepsilon+
+\frac{\beta}{2}\varepsilon^2.
+\]
+
+Therefore if
+
+\[
+\boxed{
+c\varepsilon+
+\frac{\beta}{2}\varepsilon^2\le\delta,}
+\]
+
+then **no decoupling intervention inside that entire budget ball can cross**.
+
+Conversely, if the gradient-aligned move
+
+\[
+x=\varepsilon\frac{\mathbf c_0}{c}
+\]
+
+is componentwise feasible, then convexity alone guarantees crossing whenever
+
+\[
+\boxed{c\varepsilon>\delta.}
+\]
+
+Thus the true minimum Euclidean crossing budget `epsilon_*` is bracketed by
+
+\[
+\boxed{
+\varepsilon_{\rm no-cross}
+\le
+\varepsilon_*
+\le
+\varepsilon_{\rm sufficient}
+}
+\]
+
+with
+
+\[
+\varepsilon_{\rm sufficient}
+=
+\frac{\delta}{c}
+\]
+
+and, for `beta>0`,
+
+\[
+\boxed{
+\varepsilon_{\rm no-cross}
+=
+\frac{\sqrt{c^2+2\beta\delta}-c}{\beta}.
+}
+\]
+
+For `beta=0`, the two expressions coincide at `delta/c`, as expected for a locally affine recovery surface.
+
+Strict inequalities should be used when the target state requires a strictly positive post-intervention architecture advantage.
+
+## Corollary — what curvature uncertainty buys
+
+The interval
+
+\[
+\left[
+\varepsilon_{\rm no-cross},
+\varepsilon_{\rm sufficient}
+\right]
+\]
+
+is an **intervention uncertainty band** generated by unknown curvature between the current point and the architecture crossing.
+
+- small `beta` collapses the band toward the first-order threshold;
+- large `beta` permits earlier crossing than the tangent-only certificate can guarantee;
+- observing a crossing below `epsilon_no-cross` falsifies at least one registered bound or fixed-`K` assumption.
+
+## Empirical use
+
+A multi-level coupling intervention can estimate:
+
+1. current active penalties `c_0` from local response;
+2. an upper curvature bound `beta` or matrix bound `B` from repeated coupling levels;
+3. current static architecture deficit `delta` from the matched worldline comparison.
+
+These quantities generate prospectively testable regions:
+
+```text
+budget <= epsilon_no-cross      crossing forbidden under model
+budget >= epsilon_sufficient    crossing guaranteed if aligned move feasible
+between them                    crossing depends on higher-order geometry
+```
+
+This gives BITA a quantitative intervention-design result rather than only a qualitative statement that weaker coupling helps differentiation.
+
+## Feasibility and claim ceiling
+
+The budget formulas assume the gradient-aligned move is physically feasible and do not automatically handle box constraints `0<=x_i<=lambda_0i`. With saturation, the same matrix gain bounds remain valid but the budget optimization must be solved with those constraints.
+
+The theorem requires the Hessian bounds to hold over the full intervention segment, a common feasible phenotype space, and fixed `K` for the architecture-crossing statement. If decoupling changes developmental accessibility, baseline fitness, or architecture cost, these certificates do not apply without extending the model. PAYOFF invasion and establishment remain separate.
