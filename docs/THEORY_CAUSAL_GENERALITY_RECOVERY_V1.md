@@ -70,7 +70,7 @@ With fixed architecture cost `K`, a continuous strictly decreasing `R(lambda)` g
 
 Status: `GENERAL_COUPLING_RECOVERY_MONOTONICITY_CONVEXITY_PROVED_UNDER_DECLARED_ASSUMPTIONS`.
 
-## T4. Criticality, identifiability and nonquadratic scope
+## T4. Criticality and nonquadratic scope
 
 The programme retains:
 
@@ -80,9 +80,28 @@ finite environmental-weight crossing conditions
 no-crossing regions when recoverable benefit saturates below K.
 ```
 
-Direct `Delta_W=R-K` identifies the net difference but not `R` and `K` separately. Finite convex nonquadratic tests support the declared recovery tendencies but do not prove arbitrary nonconvex/developmentally constrained landscapes.
+Finite convex nonquadratic tests support the declared recovery tendencies but do not prove arbitrary nonconvex/developmentally constrained landscapes.
 
-Status: `CRITICALITY_IMPLEMENTED_DECOMPOSITION_NONIDENTIFIABILITY_PROVED_FINITE_ROBUSTNESS_WITH_CEILING`.
+Status: `CRITICALITY_IMPLEMENTED_FINITE_ROBUSTNESS_WITH_CEILING`.
+
+## T5. Net-gap decomposition identifiability
+
+Direct architecture/worldline comparison identifies
+
+```text
+Delta_W = R-K,
+```
+
+but not `R` and `K` separately. For any admissible shift `delta`,
+
+```text
+R' = R + delta
+K' = K + delta
+```
+
+leaves the observed net gap unchanged. Therefore decomposition requires an independently identified release or cost lane.
+
+Status: `NET_GAP_IDENTIFIES_DIFFERENCE_NOT_COMPONENTS`.
 
 ### Theory claim ceiling
 
