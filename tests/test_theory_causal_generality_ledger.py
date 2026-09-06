@@ -14,11 +14,11 @@ def _rows():
 def test_stage_order_and_layer_separation():
     rows = _rows()
     assert [row["stage"] for row in rows] == [
-        "T1", "T2", "T3", "T4", "C0", "C1", "C2", "C3", "C4", "C5", "G0", "G1", "G2", "G3"
+        "T1", "T2", "T3", "T4", "T5", "C0", "C1", "C2", "C3", "C4", "C5", "G0", "G1", "G2", "G3"
     ]
-    assert {row["layer"] for row in rows[:4]} == {"theory"}
-    assert {row["layer"] for row in rows[4:10]} == {"causal"}
-    assert {row["layer"] for row in rows[10:]} == {"generality"}
+    assert {row["layer"] for row in rows[:5]} == {"theory"}
+    assert {row["layer"] for row in rows[5:11]} == {"causal"}
+    assert {row["layer"] for row in rows[11:]} == {"generality"}
 
 
 def test_fragmented_literature_is_not_promoted_to_complete_replication():
@@ -26,6 +26,7 @@ def test_fragmented_literature_is_not_promoted_to_complete_replication():
     assert "INCOMPLETE" in by_stage["G1"]["status"]
     assert "NOT_YET_EXECUTED" in by_stage["G0"]["status"]
     assert "RARELY_IDENTIFIED" in by_stage["C5"]["status"]
+    assert by_stage["T5"]["status"] == "NET_GAP_IDENTIFIES_DIFFERENCE_NOT_COMPONENTS"
 
 
 def test_payoff_invasion_is_not_a_bita_promotion_gate():
