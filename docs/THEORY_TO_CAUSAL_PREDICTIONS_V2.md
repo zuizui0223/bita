@@ -106,6 +106,66 @@ Then preregister the finite gain interval
 
 This converts qualitative coupling relief into a quantitative prospective prediction.
 
+### B3a. Exact curvature dividend without full Hessian recovery
+
+For any registered finite decoupling move, define
+
+\[
+\boxed{
+\mathcal C_R
+=\Delta R-\mathbf c_0^\top x.
+}
+\]
+
+Under the convex common-landscape model,
+
+\[
+\boxed{\mathcal C_R\ge0}
+\]
+
+and exactly
+
+\[
+\Delta R
+=\mathbf c_0^\top x+\mathcal C_R.
+\]
+
+`C_R` is the Bregman curvature dividend: the part of finite recovery not already predicted by the active coupling pressure at the starting state.
+
+A graded experiment can therefore estimate it with only:
+
+1. a baseline directional slope `c_0^T x`;
+2. the registered finite decoupling move;
+3. endpoint optimized-fitness recovery `Delta R`.
+
+No full multidimensional Hessian estimate is required.
+
+Prospective interpretation:
+
+```text
+C_R < 0 beyond uncertainty  -> convex/common-landscape model rejected
+C_R ~= 0                    -> recovery is approximately affine over the move
+C_R > 0                     -> additional curvature/reoptimization contributes
+```
+
+When `Delta R>0`, the optional descriptive share
+
+\[
+\phi_C=\mathcal C_R/\Delta R
+\]
+
+lies in `[0,1]` under the registered decoupling model. It is a decomposition of optimized-fitness recovery, not a historical fraction of evolutionary causation.
+
+For a fixed architecture cost `K` and current deficit `delta=K-R(lambda_0)`, the exact static crossing condition becomes
+
+\[
+\boxed{
+\mathbf c_0^\top x+\mathcal C_R>\delta.
+}
+\]
+
+Thus a crossing below the tangent-only certified budget is compatible with BITA theory if a positive measured curvature dividend supplies the missing recovery.
+
 ### B4. Fixed-ray criticality and graded-dose shape
 
 When an experiment changes coupling along one preregistered feasible direction
@@ -335,7 +395,7 @@ This is an experimental-design calculation. It does not mean evolution literally
 - one-dimensional/scalar dimensional release;
 - water-state preferential loading;
 - direct total-fitness consequence;
-- with sufficient graded manipulation, a scalar coupling-response curve, fixed-ray shape audit and threshold bracket/refinement.
+- with sufficient graded manipulation, a scalar coupling-response curve, finite curvature dividend, fixed-ray shape audit and threshold bracket/refinement.
 
 ### Later generality systems are preferable for
 
