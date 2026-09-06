@@ -16,6 +16,20 @@ class EuclideanCrossingBudgetBracket:
     deficit: float
 
 
+@dataclass(frozen=True)
+class RobustUncertainBudgetBracket:
+    """Fail-closed critical-budget bracket under bounded parameter uncertainty."""
+
+    robust_no_cross_below_or_at: float
+    robust_sufficient_above: float
+    deficit_lower: float
+    deficit_upper: float
+    penalty_norm_lower: float
+    penalty_norm_upper: float
+    curvature_lower: float
+    curvature_upper: float
+
+
 def scalar_finite_gain_bounds(
     *,
     linear_gain: float,
@@ -23,12 +37,7 @@ def scalar_finite_gain_bounds(
     curvature_upper: float,
     curvature_lower: float = 0.0,
 ) -> tuple[float, float]:
-    """Return lower/upper finite gain bounds from scalar Hessian bounds.
-
-    Assumes ``curvature_lower I <= Hessian <= curvature_upper I`` along the
-    intervention segment. ``linear_gain`` is c0^T x and ``squared_norm`` is
-    ||x||_2^2.
-    """
+    """Return lower/upper finite gain bounds from scalar Hessian bounds."""
 
     if linear_gain < 0:
         raise ValueError("linear_gain must be nonnegative for a decoupling move")
@@ -59,23 +68,7 @@ def euclidean_crossing_budget_bracket(
     curvature_upper: float,
     curvature_lower: float = 0.0,
 ) -> EuclideanCrossingBudgetBracket:
-    """Bracket the minimum Euclidean budget needed for a static crossing.
-
-    ``deficit = K - R(lambda_0)`` must be positive. Under the segment-wise
-    curvature bounds
-
-    ``curvature_lower I <= Hessian <= curvature_upper I``:
-
-    * every move inside budgets up to ``no_cross_below_or_at`` is incapable of
-      crossing, because even the curvature-upper gain envelope stays below the
-      deficit;
-    * when the gradient-aligned move is componentwise feasible, budgets above
-      ``sufficient_above`` guarantee crossing because the curvature-lower gain
-      floor exceeds the deficit.
-
-    The endpoints solve the corresponding equality. Strict inequality is
-    required for a strictly positive post-crossing architecture margin.
-    """
+    """Bracket the minimum Euclidean budget needed for a static crossing."""
 
     if deficit <= 0:
         raise ValueError("deficit must be positive")
@@ -100,4 +93,58 @@ def euclidean_crossing_budget_bracket(
         curvature_lower=alpha,
         curvature_upper=beta,
         deficit=deficit,
+    )
+
+
+def robust_uncertain_budget_bracket(
+    *,
+    deficit_lower: float,
+    deficit_upper: float,
+    penalty_norm_lower: float,
+    penalty_norm_upper: float,
+    curvature_lower: float,
+    curvature_upper: float,
+) -> RobustUncertainBudgetBracket:
+    """Return a simultaneous fail-closed budget band under bounded inputs.
+
+    Robust no-cross uses the easiest possible crossing realization:
+    smallest deficit, largest active penalty, largest curvature.
+
+    Robust sufficiency uses the hardest realization:
+    largest deficit, smallest active penalty, smallest guaranteed curvature.
+    """
+
+    if deficit_lower <= 0 or deficit_upper <= 0:
+        raise ValueError("deficit bounds must be positive")
+    if deficit_lower > deficit_upper:
+        raise ValueError("deficit_lower cannot exceed deficit_upper")
+    if penalty_norm_lower < 0 or penalty_norm_upper < 0:
+        raise ValueError("penalty norm bounds must be nonnegative")
+    if penalty_norm_lower > penalty_norm_upper:
+        raise ValueError("penalty_norm_lower cannot exceed penalty_norm_upper")
+    if curvature_lower < 0 or curvature_upper < 0:
+        raise ValueError("curvature bounds must be nonnegative")
+    if curvature_lower > curvature_upper:
+        raise ValueError("curvature_lower cannot exceed curvature_upper")
+
+    robust_no = _positive_root(
+        deficit_lower,
+        penalty_norm_upper,
+        curvature_upper,
+    )
+    robust_yes = _positive_root(
+        deficit_upper,
+        penalty_norm_lower,
+        curvature_lower,
+    )
+
+    return RobustUncertainBudgetBracket(
+        robust_no_cross_below_or_at=robust_no,
+        robust_sufficient_above=robust_yes,
+        deficit_lower=deficit_lower,
+        deficit_upper=deficit_upper,
+        penalty_norm_lower=penalty_norm_lower,
+        penalty_norm_upper=penalty_norm_upper,
+        curvature_lower=curvature_lower,
+        curvature_upper=curvature_upper,
     )
