@@ -72,8 +72,20 @@ def analyze_decoupling_ray(
                 convex_ok=convex_ok,
                 slopes=slopes,
             )
+        if zero:
+            # Under exact convexity, a sampled zero between negative and positive
+            # is a contact point; an extended interior zero plateau would force
+            # a decreasing secant slope and would already fail the convex audit.
+            return RayCriticalityResult(
+                classification="EXACT_ZERO_OBSERVED",
+                crossing_lower=t[min(zero)],
+                crossing_upper=t[max(zero)],
+                monotone_ok=True,
+                convex_ok=True,
+                slopes=slopes,
+            )
         return RayCriticalityResult(
-            classification="UNIQUE_CROSSING_BRACKET" if not zero else "ZERO_PLATEAU_BRACKET",
+            classification="UNIQUE_CROSSING_BRACKET",
             crossing_lower=t[i_neg],
             crossing_upper=t[i_pos],
             monotone_ok=True,
