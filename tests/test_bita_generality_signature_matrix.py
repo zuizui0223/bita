@@ -26,3 +26,10 @@ def test_cross_domain_and_history_anchors_are_not_parameterized_bita_proofs():
     rows = _rows()
     assert "do_not_assign_s_K" in rows["Cichlid_oral_pharyngeal_jaws"]["next_gate"]
     assert rows["Dalechampia"]["release_status"] == "CONTEMPORARY_CAUSAL_RELEASE_NOT_IDENTIFIED"
+
+
+def test_hisa_trpf_is_experimental_differentiation_anchor_not_bita_threshold_test():
+    rows = _rows()
+    item = rows["Salmonella_HisA_TrpF"]
+    assert item["program_role"] == "G2_CROSS_DOMAIN_EXPERIMENTAL_DIFFERENTIATION_ANCHOR"
+    assert "do_not_assign_BITA_s_K_R_state" in item["next_gate"]
