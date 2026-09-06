@@ -90,19 +90,27 @@ So graded decoupling predicts increasing or constant marginal benefit along a fi
 
 A non-decreasing continuous function cannot change sign from negative to positive and then return to negative. Therefore the ray can contain at most one shared-to-differentiated transition.
 
-More precisely, the zero set
+The zero set
 
 \[
 Z=\{t:m(t)=0\}
 \]
 
-is either empty, a single point, or a closed interval. The state ordering along the ray must have the form
+is a convex subset of the scalar ray and is therefore empty, a single point, or a closed interval.
+
+Monotonicity alone allows a state ordering of
 
 ```text
-shared side -> optional zero/tie interval -> BITA side
+shared side -> optional zero/tie set -> BITA side
 ```
 
-and never
+but convexity sharpens this statement. If there exists a negative-margin point before the zero set, an extended zero plateau followed by a positive side is impossible: the positive secant slope required to rise from negative values cannot fall back to zero on an interior plateau without violating convexity.
+
+Therefore, when the observed ray contains both a shared-favored and a BITA-favored point, the crossing zero is a **single point** under exact convexity.
+
+A nontrivial zero plateau can occur only without a negative side before it in the observed feasible ray—for example when the ray begins on a tie plateau and later enters the BITA side.
+
+The forbidden ordering remains
 
 ```text
 shared -> BITA -> shared
@@ -116,7 +124,7 @@ If
 \mathbf c(\lambda(t))^\top v>0
 \]
 
-through the relevant neighborhood, `m` is strictly increasing there and the zero is unique.
+through the relevant neighborhood, `m` is strictly increasing there and the zero is unique directly.
 
 ## Corollary 3a — existence and uniqueness from endpoint signs
 
@@ -128,11 +136,13 @@ m(0)<0
 m(t_{\max})>0,
 \]
 
-continuity guarantees at least one zero. Monotonicity makes the crossing unique up to a possible zero plateau. With strict directional penalty, there is exactly one critical value
+continuity guarantees a zero. The monotone-convex shape above makes that zero unique:
 
 \[
 \boxed{t_c\in(0,t_{\max}).}
 \]
+
+Thus an endpoint sign change on a valid convex decoupling ray identifies a unique static critical dose even without assuming strict convexity.
 
 ## Theorem 4 — sampled secant-slope signature
 
@@ -156,7 +166,7 @@ Therefore a graded experiment can test not only the sign crossing but also the p
 
 ## Corollary 4a — threshold bracketing is fail-closed
 
-If sampled margins obey monotonicity and one adjacent pair satisfies
+If sampled margins obey monotonicity and convexity and one adjacent pair satisfies
 
 \[
 m(t_i)<0<m(t_{i+1}),
@@ -168,7 +178,9 @@ then
 \boxed{t_c\in(t_i,t_{i+1}).}
 \]
 
-Additional intervention levels can refine the bracket without changing the estimand. If sampled margins violate the required order beyond uncertainty, the analysis should flag model failure rather than force a threshold estimate.
+If a sampled level has `m(t_i)=0` while there are valid negative and positive samples on either side, then the unique critical value is directly observed at `t_i` within the registered tolerance.
+
+Additional intervention levels can refine the bracket without changing the estimand. If sampled margins violate the required order or secant-slope condition beyond uncertainty, the analysis should flag model failure rather than force a threshold estimate.
 
 ## Relation to BALANCE and PAYOFF
 
@@ -184,7 +196,7 @@ A graded multi-level coupling experiment can preregister:
 2. ordered intervention levels `t`;
 3. same-scale net architecture margins `m(t)`;
 4. monotonicity and convexity checks;
-5. a threshold bracket only if the shape checks pass.
+5. a threshold bracket or exact sampled zero only if the shape checks pass.
 
 The theorem makes repeated coupling levels informative even when a full multi-dimensional coupling surface is impractical.
 
