@@ -15,14 +15,37 @@ def test_convex_monotone_ray_returns_unique_crossing_bracket():
     assert out.convex_ok
 
 
-def test_zero_plateau_is_not_counted_as_reentry():
+def test_exact_sampled_zero_identifies_contact_point():
+    out = analyze_decoupling_ray(
+        [0.0, 1.0, 2.0, 3.0],
+        [-1.0, 0.0, 1.0, 3.0],
+    )
+    assert out.classification == "EXACT_ZERO_OBSERVED"
+    assert out.crossing_lower == pytest.approx(1.0)
+    assert out.crossing_upper == pytest.approx(1.0)
+    assert out.monotone_ok
+    assert out.convex_ok
+
+
+def test_zero_plateau_can_occur_at_ray_start_before_positive_side():
+    out = analyze_decoupling_ray(
+        [0.0, 1.0, 2.0, 3.0],
+        [0.0, 0.0, 1.0, 3.0],
+    )
+    assert out.classification == "ZERO_PLATEAU_WITHOUT_BOTH_SIDES"
+    assert out.crossing_lower == pytest.approx(0.0)
+    assert out.crossing_upper == pytest.approx(1.0)
+    assert out.convex_ok
+
+
+def test_interior_negative_zero_plateau_positive_pattern_fails_convexity():
     out = analyze_decoupling_ray(
         [0.0, 1.0, 2.0, 3.0],
         [-1.0, 0.0, 0.0, 1.0],
     )
-    assert out.classification == "ZERO_PLATEAU_BRACKET"
-    assert out.crossing_lower == pytest.approx(0.0)
-    assert out.crossing_upper == pytest.approx(3.0)
+    assert out.monotone_ok
+    assert not out.convex_ok
+    assert out.classification == "RAY_MODEL_VIOLATION"
 
 
 def test_slope_reversal_fails_closed():
