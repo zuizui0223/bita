@@ -26,6 +26,7 @@ from .criticality import (
 from .curvature_dividend import (
     CurvatureDividend,
     decompose_decoupling_gain,
+    finite_effective_curvature,
     static_crossing_surplus,
 )
 from .functional_weight_criticality import (
@@ -104,6 +105,7 @@ __all__ = [
     "fitness",
     "CurvatureDividend",
     "decompose_decoupling_gain",
+    "finite_effective_curvature",
     "static_crossing_surplus",
     "SharedAxisOptimum",
     "DifferentiatedAxisOptimum",
