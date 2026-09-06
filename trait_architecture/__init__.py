@@ -23,6 +23,11 @@ from .criticality import (
     empirical_release_margin,
     shared_conflict_load,
 )
+from .curvature_dividend import (
+    CurvatureDividend,
+    decompose_decoupling_gain,
+    static_crossing_surplus,
+)
 from .functional_weight_criticality import (
     FunctionalWeightCriticality,
     asymptotic_recoverable_loss,
@@ -97,6 +102,9 @@ __all__ = [
     "InteractionRegime",
     "ModelParameters",
     "fitness",
+    "CurvatureDividend",
+    "decompose_decoupling_gain",
+    "static_crossing_surplus",
     "SharedAxisOptimum",
     "DifferentiatedAxisOptimum",
     "ArchitectureComparison",
