@@ -73,9 +73,12 @@ from .partial_identification import (
 from .shared_region_convexity import (
     ChordConvexityAudit,
     SharedChordCertificate,
+    StrongConvexChordAudit,
     audit_joint_convexity_chord,
+    audit_strong_convex_chord,
     certify_shared_chord,
     convex_chord_margin_upper,
+    strong_convex_sag_bounds,
 )
 from .sign_criterion import (
     OrientedSignCriterion,
@@ -154,7 +157,10 @@ __all__ = [
     "partial_identification_from_total",
     "ChordConvexityAudit",
     "SharedChordCertificate",
+    "StrongConvexChordAudit",
     "audit_joint_convexity_chord",
+    "audit_strong_convex_chord",
     "certify_shared_chord",
     "convex_chord_margin_upper",
+    "strong_convex_sag_bounds",
 ]
