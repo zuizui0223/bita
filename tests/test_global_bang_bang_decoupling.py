@@ -42,7 +42,7 @@ def test_dense_two_channel_grid_has_a_vertex_maximizer_under_l1_budget():
 def test_weighted_budget_extreme_has_at_most_one_partial_coordinate():
     caps = (0.4, 0.7, 0.9)
     costs = (1.0, 2.0, 3.0)
-    budget = 2.2
+    budget = 1.4
 
     # One feasible extreme pattern: first channel saturated, second partial,
     # third untouched. Only one coordinate lies strictly inside its box.
