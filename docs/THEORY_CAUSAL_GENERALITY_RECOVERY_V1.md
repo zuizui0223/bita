@@ -38,62 +38,55 @@ with `s` decreasing under stronger residual coupling.
 
 Status: `EXACT_QUADRATIC_RESULT_PROVED`.
 
-## T3. Criticality and environmental thresholds
+## T3. General residual-coupling theorem
 
-Derive:
+The coupling result is now generalized beyond the quadratic closed form. Let differentiated loss be
+
+```text
+D*(lambda) = inf_u [ B(u) + lambda c(u) ]
+```
+
+with `c(u)>=0`, and let every shared phenotype be feasible in the differentiated space with `c=0`. Then
+
+```text
+R(lambda) = L_S* - D*(lambda) >= 0
+```
+
+and `R(lambda)` is non-increasing in coupling strength. Because `D*(lambda)` is the pointwise infimum of affine functions of `lambda`, it is concave, so
+
+```text
+R(lambda) is convex.
+```
+
+Where the optimum is unique/regular, the envelope theorem gives
+
+```text
+dR/dlambda = -c(u_lambda*) <= 0.
+```
+
+Thus the active residual-coupling penalty is the local rate at which recoverable fitness is lost as integration strengthens.
+
+With fixed architecture cost `K`, a continuous strictly decreasing `R(lambda)` gives a unique critical coupling whenever the endpoints straddle `K`. Higher `K` lowers the allowable critical coupling.
+
+Status: `GENERAL_COUPLING_RECOVERY_MONOTONICITY_CONVEXITY_PROVED_UNDER_DECLARED_ASSUMPTIONS`.
+
+## T4. Criticality, identifiability and nonquadratic scope
+
+The programme retains:
 
 ```text
 L_crit = K/s
 finite environmental-weight crossing conditions
-no-crossing regions when recoverable benefit has an upper bound below K.
+no-crossing regions when recoverable benefit saturates below K.
 ```
 
-Status: `DERIVED_AND_IMPLEMENTED`.
+Direct `Delta_W=R-K` identifies the net difference but not `R` and `K` separately. Finite convex nonquadratic tests support the declared recovery tendencies but do not prove arbitrary nonconvex/developmentally constrained landscapes.
 
-## T4. Robustness / nonquadratic scope
-
-Finite convex nonquadratic tests support positive recoverable loss and the declared monotonic tendencies across tested families, while not constituting a theorem for arbitrary nonconvex, developmental or accessibility-constrained landscapes.
-
-Status: `FINITE_ROBUSTNESS_SUPPORT_WITH_EXPLICIT_CEILING`.
-
-## T5. Net-gap decomposition identifiability
-
-A directly identified optimized worldline gap
-
-```text
-Delta_W = W_D* - W_S*
-```
-
-can identify architecture order without identifying `R` and `K` separately. If
-
-```text
-Delta_W = R-K,
-```
-
-then for any admissible common offset `delta`,
-
-```text
-R' = R+delta
-K' = K+delta
-```
-
-produces the same net gap. Therefore an independent release lane or cost lane is required to decompose the direct difference.
-
-This keeps three statements separate:
-
-```text
-direct worldline order      potentially identifiable
-R/K mechanism decomposition requires extra evidence
-historical origin            separate again.
-```
-
-See `theory/NET_GAIN_DECOMPOSITION_NONIDENTIFIABILITY_V1.md`.
-
-Status: `NET_GAP_IDENTIFIES_DIFFERENCE_NOT_COMPONENTS`.
+Status: `CRITICALITY_IMPLEMENTED_DECOMPOSITION_NONIDENTIFIABILITY_PROVED_FINITE_ROBUSTNESS_WITH_CEILING`.
 
 ### Theory claim ceiling
 
-BITA theory predicts when additional dimensions could pay and which components would be required to explain the payoff. It does not establish that a natural second trait actually carries the competing function, improves fitness, evolved because of the modeled conflict, or has a separately identified structural cost.
+BITA theory predicts when additional dimensions could pay. It does not establish that a natural second trait actually carries the competing function, improves fitness, or evolved because of the modeled conflict. The general coupling theorem assumes a common feasible set and a non-negative penalty that vanishes on the shared subspace.
 
 ---
 
@@ -133,27 +126,19 @@ Status: `ANALYZER_AND_EQUIVALENCE_LOGIC_IMPLEMENTED_NOT_YET_EXECUTED_IN_FOCAL_CH
 
 Estimate whether the best accessible differentiated / second-axis state improves total registered fitness, while keeping this distinct from architecture cost `K` unless `K` is independently identified.
 
-The T5 nonidentifiability result means that even a precisely estimated direct `Delta_W` does not by itself separate recoverable benefit from architecture cost.
-
 Status: `ANALYZER_IMPLEMENTED_EMPIRICAL_EXECUTION_PENDING`.
 
 ## C4. Mechanism allocation
 
-After release/loading are established, use crossed ecological interventions to allocate the effect among channels such as:
-
-```text
-antagonist relief
-pollinator interference
-joint / residual channel.
-```
-
-In the floral worked case this is where `A x D` plus selective consumer interventions enter.
+After release/loading are established, use crossed ecological interventions to allocate the effect among channels such as antagonist relief, pollinator interference, and joint/residual effects.
 
 Status: `GENERAL_MECHANISM_DESIGN_IMPLEMENTED_FRAGMENTED_EMPIRICAL_EVIDENCE`.
 
 ## C5. Architecture-cost / critical-surface promotion
 
-Only an independently justified cost `K` on the same fitness scale supports direct architecture-level `R-K` or `sL-K` criticality. Local interaction curvature is not `K`, and a within-BITA optimum gain is not automatically `K` or `R`.
+Only an independently justified cost `K` on the same fitness scale supports direct architecture-level `R-K` or `sL-K` criticality. Local interaction curvature is not `K`.
+
+Where residual coupling can itself be manipulated or compared while holding the feasible set and baseline landscape fixed, the new theorem predicts non-increasing optimized recovery with stronger coupling.
 
 Status: `INTERFACE_AND_GUARDS_IMPLEMENTED_EMPIRICAL_K_RARELY_IDENTIFIED`.
 
@@ -173,47 +158,23 @@ Status: `PREFERRED_ROUTE_NOT_YET_EXECUTED`.
 
 ## G1. Floral mechanism replication
 
-The current literature synthesis contains many constituent routes, but fragmented route coverage is not equivalent to repeated complete BITA proofs.
-
-Use the existing floral systems to test recurrence of:
-
-```text
-preferential loading
-dimensional / architectural release
-fitness consequence
-mechanism allocation.
-```
-
-Status: `BROAD_FRAGMENTED_EVIDENCE_COMPLETE_CAUSAL_REPLICATION_INCOMPLETE`.
-
-High-value roles include:
-
-```text
-Nicotiana attenuata      strong interaction / mechanism bridge
-Peucedanum multivittatum natural partial functional differentiation; causal R_state not identified
-Petunia and other floral route systems as component anchors where justified
-```
+The current literature synthesis contains many constituent routes, but fragmented route coverage is not equivalent to repeated complete BITA proofs. High-value roles remain Nicotiana and Peucedanum with explicit ceilings.
 
 ## G2. Cross-domain partial differentiation
 
-Use non-floral architectures to test whether functional separation with residual coupling is biologically recurrent.
-
-Current anchors:
+Current cross-domain anchors now include:
 
 ```text
 cichlid oral/pharyngeal jaws  partial differentiation + residual integration
-Dalechampia                   historical functional redeployment/addition role
+Salmonella HisA/TrpF          experimental bifunctional -> amplified/specialized trajectories
+Dalechampia                   historical functional redeployment/addition
 ```
 
-These are architecture-state / historical anchors, not BITA parameter estimates or causal threshold tests.
-
-Status: `COMPARATIVE_ANCHORS_PRESENT_CAUSAL_PARAMETER_REPLICATION_INCOMPLETE`.
+HisA/TrpF is a strong experimental differentiation anchor, but not a parameterized BITA `s`, `K`, `R_state`, or critical-coupling test.
 
 ## G3. Negative / boundary cases
 
-Generality requires systems in which added dimensionality fails to pay because conflict is weak, coupling is strong, costs are high, or functional loading is not selective.
-
-Status: `BOUNDARY_CASE_PROGRAM_NOT_YET_SYSTEMATICALLY_EXECUTED`.
+The 2026 HisA/TrpF bifunctional rescue without divergent duplication is useful boundary evidence that an added differentiated architecture need not be the realized solution. More systematic high-coupling/high-cost/no-loading negative systems remain needed.
 
 ### Generality promotion rule
 
@@ -224,11 +185,11 @@ The universal object is **functional differentiation under recoverable conflict,
 # Current bottleneck
 
 ```text
-theory / threshold / identifiability structure strong
-floral mechanism route synthesis              broad but fragmented
-same-system causal Pedicularis release        NOT YET EXECUTED
-independent architecture cost K               usually not identified
-cross-system complete causal replication      incomplete
+theory / coupling / threshold structure    stronger; general monotonicity now proved
+floral mechanism route synthesis           broad but fragmented
+same-system causal Pedicularis release     NOT YET EXECUTED
+independent architecture cost K             usually not identified
+cross-system complete causal replication   incomplete
 ```
 
 The next scientific gate is the same-context `x x y` causal surface and mechanism/loading tests, not PAYOFF invasion dynamics.
