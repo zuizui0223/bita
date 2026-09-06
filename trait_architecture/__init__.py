@@ -72,12 +72,16 @@ from .partial_identification import (
 )
 from .shared_region_convexity import (
     ChordConvexityAudit,
+    IntervalSagClassification,
     SharedChordCertificate,
     StrongConvexChordAudit,
     audit_joint_convexity_chord,
     audit_strong_convex_chord,
+    certify_interval_shared_chord,
     certify_shared_chord,
+    classify_interval_convex_chord,
     convex_chord_margin_upper,
+    interval_convex_sag_bounds,
     strong_convex_sag_bounds,
 )
 from .sign_criterion import (
@@ -156,11 +160,15 @@ __all__ = [
     "classify_strict_reversal",
     "partial_identification_from_total",
     "ChordConvexityAudit",
+    "IntervalSagClassification",
     "SharedChordCertificate",
     "StrongConvexChordAudit",
     "audit_joint_convexity_chord",
     "audit_strong_convex_chord",
+    "certify_interval_shared_chord",
     "certify_shared_chord",
+    "classify_interval_convex_chord",
     "convex_chord_margin_upper",
+    "interval_convex_sag_bounds",
     "strong_convex_sag_bounds",
 ]
