@@ -42,6 +42,29 @@ def decompose_decoupling_gain(
     )
 
 
+def finite_effective_curvature(
+    *,
+    total_gain: float,
+    tangent_gain: float,
+    metric_squared_length: float,
+    tolerance: float = 1e-12,
+) -> float:
+    """Return the metric-normalized finite directional curvature average.
+
+    The estimator is ``2*(total_gain-tangent_gain)/metric_squared_length``.
+    Under the registered convex model it must be nonnegative.
+    """
+
+    if metric_squared_length <= 0:
+        raise ValueError("metric_squared_length must be positive")
+    decomposition = decompose_decoupling_gain(
+        total_gain=total_gain,
+        tangent_gain=tangent_gain,
+        tolerance=tolerance,
+    )
+    return 2.0 * decomposition.curvature_dividend / metric_squared_length
+
+
 def static_crossing_surplus(*, deficit: float, total_gain: float) -> float:
     """Post-intervention static architecture margin contributed by recovery.
 
