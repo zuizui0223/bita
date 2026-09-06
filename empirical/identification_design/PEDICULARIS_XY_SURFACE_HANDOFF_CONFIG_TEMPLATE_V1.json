@@ -1,0 +1,6 @@
+{
+  "status": "TEMPLATE_ONLY_DO_NOT_RUN_UNTIL_CONTEXT_IS_FROZEN",
+  "context_id": "REQUIRED_BEFORE_USE",
+  "fitness_scale_id": "REQUIRED_BEFORE_USE",
+  "fitness_value_semantics": "UNDAMAGED_MATURE_SEED_COUNT_PER_FOCAL_FLOWER"
+}
