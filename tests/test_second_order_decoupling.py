@@ -4,6 +4,7 @@ import pytest
 
 from trait_architecture.second_order_decoupling import (
     euclidean_crossing_budget_bracket,
+    robust_uncertain_budget_bracket,
     scalar_finite_gain_bounds,
 )
 
@@ -99,6 +100,50 @@ def test_zero_gradient_and_zero_lower_curvature_has_no_finite_guarantee():
     assert math.isinf(bracket.sufficient_above)
 
 
+def test_uncertain_parameter_band_contains_all_corner_exact_bands():
+    robust = robust_uncertain_budget_bracket(
+        deficit_lower=0.8,
+        deficit_upper=1.2,
+        penalty_norm_lower=1.5,
+        penalty_norm_upper=2.5,
+        curvature_lower=0.5,
+        curvature_upper=3.0,
+    )
+    for deficit in (0.8, 1.2):
+        for penalty in (1.5, 2.5):
+            for curvature in (0.5, 3.0):
+                exact = euclidean_crossing_budget_bracket(
+                    deficit=deficit,
+                    penalty_norm=penalty,
+                    curvature_lower=curvature,
+                    curvature_upper=curvature,
+                )
+                assert robust.robust_no_cross_below_or_at <= exact.no_cross_below_or_at
+                assert exact.sufficient_above <= robust.robust_sufficient_above
+
+
+def test_tightening_parameter_uncertainty_cannot_widen_band_in_example():
+    wide = robust_uncertain_budget_bracket(
+        deficit_lower=0.8,
+        deficit_upper=1.2,
+        penalty_norm_lower=1.5,
+        penalty_norm_upper=2.5,
+        curvature_lower=0.5,
+        curvature_upper=3.0,
+    )
+    tight = robust_uncertain_budget_bracket(
+        deficit_lower=0.9,
+        deficit_upper=1.1,
+        penalty_norm_lower=1.8,
+        penalty_norm_upper=2.2,
+        curvature_lower=1.0,
+        curvature_upper=2.5,
+    )
+    wide_width = wide.robust_sufficient_above - wide.robust_no_cross_below_or_at
+    tight_width = tight.robust_sufficient_above - tight.robust_no_cross_below_or_at
+    assert tight_width <= wide_width
+
+
 def test_invalid_inputs_fail_closed():
     with pytest.raises(ValueError):
         euclidean_crossing_budget_bracket(
@@ -118,5 +163,14 @@ def test_invalid_inputs_fail_closed():
             linear_gain=1.0,
             squared_norm=1.0,
             curvature_lower=2.0,
+            curvature_upper=1.0,
+        )
+    with pytest.raises(ValueError):
+        robust_uncertain_budget_bracket(
+            deficit_lower=1.2,
+            deficit_upper=1.0,
+            penalty_norm_lower=1.0,
+            penalty_norm_upper=2.0,
+            curvature_lower=0.0,
             curvature_upper=1.0,
         )
