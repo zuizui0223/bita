@@ -106,9 +106,43 @@ and closed-loop integral is zero.
 
 **Failure:** persistent path dependence after returning to the same static state suggests history-dependent accessibility, changing baseline landscape, changing `K`, or another model extension—not PAYOFF by default.
 
+## Signature D8 — joint shared-region convexity
+
+Define the static architecture margin
+
+\[
+F(\lambda,K)=R(\lambda)-K.
+\]
+
+If `R(lambda)` is convex and `K` is an additive architecture-cost coordinate, then `F` is jointly convex and the shared-favored region
+
+\[
+\boxed{\{(\lambda,K):F\le0\}}
+\]
+
+is convex.
+
+For any two endpoints `x_0,x_1` in joint coupling-cost space and interior point `x_t=(1-t)x_0+t x_1`, theory requires
+
+\[
+\boxed{
+F(x_t)\le(1-t)F(x_0)+tF(x_1).
+}
+\]
+
+**Test:** choose two shared-favored endpoint interventions, reserve one or more interior combinations as held-out states, and compare observed architecture margins with the endpoint chord.
+
+**Failure:** an interior margin exceeds the chord beyond tolerance, or becomes BITA-favored between two shared-favored endpoints. This rejects the registered joint convex static model.
+
+For fixed `K`, the same result says the shared-favored coupling region `{lambda:R(lambda)<=K}` is convex. Thus the test can be performed with coupling interventions alone; varying `K` is optional.
+
+The result is asymmetric: two BITA-favored endpoints do not guarantee every mixture is BITA-favored because superlevel sets of convex functions need not be convex.
+
 ## Pedicularis use
 
-The first focal `x x water-y` experiment primarily tests dimensional release/loading and fitness consequence. D1-D7 require a richer manipulation in which residual integration/coupling itself can be graded. They are the next mechanistic tier, not prerequisites for the first functional-state BITA receipt.
+The first focal `x x water-y` experiment primarily tests dimensional release/loading and fitness consequence. D1-D8 require a richer manipulation in which residual integration/coupling itself can be graded. They are the next mechanistic tier, not prerequisites for the first functional-state BITA receipt.
+
+D8 can be tested before a full multidimensional coupling surface if two endpoint coupling states and one preregistered interior mixture can be constructed on a matched fitness scale.
 
 ## Promotion rule
 
