@@ -70,6 +70,13 @@ from .partial_identification import (
     classify_strict_reversal,
     partial_identification_from_total,
 )
+from .shared_region_convexity import (
+    ChordConvexityAudit,
+    SharedChordCertificate,
+    audit_joint_convexity_chord,
+    certify_shared_chord,
+    convex_chord_margin_upper,
+)
 from .sign_criterion import (
     OrientedSignCriterion,
     RegimeDerivativeBalance,
@@ -145,4 +152,9 @@ __all__ = [
     "classify_interaction_relief",
     "classify_strict_reversal",
     "partial_identification_from_total",
+    "ChordConvexityAudit",
+    "SharedChordCertificate",
+    "audit_joint_convexity_chord",
+    "certify_shared_chord",
+    "convex_chord_margin_upper",
 ]
