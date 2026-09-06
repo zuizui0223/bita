@@ -56,9 +56,44 @@ Finite convex nonquadratic tests support positive recoverable loss and the decla
 
 Status: `FINITE_ROBUSTNESS_SUPPORT_WITH_EXPLICIT_CEILING`.
 
+## T5. Net-gap decomposition identifiability
+
+A directly identified optimized worldline gap
+
+```text
+Delta_W = W_D* - W_S*
+```
+
+can identify architecture order without identifying `R` and `K` separately. If
+
+```text
+Delta_W = R-K,
+```
+
+then for any admissible common offset `delta`,
+
+```text
+R' = R+delta
+K' = K+delta
+```
+
+produces the same net gap. Therefore an independent release lane or cost lane is required to decompose the direct difference.
+
+This keeps three statements separate:
+
+```text
+direct worldline order      potentially identifiable
+R/K mechanism decomposition requires extra evidence
+historical origin            separate again.
+```
+
+See `theory/NET_GAIN_DECOMPOSITION_NONIDENTIFIABILITY_V1.md`.
+
+Status: `NET_GAP_IDENTIFIES_DIFFERENCE_NOT_COMPONENTS`.
+
 ### Theory claim ceiling
 
-BITA theory predicts when additional dimensions could pay. It does not establish that a natural second trait actually carries the competing function, improves fitness, or evolved because of the modeled conflict.
+BITA theory predicts when additional dimensions could pay and which components would be required to explain the payoff. It does not establish that a natural second trait actually carries the competing function, improves fitness, evolved because of the modeled conflict, or has a separately identified structural cost.
 
 ---
 
@@ -98,6 +133,8 @@ Status: `ANALYZER_AND_EQUIVALENCE_LOGIC_IMPLEMENTED_NOT_YET_EXECUTED_IN_FOCAL_CH
 
 Estimate whether the best accessible differentiated / second-axis state improves total registered fitness, while keeping this distinct from architecture cost `K` unless `K` is independently identified.
 
+The T5 nonidentifiability result means that even a precisely estimated direct `Delta_W` does not by itself separate recoverable benefit from architecture cost.
+
 Status: `ANALYZER_IMPLEMENTED_EMPIRICAL_EXECUTION_PENDING`.
 
 ## C4. Mechanism allocation
@@ -116,7 +153,7 @@ Status: `GENERAL_MECHANISM_DESIGN_IMPLEMENTED_FRAGMENTED_EMPIRICAL_EVIDENCE`.
 
 ## C5. Architecture-cost / critical-surface promotion
 
-Only an independently justified cost `K` on the same fitness scale supports direct architecture-level `R-K` or `sL-K` criticality. Local interaction curvature is not `K`.
+Only an independently justified cost `K` on the same fitness scale supports direct architecture-level `R-K` or `sL-K` criticality. Local interaction curvature is not `K`, and a within-BITA optimum gain is not automatically `K` or `R`.
 
 Status: `INTERFACE_AND_GUARDS_IMPLEMENTED_EMPIRICAL_K_RARELY_IDENTIFIED`.
 
@@ -187,11 +224,11 @@ The universal object is **functional differentiation under recoverable conflict,
 # Current bottleneck
 
 ```text
-theory / threshold structure            strong
-floral mechanism route synthesis         broad but fragmented
-same-system causal Pedicularis release   NOT YET EXECUTED
-independent architecture cost K           usually not identified
-cross-system complete causal replication incomplete
+theory / threshold / identifiability structure strong
+floral mechanism route synthesis              broad but fragmented
+same-system causal Pedicularis release        NOT YET EXECUTED
+independent architecture cost K               usually not identified
+cross-system complete causal replication      incomplete
 ```
 
 The next scientific gate is the same-context `x x y` causal surface and mechanism/loading tests, not PAYOFF invasion dynamics.
