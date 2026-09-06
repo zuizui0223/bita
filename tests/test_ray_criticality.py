@@ -1,0 +1,49 @@
+import pytest
+
+from trait_architecture.ray_criticality import analyze_decoupling_ray
+
+
+def test_convex_monotone_ray_returns_unique_crossing_bracket():
+    out = analyze_decoupling_ray(
+        [0.0, 0.5, 1.0, 1.5],
+        [-1.0, -0.4, 0.4, 1.8],
+    )
+    assert out.classification == "UNIQUE_CROSSING_BRACKET"
+    assert out.crossing_lower == pytest.approx(0.5)
+    assert out.crossing_upper == pytest.approx(1.0)
+    assert out.monotone_ok
+    assert out.convex_ok
+
+
+def test_zero_plateau_is_not_counted_as_reentry():
+    out = analyze_decoupling_ray(
+        [0.0, 1.0, 2.0, 3.0],
+        [-1.0, 0.0, 0.0, 1.0],
+    )
+    assert out.classification == "ZERO_PLATEAU_BRACKET"
+    assert out.crossing_lower == pytest.approx(0.0)
+    assert out.crossing_upper == pytest.approx(3.0)
+
+
+def test_slope_reversal_fails_closed():
+    out = analyze_decoupling_ray(
+        [0.0, 1.0, 2.0, 3.0],
+        [-2.0, -0.5, 0.5, 1.0],
+    )
+    assert out.monotone_ok
+    assert not out.convex_ok
+    assert out.classification == "RAY_MODEL_VIOLATION"
+
+
+def test_margin_reentry_fails_monotonicity():
+    out = analyze_decoupling_ray(
+        [0.0, 1.0, 2.0, 3.0],
+        [-1.0, 0.2, -0.1, 0.8],
+    )
+    assert not out.monotone_ok
+    assert out.classification == "RAY_MODEL_VIOLATION"
+
+
+def test_invalid_levels_fail_closed():
+    with pytest.raises(ValueError):
+        analyze_decoupling_ray([0.0, 0.0], [-1.0, 1.0])
