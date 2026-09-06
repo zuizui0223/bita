@@ -138,11 +138,37 @@ For fixed `K`, the same result says the shared-favored coupling region `{lambda:
 
 The result is asymmetric: two BITA-favored endpoints do not guarantee every mixture is BITA-favored because superlevel sets of convex functions need not be convex.
 
+## Signature D9 — strong-convex chord sag
+
+If the static margin has curvature bounds
+
+\[
+\alpha Q\preceq\nabla^2F\preceq\beta Q
+\]
+
+along a registered chord with direction `v=x_1-x_0`, then the interior margin must sag below endpoint interpolation by
+
+\[
+\boxed{
+\frac{\alpha}{2}t(1-t)v^TQv
+\le
+[(1-t)F(x_0)+tF(x_1)]-F(x_t)
+\le
+\frac{\beta}{2}t(1-t)v^TQv.
+}
+\]
+
+**Test:** use two endpoint coupling/cost states and a preregistered midpoint/interior combination. At the midpoint the sag must lie in `[alpha v^TQv/8,beta v^TQv/8]`.
+
+**Failure:** negative sag rejects convexity; sag below the lower bound rejects the strong-convexity floor; sag above the upper bound rejects the curvature ceiling or common static branch.
+
+**Interpretation:** D8 excludes a hidden BITA island between shared endpoints. D9 additionally predicts a quantitative shared-side basin depth. If both endpoints lie exactly at `F=0` and `alpha>0`, every strict interior point must be strictly shared-favored.
+
 ## Pedicularis use
 
-The first focal `x x water-y` experiment primarily tests dimensional release/loading and fitness consequence. D1-D8 require a richer manipulation in which residual integration/coupling itself can be graded. They are the next mechanistic tier, not prerequisites for the first functional-state BITA receipt.
+The first focal `x x water-y` experiment primarily tests dimensional release/loading and fitness consequence. D1-D9 require a richer manipulation in which residual integration/coupling itself can be graded. They are the next mechanistic tier, not prerequisites for the first functional-state BITA receipt.
 
-D8 can be tested before a full multidimensional coupling surface if two endpoint coupling states and one preregistered interior mixture can be constructed on a matched fitness scale.
+D8-D9 can be tested before a full multidimensional coupling surface if two endpoint coupling states and one preregistered interior mixture can be constructed on a matched fitness scale.
 
 ## Promotion rule
 
