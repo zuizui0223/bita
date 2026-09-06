@@ -106,6 +106,39 @@ Then preregister the finite gain interval
 
 This converts qualitative coupling relief into a quantitative prospective prediction.
 
+### B4. Fixed-ray criticality and graded-dose shape
+
+When an experiment changes coupling along one preregistered feasible direction
+
+\[
+\lambda(t)=\lambda_0-tv,
+\qquad v\ge0,
+\]
+
+with fixed `K`, define the static architecture margin
+
+\[
+m(t)=R(\lambda(t))-K.
+\]
+
+Theory predicts that `m(t)` is both non-decreasing and convex. Therefore:
+
+- the shared-to-BITA static crossing occurs at most once;
+- the zero set is empty, one point, or one tie interval;
+- consecutive secant slopes across ordered dose levels are non-decreasing;
+- a negative sampled margin followed by a positive sampled margin gives a fail-closed critical bracket;
+- sign re-entry or a robust decrease in secant slopes falsifies the registered fixed-ray convex model rather than creating a second critical threshold.
+
+Where differentiable,
+
+\[
+\frac{dm}{dt}=\mathbf c(\lambda(t))^\top v,
+\]
+
+so the projected active coupling penalty is itself predicted to stay constant or increase as decoupling progresses.
+
+This is particularly suitable for a scalar graded coupling manipulation when a full multi-channel surface is impractical.
+
 ---
 
 ## C. Critical intervention budget
@@ -142,6 +175,8 @@ Empirical programme:
 4. test whether crossing is absent below the no-cross region and appears by the sufficient region.
 
 A crossing below the model's impossible-budget bound is a strong falsifier.
+
+The fixed-ray theorem in B4 gives an additional shape audit for experiments that realize these budget levels along one direction.
 
 ---
 
@@ -243,7 +278,7 @@ This is an experimental-design calculation. It does not mean evolution literally
 - one-dimensional/scalar dimensional release;
 - water-state preferential loading;
 - direct total-fitness consequence;
-- with sufficient graded manipulation, a scalar coupling-response curve.
+- with sufficient graded manipulation, a scalar coupling-response curve and fixed-ray threshold bracket.
 
 ### Later generality systems are preferable for
 
