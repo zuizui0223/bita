@@ -35,9 +35,10 @@ SCH_SCHEMA = "SCH_CAUSAL_COMPROMISE_STATE_OPTIMA_V1"
 SCH_STATUS = "MODEL_SUPPORTED_CAUSAL_COMPROMISE_CANDIDATE"
 SCH_WRAPPER = "SCH_PEDICULARIS_FULL_SURFACE_WRAPPER_V2"
 SCH_G_SCHEMA = "SCH_PEDICULARIS_PREDATOR_METHOD_V3"
+FROZEN_CONFIG_STATUS = "FROZEN_BEFORE_FOCAL_OUTCOME_ANALYSIS"
 
 
-def _config_gate(path: Path) -> dict:
+def _config_gate(path: Path, raw_contexts: list[list[str]]) -> dict:
     config = json.loads(path.read_text(encoding="utf-8"))
     release = config.get("bita_release")
     reasons: list[str] = []
@@ -57,8 +58,26 @@ def _config_gate(path: Path) -> dict:
         except (TypeError, ValueError):
             reasons.append(f"non-numeric threshold: {key}")
 
-    if "DO_NOT_RUN" in str(config.get("status", "")):
-        reasons.append("config status still marks template as DO_NOT_RUN")
+    if config.get("status") != FROZEN_CONFIG_STATUS:
+        reasons.append(f"config status must be {FROZEN_CONFIG_STATUS}")
+
+    provenance = config.get("freeze_provenance")
+    if not isinstance(provenance, dict):
+        reasons.append("missing freeze_provenance")
+    else:
+        if provenance.get("system") != "Pedicularis rex":
+            reasons.append("freeze provenance system is not Pedicularis rex")
+        if provenance.get("focal_data_inspected") is not False:
+            reasons.append("freeze provenance does not certify pre-focal freezing")
+        if not str(provenance.get("freeze_date", "")).strip():
+            reasons.append("freeze provenance lacks freeze_date")
+        digest = str(provenance.get("calibration_receipt_sha256", ""))
+        if len(digest) != 64 or any(ch not in "0123456789abcdef" for ch in digest.lower()):
+            reasons.append("freeze provenance lacks valid calibration receipt SHA-256")
+        if len(raw_contexts) == 1:
+            population, season = raw_contexts[0]
+            if provenance.get("population_id") != population or provenance.get("season_id") != season:
+                reasons.append("frozen threshold context does not match BITA raw data")
 
     return {"pass": not reasons, "reasons": reasons}
 
@@ -144,8 +163,8 @@ def _sch_gate(path: Path | None, raw_contexts: list[list[str]]) -> dict:
 
 
 def evaluate(raw_csv: Path, config_json: Path, sch_receipt: Path | None = None) -> dict:
-    config_gate = _config_gate(config_json)
     raw_gate = _raw_gate(raw_csv)
+    config_gate = _config_gate(config_json, raw_gate["contexts"])
     sch_gate = _sch_gate(sch_receipt, raw_gate["contexts"])
     gates = {
         "E0_thresholds_frozen": config_gate,
