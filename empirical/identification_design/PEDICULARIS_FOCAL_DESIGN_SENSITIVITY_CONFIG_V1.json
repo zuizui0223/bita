@@ -1,0 +1,21 @@
+{
+  "base": {
+    "simulation_reps": 1000,
+    "random_seed": 20260907,
+    "flowers_per_plant_cell": 1,
+    "plant_sd": 0.25,
+    "curvature": 1.0,
+    "sch_reference": 1.0,
+    "x0_true": 0.0,
+    "x1_true": 0.5,
+    "y1_peak_gain": 0.2,
+    "x_min": -1.0,
+    "x_max": 1.0
+  },
+  "grid": {
+    "n_plants": [10, 20, 30, 40],
+    "n_x_levels": [5, 7],
+    "residual_sd": [0.5, 1.0, 1.5]
+  },
+  "status": "SYNTHETIC_DESIGN_CALIBRATION_ONLY_DO_NOT_TREAT_AS_BIOLOGICAL_PRIOR"
+}
