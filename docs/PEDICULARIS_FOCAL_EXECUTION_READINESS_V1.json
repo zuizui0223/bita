@@ -1,0 +1,34 @@
+{
+  "analysis": "pedicularis_focal_execution_readiness",
+  "as_of_branch_state": "program/theory-causal-generality-v1",
+  "claim_ceiling": "readiness_only_not_empirical_support",
+  "gates": {
+    "E0_thresholds_frozen": {
+      "pass": false,
+      "reasons": [
+        "min_dimensional_release remains REQUIRED_BEFORE_USE",
+        "min_within_bita_fitness_gain remains REQUIRED_BEFORE_USE",
+        "min_y_function2_gain remains REQUIRED_BEFORE_USE",
+        "max_y_function1_penalty remains REQUIRED_BEFORE_USE",
+        "min_y1_interior_bootstrap_fraction remains REQUIRED_BEFORE_USE",
+        "config status remains TEMPLATE_ONLY_DO_NOT_RUN_UNTIL_THRESHOLDS_ARE_PROSPECTIVELY_FROZEN"
+      ]
+    },
+    "E1_non_circular_sch_handoff": {
+      "pass": false,
+      "reasons": [
+        "same-population same-season focal SCH causal-compromise receipt is not present in the BITA focal execution package"
+      ]
+    },
+    "E2_registered_xy_surface_present": {
+      "pass": false,
+      "n_rows": 0,
+      "reasons": [
+        "PEDICULARIS_DIMENSIONAL_RELEASE_TEMPLATE_V1.csv contains a header only"
+      ]
+    }
+  },
+  "status": "NOT_READY_FOR_FOCAL_C1_C3_ANALYSIS",
+  "next_scientific_gate": "freeze E0 prospectively, obtain independent same-context SCH E1 receipt, then collect the registered >=5-level exsertion x drained/protected water-defence surface",
+  "interpretation": "BITA theory and focal analyzers are implemented, but no same-system causal dimensional-release result is claimed."
+}
