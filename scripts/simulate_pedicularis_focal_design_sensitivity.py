@@ -110,8 +110,8 @@ def run_grid(config: dict) -> dict:
         "results": results,
         "interpretation_guard": (
             "Recovery frequencies depend on declared synthetic effect sizes and noise. "
-            "They may guide prospective field allocation but cannot be reported as biological evidence, "
-            "and they do not justify changing thresholds after focal outcomes are observed."
+            "This is not empirical evidence; it may guide prospective field allocation only. "
+            "It does not justify changing thresholds after focal outcomes are observed."
         ),
     }
 
