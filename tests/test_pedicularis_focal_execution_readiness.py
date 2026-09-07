@@ -25,7 +25,7 @@ def test_repository_template_is_explicitly_not_ready() -> None:
     assert result["gates"]["E2_registered_xy_surface_present"]["n_rows"] == 0
 
 
-def test_ready_package_passes_all_three_preanalysis_gates(tmp_path: Path) -> None:
+def _ready_files(tmp_path: Path):
     raw = tmp_path / "raw.csv"
     header = TEMPLATE.read_text(encoding="utf-8").strip()
     rows = [header]
@@ -49,6 +49,14 @@ def test_ready_package_passes_all_three_preanalysis_gates(tmp_path: Path) -> Non
         }
     )
     cfg["status"] = "FROZEN_BEFORE_FOCAL_OUTCOME_ANALYSIS"
+    cfg["freeze_provenance"] = {
+        "system": "Pedicularis rex",
+        "population_id": "POP1",
+        "season_id": "2026",
+        "freeze_date": "2026-09-07",
+        "focal_data_inspected": False,
+        "calibration_receipt_sha256": "a" * 64,
+    }
     cfg_path = tmp_path / "config.json"
     cfg_path.write_text(json.dumps(cfg), encoding="utf-8")
 
@@ -71,7 +79,31 @@ def test_ready_package_passes_all_three_preanalysis_gates(tmp_path: Path) -> Non
     }
     sch_path = tmp_path / "sch.json"
     sch_path.write_text(json.dumps(sch), encoding="utf-8")
+    return raw, cfg_path, sch_path
 
+
+def test_ready_package_passes_all_three_preanalysis_gates(tmp_path: Path) -> None:
+    raw, cfg_path, sch_path = _ready_files(tmp_path)
     result = MODULE.evaluate(raw, cfg_path, sch_path)
     assert result["status"] == "READY_FOR_FOCAL_C1_C3_ANALYSIS"
     assert all(gate["pass"] for gate in result["gates"].values())
+
+
+def test_numeric_but_unprovenanced_config_fails_e0(tmp_path: Path) -> None:
+    raw, cfg_path, sch_path = _ready_files(tmp_path)
+    cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
+    del cfg["freeze_provenance"]
+    cfg_path.write_text(json.dumps(cfg), encoding="utf-8")
+    result = MODULE.evaluate(raw, cfg_path, sch_path)
+    assert result["gates"]["E0_thresholds_frozen"]["pass"] is False
+    assert "missing freeze_provenance" in result["gates"]["E0_thresholds_frozen"]["reasons"]
+
+
+def test_frozen_threshold_context_must_match_raw_context(tmp_path: Path) -> None:
+    raw, cfg_path, sch_path = _ready_files(tmp_path)
+    cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
+    cfg["freeze_provenance"]["population_id"] = "OTHER"
+    cfg_path.write_text(json.dumps(cfg), encoding="utf-8")
+    result = MODULE.evaluate(raw, cfg_path, sch_path)
+    assert result["gates"]["E0_thresholds_frozen"]["pass"] is False
+    assert "frozen threshold context does not match BITA raw data" in result["gates"]["E0_thresholds_frozen"]["reasons"]
