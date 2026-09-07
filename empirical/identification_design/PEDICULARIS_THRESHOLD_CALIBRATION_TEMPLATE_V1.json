@@ -1,0 +1,51 @@
+{
+  "system": "Pedicularis rex",
+  "population_id": "REQUIRED",
+  "season_id": "REQUIRED",
+  "freeze_date": "REQUIRED_YYYY-MM-DD",
+  "focal_data_inspected": false,
+  "calibration_sources": [
+    {
+      "source_type": "REQUIRED_PRE_FOCAL_SOURCE_TYPE",
+      "source_reference": "REQUIRED_REFERENCE",
+      "scope": "REQUIRED_DESCRIPTION"
+    }
+  ],
+  "thresholds": {
+    "min_dimensional_release": {
+      "value": "REQUIRED",
+      "unit": "SCH_REFERENCE_X_SCALE",
+      "source_type": "REQUIRED",
+      "source_reference": "REQUIRED",
+      "biological_interpretation": "minimum meaningful shift of the exsertion optimum toward the frozen SCH reference"
+    },
+    "min_within_bita_fitness_gain": {
+      "value": "REQUIRED",
+      "unit": "UNDAMAGED_MATURE_SEEDS_PER_FOCAL_FLOWER",
+      "source_type": "REQUIRED",
+      "source_reference": "REQUIRED",
+      "biological_interpretation": "minimum meaningful gain in the best attainable registered reproductive outcome"
+    },
+    "min_y_function2_gain": {
+      "value": "REQUIRED",
+      "unit": "ABSOLUTE_UNDAMAGED_FRACTION_OF_INITIATED_SEEDS",
+      "source_type": "REQUIRED",
+      "source_reference": "REQUIRED",
+      "biological_interpretation": "minimum defence-axis improvement in seed survival"
+    },
+    "max_y_function1_penalty": {
+      "value": "REQUIRED",
+      "unit": "POLLEN_GRAINS",
+      "source_type": "REQUIRED",
+      "source_reference": "REQUIRED",
+      "biological_interpretation": "largest pollination-side cross-effect still regarded as preferential loading"
+    },
+    "min_y1_interior_bootstrap_fraction": {
+      "value": "REQUIRED",
+      "unit": "FRACTION",
+      "source_type": "DESIGN_CRITERION",
+      "source_reference": "REQUIRED_PREDECLARED_DESIGN_RULE",
+      "biological_interpretation": "minimum bootstrap support that the protected-state optimum is interior rather than a tested boundary"
+    }
+  }
+}
