@@ -26,7 +26,10 @@ def test_fragmented_literature_is_not_promoted_to_complete_replication():
     assert "INCOMPLETE" in by_stage["G1"]["status"]
     assert "NOT_YET_EXECUTED" in by_stage["G0"]["status"]
     assert "RARELY_IDENTIFIED" in by_stage["C5"]["status"]
-    assert by_stage["T5"]["status"] == "NET_GAP_IDENTIFIES_DIFFERENCE_NOT_COMPONENTS"
+    t5 = by_stage["T5"]["status"]
+    assert t5.startswith("NET_GAP_IDENTIFIES_R_MINUS_K_NOT_COMPONENTS")
+    assert "NOT_UNIQUE_LATENT_MECHANISM" in t5
+    assert "ACTIVE_AFFINE_PLANE_IS_LOCALLY_POINT_IDENTIFIED_BY_VALUE_PLUS_GRADIENT" in t5
 
 
 def test_payoff_invasion_is_not_a_bita_promotion_gate():
