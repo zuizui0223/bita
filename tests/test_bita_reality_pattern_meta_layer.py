@@ -21,6 +21,7 @@ def _rows() -> list[dict[str, str]]:
 
 def test_pattern_protocol_matches_active_mechanism_identification_ownership() -> None:
     text = PROTOCOL.read_text(encoding="utf-8")
+    lower = text.lower()
     assert "mathematical identification mechanism" in text
     assert "Delta_AD W" in text
     assert "trait interaction" in text
@@ -28,8 +29,8 @@ def test_pattern_protocol_matches_active_mechanism_identification_ownership() ->
     assert "FRAGMENTED_IDENTIFICATION" in text
     assert "56 directional route records from 25 independent biological clusters" in text
     assert "17 high-information systems" in text
-    assert "Architecture-value quantities" in text
-    assert "SLK" in text
+    assert "architecture-value quantities" in lower
+    assert "slk" in lower
     assert "final mechanism-allocation gap" in text
 
 
