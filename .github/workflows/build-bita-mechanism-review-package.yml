@@ -111,16 +111,35 @@ jobs:
           test -s "$APP_PDF"
           MAIN_PAGES=$(pdfinfo "$MAIN_PDF" | awk '/^Pages:/ {print $2}')
           APP_PAGES=$(pdfinfo "$APP_PDF" | awk '/^Pages:/ {print $2}')
-          pdftotext "$MAIN_PDF" "$MAIN_TXT"
-          pdftotext "$APP_PDF" "$APP_TXT"
+          echo "BITA review render: main_pages=$MAIN_PAGES appendix_pages=$APP_PAGES"
+          pdftotext -layout "$MAIN_PDF" "$MAIN_TXT"
+          pdftotext -layout "$APP_PDF" "$APP_TXT"
 
-          grep -q 'Trait interaction is not ecological mechanism' "$MAIN_TXT"
-          grep -q '56 directional route records from 25 independent biological clusters' "$MAIN_TXT"
-          grep -q '17 high-information systems' "$MAIN_TXT"
-          grep -q 'Figure 5.' "$MAIN_TXT"
-          grep -q 'Identification design' "$APP_TXT"
-          ! grep -q 'When does a trait trade-off resolve by differentiation rather than compromise' "$MAIN_TXT"
-          ! grep -q '300 nonzero-conflict evaluations' "$MAIN_TXT"
+          require_text() {
+            LABEL="$1"
+            PATTERN="$2"
+            FILE="$3"
+            if ! grep -Eiq "$PATTERN" "$FILE"; then
+              echo "Missing PDF text guard: $LABEL" >&2
+              exit 1
+            fi
+          }
+
+          require_text "active title" 'Trait interaction is not ecological mechanism' "$MAIN_TXT"
+          require_text "route count" '56 directional route records' "$MAIN_TXT"
+          require_text "cluster count" '25 independent biological clusters' "$MAIN_TXT"
+          require_text "frontier count" '17 high-information' "$MAIN_TXT"
+          require_text "Figure 5 boundary" 'BITA promotion ladder|boundary with SCH and SLK|inference problems should not be collapsed' "$MAIN_TXT"
+          require_text "Appendix identification scope" 'Identification design|identification framework' "$APP_TXT"
+
+          if grep -Eiq 'When does a trait trade-off resolve by differentiation rather than compromise' "$MAIN_TXT"; then
+            echo "Stale architecture-paper title survived into active Main PDF" >&2
+            exit 1
+          fi
+          if grep -Eiq '300 nonzero-conflict evaluations' "$MAIN_TXT"; then
+            echo "Stale architecture robustness spine survived into active Main PDF" >&2
+            exit 1
+          fi
 
           LENGTH_STATE=WITHIN_30_PAGE_TARGET
           if [ "$MAIN_PAGES" -gt 30 ]; then
