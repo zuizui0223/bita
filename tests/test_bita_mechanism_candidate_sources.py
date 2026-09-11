@@ -11,6 +11,15 @@ def test_active_main_is_mechanism_identification_not_architecture_paper() -> Non
     assert "Delta_arch = sL_S* - K" not in text
 
 
+def test_submission_main_strips_repository_editorial_metadata() -> None:
+    text = candidate.build_main_source()
+    assert "Canonical BITA full-paper science source" not in text
+    assert "Target class:" not in text
+    assert "**Journal:** Ecology" in text
+    assert "**Manuscript type:** Concepts & Synthesis" in text
+    assert "**Authors and affiliations:** [Author-controlled]" in text
+
+
 def test_main_uses_new_five_figure_sequence() -> None:
     text = candidate.build_main_source()
     for name in candidate.FIGURES:
@@ -28,11 +37,14 @@ def test_main_has_real_focused_references_not_placeholder() -> None:
     assert "Use `manuscript/TRAIT_DIFFERENTIATION_REFERENCES_V1.md`" not in text
 
 
-def test_appendix_is_identification_focused() -> None:
+def test_appendix_is_identification_focused_and_submission_current() -> None:
     text = candidate.build_appendix_source()
     assert "Appendix S1 — Identification design" in text
     assert "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V2.csv" in text
     assert "Architecture-value derivations retained elsewhere" in text
+    assert "MANUSCRIPT_IDENTIFICATION_DESIGN.md" not in text
+    assert "earlier theorem-led manuscript" not in text
+    assert "Main Figs. 3–4" in text
 
 
 def test_open_research_manifest_uses_active_identification_products(tmp_path, monkeypatch) -> None:
