@@ -2,7 +2,7 @@
 
 ## Purpose
 
-BITA first recovers recurring differentiation-compatible mechanism signatures across independent systems. Quantitative pooling is restricted to biologically/statistically compatible route sub-lanes. It does not create architecture-level parameters by combining unmatched marginal studies.
+BITA first recovers recurring constituent ecological routes and recurring identification gaps across independent systems. Quantitative pooling is restricted to biologically and statistically compatible route sub-lanes. It does not create a unique mechanism allocation by combining unmatched marginal studies.
 
 ## Unit of independence
 
@@ -23,19 +23,27 @@ within-study dependence handled
 
 The existing nectar-larceny female fitness, visitation, reward, and male fitness modules satisfy route-level random-effects requirements at their registered ceilings.
 
-## Architecture-level BITA lane
+## Strict mechanism-allocation lane
 
-Route-level pooling does not identify dimensional release. Promotion to the strict architecture lane requires a same-system chain linking:
+Route-level pooling does not identify the ecological allocation of a trait interaction. Promotion to the strict BITA mechanism lane requires a same-system chain containing, at minimum:
 
 ```text
-shared-coordinate conflict
-second-axis functional loading
-release/redeployment of the old coordinate
-common fitness consequence
-architecture cost or a justified net architecture comparison when claimed
+focal A x D total interaction
+compatible uncertainty for A0, A1 and Delta_AD W
+selective antagonist intervention
+selective pollinator intervention
+pollinator-independent baseline characterization
+four-way separability diagnostic
+independent assay for any remaining joint channel before biological labelling
 ```
 
-Unmatched `A -> pollination`, `A -> antagonism`, `D -> pollination`, and `D -> antagonism` effects cannot be algebraically combined into `R`, `K`, `s`, `R-K`, `rho`, `iota`, `kappa`, or `W_AD`.
+Unmatched `A -> pollination`, `A -> antagonism`, `D -> pollination`, and `D -> antagonism` effects cannot be algebraically combined into a unique `rho_delta`, `iota_delta`, or `kappa_delta` mechanism allocation. An unmeasured residual is not called joint cost by subtraction.
+
+Architecture-value quantities such as `R`, `K`, `s`, and `Phi` belong to the companion SLK spine rather than the active BITA novelty claim.
+
+## Positive-selection and recurrence guard
+
+If future quantitative admission requires observing a target sign or mechanism pattern, any pooled effect among those admitted systems is conditional on that admission. Its sign is not an independent test of recurrence and it is not an unbiased mean across all design-eligible systems. Design-compatible negative and unresolved systems must remain visible outside the positive numerator.
 
 ## Moderator analysis
 
@@ -43,12 +51,12 @@ High heterogeneity in a valid route-level random-effects lane is treated as a pr
 
 ## Negative and boundary evidence
 
-Nonsignificant, opposite-sign, no-differentiation, and unresolved rows remain in the synthesis universe. They are not removed to improve recurrence or pooled-effect direction.
+Nonsignificant, opposite-sign, unresolved-channel, non-separable, and incomplete-design rows remain in the synthesis universe. They are not removed to improve recurrence or pooled-effect direction.
 
 ## Claim ceiling
 
-BITA route meta-analysis can quantify recurring constituent ecological channels. It cannot by itself prove that a natural differentiated architecture evolved because of shared-coordinate conflict or estimate the architecture-level release/cost balance.
+BITA route meta-analysis can quantify recurring constituent ecological channels. It cannot by itself identify the mechanism generating a focal trait interaction, prove historical trait differentiation, or assign a biological label to an unmeasured residual.
 
 ## Focal experiment position
 
-The focal same-system dimensional-release experiment remains the final causal identification upgrade after the cross-system pattern map and compatible quantitative modules are mature.
+The final causal upgrade is a same-system crossed mechanism-allocation experiment after the cross-system pattern map and compatible quantitative modules are mature. The focal experiment is not the empirical entry point to the current paper.
