@@ -2,97 +2,147 @@
 
 ## Canonical source
 
-The active SCH-sister Chapter 2 manuscript is:
+The active BITA full paper is the mechanism-identification paper:
 
-- `MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md` — canonical scientific source for **BALANCE -> DIFFERENTIATION -> IDENTIFICATION**.
-- `TRAIT_DIFFERENTIATION_REFERENCES_V1.md` — focused architecture + floral worked-case reference pool.
-- `TRAIT_DIFFERENTIATION_FIGURE_CAPTIONS_V1.md` — canonical figure captions.
-- `trait_differentiation_figures/` — canonical Figures 1–5.
+- `MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md` — canonical science source for **trait interaction != ecological mechanism**.
+- `IDENTIFICATION_DESIGN_REFERENCES.md` — focused bibliography for the active Main.
+- `TRAIT_DIFFERENTIATION_FIGURE_CAPTIONS_V1.md` — active five-figure caption set.
+- `mechanism_identification_figures/` — generated active Figures 1–5.
+- `supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md` — active technical identification Appendix source.
 
-Retained component/provenance sources:
+Retained provenance / technical modules:
 
-- `MANUSCRIPT_IDENTIFICATION_DESIGN.md` — mature floral mechanism-identification manuscript; now a component/provenance source rather than the submitted article.
-- `MANUSCRIPT_THEORETICAL_ECOLOGY.md` — historical theorem-led source retained for provenance only.
-- `supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md` — retained technical floral identification layer nested inside the integrated Appendix S1.
+- `MANUSCRIPT_IDENTIFICATION_DESIGN.md` — mature longer source text for the identification framework.
+- `MANUSCRIPT_THEORETICAL_ECOLOGY.md` — historical theorem-led source retained for provenance.
+- `trait_differentiation_figures/` — historical figures from the superseded architecture-plus-mechanism paper; not submission-current.
+- `TRAIT_DIFFERENTIATION_REFERENCES_V1.md` — broader historical architecture + worked-case reference pool.
 
-## SCH / BITA programme
-
-```text
-SCH / Chapter 1 — BALANCE
-one shared trait carries conflicting functions
--> where/how is the compromise maintained?
-
-BITA / Chapter 2 — DIFFERENTIATION
-compare the shared compromise with a multi-axis architecture
--> when does recovered loss pay for extra architecture?
--> how is the mechanism identified once several axes exist?
-```
-
-Pollinator/antagonist and attraction/defence labels define one empirical realization, not the general theory.
-
-## Architecture result
-
-General nested-architecture result:
+## Active scientific spine
 
 ```text
-R >= 0
-Delta_arch = R - K
-differentiation iff K < R
+four-cell trait interaction
+        |
+        v
+outcome promotion
+Level 1 interaction relief
+Level 2 constraint release
+Level 3 strict reversal
+        |
+        v
+identified set of compatible mechanisms
+        |
+        v
+partial identification
+        |
+        v
+selective A x D x antagonist x pollinator intervention
+        |
+        v
+four-way separability diagnostic
+        |
+        v
+independent remaining-channel assay
+        |
+        v
+mechanism-resolved interpretation
 ```
 
-with stronger non-negative scaled residual coupling unable to increase `R`.
+The paper does not use the architecture-value result as its novelty center. That transport spine belongs to SLK.
 
-Quadratic corollary:
+## Programme boundary
 
 ```text
-R = s L_S*
-Delta_arch = s L_S* - K
-s = |x_opt-y_opt| / |theta1-theta2|
+SCH
+multifunctionality != identified functional conflict
+        |
+        v
+identified conflict / L when justified
+        |
+        v
+SLK
+L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy
+        |
+        v
+multiple trait axes / observed joint fitness effect
+        |
+        v
+BITA
+trait interaction != ecological mechanism
 ```
 
-The corollary explicitly permits partial differentiation.
+The older BITA architecture derivations remain reusable technical provenance, but they are not active Main claims.
 
-## Robustness
+## Empirical evidence layer
 
-Registered convex-family results:
+The active empirical synthesis is source-adjudicated and bounded:
 
 ```text
-strict recovery:                    300 / 300
-optimum-distance monotonicity:       60 / 60
-coupling implementation check:       60 / 60
+56 directional route records
+25 independent biological clusters
+17 high-information identification-frontier systems
+0 independent joint-cost assays in the frontier
+0 fully channel-identified systems in the frontier
 ```
 
-These do not establish universality across arbitrary fitness landscapes or evolutionary transition dynamics.
+All four constituent marginal route families recur. These counts describe recurrence and evidence capacity, not natural prevalence.
 
-## Empirical roles
+## Active Main figures
 
-- cichlid jaw systems: partial differentiation with residual integration;
-- *Dalechampia*: historical functional redeployment/addition;
-- floral BITA: detailed mechanism-identification worked case after multiple axes exist.
+1. **Outcome promotion:** positive interaction relief vs functional release vs strict reversal.
+2. **Identified-set geometry:** total interaction vs compatible mechanism allocations and partial identification.
+3. **Crossed intervention:** selective consumer toggles, `m0` handling, four-way separability, and independent remaining-channel assay.
+4. **Fragmented empirical frontier:** source-backed 56/25 recurrence + 17-system V2 audit + *Impatiens* retrofit.
+5. **Inference boundaries:** SCH identifies conflict, SLK transports evolutionary value, BITA identifies mechanism.
 
-The floral case retains `Delta_AD W`, identified sets, partial identification, crossed consumer interventions, the four-way separability diagnostic, the independent remaining-channel assay, 56/25 recurrence evidence and the 17-system fragmented identification frontier.
-
-## Main figures
-
-1. shared balance vs differentiated architecture;
-2. quadratic `K=sL_S*` boundary;
-3. nonquadratic robustness + bounded reality anchors;
-4. mechanism identification after multiple axes exist;
-5. floral recurrence + fragmented identification frontier.
-
-## Canonical package
-
-The package builder is `scripts/build_ecology_review_package_sources.py`, which reuses the validated Chapter 2 source-generation logic rather than maintaining a second prose implementation.
-
-Validated pre-metadata render:
+The deterministic builder is:
 
 ```text
-Main:       30 pages
-Appendix:   38 pages
-Main figs:   5
+scripts/build_mechanism_identification_figures_svg.py
 ```
 
-The Main meets the standard Ecology Concepts & Synthesis 30-page target. Renderer-specific broken superscript stars are normalized to explicit `opt` notation during DOCX formatting.
+Figure 4 reads the authoritative V2 coverage CSV and mechanism-pattern completion counts. The build fails if the expected 17-system or 56/25 evidence state drifts.
+
+## Candidate package
+
+The active candidate source builder is:
+
+```text
+scripts/build_bita_mechanism_candidate_sources.py
+```
+
+It generates:
+
+```text
+submission/ecology/mechanism_identification_candidate/generated/
+  MANUSCRIPT_ECOLOGY_SUBMISSION.md
+  APPENDIX_S1.md
+  OPEN_RESEARCH_DATA_MANIFEST.md
+  open_research_data/
+```
+
+The focused workflow is:
+
+```text
+.github/workflows/build-bita-mechanism-paper.yml
+```
+
+It rebuilds the evidence readout, generates all five figures, builds Main + Appendix + Open Research sources, runs focused regression tests, and uploads the candidate source artifact.
+
+## Package state
+
+The previously validated **30-page Main + 38-page Appendix** belonged to the superseded architecture-plus-mechanism paper and is historical only.
+
+Current state:
+
+```text
+ACTIVE_SCIENCE_SOURCE_REFOCUSED
+ACTIVE_FIVE_FIGURE_PIPELINE_GREEN
+MECHANISM_CANDIDATE_SOURCE_BUILDER_ACTIVE
+OLD_30_PLUS_38_PACKAGE_STALE
+FINAL_DOCX_PDF_REBUILD_PENDING
+```
+
+Do not submit the old generated DOCX/PDF package.
 
 ## Claim ceiling
 
@@ -100,14 +150,19 @@ Do not equate:
 
 ```text
 positive A x D interaction
+!= functional release
+!= ecological mechanism
 != trait differentiation
-!= historical origin
+!= historical splitting
+
+route recurrence
+!= prevalence
+
+residual by subtraction
+!= identified joint cost
 
 structural separation
 != functional independence
-
-optimized-state advantage
-!= evolutionary accessibility/dynamics
 ```
 
-The final historical-transition claim remains outside the current evidence ceiling.
+BITA's active contribution is the evidence-promotion ladder from an observed trait interaction to increasingly identified ecological mechanism.
