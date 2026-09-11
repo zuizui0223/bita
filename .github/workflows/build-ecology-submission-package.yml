@@ -1,169 +1,38 @@
-name: build-ecology-submission-package
+name: legacy-ecology-submission-package-guard
 
 on:
   pull_request:
     paths:
       - 'manuscript/**'
       - 'submission/**'
-      - 'theory/TRAIT_DIFFERENTIATION_EXTENSION.md'
-      - 'docs/TRAIT_DIFFERENTIATION_*'
-      - 'empirical/identification_design/**'
-      - 'trait_architecture/differentiation*.py'
-      - 'trait_architecture/identification.py'
-      - 'trait_architecture/partial_identification.py'
-      - 'scripts/build_ecology_review_package_sources.py'
-      - 'scripts/build_trait_differentiation_candidate_package_sources.py'
-      - 'scripts/format_ecology_submission_docx.py'
+      - 'docs/SUBMISSION_SCOPE.md'
+      - 'docs/CHAPTER2_SUBMISSION_SCOPE_V1.md'
+      - 'scripts/build_bita_mechanism_candidate_sources.py'
       - 'tests/test_trait_differentiation*.py'
-      - 'tests/test_ecology_formatter_math.py'
       - '.github/workflows/build-ecology-submission-package.yml'
+      - '.github/workflows/build-bita-mechanism-review-package.yml'
   workflow_dispatch:
 
 jobs:
-  build:
+  legacy-guard:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install document toolchain
+      - name: Confirm stale integrated package is not canonical
         run: |
-          sudo apt-get update
-          sudo apt-get install -y pandoc libreoffice-writer poppler-utils librsvg2-bin
-          python -m pip install python-docx pytest
+          grep -q 'OLD_PACKAGE_STALE' docs/SUBMISSION_SCOPE.md
+          grep -q 'REBUILD_REQUIRED_BEFORE_SUBMISSION' docs/SUBMISSION_SCOPE.md
+          grep -q 'The active paper is no longer the general architecture-value paper' docs/SUBMISSION_SCOPE.md
 
-      - name: Run canonical Chapter 2 regression tests
+      - name: Confirm current mechanism-identification submission route
         run: |
-          python -m pytest -q \
-            tests/test_trait_differentiation.py \
-            tests/test_trait_differentiation_robustness.py \
-            tests/test_trait_differentiation_manuscript.py \
-            tests/test_trait_differentiation_figures.py \
-            tests/test_trait_differentiation_candidate_package.py \
-            tests/test_ecology_formatter_math.py \
-            tests/test_identification.py \
-            tests/test_partial_identification.py
+          grep -q 'Trait interaction is not ecological mechanism' manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md
+          test -f scripts/build_bita_mechanism_candidate_sources.py
+          test -f .github/workflows/build-bita-mechanism-review-package.yml
+          grep -q 'bita-mechanism-identification-review-package' .github/workflows/build-bita-mechanism-review-package.yml
 
-      - name: Build canonical Ecology sources from Chapter 2 manuscript
-        run: python scripts/build_ecology_review_package_sources.py
-
-      - name: Build Main Document DOCX
+      - name: Record routing decision
         run: |
-          cd submission/ecology/generated
-          pandoc MANUSCRIPT_ECOLOGY_SUBMISSION.md \
-            --from=markdown+tex_math_single_backslash \
-            --to=docx \
-            --output=MANUSCRIPT_ECOLOGY_RAW.docx
-          cd ../../..
-          python scripts/format_ecology_submission_docx.py \
-            submission/ecology/generated/MANUSCRIPT_ECOLOGY_RAW.docx \
-            submission/ecology/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.docx
-
-      - name: Build Appendix S1 DOCX
-        run: |
-          cd submission/ecology/generated
-          pandoc APPENDIX_S1.md \
-            --from=markdown+tex_math_single_backslash \
-            --to=docx \
-            --output=APPENDIX_S1_RAW.docx
-          cd ../../..
-          python scripts/format_ecology_submission_docx.py \
-            submission/ecology/generated/APPENDIX_S1_RAW.docx \
-            submission/ecology/generated/APPENDIX_S1.docx \
-            --appendix
-
-      - name: Validate DOCX structure and embedded figures
-        run: |
-          mkdir -p /tmp/ecology-docx
-          cd /tmp/ecology-docx
-          unzip -q "$GITHUB_WORKSPACE/submission/ecology/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.docx"
-          grep -q 'w:lnNumType' word/document.xml
-          ! grep -q 'ECOLOGY_SECTION_BREAK' word/document.xml
-          ! grep -q 'ECOLOGY_PAGE_BREAK' word/document.xml
-          cd "$GITHUB_WORKSPACE"
-          MEDIA_COUNT=$(unzip -l submission/ecology/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.docx | grep -c 'word/media/' || true)
-          if [ "$MEDIA_COUNT" -lt 5 ]; then
-            echo "Expected five embedded Chapter 2 Main figures; found $MEDIA_COUNT" >&2
-            exit 1
-          fi
-
-      - name: Render Main Document and Appendix
-        run: |
-          mkdir -p submission/ecology/generated/rendered
-          libreoffice --headless --convert-to pdf \
-            --outdir submission/ecology/generated/rendered \
-            submission/ecology/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.docx
-          libreoffice --headless --convert-to pdf \
-            --outdir submission/ecology/generated/rendered \
-            submission/ecology/generated/APPENDIX_S1.docx
-
-      - name: Validate canonical Chapter 2 package and page limits
-        run: |
-          MAIN_PDF=submission/ecology/generated/rendered/MANUSCRIPT_ECOLOGY_SUBMISSION.pdf
-          APP_PDF=submission/ecology/generated/rendered/APPENDIX_S1.pdf
-          MAIN_TXT="$RUNNER_TEMP/main.txt"
-          APP_TXT="$RUNNER_TEMP/appendix.txt"
-          test -s "$MAIN_PDF"
-          test -s "$APP_PDF"
-          MAIN_PAGES=$(pdfinfo "$MAIN_PDF" | awk '/^Pages:/ {print $2}')
-          APP_PAGES=$(pdfinfo "$APP_PDF" | awk '/^Pages:/ {print $2}')
-          pdftotext "$MAIN_PDF" "$MAIN_TXT"
-          pdftotext "$APP_PDF" "$APP_TXT"
-
-          grep -q 'When does a trait trade-off resolve by differentiation rather than compromise' "$MAIN_TXT"
-          grep -qi 'decoupling fraction' "$MAIN_TXT"
-          grep -q '300 nonzero-conflict evaluations' "$MAIN_TXT"
-          grep -qi 'cichlid' "$MAIN_TXT"
-          grep -q 'Dalechampia' "$MAIN_TXT"
-          grep -q '56 route records from' "$MAIN_TXT"
-          grep -q '25 independent biological study clusters' "$MAIN_TXT"
-          grep -q 'Figure 5.' "$MAIN_TXT"
-          grep -q 'Trait differentiation and mechanism identification' "$APP_TXT"
-          grep -q 'Nonquadratic robustness' "$APP_TXT"
-          grep -q '2,592' "$APP_TXT"
-          test -s submission/ecology/generated/open_research_data/trait_differentiation_robustness_readout.json
-          test -s submission/ecology/generated/open_research_data/high_information_identification_coverage.csv
-          test -s submission/ecology/generated/open_research_data/impatiens_identification_retrofit.json
-
-          if [ "$MAIN_PAGES" -gt 30 ]; then
-            echo "Canonical Chapter 2 Main is $MAIN_PAGES pages; expected the validated <=30-page standard package." >&2
-            exit 1
-          fi
-
-          MEDIA_COUNT=$(unzip -l submission/ecology/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.docx | grep -c 'word/media/' || true)
-          {
-            echo "main_pages=$MAIN_PAGES"
-            echo "appendix_pages=$APP_PAGES"
-            echo "length_state=WITHIN_30_PAGE_STANDARD_TARGET"
-            echo "limit_state=PASS_AT_OR_BELOW_30"
-            echo "canonical_manuscript=manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md"
-            echo "main_headline=balance_to_differentiation_to_identification"
-            echo "main_figures=5 trait-differentiation figures embedded"
-            echo "embedded_main_media=$MEDIA_COUNT"
-            echo "historical_transition_claim=not_established"
-            echo "old_identification_manuscript=provenance_mechanistic_component"
-          } > submission/ecology/generated/PACKAGE_QA_RECEIPT.txt
-
-      - name: Remove raw intermediate Word files
-        if: always()
-        run: |
-          rm -f submission/ecology/generated/MANUSCRIPT_ECOLOGY_RAW.docx
-          rm -f submission/ecology/generated/APPENDIX_S1_RAW.docx
-
-      - name: Upload canonical review package
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ecology-submission-package
-          path: |
-            submission/ecology/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.docx
-            submission/ecology/generated/APPENDIX_S1.docx
-            submission/ecology/generated/rendered/MANUSCRIPT_ECOLOGY_SUBMISSION.pdf
-            submission/ecology/generated/rendered/APPENDIX_S1.pdf
-            submission/ecology/generated/OPEN_RESEARCH_DATA_MANIFEST.md
-            submission/ecology/generated/open_research_data/*
-            submission/ecology/generated/PACKAGE_QA_RECEIPT.txt
-          if-no-files-found: error
+          echo 'Legacy integrated Ecology package is intentionally retired.'
+          echo 'Active review package is built by build-bita-mechanism-review-package.yml.'
