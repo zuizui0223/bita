@@ -1,120 +1,125 @@
 # Ecology Concepts & Synthesis fit audit
 
-Checked against *Ecology* Author Guidelines current on 2026-08-21 (guidance revised April 2026) and the ESA Open Research Policy.
+Checked against the repository's current Ecology submission contract after the SLK publication split.
 
 ## Editorial fit
 
-**PASS, with the manuscript framed as a balance → differentiation → identification synthesis.**
+**PASS for the active mechanism-identification paper.**
 
-Transferable sequence:
-
-```text
-measure or characterize a shared-trait compromise
-→ compare the best shared architecture with a differentiated architecture
-→ quantify recoverable compromise loss R
-→ account for residual coupling and extra architecture cost K
-→ determine whether differentiation pays
-→ once several axes exist, measure their total interaction
-→ represent compatible ecological channel allocations as an identified set
-→ add selective interventions and an independent remaining-channel assay
-```
-
-The floral attraction/defence notation is a detailed worked case. The broader contribution is the connection among **shared-axis balance**, **partial trait differentiation**, and **causal mechanism identification**.
-
-## Rendered review-package audit
-
-Current validated canonical state:
-
-- Main Document: Word `.docx`, Letter portrait, 1-inch margins, 12-pt Times New Roman, double-spaced prose;
-- title page / review numbering / native equations / five embedded Main figures — PASS structurally;
-- one Appendix S1;
-- current Main length before final author metadata: **30 pages**;
-- current Appendix length: **38 pages**;
-- Main status: **within the standard 30-page target exactly**.
-
-Full-page visual QA of all **30 Main + 38 Appendix = 68 pages** found no blank pages, clipping, overlap, missing figure content, or broken equations. A LibreOffice OMML fallback for superscript `*` was found during QA and corrected by rendering optimized quantities with explicit `opt` superscripts; the corrected package retains the 30-page Main count.
-
-## Current Author-Guideline audit
-
-- Abstract ≤350 words — PASS
-- Keywords 6–12 — PASS
-- Journal/manuscript type on title page — PASS
-- Open Research statement — PASS structurally
-- Acknowledgments / Author Contributions / Funding / Conflict of Interest / References order — PASS structurally; author content pending
-- five Main figures embedded — PASS
-- native equations — PASS after renderer-specific `opt` normalization
-- review line numbering — PASS structurally
-- standard 30-page target — PASS at 30 pages
-- ≤50-page absolute ceiling — PASS
-- >30-page cover-letter justification — NOT REQUIRED
-- Appendix architecture — PASS at 38 pages
-- final author-list consistency — PENDING author input
-
-## Architecture synthesis fit
-
-The general nested-architecture result is
+The reusable inference sequence is:
 
 ```text
-R >= 0
-Delta_arch = R - K
-Delta_arch > 0 <=> K < R
+measure a focal trait interaction
+-> separate nested outcome claims
+-> represent compatible mechanism allocations as an identified set
+-> add explicit restrictions / partial channel measurements
+-> use selective consumer interventions
+-> test four-way separability
+-> independently assay any remaining joint channel
 ```
 
-under the declared assumption that the differentiated architecture contains the shared phenotype before its additional fixed architecture cost is charged. With a non-negative scaled residual-coupling penalty, stronger coupling cannot increase `R`.
+The detailed floral attraction/defence case is a worked system. The transferable contribution is the promotion ladder from **trait interaction** to **mechanism identification**.
 
-The quadratic corollary is
+## Active scientific package
+
+The canonical science source is:
 
 ```text
-R = s L_S*
-Delta_arch = s L_S* - K
+manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md
 ```
 
-where `s` is the retained fraction of function-specific separation after residual coupling. The manuscript explicitly does not treat `R=sL_S*` as a shape-independent identity or claim that every trade-off evolves toward modularity.
+The file name is historical; the active title is **Trait interaction is not ecological mechanism: an identification framework for multifunctional traits**.
 
-The registered convex-family analysis gives strict positive pre-cost recovery in 300/300 nonzero-conflict evaluations and increasing recovery with optimum separation in 60/60 declared series. The 60/60 coupling result is an implementation check of the structural monotonicity proposition.
+The current review-package builder is:
 
-Cichlid oral/pharyngeal jaws and *Dalechampia* establish biological plausibility of incomplete differentiation and historical architecture reorganization without estimating BITA parameters or proving a historical causal transition.
+```text
+scripts/build_bita_mechanism_candidate_sources.py
+```
+
+and the current workflow is:
+
+```text
+.github/workflows/build-bita-mechanism-review-package.yml
+```
+
+The previously validated 30-page Main / 38-page Appendix package belonged to the older integrated architecture-plus-mechanism manuscript. It is **historical and not submission-current**. Its old page counts are not evidence that the refocused mechanism paper is submission-ready; the active package must be rebuilt and visually audited after the refocus.
 
 ## Mechanism-identification fit
 
-Once multiple trait axes exist, the floral worked case retains the measurable interaction
+The canonical paper distinguishes the measurable total interaction
 
 ```text
 Delta_AD W = W11 - W10 - W01 + W00
 ```
 
-and the allocation identity
+from its compatible ecological allocations
 
 ```text
 Delta_AD W = rho_delta - iota_delta - kappa_delta.
 ```
 
-A total interaction therefore defines a compatible set rather than a unique mechanism. Selective crossed interventions, baseline handling, the four-way separability diagnostic and an independent remaining-channel assay are required for stronger allocation.
+The total interaction therefore defines an identified set rather than a unique mechanism. Stronger claims require explicit restrictions, selective antagonist and pollinator interventions, pollinator-independent baseline handling, the four-way separability diagnostic, and independent evidence for any remaining joint channel.
 
-The source-adjudicated route layer contains **56 route records / 25 independent biological clusters** and establishes recurrence only. The authoritative high-information audit contains **17 systems** occupying complementary design faces. The empirical synthesis is therefore a **fragmented identification frontier**, not a prevalence estimate and not a 0/17 claim about the biology.
+## Empirical synthesis fit
+
+The source-adjudicated empirical spine contains:
+
+```text
+56 directional route records
+25 independent biological clusters
+17 high-information systems
+```
+
+All four constituent marginal route families recur, while no screened high-information system closes the full allocation design plus an independent remaining-channel assay. The empirical synthesis is therefore:
+
+```text
+RECURRENT_CONSTITUENT_BIOLOGY
++
+FRAGMENTED_IDENTIFICATION
+```
+
+These counts are recurrence / identification-capacity diagnostics, not natural-prevalence estimates.
+
+Compatible route-level meta-analysis is retained only where effect metrics are commensurate. The floral-larceny readout provides quantitative sub-lanes for female reproductive success, visitation, nectar standing crop, and male reproductive success. Those marginal route effects do not identify the full `A x D` mechanism allocation.
+
+## Boundary with SLK
+
+The architecture-value transport
+
+```text
+L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy
+```
+
+belongs to SLK. Historical BITA architecture derivations remain technical provenance, not active Main-text novelty.
+
+The active BITA paper must therefore not be evaluated by whether it reproduces the old trade-off/differentiation architecture manuscript, its 300-condition robustness grid, cichlid/Dalechampia architecture examples, or its old package title.
 
 ## Identification invariants preserved
 
 - total interaction alone defines a set, not unique channel allocation;
+- positive interaction relief is weaker than functional release and strict reversal;
 - partial bounds are conditional on declared restrictions;
-- point-ID design is `A × D × antagonist × pollinator` with selective interventions;
-- `m0_delta` is measured/corrected rather than assumed zero;
-- `U_delta` is unallocated and not kappa by subtraction;
-- the remaining joint channel requires independent evidence;
+- point-identification requires selective `A x D x antagonist x pollinator` intervention structure;
+- pollinator-independent reproduction is measured/corrected rather than assumed absent;
+- the four-way interaction is a separability diagnostic, not nuisance variation;
+- an unallocated residual is not called biological cost by subtraction;
 - marginal route recurrence is not channel identification or prevalence;
-- positive A×D interaction is not evidence of historical trait splitting;
-- historical 2,592 / 77.2% results remain technical Appendix/provenance material only.
+- positive `A x D` interaction is not evidence of historical trait splitting.
 
 ## Open Research boundary
 
-The canonical package preserves the historical mechanism/Pattern machine-readable products and adds the trait-differentiation robustness readout plus authoritative identification outputs. Permanent archival DOI remains an acceptance-stage requirement.
+The active builder exports source-backed identification products, including the 17-system high-information frontier, the public-data identification retrofit, and the 56-route / 25-cluster pattern readout. A permanent archival DOI remains an acceptance-stage requirement.
 
 ## Remaining submission blockers
 
-Only author-controlled fields and final post-metadata QA: publication names/order/affiliations, corresponding author/e-mail, ORCIDs, CRediT, funding, acknowledgments, competing interests, licence, reviewer information if requested, all-author approval/no-simultaneous-submission confirmation, then exact rebuild and page-by-page inspection.
+1. rebuild the active mechanism-identification DOCX/PDF through the dedicated workflow;
+2. verify current page count and all five embedded Main figures;
+3. repeat page-by-page visual QA on the refocused package;
+4. complete author-controlled metadata, funding, CRediT, competing interests, reviewer fields if requested, and all-author approval;
+5. perform one final exact rebuild after metadata insertion.
 
 ## Fallbacks
 
-1. The American Naturalist — strongest alternative for a more evolution-theory presentation.
-2. Evolution — stronger if direct transition/phylogenetic evidence is added.
-3. The previously validated Theoretical Ecology identification-only package — provenance/alternative only if the integrated Chapter 2 is deliberately split back into a narrower mechanism paper.
+1. The American Naturalist — strongest alternative for a more theory/inference presentation.
+2. Methods in Ecology and Evolution — possible if the identification/design contribution is emphasized methodologically.
+3. Theoretical Ecology — fallback for a narrower theory/identification framing.
