@@ -4,130 +4,121 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_readme_declares_three_world_balance_differentiation_identification_story() -> None:
+def test_readme_declares_active_mechanism_identification_story() -> None:
     text = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "SCH / Chapter 1 — SHARED-COORDINATE WORLD" in text
-    assert "BALANCE / Chapter 2 — MIDDLE WORLD" in text
-    assert "BITA / Chapter 3 — DIFFERENTIATED-COORDINATE WORLD" in text
-    assert "Delta_arch = R - K" in text
-    assert "R = s L_S*" in text
-    assert "Delta_arch = s L_S* - K" in text
-    assert "300 / 300" in text
-    assert "60 / 60" in text
-    assert "Delta_AD W = W11 - W10 - W01 + W00" in text
-    assert "56 source-adjudicated route records / 25 independent biological clusters" in text
-    assert "17-system high-information frontier" in text
+    assert "trait interaction != ecological mechanism" in text
+    assert "interaction detection" in text
+    assert "identified set" in text
+    assert "partial identification" in text
+    assert "four-way separability diagnostic" in text
+    assert "56 directional route records" in text
+    assert "25 independent biological clusters" in text
+    assert "17 high-information systems" in text
+    assert "FRAGMENTED_IDENTIFICATION" in text
+    assert "OLD_PACKAGE_STALE" in text
+    assert "REBUILD_REQUIRED" in text
+
+
+def test_readme_assigns_architecture_value_spine_to_slk() -> None:
+    text = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy" in text
+    assert "SLK owns" in text
+    assert "Older BITA architecture derivations remain preserved" in text
+    assert "not the novelty center of the active full paper" in text
+
+
+def test_canonical_main_is_mechanism_identification_paper() -> None:
+    text = (ROOT / "manuscript" / "MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md").read_text(encoding="utf-8")
+    assert text.startswith("# Trait interaction is not ecological mechanism")
+    assert "Level 1 — positive interaction relief" in text
+    assert "Level 2 — functional constraint release" in text
+    assert "Level 3 — strict reversal" in text
+    assert "I(\\delta)" in text
+    assert "A\\times D\\times E_G\\times E_P" in text
+    assert "fragmented identification frontier" in text.lower()
+    assert "architecture quantities \\(R\\), \\(s\\), \\(K\\), and \\(\\Phi\\)" in text
+    assert "not the novelty center of this paper" in text
+
+
+def test_scope_preserves_active_identification_boundaries() -> None:
+    text = (ROOT / "docs" / "SUBMISSION_SCOPE.md").read_text(encoding="utf-8")
+    assert "BITA mechanism-identification paper" in text
+    assert "Level 1" in text
+    assert "Level 2" in text
+    assert "Level 3" in text
+    assert "I(delta)" in text
     assert "fragmented identification" in text.lower()
-    assert "route recurrence" in text
-    assert "!= prevalence" in text
-    assert "Main Document: 30 pages" in text
-    assert "Appendix S1:   38 pages" in text
-    assert "Science and pre-metadata package: GO" in text
+    assert "OLD_PACKAGE_STALE" in text
+    assert "REBUILD_REQUIRED_BEFORE_SUBMISSION" in text
+    assert "positive A x D interaction" in text
+    assert "!= ecological mechanism" in text
 
 
-def test_three_world_contract_keeps_bita_on_the_right_hand_architecture_boundary() -> None:
-    text = (ROOT / "docs" / "THREE_WORLD_PROGRAMME_V1.md").read_text(encoding="utf-8")
-    assert "Chapter 1 / SCH" in text
-    assert "Chapter 2 / BALANCE" in text
-    assert "Chapter 3 / BITA" in text
-    assert "Phi = sL-K = 0" in text
-    assert "Delta_W = sL-K" in text
-    assert "BITA does not own the left-hand conflict boundary `L=0`" in text
+def test_claim_freeze_blocks_reimporting_slk_novelty() -> None:
+    text = (ROOT / "manuscript" / "CLAIM_FREEZE.md").read_text(encoding="utf-8")
+    assert "Trait interaction is not ecological mechanism" in text
+    assert "The active manuscript must not drift back" in text
+    assert "L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy" in text
+    assert "belongs to SLK" in text
+    assert "residual by subtraction" in text
+    assert "active BITA paper owns the general `Phi=R-K`" in text
 
 
-def test_one_trait_shared_cue_lane_is_externalized_to_sch() -> None:
-    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+def test_submission_checklist_resets_old_go_state() -> None:
+    text = (ROOT / "submission" / "SUBMISSION_CHECKLIST.md").read_text(encoding="utf-8")
+    assert "SCIENCE_THESIS = FROZEN" in text
+    assert "OLD_30_PLUS_38_PACKAGE = STALE" in text
+    assert "FIGURES = REBUILD_REQUIRED" in text
+    assert "APPENDIX = REBUILD_REQUIRED" in text
+    assert "EXTERNAL_SUBMISSION = NOT_YET_READY" in text
+    assert "The current blocker is no longer author metadata alone" in text
+
+
+def test_final_audit_marks_old_package_historical() -> None:
+    text = (ROOT / "docs" / "FINAL_SUBMISSION_AUDIT.md").read_text(encoding="utf-8")
+    assert "BITA mechanism-identification paper" in text
+    assert "HISTORICAL_PACKAGE_QA = PASS_FOR_OLD_SCIENCE_SOURCE" in text
+    assert "ACTIVE_PACKAGE_STATUS = STALE" in text
+    assert "ACTIVE_MAIN_RENDER = REBUILD_REQUIRED" in text
+    assert "Reader-facing submission package: NOT YET READY" in text
+
+
+def test_cover_letter_uses_new_thesis_and_does_not_claim_old_package_ready() -> None:
+    text = (ROOT / "submission" / "COVER_LETTER_ECOLOGY_CONCEPTS_SYNTHESIS.md").read_text(encoding="utf-8")
+    assert "Trait interaction is not ecological mechanism" in text
+    assert "56 directional route records from 25 independent biological clusters" in text
+    assert "17-system high-information audit" in text
+    assert "fragmented identification" in text.lower()
+    assert "no longer submission-current" in text
+    assert "will be rebuilt" in text
+
+
+def test_figure_plan_matches_active_main_story() -> None:
+    captions = (ROOT / "manuscript" / "TRAIT_DIFFERENTIATION_FIGURE_CAPTIONS_V1.md").read_text(encoding="utf-8")
+    plan = (ROOT / "manuscript" / "FIGURE_REBUILD_PLAN_MECHANISM_IDENTIFICATION_V1.md").read_text(encoding="utf-8")
+    assert "A trait interaction is an outcome estimand, not a mechanism allocation" in captions
+    assert "identified set of compatible ecological mechanisms" in captions
+    assert "Crossed consumer intervention" in captions
+    assert "fragmented identification frontier" in captions
+    assert "RENDERED_FIGURES_STALE" in plan
+    assert "No architecture-value quantities should appear" in plan
+
+
+def test_legacy_three_world_document_is_provenance_not_active_scope() -> None:
+    legacy = (ROOT / "docs" / "THREE_WORLD_PROGRAMME_V1.md").read_text(encoding="utf-8")
+    active = (ROOT / "docs" / "SUBMISSION_SCOPE.md").read_text(encoding="utf-8")
+    assert "Chapter 1 / SCH" in legacy
+    assert "Chapter 2 / BALANCE" in legacy
+    assert "Chapter 3 / BITA" in legacy
+    assert "architecture-value spine" in active
+    assert "owned by SLK" in active
+
+
+def test_one_trait_shared_cue_lane_remains_externalized_to_sch() -> None:
     manuscript = (ROOT / "manuscript" / "MANUSCRIPT_IDENTIFICATION_DESIGN.md").read_text(encoding="utf-8")
     limits = manuscript.split("### 6.4 Limits", 1)[1].split("## 7. Conclusions", 1)[0]
-    assert "SCH / Chapter 1" in readme
     assert "does not test" in limits
     assert "five attraction-to-pollination and eight attraction-to-antagonism clusters" in limits
     assert "constituent evidence" in limits
     assert not any((ROOT / "empirical" / "one_trait_shared_cue").glob("*"))
     assert not any((ROOT / "related_work" / "one_trait_shared_cue").glob("*"))
-
-
-def test_manifest_pins_chapter2_core_and_bounded_identification_provenance() -> None:
-    text = (ROOT / "SUPPLEMENT_MANIFEST.md").read_text(encoding="utf-8")
-    assert "# Supplement manifest — canonical trait-differentiation Chapter 2" in text
-    assert "## 2. Scientific core" in text
-    assert "Delta_arch = R - K" in text
-    assert "R = s L_S*" in text
-    assert "## 3. Robustness layer" in text
-    assert "300 / 300" in text
-    assert "## 5. Retained floral identification layer" in text
-    assert "selective crossed interventions" in text
-    assert "four-way separability test" in text
-    assert "independent joint-channel assay" in text
-    assert "56 route records" in text
-    assert "These counts establish recurrence only." in text
-    assert "No screened system closes all allocation dimensions and no independent joint-cost assay is present." in text
-    assert "## 8. Historical quantitative provenance retained" in text
-    assert "ed33b25593c0d90ad6657753f6f5501d9efc7b82" in text
-    assert "Main Document: 30 pages" in text
-    assert "Appendix S1:   38 pages" in text
-
-
-def test_live_submission_docs_do_not_pin_superseded_theorem_or_identification_only_story() -> None:
-    live_docs = (
-        ROOT / "README.md",
-        ROOT / "SUPPLEMENT_MANIFEST.md",
-        ROOT / "docs" / "FINAL_SUBMISSION_AUDIT.md",
-        ROOT / "docs" / "SUBMISSION_SCOPE.md",
-        ROOT / "submission" / "SUBMISSION_CHECKLIST.md",
-        ROOT / "submission" / "TARGET_JOURNAL_STRATEGY.md",
-        ROOT / "submission" / "ECOLOGY_CONCEPTS_SYNTHESIS_FIT_AUDIT.md",
-    )
-    stale_tokens = (
-        "When are floral attraction and defence complementary? A one-sided mechanistic bound",
-        "paperized around the one-sided selectivity bound",
-        "one-sided mechanistic theorem plus",
-        "Main Document: 27 pages",
-        "Main 27 pages",
-        "27 Main Document pages",
-        "canonical partial-identification paper",
-    )
-    for path in live_docs:
-        text = path.read_text(encoding="utf-8")
-        for token in stale_tokens:
-            assert token not in text, f"{path.name}: stale live-state token {token!r}"
-
-
-def test_scope_preserves_identification_boundaries_inside_chapter2() -> None:
-    text = (ROOT / "docs" / "SUBMISSION_SCOPE.md").read_text(encoding="utf-8")
-    assert "Pattern layer 1" in text
-    assert "Pattern layer 2" in text
-    assert "source-adjudicated route ledger is **not itself a grand meta-analysis**" in text
-    assert "marginal route recurrence" in text
-    assert "!= total A×D interaction" in text
-    assert "`U_delta` is not kappa by subtraction" in text
-    assert "30 Main pages + 38 Appendix pages" in text
-    assert "full page-by-page qa of all 68 pages" in text.lower()
-
-
-def test_chapter2_promotion_receipt_records_closed_gates() -> None:
-    text = (ROOT / "docs" / "CHAPTER2_SUBMISSION_SCOPE_V1.md").read_text(encoding="utf-8")
-    assert "PROMOTION GATES CLOSED" in text
-    assert "docs/SUBMISSION_SCOPE.md` is the canonical live submission scope" in text
-    assert "MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md" in text
-    assert "MANUSCRIPT_IDENTIFICATION_DESIGN.md" in text
-    assert "K < s L_S*" in text
-    assert "300/300" in text
-    assert "17-system fragmented identification frontier" in text
-    assert "[x] post-promotion canonical package rebuild succeeds" in text
-    assert "full visual QA: 68/68 pages PASS" in text
-
-
-def test_final_audit_records_promoted_chapter2_and_preserved_identification_boundary() -> None:
-    text = (ROOT / "docs" / "FINAL_SUBMISSION_AUDIT.md").read_text(encoding="utf-8")
-    assert "canonical trait-differentiation Chapter 2" in text
-    assert "Delta_arch = R - K" in text
-    assert "R = s L_S*" in text
-    assert "56 route records" in text
-    assert "25 independent biological clusters" in text
-    assert "independent joint-cost assay:       0" in text
-    assert "full rho/iota/kappa identification: 0" in text
-    assert "Main Document: 30 pages" in text
-    assert "Appendix S1:   38 pages" in text
-    assert "full-page visual QA — PASS" in text
-    assert "The constituent channels recur, but their joint allocation remains unidentified." in text
