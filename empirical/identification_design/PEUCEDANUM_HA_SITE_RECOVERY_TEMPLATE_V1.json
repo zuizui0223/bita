@@ -1,0 +1,35 @@
+{
+  "schema_version": "BITA_PEUCEDANUM_HA_SITE_RECOVERY_V1",
+  "source_contact": "REQUIRED_BEFORE_USE",
+  "source_contact_role": "REQUIRED_BEFORE_USE",
+  "response_date": "REQUIRED_BEFORE_USE",
+  "ha_exact_latitude": "REQUIRED_BEFORE_USE",
+  "ha_exact_longitude": "REQUIRED_BEFORE_USE",
+  "coordinate_precision_or_uncertainty_m": "REQUIRED_BEFORE_USE",
+  "municipality": "REQUIRED_BEFORE_USE",
+  "local_place_name": "REQUIRED_BEFORE_USE",
+  "land_manager_or_site_owner": "REQUIRED_BEFORE_USE",
+  "national_park_zone_if_known": "REQUIRED_BEFORE_USE",
+  "previous_plant_manipulation_or_sampling_authorization": {
+    "known": "REQUIRED_BEFORE_USE",
+    "issuing_authority": "REQUIRED_BEFORE_USE",
+    "authorization_type_or_id": "REQUIRED_BEFORE_USE",
+    "notes": "REQUIRED_BEFORE_USE"
+  },
+  "previous_predator_egg_removal_authorization": {
+    "known": "REQUIRED_BEFORE_USE",
+    "issuing_authority": "REQUIRED_BEFORE_USE",
+    "authorization_type_or_id": "REQUIRED_BEFORE_USE",
+    "notes": "REQUIRED_BEFORE_USE"
+  },
+  "previous_leaf_sampling_or_genetic_work_authorization": {
+    "known": "REQUIRED_BEFORE_USE",
+    "issuing_authority": "REQUIRED_BEFORE_USE",
+    "authorization_type_or_id": "REQUIRED_BEFORE_USE",
+    "notes": "REQUIRED_BEFORE_USE"
+  },
+  "permission_to_reuse_exact_site_for_new_project": "REQUIRED_BEFORE_USE",
+  "site_access_constraints": "REQUIRED_BEFORE_USE",
+  "sensitive_location_handling": "REQUIRED_BEFORE_USE",
+  "notes": "This record stores factual site-recovery information. It does not substitute for current project authorization."
+}
