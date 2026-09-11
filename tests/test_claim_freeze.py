@@ -102,61 +102,54 @@ def test_legacy_prohibited_overclaim_phrases_stay_absent() -> None:
 def test_legacy_next_experiment_remains_a_falsification_gate_not_a_missing_result() -> None:
     text = _text(LEGACY_MANUSCRIPT)
     assert "2 × 2 allocation" in text or "2 \\times 2 allocation" in text
-    assert (
-        "full attraction \\times defence factorial" in text
-        or "attraction × defence factorial" in text
-    )
+    assert "full attraction \\times defence factorial" in text or "attraction × defence factorial" in text
     assert "sufficiently negative" in text
 
 
-def test_active_claim_freeze_uses_balance_to_differentiation_programme() -> None:
+def test_active_claim_freeze_uses_mechanism_identification_programme() -> None:
     text = _text(CLAIM_FREEZE)
-    assert "not defined by pollination versus defence" in text
-    assert "SCH / Chapter 1 — BALANCE" in text
-    assert "BITA / Chapter 2 — DIFFERENTIATION" in text
-    assert "Delta_arch = W_D* - W_S*" in text
-    assert "differentiation is favoured  <=>  K < R" in text
+    assert "Trait interaction is not ecological mechanism" in text
+    assert "Delta_AD W = rho_delta - iota_delta - kappa_delta" in text
+    assert "interaction detection" in text
+    assert "identified set" in text
+    assert "four-way separability diagnostic" in text
+    assert "independent remaining-channel assay" in text
+    assert "L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy" in text
+    assert "belongs to SLK" in text
 
 
-def test_active_claim_freeze_preserves_partial_differentiation_and_historical_ceiling() -> None:
+def test_active_claim_freeze_preserves_outcome_hierarchy_and_historical_ceiling() -> None:
     text = _text(CLAIM_FREEZE)
     for phrase in (
-        "residual cross-talk",
-        "structural separation of traits implies zero residual functional",
-        "positive A×D interaction",
-        "!= trait differentiation",
-        "one shared trait -> two differentiated traits",
+        "Level 1  Delta_AD W > 0",
+        "Level 2  A0 <= 0 < A1",
+        "Level 3  A0 < 0 < A1",
+        "positive trait interaction proves trait differentiation",
+        "positive interaction proves historical splitting",
+        "structural separation implies functional, developmental, or genetic independence",
     ):
         assert phrase in text, phrase
-    assert "do **not** by themselves establish the historical transition" in text
+    assert "historical origin of differentiated traits has been reconstructed" in text
 
 
-def test_active_claim_freeze_freezes_nonquadratic_robustness_without_claiming_universality() -> None:
-    text = _text(CLAIM_FREEZE)
-    lower = text.lower()
-    for token in ("300 / 300", "60 / 60", "convex power-loss family"):
-        assert token in text, token
-    assert "first general theory showing that trade-offs can favour specialization" in text
-    assert (
-        "not a theorem covering arbitrary nonconvex" in lower
-        or "not a universal theorem" in lower
-        or "does not support universality" in lower
-        or "no universality claim" in lower
-        or "proves universality" in lower
-    )
-    assert "300-condition robustness grid proves universality" in lower
-
-
-def test_active_claim_freeze_keeps_prior_art_and_empirical_roles_separate() -> None:
+def test_active_claim_freeze_freezes_empirical_identification_frontier() -> None:
     text = _text(CLAIM_FREEZE)
     for token in (
-        "Rüffler, Hermisson & Wagner",
-        "Guillaume & Otto",
-        "Sack & Buckley",
-        "Cichlid oral and pharyngeal jaws",
-        "Dalechampia",
-        "56 source-adjudicated route records across 25 independent biological clusters",
-        "17-system fragmented identification frontier",
+        "56 directional route records",
+        "25 independent biological clusters",
+        "17 systems",
+        "RECURRENT_CONSTITUENT_BIOLOGY",
+        "FRAGMENTED_IDENTIFICATION",
     ):
         assert token in text, token
-    assert "not the universal scope" in text
+    assert "No screened system closes the full allocation design plus an independent remaining-channel assay" in text
+    assert "not prevalence estimates" in text
+
+
+def test_active_claim_freeze_keeps_slk_and_bita_ownership_separate() -> None:
+    text = _text(CLAIM_FREEZE)
+    assert "### SLK owns" in text
+    assert "### BITA owns" in text
+    assert "trait interaction != ecological mechanism" in text
+    assert "Older BITA architecture derivations remain versioned technical provenance" in text
+    assert "must not be presented as the active paper's central novelty" in text
