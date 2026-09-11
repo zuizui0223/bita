@@ -5,89 +5,122 @@
 BITA is ordered as:
 
 ```text
-mathematical differentiation mechanism
--> observable signatures
--> systematic metadata / meta-analytic recovery
--> only then focal causal differentiation experiment
+mathematical identification mechanism
+-> observable route / identification signatures
+-> source-adjudicated metadata and compatible meta-analysis
+-> residual mechanism-identification gap
+-> only then focal crossed causal experiment
 ```
 
-The empirical half therefore does not depend on a new Pedicularis experiment. The focal experiment remains the strongest later causal validation, while the present paper first asks whether the theory's predicted differentiation signatures recur across independent systems.
+The empirical paper does not begin by asking a new focal system to prove BITA. The source-adjudicated synthesis first asks whether the constituent ecological routes and the identification failures predicted by the theory recur across independent biological systems. The focal crossed experiment is reserved for the final mechanism-allocation gap.
 
 ## Fixed theoretical object
 
-BITA asks when extra trait dimensionality releases a shared-coordinate compromise. Under the registered theory, differentiated access can recover compromise loss, residual coupling reduces that recovery, and differentiation is favored only when recoverable benefit exceeds architecture cost.
+BITA's active paper asks what an observed trait interaction identifies and what remains non-identified. For a focal attraction-by-defence interaction,
 
-The cross-system synthesis does not estimate `R`, `K`, `s`, or critical coupling from unmatched studies. It recovers observable signatures implied by the mechanism.
+```text
+Delta_AD W = W11 - W10 - W01 + W00
+           = rho_delta - iota_delta - kappa_delta.
+```
+
+The total interaction is observable, but its allocation among antagonist relief, pollinator interference, and a remaining joint channel is not point-identified from the four-cell trait factorial alone. BITA therefore works with an identification ladder rather than treating nonadditivity as a mechanism label.
+
+The architecture-value quantities `R`, `s`, `K`, and `Phi` belong to the companion SLK spine. They may appear as upstream context but are not the target of this BITA synthesis.
 
 ## Metadata-level observable signatures
 
-For each independent biological cluster, code:
+For each independent biological cluster, code the strongest recoverable evidence on:
 
 ```text
-shared_conflict_or_multifunctionality
-second_axis_present
-second_axis_functional_loading
-preferential_loading_or_cross_effect
-shared_coordinate_release_or_redeployment
-residual_coupling_or_partial_modularity
-fitness_or_performance_consequence
-context_axis
-sign_or_state_switch
-architecture_cost_or_constraint_evidence
+A_to_pollination
+A_to_antagonism
+D_to_antagonism
+D_to_pollination
+direct_AxD_interaction
+same_system_multi_route_coverage
+consumer_factorial_or_selective_intervention
+pollinator_independent_baseline
+four_way_separability_information
+independent_remaining_channel_assay
+context_or_sign_switch
 negative_or_boundary_case
 study_design
 source_verification_state
 ```
 
-Primary pattern classes:
+Primary evidence classes are:
 
-1. `FUNCTIONAL_DIFFERENTIATION` — distinct axes preferentially carry different functions.
-2. `DIMENSIONAL_RELEASE_COMPATIBLE` — adding/using a second axis is associated with release or redeployment of the formerly shared coordinate.
-3. `GUARDED_WINDOW` — antagonist relief occurs with little detected mutualist cost over part of the trait/context range.
-4. `INTERFERENCE_AFTER_GUARDED_WINDOW` — stronger expression/dose produces mutualist interference after an earlier guarded region.
-5. `PARTIAL_MODULARITY` — differentiation exists but residual coupling/cross-effects remain.
-6. `CONTEXT_SWITCHING` — dose, consumer identity, reward, environment, or response construct changes the apparent route state.
-7. `NO_DIFFERENTIATION_BOUNDARY` — bifunctionality/shared architecture persists or added differentiation is not the realized solution.
-8. `UNRESOLVED` — relevant axes exist but loading/release cannot be identified.
+1. `CONSTITUENT_ROUTE` — one of the four marginal ecological route families is supported.
+2. `SAME_SYSTEM_MULTI_ROUTE` — more than one relevant route is measured in one biological system.
+3. `DIRECT_INTERACTION` — a focal attraction-by-defence-like trait interaction is measured.
+4. `PARTIAL_IDENTIFICATION` — the total interaction plus independent restrictions or channel information shrinks the compatible mechanism set.
+5. `CONSUMER_ALLOCATION_FACE` — selective antagonist and/or pollinator interventions identify part of the channel allocation.
+6. `SEPARABILITY_DIAGNOSTIC` — the design can test whether the proposed consumer-channel decomposition itself holds.
+7. `INDEPENDENT_REMAINING_CHANNEL_ASSAY` — the residual channel has an independent biological assay rather than a label by subtraction.
+8. `CONTEXT_SWITCHING_OR_BOUNDARY` — dose, consumer identity, reward, response construct, or context changes the apparent route state or exposes a failure boundary.
+9. `UNRESOLVED` — relevant traits or channels exist but the mechanism allocation cannot be identified.
 
 ## Synthesis targets
 
 Recover:
 
 ```text
-mechanism recurrence
-preferential-loading recurrence
-same-system multi-route co-occurrence
+recurrence of all four constituent route families
+same-system multi-route recurrence
 context/sign-switch recurrence
-partial-modularity recurrence
-negative/boundary systems
-strict direct A x D / dimensional-release evidence gaps
+direct-interaction coverage
+partial-identification coverage
+consumer-allocation coverage
+separability-test coverage
+independent remaining-channel coverage
+negative and boundary systems
 ```
 
-Pool numerical effects only inside compatible biological/statistical strata. Preserve dependence among doses, outcomes, taxa, and years within one biological cluster.
+The unit of recurrence is an independent biological cluster. Multiple outcomes, doses, years, populations, or effect rows from one panel do not create independent replication by themselves.
 
 ## Existing BITA synthesis assets
 
-The mechanism-pattern synthesis already implements much of this logic: route recurrence, same-system multi-route records, context/sign switches, direct-interaction evidence gaps, and quantitative modules. These become the primary empirical spine rather than background before Pedicularis execution.
+The active synthesis already contains **56 directional route records from 25 independent biological clusters**. Fourteen clusters contain more than one route in the same biological system, and 17 show context- or state-dependent switching. A stricter audit retains **17 high-information systems** that approach the identification target or expose informative failure modes. No screened high-information system closes the full mechanism-allocation sequence plus an independent remaining-channel assay.
+
+The empirical conclusion is therefore:
+
+```text
+RECURRENT_CONSTITUENT_BIOLOGY
++
+FRAGMENTED_IDENTIFICATION
+```
+
+not a universal mechanism and not natural prevalence.
+
+## Quantitative sub-lanes
+
+Compatible route-level effects may be pooled when biological route, effect metric, orientation, sampling variance, and dependence handling are aligned. Existing nectar-larceny modules provide reproducible quantitative sub-lanes for female reproductive success, visitation, nectar standing crop, and male reproductive success.
+
+These route-level meta-analyses quantify constituent channels. They do not identify the complete attraction-by-defence mechanism allocation.
 
 ## Claim ceiling
 
-The synthesis can show that functional differentiation, guarded/interference regimes, partial modularity, and context switching recur across nature and can identify moderators associated with those states. It cannot infer `R-K`, `sL-K`, or a causal dimensional-release surface from unrelated marginal studies.
+The synthesis can establish recurrence of constituent ecological routes, same-system combinations, context switching, and recurring identification gaps. It can quantify compatible route-level effects where justified.
+
+It cannot infer a unique `rho_delta`, `iota_delta`, or `kappa_delta` allocation from unmatched marginal studies, cannot call an unmeasured residual a biological joint cost, and cannot promote route recurrence into prevalence or historical trait splitting.
 
 ## Final layer: focal empirical design
 
-Pedicularis `x x y` remains a later causal upgrade. It can directly test preferential loading, movement of the old optimum toward a frozen SCH reference, and the common fitness consequence. It is not a prerequisite for the theory + reality-pattern paper.
+The final empirical upgrade is a same-system mechanism-allocation design, not a generic differentiation experiment. The strongest target crosses the focal trait contrasts with selective antagonist and pollinator interventions, characterizes pollinator-independent reproduction, tests the four-way separability diagnostic, and independently assays any remaining joint channel before assigning it a biological label.
+
+Pedicularis or another qualified floral system can serve this final role if it satisfies the registered trait and intervention gates. It is not a prerequisite for the current theory + literature-synthesis paper.
 
 ## Immediate gate
 
-Complete and consolidate the metadata synthesis before spending new main-line effort on field execution:
+Before new focal execution becomes main-line work, the literature layer should expose:
 
 ```text
 independent cluster universe
-pattern/regime classification
-moderator coverage
-same-system co-occurrence
+constituent-route recurrence
+same-system route co-occurrence
+context-switch coverage
 negative/boundary coverage
 compatible quantitative strata
-strict direct-evidence gaps
+high-information identification frontier
+remaining full-allocation gap
 ```
