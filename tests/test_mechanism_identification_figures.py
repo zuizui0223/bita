@@ -58,7 +58,8 @@ def test_figure_4_is_source_backed() -> None:
     text = figures.fig4()
     assert "56 routes / 25 clusters" in text
     assert "17-system" in text
-    assert "independent κ assay 0; full identification 0" in text
+    assert "independent κ assay 0" in text
+    assert "full channel allocation 0" in text
 
 
 def test_figure_5_enforces_programme_ownership() -> None:
