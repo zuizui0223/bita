@@ -31,7 +31,8 @@ def test_nested_outcome_hierarchy_is_explicit() -> None:
         "Delta_{AD}",
     ):
         assert token in text, token
-    assert "It does not by itself identify Level 2 or 3" in text
+    assert "Level 3 implies Level 2, and Level 2 implies Level 1, but not conversely" in text
+    assert "a positive interaction is not synonymous with release" in text
 
 
 def test_total_interaction_is_not_collapsed_to_unique_mechanism() -> None:
