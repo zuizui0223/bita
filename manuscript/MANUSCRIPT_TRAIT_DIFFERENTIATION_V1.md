@@ -1,250 +1,66 @@
-# When does a trait trade-off resolve by differentiation rather than compromise? Linking trait architecture to mechanism identification
+# Trait interaction is not ecological mechanism: an identification framework for multifunctional traits
 
-**Working integrated Chapter 2 draft — not yet the canonical submission source.**
+**Canonical BITA full-paper science source**
+
+**Target class:** Ecology Concepts & Synthesis / conceptual-methodological ecology
 
 **Authors and affiliations:** [Author-controlled]
 
-**Corresponding author:** [Author-controlled]
-
 ## Abstract
 
-A multifunctional trait can be pulled toward different phenotypic states by different functions. One evolutionary solution is compromise: the same trait remains shared and settles at a state that is suboptimal for each function considered separately. Another is differentiation: functions become partitioned across partly independent trait axes. General theory has long shown that functional trade-offs can favour specialization, but connecting that idea to measurable ecological conflicts remains difficult because structural separation need not imply functional independence and because a successful multi-trait phenotype does not reveal which ecological pathway generated its advantage. We formulate this transition as an explicit architecture comparison. In a quadratic baseline, two functions with preferred states \(\theta_1\) and \(\theta_2\) share one trait \(z\), or are expressed through two traits \(x\) and \(y\) subject to residual coupling \(\lambda\) and an additional architecture cost \(K\). The shared architecture loses \(L_S^*=w_1w_2(\theta_1-\theta_2)^2/(w_1+w_2)\) relative to separate function-specific optima. Differentiation retains only a fraction \(s=w_1w_2/[w_1w_2+\lambda(w_1+w_2)]\) of the possible phenotypic separation, and this same fraction is the proportion of shared-axis conflict loss that can be recovered. Thus \(\Delta_{arch}=sL_S^*-K\): differentiation is favoured when recovered compromise loss exceeds the extra cost of a differentiated architecture. A registered 300-condition robustness grid spanning convex power-loss shapes, asymmetric functional weights, optimum distances and residual coupling preserves the qualitative result: recoverable loss is positive in all 300 nonzero-conflict evaluations, increases with optimum separation in 60/60 declared series, and never increases with residual coupling in 60/60 series. Empirical systems illustrate both sides of the model. Structurally separate oral and pharyngeal jaws in cichlids relax a feeding trade-off yet retain evolutionary and genetic integration, whereas *Dalechampia* shows repeated historical redeployment and addition of functional structures. We then use floral attraction and defence as a mechanistic worked case showing that, once multiple trait axes exist, their total interaction still does not identify why the conflict is relieved. Existing floral evidence contains the required pathways but distributes the necessary identification dimensions across different experiments. The resulting framework links shared-trait balance, incomplete trait differentiation and causal mechanism identification without equating structural modularity with evolutionary independence.
+Ecologists frequently infer mechanism from statistical interaction. Yet when two traits jointly affect fitness through several ecological channels, the same total interaction can be produced by many different pathway allocations. Floral attraction and defence make this problem explicit: attraction can increase pollination and antagonist exposure, whereas defence can reduce antagonist damage while interfering with pollination or imposing a direct joint cost. We separate the measurable trait interaction from the mechanisms compatible with it. For a two-level attraction-by-defence factorial, the directly estimable interaction is \(\Delta_{AD}W=W_{11}-W_{10}-W_{01}+W_{00}\). A positive value shows that defence makes the attraction effect more positive, but it does not by itself establish functional release and it does not identify whether the gain arose through antagonist relief, pollinator interference, or a remaining joint channel. Writing \(\Delta_{AD}W=\rho_\Delta-\iota_\Delta-\kappa_\Delta\) defines an identified set of compatible mechanisms rather than a point allocation. Explicit biological restrictions and partial channel measurements shrink this set. A crossed \(A\times D\times\) antagonist \(\times\) pollinator experiment can identify the two consumer-mediated channels when interventions are selective, the trait contrasts remain invariant, pollinator-independent reproduction is characterized, and the four-way interaction supports channel separability; the remaining joint channel requires an independent assay rather than residual labelling. A source-adjudicated synthesis contains 56 directional route records from 25 independent biological clusters and shows recurrence of all four constituent marginal pathways, while a stricter audit of 17 high-information systems finds complementary experimental faces but no system that closes the full allocation design plus independent joint-cost assay. Existing biology is therefore recurrent but identification is fragmented. BITA's contribution is a promotion ladder from interaction detection to partial identification and mechanism allocation, not a claim that interaction itself reveals mechanism.
 
-**Keywords:** functional trade-off; multifunctionality; trait differentiation; modularity; specialization; causal identification; ecological interactions
+**Keywords:** causal identification; ecological mechanism; factorial experiment; partial identification; trait interaction; pollination; antagonism; floral defence
 
 ## 1. Introduction
 
-Traits are rarely built for a single consequence. A morphological, chemical or behavioural coordinate can contribute simultaneously to several functions, and those functions need not favour the same phenotype. Such multifunctionality creates a basic architectural problem: should one trait continue to serve several demands, accepting a compromise among them, or should the functions become more separable across multiple traits? The first solution preserves integration. The second creates division of labour within the phenotype.
+A trait interaction is easy to estimate and easy to over-interpret. When two phenotypic coordinates jointly affect reproduction, a non-zero interaction shows nonadditivity on the declared outcome scale. It does not reveal which biological route generated that nonadditivity. This distinction becomes important whenever the same traits act through several ecological partners or physiological channels.
 
-The compromise side of this problem is increasingly explicit in trait ecology. A multifunctional trait can be far from the optimum for any one function because its realized value reflects the combined fitness contributions of several functions and environments (Sack and Buckley 2020). The same logic appears in ecological conflicts in which one phenotype benefits one interaction while worsening another. Floral signals provide a familiar example: colour, scent, display and reward can attract pollinators while simultaneously altering exposure to florivores, seed predators, nectar robbers or other exploiters. But this is only one realization of a broader problem. A single feeding apparatus can face incompatible mechanical demands, a single gene product can contribute to competing functions, and a single structure can be constrained by several performance optima.
+Flowers provide a useful worked system. Floral colour, scent, display and reward can increase pollinator attraction while also changing exposure to florivores, nectar robbers, seed predators, or ovipositing herbivores. Chemical and physical floral defences can reduce antagonist use, but they may also alter pollinator behaviour or carry direct allocation and construction costs. A positive attraction-by-defence interaction can therefore arise from several causal allocations.
 
-The alternative to compromise is not a new idea. Theory on functional specialization, division of labour, modularity and evolving pleiotropy has established that multiple modules can specialize when trade-offs are sufficiently strong and when specialization is not offset by redundancy, robustness or other costs (Rüffler et al. 2012; Guillaume and Otto 2012). Consequently, the novelty of a new trait-differentiation framework cannot be the statement that trade-offs sometimes favour specialization. The more useful unresolved problem is empirical and inferential: how can a measured one-trait ecological compromise be connected to a multi-trait architecture, how much of the original conflict is actually released when the new traits remain partly coupled, and how can the ecological mechanism of that release be identified?
+The inferential problem is structural rather than merely statistical. More precise estimation of the same four-cell attraction-by-defence surface does not reveal a unique channel allocation if several decompositions remain compatible with that surface. The correct target is therefore an identification ladder: what is identified by the observed interaction, what stronger outcome claims require additional contrasts, which mechanisms remain in an identified set, which restrictions shrink that set, and which selective interventions are required for point identification?
 
-This distinction matters because having two structures is not equivalent to having two independent functions. Cichlid fishes illustrate the point unusually clearly. Oral and pharyngeal jaws structurally separate prey capture and prey processing and can permit trait combinations that would be constrained in a single jaw system (Burress et al. 2020). Yet the two systems can remain evolutionarily and genetically integrated (Conith and Albertson 2021). Differentiation is therefore naturally continuous: new axes may relax a conflict without making each function private to one axis. Historical trait evolution is similarly more complicated than simple splitting. In *Dalechampia*, pollination rewards and defensive functions have repeatedly been redeployed among structures and new lines of defence have accumulated through adaptation and exaptation (Armbruster et al. 2009). Real architectures can be partly decoupled, repeatedly reassigned and historically contingent.
+The broader architecture-value question—how a measured one-axis conflict becomes recoverable benefit, architecture margin, accessibility, invasion, fixation, and occupancy—is owned by the companion SLK framework. BITA begins later and asks a different question: **once multiple trait axes exist and interact on fitness, what ecological mechanism generated their joint effect?** The separation is deliberate. A favorable architecture and an identified mechanism are different estimands.
 
-We use these observations to frame a two-stage problem. The first stage asks an architecture question: **when does the best differentiated phenotype outperform the best one-trait compromise?** The second asks an identification question: **once several trait axes exist, what ecological mechanism produces their joint fitness effect?** These are logically distinct. An architecture can be favoured because it releases one constraint while simultaneously creating another. Likewise, a positive interaction between two traits can indicate that one trait improves the return to the other without identifying whether that improvement arose through protection from an antagonist, improved access to a mutualist, a direct construction benefit, or some unmeasured pathway.
+We make four contributions. First, we distinguish three nested outcome claims from the mechanism question: positive interaction relief, functional constraint release, and strict reversal. Second, we show that a total trait interaction defines an identified set of compatible channel allocations rather than a unique mechanism. Third, we give a crossed intervention design that can allocate antagonist and pollinator channels while testing its own separability assumption. Fourth, we place published systems on this identification ladder using a source-adjudicated route synthesis and a high-information design audit.
 
-Our contribution is therefore a bridge rather than a claim of theoretical priority. First, we write the shared-versus-differentiated architecture comparison on explicit trait coordinates and derive a transparent quadratic result. The key quantity is the fitness loss generated by forcing conflicting functional optima onto one axis. Residual coupling determines what fraction of that loss can be recovered after differentiation; an additional architecture cost determines whether the recovered amount is enough to make differentiation worthwhile. Second, we test whether this qualitative boundary depends on quadratic response shapes using a preregistered finite family of convex power-loss models. Third, we connect the architecture result to the existing BITA mechanism-identification framework. Floral attraction and defence become a worked ecological case in which multiple trait axes affect mutualists, antagonists and fitness, allowing us to ask what existing experiments can and cannot identify.
+## 2. What a trait interaction actually identifies
 
-The resulting paper is organized around the sequence **balance → differentiation → identification**. Section 2 defines the shared and differentiated architectures and derives the architecture-gain boundary. Section 3 tests response-shape robustness. Section 4 shows why structural differentiation can remain incomplete and places cichlid and *Dalechampia* evidence against the model. Section 5 uses the floral two-trait system to show why an apparently successful differentiated architecture still requires mechanism-resolving interventions. Section 6 integrates the evolutionary and inferential implications.
-
-## 2. From shared-trait compromise to differentiated architecture
-
-### 2.1 Shared-axis architecture
-
-Let one trait coordinate \(z\) contribute to two functions whose preferred states are \(\theta_1\) and \(\theta_2\). Let \(w_1>0\) and \(w_2>0\) scale the fitness importance or curvature of each functional demand. In the quadratic baseline, the loss relative to simultaneously occupying both function-specific optima is
-
-\[
-L_S(z)=w_1(z-\theta_1)^2+w_2(z-\theta_2)^2.
-\]
-
-Equivalently, normalized fitness is \(W_S(z)=-L_S(z)\). The best shared phenotype is
-
-\[
-z^*=\frac{w_1\theta_1+w_2\theta_2}{w_1+w_2},
-\]
-
-with minimum unavoidable conflict loss
-
-\[
-L_S^*=\frac{w_1w_2}{w_1+w_2}(\theta_1-\theta_2)^2.
-\]
-
-This quantity formalizes the compromise problem. If the functional optima coincide, \(L_S^*=0\) and there is no loss to recover by splitting the axis. If the optima diverge, the best shared phenotype lies between them and the cost of integration increases quadratically with their distance.
-
-The interpretation is deliberately broader than any one biological system. \(\theta_1-\theta_2\) may represent incompatible mechanical requirements, different ecological audiences, conflicting physiological functions or any other case in which the same measured coordinate is pulled toward different states.
-
-### 2.2 Differentiated architecture with residual cross-talk
-
-Now allow two trait coordinates, \(x\) and \(y\). Trait \(x\) can approach the preferred state of function 1 and trait \(y\) the preferred state of function 2, but the axes need not be fully independent. We represent remaining functional, developmental or coordination coupling by \(\lambda\ge0\) and a fixed additional cost of maintaining the differentiated architecture by \(K\ge0\):
-
-\[
-L_D(x,y)=w_1(x-\theta_1)^2+w_2(y-\theta_2)^2+\lambda(x-y)^2+K.
-\]
-
-The first two terms reward function-specific specialization. The coupling term penalizes separation. The fixed term captures any extra developmental, energetic, regulatory or maintenance burden that is not already represented by continuous displacement losses.
-
-Let
-
-\[
-D=w_1w_2+\lambda(w_1+w_2).
-\]
-
-Then the differentiated optimum is
-
-\[
-x^*=\frac{w_1w_2\theta_1+w_1\lambda\theta_1+w_2\lambda\theta_2}{D},
-\]
-
-\[
-y^*=\frac{w_1w_2\theta_2+w_1\lambda\theta_1+w_2\lambda\theta_2}{D}.
-\]
-
-The residual loss before paying \(K\) is
-
-\[
-L_{D,0}^*=\frac{w_1w_2\lambda}{D}(\theta_1-\theta_2)^2.
-\]
-
-When \(\lambda=0\), the functions can be completely decoupled and the optima are recovered exactly: \(x^*=\theta_1\) and \(y^*=\theta_2\). As \(\lambda\) becomes large, the two traits are increasingly forced to move together and the differentiated optimum approaches the shared compromise.
-
-### 2.3 Decoupling fraction and the amount of compromise that can be recovered
-
-The optimized separation between the two differentiated trait coordinates is
-
-\[
-|x^*-y^*|
-=
-\frac{w_1w_2}{D}|\theta_1-\theta_2|.
-\]
-
-Define the **decoupling fraction**
-
-\[
-s
-=
-\frac{|x^*-y^*|}{|\theta_1-\theta_2|}
-=
-\frac{w_1w_2}{w_1w_2+\lambda(w_1+w_2)},
-\]
-
-for \(\theta_1\ne\theta_2\). This quantity ranges from 1 under complete functional decoupling toward 0 under arbitrarily strong residual coupling.
-
-A useful identity follows. The amount of shared-axis conflict loss recovered by the differentiated architecture before paying its fixed cost is
-
-\[
-R=L_S^*-L_{D,0}^*.
-\]
-
-Substitution gives
-
-\[
-R
-=
-\frac{w_1^2w_2^2(\theta_1-\theta_2)^2}
-{(w_1+w_2)[w_1w_2+\lambda(w_1+w_2)]},
-\]
-
-and therefore
-
-\[
-\boxed{R=sL_S^*.}
-\]
-
-In the quadratic baseline, the same factor that describes how much phenotypic separation survives residual coupling also describes how much of the original compromise loss is recoverable.
-
-This gives the optimized architecture gain
-
-\[
-\boxed{\Delta_{arch}=W_D^*-W_S^*=sL_S^*-K.}
-\]
-
-Hence
-
-\[
-\boxed{\Delta_{arch}>0 \iff K<sL_S^*.}
-\]
-
-The architecture decision therefore has three components with direct biological interpretations:
-
-1. **conflict load, \(L_S^*\)** — how costly it is to force the two functions onto one trait;
-2. **decoupling fraction, \(s\)** — what fraction of that conflict can actually be released by the differentiated architecture;
-3. **architecture cost, \(K\)** — what must be paid to maintain the extra axis.
-
-A strong trade-off does not guarantee differentiation if the new axes remain tightly coupled or expensive. Conversely, modest functional conflict can favour differentiation if decoupling is efficient and the additional architecture is cheap.
-
-### 2.4 Comparative statics
-
-The closed form yields four immediate predictions. First, increasing \(|\theta_1-\theta_2|\) increases the conflict load and therefore the maximum amount available to support differentiation. Second, increasing residual coupling \(\lambda\) decreases \(s\), reducing both trait separation and recoverable fitness. Third, increasing \(K\) shifts the architecture boundary one-for-one toward the shared solution. Fourth, when \(\theta_1=\theta_2\), the conflict load is zero and this conflict-relief mechanism cannot favour differentiation.
-
-The weights \(w_1\) and \(w_2\) affect both the location of the shared compromise and the value of releasing it. If one function dominates fitness, the shared phenotype already lies close to that function's optimum, reducing the part of the trade-off that can be recovered by specializing the weaker function. Thus environmental changes that alter functional importance can move the architecture boundary even if the trait-development system itself is unchanged.
-
-These results describe optimized phenotypes, not a mutation-by-mutation evolutionary trajectory. They say when the differentiated architecture has higher attainable fitness under the declared model. They do not specify whether a lineage can reach that architecture, how long the transition takes, or whether genetic constraints prevent it.
-
-## 3. Robustness beyond quadratic response shapes
-
-### 3.1 Convex power-loss family
-
-Quadratic stabilizing losses are analytically convenient but biologically restrictive. We therefore repeated the architecture comparison with
-
-\[
-L_S(z)=w_1|z-\theta_1|^p+w_2|z-\theta_2|^p,
-\]
-
-and
-
-\[
-L_D(x,y)=w_1|x-\theta_1|^p+w_2|y-\theta_2|^p
-+\lambda|x-y|^q+K,
-\]
-
-where \(p>1\) and \(q>1\). The optimized solutions were obtained deterministically by nested golden-section minimization over the interval bounded by the two function-specific optima. The numerical code has no external optimization dependency and reproduces the analytic quadratic solution when \(p=q=2\).
-
-### 3.2 Registered finite design
-
-The matched-curvature design crossed four functional powers (1.5, 2, 3, 4), three weighting schemes ((1,1), (0.4,2), (3,0.7)), five coupling strengths (0, 0.1, 0.5, 2, 10) and five optimum distances (0.1, 0.25, 0.5, 1, 2), giving 300 evaluations at \(K=0\). Additional checks used mismatched functional and coupling curvatures, \((p,q)=(1.5,2),(2,4),(4,2)\), and placed \(K\) just below and above the numerically recovered conflict-loss threshold.
-
-This is a finite robustness design, not an exhaustive theorem over all possible fitness surfaces. In particular, it does not include nonconvex, multimodal, frequency-dependent or dynamically changing landscapes.
-
-### 3.3 Robustness results
-
-All 300 nonzero-conflict evaluations had positive recoverable conflict loss before the fixed architecture cost was charged. Across the 60 fixed combinations of response shape, weighting and coupling, increasing the distance between function-specific optima increased the recoverable loss in 60/60 series. Across the 60 fixed combinations of response shape, weighting and optimum distance, increasing residual coupling never increased recoverable loss in 60/60 series. The recoverable amount ranged from approximately \(4.46\times10^{-6}\) to 2.656 on the declared normalized loss scales.
-
-The mismatched-curvature checks retained the same cost-threshold logic: setting \(K\) to 90% of the recovered pre-cost benefit favoured differentiation, whereas setting it to 110% favoured the shared architecture in all three registered cases.
-
-Thus the quadratic closed form is not the sole source of the qualitative result. Within the declared convex family, conflict strength raises the potential value of differentiation, residual cross-talk erodes it, and the architecture changes only when the recoverable amount exceeds the extra cost.
-
-## 4. Trait differentiation is often incomplete in real systems
-
-### 4.1 Structural differentiation does not imply independence
-
-The explicit coupling term is not merely a mathematical precaution. Cichlid feeding systems show why a differentiated architecture should be treated as a continuum. Oral and pharyngeal jaws physically separate prey capture from prey processing. In Neotropical cichlids, this separation is associated with relaxed evolutionary integration and with trait combinations that would be difficult under a single jaw system constrained by a force-motion trade-off (Burress et al. 2020). Yet the same study found feeding-ecology-dependent alignment between evolutionary rates of the two systems, and work on African cichlids found evolutionary and genetic integration between oral and pharyngeal jaw shape (Conith and Albertson 2021).
-
-These results are compatible with a state in which \(0<s<1\): structural differentiation creates room for function-specific trait combinations, while residual ecological, developmental or genetic coupling prevents complete independence. We do not estimate \(s\) or \(\lambda\) from these studies; the point is that the model's incomplete-differentiation state corresponds to observed biological architecture rather than to a purely hypothetical intermediate.
-
-### 4.2 Historical redeployment can accompany differentiation
-
-Trait architecture can also change by exaptation and redeployment rather than clean duplication followed by specialization. Comparative analyses of 81 *Dalechampia* taxa found repeated associations between pollination and defence systems, including losses of a resin reward followed by defensive redeployment of resiniferous structures in several lineages, as well as the accumulation of complementary lines of defence (Armbruster et al. 2009). Five of seven inferred defence innovations were interpreted as exaptations.
-
-This system establishes that function-structure assignments can be historically reassigned and multiplied. It does not establish that a quantified shared-trait compromise selected for those changes, nor does it estimate \(\Delta_{arch}\). We therefore use *Dalechampia* as architecture-state and historical plausibility evidence rather than as a causal test of the differentiation threshold.
-
-### 4.3 Empirical claim boundary
-
-The architecture theory yields a clear prospective measurement problem. A strong test would require estimates of the fitness surface under a shared or weakly differentiated state, the attainable separation of function-specific phenotypes, the residual coupling after differentiation, and the added cost of the differentiated architecture. Comparative evidence can establish repeated state associations; experimental evolution or developmental manipulation could more directly test whether reducing coupling or architecture cost changes the favored solution.
-
-The present paper stops one level below a historical causation claim. It shows that the architecture states and partial-decoupling conditions represented by the model occur in biological systems and then asks how mechanism should be identified once multiple axes exist.
-
-## 5. Once several trait axes exist, their fitness interaction still does not identify mechanism
-
-### 5.1 Floral attraction and defence as a worked case
-
-The existing BITA floral analysis provides a detailed example of the second inferential stage. Let \(A\) be one focal floral attraction trait and \(D\) a distinct flower-associated trait with an independently justified antagonist-reducing role. For an experimentally meaningful two-level design, define
+Let \(A\in\{0,1\}\) be a focal attraction contrast and \(D\in\{0,1\}\) a focal defence contrast. On a predeclared reproductive outcome \(W\), define
 
 \[
 \Delta_{AD}W=W_{11}-W_{10}-W_{01}+W_{00}.
 \]
 
-Let
+Also define the attraction effect under low and high defence,
 
 \[
 A_0=W_{10}-W_{00},\qquad A_1=W_{11}-W_{01},
 \]
 
-so that \(\Delta_{AD}W=A_1-A_0\).
-
-Three outcome claims must be separated. **Positive interaction relief** requires only \(\Delta_{AD}W>0\). **Functional constraint release** additionally requires \(A_0\le0<A_1\). **Strict reversal** requires \(A_0<0<A_1\). Thus a positive interaction can make a poor trait combination less poor without making the original focal trait beneficial.
-
-This distinction parallels the architecture problem. Adding a second axis is not equivalent to releasing the original trade-off, just as structural separation is not equivalent to functional independence.
-
-### 5.2 Identified set of ecological mechanisms
-
-For the floral worked case, write reproductive outcome as a mutualist-mediated contribution \(M\), antagonist-mediated loss \(G\), and a remaining direct or allocation channel \(C\):
+so that
 
 \[
-W=M-G-C.
+\Delta_{AD}W=A_1-A_0.
 \]
 
-Orient the two-trait channel interactions as
+This separates three biologically different claims.
+
+**Level 1 — positive interaction relief:** \(\Delta_{AD}W>0\). Defence makes the attraction effect more positive.
+
+**Level 2 — functional constraint release:** \(A_0\le0<A_1\). Attraction is non-beneficial without defence but beneficial with defence.
+
+**Level 3 — strict reversal:** \(A_0<0<A_1\). Attraction changes from detrimental to beneficial.
+
+Level 3 implies Level 2, and Level 2 implies Level 1, but not conversely. A strongly positive interaction can occur while attraction remains negative in both defence states. Therefore a positive interaction is not synonymous with release.
+
+These outcome claims are still not mechanism claims. Write reproductive outcome as
+
+\[
+W=M-G-C,
+\]
+
+where \(M\) is a mutualist-mediated contribution, \(G\) is antagonist-mediated loss, and \(C\) is a remaining direct or allocation channel. Orient the attraction-by-defence interactions as
 
 \[
 \rho_\Delta=-\Delta_{AD}G,\qquad
@@ -255,111 +71,198 @@ Orient the two-trait channel interactions as
 Then
 
 \[
-\Delta_{AD}W=\rho_\Delta-\iota_\Delta-\kappa_\Delta.
+\boxed{\Delta_{AD}W=\rho_\Delta-\iota_\Delta-\kappa_\Delta.}
 \]
 
-Observing \(\Delta_{AD}W=\delta\) therefore defines an identified set
+If the measured total interaction is \(\delta\), the compatible mechanisms form
 
 \[
-\mathcal I(\delta)=\{(\rho,\iota,\kappa):\rho-\iota-\kappa=\delta\},
+\mathcal I(\delta)=\{(\rho,\iota,\kappa):\rho-\iota-\kappa=\delta\}.
 \]
 
-not a unique mechanism. Better measurement of the same four total-fitness cells cannot by itself collapse this set to a point.
+Without additional information, this is an identified set rather than a point. Increasing sample size around \(\delta\) narrows uncertainty in the total interaction but does not collapse the mechanism set.
 
-### 5.3 Crossed interventions for channel allocation
+A positive \(\rho_\Delta\) means that defence reduces antagonist loss more strongly when attraction is high. A positive \(\iota_\Delta\) means that defence erodes the mutualist return to attraction. The remaining \(\kappa_\Delta\) should not be called construction cost merely because it closes an accounting identity; that biological label requires an independent assay.
 
-Point identification of the biotic channels requires additional interventions. The existing BITA design crosses
+## 3. Partial identification before full mechanism allocation
+
+Mechanism inference need not jump directly from a four-cell trait factorial to a large fully crossed experiment. Explicit restrictions can shrink the identified set.
+
+For example, if an independent biological argument supports
+
+\[
+\kappa_\Delta\ge0,
+\]
+
+then
+
+\[
+\rho_\Delta-\iota_\Delta
+=\Delta_{AD}W+\kappa_\Delta
+\ge\Delta_{AD}W.
+\]
+
+Thus a positive total interaction implies that antagonist relief exceeds pollinator interference by at least the observed interaction on the declared scale, conditional on the non-negative joint-cost restriction. This is a partial-identification result, not a universal theorem.
+
+Likewise, an independent bounded assay for \(\kappa_\Delta\) narrows the possible biotic balance. A selective estimate of either antagonist relief or pollinator interference shrinks the remaining coordinates further. BITA therefore treats identification as graded:
+
+```text
+interaction detection
+        ↓
+identified set
+        ↓
+biological restrictions / partial channel measurement
+        ↓
+partial identification
+        ↓
+selective crossed intervention
+        ↓
+consumer-channel allocation
+        ↓
+independent remaining-channel assay
+        ↓
+mechanism-resolved interpretation
+```
+
+This ladder is the core methodological object of the paper.
+
+## 4. A crossed intervention design for channel identification
+
+The minimum general design crosses four binary factors,
 
 \[
 A\times D\times E_G\times E_P,
 \]
 
-where \(E_G\) controls antagonist access and \(E_P\) controls pollinator access. The interventions must be selective and the trait manipulations must remain biologically invariant across consumer states. Antagonist exclusion identifies how the \(A\times D\) interaction changes antagonist-mediated loss; pollinator exclusion identifies the pollinator-dependent increment, with explicit treatment of reproduction that persists without pollinators.
+where \(E_G\) indexes antagonist access and \(E_P\) indexes pollinator access. The 16 cells are necessary but not sufficient. The causal interpretation requires selective consumer interventions and invariant attraction and defence contrasts across consumer states.
 
-The design also tests its own separability assumption. Differences in the inferred \(A\times D\) antagonist-relief term across pollinator states and differences in the pollinator-increment term across antagonist states are the same four-way \(A\times D\times E_G\times E_P\) interaction with opposite signs. A nonzero four-way term therefore indicates cross-consumer coupling and invalidates a simple additive channel allocation.
+### 4.1 Antagonist relief
 
-Any remaining residual must not automatically be called a construction or allocation cost. The joint channel requires an independent assay before receiving that biological label.
-
-### 5.4 Existing floral studies occupy complementary design faces
-
-Published floral systems contain many of the required ingredients but rarely their intersection. The current source-adjudicated route synthesis contains 56 route records from 25 independent biological study clusters and recovers all four constituent marginal pathway families. These counts establish recurrence capacity, not natural prevalence and not channel-interaction magnitudes.
-
-A stricter high-information audit identifies 17 systems that occupy complementary parts of the required design. Kessler et al. (2008) provides a rare manipulated attraction-by-defence-like factorial in *Nicotiana attenuata*. Under the registered aggregate reconstruction, the attraction effect in the high-defence state, \(A_1\), remains approximately +0.200 to +0.240, while \(A_0\) remains in an interval spanning zero, approximately -0.030 to +0.030, and the total interaction remains positive. Exact source/design-based uncertainty and the scope of systemic nicotine suppression prevent promotion to strict Level-2 or Level-3 release. Egan et al. (2021) provides a complementary consumer factorial, while a public *Impatiens capensis* reanalysis reaches randomized context modification of observational traits. No screened high-information system combines the complete channel-allocation design with an independent joint-channel assay.
-
-The empirical gap is therefore **fragmented identification**, not absence of relevant biology. Trait manipulations, consumer interventions, reproductive endpoints and mechanistic measurements exist, but are usually distributed among different studies.
-
-## 6. Discussion
-
-### 6.1 A trade-off has two qualitatively different resolutions
-
-The central distinction is between optimizing a shared trait and changing the architecture that carries the functions. If one coordinate remains responsible for both functions, the best attainable phenotype is a compromise and the residual loss \(L_S^*\) is unavoidable under that architecture. Differentiation creates a larger phenotype space, but only the part of that space that is genuinely decoupled can recover the compromise loss. The additional architecture must then pay for itself.
-
-This separates two questions that are often blurred. Strong conflicting selection can move the optimum of a multifunctional trait without selecting for modularization. Conversely, a duplicated or structurally separate system can remain so tightly coupled that little of the original conflict is released. The relevant comparison is not one trait versus two traits in name, but the best attainable fitness under each architecture.
-
-### 6.2 The decoupling fraction gives a useful intermediate state
-
-The identity \(R=sL_S^*\) makes partial differentiation explicit. In the quadratic baseline, \(s\) simultaneously measures the retained separation between function-specific trait optima and the fraction of shared-axis loss that is recoverable. This makes the model useful even when complete specialization is biologically unrealistic.
-
-The cichlid evidence is instructive precisely because it is not a clean story of independence. Structurally separate jaw systems can relax mechanical constraints while remaining correlated through ecology, genetics and development. Such systems should not be classified simply as either integrated or modular. They occupy intermediate architecture states in which trait separation is real but incomplete.
-
-### 6.3 Relation to existing specialization and multifunctionality theory
-
-The architecture result sits within a mature theoretical literature. Rüffler et al. (2012) showed that functional specialization and division of labour depend on performance functions, positional effects, interactions among modules and robustness. Guillaume and Otto (2012) showed that pleiotropy versus specialization depends on functional trade-offs and the mapping from functionality to fitness. Sack and Buckley (2020) emphasized that multifunctional traits are optimized across functions rather than independently for each one.
-
-Our contribution is therefore not the existence of specialization. It is the interface among three levels that are usually treated separately: an empirically measured shared-trait compromise, a tractable architecture-gain calculation with explicit incomplete decoupling, and a causal identification problem after multiple traits exist. This interface matters because an observed multi-trait phenotype can be consistent with the architecture theory while leaving the ecological pathway responsible for its advantage unidentified.
-
-### 6.4 Differentiation and mechanism identification are distinct inferential problems
-
-The floral worked case makes this distinction concrete. Suppose an attraction trait and a defence trait interact positively on reproduction. That result establishes neither that the two traits originated by splitting an ancestral multifunctional trait nor that the positive interaction arose through the mechanism suggested by their names. It may represent antagonist relief, pollinator interference of lower magnitude, a joint construction effect or an omitted pathway. Mechanistic explanation requires interventions that isolate the relevant channels.
-
-This point generalizes beyond flowers. Whenever differentiated modules interact on a common performance or fitness scale, structural modularity should not be used as a mechanism label. Architecture answers where functions are carried. Identification answers what causal paths make that architecture successful.
-
-### 6.5 Environmental change can move both the compromise and the differentiation boundary
-
-Functional weights need not be fixed. If ecological context changes the relative importance of the two functions, the shared optimum shifts and the loss generated by the weaker function can shrink or expand. The value of differentiation therefore depends not only on intrinsic trait-development architecture but also on the environment loading each function.
-
-This suggests a direct link to Chapter 1. A shared trait may appear stably balanced in one environment because \(L_S^*\) is small or because one function dominates. In another environment, the same underlying functions may produce a larger compromise loss and move the system closer to the differentiation threshold. The Chapter 1 balance is therefore not merely an endpoint; it provides the empirical quantity whose cost Chapter 2 asks whether architecture can recover.
-
-### 6.6 Testable predictions
-
-The framework generates several prospective predictions.
-
-First, systems in which function-specific optima are farther apart should show stronger selection for architectural decoupling, provided suitable developmental variation exists. Second, among systems with comparable conflict load, those with stronger residual genetic, developmental or ecological coupling should retain more integrated trait combinations. Third, the appearance of an additional module should be disfavoured when its maintenance or coordination cost is high even under severe functional conflict. Fourth, partial differentiation should be common: two structures can show measurable function-specific specialization while remaining correlated. Fifth, after a differentiated architecture appears, total cross-trait interactions should often remain mechanistically ambiguous unless consumer or pathway interventions are crossed with the trait axes.
-
-These predictions can be tested using comparative data, experimental evolution, developmental manipulation and factorial field experiments. A particularly strong design would measure a multifunctional shared-trait surface, manipulate or compare an independently varying second axis, estimate residual coupling, and assay the channels through which the resulting phenotype changes fitness.
-
-### 6.7 Limits
-
-The theory deliberately omits several processes. It compares optimized architecture states rather than modelling mutation, inheritance, genetic covariance, branching or transition times. The quadratic result assumes smooth convex losses; the robustness analysis broadens response shape but remains within a finite convex family. Nonconvex or frequency-dependent landscapes can create multiple local optima and may alter the architecture boundary qualitatively. The fixed architecture cost \(K\) is a coarse summary and may itself depend on trait values or environment. Likewise, the coupling penalty \(\lambda(x-y)^2\) compresses distinct genetic, developmental, biomechanical and ecological sources of integration into one effective term.
-
-The empirical evidence also has a strict ceiling. Cichlid and *Dalechampia* studies establish relevant architecture states and historical reorganizations but do not estimate the BITA threshold. The floral corpus identifies recurrent pathways and a fragmented experimental frontier but does not reconstruct the historical origin of differentiated traits. A stronger claim that a particular one-axis trade-off caused the evolution of a particular second trait requires historical or experimental-transition evidence not provided here.
-
-## 7. Conclusions
-
-When a single trait serves functions with different preferred states, compromise has a measurable fitness cost. Differentiation can recover only the fraction of that loss that the new trait axes actually decouple. In the quadratic baseline this yields a compact architecture rule,
+At fixed pollinator state \(p\), define fitness recovered by antagonist exclusion as
 
 \[
-\Delta_{arch}=sL_S^*-K,
+R_G(A,D;p)=W(A,D,E_G=0,E_P=p)-W(A,D,E_G=1,E_P=p).
 \]
 
-where \(L_S^*\) is the shared-trait conflict load, \(s\) is the surviving fraction of function-specific separation, and \(K\) is the extra architecture cost. The qualitative structure persists across the declared nonquadratic robustness family.
+The attraction-by-defence interaction in this exclusion contrast identifies the corresponding antagonist-relief component when the intervention is selective. A main effect of defence on damage is not enough; the target asks whether defence changes the antagonist cost of attraction.
 
-The rule reframes trait differentiation as neither inevitable specialization nor simple multiplication of structures. Two axes may remain strongly coupled, and structural differentiation can be only partial. Empirical jaw systems illustrate this intermediate state, while *Dalechampia* illustrates historical redeployment and accumulation of functional structures.
+### 4.2 Pollinator interference and the zero-baseline trap
 
-Finally, differentiation does not end the inference problem. Once multiple traits exist, their total fitness interaction still does not identify the ecological pathway that makes the architecture work. The floral BITA case shows how crossed interventions and independent channel assays can resolve that second problem. Together, the SCH/BITA programme therefore moves from **how conflicting functions balance on one trait** to **when the conflict is worth partitioning across traits, and how to identify the mechanism of that partitioned phenotype**.
+At fixed antagonist state \(g\), define the pollinator-dependent increment
 
-## References added for the Chapter 2 reframe
+\[
+J_P(A,D;g)=W(A,D,E_G=g,E_P=1)-W(A,D,E_G=g,E_P=0).
+\]
 
-Armbruster, W. S., Lee, J. & Baldwin, B. G. (2009). Macroevolutionary patterns of defense and pollination in *Dalechampia* vines: adaptation, exaptation, and evolutionary novelty. *Proceedings of the National Academy of Sciences USA* 106(43):18085–18090. https://doi.org/10.1073/pnas.0907051106
+Its attraction-by-defence interaction identifies the pollinator-dependent part of \(\iota_\Delta\), but not necessarily the whole channel. Reproduction can continue under pollinator exclusion through autonomous selfing, apomixis, resource reallocation, or treatment effects. The pollinator-absent baseline interaction must therefore be estimated or independently justified as negligible.
 
-Burress, E. D., Martinez, C. M. & Wainwright, P. C. (2020). Decoupled jaws promote trophic diversity in cichlid fishes. *Evolution* 74(5):950–961. https://doi.org/10.1111/evo.13971
+### 4.3 The four-way interaction is a separability diagnostic
 
-Conith, A. J. & Albertson, R. C. (2021). The cichlid oral and pharyngeal jaws are evolutionarily and genetically coupled. *Nature Communications* 12:5477. https://doi.org/10.1038/s41467-021-25755-5
+If antagonist and pollinator channels are separable on the proposed additive representation, the antagonist-relief interaction should not depend on pollinator state, and the pollinator-increment interaction should not depend on antagonist state. Algebraically these are the same \(A\times D\times E_G\times E_P\) four-way interaction up to sign.
 
-Guillaume, F. & Otto, S. P. (2012). Gene functional trade-offs and the evolution of pleiotropy. *Genetics* 192(4):1389–1409. https://doi.org/10.1534/genetics.112.143214
+A non-zero four-way term is therefore evidence that the proposed two-channel decomposition fails: consumer pathways interact on the trait interaction itself. This is a biological result, not a nuisance term to absorb. Empirical equivalence should be assessed with uncertainty-aware criteria rather than by interpreting failure to reject a null as proof of separability.
 
-Rüffler, C., Hermisson, J. & Wagner, G. P. (2012). Evolution of functional specialization and division of labor. *Proceedings of the National Academy of Sciences USA* 109(6):E326–E335. https://doi.org/10.1073/pnas.1110521109
+### 4.4 The remaining joint channel requires an independent assay
 
-Sack, L. & Buckley, T. N. (2020). Trait Multi-Functionality in Plant Stress Response. *Integrative and Comparative Biology* 60(1):98–112. https://doi.org/10.1093/icb/icz152
+After estimating the total interaction and consumer-mediated channels, define the unallocated remainder
 
-**Existing floral references and methods:** retain and integrate the source-checked reference spine from `IDENTIFICATION_DESIGN_REFERENCES.md` when this draft is promoted to the canonical manuscript.
+\[
+U_\Delta=\rho_\Delta-\iota_\Delta-\Delta_{AD}W.
+\]
+
+BITA deliberately calls this \(U_\Delta\), not cost. Intervention leakage, omitted channels, baseline misspecification, scale mismatch, and nonadditivity can all enter the remainder. Only an independent \(A\times D\) assay conducted under conditions that standardize or suppress the focal consumer pathways can support a biological cost interpretation.
+
+## 5. The empirical pattern: recurrent pathways, fragmented identification
+
+A source-adjudicated synthesis contains **56 directional route records from 25 independent biological clusters**. All four constituent marginal pathways recur: attraction affects pollination, attraction affects antagonists, defence affects antagonists, and defence can affect pollination. Fourteen clusters contain more than one route in the same biological system, and 17 show context- or state-dependent switching. These overlapping counts establish recurrence, not natural prevalence.
+
+A stricter audit retained **17 high-information systems** because they approach the identification target or expose informative failure modes. None closes the entire sequence from trait interaction through selective consumer allocation to an independent joint-channel assay. The resulting pattern is a **fragmented identification frontier**.
+
+*Kessler et al. (2008)* provides the strongest direct attraction-by-defence-like trait factorial in *Nicotiana attenuata*. Under registered aggregate constraints, the defended attraction effect \(A_1\) remains positive, approximately +0.200 to +0.240, while the undefended attraction effect \(A_0\) remains confined to an interval spanning zero, approximately -0.030 to +0.030. The total interaction remains positive under those aggregate constraints. This is strong Level-1 evidence and asymmetric partial identification of the stronger release claim, but exact source/design-based uncertainty is unresolved, and systemic nicotine manipulation leaves the flower-restricted defence scope imperfectly isolated. It does not allocate the mechanism.
+
+*Egan et al. (2021)* provides a complementary consumer-factorial face: herbivory and pollination environments are crossed, but the focal attraction and defence traits are measured rather than independently manipulated as an \(A\times D\) factorial. It identifies context-dependent selection, not channel allocation for a manipulated trait interaction.
+
+The public *Impatiens capensis* system of Soper Gorden and Adler (2018) reaches another face: observational attraction and defence coordinates are measured under randomized interaction treatments. Reanalysis can ask whether the observational \(A\times D\) association changes under robbing, florivory, or pollination treatments, but causal trait-channel identification remains unavailable because the traits themselves were not randomized.
+
+Other systems add further pieces: attraction crossed with antagonist removal and pollination supplementation, selective flower-associated defence manipulations, or defence-by-herbivore-suppression-by-hand-pollination designs. Their failure modes differ, but none supplies the full allocation sequence plus an independent joint-cost assay.
+
+The important conclusion is therefore not “no one has studied these mechanisms.” The mechanisms are biologically recurrent and experimentally tractable. What is missing is their intersection on the same trait coordinates and outcome scale.
+
+## 6. Designing the next identifiable experiment
+
+BITA implies a staged design.
+
+**Stage 1: outcome surface.** Run the four-cell \(A\times D\) factorial and estimate \(A_0\), \(A_1\), and \(\Delta_{AD}W\) with compatible design-based uncertainty. This separates interaction relief from Level-2 release and Level-3 reversal.
+
+**Stage 2: channel pilots.** On the same trait coordinates, estimate plausible antagonist-relief, pollinator-interference, pollinator-independent baseline, and cross-consumer coupling effects.
+
+**Stage 3: crossed consumer intervention.** Run the selective \(A\times D\times E_G\times E_P\) design. Estimate consumer-channel contrasts and the four-way separability diagnostic.
+
+**Stage 4: independent remaining-channel assay.** Only after consumer-channel identification should the unallocated remainder be compared with an independent cost or allocation assay.
+
+This ordering prevents two common errors. A design powered to detect \(\Delta_{AD}>0\) is not necessarily powered to decide whether \(A_0\le0<A_1\), especially when \(A_0\) lies close to zero. And a residual from the reproductive model is not granted a mechanistic name before an independent assay exists.
+
+## 7. Relation to SCH and SLK
+
+BITA is not the paper that establishes the upstream conflict budget or the architecture-value threshold.
+
+**SCH** asks whether multifunctionality has actually been promoted to identified functional conflict on one shared coordinate. Its central warning is `multifunctionality != conflict`.
+
+**SLK** transports an identified conflict budget through recoverable benefit and architecture value into accessibility, invasion, fixation, and occupancy. Its central sequence is `L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy`.
+
+**BITA** begins after multiple trait axes are empirically relevant and asks whether their observed interaction has actually been promoted to mechanism. Its central warning is `trait interaction != mechanism`.
+
+```text
+SCH:    have opposing functional demands been identified?
+SLK:    when can that conflict become favored and realized architecture?
+BITA:   once traits interact, which ecological route generated the gain?
+```
+
+The architecture quantities \(R\), \(s\), \(K\), and \(\Phi\) may appear in BITA only as upstream context or externally supplied bridge variables. They are not the novelty center of this paper.
+
+## 8. Discussion
+
+The main result is a change in what counts as evidence. A trait interaction is an estimand, not a mechanism label. A positive interaction can justify a directional statement about how one trait modifies the effect of another. Stronger functional-release claims require additional outcome contrasts. Mechanism allocation requires still more information: selective interventions, baseline characterization, a separability gate, and an independent assay for any remaining channel.
+
+This principle extends beyond flowers. The same identification problem appears whenever two traits affect several opposing ecological pathways: dispersal versus retention, defence versus competitive performance, habitat structure that facilitates one interaction while obstructing another, or behavioural syndromes that alter both resource gain and risk.
+
+The empirical synthesis also changes the interpretation of missing evidence. Across the current 56-route / 25-cluster synthesis, the constituent biology recurs. Across the 17-system high-information frontier, sophisticated pieces of the necessary design already exist. The gap is not lack of plausible mechanisms; it is that the pieces usually occur in different experiments. That diagnosis points directly to the next experiment.
+
+## 9. Claim ceiling
+
+Current evidence supports:
+
+1. recurrence of all four constituent marginal pathway families across independent biological systems;
+2. existence of both direct attraction-by-defence-like trait factorials and consumer factorials;
+3. a strong aggregate positive-interaction anchor in Kessler et al. (2008), with positive defended attraction effect under registered constraints;
+4. zero-compatible undefended attraction effect in that aggregate reconstruction, so strict Level-2/3 release remains unidentified;
+5. no screened high-information system closing the full channel-allocation design plus independent remaining-channel assay.
+
+Current evidence does **not** establish prevalence of trait differentiation, a universal mechanism, historical trait splitting, cue privatization, or a completed point allocation of \(\rho_\Delta\), \(\iota_\Delta\), and \(\kappa_\Delta\) in any screened biological system.
+
+## 10. Conclusion
+
+Trait interaction and ecological mechanism are different inferential objects. A four-cell factorial can establish nonadditivity and, with the right outcome contrasts, distinguish interaction relief from stronger functional release. But the same total interaction remains compatible with many antagonist-relief, pollinator-interference, and joint-channel allocations. BITA turns that ambiguity into an explicit programme:
+
+```text
+total interaction
+→ identified set
+→ partial identification
+→ selective crossed intervention
+→ separability test
+→ independent remaining-channel assay.
+```
+
+Published floral systems already contain the biological pathways and many required experimental components. What they lack is the full intersection of those components on the same trait coordinates and reproductive scale. The next advance is therefore not another claim that two traits interact, but an experiment designed to show why.
+
+## Open Research statement
+
+Analysis code, source-audit products, route-synthesis tables, identification estimands, public-data reanalyses, and design-coverage products are maintained in the project repository. A permanent archive of the accepted code and data-derived outputs should accompany publication.
+
+## Author contributions, funding, acknowledgments and competing interests
+
+[Author-controlled; complete before submission.]
+
+## References
+
+Use `manuscript/TRAIT_DIFFERENTIATION_REFERENCES_V1.md` as the canonical focused reference pool. The longer mechanism-identification provenance text remains preserved in `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`.
