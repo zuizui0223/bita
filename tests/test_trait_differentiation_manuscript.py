@@ -31,7 +31,7 @@ def test_nested_outcome_hierarchy_is_explicit() -> None:
         "Delta_{AD}",
     ):
         assert token in text, token
-    assert "Level 1 does not imply Levels 2 or 3" in text
+    assert "It does not by itself identify Level 2 or 3" in text
 
 
 def test_total_interaction_is_not_collapsed_to_unique_mechanism() -> None:
@@ -63,11 +63,12 @@ def test_empirical_pattern_precedes_next_identifiable_experiment() -> None:
 
 
 def test_route_recurrence_is_not_promoted_to_prevalence_or_mechanism() -> None:
-    text = _text().lower()
-    assert "not prevalence" in text or "not an estimate of natural prevalence" in text
-    assert "route" in text
-    assert "mechanism" in text
-    assert "marginal" in text or "constituent" in text
+    text = _text()
+    lower = text.lower()
+    assert "Current evidence does **not** establish prevalence of trait differentiation" in text
+    assert "universal mechanism" in lower
+    assert "recurrence of all four constituent marginal pathway families" in text
+    assert "completed point allocation" in lower
 
 
 def test_manuscript_preserves_boundary_with_slk() -> None:
