@@ -36,6 +36,16 @@ def _strip_reference_placeholder(text: str) -> str:
     return text.split(marker, 1)[0].rstrip()
 
 
+def _submission_front(front: str) -> str:
+    """Keep journal-facing title/authors while removing repository editorial metadata."""
+    front = re.sub(r"\n\*\*Canonical BITA full-paper science source\*\*\s*", "\n", front)
+    front = re.sub(r"\n\*\*Target class:\*\*[^\n]*\s*", "\n", front)
+    front = re.sub(r"\n{3,}", "\n\n", front).strip()
+    if "Canonical BITA" in front or "Target class:" in front:
+        raise RuntimeError("internal manuscript metadata survived submission-front sanitization")
+    return front
+
+
 def _reference_text() -> str:
     text = REFERENCES.read_text(encoding="utf-8").strip()
     paragraphs = [p.strip() for p in re.split(r"\n\s*\n", text) if p.strip()]
@@ -90,7 +100,7 @@ def build_main_source() -> str:
             raise RuntimeError(f"stale architecture-paper token in active BITA Main: {token}")
 
     front, body = text.split("## Abstract", 1)
-    front = front.rstrip()
+    front = _submission_front(front.rstrip())
     body = "## Abstract" + body
     refs = _reference_text()
     captions = _figure_captions()
@@ -103,7 +113,7 @@ def build_main_source() -> str:
             f"![](../../../../manuscript/mechanism_identification_figures/{filename})"
         )
 
-    return (
+    out = (
         front
         + "\n\n**Journal:** Ecology\n\n**Manuscript type:** Concepts & Synthesis\n\n"
         + TITLE_BREAK
@@ -117,16 +127,37 @@ def build_main_source() -> str:
         + "\n\n".join(figure_blocks)
         + "\n"
     )
+    if "Canonical BITA full-paper science source" in out or "Target class:" in out:
+        raise RuntimeError("internal repository metadata survived into generated Main")
+    return out
 
 
 def build_appendix_source() -> str:
     text = APPENDIX.read_text(encoding="utf-8").strip()
+    start = re.search(r"(?m)^## S1\.", text)
+    if start is None:
+        raise RuntimeError("active identification Appendix has no S1 boundary")
+    text = text[start.start():]
+    text = text.replace(
+        "These classes motivate the experimental roadmap in Main Fig. 5.",
+        "These classes motivate the crossed-intervention roadmap and fragmented-frontier synthesis in Main Figs. 3–4.",
+    )
     header = (
         "# Appendix S1 — Identification design, empirical frontier, and provenance\n\n"
-        "This Appendix supports the active BITA mechanism-identification paper. "
-        "Architecture-value derivations retained elsewhere in the repository are not part of the active Main claim spine.\n\n"
+        "This Appendix supports the BITA mechanism-identification manuscript. "
+        "It provides technical derivations, source-bounded reconstructions, the public-data retrofit, "
+        "the identification-coverage audit, and reproducibility pointers for the active inference ladder. "
+        "Architecture-value derivations retained elsewhere in the repository are outside the active BITA claim spine.\n\n"
     )
-    return header + text + "\n"
+    out = header + text + "\n"
+    forbidden = (
+        "MANUSCRIPT_IDENTIFICATION_DESIGN.md",
+        "earlier theorem-led manuscript",
+    )
+    for token in forbidden:
+        if token in out:
+            raise RuntimeError(f"stale Appendix routing survived candidate build: {token}")
+    return out
 
 
 def build_open_research_manifest() -> str:
