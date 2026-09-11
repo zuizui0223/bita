@@ -39,7 +39,6 @@ def test_historical_one_sided_result_is_recovered_with_kappa_only_restriction() 
     assert r"\kappa_\Delta\ge0" in block
     assert r"\rho_\Delta-\iota_\Delta\ge\Delta_{AD}W" in block
     assert "sharp partial-identification bound under an explicit restriction" in block
-    # The Main bound must not require added rho/iota sign assumptions.
     assert r"\rho_\Delta\ge0" not in block
     assert r"\iota_\Delta\ge0" not in block
 
@@ -82,9 +81,9 @@ def test_figure_and_cover_letter_use_partial_identification_without_inventing_va
     assert "defines an identified set rather than a unique mechanism" in captions
     assert "fragmented identification frontier" in captions
     cover = COVER.read_text(encoding="utf-8")
-    assert "A measured total interaction defines a set of compatible channel allocations" in cover
-    assert "partial-identification bound rather than a standalone theorem" in cover
-    # No study-specific rho/iota/kappa numerical bounds are promoted by this integration.
+    assert "does not point-identify antagonist relief, pollinator interference and the remaining joint channel" in cover
+    assert "defines a set of compatible allocations" in cover
+    assert "Biological restrictions or partial channel measurements can shrink this set" in cover
     main = MAN.read_text(encoding="utf-8")
     for forbidden in ("rho_delta = 0.", "iota_delta = 0.", "kappa_delta = 0."):
         assert forbidden not in main
