@@ -1,28 +1,36 @@
-name: Build BITA mechanism paper figures
+name: Build BITA mechanism paper candidate
 
 on:
   push:
     paths:
       - 'scripts/build_mechanism_identification_figures_svg.py'
       - 'scripts/build_identification_design_figures_svg.py'
+      - 'scripts/build_bita_mechanism_candidate_sources.py'
       - 'empirical/identification_design/**'
       - 'empirical/mechanism_pattern_synthesis/**'
       - 'manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md'
+      - 'manuscript/IDENTIFICATION_DESIGN_REFERENCES.md'
       - 'manuscript/TRAIT_DIFFERENTIATION_FIGURE_CAPTIONS_V1.md'
+      - 'manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md'
       - 'tests/test_mechanism_identification_figures.py'
+      - 'tests/test_bita_mechanism_candidate_sources.py'
       - '.github/workflows/build-bita-mechanism-paper.yml'
   pull_request:
     paths:
       - 'scripts/build_mechanism_identification_figures_svg.py'
       - 'scripts/build_identification_design_figures_svg.py'
+      - 'scripts/build_bita_mechanism_candidate_sources.py'
       - 'empirical/identification_design/**'
       - 'empirical/mechanism_pattern_synthesis/**'
       - 'manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md'
+      - 'manuscript/IDENTIFICATION_DESIGN_REFERENCES.md'
       - 'manuscript/TRAIT_DIFFERENTIATION_FIGURE_CAPTIONS_V1.md'
+      - 'manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md'
       - 'tests/test_mechanism_identification_figures.py'
+      - 'tests/test_bita_mechanism_candidate_sources.py'
 
 jobs:
-  figures:
+  candidate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -35,15 +43,31 @@ jobs:
         run: python scripts/build_pattern_expansion_readout.py
       - name: Build active Main figures
         run: python scripts/build_mechanism_identification_figures_svg.py
-      - name: Run focused figure and coverage tests
-        run: python -m pytest -q tests/test_mechanism_identification_figures.py tests/test_identification_coverage.py
-      - name: Confirm exactly five SVGs
+      - name: Build candidate Main, Appendix, and Open Research manifest
+        run: python scripts/build_bita_mechanism_candidate_sources.py
+      - name: Run focused figure, package, and coverage tests
         run: |
+          python -m pytest -q \
+            tests/test_mechanism_identification_figures.py \
+            tests/test_bita_mechanism_candidate_sources.py \
+            tests/test_identification_coverage.py
+      - name: Guard active science surface
+        run: |
+          MAIN=submission/ecology/mechanism_identification_candidate/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.md
           test "$(find manuscript/mechanism_identification_figures -maxdepth 1 -name '*.svg' | wc -l)" -eq 5
           grep -q '17-system' manuscript/mechanism_identification_figures/FIGURE_4_FRAGMENTED_FRONTIER.svg
           grep -q '56 routes / 25 clusters' manuscript/mechanism_identification_figures/FIGURE_4_FRAGMENTED_FRONTIER.svg
+          grep -q 'Trait interaction is not ecological mechanism' "$MAIN"
+          grep -q '56 directional route records from 25 independent biological clusters' "$MAIN"
+          ! grep -q 'When does a trait trade-off resolve by differentiation rather than compromise?' "$MAIN"
+          ! grep -q '300 nonzero-conflict evaluations' "$MAIN"
       - uses: actions/upload-artifact@v4
         with:
-          name: bita-mechanism-identification-main-figures
-          path: manuscript/mechanism_identification_figures/*.svg
+          name: bita-mechanism-identification-candidate
+          path: |
+            manuscript/mechanism_identification_figures/*.svg
+            submission/ecology/mechanism_identification_candidate/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.md
+            submission/ecology/mechanism_identification_candidate/generated/APPENDIX_S1.md
+            submission/ecology/mechanism_identification_candidate/generated/OPEN_RESEARCH_DATA_MANIFEST.md
+            submission/ecology/mechanism_identification_candidate/generated/open_research_data/*
           if-no-files-found: error
