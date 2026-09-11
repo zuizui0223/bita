@@ -21,9 +21,10 @@ def test_readme_declares_active_mechanism_identification_story() -> None:
 
 def test_readme_assigns_architecture_value_spine_to_slk() -> None:
     text = (ROOT / "README.md").read_text(encoding="utf-8")
+    lower = text.lower()
     assert "L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy" in text
     assert "SLK owns" in text
-    assert "Older BITA architecture derivations remain preserved" in text
+    assert "older bita architecture derivations remain preserved" in lower
     assert "not the novelty center of the active full paper" in text
 
 

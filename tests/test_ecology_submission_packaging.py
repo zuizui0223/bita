@@ -1,44 +1,30 @@
 from __future__ import annotations
 
 from pathlib import Path
-import importlib.util
-import sys
+
+from scripts import build_bita_mechanism_candidate_sources as builder
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / "scripts"
-if str(SCRIPTS) not in sys.path:
-    sys.path.insert(0, str(SCRIPTS))
-
-SCRIPT = SCRIPTS / "build_ecology_review_package_sources.py"
 COVER = ROOT / "submission" / "COVER_LETTER_ECOLOGY_CONCEPTS_SYNTHESIS.md"
 
-spec = importlib.util.spec_from_file_location("ecology_review_builder", SCRIPT)
-assert spec and spec.loader
-builder = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(builder)
 
-
-def test_main_submission_source_is_canonical_trait_differentiation_chapter2() -> None:
-    text = builder.build_main_submission_source()
+def test_main_submission_source_is_current_mechanism_identification_paper() -> None:
+    text = builder.build_main_source()
     ordered = [
-        "When does a trait trade-off resolve by differentiation rather than compromise?",
+        "Trait interaction is not ecological mechanism",
         "**Journal:** Ecology",
         "**Manuscript type:** Concepts & Synthesis",
-        "**Open Research statement:**",
         builder.TITLE_BREAK,
         "## Abstract",
         "## 1. Introduction",
-        "## 2. From shared-trait compromise to differentiated architecture",
-        "### 2.1 General architecture propositions",
-        "## 3. Robustness beyond quadratic response shapes",
-        "## 4. Trait differentiation is often incomplete in real systems",
-        "## 5. Once several trait axes exist, their fitness interaction still does not identify mechanism",
-        "## 6. Discussion",
-        "## 7. Conclusions",
-        "## Acknowledgments",
-        "## Author Contributions",
-        "## Funding",
-        "## Conflict of Interest Statement",
+        "## 2. What a trait interaction actually identifies",
+        "## 3. Partial identification before full mechanism allocation",
+        "## 4. A crossed intervention design for channel identification",
+        "## 5. The empirical pattern",
+        "## 6. Designing the next identifiable experiment",
+        "## 7. Relation to SCH and SLK",
+        "## 8. Discussion",
+        "## 9. Claim ceiling",
         "## References",
         builder.REF_BREAK,
         "**Figure 1.",
@@ -49,99 +35,64 @@ def test_main_submission_source_is_canonical_trait_differentiation_chapter2() ->
     ]
     positions = [text.index(token) for token in ordered]
     assert positions == sorted(positions)
-
     for token in (
-        "nested-architecture weak dominance",
-        "residual-coupling monotonicity",
-        "300 nonzero-conflict evaluations",
-        "Cichlid",
-        "Dalechampia",
-        "56 route records from 25 independent biological study clusters",
-        "17-system high-information audit",
+        "identified set",
+        "partial identification",
+        "four-way separability",
+        "56 directional route records from 25 independent biological clusters",
+        "17 high-information systems",
         "fragmented identification",
     ):
         assert token.lower() in text.lower(), token
-
-    assert "Working integrated Chapter 2 draft" not in text
-    assert "Theorem 1" not in text
-    assert "77.2%" not in text.split("## References", 1)[0]
+    assert "When does a trait trade-off resolve by differentiation rather than compromise?" not in text
+    assert "300 nonzero-conflict evaluations" not in text
 
 
-def test_main_has_five_trait_differentiation_figures_and_no_main_tables() -> None:
-    text = builder.build_main_submission_source()
-    names = (
-        "FIGURE_1_BALANCE_TO_DIFFERENTIATION.svg",
-        "FIGURE_2_ARCHITECTURE_BOUNDARY.svg",
-        "FIGURE_3_ROBUSTNESS_AND_REALITY.svg",
-        "FIGURE_4_MECHANISM_IDENTIFICATION.svg",
-        "FIGURE_5_FRAGMENTED_IDENTIFICATION.svg",
-    )
-    for idx, name in enumerate(names, 1):
+def test_main_has_five_current_mechanism_identification_figures() -> None:
+    text = builder.build_main_source()
+    assert len(builder.FIGURES) == 5
+    for idx, name in enumerate(builder.FIGURES, 1):
         assert name in text
         assert f"**Figure {idx}." in text
-    assert "## Table 1." not in text
-    # Breaks before Figures 4 and 5 are removed because those tall figures
-    # naturally start new pages in the validated LibreOffice rendering.
-    assert text.count(builder.PAGE_BREAK) == 2
+    assert text.count(builder.PAGE_BREAK) == 4
 
 
-def test_appendix_integrates_architecture_and_identification_support() -> None:
+def test_appendix_is_current_identification_support_not_architecture_main() -> None:
     text = builder.build_appendix_source()
-    assert text.startswith("# Appendix S1 — Trait differentiation and mechanism identification")
-    for token in (
-        "Shared-versus-differentiated architecture derivation",
-        "Nonquadratic robustness design and readout",
-        "Cross-system architecture-state anchors",
-        "Retained floral mechanism-identification supplement",
-        "Identified-set algebra and projection bounds",
-        "2,592",
-        "77.2%",
-    ):
-        assert token in text, token
+    assert text.startswith("# Appendix S1 — Identification design")
+    assert "Architecture-value derivations retained elsewhere" in text
+    assert "HIGH_INFORMATION_IDENTIFICATION_COVERAGE_V2.csv" in text
+    assert "Main Figs. 3–4" in text
+    assert "earlier theorem-led manuscript" not in text
 
 
-def test_open_research_package_preserves_provenance_and_adds_chapter2_outputs(tmp_path, monkeypatch) -> None:
-    monkeypatch.setattr(builder, "OUT", tmp_path)
-    monkeypatch.setattr(builder, "DATA_OUT", tmp_path / "open_research_data")
+def test_open_research_package_exports_current_identification_products(tmp_path, monkeypatch) -> None:
+    monkeypatch.setattr(builder, "DATA_OUT", tmp_path)
     manifest = builder.build_open_research_manifest()
-    names = {p.name for p in (tmp_path / "open_research_data").iterdir()}
-    for expected in (
-        "model_parameters_and_scaling.csv",
-        "finite_grid_local_cases.csv",
-        "mechanism_pattern_route_ledger.csv",
-        "conditionality_context_records.csv",
-        "direct_identification_audits.csv",
-        "pattern_expansion_screening.csv",
-        "trait_differentiation_robustness_readout.json",
-        "high_information_identification_coverage.csv",
-        "impatiens_identification_retrofit.json",
-        "question_method_explanation_matrix.csv",
-        "defence_escape_route_hypothesis_recovery.csv",
-    ):
-        assert expected in names
-    assert "Chapter 2 additions" in manifest
-    assert "screened-set coverage, not literature prevalence" in manifest
-    assert "historical mechanism/Pattern machine-readable products are retained" in manifest
+    names = {p.name for p in tmp_path.iterdir()}
+    assert names == {
+        "high_information_identification_coverage_v2.csv",
+        "impatiens_2018_identification_retrofit_v1.json",
+        "pattern_expansion_readout_v1.json",
+    }
+    assert "17-system high-information identification frontier" in manifest
+    assert "56-route / 25-cluster recurrence readout" in manifest
+    assert "not prevalence estimates" in manifest
 
 
-def test_cover_letter_matches_canonical_30_page_chapter2_package() -> None:
+def test_cover_letter_marks_old_architecture_package_stale() -> None:
     text = COVER.read_text(encoding="utf-8")
-    assert "When does a trait trade-off resolve by differentiation rather than compromise?" in text
-    assert "**30 Main Document pages**" in text
-    assert "**38-page Appendix S1**" in text
-    assert "within the standard 30-page Concepts & Synthesis target" in text
-    assert "56 source-adjudicated route records from 25 independent biological clusters" in text
-    assert "A measured total interaction defines a set of compatible channel allocations" in text
-    assert "partial-identification bound rather than a standalone theorem" in text
-    assert "acceptance stage" in text
-    assert "Potential reviewers, if requested by the submission portal" in text
-    assert "Complete the number and fields requested by ScholarOne" in text
+    assert "Trait interaction is not ecological mechanism" in text
+    assert "56 directional route records from 25 independent biological clusters" in text
+    assert "17-system high-information audit" in text
+    assert "previously generated 30-page Main / 38-page Appendix package" in text
+    assert "no longer submission-current" in text
+    assert "new journal-formatted package will be rebuilt" in text
 
 
-def test_canonical_builder_preserves_historical_and_component_manuscripts() -> None:
+def test_historical_sources_remain_preserved_but_are_not_active_builder_inputs() -> None:
     assert (ROOT / "manuscript" / "MANUSCRIPT_THEORETICAL_ECOLOGY.md").exists()
     assert (ROOT / "manuscript" / "MANUSCRIPT_IDENTIFICATION_DESIGN.md").exists()
-    source = SCRIPT.read_text(encoding="utf-8")
-    assert "build_trait_differentiation_candidate_package_sources" in source
-    assert "build_ecology_submission_sources" in source
-    assert "Retain historical machine-readable products" in source
+    source = (ROOT / "scripts" / "build_bita_mechanism_candidate_sources.py").read_text(encoding="utf-8")
+    assert "MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md" in source
+    assert "MANUSCRIPT_THEORETICAL_ECOLOGY.md" not in source
