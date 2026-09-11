@@ -2,55 +2,60 @@
 
 ## Common empirical architecture
 
-All three theory papers now use the same order:
+All three theory papers use the same empirical order:
 
 ```text
-1. establish the mathematical mechanism
-2. translate the mechanism into observable signatures
+1. establish the mathematical / identification mechanism
+2. translate it into observable signatures
 3. build a source-adjudicated independent-cluster metadata ledger
 4. recover recurrence, co-occurrence, context switches, moderators and boundaries
 5. meta-analyze only compatible quantitative strata
-6. identify evidence gaps and negative cases
+6. identify residual evidence and identification gaps
 7. design the strongest focal causal experiment last
 ```
 
 A focal experiment is therefore a final identification upgrade, not the empirical entry point.
 
-## Chapter-specific theoretical objects
+## Paper-specific objects
 
-| Chapter | Mathematical object | Primary reality signature |
+| Paper | Core object | Primary reality signature |
 |---|---|---|
-| SCH | one shared coordinate under multiple functional optima; conflict loss `L` | shared-coordinate conflict, separated/opposing optima, context-weight shifts |
-| BALANCE | `L>0` but shared worldline still wins; `Delta_W<0` / `Phi=sL-K<0` | conflict without splitting, persistent integration, transition mosaics, hysteresis/boundaries |
-| BITA | recoverable loss from extra dimensionality; residual coupling and cost | functional differentiation, dimensional-release-compatible redeployment, guarded/interference regimes, partial modularity |
+| SCH | `multifunctionality != identified functional conflict` on one shared coordinate | opposing/shared-coordinate demands, compromise-like geometry, context-weight shifts, aligned/no-conflict controls |
+| BALANCE | conflict is active but integration persists in the sandwiched region | conflict without splitting, persistent integration, transition mosaics, boundary/hysteresis structure |
+| BITA | `trait interaction != ecological mechanism` | recurrence of constituent routes, same-system multi-route structure, partial-identification faces, context switching, incomplete mechanism-allocation designs |
+
+The architecture-value transport `L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy` belongs to the companion SLK flagship. BITA does not re-own `R`, `K`, `s`, or `Phi` as its novelty center.
 
 ## Shared synthesis standards
 
 - Unit of recurrence is an independent biological cluster, not a row or effect size.
-- Multiple doses/outcomes/years from one panel remain dependent.
+- Multiple doses, outcomes, years, populations, or traits from one panel remain dependent unless independence is source-justified.
 - Directional evidence and metadata mapping are legitimate when pooling is not defensible.
 - A grand cross-trait/cross-outcome mean is not a primary result.
-- Publication counts are screened recurrence, not prevalence in nature.
-- Negative/boundary systems are required, not discarded.
-- Direct parameter identification remains distinct from pattern compatibility.
+- Screened counts demonstrate recurrence within the evidence universe, not natural prevalence.
+- Negative, aligned, boundary, unresolved, and non-separable systems remain visible.
+- Direct parameter or mechanism identification remains distinct from pattern compatibility.
 - If admission to a quantitative lane depends on observing the target positive pattern, any pooled mean is conditional on positive admission and is not an independent recurrence test or an unbiased design-wide mean.
 
 ## Current repository state
 
 ```text
 SCH
-  main now contains the 16-cluster source-adjudicated conflict/context universe,
+  main contains the 16-cluster source-adjudicated conflict/context universe,
   aligned/no-conflict controls, a fail-closed quantitative lane,
   and a canonical manuscript with literature recovery before focal z x P x G validation.
 
 BALANCE
-  main now contains the Q1B positive/negative/boundary structure,
-  broader persistence ledger, conditional positive-case quantitative summary,
-  and canonical manuscript with direct worldline validation retained last.
+  main contains the Q1B positive/negative/boundary structure,
+  the broader persistence ledger, a guarded conditional quantitative summary,
+  and a canonical manuscript with direct worldline validation retained last.
 
 BITA
-  main contains the advanced differentiation/mechanism theory and route-synthesis assets;
-  this branch adds the explicit literature-first pattern-recovery contract and quantitative-lane registry.
+  main contains the active mechanism-identification manuscript,
+  56 directional route records / 25 independent biological clusters,
+  a 17-system high-information identification frontier,
+  and a Mechanism -> Pattern manuscript order.
+  This branch adds an explicit literature-first recovery contract and quantitative-lane registry.
 ```
 
 ## BITA quantitative state
@@ -64,19 +69,30 @@ nectar standing crop         28 clusters  pooled negative effect
 male reproductive success    11 clusters  direction unresolved
 ```
 
-These route-level results do not identify `R`, `K`, `s`, `R-K`, or complete dimensional release. The strict architecture-level differentiation lane remains empty until a same-system chain links conflict, second-axis loading, release/redeployment, common fitness, and cost/net architecture comparison where claimed.
+These route-level results quantify constituent ecological channels. They do **not** identify the mechanism generating a focal `A x D` interaction.
+
+The strict BITA mechanism-allocation lane remains empty until one same-system design closes:
+
+```text
+focal A x D total interaction
++ selective antagonist intervention
++ selective pollinator intervention
++ pollinator-independent baseline
++ four-way separability diagnostic
++ independent assay of any remaining joint channel
+```
 
 ## Shared claim ceiling
 
-The systematic synthesis tests whether signatures predicted by each mathematical mechanism recur in nature and which contexts organize them. It does not prove that every system was generated by the model and does not construct model parameters from unrelated marginal studies.
+The systematic synthesis tests whether theory-defined signatures and identification failures recur across biological systems and which contexts organize them. It does not prove that every system was generated by the model, infer natural prevalence, or manufacture model/mechanism parameters from unrelated marginal studies.
 
 ## Promotion gate before focal experiments become main-line work
 
-For each chapter, first require:
+For each paper, first require:
 
 ```text
 source-adjudicated independent-cluster universe
-explicit pattern classes
+explicit evidence classes
 moderator coverage
 negative/boundary coverage
 same-system multi-signature coverage where relevant
