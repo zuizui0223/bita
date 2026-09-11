@@ -9,7 +9,6 @@ SCOPE = ROOT / "docs" / "SUBMISSION_SCOPE.md"
 
 def test_historical_manuscript_remains_reproducible_mechanism_then_pattern() -> None:
     text = HISTORICAL_MANUSCRIPT.read_text(encoding="utf-8")
-
     required_in_order = (
         "## 2. Part I — Mechanistic theory: mechanism and principle",
         "## 3. Part I results — mechanistic sign regimes",
@@ -32,9 +31,10 @@ def test_current_pattern_layer_does_not_overclaim_grand_meta_analysis() -> None:
     assert "We use **meta-analysis** only where study outcomes can be expressed on a defensible common quantitative scale" in historical
     assert "we did not fit a cross-outcome grand moderator coefficient" in historical
 
-    assert "source-adjudicated route ledger is **not itself a grand meta-analysis**" in scope
-    assert "constituent channels recur" in scope_lower
-    assert "joint allocation remains unidentified" in scope_lower
+    assert "recurrence of constituent pathways" in scope
+    assert "not prevalence" in scope_lower
+    assert "not point identification of the total mechanism" in scope_lower
+    assert "fragmented identification" in scope_lower
     assert "marginal route recurrence does not estimate" in current
     assert "none of these counts is an estimate of natural prevalence" in current
 
