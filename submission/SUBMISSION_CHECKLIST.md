@@ -1,128 +1,122 @@
-# Ecology Concepts & Synthesis submission checklist — canonical Chapter 2
+# Ecology Concepts & Synthesis submission checklist — BITA mechanism-identification paper
 
 ## 1. Scientific architecture — PASS
 
-- [x] Canonical scientific source: `manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md`
-- [x] Canonical title: **When does a trait trade-off resolve by differentiation rather than compromise? Linking trait architecture to mechanism identification**
-- [x] SCH / Chapter 1 = BALANCE on a shared trait axis
-- [x] BITA / Chapter 2 = DIFFERENTIATION across partially decoupled trait axes
-- [x] pollination/defence is a worked case, not the programme definition
-- [x] general nested-architecture weak dominance is explicit: `R >= 0`
-- [x] architecture decision is explicit: `Delta_arch = R-K`, differentiation iff `K<R`
-- [x] stronger non-negative residual coupling cannot increase `R`
-- [x] quadratic `R=sL_S*` is labelled a corollary, not a universal identity
-- [x] optimized-state comparison is not presented as an evolutionary-dynamics or historical-transition model
-
-## 2. Nonquadratic robustness — PASS
-
-- [x] registered convex power-loss design implemented
-- [x] strict positive pre-cost recovery = 300/300 nonzero-conflict evaluations
-- [x] recoverable loss increases with optimum separation = 60/60 declared series
-- [x] coupling monotonicity = 60/60 implementation check of the structural proposition
-- [x] mismatched-curvature cost-threshold checks retained
-- [x] no universality claim over arbitrary nonconvex/frequency-dependent/multimodal landscapes
-
-## 3. Empirical architecture-state layer — PASS
-
-- [x] cichlid oral/pharyngeal jaws used as partial-differentiation/residual-integration anchor
-- [x] *Dalechampia* used as historical redeployment/exaptation/addition anchor
-- [x] neither system is assigned BITA parameter estimates
-- [x] neither is treated as causal proof that the modeled shared-axis conflict generated the transition
-
-## 4. Floral mechanism-identification worked case — PASS
-
-- [x] `Delta_AD W = W11-W10-W01+W00` retained
-- [x] total interaction separated from channel allocation
-- [x] identified set `I(delta)` retained
+- [x] canonical scientific source = `manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md`
+- [x] canonical active title = **Trait interaction is not ecological mechanism: an identification framework for multifunctional traits**
+- [x] active thesis = `trait interaction != ecological mechanism`
+- [x] outcome hierarchy separates Level 1 interaction relief, Level 2 constraint release, and Level 3 strict reversal
+- [x] total interaction is separated from channel allocation
+- [x] identified-set logic is explicit
 - [x] partial identification is explicit and assumption-indexed
 - [x] selective `A x D x antagonist x pollinator` design retained
-- [x] `m0` baseline and four-way separability diagnostic retained
+- [x] pollinator-absent baseline handling retained
+- [x] four-way separability diagnostic retained
 - [x] remaining joint channel requires independent evidence
+- [x] SLK owns `L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy`
+- [x] older BITA architecture derivations demoted to provenance / technical support
+
+## 2. Empirical synthesis — PASS
+
 - [x] recurrence synthesis = 56 route records / 25 independent biological clusters
-- [x] high-information frontier = 17 systems using authoritative V2 coverage matrix
+- [x] high-information frontier = 17 systems
 - [x] route counts are not prevalence estimates
-- [x] positive `A x D` interaction is not trait differentiation or historical splitting
+- [x] strongest Kessler aggregate anchor remains bounded to Level 1 + asymmetric partial identification
+- [x] no screened system is claimed to close full mechanism allocation
+- [x] empirical conclusion = recurrent constituent biology + fragmented identification
 
-## 5. Main Document — GENERATED / STRUCTURAL PASS
+## 3. Main manuscript — SCIENCE SOURCE REFOCUSED
 
-- [x] output: `MANUSCRIPT_ECOLOGY_SUBMISSION.docx`
-- [x] Journal = Ecology; manuscript type = Concepts & Synthesis
-- [x] abstract <= 350 words and keywords present
-- [x] author/affiliation/corresponding-author fields remain author-controlled placeholders
-- [x] review-stage Open Research statement present
-- [x] five Chapter 2 Main figures embedded
-- [x] Figures 1–3 carry balance/differentiation theory and reality checks
-- [x] Figures 4–5 carry mechanism identification and fragmented empirical frontier
-- [x] validated pre-metadata render = **30 pages**
-- [x] Main is within the standard 30-page target
-- [x] redundant blank figure pages removed
-- [x] LibreOffice broken superscript `*` glyph fixed by explicit `opt` superscripts
-- [x] visual inspection of representative equation, body and figure pages PASS
-- [ ] re-render/re-count after final author metadata insertion
+- [x] canonical Markdown Main rewritten around the mechanism-identification thesis
+- [x] architecture-value derivation removed from Main novelty spine
+- [x] programme ownership section added
+- [x] claim ceiling updated
+- [x] cover letter rewritten to the new thesis
+- [x] new five-figure caption sequence frozen
+- [x] figure rebuild plan registered
 
-## 6. Supporting Information — GENERATED / STRUCTURAL PASS
+## 4. Rendered Main figures — REBUILD REQUIRED
 
-- [x] one integrated Appendix S1
-- [x] architecture derivation included
-- [x] nonquadratic robustness included
-- [x] cichlid/*Dalechampia* evidence ceiling included
-- [x] retained floral identification supplement included
-- [x] Kessler reconstruction / *Impatiens* retrofit / 17-system frontier retained
-- [x] 56/25 recurrence provenance retained
-- [x] 2,592 / 77.2% historical exercise remains technical Appendix material only
-- [x] validated pre-metadata Appendix render = **38 pages**
-- [x] no obvious blank/clipped pages in pre-metadata visual audit
+The existing rendered five-figure set belongs to the older integrated architecture-plus-mechanism paper.
 
-## 7. Reproducibility / Open Research — PASS FOR REVIEW
+- [ ] rebuild Figure 1 = outcome hierarchy
+- [ ] rebuild Figure 2 = identified-set geometry
+- [ ] rebuild Figure 3 = crossed intervention + separability
+- [ ] rebuild Figure 4 = fragmented empirical frontier
+- [ ] rebuild Figure 5 = SCH / SLK / BITA ownership and BITA promotion ladder
+- [ ] synchronize manuscript callouts with rebuilt files
+- [ ] visual QA all rendered figures
 
-- [x] `trait_architecture/differentiation.py`
-- [x] `trait_architecture/differentiation_robustness.py`
-- [x] `trait_architecture/identification.py`
-- [x] `trait_architecture/partial_identification.py`
-- [x] theory/robustness/manuscript/figure/formatter regression tests
-- [x] authoritative V2 high-information coverage export
-- [x] aggregate *Impatiens* retrofit export
-- [x] registered robustness readout export
-- [x] public GitHub provides review-stage access
-- [ ] archive the accepted exact data/code version and insert DOI at acceptance stage
+See `manuscript/FIGURE_REBUILD_PLAN_MECHANISM_IDENTIFICATION_V1.md`.
 
-## 8. Cover letter / portal synchronization
+## 5. Supporting Information — REBUILD REQUIRED
 
-- [x] target journal = Ecology
-- [x] article type = Concepts & Synthesis
-- [x] cover letter uses balance -> differentiation -> identification framing
-- [x] title synchronized to canonical Chapter 2
-- [x] 30-page Main + 38-page Appendix stated correctly
-- [x] prior specialization theory acknowledged; novelty is the bridge, not specialization itself
+- [ ] reroute old architecture derivation to provenance/background rather than active Main support
+- [ ] retain detailed identification supplement
+- [ ] retain Kessler reconstruction and public-data retrofit
+- [ ] retain 56/25 recurrence provenance
+- [ ] retain 17-system coverage matrix
+- [ ] regenerate Appendix around the refocused Main
+
+## 6. Reproducibility / Open Research
+
+Existing code and evidence products remain retained. No scientific result was deleted by the publication split.
+
+- [x] identification code retained
+- [x] partial-identification code retained
+- [x] source-adjudicated route ledger retained
+- [x] high-information coverage products retained
+- [x] historical architecture derivations retained as provenance
+- [ ] update narrative regression tests for the new active submission surface
+- [ ] rerun full CI after narrative/test synchronization
+- [ ] archive accepted exact version and insert DOI at acceptance stage
+
+## 7. Cover letter / portal synchronization
+
+- [x] target class = Ecology Concepts & Synthesis / comparable conceptual-methodological ecology
+- [x] cover letter rewritten around `trait interaction != mechanism`
+- [x] old 30-page / 38-page package claim removed from active cover letter
+- [ ] regenerate final journal-formatted title/abstract/figures/files
 - [ ] corresponding author signs final letter
-- [ ] all authors approve the exact submitted version and no-simultaneous-consideration statement
+- [ ] all authors approve exact submitted version and no-simultaneous-consideration statement
 
-## 9. Human-controlled fields — EXTERNAL-SUBMISSION BLOCKER
+## 8. Human-controlled fields — LATER EXTERNAL BLOCKER
 
 - [ ] final author order and publication names
 - [ ] affiliations / present addresses
 - [ ] corresponding author and active email
 - [ ] ORCIDs
 - [ ] final CRediT roles
-- [ ] funding/grant statement or explicit no-funding confirmation
-- [ ] final acknowledgments
-- [ ] final competing-interest statement
+- [ ] funding/grant statement
+- [ ] acknowledgments
+- [ ] competing-interest statement
 - [ ] repository/software/data licence statement where applicable
-- [ ] reviewer information only if requested by the live portal
-- [ ] all-author approval of the exact submitted version
-- [ ] confirmation that the manuscript is not under consideration elsewhere
+- [ ] reviewer information if requested by the portal
+- [ ] all-author approval
 
-## 10. Final review-file gate — PENDING HUMAN METADATA
+These are not the current bottleneck. Scientific package regeneration comes first.
 
-After author-controlled fields are supplied:
+## 9. Final review-file gate
 
-- [ ] rebuild exact canonical package
-- [ ] confirm Main remains at or below 30 pages, or document any justified change
-- [ ] rerun CI, submission-scope and canonical package workflows
+Before submission:
+
+- [ ] rebuild canonical Main DOCX/PDF from the refocused science source
+- [ ] rebuild Appendix
+- [ ] confirm journal page/format requirements against the live author instructions
+- [ ] rerun CI and narrative guards
 - [ ] visually inspect every Main and Appendix page
-- [ ] confirm portal title/abstract/authors/declarations/files match generated package
+- [ ] confirm portal metadata and uploaded files match the rebuilt package
 - [ ] obtain all-author approval of that exact version
 
 ## Current decision
 
-**Science: GO for the Chapter 2 claim set. Canonical pre-metadata package: Main 30 pages + Appendix S1 38 pages, five Main figures. The paper now asks when a shared-trait compromise is worth replacing with partial trait differentiation and then shows why the mechanism of a multi-trait phenotype still requires explicit identification. External submission remains blocked only by author-controlled metadata/declarations/sign-off and final post-metadata QA.**
+```text
+SCIENCE_THESIS = FROZEN
+CANONICAL_MARKDOWN_MAIN = REFOCUSED
+OLD_30_PLUS_38_PACKAGE = STALE
+FIGURES = REBUILD_REQUIRED
+APPENDIX = REBUILD_REQUIRED
+EXTERNAL_SUBMISSION = NOT_YET_READY
+```
+
+The current blocker is no longer author metadata alone. The active mechanism-identification paper must first receive a fresh figure set and regenerated reader-facing package.
