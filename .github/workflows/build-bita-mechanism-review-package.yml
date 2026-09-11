@@ -1,0 +1,173 @@
+name: Build BITA mechanism review package
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md'
+      - 'manuscript/IDENTIFICATION_DESIGN_REFERENCES.md'
+      - 'manuscript/TRAIT_DIFFERENTIATION_FIGURE_CAPTIONS_V1.md'
+      - 'manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md'
+      - 'scripts/build_mechanism_identification_figures_svg.py'
+      - 'scripts/build_bita_mechanism_candidate_sources.py'
+      - 'scripts/format_ecology_submission_docx.py'
+      - 'empirical/identification_design/**'
+      - 'empirical/mechanism_pattern_synthesis/**'
+      - 'tests/test_mechanism_identification_figures.py'
+      - 'tests/test_bita_mechanism_candidate_sources.py'
+      - 'tests/test_ecology_formatter_math.py'
+      - '.github/workflows/build-bita-mechanism-review-package.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install document toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc libreoffice-writer poppler-utils librsvg2-bin
+          python -m pip install python-docx pytest
+
+      - name: Run focused science and formatter tests
+        run: |
+          python -m pytest -q \
+            tests/test_mechanism_identification_figures.py \
+            tests/test_bita_mechanism_candidate_sources.py \
+            tests/test_identification_coverage.py \
+            tests/test_identification.py \
+            tests/test_partial_identification.py \
+            tests/test_ecology_formatter_math.py
+
+      - name: Rebuild source-backed evidence receipt and candidate sources
+        run: |
+          python scripts/build_pattern_expansion_readout.py
+          python scripts/build_mechanism_identification_figures_svg.py
+          python scripts/build_bita_mechanism_candidate_sources.py
+
+      - name: Build Main DOCX
+        run: |
+          GEN=submission/ecology/mechanism_identification_candidate/generated
+          cd "$GEN"
+          pandoc MANUSCRIPT_ECOLOGY_SUBMISSION.md \
+            --from=markdown+tex_math_single_backslash \
+            --to=docx \
+            --output=MANUSCRIPT_ECOLOGY_RAW.docx
+          cd "$GITHUB_WORKSPACE"
+          python scripts/format_ecology_submission_docx.py \
+            "$GEN/MANUSCRIPT_ECOLOGY_RAW.docx" \
+            "$GEN/MANUSCRIPT_ECOLOGY_SUBMISSION.docx"
+
+      - name: Build Appendix DOCX
+        run: |
+          GEN=submission/ecology/mechanism_identification_candidate/generated
+          cd "$GEN"
+          pandoc APPENDIX_S1.md \
+            --from=markdown+tex_math_single_backslash \
+            --to=docx \
+            --output=APPENDIX_S1_RAW.docx
+          cd "$GITHUB_WORKSPACE"
+          python scripts/format_ecology_submission_docx.py \
+            "$GEN/APPENDIX_S1_RAW.docx" \
+            "$GEN/APPENDIX_S1.docx" \
+            --appendix
+
+      - name: Validate DOCX structure and five embedded figures
+        run: |
+          GEN=submission/ecology/mechanism_identification_candidate/generated
+          mkdir -p /tmp/bita-main-docx
+          cd /tmp/bita-main-docx
+          unzip -q "$GITHUB_WORKSPACE/$GEN/MANUSCRIPT_ECOLOGY_SUBMISSION.docx"
+          grep -q 'w:lnNumType' word/document.xml
+          ! grep -q 'ECOLOGY_SECTION_BREAK' word/document.xml
+          ! grep -q 'ECOLOGY_PAGE_BREAK' word/document.xml
+          cd "$GITHUB_WORKSPACE"
+          MEDIA_COUNT=$(unzip -l "$GEN/MANUSCRIPT_ECOLOGY_SUBMISSION.docx" | grep -c 'word/media/' || true)
+          if [ "$MEDIA_COUNT" -lt 5 ]; then
+            echo "Expected at least five embedded BITA Main figures; found $MEDIA_COUNT" >&2
+            exit 1
+          fi
+
+      - name: Render DOCX files to PDF
+        run: |
+          GEN=submission/ecology/mechanism_identification_candidate/generated
+          mkdir -p "$GEN/rendered"
+          libreoffice --headless --convert-to pdf --outdir "$GEN/rendered" "$GEN/MANUSCRIPT_ECOLOGY_SUBMISSION.docx"
+          libreoffice --headless --convert-to pdf --outdir "$GEN/rendered" "$GEN/APPENDIX_S1.docx"
+
+      - name: Validate PDF content and record page counts
+        run: |
+          GEN=submission/ecology/mechanism_identification_candidate/generated
+          MAIN_PDF="$GEN/rendered/MANUSCRIPT_ECOLOGY_SUBMISSION.pdf"
+          APP_PDF="$GEN/rendered/APPENDIX_S1.pdf"
+          MAIN_TXT="$RUNNER_TEMP/main.txt"
+          APP_TXT="$RUNNER_TEMP/appendix.txt"
+          test -s "$MAIN_PDF"
+          test -s "$APP_PDF"
+          MAIN_PAGES=$(pdfinfo "$MAIN_PDF" | awk '/^Pages:/ {print $2}')
+          APP_PAGES=$(pdfinfo "$APP_PDF" | awk '/^Pages:/ {print $2}')
+          pdftotext "$MAIN_PDF" "$MAIN_TXT"
+          pdftotext "$APP_PDF" "$APP_TXT"
+
+          grep -q 'Trait interaction is not ecological mechanism' "$MAIN_TXT"
+          grep -q '56 directional route records from 25 independent biological clusters' "$MAIN_TXT"
+          grep -q '17 high-information systems' "$MAIN_TXT"
+          grep -q 'Figure 5.' "$MAIN_TXT"
+          grep -q 'Identification design' "$APP_TXT"
+          ! grep -q 'When does a trait trade-off resolve by differentiation rather than compromise' "$MAIN_TXT"
+          ! grep -q '300 nonzero-conflict evaluations' "$MAIN_TXT"
+
+          LENGTH_STATE=WITHIN_30_PAGE_TARGET
+          if [ "$MAIN_PAGES" -gt 30 ]; then
+            LENGTH_STATE=NEEDS_COMPRESSION
+          fi
+
+          MEDIA_COUNT=$(unzip -l "$GEN/MANUSCRIPT_ECOLOGY_SUBMISSION.docx" | grep -c 'word/media/' || true)
+          {
+            echo "main_pages=$MAIN_PAGES"
+            echo "appendix_pages=$APP_PAGES"
+            echo "length_state=$LENGTH_STATE"
+            echo "canonical_manuscript=manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md"
+            echo "main_headline=trait_interaction_not_ecological_mechanism"
+            echo "main_figures=5 mechanism-identification figures embedded"
+            echo "embedded_main_media=$MEDIA_COUNT"
+            echo "empirical_frontier=56_routes_25_clusters_17_systems"
+            echo "old_architecture_package=stale_not_submission_current"
+          } > "$GEN/PACKAGE_QA_RECEIPT.txt"
+
+      - name: Render page PNGs for visual QA artifact
+        run: |
+          GEN=submission/ecology/mechanism_identification_candidate/generated
+          mkdir -p "$GEN/rendered/main_pages" "$GEN/rendered/appendix_pages"
+          pdftoppm -png -r 120 "$GEN/rendered/MANUSCRIPT_ECOLOGY_SUBMISSION.pdf" "$GEN/rendered/main_pages/page" >/dev/null 2>&1
+          pdftoppm -png -r 120 "$GEN/rendered/APPENDIX_S1.pdf" "$GEN/rendered/appendix_pages/page" >/dev/null 2>&1
+          test "$(find "$GEN/rendered/main_pages" -name 'page-*.png' | wc -l)" -gt 0
+          test "$(find "$GEN/rendered/appendix_pages" -name 'page-*.png' | wc -l)" -gt 0
+
+      - name: Remove raw intermediate Word files
+        if: always()
+        run: |
+          GEN=submission/ecology/mechanism_identification_candidate/generated
+          rm -f "$GEN/MANUSCRIPT_ECOLOGY_RAW.docx" "$GEN/APPENDIX_S1_RAW.docx"
+
+      - name: Upload BITA mechanism review package
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bita-mechanism-identification-review-package
+          path: |
+            submission/ecology/mechanism_identification_candidate/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.docx
+            submission/ecology/mechanism_identification_candidate/generated/APPENDIX_S1.docx
+            submission/ecology/mechanism_identification_candidate/generated/rendered/MANUSCRIPT_ECOLOGY_SUBMISSION.pdf
+            submission/ecology/mechanism_identification_candidate/generated/rendered/APPENDIX_S1.pdf
+            submission/ecology/mechanism_identification_candidate/generated/rendered/main_pages/*.png
+            submission/ecology/mechanism_identification_candidate/generated/rendered/appendix_pages/*.png
+            submission/ecology/mechanism_identification_candidate/generated/OPEN_RESEARCH_DATA_MANIFEST.md
+            submission/ecology/mechanism_identification_candidate/generated/open_research_data/*
+            submission/ecology/mechanism_identification_candidate/generated/PACKAGE_QA_RECEIPT.txt
+          if-no-files-found: error
