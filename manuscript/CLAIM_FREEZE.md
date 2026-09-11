@@ -1,297 +1,228 @@
-# Manuscript claim freeze
+# BITA manuscript claim freeze
 
-This file is the editorial guardrail for the SCH/BITA chapter programme after the Chapter 2 reframe.
+This file is the editorial guardrail for the active BITA full paper after the SLK publication split.
 
-## Chapter boundary
+## Active thesis
 
-The programme is not defined by pollination versus defence. It is defined by how organisms resolve conflicting functional demands on trait architecture.
+> **Trait interaction is not ecological mechanism.**
 
-### SCH / Chapter 1 — BALANCE
+The paper asks what a measured cross-trait fitness interaction identifies, what stronger outcome claims require additional contrasts, which mechanisms remain compatible with the total interaction, and what intervention structure is required for mechanism allocation.
 
-A single trait coordinate `z` contributes to two functions or selective demands with different preferred states.
+The active manuscript must not drift back into being the general architecture-value paper. The `L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy` spine belongs to SLK.
 
-> **Chapter 1 asks how opposing demands are balanced while they remain coupled on one trait axis.**
+## Frozen outcome hierarchy
 
-Pollinator–antagonist shared-cue conflict is one empirical realization of this shared-axis problem.
-
-### BITA / Chapter 2 — DIFFERENTIATION
-
-The second chapter asks whether the conflict remains on one axis or is partitioned across distinct trait coordinates.
-
-> **Chapter 2 asks when a shared-trait compromise becomes inferior to functional differentiation across two or more trait axes, and how the mechanism of the resulting multi-trait phenotype can be identified.**
-
-## Frozen general architecture results
-
-Use a loss representation for the shared architecture,
+For focal trait contrasts `A` and `D`,
 
 ```text
-L_S(z) = l1(z) + l2(z)
-L_S*   = min_z L_S(z)
+Delta_AD W = W11 - W10 - W01 + W00
+A0 = W10 - W00
+A1 = W11 - W01
+Delta_AD W = A1 - A0
 ```
 
-and a differentiated pre-fixed-cost architecture
+The only permitted nested outcome claims are:
 
 ```text
-L_D0(x,y; lambda) = l1(x) + l2(y) + lambda c(x,y)
+Level 1  Delta_AD W > 0     positive interaction relief
+Level 2  A0 <= 0 < A1       functional constraint release
+Level 3  A0 < 0 < A1        strict reversal
 ```
 
-with the declared nesting conditions
+Do not use `Delta_AD W > 0` as shorthand for Level 2 or Level 3.
+
+## Frozen mechanism-identification object
+
+Use the declared bookkeeping decomposition
 
 ```text
-lambda >= 0
-c(x,y) >= 0
-c(z,z) = 0.
+Delta_AD W = rho_delta - iota_delta - kappa_delta
 ```
 
-The last condition makes the one-axis phenotype a diagonal special case of the two-axis architecture before the additional fixed architecture cost is charged.
+with the interpretation:
 
-Define
+- `rho_delta`: antagonist-relief allocation on the declared scale;
+- `iota_delta`: pollinator-interference allocation on the declared scale;
+- `kappa_delta`: independently justified remaining direct/allocation channel.
+
+A measured total interaction `delta` defines
 
 ```text
-L_D0*(lambda) = min_{x,y} L_D0(x,y; lambda)
-R(lambda)      = L_S* - L_D0*(lambda)
-K >= 0         = additional fixed architecture cost.
+I(delta) = {(rho,iota,kappa): rho-iota-kappa=delta}
 ```
 
-### Claim A — nested-architecture weak dominance
+rather than a unique mechanism.
 
-Because the differentiated optimizer can always choose `x=y=z*`,
+The paper must explicitly state that greater precision in `Delta_AD W` does not by itself point-identify the channel allocation.
+
+## Frozen identification ladder
 
 ```text
-L_D0*(lambda) <= L_S*
-R(lambda) >= 0.
+interaction detection
+-> identified set
+-> partial identification under explicit restrictions or partial channel measurement
+-> selective A x D x antagonist x pollinator intervention
+-> pollinator-absent baseline handling
+-> four-way separability diagnostic
+-> independent remaining-channel assay
+-> mechanism-resolved interpretation
 ```
 
-This is a feasible-set result and does not require quadratic, convex or smooth losses.
+A residual from the reproductive outcome is not automatically `kappa_delta`.
 
-It is a **weak** statement. `R=0` remains possible when the additional axes cannot exploit a beneficial off-diagonal state, when the functions share the same optimum, or when other declared restrictions eliminate the release opportunity.
+## Frozen separability claim
 
-After adding `K`,
+The `A x D x antagonist x pollinator` four-way interaction is the diagnostic for whether the proposed antagonist and pollinator channel allocations remain separable across the alternate consumer state.
+
+A non-zero four-way term is biologically informative and must not be hidden as nuisance variation. A near-zero estimate supports separability only under a prospectively justified uncertainty/equivalence rule; failure to reject zero is not proof of separability.
+
+## Frozen partial-identification result
+
+If an independently justified restriction gives
 
 ```text
-Delta_arch = W_D* - W_S* = R - K
+kappa_delta >= 0,
 ```
 
-and therefore
+then
 
 ```text
-differentiation is favoured  <=>  K < R.
+rho_delta - iota_delta
+= Delta_AD W + kappa_delta
+>= Delta_AD W.
 ```
 
-This exact cost threshold is structural within the declared additive fixed-cost architecture; it is not evidence that evolution can necessarily reach the higher-fitness architecture.
+This is a conditional partial-identification bound, not a universal theorem. Its validity is limited by the biological credibility of the restriction.
 
-### Claim B — residual-coupling monotonicity
+## Frozen empirical synthesis
 
-When coupling enters as `lambda c(x,y)` with `c >= 0`, increasing `lambda` raises or leaves unchanged the loss of every fixed `(x,y)` state. Therefore
+The source-adjudicated route synthesis contains:
 
 ```text
-lambda2 > lambda1
-=> L_D0*(lambda2) >= L_D0*(lambda1)
-=> R(lambda2) <= R(lambda1).
+56 directional route records
+25 independent biological clusters
 ```
 
-Thus stronger declared non-negative residual coupling cannot increase the recoverable compromise loss. This is also shape-independent within the declared architecture.
+All four constituent marginal route families recur. These counts establish recurrence capacity only. They are not prevalence estimates and do not estimate the total interaction or its channel allocation.
 
-The paper must distinguish these structural statements from shape-dependent strictness and comparative statics.
-
-## Frozen quadratic corollary
-
-For the quadratic baseline,
+The authoritative high-information frontier contains:
 
 ```text
-L_S(z) = w1 (z-theta1)^2 + w2 (z-theta2)^2
-L_D0(x,y) = w1 (x-theta1)^2 + w2 (y-theta2)^2
-             + lambda (x-y)^2
+17 systems
 ```
 
-where `theta1` and `theta2` are function-specific optima, `w1,w2 > 0`, and `lambda >= 0` is residual cross-talk/coupling.
+No screened system closes the full allocation design plus an independent remaining-channel assay.
 
-The best shared-axis conflict load is
+Frozen empirical interpretation:
 
 ```text
-L_S* = w1 w2 (theta1-theta2)^2 / (w1+w2).
+RECURRENT_CONSTITUENT_BIOLOGY
++
+FRAGMENTED_IDENTIFICATION
 ```
 
-Define the optimized decoupling fraction
+## Frozen strongest system-level anchor
+
+For Kessler et al. (2008), under the registered aggregate constraints:
 
 ```text
-s = |x* - y*| / |theta1 - theta2|
-  = w1*w2 / (w1*w2 + lambda*(w1+w2)).
+A1 approximately +0.200 to +0.240
+A0 approximately -0.030 to +0.030
+Delta_AD remains positive
 ```
 
-Then
+Permitted interpretation:
+
+- strong aggregate Level-1 positive-interaction anchor;
+- defended attraction effect `A1` sign-identified positive under declared constraints;
+- undefended attraction effect `A0` remains zero-compatible;
+- strict Level-2/3 release is not identified;
+- exact source/design-based uncertainty remains unresolved;
+- systemic nicotine manipulation leaves the focal defence scope imperfectly bounded;
+- ecological channel allocation remains unidentified.
+
+Do not promote this anchor beyond those statements.
+
+## Frozen programme ownership
+
+### SCH owns
 
 ```text
-R = s L_S*
-Delta_arch = s L_S* - K.
+multifunctionality != identified functional conflict
+state-specific optimum != pure-function optimum
 ```
 
-Therefore, within this baseline,
+and the promotion gates required before a shared-coordinate conflict budget is exported downstream.
+
+### SLK owns
 
 ```text
-differentiation is favoured  <=>  K < s L_S*.
+L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy
 ```
 
-The biological content is that the one-axis compromise creates a measurable loss budget, only a fraction `s` remains recoverable when differentiated traits retain cross-talk, and that recovered amount must pay for the extra architecture.
+including architecture value, the minimum quadratic bridge `R=sL`, population transport, and INV1.
 
-Frozen quadratic comparative statics:
-
-- larger distance between function-specific optima increases `L_S*` and `R`;
-- stronger residual coupling `lambda` decreases `s` and `R`;
-- larger architecture cost `K` shifts the system toward the shared compromise;
-- `theta1 = theta2` gives `L_S*=R=0`, so this conflict-relief mechanism provides no differentiation advantage when there is no functional conflict;
-- structural differentiation does not imply independence: finite positive `lambda` gives `0 < s < 1`.
-
-## Frozen nonquadratic robustness result
-
-The registered convex power-loss family is
+### BITA owns
 
 ```text
-L_S(z) = w1 |z-theta1|^p + w2 |z-theta2|^p
-L_D0(x,y) = w1 |x-theta1|^p + w2 |y-theta2|^p
-             + lambda |x-y|^q.
+trait interaction != ecological mechanism
 ```
 
-The matched-curvature sweep contains 300 evaluations spanning `p = 1.5, 2, 3, 4`, three asymmetric/equal weighting pairs, five coupling strengths and five nonzero optimum distances. Results:
+plus identified sets, partial identification, selective crossed consumer interventions, separability diagnostics, remaining-channel assays, and the empirical identification frontier.
 
-```text
-strictly positive recoverable conflict loss: 300 / 300
-optimum-distance monotonic series:             60 / 60
-coupling monotonic series:                     60 / 60
-```
-
-Interpretation of these three lines is different:
-
-- `R>0` in 300/300 establishes strict recovery throughout the declared nonzero-conflict convex family;
-- optimum-distance monotonicity in 60/60 is a finite-family shape-robust comparative result;
-- coupling monotonicity in 60/60 is an implementation check of frozen Claim B, not the proof of Claim B.
-
-Additional mismatched `(p,q)` checks preserve the exact additive-cost threshold: costs just below recovered loss favour differentiation and costs just above it favour the shared architecture.
-
-This is **not** a theorem that arbitrary nonconvex, frequency-dependent, multimodal or dynamically changing evolutionary landscapes produce strict differentiation advantages.
-
-## Prior-art boundary
-
-Do not claim novelty for the general idea that functional trade-offs can favour specialization, division of labor, modularity or reduced pleiotropy.
-
-Closest positioning anchors include:
-
-- Rüffler, Hermisson & Wagner (2012), *Evolution of functional specialization and division of labor*;
-- Guillaume & Otto (2012), *Gene functional trade-offs and the evolution of pleiotropy*;
-- Sack & Buckley (2020), *Trait Multi-Functionality in Plant Stress Response*.
-
-The defensible BITA contribution is the bridge
-
-```text
-shared-axis ecological balance
--> recoverable compromise loss under partial decoupling
--> explicit architecture-cost threshold
--> mechanism identification once multiple axes exist.
-```
-
-The nested-feasible-set inequality itself is mathematically elementary and must not be sold as sophisticated mathematical novelty. Its value is as the inference bridge that makes the chapter sequence measurable.
-
-## Current empirical ceiling
-
-The current evidence supports **architecture-state plausibility and mechanism identification**, not a causal reconstruction of the origin of differentiated traits.
-
-### Cross-system architecture-state anchors
-
-- Cichlid oral and pharyngeal jaws show that structurally separate functional modules can relax a feeding trade-off while retaining appreciable evolutionary/genetic integration. This is a biological analogue of partial differentiation, not an estimate of `s`, `lambda`, `K` or `Delta_arch`.
-- *Dalechampia* comparative history shows repeated functional redeployment, exaptation and addition of new defensive lines. This demonstrates historical reorganization of trait-function architecture, not a direct test that the BITA threshold caused those transitions.
-
-### Existing BITA floral mechanism module
-
-The mature floral work remains frozen and reusable:
-
-- the discrete two-trait interaction `Delta_AD W` and nested outcome distinctions;
-- identified-set and partial-identification logic for compatible mechanism allocations;
-- the crossed `A×D×consumer` intervention design and separability diagnostic;
-- the independent joint-channel assay requirement;
-- 56 source-adjudicated route records across 25 independent biological clusters;
-- the 17-system fragmented identification frontier;
-- floral attraction–defence and mutualist–antagonist systems as a worked ecological case.
-
-These results show how to determine what a multi-axis architecture is doing once the axes exist. They do **not** by themselves establish the historical transition
-
-```text
-one shared trait -> two differentiated traits.
-```
-
-## Role of the floral A×D module
-
-The attraction–defence framework is one worked case, not the universal scope.
-
-```text
-A = one trait axis contributing mainly to one function
-D = a second trait axis capable of modifying the cost/benefit structure of A
-```
-
-A positive `A×D` interaction can show functional relief inside a two-axis architecture and the intervention framework can identify why that relief occurs.
-
-But:
-
-```text
-positive A×D interaction
-!= trait differentiation
-!= origin of D
-!= historical modularization
-!= population divergence.
-```
+Older BITA architecture derivations remain versioned technical provenance. They may be cited as background but must not be presented as the active paper's central novelty.
 
 ## Claims that must not appear
 
-Do not claim any of the following:
+Do not claim:
 
-- pollination and defence define the general theory;
-- this is the first general theory showing that trade-offs can favour specialization;
-- adding any second trait necessarily improves realized fitness after its full costs are included;
-- `R>0` is universal when the differentiated architecture does not contain the shared architecture as a zero-variable-cost special case;
-- coupling monotonicity holds for signed/synergistic coupling terms outside the declared `c>=0` architecture;
-- the 300-condition robustness grid proves universality across all fitness surfaces;
-- trait differentiation has been historically reconstructed by the current BITA floral analyses;
-- two interacting traits necessarily evolved by splitting one ancestral trait;
-- positive cross-trait curvature is evidence of differentiation;
-- the 56/25 recurrence corpus estimates the prevalence of differentiated architectures;
-- the 17-system frontier reconstructs historical trait splitting;
-- a local `A×D` fitness interaction predicts an evolutionary endpoint without an explicit architecture/dynamics model;
-- structural separation of traits implies zero residual functional, developmental or genetic coupling;
-- population differentiation and within-organism functional trait differentiation are the same object.
+- a positive trait interaction identifies mechanism;
+- a positive trait interaction proves trait differentiation;
+- a positive interaction proves historical splitting, modularization, or cue privatization;
+- marginal route recurrence identifies a joint mechanism;
+- the 56/25 corpus estimates natural prevalence;
+- the 17-system frontier estimates literature prevalence;
+- a residual by subtraction is a measured cost;
+- structural separation implies functional, developmental, or genetic independence;
+- the active BITA paper owns the general `Phi=R-K` architecture-value threshold;
+- the active BITA paper owns accessibility, invasion, fixation, or occupancy results;
+- historical origin of differentiated traits has been reconstructed by the current evidence.
 
-Retain the current identification ceilings for the floral worked case: marginal pathway recurrence is not total interaction identification, an unmeasured residual is not automatically cost, and direct joint-channel curvature remains unidentified where not independently measured.
+## Canonical manuscript status
 
-## Scientific state
+Active canonical science source:
 
-The following Chapter 2 gates are closed for the current claim ceiling:
+```text
+manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md
+```
 
-1. general nested-architecture weak-dominance and coupling-monotonicity propositions fixed;
-2. shared-axis and differentiated quadratic optima implemented;
-3. closed-form `R=sL_S*` and `Delta_arch=sL_S*-K` corollary derived and regression-tested;
-4. nonquadratic convex-family robustness implemented and registered;
-5. prior-theory novelty boundary audited;
-6. empirical ceiling fixed as cross-system architecture-state evidence plus a floral mechanism-identification worked case;
-7. integrated Chapter 2 manuscript, focused references and five Main figures drafted;
-8. independent candidate Ecology package builder/workflow added.
+The file name is retained for provenance, but the scientific paper is now the mechanism-identification paper.
 
-A stronger historical claim that the one-axis conflict *caused the origin* of differentiated trait modules would require comparative ancestral-state, developmental, experimental-evolution or equivalent transition evidence and is not required for the present paper.
+Longer mature identification provenance source:
+
+```text
+manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md
+```
+
+The old integrated architecture-plus-mechanism generated submission package is stale and must not be uploaded.
 
 ## Remaining manuscript work
 
-1. Make the general propositions visible in the candidate Main before the quadratic corollary.
-2. Complete the independent Chapter 2 DOCX/PDF candidate build and page-limit check.
-3. Synchronize canonical manuscript/reference/figure/build pointers only after that candidate is green.
-4. Rebuild Main + Appendix under the canonical path.
-5. Perform final page-by-page visual QA and author-controlled metadata/sign-off.
+1. Rebuild the figure set around the identification ladder, identified set, crossed intervention, and fragmented empirical frontier.
+2. Reconcile figure captions with the new canonical Main.
+3. Regenerate Appendix routing so architecture-value derivations are background/provenance rather than Main claims.
+4. Rewrite the cover letter around `trait interaction != mechanism`.
+5. Rebuild DOCX/PDF and repeat page-limit and visual QA.
+6. Add author-controlled metadata only after the new scientific package is green.
 
 ## Editorial test
 
-Every Chapter 2 claim should pass six questions:
+Every Main-text claim should pass five questions:
 
-1. Is the general object a conflict between functions on trait architecture rather than a pollination/defence label?
-2. Does the text distinguish the general nested-architecture statements from the quadratic `R=sL_S*` corollary?
-3. Does it distinguish compromise on one trait from differentiation across traits?
-4. Does it distinguish evidence that two traits interact from evidence that a differentiated architecture evolved?
-5. Does it preserve residual cross-talk rather than equating structural separation with independence?
-6. Are historical transition claims kept below the current empirical ceiling?
+1. Does it distinguish a measured interaction from a mechanism allocation?
+2. Does it distinguish Level 1 interaction relief from Levels 2/3 release?
+3. Are restrictions used for partial identification explicit?
+4. Is any residual mechanism named only after independent evidence?
+5. Does the claim avoid re-importing architecture-value novelty already owned by SLK?
 
 If any answer is no, revise before submission.
