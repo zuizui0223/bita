@@ -1,71 +1,141 @@
-# Ecology Concepts & Synthesis upload package plan — partial identification
+# Ecology Concepts & Synthesis upload package plan — BITA mechanism identification
 
 Target: **Ecology — Concepts & Synthesis**
 
-The canonical review package uses the identification-design manuscript with bounded Mechanism → Pattern recurrence and an explicit partial-identification layer.
+The active review package is now built from the refocused BITA paper:
+
+> **Trait interaction is not ecological mechanism: an identification framework for multifunctional traits**
+
+The previously validated architecture-plus-mechanism and older identification-only page counts are historical. They must not be used as current submission evidence.
 
 ## 1. Main Document
 
-Canonical source: `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`; focused bibliography: `manuscript/IDENTIFICATION_DESIGN_REFERENCES.md`; Main figures: `manuscript/identification_figures/FIGURE_1_IDENTIFICATION_DESIGN.svg` through `FIGURE_5_IDENTIFICATION_DESIGN.svg`.
+Canonical science source:
 
-Standard generated filename: `submission/ecology/generated/MANUSCRIPT_ECOLOGY_SUBMISSION.docx`.
+```text
+manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md
+```
 
-Formatting remains Word `.docx`, Letter portrait, 1-inch margins, 12-pt Times New Roman, double-spaced prose/references, page and review line numbering, native equations, and five embedded Main figures.
+Focused bibliography:
 
-Current validated pre-metadata render: **29 Main pages + 12 Appendix S1 pages**, within the standard 30-page Main target with one-page headroom.
+```text
+manuscript/IDENTIFICATION_DESIGN_REFERENCES.md
+```
+
+Active figure builder and output:
+
+```text
+scripts/build_mechanism_identification_figures_svg.py
+manuscript/mechanism_identification_figures/
+```
+
+Active package builder:
+
+```text
+scripts/build_bita_mechanism_candidate_sources.py
+```
+
+Generated review source directory:
+
+```text
+submission/ecology/mechanism_identification_candidate/generated/
+```
+
+Formatting remains Word `.docx`, Letter portrait, 1-inch margins, 12-pt Times New Roman, double-spaced prose/references, review line numbering, native equations, and five embedded Main figures.
 
 ## 2. Scientific sequence
 
 ```text
-measurable A×D interaction
+four-cell A×D interaction
+→ outcome promotion
+   Level 1 interaction relief
+   Level 2 constraint release
+   Level 3 strict reversal
 → identified set of compatible channel allocations
 → assumption-indexed partial identification
-→ crossed selective interventions
-→ separability test + m0 correction
-→ point identification of biotic channels
-→ independent joint-channel assay
-→ Mechanism → Pattern recurrence
-→ fragmented identification frontier
-→ minimum-augmentation / executable next experiment
+→ selective A×D×antagonist×pollinator intervention
+→ m0 handling + four-way separability diagnostic
+→ consumer-channel allocation
+→ independent remaining-channel assay
+→ mechanism-resolved interpretation
 ```
 
-Key bound:
+Core accounting identity:
 
 ```text
-kappa_delta >= 0
-=> rho_delta - iota_delta >= Delta_AD W
+Delta_AD W = rho_delta - iota_delta - kappa_delta
 ```
 
-This is conditional on an explicit restriction, not a universal theorem.
+A measured total interaction defines an identified set, not a unique mechanism. Under an explicit restriction such as `kappa_delta >= 0`, the framework yields a partial-identification bound; the restriction is not a universal theorem.
 
-Main figures:
+## 3. Main figures
 
-1. **Figure 1 — identified set, not unique mechanism.** A measured `Delta_AD W` is compatible with multiple channel allocations.
-2. **Figure 2 — crossed intervention design.** `A × D × antagonist × pollinator` supplies the 16-cell point-identification structure and four-way separability diagnostic.
-3. **Figure 3 — independent joint-channel assay.** `U_delta` remains unallocated until independent evidence constrains interpretation.
-4. **Figure 4 — recurrence + fragmented frontier.** 56/25 establishes recurrence; empirical anchors and the 16-system audit show complementary identification faces.
-5. **Figure 5 — roadmap.** Interaction detection → partial identification → mechanism identification, including informative failure modes.
+1. **Outcome promotion.** Positive interaction relief vs functional constraint release vs strict reversal.
+2. **Identified-set geometry.** Total interaction, compatible allocations, and partial-identification shrinkage.
+3. **Crossed intervention.** Selective consumer toggles, baseline correction, four-way separability, and independent remaining-channel assay.
+4. **Fragmented empirical frontier.** Source-backed 56-route / 25-cluster recurrence, 17-system V2 identification audit, and public-data retrofit.
+5. **Inference boundaries.** SCH identifies conflict; SLK transports evolutionary value; BITA identifies mechanism.
 
-The 56/25 synthesis is recurrence evidence only. The 2,592 finite evaluations and 77.2% precision remain Appendix technical sensitivity. Leal/Sasidharan remain historical reproducibility modules rather than Main evidence.
+Figure 4 is data-driven. The build fails if the authoritative 17-system V2 audit or 56/25 route-ledger state drifts.
 
-## 3. Supporting Information
+## 4. Supporting Information
 
-Canonical source: `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`.
+Active source:
 
-Appendix S1 retains exact identified-set projection algebra, structural-vs-sampling-uncertainty boundary, continuous-limit checks, 2,592/77.2% technical sensitivity, Kessler reconstruction, *Impatiens* retrofit, 16-system frontier, and full 56/25 recurrence details.
+```text
+manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md
+```
 
-## 4. Open Research package
+Appendix S1 retains the detailed identification algebra, Kessler reconstruction, *Impatiens* retrofit, 17-system frontier, recurrence provenance, and technical design diagnostics. Architecture-value derivations remain repository provenance and are not part of the active BITA Main spine.
 
-Exports include `mechanism_pattern_route_ledger.csv`, `high_information_identification_coverage.csv`, `impatiens_identification_retrofit.json`, partial-identification implementation/tests, and historical provenance products. Public GitHub supplies review-stage access; permanent accepted-version deposition is an acceptance-stage requirement.
+## 5. Open Research package
 
-## 5. Human-controlled fields required
+The active candidate exports at minimum:
 
-Final author list/order/names; affiliations/present addresses; corresponding author/e-mail; ORCIDs; CRediT; funding or no-funding statement; acknowledgments; competing interests; licence; portal-only reviewer fields if requested; all-author approval; no-simultaneous-consideration confirmation.
+```text
+high_information_identification_coverage_v2.csv
+impatiens_2018_identification_retrofit_v1.json
+pattern_expansion_readout_v1.json
+```
 
-## 6. Automated gates
+These products document evidence capacity and identification status. Route counts are overlapping recurrence diagnostics, not prevalence estimates.
 
-The release workflows must verify identification/partial-identification regression contracts; Main/Appendix DOCX generation; native equations and five figures; absence of `Theorem 1` and `77.2%` from Main; Appendix-only technical grid material; page counts/page-limit compliance; Open Research exports; and Fig1–Fig5 export.
+## 6. Automated review-package gate
+
+Workflow:
+
+```text
+.github/workflows/build-bita-mechanism-review-package.yml
+```
+
+The workflow must:
+
+1. run focused identification, partial-identification, figure, package, and formatter tests;
+2. regenerate the 56/25 evidence receipt and all five SVG figures;
+3. build candidate Main + Appendix + Open Research sources;
+4. render Main and Appendix DOCX;
+5. verify line numbering and at least five embedded Main media objects;
+6. convert both DOCX files to PDF;
+7. measure fresh Main/Appendix page counts;
+8. reject stale architecture-paper tokens from the active Main;
+9. rasterize every PDF page to PNG for visual QA;
+10. upload the complete review artifact.
 
 ## 7. Current package boundary
 
-**Machine-validated pre-metadata target: Main 29 pages + Appendix S1 12 pages.** All 41 pages were visually inspected after integration/compaction with no blank pages, clipping, overlap, broken glyphs, missing figures, or broken equations. The old theorem-led package remains reproducible history only.
+Current status:
+
+```text
+ACTIVE_SCIENCE_SOURCE_REFOCUSED
+FIVE_FIGURE_PIPELINE_GREEN
+CANDIDATE_MARKDOWN_PACKAGE_GREEN
+DOCX_PDF_REBUILD_IN_PROGRESS
+OLD_29_PLUS_12_PAGE_COUNT_STALE
+OLD_30_PLUS_38_PAGE_COUNT_STALE
+```
+
+No old generated package is submission-current. The first green run of the new review-package workflow defines the new measured page-count baseline.
+
+## 8. Human-controlled fields required before external upload
+
+Final author list/order/names; affiliations/present addresses; corresponding author/e-mail; ORCIDs; CRediT; funding or no-funding statement; acknowledgments; competing interests; licence; portal-only reviewer fields if requested; all-author approval; and no-simultaneous-consideration confirmation.
