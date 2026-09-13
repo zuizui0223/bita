@@ -7,7 +7,9 @@ import math
 import random
 from collections import defaultdict
 from pathlib import Path
-from statistics import mean, pstdev
+from statistics import mean
+
+from trait_architecture.scale_free_stats import relative_range, zscore
 
 
 REQUIRED_FIELDS = (
@@ -140,11 +142,7 @@ def _plant_summary(rows: list[dict[str, str]], y_field: str) -> list[dict[str, f
 
 
 def _standardize(values: list[float]) -> list[float]:
-    sd = pstdev(values)
-    if sd <= 1e-12:
-        raise ValueError("cannot standardize a constant variable")
-    center = mean(values)
-    return [(value - center) / sd for value in values]
+    return zscore(values)
 
 
 def _two_predictor_standardized_beta(summary: list[dict[str, float]], outcome: str) -> tuple[float, float]:
@@ -188,15 +186,12 @@ def _within_plant_y_spread(rows: list[dict[str, str]], y_field: str) -> tuple[fl
     spreads: dict[str, float] = {}
     for plant, group in _plant_rows(rows).items():
         values = [_num(row, y_field) for row in group]
-        center = mean(values)
-        spreads[plant] = (max(values) - min(values)) / max(abs(center), 1e-12)
+        spreads[plant] = relative_range(values)
     return max(spreads.values()), spreads
 
 
 def _among_plant_y_range(summary: list[dict[str, float]]) -> float:
-    values = [float(row["y"]) for row in summary]
-    center = mean(values)
-    return (max(values) - min(values)) / max(abs(center), 1e-12)
+    return relative_range([float(row["y"]) for row in summary])
 
 
 def _bootstrap_betas(summary: list[dict[str, float]], reps: int, rng: random.Random) -> dict[str, list[float]]:

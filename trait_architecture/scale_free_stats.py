@@ -1,7 +1,7 @@
 """Scale-free numerical helpers for standardized empirical statistics.
 
 These helpers deliberately avoid fixed thresholds expressed in the physical
-units of the input variable.  Degeneracy is defined by exact lack of variation;
+units of the input variable. Degeneracy is defined by exact lack of variation;
 nonzero variation is normalized before sums of squares are formed so harmless
 positive unit conversions do not change availability of a standardized
 statistic.
@@ -63,6 +63,26 @@ def zscore(values: Sequence[float]) -> list[float]:
     return [value / normalized_rms for value in normalized]
 
 
+def relative_range(values: Sequence[float]) -> float:
+    """Return `(max-min)/abs(mean)` without a measurement-unit floor.
+
+    A common positive rescaling of the values leaves the result unchanged. If
+    the center is exactly zero, an exactly constant range is zero and any
+    nonzero range is unbounded.
+    """
+
+    if not values:
+        raise ValueError("relative range requires at least one value")
+    numeric = [float(value) for value in values]
+    if not all(math.isfinite(value) for value in numeric):
+        raise ValueError("relative range requires finite values")
+    span = max(numeric) - min(numeric)
+    center = mean(numeric)
+    if center == 0.0:
+        return 0.0 if span == 0.0 else math.inf
+    return span / abs(center)
+
+
 def standardized_mean_difference(
     first: Sequence[float],
     second: Sequence[float],
@@ -71,9 +91,9 @@ def standardized_mean_difference(
 ) -> float:
     """Return (mean(second)-mean(first))/pooled sample SD.
 
-    With ``absolute=True`` the magnitude is returned.  If both groups are
+    With ``absolute=True`` the magnitude is returned. If both groups are
     exactly constant, equal means give zero and unequal means give an infinite
-    standardized difference.  No fixed threshold in measurement units is used.
+    standardized difference. No fixed threshold in measurement units is used.
     """
 
     if not first or not second:

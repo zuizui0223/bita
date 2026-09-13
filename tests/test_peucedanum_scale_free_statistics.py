@@ -9,6 +9,7 @@ from scripts import analyze_peucedanum_stage_b_fitness as stage_b_fitness
 from scripts import evaluate_peucedanum_stage_b_manipulation as stage_b_validation
 from trait_architecture.scale_free_stats import (
     population_sd,
+    relative_range,
     sample_sd,
     standardized_mean_difference,
     zscore,
@@ -34,6 +35,14 @@ def test_sample_and_population_sd_transform_with_units_without_disappearing():
         assert stage_a._sample_sd(values) == pytest.approx(reference_sample * scale, rel=2e-15)
         assert stage_b_validation._sample_sd(values) == pytest.approx(reference_sample * scale, rel=2e-15)
         assert stage_b_fitness._population_sd(values) == pytest.approx(reference_population * scale, rel=2e-15)
+
+
+def test_relative_range_is_unit_invariant_and_zero_reference_is_fail_closed():
+    expected = relative_range([1.0, 2.0, 3.0])
+    for scale in (1e-16, 1e-8, 1.0, 1e8, 1e16):
+        assert relative_range([scale, 2.0 * scale, 3.0 * scale]) == pytest.approx(expected, rel=2e-15)
+    assert relative_range([0.0, 0.0, 0.0]) == 0.0
+    assert math.isinf(relative_range([-1.0, 0.0, 1.0]))
 
 
 def test_standardized_mean_difference_is_unit_invariant_in_both_peucedanum_routes():
