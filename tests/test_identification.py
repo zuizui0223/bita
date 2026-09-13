@@ -40,6 +40,21 @@ def additive_cells(*, rho: float = 0.9, iota_increment: float = 0.5, m0_delta: f
     return cells
 
 
+def test_internal_exact_contrast_identity_survives_outcome_rescaling() -> None:
+    base = additive_cells()
+    for scale in (1.0, 1e6, 1e12):
+        cells = {key: value * scale for key, value in base.items()}
+        result = identify_crossed_design(
+            cells,
+            assumptions(),
+            baseline_mutualist_delta=0.2 * scale,
+            invariance_tolerance=1e-9 * scale,
+        )
+        assert result.consumer_contrasts_identified
+        assert result.rho_delta == pytest.approx(0.9 * scale)
+        assert result.iota_increment_delta == pytest.approx(0.5 * scale)
+
+
 def test_delta_ad_is_two_level_secant_interaction() -> None:
     surface = {(0, 0): 1.0, (1, 0): 2.0, (0, 1): 3.0, (1, 1): 7.0}
     assert delta_ad(surface) == pytest.approx(3.0)
