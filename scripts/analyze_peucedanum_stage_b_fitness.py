@@ -12,6 +12,7 @@ from scripts.evaluate_peucedanum_stage_b_manipulation import (
     analyze as validate_stage_b_manipulation,
     read_rows as read_stage_b_validation_rows,
 )
+from trait_architecture.scale_free_stats import population_sd as _scale_free_population_sd
 
 
 G_REMOVED = "EGGS_REMOVED"
@@ -281,13 +282,7 @@ def _fit_quadratic(points: list[tuple[float, float]]) -> dict:
 
 
 def _population_sd(values: list[float]) -> float:
-    if len(values) < 2:
-        raise ValueError("standardized contrast requires at least two observations")
-    center = mean(values)
-    variance = sum((value - center) ** 2 for value in values) / len(values)
-    if variance <= 1e-15:
-        raise ValueError("standardized contrast is undefined for a constant outcome")
-    return math.sqrt(variance)
+    return _scale_free_population_sd(values)
 
 
 def _cell_rows(rows: list[dict[str, str]]) -> dict[tuple[float, int], list[dict[str, str]]]:

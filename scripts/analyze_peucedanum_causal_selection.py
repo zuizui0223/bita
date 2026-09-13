@@ -10,6 +10,11 @@ from pathlib import Path
 from statistics import mean
 
 from trait_architecture.ols_hc3 import fit_ols_hc3
+from trait_architecture.scale_free_stats import (
+    sample_sd as _scale_free_sample_sd,
+    standardized_mean_difference,
+    zscore as _scale_free_zscore,
+)
 
 
 REQUIRED_FIELDS = (
@@ -159,14 +164,7 @@ def _require_config(config: dict) -> dict:
 
 
 def _zscore(values: list[float]) -> list[float]:
-    if len(values) < 2:
-        raise ValueError("standardization requires at least two values")
-    center = mean(values)
-    variance = sum((value - center) ** 2 for value in values) / len(values)
-    if variance <= 1e-15:
-        raise ValueError("standardization is undefined for a constant variable")
-    scale = math.sqrt(variance)
-    return [(value - center) / scale for value in values]
+    return _scale_free_zscore(values)
 
 
 def _coefficient_map(result) -> dict[str, dict[str, float]]:
@@ -223,21 +221,13 @@ def _fit_oviposition_model(rows: list[dict[str, str]]) -> dict:
 
 
 def _sample_sd(values: list[float]) -> float:
-    if len(values) < 2:
-        return 0.0
-    center = mean(values)
-    return math.sqrt(sum((value - center) ** 2 for value in values) / (len(values) - 1))
+    return _scale_free_sample_sd(values)
 
 
 def _smd(rows: list[dict[str, str]], field: str) -> float:
     removed = [_num(row, field) for row in rows if _g(row) == 0]
     retained = [_num(row, field) for row in rows if _g(row) == 1]
-    s0, s1 = _sample_sd(removed), _sample_sd(retained)
-    pooled = math.sqrt((s0 * s0 + s1 * s1) / 2.0)
-    difference = mean(retained) - mean(removed)
-    if pooled <= 1e-15:
-        return 0.0 if abs(difference) <= 1e-15 else math.copysign(math.inf, difference)
-    return difference / pooled
+    return standardized_mean_difference(removed, retained)
 
 
 def _balance_summary(rows: list[dict[str, str]]) -> dict:
