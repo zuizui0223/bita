@@ -109,7 +109,8 @@ def test_three_paper_concordance_preserves_current_ownership_and_literature_firs
     assert "trait interaction != ecological mechanism" in text
     assert "architecture-value transport" in text
     assert "companion SLK flagship" in text
-    assert "strict BITA mechanism-allocation lane remains empty" in text
+    assert "### BITA final gap" in text
+    assert "strict mechanism-allocation lane remains empty" in text
 
 
 def test_publication_status_and_new_protocol_agree_on_claim_ceiling() -> None:
