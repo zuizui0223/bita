@@ -54,7 +54,9 @@ def test_three_paper_order_places_focal_experiments_last() -> None:
     assert "SCH" in text and "BALANCE" in text and "BITA" in text
     assert "design the strongest focal causal experiment last" in text
     assert "A focal experiment is therefore a final identification upgrade" in text
-    assert "Only the residual identification gaps are promoted to focal experimental design" in text
+    assert "## Remaining direct-identification gaps" in text
+    for heading in ("### SCH final gap", "### BALANCE final gap", "### BITA final gap"):
+        assert heading in text
 
 
 def test_focal_bita_experiment_is_not_a_current_submission_blocker() -> None:
