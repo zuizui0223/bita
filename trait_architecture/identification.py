@@ -22,10 +22,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from math import isclose
+from sys import float_info
 from typing import Mapping
 
 CellKey = tuple[int, int, int, int]  # A, D, antagonist present, pollinator present
 ADKey = tuple[int, int]
+_INTERNAL_IDENTITY_EPS_MULTIPLIER = 128.0
 
 
 @dataclass(frozen=True)
@@ -181,6 +183,27 @@ def _pollinator_increment_interference(cells: Mapping[CellKey, float], antagonis
     return -delta_ad(surface)
 
 
+def _internal_contrast_identity_close(
+    lhs: float,
+    rhs: float,
+    cells: Mapping[CellKey, float],
+) -> bool:
+    """Compare algebraically identical contrasts using only roundoff scale.
+
+    The identity is exact in real arithmetic, so the tolerance is not a
+    biological equivalence margin. It scales with the magnitude of the source
+    cells and machine epsilon, avoiding both a fixed-unit acceptance band and
+    false failures after a large positive outcome rescaling.
+    """
+
+    scale = max(
+        [abs(float(value)) for value in cells.values()]
+        + [abs(float(lhs)), abs(float(rhs))]
+    )
+    tolerance = _INTERNAL_IDENTITY_EPS_MULTIPLIER * float_info.epsilon * scale
+    return abs(lhs - rhs) <= tolerance
+
+
 def identify_crossed_design(
     cells: Mapping[CellKey, float],
     assumptions: IdentificationAssumptions,
@@ -219,8 +242,10 @@ def identify_crossed_design(
     rho_gap = rho_p1 - rho_p0
     iota_gap = iota_g1 - iota_g0
 
-    # Both expressions are the same A x D x G x P contrast up to sign.
-    if not isclose(rho_gap, -iota_gap, abs_tol=1e-12, rel_tol=0.0):
+    # Both expressions are the same A x D x G x P contrast up to sign.  This
+    # check is an internal arithmetic invariant, not an empirical equivalence
+    # test, so only scale-aware floating-point roundoff is tolerated here.
+    if not _internal_contrast_identity_close(rho_gap, -iota_gap, cells):
         raise RuntimeError("internal contrast identity failed: rho and iota invariance gaps must be exact opposites")
     four_way = rho_gap
     separability_pass = isclose(four_way, 0.0, abs_tol=invariance_tolerance, rel_tol=0.0)
