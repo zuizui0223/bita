@@ -147,6 +147,18 @@ REBUILD_REQUIRED
 
 Do not submit the old generated package after the canonical manuscript refocus. Rebuild figures, captions, supplement routing, cover letter, and page-count checks around the new mechanism-identification manuscript before any journal upload.
 
+## Testing
+
+A fresh checkout should install the package and development dependencies before running tests:
+
+```bash
+python -m pip install -e '.[dev]'
+pytest -m "not prose_contract"   # blocking code / numerical tests
+pytest -m prose_contract         # advisory Markdown/document contracts
+```
+
+The `prose_contract` suite is retained to audit synchronization among manuscripts, readouts, and repository claims, but it is reported separately from core code validation because wording-only edits must not masquerade as computational regressions.
+
 ## Strict boundaries
 
 ```text
