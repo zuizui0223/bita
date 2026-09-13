@@ -61,35 +61,47 @@ def _clean_points(points: list[tuple[float, float]]) -> list[tuple[float, float]
 def zero_crossing(points: list[tuple[float, float]], zero_tolerance: float = 1e-12) -> ZeroCrossing:
     """Locate the first signed zero crossing along increasing context.
 
-    Exact near-zero grid points are preferred. Otherwise, adjacent points must
-    have opposite signs and the crossing is linearly interpolated. Multiple
-    crossings are rejected because a single critical context is not identified
-    without an additional branch-selection rule.
+    ``zero_tolerance`` is a dimensionless numerical tolerance relative to the
+    largest supplied margin magnitude. Exact/near-zero grid points are preferred.
+    Otherwise adjacent points must have opposite signs and the crossing is
+    linearly interpolated. Multiple crossings are rejected because a single
+    critical context is not identified without an additional branch-selection
+    rule.
     """
 
     zero_tolerance = abs(_finite(zero_tolerance, "zero_tolerance"))
     values = _clean_points(points)
+    margin_scale = max(abs(y) for _, y in values)
 
-    exact = [(x, y) for x, y in values if abs(y) <= zero_tolerance]
+    def near_zero(y: float) -> bool:
+        if margin_scale == 0.0:
+            return y == 0.0
+        return abs(y) <= zero_tolerance * margin_scale
+
     crossings: list[ZeroCrossing] = []
-    for x, y in exact:
-        crossings.append(
-            ZeroCrossing(
-                context=x,
-                left_context=x,
-                right_context=x,
-                left_margin=y,
-                right_margin=y,
-                exact_grid_hit=True,
+    for x, y in values:
+        if near_zero(y):
+            crossings.append(
+                ZeroCrossing(
+                    context=x,
+                    left_context=x,
+                    right_context=x,
+                    left_margin=y,
+                    right_margin=y,
+                    exact_grid_hit=True,
+                )
             )
-        )
 
     for (x0, y0), (x1, y1) in zip(values, values[1:]):
-        if abs(y0) <= zero_tolerance or abs(y1) <= zero_tolerance:
+        if near_zero(y0) or near_zero(y1):
             continue
-        if y0 * y1 < 0:
-            fraction = -y0 / (y1 - y0)
-            xcrit = x0 + fraction * (x1 - x0)
+        opposite_signs = (y0 < 0.0 < y1) or (y1 < 0.0 < y0)
+        if opposite_signs:
+            pair_scale = max(abs(y0), abs(y1))
+            y0_scaled = y0 / pair_scale
+            y1_scaled = y1 / pair_scale
+            fraction = -y0_scaled / (y1_scaled - y0_scaled)
+            xcrit = (1.0 - fraction) * x0 + fraction * x1
             crossings.append(
                 ZeroCrossing(
                     context=xcrit,
@@ -101,17 +113,11 @@ def zero_crossing(points: list[tuple[float, float]], zero_tolerance: float = 1e-
                 )
             )
 
-    # Deduplicate an exact point that may be adjacent to sign changes already skipped.
-    unique: list[ZeroCrossing] = []
-    for item in crossings:
-        if not any(abs(item.context - other.context) <= zero_tolerance for other in unique):
-            unique.append(item)
-
-    if not unique:
+    if not crossings:
         raise ValueError("no zero crossing is bracketed by the supplied contexts")
-    if len(unique) > 1:
+    if len(crossings) > 1:
         raise ValueError("multiple zero crossings found; one critical context is not uniquely identified")
-    return unique[0]
+    return crossings[0]
 
 
 def compare_critical_contexts(
