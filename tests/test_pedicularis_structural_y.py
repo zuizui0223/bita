@@ -2,9 +2,12 @@ from __future__ import annotations
 
 import csv
 import json
+import math
 from pathlib import Path
 
-from scripts.evaluate_pedicularis_structural_y import REQUIRED_FIELDS, evaluate
+import pytest
+
+from scripts.evaluate_pedicularis_structural_y import REQUIRED_FIELDS, _standardize, evaluate
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -66,6 +69,13 @@ def _rows(cross_effect: bool = False) -> list[dict[str, str]]:
     return rows
 
 
+def _rescale_primary_y(rows: list[dict[str, str]], scale: float) -> list[dict[str, str]]:
+    out = [dict(row) for row in rows]
+    for row in out:
+        row["retention_capacity_ml"] = str(float(row["retention_capacity_ml"]) * scale)
+    return out
+
+
 def test_template_and_config_are_fail_closed() -> None:
     with TEMPLATE.open(encoding="utf-8", newline="") as handle:
         assert tuple(next(csv.reader(handle))) == REQUIRED_FIELDS
@@ -86,6 +96,34 @@ def test_repeatable_retention_coordinate_with_preferential_loading_is_promoted()
     assert abs(est["x_y_correlation"]) < 1e-8
     assert est["y_to_function2_standardized_beta"] > 0.25
     assert abs(est["y_to_function1_standardized_beta"]) < 1e-8
+
+
+def test_structural_y_promotion_is_invariant_to_positive_y_unit_rescaling() -> None:
+    baseline = evaluate(_rows(False), _config())
+    baseline_est = baseline["observed_estimands"]
+    for scale in (1e-16, 1e-8, 1.0, 1e8, 1e16):
+        result = evaluate(_rescale_primary_y(_rows(False), scale), _config())
+        assert result["status"] == baseline["status"]
+        assert result["gates"] == baseline["gates"]
+        est = result["observed_estimands"]
+        for key in (
+            "max_within_plant_y_relative_spread",
+            "among_plant_y_relative_range",
+            "x_y_correlation",
+            "x_to_function1_standardized_beta",
+            "y_to_function1_standardized_beta",
+            "x_to_function2_standardized_beta",
+            "y_to_function2_standardized_beta",
+        ):
+            assert est[key] == pytest.approx(baseline_est[key], rel=2e-12, abs=2e-12)
+
+
+def test_tiny_nonconstant_structural_y_remains_standardizable() -> None:
+    observed = _standardize([1e-16, 2e-16, 3e-16])
+    expected = _standardize([1.0, 2.0, 3.0])
+    assert observed == pytest.approx(expected, rel=2e-15, abs=2e-15)
+    with pytest.raises(ValueError, match="constant variable"):
+        _standardize([1e-16, 1e-16, 1e-16])
 
 
 def test_large_pollination_cross_effect_blocks_structural_y_promotion() -> None:
