@@ -1,0 +1,48 @@
+{
+  "status": "TEMPLATE_ONLY_DO_NOT_RUN_UNTIL_PILOT_PARAMETERS_AND_THRESHOLDS_ARE_FROZEN",
+  "candidate_plants_per_cell": "REQUIRED_BEFORE_USE",
+  "simulation_reps": "REQUIRED_BEFORE_USE",
+  "simulation_seed": 20260906,
+  "target_joint_power": "REQUIRED_BEFORE_USE",
+  "target_worldline_state": "REQUIRED_BEFORE_USE",
+  "generating_model": {
+    "x_levels": "REQUIRED_BEFORE_USE",
+    "sch_pollinator_reference": "REQUIRED_BEFORE_USE",
+    "sch_combined_reference": "REQUIRED_BEFORE_USE",
+    "fitness_peak_y0": "REQUIRED_BEFORE_USE",
+    "fitness_peak_y1": "REQUIRED_BEFORE_USE",
+    "fitness_optimum_y0": "REQUIRED_BEFORE_USE",
+    "fitness_optimum_y1": "REQUIRED_BEFORE_USE",
+    "fitness_curvature_y0": "REQUIRED_BEFORE_USE",
+    "fitness_curvature_y1": "REQUIRED_BEFORE_USE",
+    "between_plant_sd": "REQUIRED_BEFORE_USE",
+    "residual_sd": "REQUIRED_BEFORE_USE",
+    "ovule_count": "REQUIRED_BEFORE_USE",
+    "damaged_seed_mean_y0": "REQUIRED_BEFORE_USE",
+    "damaged_seed_mean_y1": "REQUIRED_BEFORE_USE",
+    "damaged_seed_sd": "REQUIRED_BEFORE_USE",
+    "pollen_peak": "REQUIRED_BEFORE_USE",
+    "pollen_optimum": "REQUIRED_BEFORE_USE",
+    "pollen_curvature": "REQUIRED_BEFORE_USE",
+    "y_cross_effect_on_pollen": "REQUIRED_BEFORE_USE",
+    "water_depth_y1": "REQUIRED_BEFORE_USE",
+    "water_depth_sd": "REQUIRED_BEFORE_USE",
+    "mechanical_damage_rate": "REQUIRED_BEFORE_USE"
+  },
+  "production_bita_config": {
+    "bita_release": {
+      "bootstrap_reps": 2000,
+      "random_seed": 20260904,
+      "min_x_levels": 5,
+      "min_valid_bootstrap_fraction": 0.8,
+      "sch_reference_mode": "state_specific",
+      "min_dimensional_release": "REQUIRED_BEFORE_USE",
+      "min_within_bita_fitness_gain": "REQUIRED_BEFORE_USE",
+      "min_y_function2_gain": "REQUIRED_BEFORE_USE",
+      "max_y_function1_penalty": "REQUIRED_BEFORE_USE",
+      "min_y1_interior_bootstrap_fraction": "REQUIRED_BEFORE_USE",
+      "x_to_sch_multiplier": 1.0,
+      "x_to_sch_offset": 0.0
+    }
+  }
+}
