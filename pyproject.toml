@@ -20,3 +20,6 @@ packages = ["trait_architecture"]
 testpaths = ["tests"]
 pythonpath = ["."]
 addopts = "-q"
+markers = [
+    "prose_contract: Markdown-sensitive document/prose contract checks; advisory rather than core code validation",
+]
