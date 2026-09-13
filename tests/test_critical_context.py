@@ -29,6 +29,32 @@ def test_same_latent_critical_context_is_recovered_despite_margin_rescaling() ->
     assert result.classification == "SAME_CRITICAL_CONTEXT_COMPATIBLE"
 
 
+def test_interpolated_crossing_is_invariant_to_margin_units() -> None:
+    baseline = zero_crossing([(0.0, -1.0), (2.0, 1.0)])
+    for scale in (1e-16, 1e-13, 1.0, 1e16):
+        crossing = zero_crossing([(0.0, -scale), (2.0, scale)])
+        assert math.isclose(crossing.context, baseline.context, abs_tol=1e-15)
+        assert crossing.exact_grid_hit is False
+
+
+def test_small_unit_bracket_is_not_promoted_to_two_exact_grid_hits() -> None:
+    crossing = zero_crossing([(0.0, -1e-13), (2.0, 1e-13)])
+    assert crossing.context == 1.0
+    assert crossing.exact_grid_hit is False
+
+
+def test_large_finite_crossing_is_overflow_safe() -> None:
+    crossing = zero_crossing([(-1e308, -1e308), (1e308, 1e308)])
+    assert math.isfinite(crossing.context)
+    assert crossing.context == 0.0
+    assert crossing.exact_grid_hit is False
+
+
+def test_margin_tolerance_is_not_used_to_deduplicate_context_coordinates() -> None:
+    with pytest.raises(ValueError, match="multiple zero crossings"):
+        zero_crossing([(0.0, 0.0), (5e-13, 0.0), (1.0, 1.0)])
+
+
 def test_parallel_world_crossings_are_detected() -> None:
     result = compare_critical_contexts(
         sch_points=[(0.0, -1.0), (2.0, 1.0)],
