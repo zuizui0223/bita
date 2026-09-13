@@ -8,6 +8,11 @@ from collections import defaultdict
 from pathlib import Path
 from statistics import mean
 
+from trait_architecture.scale_free_stats import (
+    sample_sd as _scale_free_sample_sd,
+    standardized_mean_difference,
+)
+
 
 REQUIRED_FIELDS = (
     "unit_id",
@@ -155,19 +160,11 @@ def _require_config(config: dict) -> dict:
 
 
 def _sample_sd(values: list[float]) -> float:
-    if len(values) < 2:
-        return 0.0
-    center = mean(values)
-    return math.sqrt(sum((value - center) ** 2 for value in values) / (len(values) - 1))
+    return _scale_free_sample_sd(values)
 
 
 def _pairwise_smd(a: list[float], b: list[float]) -> float:
-    s_a, s_b = _sample_sd(a), _sample_sd(b)
-    pooled = math.sqrt((s_a * s_a + s_b * s_b) / 2.0)
-    difference = mean(a) - mean(b)
-    if pooled <= 1e-15:
-        return 0.0 if abs(difference) <= 1e-15 else math.inf
-    return abs(difference) / pooled
+    return standardized_mean_difference(a, b, absolute=True)
 
 
 def _wilson_lower(successes: float, trials: float, z: float = 1.96) -> float:
@@ -224,8 +221,8 @@ def analyze(rows: list[dict[str, str]], config: dict) -> dict:
     handling_means = {level: mean(_num(row, "handling_actions") for row in groups[level]) for level in q_levels}
     grand_handling = mean(_num(row, "handling_actions") for row in rows)
     handling_range = max(handling_means.values()) - min(handling_means.values())
-    if abs(grand_handling) <= 1e-15:
-        handling_relative_range = 0.0 if handling_range <= 1e-15 else math.inf
+    if grand_handling == 0.0:
+        handling_relative_range = 0.0 if handling_range == 0.0 else math.inf
     else:
         handling_relative_range = handling_range / abs(grand_handling)
     handling_gate = handling_relative_range <= config["max_handling_group_relative_range"]
