@@ -16,7 +16,25 @@ on:
       - 'tests/test_mechanism_identification_figures.py'
       - 'tests/test_bita_mechanism_candidate_sources.py'
       - 'tests/test_ecology_formatter_math.py'
+      - 'tests/test_submission_package_routing.py'
       - '.github/workflows/build-bita-mechanism-review-package.yml'
+  pull_request:
+    paths:
+      - 'manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md'
+      - 'manuscript/IDENTIFICATION_DESIGN_REFERENCES.md'
+      - 'manuscript/TRAIT_DIFFERENTIATION_FIGURE_CAPTIONS_V1.md'
+      - 'manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md'
+      - 'scripts/build_mechanism_identification_figures_svg.py'
+      - 'scripts/build_bita_mechanism_candidate_sources.py'
+      - 'scripts/format_ecology_submission_docx.py'
+      - 'empirical/identification_design/**'
+      - 'empirical/mechanism_pattern_synthesis/**'
+      - 'tests/test_mechanism_identification_figures.py'
+      - 'tests/test_bita_mechanism_candidate_sources.py'
+      - 'tests/test_ecology_formatter_math.py'
+      - 'tests/test_submission_package_routing.py'
+      - '.github/workflows/build-bita-mechanism-review-package.yml'
+      - '.github/workflows/build-identification-candidate-package.yml'
 
 jobs:
   build:
@@ -42,7 +60,8 @@ jobs:
             tests/test_identification_coverage.py \
             tests/test_identification.py \
             tests/test_partial_identification.py \
-            tests/test_ecology_formatter_math.py
+            tests/test_ecology_formatter_math.py \
+            tests/test_submission_package_routing.py
 
       - name: Rebuild source-backed evidence receipt and candidate sources
         run: |
@@ -140,23 +159,26 @@ jobs:
             echo "Stale architecture robustness spine survived into active Main PDF" >&2
             exit 1
           fi
-
-          LENGTH_STATE=WITHIN_30_PAGE_TARGET
           if [ "$MAIN_PAGES" -gt 30 ]; then
-            LENGTH_STATE=NEEDS_COMPRESSION
+            echo "Active BITA mechanism review Main is $MAIN_PAGES pages; exceeds the declared 30-page review target." >&2
+            exit 1
           fi
 
           MEDIA_COUNT=$(unzip -l "$GEN/MANUSCRIPT_ECOLOGY_SUBMISSION.docx" | grep -c 'word/media/' || true)
           {
             echo "main_pages=$MAIN_PAGES"
             echo "appendix_pages=$APP_PAGES"
-            echo "length_state=$LENGTH_STATE"
+            echo "length_state=WITHIN_30_PAGE_TARGET"
+            echo "package_role=active_reader_facing"
+            echo "active_submission=true"
+            echo "legacy_candidate=false"
+            echo "source_commit=$GITHUB_SHA"
             echo "canonical_manuscript=manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md"
             echo "main_headline=trait_interaction_not_ecological_mechanism"
             echo "main_figures=5 mechanism-identification figures embedded"
             echo "embedded_main_media=$MEDIA_COUNT"
             echo "empirical_frontier=56_routes_25_clusters_17_systems"
-            echo "old_architecture_package=stale_not_submission_current"
+            echo "old_identification_candidate=legacy_provenance_only"
           } > "$GEN/PACKAGE_QA_RECEIPT.txt"
 
       - name: Render page PNGs for visual QA artifact
