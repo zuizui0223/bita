@@ -16,6 +16,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import math
+from sys import float_info
+
+
+_ROUNDOFF_REL_TOL = 64.0 * float_info.epsilon
 
 
 def _finite(value: float, name: str) -> float:
@@ -39,6 +43,38 @@ def _nonnegative(value: float, name: str) -> float:
     return value
 
 
+def _finite_result(value: float, name: str) -> float:
+    if not math.isfinite(value):
+        raise ValueError(f"{name} is not representable as a finite float; rescale units")
+    return value
+
+
+def _conflict_coefficient(weight1: float, weight2: float) -> float:
+    """Return w1*w2/(w1+w2) without forming the weight product."""
+
+    w1 = _positive(weight1, "weight1")
+    w2 = _positive(weight2, "weight2")
+    if w1 <= w2:
+        coefficient = w1 / (1.0 + w1 / w2)
+    else:
+        coefficient = w2 / (1.0 + w2 / w1)
+    if coefficient == 0.0:
+        raise ValueError("conflict coefficient underflows float precision; rescale weight units")
+    return _finite_result(coefficient, "conflict coefficient")
+
+
+def _roundoff_architecture_status(recoverable: float, cost: float) -> str:
+    """Classify R-K using only a scale-relative machine-roundoff band."""
+
+    margin = recoverable - cost
+    band = _ROUNDOFF_REL_TOL * max(abs(recoverable), abs(cost))
+    if margin > band:
+        return "DIFFERENTIATED_ARCHITECTURE_FAVOURED"
+    if margin < -band:
+        return "SHARED_ARCHITECTURE_FAVOURED"
+    return "COMMON_ARCHITECTURE_CRITICAL_SURFACE"
+
+
 @dataclass(frozen=True)
 class CriticalityMap:
     shared_conflict_load: float
@@ -58,15 +94,29 @@ def decoupling_fraction(weight1: float, weight2: float, coupling: float) -> floa
     weight1 = _positive(weight1, "weight1")
     weight2 = _positive(weight2, "weight2")
     coupling = _nonnegative(coupling, "coupling")
-    numerator = weight1 * weight2
-    return numerator / (numerator + coupling * (weight1 + weight2))
+    coefficient = _conflict_coefficient(weight1, weight2)
+    if coupling == 0.0:
+        return 1.0
+    if coefficient >= coupling:
+        value = 1.0 / (1.0 + coupling / coefficient)
+    else:
+        ratio = coefficient / coupling
+        if ratio == 0.0:
+            raise ValueError("decoupling fraction underflows float precision; rescale weight units")
+        value = ratio / (1.0 + ratio)
+    return _finite_result(value, "decoupling fraction")
 
 
 def shared_conflict_load(optimum_distance: float, weight1: float, weight2: float) -> float:
     optimum_distance = _nonnegative(optimum_distance, "optimum_distance")
-    weight1 = _positive(weight1, "weight1")
-    weight2 = _positive(weight2, "weight2")
-    return weight1 * weight2 * optimum_distance * optimum_distance / (weight1 + weight2)
+    coefficient = _conflict_coefficient(weight1, weight2)
+    if optimum_distance == 0.0:
+        return 0.0
+    first = coefficient * optimum_distance
+    value = first * optimum_distance
+    if coefficient != 0.0 and optimum_distance != 0.0 and value == 0.0:
+        raise ValueError("shared conflict load underflows float precision; rescale units")
+    return _finite_result(value, "shared conflict load")
 
 
 def architecture_margin(conflict_load: float, decoupling: float, architecture_cost: float) -> float:
@@ -79,6 +129,13 @@ def architecture_margin(conflict_load: float, decoupling: float, architecture_co
 
 
 def classify_architecture_margin(margin: float, tolerance: float = 1e-12) -> str:
+    """Classify a supplied margin using an explicit absolute margin-unit band.
+
+    This public helper preserves its original contract. Automatic numerical
+    classification inside :func:`criticality_map` uses a separate roundoff-only
+    relative rule based on the commensurate R and K terms.
+    """
+
     margin = _finite(margin, "margin")
     tolerance = _nonnegative(tolerance, "tolerance")
     if margin > tolerance:
@@ -93,7 +150,10 @@ def critical_cost(conflict_load: float, decoupling: float) -> float:
     decoupling = _nonnegative(decoupling, "decoupling")
     if decoupling > 1:
         raise ValueError("decoupling must be <= 1")
-    return decoupling * conflict_load
+    value = decoupling * conflict_load
+    if decoupling != 0.0 and conflict_load != 0.0 and value == 0.0:
+        raise ValueError("critical cost underflows float precision; rescale fitness units")
+    return _finite_result(value, "critical cost")
 
 
 def critical_shared_load(architecture_cost: float, decoupling: float) -> float:
@@ -103,7 +163,10 @@ def critical_shared_load(architecture_cost: float, decoupling: float) -> float:
         raise ValueError("decoupling must be <= 1")
     if decoupling == 0:
         return 0.0 if architecture_cost == 0 else math.inf
-    return architecture_cost / decoupling
+    value = architecture_cost / decoupling
+    if architecture_cost != 0.0 and value == 0.0:
+        raise ValueError("critical shared load underflows float precision; rescale fitness units")
+    return _finite_result(value, "critical shared load")
 
 
 def critical_decoupling(conflict_load: float, architecture_cost: float) -> float | None:
@@ -117,6 +180,8 @@ def critical_decoupling(conflict_load: float, architecture_cost: float) -> float
     if conflict_load == 0:
         return 0.0 if architecture_cost == 0 else None
     value = architecture_cost / conflict_load
+    if architecture_cost != 0.0 and value == 0.0:
+        raise ValueError("critical decoupling underflows float precision; rescale fitness units")
     if value > 1:
         return None
     return value
@@ -138,8 +203,7 @@ def critical_coupling(
 
     conflict_load = _nonnegative(conflict_load, "conflict_load")
     architecture_cost = _nonnegative(architecture_cost, "architecture_cost")
-    weight1 = _positive(weight1, "weight1")
-    weight2 = _positive(weight2, "weight2")
+    coefficient = _conflict_coefficient(weight1, weight2)
 
     if conflict_load == 0:
         return math.inf if architecture_cost == 0 else None
@@ -147,9 +211,14 @@ def critical_coupling(
         return math.inf
     if architecture_cost > conflict_load:
         return None
-    coefficient = weight1 * weight2 / (weight1 + weight2)
-    value = coefficient * (conflict_load / architecture_cost - 1.0)
-    return max(0.0, value)
+    delta = conflict_load - architecture_cost
+    if delta == 0.0:
+        return 0.0
+    ratio = delta / architecture_cost
+    value = coefficient * ratio
+    if value == 0.0:
+        raise ValueError("critical coupling underflows float precision; rescale weight units")
+    return max(0.0, _finite_result(value, "critical coupling"))
 
 
 def critical_optimum_distance(
@@ -159,16 +228,20 @@ def critical_optimum_distance(
     coupling: float,
 ) -> float:
     architecture_cost = _nonnegative(architecture_cost, "architecture_cost")
-    weight1 = _positive(weight1, "weight1")
-    weight2 = _positive(weight2, "weight2")
-    coupling = _nonnegative(coupling, "coupling")
+    coefficient = _conflict_coefficient(weight1, weight2)
+    s = decoupling_fraction(weight1, weight2, coupling)
     if architecture_cost == 0:
         return 0.0
-    numerator = architecture_cost * (weight1 + weight2) * (
-        weight1 * weight2 + coupling * (weight1 + weight2)
-    )
-    denominator = weight1 * weight1 * weight2 * weight2
-    return math.sqrt(numerator / denominator)
+    if s == 0.0:
+        raise ValueError("positive cost has no finite critical distance at zero decoupling")
+
+    # dcrit^2 = K/(s*coefficient). Work in square roots so the intermediate
+    # K/(s*coefficient) need not be representable when dcrit itself still is.
+    denominator_root = math.sqrt(s) * math.sqrt(coefficient)
+    if denominator_root == 0.0:
+        raise ValueError("critical-distance denominator underflows; rescale units")
+    value = math.sqrt(architecture_cost) / denominator_root
+    return _finite_result(value, "critical optimum distance")
 
 
 def empirical_release_margin(distance_y0_to_sch_reference: float, distance_y1_to_sch_reference: float) -> float:
@@ -196,23 +269,24 @@ def criticality_map(
     coupling: float,
     architecture_cost: float,
 ) -> CriticalityMap:
+    cost = _nonnegative(architecture_cost, "architecture_cost")
     load = shared_conflict_load(optimum_distance, weight1, weight2)
     s = decoupling_fraction(weight1, weight2, coupling)
-    recoverable = s * load
-    margin = recoverable - _nonnegative(architecture_cost, "architecture_cost")
+    recoverable = critical_cost(load, s)
+    margin = recoverable - cost
     return CriticalityMap(
         shared_conflict_load=load,
         decoupling_fraction=s,
-        architecture_cost=architecture_cost,
+        architecture_cost=cost,
         recoverable_loss=recoverable,
         architecture_margin=margin,
-        architecture_status=classify_architecture_margin(margin),
+        architecture_status=_roundoff_architecture_status(recoverable, cost),
         critical_cost=critical_cost(load, s),
-        critical_shared_load=critical_shared_load(architecture_cost, s),
-        critical_decoupling=critical_decoupling(load, architecture_cost),
-        critical_coupling=critical_coupling(load, architecture_cost, weight1, weight2),
+        critical_shared_load=critical_shared_load(cost, s),
+        critical_decoupling=critical_decoupling(load, cost),
+        critical_coupling=critical_coupling(load, cost, weight1, weight2),
         critical_optimum_distance=critical_optimum_distance(
-            architecture_cost, weight1, weight2, coupling
+            cost, weight1, weight2, coupling
         ),
     )
 
