@@ -12,6 +12,7 @@ import math
 import random
 from collections import defaultdict
 from statistics import mean
+from sys import float_info
 
 
 REQUIRED_FIELDS = (
@@ -28,6 +29,7 @@ REQUIRED_FIELDS = (
 SCH_STATE_RECEIPT_SCHEMA = "SCH_CAUSAL_COMPROMISE_STATE_OPTIMA_V1"
 SCH_P1G0_SEMANTICS = "STATE_SPECIFIC_P1G0_REPRODUCTIVE_OPTIMUM_NOT_AUTOMATICALLY_PURE_F1"
 SCH_P1G1_SEMANTICS = "STATE_SPECIFIC_P1G1_COMBINED_REPRODUCTIVE_OPTIMUM"
+_ROUNDOFF_REL_TOL = 64.0 * float_info.epsilon
 
 
 def _num(row: dict[str, str], field: str) -> float:
@@ -61,51 +63,122 @@ def _quantile(values: list[float], q: float) -> float:
 
 
 def _solve3(matrix: list[list[float]], rhs: list[float]) -> tuple[float, float, float]:
-    aug = [row[:] + [value] for row, value in zip(matrix, rhs)]
+    """Solve a finite 3x3 system with dimensionless scaled partial pivoting."""
+
+    if len(matrix) != 3 or any(len(row) != 3 for row in matrix) or len(rhs) != 3:
+        raise ValueError("quadratic fit requires a 3x3 normal system")
+    aug = []
+    row_scales = []
+    for row, value in zip(matrix, rhs):
+        numeric = [float(item) for item in row]
+        target = float(value)
+        if not all(math.isfinite(item) for item in numeric + [target]):
+            raise ValueError("quadratic fit normal system must be finite")
+        scale = max(abs(item) for item in numeric)
+        if scale == 0.0:
+            raise ValueError("quadratic fit is singular")
+        aug.append(numeric + [target])
+        row_scales.append(scale)
+
     for col in range(3):
-        pivot = max(range(col, 3), key=lambda r: abs(aug[r][col]))
-        if abs(aug[pivot][col]) < 1e-12:
+        pivot = max(
+            range(col, 3),
+            key=lambda row: abs(aug[row][col]) / row_scales[row],
+        )
+        if abs(aug[pivot][col]) <= _ROUNDOFF_REL_TOL * row_scales[pivot]:
             raise ValueError("quadratic fit is singular")
         if pivot != col:
             aug[col], aug[pivot] = aug[pivot], aug[col]
-        scale = aug[col][col]
-        aug[col] = [value / scale for value in aug[col]]
+            row_scales[col], row_scales[pivot] = row_scales[pivot], row_scales[col]
+
+        pivot_value = aug[col][col]
+        aug[col] = [value / pivot_value for value in aug[col]]
         for row in range(3):
             if row == col:
                 continue
             factor = aug[row][col]
+            if factor == 0.0:
+                continue
             aug[row] = [a - factor * b for a, b in zip(aug[row], aug[col])]
-    return aug[0][3], aug[1][3], aug[2][3]
+            if not all(math.isfinite(value) for value in aug[row]):
+                raise ValueError("quadratic fit elimination left the finite float domain")
+
+    result = (aug[0][3], aug[1][3], aug[2][3])
+    if not all(math.isfinite(value) for value in result):
+        raise ValueError("quadratic fit coefficients are not finite")
+    return result
 
 
 def _fit_quadratic(points: list[tuple[float, float]]) -> dict:
+    """Fit ``y=a+b*x+c*x^2`` after normalizing the measured-x coordinate."""
+
     if len(points) < 3:
         raise ValueError("quadratic fit requires at least three x levels")
-    xs = [x for x, _ in points]
-    ys = [y for _, y in points]
-    if len({round(x, 12) for x in xs}) < 3:
+
+    numeric_points = [(float(x), float(y)) for x, y in points]
+    if any(not math.isfinite(x) or not math.isfinite(y) for x, y in numeric_points):
+        raise ValueError("quadratic fit points must be finite")
+    xs = [x for x, _ in numeric_points]
+    ys = [y for _, y in numeric_points]
+    if len(set(xs)) < 3:
         raise ValueError("quadratic fit requires at least three distinct measured x values")
-    n = float(len(points))
-    s1 = sum(xs)
-    s2 = sum(x * x for x in xs)
-    s3 = sum(x**3 for x in xs)
-    s4 = sum(x**4 for x in xs)
-    t0 = sum(ys)
-    t1 = sum(x * y for x, y in points)
-    t2 = sum((x * x) * y for x, y in points)
-    a, b, c = _solve3(
-        [[n, s1, s2], [s1, s2, s3], [s2, s3, s4]],
-        [t0, t1, t2],
-    )
+
     xmin, xmax = min(xs), max(xs)
-    discrete = points[max(range(len(points)), key=lambda i: points[i][1])][0]
+    center = 0.5 * xmin + 0.5 * xmax
+    scale = max(abs(x - center) for x in xs)
+    if not math.isfinite(center) or not math.isfinite(scale) or scale <= 0.0:
+        raise ValueError("quadratic fit x normalization is not representable")
+    ts = [(x - center) / scale for x in xs]
+    if any(not math.isfinite(t) for t in ts):
+        raise ValueError("quadratic fit normalized x values must be finite")
+
+    n = float(len(numeric_points))
+    s1 = math.fsum(ts)
+    s2 = math.fsum(t * t for t in ts)
+    s3 = math.fsum((t * t) * t for t in ts)
+    s4 = math.fsum((t * t) * (t * t) for t in ts)
+    r0 = math.fsum(ys)
+    r1 = math.fsum(t * y for t, y in zip(ts, ys))
+    r2 = math.fsum((t * t) * y for t, y in zip(ts, ys))
+    qa, qb, qc = _solve3(
+        [[n, s1, s2], [s1, s2, s3], [s2, s3, s4]],
+        [r0, r1, r2],
+    )
+
+    # Transform the normalized polynomial y=qa+qb*t+qc*t^2 back to the public
+    # original-x coefficient convention without evaluating x powers.
+    center_ratio = center / scale
+    c = (qc / scale) / scale
+    b_numerator = qb - 2.0 * qc * center_ratio
+    b = b_numerator / scale
+    a = qa - qb * center_ratio + qc * center_ratio * center_ratio
+    if not all(math.isfinite(value) for value in (a, b, c)):
+        raise ValueError("quadratic fit original-unit coefficients are not representable")
+    if qc != 0.0 and c == 0.0:
+        raise ValueError("quadratic coefficient underflows original x units")
+    if b_numerator != 0.0 and b == 0.0:
+        raise ValueError("linear coefficient underflows original x units")
+
+    discrete_index = max(range(len(numeric_points)), key=lambda i: numeric_points[i][1])
+    discrete = xs[discrete_index]
+    discrete_t = ts[discrete_index]
     vertex = None
-    if c < 0:
-        candidate = -b / (2 * c)
-        if xmin <= candidate <= xmax:
+    optimum_t = discrete_t
+    tmin, tmax = min(ts), max(ts)
+    if qc < 0.0:
+        candidate_t = -qb / (2.0 * qc)
+        if tmin <= candidate_t <= tmax:
+            candidate = center + scale * candidate_t
+            if not math.isfinite(candidate):
+                raise ValueError("quadratic vertex is not representable in original x units")
             vertex = candidate
+            optimum_t = candidate_t
+
     optimum = vertex if vertex is not None else discrete
-    optimum_value = a + b * optimum + c * optimum * optimum
+    optimum_value = math.fsum((qa, qb * optimum_t, qc * optimum_t * optimum_t))
+    if not math.isfinite(optimum_value):
+        raise ValueError("quadratic optimum value is not representable")
+
     return {
         "a": a,
         "b": b,
@@ -115,7 +188,7 @@ def _fit_quadratic(points: list[tuple[float, float]]) -> dict:
         "primary_optimum": optimum,
         "optimum_value": optimum_value,
         "optimum_class": "INTERIOR_CONCAVE" if vertex is not None else "BOUNDARY_OR_NONCONCAVE",
-        "points": [{"x": x, "mean_fitness": y} for x, y in points],
+        "points": [{"x": x, "mean_fitness": y} for x, y in numeric_points],
     }
 
 
