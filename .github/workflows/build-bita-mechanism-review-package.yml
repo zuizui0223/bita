@@ -3,6 +3,8 @@ name: Build BITA mechanism review package
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     paths:
       - 'manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md'
       - 'manuscript/IDENTIFICATION_DESIGN_REFERENCES.md'
