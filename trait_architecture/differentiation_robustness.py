@@ -13,20 +13,21 @@ with
     L_D(x,y) = w1 |x-theta1|^p + w2 |y-theta2|^p
                + coupling |x-y|^q + K.
 
-The optimum of each convex loss lies inside the interval bounded by the two
-function-specific optima, so deterministic golden-section minimisation is enough
-and introduces no external numerical dependency.
-
-These calculations test whether the qualitative Chapter-2 result depends on the
-quadratic assumption.  They are not an evolutionary-dynamics model and do not by
-themselves establish a historical transition to differentiated traits.
+The optimizer works on the dimensionless interval coordinate joining the two
+function-specific optima.  Trait-span powers are absorbed into effective
+fitness coefficients before optimization, so a pure change of trait units does
+not change the numerical problem being solved.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from math import isfinite, sqrt
+from math import exp, fsum, isfinite, log, sqrt
+from sys import float_info
 from typing import Callable
+
+
+_ROUNDOFF_REL_TOL = 128.0 * float_info.epsilon
 
 
 def _finite(value: float, name: str) -> None:
@@ -49,6 +50,77 @@ def _non_negative(value: float, name: str) -> None:
         raise ValueError(f"{name} must be finite and non-negative")
 
 
+def _roundoff_band(*values: float) -> float:
+    if any(not isfinite(float(value)) for value in values):
+        raise ValueError("roundoff comparison values must be finite")
+    return _ROUNDOFF_REL_TOL * max((abs(float(value)) for value in values), default=0.0)
+
+
+def _log_trait_span(optimum_1: float, optimum_2: float) -> float | None:
+    """Return log(|theta2-theta1|) without requiring the span itself to be finite."""
+
+    first = float(optimum_1)
+    second = float(optimum_2)
+    if first == second:
+        return None
+    direct = abs(second - first)
+    if isfinite(direct) and direct > 0.0:
+        return log(direct)
+
+    scale = max(abs(first), abs(second))
+    if scale == 0.0 or not isfinite(scale):
+        raise ValueError("trait span is not numerically resolvable")
+    normalized = abs(second / scale - first / scale)
+    if normalized <= 0.0 or not isfinite(normalized):
+        raise ValueError("trait span is not numerically resolvable")
+    return log(scale) + log(normalized)
+
+
+def _effective_coefficient(
+    coefficient: float,
+    power: float,
+    log_span: float,
+    name: str,
+) -> float:
+    """Return coefficient*span**power without materializing the span power."""
+
+    value = float(coefficient)
+    if value == 0.0:
+        return 0.0
+    log_value = log(value) + float(power) * log_span
+    if not isfinite(log_value):
+        raise ValueError(f"{name} effective coefficient is not representable")
+    try:
+        out = exp(log_value)
+    except OverflowError as exc:
+        raise ValueError(f"{name} effective coefficient overflows float") from exc
+    if out == 0.0:
+        raise ValueError(f"{name} effective coefficient underflows float")
+    if not isfinite(out):
+        raise ValueError(f"{name} effective coefficient is not finite")
+    return out
+
+
+def _trait_from_unit_interval(optimum_1: float, optimum_2: float, coordinate: float) -> float:
+    """Map t in [0,1] back by a convex combination of finite endpoints."""
+
+    t = float(coordinate)
+    value = (1.0 - t) * float(optimum_1) + t * float(optimum_2)
+    if not isfinite(value):
+        raise ValueError("optimized trait coordinate is not representable as a finite float")
+    return value
+
+
+def _finite_sum(*values: float, name: str) -> float:
+    try:
+        total = fsum(values)
+    except OverflowError as exc:
+        raise ValueError(f"{name} is not representable as a finite float") from exc
+    if not isfinite(total):
+        raise ValueError(f"{name} is not representable as a finite float")
+    return total
+
+
 def _golden_minimize(
     function: Callable[[float], float],
     lower: float,
@@ -57,7 +129,7 @@ def _golden_minimize(
     tolerance: float = 1e-10,
     max_iter: int = 300,
 ) -> tuple[float, float]:
-    """Deterministically minimise a unimodal function on a closed interval."""
+    """Deterministically minimise a unimodal function on a dimensionless interval."""
 
     if upper < lower:
         lower, upper = upper, lower
@@ -130,28 +202,39 @@ def shared_power_optimum(
     functional_power: float = 2.0,
     tolerance: float = 1e-10,
 ) -> PowerSharedOptimum:
-    """Numerically optimise the shared architecture for a convex power loss."""
+    """Numerically optimize the shared architecture on t in [0,1].
+
+    ``tolerance`` is dimensionless on that normalized interval.
+    """
 
     _finite(optimum_1, "optimum_1")
     _finite(optimum_2, "optimum_2")
     _positive(weight_1, "weight_1")
     _positive(weight_2, "weight_2")
     _power(functional_power, "functional_power")
+    _positive(tolerance, "tolerance")
 
-    lower, upper = sorted((optimum_1, optimum_2))
+    log_span = _log_trait_span(optimum_1, optimum_2)
+    if log_span is None:
+        return PowerSharedOptimum(trait=float(optimum_1), loss=0.0, fitness=-0.0)
 
-    def loss(z: float) -> float:
-        return (
-            weight_1 * abs(z - optimum_1) ** functional_power
-            + weight_2 * abs(z - optimum_2) ** functional_power
+    first = _effective_coefficient(weight_1, functional_power, log_span, "weight_1")
+    second = _effective_coefficient(weight_2, functional_power, log_span, "weight_2")
+
+    def loss(t: float) -> float:
+        return _finite_sum(
+            first * t**functional_power,
+            second * (1.0 - t) ** functional_power,
+            name="shared power loss",
         )
 
-    trait, minimum_loss = _golden_minimize(
+    coordinate, minimum_loss = _golden_minimize(
         loss,
-        lower,
-        upper,
+        0.0,
+        1.0,
         tolerance=tolerance,
     )
+    trait = _trait_from_unit_interval(optimum_1, optimum_2, coordinate)
     return PowerSharedOptimum(trait=trait, loss=minimum_loss, fitness=-minimum_loss)
 
 
@@ -167,7 +250,10 @@ def differentiated_power_optimum(
     coupling_power: float | None = None,
     tolerance: float = 1e-10,
 ) -> PowerDifferentiatedOptimum:
-    """Numerically optimise a two-axis convex power-loss architecture."""
+    """Numerically optimize the differentiated architecture on [0,1]^2.
+
+    ``tolerance`` is dimensionless on the normalized trait interval.
+    """
 
     _finite(optimum_1, "optimum_1")
     _finite(optimum_2, "optimum_2")
@@ -176,45 +262,56 @@ def differentiated_power_optimum(
     _non_negative(coupling, "coupling")
     _non_negative(architecture_cost, "architecture_cost")
     _power(functional_power, "functional_power")
+    _positive(tolerance, "tolerance")
     if coupling_power is None:
         coupling_power = functional_power
     _power(coupling_power, "coupling_power")
 
-    lower, upper = sorted((optimum_1, optimum_2))
-
-    def optimise_y(x: float) -> tuple[float, float]:
-        def loss_y(y: float) -> float:
-            return (
-                weight_1 * abs(x - optimum_1) ** functional_power
-                + weight_2 * abs(y - optimum_2) ** functional_power
-                + coupling * abs(x - y) ** coupling_power
-            )
-
-        return _golden_minimize(
-            loss_y,
-            lower,
-            upper,
-            tolerance=tolerance,
+    log_span = _log_trait_span(optimum_1, optimum_2)
+    if log_span is None:
+        cost = float(architecture_cost)
+        return PowerDifferentiatedOptimum(
+            trait_1=float(optimum_1),
+            trait_2=float(optimum_2),
+            loss_before_fixed_cost=0.0,
+            architecture_cost=cost,
+            fitness=-cost,
         )
 
-    def profiled_loss(x: float) -> float:
-        _, loss = optimise_y(x)
+    first = _effective_coefficient(weight_1, functional_power, log_span, "weight_1")
+    second = _effective_coefficient(weight_2, functional_power, log_span, "weight_2")
+    cross = _effective_coefficient(coupling, coupling_power, log_span, "coupling")
+
+    def optimise_y(tx: float) -> tuple[float, float]:
+        first_loss = first * tx**functional_power
+
+        def loss_y(ty: float) -> float:
+            return _finite_sum(
+                first_loss,
+                second * (1.0 - ty) ** functional_power,
+                cross * abs(tx - ty) ** coupling_power,
+                name="differentiated power loss",
+            )
+
+        return _golden_minimize(loss_y, 0.0, 1.0, tolerance=tolerance)
+
+    def profiled_loss(tx: float) -> float:
+        _, loss = optimise_y(tx)
         return loss
 
-    trait_1, _ = _golden_minimize(
-        profiled_loss,
-        lower,
-        upper,
-        tolerance=tolerance,
-    )
-    trait_2, loss_before_cost = optimise_y(trait_1)
+    tx, _ = _golden_minimize(profiled_loss, 0.0, 1.0, tolerance=tolerance)
+    ty, loss_before_cost = optimise_y(tx)
+    trait_1 = _trait_from_unit_interval(optimum_1, optimum_2, tx)
+    trait_2 = _trait_from_unit_interval(optimum_1, optimum_2, ty)
+    cost = float(architecture_cost)
+    fitness = -_finite_sum(loss_before_cost, cost, name="differentiated total loss")
 
     return PowerDifferentiatedOptimum(
         trait_1=trait_1,
         trait_2=trait_2,
         loss_before_fixed_cost=loss_before_cost,
-        architecture_cost=architecture_cost,
-        fitness=-loss_before_cost - architecture_cost,
+        architecture_cost=cost,
+        fitness=fitness,
     )
 
 
@@ -228,12 +325,20 @@ def compare_power_architectures(
     architecture_cost: float = 0.0,
     functional_power: float = 2.0,
     coupling_power: float | None = None,
-    neutral_tolerance: float = 1e-9,
+    neutral_tolerance: float | None = None,
     optimisation_tolerance: float = 1e-10,
 ) -> PowerArchitectureComparison:
-    """Compare shared and differentiated optima under non-quadratic losses."""
+    """Compare shared and differentiated optima under non-quadratic losses.
 
-    _non_negative(neutral_tolerance, "neutral_tolerance")
+    ``optimisation_tolerance`` is dimensionless on the normalized trait
+    interval. If ``neutral_tolerance`` is supplied it remains an absolute
+    fitness-unit band; otherwise only a roundoff-relative band is used.
+    """
+
+    if neutral_tolerance is not None:
+        _non_negative(neutral_tolerance, "neutral_tolerance")
+    _positive(optimisation_tolerance, "optimisation_tolerance")
+    _non_negative(architecture_cost, "architecture_cost")
 
     shared = shared_power_optimum(
         optimum_1,
@@ -256,11 +361,24 @@ def compare_power_architectures(
     )
 
     recoverable = shared.loss - differentiated.loss_before_fixed_cost
-    gain = differentiated.fitness - shared.fitness
+    gap_band = _roundoff_band(shared.loss, differentiated.loss_before_fixed_cost)
+    if recoverable < 0.0:
+        if abs(recoverable) <= gap_band:
+            recoverable = 0.0
+        else:
+            raise RuntimeError("differentiated optimization exceeded the shared optimum loss")
 
-    if gain > neutral_tolerance:
+    cost = float(architecture_cost)
+    gain = _finite_sum(recoverable, -cost, name="architecture gain")
+    band = (
+        float(neutral_tolerance)
+        if neutral_tolerance is not None
+        else _roundoff_band(shared.loss, differentiated.loss_before_fixed_cost, recoverable, cost)
+    )
+
+    if gain > band:
         preferred = "differentiated"
-    elif gain < -neutral_tolerance:
+    elif gain < -band:
         preferred = "shared"
     else:
         preferred = "indifferent"
