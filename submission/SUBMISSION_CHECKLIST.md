@@ -31,8 +31,8 @@
 - [x] architecture-value derivation removed from Main novelty spine
 - [x] programme ownership section added
 - [x] claim ceiling updated
-- [x] cover letter rewritten to the new thesis
-- [x] new five-figure caption sequence frozen
+- [x] cover letter synchronized to the active thesis and validated package
+- [x] five-figure caption sequence frozen
 - [x] figure rebuild plan registered
 
 ## 4. Rendered Main figures — PASS
@@ -71,7 +71,8 @@ Existing code and evidence products remain retained. No scientific result was de
 - [x] narrative / formatter / identification guards rerun on the active package
 - [x] five embedded Main figures validated in DOCX
 - [x] Main PDF active-title and empirical-count guards pass
-- [x] open-research manifest/data bundled with review artifact
+- [x] Open Research statement appears on the journal-facing title page
+- [x] review artifact retains Open Research QA products without treating them as ordinary journal Supporting Information data files
 - [ ] archive accepted exact version and insert DOI at acceptance stage
 
 ## 7. Active reader-facing package — PASS
@@ -90,6 +91,7 @@ MAIN_PDF = 21 pages
 APPENDIX_PDF = 10 pages
 MAIN_FIGURES = 5 embedded
 LENGTH_STATE = WITHIN_30_PAGE_TARGET
+ECOLOGY_APR2026_TITLE_PAGE = PASS
 VISUAL_QA = PASS
 ```
 
@@ -102,17 +104,34 @@ LEGACY_ARTIFACT_ACTIVE_SUBMISSION = false
 
 Its page counts must not be substituted for the active package counts. The final active render has one centered page number per page; manuscript line numbering remains active where intended.
 
-## 8. Cover letter / portal synchronization
+## 8. Ecology April 2026 automated compliance — PASS
+
+The active builder/workflow now fails closed on the current journal-facing contract:
+
+- [x] Concepts & Synthesis Main is within the standard 30-page target: 21 pages
+- [x] title = 101 characters, within the 120-character limit
+- [x] Abstract = 282 words under the repository counting rule, within the 350-word limit
+- [x] 8 keywords, within the 6–12 range and alphabetized in journal-facing output
+- [x] title page includes journal/type, title, author/affiliation placeholder, corresponding-author placeholder, Open Research statement, and keywords
+- [x] Main format = Word DOCX
+- [x] page geometry = US Letter portrait with 1-inch margins
+- [x] font/spacing = 12-pt Times New Roman, double-spaced prose/references/captions
+- [x] continuous line numbering and centered page numbering validated
+- [x] Appendix is separately rendered and available as PDF
+- [x] active receipt records `ecology_apr2026_title_page=PASS`
+- [ ] re-check the live author instructions / upload portal immediately before actual upload
+
+## 9. Cover letter / portal synchronization
 
 - [x] target class = Ecology Concepts & Synthesis / comparable conceptual-methodological ecology
 - [x] cover letter rewritten around `trait interaction != ecological mechanism`
-- [x] old package page-count claim removed from active cover letter
+- [x] obsolete 30+38 internal package history removed from the editor-facing cover letter
+- [x] cover letter states current 21-page Main is within the standard 30-page target; no over-length justification requested
 - [x] final journal-facing Main/Appendix/figures regenerated as a coherent review package
-- [ ] confirm live portal/file-format requirements immediately before upload
 - [ ] corresponding author signs final letter
 - [ ] all authors approve exact submitted version and no-simultaneous-consideration statement
 
-## 9. Human-controlled fields — EXTERNAL BLOCKER
+## 10. Human-controlled fields — EXTERNAL BLOCKER
 
 - [ ] final author order and publication names
 - [ ] affiliations / present addresses
@@ -124,20 +143,23 @@ Its page counts must not be substituted for the active package counts. The final
 - [ ] competing-interest statement
 - [ ] repository/software/data licence statement where applicable
 - [ ] reviewer information if requested by the portal
+- [ ] final author-approved AI-use disclosure wording and placement, if required by the live ESA policy; synchronize relevant manuscript section, Acknowledgments, and submission form
 - [ ] all-author approval
 
-These are now the remaining blockers after scientific-package closure.
+These are now the remaining blockers after scientific-package and automated journal-compliance closure. They must not be guessed or auto-filled from repository context.
 
-## 10. Final upload gate
+## 11. Final upload gate
 
 Before submission:
 
 - [x] rebuild canonical Main DOCX/PDF from the refocused science source
 - [x] rebuild Appendix
-- [x] rerun CI / focused scientific and narrative guards
+- [x] rerun CI / focused scientific, narrative and Ecology-compliance guards
 - [x] visually inspect every Main and Appendix page
-- [ ] confirm journal requirements against the live author instructions
+- [x] validate April 2026 Ecology author-guideline contract in the automated review package
+- [ ] re-confirm live portal/file-format requirements at the moment of upload
 - [ ] confirm portal metadata and uploaded files match the active `PACKAGE_QA_RECEIPT.txt`
+- [ ] confirm required AI disclosure is present in all required locations or explicitly determine that no additional disclosure is required
 - [ ] obtain all-author approval of that exact version
 
 ## Current decision
@@ -150,10 +172,12 @@ ACTIVE_RECEIPT = PACKAGE_QA_RECEIPT.txt
 ACTIVE_MAIN = PASS_21_PAGES_AT_LAST_CHECK
 ACTIVE_APPENDIX = PASS_10_PAGES_AT_LAST_CHECK
 ACTIVE_FIGURES = PASS_5
+ECOLOGY_APR2026_AUTOMATED_COMPLIANCE = PASS
 LEGACY_ARTIFACT = legacy-identification-candidate-package
 VISUAL_QA = PASS
-SCIENTIFIC_PACKAGE = READY_FOR_EXTERNAL_METADATA_AND_UPLOAD
+SCIENTIFIC_PACKAGE = READY_FOR_AUTHOR_METADATA_AND_FINAL_UPLOAD_CHECK
+AI_DISCLOSURE = BLOCKED_AUTHOR_APPROVAL_IF_REQUIRED
 EXTERNAL_SUBMISSION = NOT_YET_COMPLETED
 ```
 
-The current bottleneck is no longer scientific packaging. It is the user-/author-controlled submission layer: live portal confirmation, author metadata, approvals, and upload.
+The bottleneck is no longer scientific packaging or routine journal formatting. It is the author-controlled layer: live portal confirmation, final metadata/declarations/disclosure, author approvals, and upload.
