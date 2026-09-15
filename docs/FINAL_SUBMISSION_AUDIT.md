@@ -132,7 +132,9 @@ Main figures:   5 embedded mechanism-identification figures
 Length gate:    WITHIN_30_PAGE_TARGET
 ```
 
-The workflow rebuilds source-backed evidence, Figures 1–5, Main and Appendix DOCX files, renders both PDFs, checks active-title and empirical-count guards, renders every page to PNG, and stores a QA receipt. The final visual audit confirmed the Main/Appendix render, single centered page numbering, active line numbering, and the corrected Figure 5 ownership geometry.
+The authoritative reader-facing artifact is the GitHub Actions artifact `bita-mechanism-identification-review-package`. Its `PACKAGE_QA_RECEIPT.txt` is the source of truth for the current rendered page counts, active-package role, embedded-figure count, and source commit. The separately generated `legacy-identification-candidate-package` is provenance/regression only; its page counts must never be used to describe the active submission package.
+
+The active workflow rebuilds source-backed evidence, Figures 1–5, Main and Appendix DOCX files, renders both PDFs, checks active-title and empirical-count guards, renders every page to PNG, and stores the QA receipt. The final visual audit confirmed the Main/Appendix render, single centered page numbering, active line numbering, and the corrected Figure 5 ownership geometry.
 
 Current state:
 
@@ -142,6 +144,9 @@ ACTIVE_PACKAGE_STATUS = REBUILT_AND_VALIDATED
 ACTIVE_MAIN_RENDER = PASS_21_PAGES
 ACTIVE_APPENDIX = PASS_10_PAGES
 ACTIVE_FIGURES = PASS_5
+ACTIVE_ARTIFACT = bita-mechanism-identification-review-package
+ACTIVE_RECEIPT = PACKAGE_QA_RECEIPT.txt
+LEGACY_ARTIFACT = legacy-identification-candidate-package
 VISUAL_QA = PASS
 ```
 
@@ -188,4 +193,4 @@ The scientific-packaging blockers are closed. Remaining pre-submission items are
 - obtain all-author approval of the exact submitted files and no-simultaneous-consideration statement;
 - complete final portal metadata and upload.
 
-The old 30+38-page integrated package remains preserved only as provenance. The current submission surface is the 21-page Main + 10-page Appendix mechanism-identification package.
+The old integrated package and `legacy-identification-candidate-package` remain preserved only as provenance. Current submission status must be read from `bita-mechanism-identification-review-package/PACKAGE_QA_RECEIPT.txt`.
