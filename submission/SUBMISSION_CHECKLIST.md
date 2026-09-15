@@ -67,6 +67,7 @@ Existing code and evidence products remain retained. No scientific result was de
 - [x] high-information coverage products retained
 - [x] historical architecture derivations retained as provenance
 - [x] active package workflow rebuilds source-backed evidence and candidate sources
+- [x] active reader-facing package is PR-gated by `Build BITA mechanism review package`
 - [x] narrative / formatter / identification guards rerun on the active package
 - [x] five embedded Main figures validated in DOCX
 - [x] Main PDF active-title and empirical-count guards pass
@@ -75,13 +76,14 @@ Existing code and evidence products remain retained. No scientific result was de
 
 ## 7. Active reader-facing package — PASS
 
-The old integrated package is preserved but superseded:
+The authoritative reader-facing artifact is:
 
 ```text
-OLD_30_PLUS_38_PACKAGE = STALE_NOT_SUBMISSION_CURRENT
+ACTIVE_ARTIFACT = bita-mechanism-identification-review-package
+ACTIVE_RECEIPT = PACKAGE_QA_RECEIPT.txt
 ```
 
-The current mechanism-identification review package is:
+`PACKAGE_QA_RECEIPT.txt` is the source of truth for current Main/Appendix page counts, source commit, embedded media count and active-package role. The latest independently checked render recorded:
 
 ```text
 MAIN_PDF = 21 pages
@@ -91,13 +93,20 @@ LENGTH_STATE = WITHIN_30_PAGE_TARGET
 VISUAL_QA = PASS
 ```
 
-The final render has one centered page number per page; manuscript line numbering remains active where intended. All 21 Main pages and all 10 Appendix pages were rendered for visual inspection.
+The historical/older candidate workflow is retained only for provenance and regression:
+
+```text
+LEGACY_ARTIFACT = legacy-identification-candidate-package
+LEGACY_ARTIFACT_ACTIVE_SUBMISSION = false
+```
+
+Its page counts must not be substituted for the active package counts. The final active render has one centered page number per page; manuscript line numbering remains active where intended.
 
 ## 8. Cover letter / portal synchronization
 
 - [x] target class = Ecology Concepts & Synthesis / comparable conceptual-methodological ecology
-- [x] cover letter rewritten around `trait interaction != mechanism`
-- [x] old 30-page / 38-page package claim removed from active cover letter
+- [x] cover letter rewritten around `trait interaction != ecological mechanism`
+- [x] old package page-count claim removed from active cover letter
 - [x] final journal-facing Main/Appendix/figures regenerated as a coherent review package
 - [ ] confirm live portal/file-format requirements immediately before upload
 - [ ] corresponding author signs final letter
@@ -128,7 +137,7 @@ Before submission:
 - [x] rerun CI / focused scientific and narrative guards
 - [x] visually inspect every Main and Appendix page
 - [ ] confirm journal requirements against the live author instructions
-- [ ] confirm portal metadata and uploaded files match the validated package
+- [ ] confirm portal metadata and uploaded files match the active `PACKAGE_QA_RECEIPT.txt`
 - [ ] obtain all-author approval of that exact version
 
 ## Current decision
@@ -136,10 +145,12 @@ Before submission:
 ```text
 SCIENCE_THESIS = FROZEN
 CANONICAL_MARKDOWN_MAIN = REFOCUSED
-OLD_30_PLUS_38_PACKAGE = STALE_NOT_SUBMISSION_CURRENT
-ACTIVE_MAIN = PASS_21_PAGES
-ACTIVE_APPENDIX = PASS_10_PAGES
+ACTIVE_ARTIFACT = bita-mechanism-identification-review-package
+ACTIVE_RECEIPT = PACKAGE_QA_RECEIPT.txt
+ACTIVE_MAIN = PASS_21_PAGES_AT_LAST_CHECK
+ACTIVE_APPENDIX = PASS_10_PAGES_AT_LAST_CHECK
 ACTIVE_FIGURES = PASS_5
+LEGACY_ARTIFACT = legacy-identification-candidate-package
 VISUAL_QA = PASS
 SCIENTIFIC_PACKAGE = READY_FOR_EXTERNAL_METADATA_AND_UPLOAD
 EXTERNAL_SUBMISSION = NOT_YET_COMPLETED
