@@ -26,6 +26,19 @@ TITLE_BREAK = "[[ECOLOGY_SECTION_BREAK_AFTER_TITLE]]"
 REF_BREAK = "[[ECOLOGY_SECTION_BREAK_AFTER_REFERENCES]]"
 PAGE_BREAK = "[[ECOLOGY_PAGE_BREAK]]"
 
+TITLE_CHAR_LIMIT = 120
+ABSTRACT_WORD_LIMIT = 350
+KEYWORD_MIN = 6
+KEYWORD_MAX = 12
+CORRESPONDING_AUTHOR_LINE = "**Corresponding author:** [Author-controlled]"
+OPEN_RESEARCH_STATEMENT = (
+    "**Open Research statement:** Review-stage identification code, source-adjudicated "
+    "evidence products, derived analysis receipts, and the reader-facing "
+    "mechanism-identification package are maintained in the public project repository. "
+    "The accepted exact data/code release will be archived permanently and cited in the "
+    "final article."
+)
+
 FIGURES = figure_builder.FIGURE_NAMES
 
 
@@ -44,6 +57,59 @@ def _submission_front(front: str) -> str:
     if "Canonical BITA" in front or "Target class:" in front:
         raise RuntimeError("internal manuscript metadata survived submission-front sanitization")
     return front
+
+
+def _title(text: str) -> str:
+    first = text.splitlines()[0].strip()
+    if not first.startswith("# "):
+        raise RuntimeError("canonical BITA manuscript has no H1 title")
+    title = first[2:].strip()
+    if len(title) > TITLE_CHAR_LIMIT:
+        raise RuntimeError(
+            f"Ecology title exceeds {TITLE_CHAR_LIMIT} characters: {len(title)}"
+        )
+    return title
+
+
+def _abstract_text(body: str) -> str:
+    match = re.search(r"(?ms)^## Abstract\s*\n+(.*?)(?=^##\s+1\.)", body)
+    if match is None:
+        raise RuntimeError("canonical BITA manuscript has no bounded Abstract")
+    return match.group(1).strip()
+
+
+def _word_count(text: str) -> int:
+    # A conservative plain-text count for the journal's abstract ceiling. TeX
+    # punctuation is ignored; identifiers/numbers still count as tokens.
+    cleaned = re.sub(r"\\[A-Za-z]+", " ", text)
+    cleaned = re.sub(r"[{}_^$]", " ", cleaned)
+    return len(re.findall(r"[A-Za-z0-9]+(?:[-'’][A-Za-z0-9]+)*", cleaned))
+
+
+def _extract_and_sort_keywords(body: str) -> tuple[str, str, list[str]]:
+    pattern = re.compile(r"(?m)^\*\*Keywords:\*\*\s*(.+?)\s*$")
+    matches = list(pattern.finditer(body))
+    if len(matches) != 1:
+        raise RuntimeError(
+            f"expected exactly one canonical Keywords line, found {len(matches)}"
+        )
+
+    keywords = [item.strip() for item in matches[0].group(1).split(";")]
+    if any(not item for item in keywords):
+        raise RuntimeError("canonical Keywords line contains an empty keyword")
+    if not KEYWORD_MIN <= len(keywords) <= KEYWORD_MAX:
+        raise RuntimeError(
+            f"Ecology requires {KEYWORD_MIN}-{KEYWORD_MAX} keywords; found {len(keywords)}"
+        )
+    folded = [item.casefold() for item in keywords]
+    if len(set(folded)) != len(folded):
+        raise RuntimeError("canonical Keywords line contains duplicates")
+
+    keywords = sorted(keywords, key=str.casefold)
+    keyword_line = "**Keywords:** " + "; ".join(keywords)
+    body_without = body[: matches[0].start()] + body[matches[0].end() :]
+    body_without = re.sub(r"\n{3,}", "\n\n", body_without).strip()
+    return body_without, keyword_line, keywords
 
 
 def _reference_text() -> str:
@@ -88,6 +154,7 @@ def _ensure_figures() -> None:
 def build_main_source() -> str:
     _ensure_figures()
     text = _strip_reference_placeholder(MANUSCRIPT.read_text(encoding="utf-8").strip())
+    _title(text)
     if "Trait interaction is not ecological mechanism" not in text:
         raise RuntimeError("canonical BITA title has drifted")
     forbidden = (
@@ -99,9 +166,16 @@ def build_main_source() -> str:
         if token in text:
             raise RuntimeError(f"stale architecture-paper token in active BITA Main: {token}")
 
-    front, body = text.split("## Abstract", 1)
+    front, body_tail = text.split("## Abstract", 1)
     front = _submission_front(front.rstrip())
-    body = "## Abstract" + body
+    body = "## Abstract" + body_tail
+    body, keyword_line, _ = _extract_and_sort_keywords(body)
+    abstract_words = _word_count(_abstract_text(body))
+    if abstract_words > ABSTRACT_WORD_LIMIT:
+        raise RuntimeError(
+            f"Ecology abstract exceeds {ABSTRACT_WORD_LIMIT} words: {abstract_words}"
+        )
+
     refs = _reference_text()
     captions = _figure_captions()
 
@@ -113,9 +187,21 @@ def build_main_source() -> str:
             f"![](../../../../manuscript/mechanism_identification_figures/{filename})"
         )
 
-    out = (
+    title_page = (
         front
-        + "\n\n**Journal:** Ecology\n\n**Manuscript type:** Concepts & Synthesis\n\n"
+        + "\n\n**Journal:** Ecology"
+        + "\n\n**Manuscript type:** Concepts & Synthesis"
+        + "\n\n"
+        + CORRESPONDING_AUTHOR_LINE
+        + "\n\n"
+        + OPEN_RESEARCH_STATEMENT
+        + "\n\n"
+        + keyword_line
+    )
+
+    out = (
+        title_page
+        + "\n\n"
         + TITLE_BREAK
         + "\n\n"
         + body.strip()
@@ -129,6 +215,10 @@ def build_main_source() -> str:
     )
     if "Canonical BITA full-paper science source" in out or "Target class:" in out:
         raise RuntimeError("internal repository metadata survived into generated Main")
+    if out.count("**Keywords:**") != 1:
+        raise RuntimeError("generated Main must contain exactly one Keywords line")
+    if out.count("**Open Research statement:**") != 1:
+        raise RuntimeError("generated Main must contain exactly one Open Research statement")
     return out
 
 
