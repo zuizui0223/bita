@@ -1,12 +1,16 @@
 # Ecology Concepts & Synthesis fit audit
 
-Checked against the repository's current Ecology submission contract after the SLK publication split.
+Checked against the official Ecology Author Guidelines revised **April 2026** and the current active BITA review artifact.
 
 ## Editorial fit
 
 **PASS for the active mechanism-identification paper.**
 
-The reusable inference sequence is:
+Active title:
+
+> **Trait interaction is not ecological mechanism: an identification framework for multifunctional traits**
+
+The transferable contribution is the promotion ladder from **trait interaction** to **mechanism identification**:
 
 ```text
 measure a focal trait interaction
@@ -18,35 +22,58 @@ measure a focal trait interaction
 -> independently assay any remaining joint channel
 ```
 
-The detailed floral attraction/defence case is a worked system. The transferable contribution is the promotion ladder from **trait interaction** to **mechanism identification**.
+The detailed floral attraction/defence case is a worked system rather than the definition of the paper.
+
+## April 2026 format/compliance fit
+
+The current package is within the normal Concepts & Synthesis length route and is being tested against the journal-facing constraints:
+
+```text
+standard Main limit:       <=30 pages
+current Main:               21 pages before this title-page patch
+current Appendix:           10 pages
+current Main figures:       5 embedded
+title:                      <=120 characters (current = 101)
+Abstract:                   <=350 words (current <350)
+keywords:                   6-12, alphabetical (current = 8)
+Main format:                Word DOCX
+Appendix route:             separate PDF preferred
+continuous line numbering: enabled
+page:                       Letter, 1-inch margins
+font/spacing:               12-pt Times New Roman, double spaced
+```
+
+If a future Main grows above 30 pages, the workflow currently fails closed rather than silently relying on the journal's 31–50 page exception. Deliberately using that exception would require the journal's detailed two-part length justification in the cover letter.
+
+The generated title page contains journal/manuscript type, active title, author/affiliation placeholders, corresponding-author placeholder, Open Research Statement and alphabetized keywords before the Abstract section break.
 
 ## Active scientific package
 
-The canonical science source is:
+Canonical science source:
 
 ```text
 manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md
 ```
 
-The file name is historical; the active title is **Trait interaction is not ecological mechanism: an identification framework for multifunctional traits**.
-
-The current review-package builder is:
+Active builder/workflow:
 
 ```text
 scripts/build_bita_mechanism_candidate_sources.py
-```
-
-and the current workflow is:
-
-```text
 .github/workflows/build-bita-mechanism-review-package.yml
 ```
 
-The previously validated 30-page Main / 38-page Appendix package belonged to the older integrated architecture-plus-mechanism manuscript. It is **historical and not submission-current**. Its old page counts are not evidence that the refocused mechanism paper is submission-ready; the active package must be rebuilt and visually audited after the refocus.
+Authoritative reader-facing artifact/receipt:
+
+```text
+bita-mechanism-identification-review-package
+PACKAGE_QA_RECEIPT.txt
+```
+
+#210 independently reproduced a 21-page Main + 10-page Appendix package with five embedded Main figures. The receipt, not historical hard-coded page counts, remains the source of truth after every rebuild.
 
 ## Mechanism-identification fit
 
-The canonical paper distinguishes the measurable total interaction
+The active paper distinguishes the measurable total interaction
 
 ```text
 Delta_AD W = W11 - W10 - W01 + W00
@@ -80,19 +107,15 @@ FRAGMENTED_IDENTIFICATION
 
 These counts are recurrence / identification-capacity diagnostics, not natural-prevalence estimates.
 
-Compatible route-level meta-analysis is retained only where effect metrics are commensurate. The floral-larceny readout provides quantitative sub-lanes for female reproductive success, visitation, nectar standing crop, and male reproductive success. Those marginal route effects do not identify the full `A x D` mechanism allocation.
-
-## Boundary with SLK
-
-The architecture-value transport
+## Boundary with SCH and SLK
 
 ```text
-L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy
+SCH: identify whether multifunctionality has been promoted to functional conflict / L
+SLK: transport identified conflict through value -> accessibility -> invasion -> fixation -> occupancy
+BITA: once traits interact on fitness, identify the ecological mechanism allocation
 ```
 
-belongs to SLK. Historical BITA architecture derivations remain technical provenance, not active Main-text novelty.
-
-The active BITA paper must therefore not be evaluated by whether it reproduces the old trade-off/differentiation architecture manuscript, its 300-condition robustness grid, cichlid/Dalechampia architecture examples, or its old package title.
+Historical BITA architecture derivations remain provenance, not active Main-text novelty.
 
 ## Identification invariants preserved
 
@@ -106,20 +129,29 @@ The active BITA paper must therefore not be evaluated by whether it reproduces t
 - marginal route recurrence is not channel identification or prevalence;
 - positive `A x D` interaction is not evidence of historical trait splitting.
 
-## Open Research boundary
+## Open Research fit
 
-The active builder exports source-backed identification products, including the 17-system high-information frontier, the public-data identification retrofit, and the 56-route / 25-cluster pattern readout. A permanent archival DOI remains an acceptance-stage requirement.
+The generated title page carries the review-stage Open Research Statement, which is also copied to the portal metadata template. The internal review artifact may bundle selected derived files for reproducibility and QA, but journal-facing data/code follow the ESA Open Research repository/archive route rather than being uploaded as ordinary Supporting Information data files.
+
+A permanent DOI for the exact accepted data/code release remains an acceptance-stage task.
+
+## AI disclosure boundary
+
+Repository provenance documents AI-assisted coding, literature triage, reproducibility checking and drafting/editing, but that provenance is not the final journal disclosure. Under the April 2026 ESA guidance, if the final use is beyond routine spelling/grammar/general editing, author-approved disclosure must be synchronized across the relevant manuscript section, **Acknowledgments**, and the **submission form**. This remains an author-controlled pre-upload blocker.
 
 ## Remaining submission blockers
 
-1. rebuild the active mechanism-identification DOCX/PDF through the dedicated workflow;
-2. verify current page count and all five embedded Main figures;
-3. repeat page-by-page visual QA on the refocused package;
-4. complete author-controlled metadata, funding, CRediT, competing interests, reviewer fields if requested, and all-author approval;
-5. perform one final exact rebuild after metadata insertion.
+Scientific package rebuild, page counting and review-package visual artifacts are no longer blockers. Remaining work is:
+
+1. confirm final author list/order, affiliations, corresponding author and ORCIDs;
+2. approve CRediT, funding, Acknowledgments, competing interests and licence wording;
+3. approve and place the final AI disclosure if required;
+4. confirm any live-portal fields not represented in the manuscript;
+5. perform one final exact rebuild and page-by-page QA after metadata insertion;
+6. obtain all-author approval and perform authenticated portal upload.
 
 ## Fallbacks
 
-1. The American Naturalist — strongest alternative for a more theory/inference presentation.
+1. The American Naturalist — strongest alternative for a more formal conceptual/inference presentation.
 2. Methods in Ecology and Evolution — possible if the identification/design contribution is emphasized methodologically.
-3. Theoretical Ecology — fallback for a narrower theory/identification framing.
+3. Another conceptual/methodological ecology venue if editorial scope feedback requires it.

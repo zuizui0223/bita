@@ -22,16 +22,16 @@ Ecologists frequently infer mechanism from statistical interaction. Yet when two
 
 ### Keywords
 
-Use the exact canonical manuscript keywords:
+Use the exact eight journal-facing keywords, alphabetically:
 
+- antagonism
 - causal identification
 - ecological mechanism
 - factorial experiment
-- partial identification
-- trait interaction
-- pollination
-- antagonism
 - floral defence
+- partial identification
+- pollination
+- trait interaction
 
 ## Authors
 
@@ -65,7 +65,7 @@ Assign only roles actually performed:
 - Project administration:
 - Funding acquisition:
 
-## Funding and acknowledgments
+## Funding and Acknowledgments
 
 - Funding body or confirmed no-funding statement:
 - Grant name and number:
@@ -101,13 +101,23 @@ Final statement must also confirm:
 
 ### Open Research statement
 
-Current review-stage title-page statement:
+This review-stage statement is injected onto the generated Ecology title page and must also be copied to the submission form:
 
 > Review-stage identification code, source-adjudicated evidence products, derived analysis receipts, and the reader-facing mechanism-identification package are maintained in the public project repository. The accepted exact data/code release will be archived permanently and cited in the final article.
 
-### Use of generative AI or language tools
+The internal review artifact may bundle derived files for reproducibility/QA, but the journal-facing data/code route follows ESA Open Research policy and should not be treated as ordinary Supporting Information data files.
 
-Retain the exact journal-compliant disclosure approved by the authors. Existing repository provenance records AI-assisted coding, structured literature triage, reproducibility checking and drafting/editing, with source claims, numerical results, code and citations checked against underlying analyses and sources. AI output is not empirical evidence and does not determine study inclusion or statistical conclusions.
+### Use of generative AI or language tools — AUTHOR-CONTROLLED UPLOAD GATE
+
+The final disclosure wording and placement must be approved by the authors immediately before submission. Repository provenance records AI-assisted coding, structured literature triage, reproducibility checking and drafting/editing; source claims, numerical results, code and citations remain checked against underlying analyses and sources.
+
+Under the April 2026 ESA guidance, if the final use falls beyond routine spelling/grammar/general editing, confirm all three disclosure surfaces before upload:
+
+- [ ] transparent description in the relevant manuscript section of how AI was used and which tool was used;
+- [ ] additional AI-use disclosure in **Acknowledgments**;
+- [ ] matching disclosure in the **submission form**.
+
+Do not mark this gate complete until the exact final wording is author-approved.
 
 ## Reviewer suggestions
 
@@ -125,10 +135,12 @@ List only when there is a specific defensible conflict.
 |---|---|
 |  |  |
 
-## Portal checks
+## Portal checks — Ecology April 2026
 
-- [x] final title matches `manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md`;
-- [x] abstract matches the active canonical Main;
+- [x] active title matches the canonical Main and is <=120 characters;
+- [x] abstract matches the active canonical Main and is <=350 words;
+- [x] eight keywords are within the 6–12 limit and alphabetized;
+- [x] Open Research statement and keywords are routed to the generated title page;
 - [x] article framing is `trait interaction != ecological mechanism`;
 - [x] outcome hierarchy separates interaction relief, constraint release and strict reversal;
 - [x] identified-set and partial-identification logic is explicit;
@@ -137,11 +149,12 @@ List only when there is a specific defensible conflict.
 - [x] empirical headline is 56 routes / 25 clusters / 17 high-information systems with fragmented identification;
 - [x] five active mechanism-identification Main figures are embedded in the reader-facing package;
 - [x] current render status is read from `bita-mechanism-identification-review-package/PACKAGE_QA_RECEIPT.txt`;
-- [ ] author list matches title page and portal;
+- [ ] author list/affiliations/corresponding-author fields match title page and portal;
 - [ ] funding statement matches portal fields;
 - [ ] competing-interest statement matches portal fields;
 - [ ] final repository/software/data licence statement is approved;
-- [ ] final Supporting Information files are cited/numbered consistently;
+- [ ] final AI disclosure wording/placement is approved and synchronized across manuscript, Acknowledgments and submission form when required;
+- [ ] final Appendix PDF and any other permitted Supporting Information are cited/numbered consistently;
 - [ ] all authors confirm the exact submitted version is not under consideration elsewhere.
 
 ## Historical provenance — not portal metadata
