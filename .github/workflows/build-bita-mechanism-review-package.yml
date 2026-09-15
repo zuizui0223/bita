@@ -18,6 +18,7 @@ on:
       - 'tests/test_mechanism_identification_figures.py'
       - 'tests/test_bita_mechanism_candidate_sources.py'
       - 'tests/test_ecology_formatter_math.py'
+      - 'tests/test_ecology_apr2026_compliance.py'
       - 'tests/test_submission_package_routing.py'
       - '.github/workflows/build-bita-mechanism-review-package.yml'
   pull_request:
@@ -34,6 +35,7 @@ on:
       - 'tests/test_mechanism_identification_figures.py'
       - 'tests/test_bita_mechanism_candidate_sources.py'
       - 'tests/test_ecology_formatter_math.py'
+      - 'tests/test_ecology_apr2026_compliance.py'
       - 'tests/test_submission_package_routing.py'
       - '.github/workflows/build-bita-mechanism-review-package.yml'
       - '.github/workflows/build-identification-candidate-package.yml'
@@ -63,6 +65,7 @@ jobs:
             tests/test_identification.py \
             tests/test_partial_identification.py \
             tests/test_ecology_formatter_math.py \
+            tests/test_ecology_apr2026_compliance.py \
             tests/test_submission_package_routing.py
 
       - name: Rebuild source-backed evidence receipt and candidate sources
@@ -147,6 +150,8 @@ jobs:
           }
 
           require_text "active title" 'Trait interaction is not ecological mechanism' "$MAIN_TXT"
+          require_text "Ecology Open Research statement" 'Open Research statement' "$MAIN_TXT"
+          require_text "alphabetized Ecology keywords" 'Keywords: antagonism; causal identification; ecological mechanism; factorial experiment; floral defence; partial identification; pollination; trait interaction' "$MAIN_TXT"
           require_text "route count" '56 directional route records' "$MAIN_TXT"
           require_text "cluster count" '25 independent biological clusters' "$MAIN_TXT"
           require_text "frontier count" '17 high-information' "$MAIN_TXT"
@@ -174,6 +179,7 @@ jobs:
             echo "package_role=active_reader_facing"
             echo "active_submission=true"
             echo "legacy_candidate=false"
+            echo "ecology_apr2026_title_page=PASS"
             echo "source_commit=$GITHUB_SHA"
             echo "canonical_manuscript=manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md"
             echo "main_headline=trait_interaction_not_ecological_mechanism"
