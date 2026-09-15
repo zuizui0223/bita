@@ -21,7 +21,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import math
+from sys import float_info
 from typing import Mapping, Sequence
+
+
+_ROUNDOFF_REL_TOL = 64.0 * float_info.epsilon
 
 
 def _finite(value: float, name: str) -> float:
@@ -29,6 +33,12 @@ def _finite(value: float, name: str) -> float:
     if not math.isfinite(value):
         raise ValueError(f"{name} must be finite")
     return value
+
+
+def _default_margin_band(values: Sequence[float]) -> float:
+    """Return a roundoff-only band in the units of one definition's margins."""
+
+    return _ROUNDOFF_REL_TOL * max((abs(value) for value in values), default=0.0)
 
 
 @dataclass(frozen=True)
@@ -58,10 +68,10 @@ class DefinitionConcordance:
     max_pairwise_numeric_gap: float | None
 
 
-def _sign(value: float, tolerance: float) -> int:
-    if value > tolerance:
+def _sign(value: float, band: float) -> int:
+    if value > band:
         return 1
-    if value < -tolerance:
+    if value < -band:
         return -1
     return 0
 
@@ -72,21 +82,21 @@ def crossing_bracket(
     margins: Mapping[str, float],
     *,
     context_values: Mapping[str, float] | None = None,
-    tolerance: float = 1e-12,
+    tolerance: float | None = None,
 ) -> CrossingBracket:
     """Recover one unique zero crossing for a signed-margin definition.
 
-    Multiple exact zeros or multiple sign changes fail closed because they do not
-    identify a unique critical region under the declared ordering.
+    With the default ``tolerance=None``, zero detection uses only a
+    machine-roundoff band relative to this definition's supplied margin scale.
+    A supplied numeric ``tolerance`` retains the historical meaning of an
+    absolute margin-unit band. Multiple exact zeros or multiple sign changes
+    fail closed because they do not identify one unique critical region.
     """
 
     if len(contexts) < 2:
         raise ValueError("at least two ordered contexts are required")
     if len(set(contexts)) != len(contexts):
         raise ValueError("context labels must be unique")
-    tol = _finite(tolerance, "tolerance")
-    if tol < 0:
-        raise ValueError("tolerance must be >= 0")
 
     values = []
     for context in contexts:
@@ -94,11 +104,19 @@ def crossing_bracket(
             raise ValueError(f"definition {definition!r} lacks context {context!r}")
         values.append(_finite(margins[context], f"margin[{context}]"))
 
-    exact = [i for i, value in enumerate(values) if _sign(value, tol) == 0]
+    if tolerance is None:
+        band = _default_margin_band(values)
+    else:
+        band = _finite(tolerance, "tolerance")
+        if band < 0:
+            raise ValueError("tolerance must be >= 0")
+
+    signs = tuple(_sign(value, band) for value in values)
+    exact = [i for i, sign in enumerate(signs) if sign == 0]
     changes: list[tuple[int, int]] = []
     for i in range(len(values) - 1):
-        s0 = _sign(values[i], tol)
-        s1 = _sign(values[i + 1], tol)
+        s0 = signs[i]
+        s1 = signs[i + 1]
         if s0 != 0 and s1 != 0 and s0 != s1:
             changes.append((i, i + 1))
 
@@ -142,7 +160,17 @@ def crossing_bracket(
         if e1 == e0:
             raise ValueError("crossing endpoints must have distinct numeric context values")
         m0, m1 = values[i], values[j]
-        numeric = e0 + (0.0 - m0) * (e1 - e0) / (m1 - m0)
+        margin_scale = max(abs(m0), abs(m1))
+        if margin_scale == 0.0:
+            raise RuntimeError("strict crossing unexpectedly has zero endpoint margin scale")
+        u0 = m0 / margin_scale
+        u1 = m1 / margin_scale
+        fraction = -u0 / (u1 - u0)
+        if not 0.0 < fraction < 1.0 or not math.isfinite(fraction):
+            raise RuntimeError("crossing fraction left the strict endpoint bracket")
+        numeric = (1.0 - fraction) * e0 + fraction * e1
+        if not math.isfinite(numeric):
+            raise ValueError("numeric critical context is not representable as a finite float")
 
     return CrossingBracket(
         definition=definition,
@@ -185,6 +213,8 @@ def compare_definition_brackets(
     numeric_agreement = None
     if len(numeric) == len(brackets):
         max_gap = max(numeric) - min(numeric)
+        if not math.isfinite(max_gap):
+            raise ValueError("numeric critical-context gap is not representable as a finite float")
         if numeric_tolerance is not None:
             tol = _finite(numeric_tolerance, "numeric_tolerance")
             if tol < 0:
@@ -224,7 +254,7 @@ def analyze_definitions(
     definitions: Mapping[str, Mapping[str, float]],
     *,
     context_values: Mapping[str, float] | None = None,
-    tolerance: float = 1e-12,
+    tolerance: float | None = None,
     numeric_tolerance: float | None = None,
 ) -> DefinitionConcordance:
     brackets = [
