@@ -8,7 +8,7 @@ Canonical active paper:
 
 ## 1. Scientific spine
 
-The active paper now has one inference sequence:
+The active paper has one inference sequence:
 
 ```text
 measured trait interaction
@@ -58,9 +58,7 @@ A measured total `delta` identifies
 I(delta) = {(rho,iota,kappa): rho-iota-kappa=delta}
 ```
 
-rather than a unique allocation.
-
-The remaining channel must not be named as biological cost by subtraction alone.
+rather than a unique allocation. The remaining channel must not be named as biological cost by subtraction alone.
 
 ## 4. Empirical ceiling
 
@@ -111,19 +109,11 @@ submission/SUBMISSION_CHECKLIST.md
 manuscript/FIGURE_REBUILD_PLAN_MECHANISM_IDENTIFICATION_V1.md
 ```
 
-## 6. Reader-facing package status
+## 6. Reader-facing package and Ecology compliance
 
-The historical integrated architecture-plus-mechanism package was validated as:
+The historical integrated architecture-plus-mechanism package remains superseded and must not be submitted.
 
-```text
-Main Document: 30 pages
-Appendix S1:   38 pages
-Main figures:   5
-```
-
-It remains superseded and must not be submitted.
-
-The active mechanism-identification package has now been rebuilt from the canonical source and independently revalidated end to end:
+The active mechanism-identification package has been rebuilt from the canonical source and independently revalidated end to end:
 
 ```text
 Main Document: 21 pages
@@ -132,9 +122,28 @@ Main figures:   5 embedded mechanism-identification figures
 Length gate:    WITHIN_30_PAGE_TARGET
 ```
 
-The authoritative reader-facing artifact is the GitHub Actions artifact `bita-mechanism-identification-review-package`. Its `PACKAGE_QA_RECEIPT.txt` is the source of truth for the current rendered page counts, active-package role, embedded-figure count, and source commit. The separately generated `legacy-identification-candidate-package` is provenance/regression only; its page counts must never be used to describe the active submission package.
+The authoritative reader-facing artifact is `bita-mechanism-identification-review-package`. Its `PACKAGE_QA_RECEIPT.txt` is the source of truth for current page counts, active-package role, embedded-figure count and source commit. The current receipt additionally records:
 
-The active workflow rebuilds source-backed evidence, Figures 1–5, Main and Appendix DOCX files, renders both PDFs, checks active-title and empirical-count guards, renders every page to PNG, and stores the QA receipt. The final visual audit confirmed the Main/Appendix render, single centered page numbering, active line numbering, and the corrected Figure 5 ownership geometry.
+```text
+ecology_apr2026_title_page=PASS
+```
+
+The active package is automatically checked against the April 2026 Ecology review contract used by this repository:
+
+```text
+Title <= 120 characters:                 PASS (101)
+Abstract <= 350 words:                   PASS (282 by repository counter)
+Keywords = 6–12 and alphabetized:        PASS (8)
+Title-page Open Research + keywords:     PASS
+US Letter / 1-inch margins:              PASS
+12-pt Times New Roman / double spacing:  PASS
+Continuous line numbering:               PASS
+Main Word DOCX:                          PASS
+Separate Appendix PDF:                   PASS
+Main <= 30 pages:                        PASS (21)
+```
+
+The active workflow rebuilds source-backed evidence, Figures 1–5, Main and Appendix DOCX files, renders PDFs, runs scientific/narrative/Ecology-compliance guards, renders pages to PNG, and stores the QA receipt. The final visual audit confirmed the Main/Appendix render, centered page numbering, active line numbering, and Figure 5 ownership geometry.
 
 Current state:
 
@@ -144,6 +153,7 @@ ACTIVE_PACKAGE_STATUS = REBUILT_AND_VALIDATED
 ACTIVE_MAIN_RENDER = PASS_21_PAGES
 ACTIVE_APPENDIX = PASS_10_PAGES
 ACTIVE_FIGURES = PASS_5
+ECOLOGY_APR2026_AUTOMATED_COMPLIANCE = PASS
 ACTIVE_ARTIFACT = bita-mechanism-identification-review-package
 ACTIVE_RECEIPT = PACKAGE_QA_RECEIPT.txt
 LEGACY_ARTIFACT = legacy-identification-candidate-package
@@ -184,13 +194,17 @@ residual by subtraction
 
 ## 9. Submission decision
 
-**Science thesis: FROZEN. Canonical Markdown Main: REFOCUSED. Reader-facing submission package: REBUILT AND VALIDATED.**
+**Science thesis: FROZEN. Canonical Markdown Main: REFOCUSED. Reader-facing package: REBUILT, VALIDATED, AND APRIL-2026-COMPLIANCE-GATED.**
 
-The scientific-packaging blockers are closed. Remaining pre-submission items are external or author-controlled:
+Scientific-packaging and routine journal-formatting blockers are closed. Remaining pre-submission items are external or author-controlled:
 
-- confirm current portal/file-format requirements immediately before upload;
+- re-confirm the live author instructions / portal requirements immediately before upload;
 - insert final author order, affiliations, corresponding-author details, ORCIDs, CRediT, funding, acknowledgments and competing-interest information;
+- approve the final repository/software/data licence statement;
+- determine and approve the exact AI-use disclosure required for this manuscript and synchronize it across any required manuscript section, Acknowledgments, and submission form;
 - obtain all-author approval of the exact submitted files and no-simultaneous-consideration statement;
-- complete final portal metadata and upload.
+- rebuild once after final metadata insertion, verify the new `PACKAGE_QA_RECEIPT.txt`, and upload the approved exact files.
+
+These fields must not be inferred or auto-filled from repository context. `READY_FOR_AUTHOR_METADATA` is not the same state as `SUBMITTED`.
 
 The old integrated package and `legacy-identification-candidate-package` remain preserved only as provenance. Current submission status must be read from `bita-mechanism-identification-review-package/PACKAGE_QA_RECEIPT.txt`.
