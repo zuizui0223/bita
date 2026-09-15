@@ -21,3 +21,5 @@ The source-adjudicated synthesis contains 56 directional route records from 25 i
 ## Figure 5. The BITA promotion ladder and its boundary with SCH and SLK.
 
 The active BITA inference sequence is `interaction detection -> identified set -> partial identification -> selective crossed intervention -> separability diagnostic -> independent remaining-channel assay -> mechanism-resolved interpretation`. SCH addresses the upstream promotion `multifunctionality != identified functional conflict`; SLK transports an identified conflict budget through `L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy`; BITA begins once multiple trait axes are observed and asks `trait interaction != mechanism`. Architecture-value derivations are shown only as programme context and are not active BITA novelty claims.
+
+<!-- submission-package revalidation trigger: no scientific or caption-content change -->
