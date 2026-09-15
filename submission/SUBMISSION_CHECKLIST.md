@@ -25,7 +25,7 @@
 - [x] no screened system is claimed to close full mechanism allocation
 - [x] empirical conclusion = recurrent constituent biology + fragmented identification
 
-## 3. Main manuscript — SCIENCE SOURCE REFOCUSED
+## 3. Main manuscript — PASS
 
 - [x] canonical Markdown Main rewritten around the mechanism-identification thesis
 - [x] architecture-value derivation removed from Main novelty spine
@@ -35,30 +35,29 @@
 - [x] new five-figure caption sequence frozen
 - [x] figure rebuild plan registered
 
-## 4. Rendered Main figures — REBUILD REQUIRED
+## 4. Rendered Main figures — PASS
 
-The existing rendered five-figure set belongs to the older integrated architecture-plus-mechanism paper.
+- [x] Figure 1 = outcome hierarchy
+- [x] Figure 2 = identified-set geometry
+- [x] Figure 3 = crossed intervention + separability
+- [x] Figure 4 = fragmented empirical frontier
+- [x] Figure 5 = SCH -> SLK transport plus orthogonal BITA mechanism-identification track and BITA promotion ladder
+- [x] manuscript callouts synchronized with rebuilt files
+- [x] visual QA completed for all rendered Main pages
+- [x] Figure 5 no longer implies `SLK -> BITA`
+- [x] final BITA mechanism ladder fits within the SVG/PDF canvas
 
-- [ ] rebuild Figure 1 = outcome hierarchy
-- [ ] rebuild Figure 2 = identified-set geometry
-- [ ] rebuild Figure 3 = crossed intervention + separability
-- [ ] rebuild Figure 4 = fragmented empirical frontier
-- [ ] rebuild Figure 5 = SCH / SLK / BITA ownership and BITA promotion ladder
-- [ ] synchronize manuscript callouts with rebuilt files
-- [ ] visual QA all rendered figures
+## 5. Supporting Information — PASS
 
-See `manuscript/FIGURE_REBUILD_PLAN_MECHANISM_IDENTIFICATION_V1.md`.
+- [x] old architecture derivation retained as provenance/background rather than active Main support
+- [x] detailed identification supplement retained
+- [x] Kessler reconstruction and public-data retrofit retained
+- [x] 56/25 recurrence provenance retained
+- [x] 17-system coverage matrix retained
+- [x] Appendix regenerated around the refocused Main
+- [x] Appendix visual QA completed
 
-## 5. Supporting Information — REBUILD REQUIRED
-
-- [ ] reroute old architecture derivation to provenance/background rather than active Main support
-- [ ] retain detailed identification supplement
-- [ ] retain Kessler reconstruction and public-data retrofit
-- [ ] retain 56/25 recurrence provenance
-- [ ] retain 17-system coverage matrix
-- [ ] regenerate Appendix around the refocused Main
-
-## 6. Reproducibility / Open Research
+## 6. Reproducibility / Open Research — PASS FOR REVIEW PACKAGE
 
 Existing code and evidence products remain retained. No scientific result was deleted by the publication split.
 
@@ -67,20 +66,44 @@ Existing code and evidence products remain retained. No scientific result was de
 - [x] source-adjudicated route ledger retained
 - [x] high-information coverage products retained
 - [x] historical architecture derivations retained as provenance
-- [ ] update narrative regression tests for the new active submission surface
-- [ ] rerun full CI after narrative/test synchronization
+- [x] active package workflow rebuilds source-backed evidence and candidate sources
+- [x] narrative / formatter / identification guards rerun on the active package
+- [x] five embedded Main figures validated in DOCX
+- [x] Main PDF active-title and empirical-count guards pass
+- [x] open-research manifest/data bundled with review artifact
 - [ ] archive accepted exact version and insert DOI at acceptance stage
 
-## 7. Cover letter / portal synchronization
+## 7. Active reader-facing package — PASS
+
+The old integrated package is preserved but superseded:
+
+```text
+OLD_30_PLUS_38_PACKAGE = STALE_NOT_SUBMISSION_CURRENT
+```
+
+The current mechanism-identification review package is:
+
+```text
+MAIN_PDF = 21 pages
+APPENDIX_PDF = 10 pages
+MAIN_FIGURES = 5 embedded
+LENGTH_STATE = WITHIN_30_PAGE_TARGET
+VISUAL_QA = PASS
+```
+
+The final render has one centered page number per page; manuscript line numbering remains active where intended. All 21 Main pages and all 10 Appendix pages were rendered for visual inspection.
+
+## 8. Cover letter / portal synchronization
 
 - [x] target class = Ecology Concepts & Synthesis / comparable conceptual-methodological ecology
 - [x] cover letter rewritten around `trait interaction != mechanism`
 - [x] old 30-page / 38-page package claim removed from active cover letter
-- [ ] regenerate final journal-formatted title/abstract/figures/files
+- [x] final journal-facing Main/Appendix/figures regenerated as a coherent review package
+- [ ] confirm live portal/file-format requirements immediately before upload
 - [ ] corresponding author signs final letter
 - [ ] all authors approve exact submitted version and no-simultaneous-consideration statement
 
-## 8. Human-controlled fields — LATER EXTERNAL BLOCKER
+## 9. Human-controlled fields — EXTERNAL BLOCKER
 
 - [ ] final author order and publication names
 - [ ] affiliations / present addresses
@@ -94,18 +117,18 @@ Existing code and evidence products remain retained. No scientific result was de
 - [ ] reviewer information if requested by the portal
 - [ ] all-author approval
 
-These are not the current bottleneck. Scientific package regeneration comes first.
+These are now the remaining blockers after scientific-package closure.
 
-## 9. Final review-file gate
+## 10. Final upload gate
 
 Before submission:
 
-- [ ] rebuild canonical Main DOCX/PDF from the refocused science source
-- [ ] rebuild Appendix
-- [ ] confirm journal page/format requirements against the live author instructions
-- [ ] rerun CI and narrative guards
-- [ ] visually inspect every Main and Appendix page
-- [ ] confirm portal metadata and uploaded files match the rebuilt package
+- [x] rebuild canonical Main DOCX/PDF from the refocused science source
+- [x] rebuild Appendix
+- [x] rerun CI / focused scientific and narrative guards
+- [x] visually inspect every Main and Appendix page
+- [ ] confirm journal requirements against the live author instructions
+- [ ] confirm portal metadata and uploaded files match the validated package
 - [ ] obtain all-author approval of that exact version
 
 ## Current decision
@@ -113,10 +136,13 @@ Before submission:
 ```text
 SCIENCE_THESIS = FROZEN
 CANONICAL_MARKDOWN_MAIN = REFOCUSED
-OLD_30_PLUS_38_PACKAGE = STALE
-FIGURES = REBUILD_REQUIRED
-APPENDIX = REBUILD_REQUIRED
-EXTERNAL_SUBMISSION = NOT_YET_READY
+OLD_30_PLUS_38_PACKAGE = STALE_NOT_SUBMISSION_CURRENT
+ACTIVE_MAIN = PASS_21_PAGES
+ACTIVE_APPENDIX = PASS_10_PAGES
+ACTIVE_FIGURES = PASS_5
+VISUAL_QA = PASS
+SCIENTIFIC_PACKAGE = READY_FOR_EXTERNAL_METADATA_AND_UPLOAD
+EXTERNAL_SUBMISSION = NOT_YET_COMPLETED
 ```
 
-The current blocker is no longer author metadata alone. The active mechanism-identification paper must first receive a fresh figure set and regenerated reader-facing package.
+The current bottleneck is no longer scientific packaging. It is the user-/author-controlled submission layer: live portal confirmation, author metadata, approvals, and upload.
