@@ -67,6 +67,14 @@ def _distance_scaled_payoff(a: float, d: float, factor: float) -> float:
     return _finite_result((a * d) * (factor * d), "recoverable loss")
 
 
+def _weight_ratios(b: float, a: float, lam: float) -> tuple[float, float]:
+    x = b / a
+    ell = lam / a
+    if not math.isfinite(x) or not math.isfinite(ell) or (b > 0.0 and x == 0.0):
+        raise ValueError("functional-weight ratios are not representable; rescale weight units")
+    return x, ell
+
+
 @dataclass(frozen=True)
 class FunctionalWeightCriticality:
     fixed_function1_weight: float
@@ -86,9 +94,10 @@ def recoverable_loss_at_function2_weight(
 ) -> float:
     """Return R(b), the pre-cost conflict loss recoverable by differentiation.
 
-    The calculation is performed through the dimensionless ratios ``x=b/a``
-    and ``ell=lambda/a`` so common weight rescaling cannot change the numerical
-    problem.  Multiplication order avoids an explicit dimensional ``d**2``.
+    The calculation uses ``x=b/a`` and ``ell=lambda/a`` and factors R into the
+    shared conflict fraction and the separation fraction.  Large ``x`` is
+    evaluated through ``1/x`` so the asymptotic regime never materializes
+    ``x**2``.
     """
 
     b = _nonnegative(function2_weight, "function2_weight")
@@ -98,13 +107,19 @@ def recoverable_loss_at_function2_weight(
     if b == 0 or d == 0:
         return 0.0
 
-    x = b / a
-    ell = lam / a
-    denominator = (1.0 + x) * (x + ell * (1.0 + x))
-    if not math.isfinite(x) or not math.isfinite(ell) or not math.isfinite(denominator):
-        raise ValueError("functional-weight ratios are not representable; rescale weight units")
-    factor = x * x / denominator
-    return _distance_scaled_payoff(a, d, factor)
+    x, ell = _weight_ratios(b, a, lam)
+    if x >= 1.0:
+        inv = 1.0 / x
+        conflict_fraction = 1.0 / (1.0 + inv)
+        separation_fraction = 1.0 / (1.0 + ell * (1.0 + inv))
+    else:
+        conflict_fraction = x / (1.0 + x)
+        separation_denominator = x + ell * (1.0 + x)
+        separation_fraction = x / separation_denominator
+
+    left = _finite_result((a * d) * conflict_fraction, "shared conflict scale")
+    right = _finite_result(separation_fraction * d, "separation-scaled distance")
+    return _finite_result(left * right, "recoverable loss")
 
 
 def asymptotic_recoverable_loss(
@@ -139,7 +154,7 @@ def critical_function2_weight(
     can make differentiation pay under the declared parameters.
 
     ``tolerance`` is dimensionless and is used only as a roundoff band for the
-    finite cost-versus-ceiling comparison.  Structural zero cost is exact.
+    finite cost-versus-ceiling comparison. Structural zero cost is exact.
     """
 
     a = _positive(function1_weight, "function1_weight")
@@ -178,10 +193,8 @@ def critical_function2_weight(
             "COST_EXCEEDS_MAX_RECOVERABLE_LOSS_SHARED_ALWAYS_FAVOURED",
         )
 
-    # Use x=b/a, ell=lambda/a, D=a*d^2 and k=K/D.  Then the finite root solves
+    # Use x=b/a, ell=lambda/a, D=a*d^2 and k=K/D. Then the finite root solves
     #   [1-k(1+ell)] x^2 - k(1+2ell)x - k*ell = 0.
-    # In the finite-crossing regime k(1+ell)<1, so the dimensionless
-    # discriminant remains well scaled even when ell itself is large.
     D = _distance_scaled_payoff(a, d, 1.0)
     k_ratio = K / D
     ell = lam / a
@@ -190,8 +203,6 @@ def critical_function2_weight(
 
     A = 1.0 - k_ratio * (1.0 + ell)
     if A <= 0.0:
-        # The status logic above has already separated the exact/asymptotic and
-        # above-ceiling cases; reaching this branch indicates lost precision.
         raise ValueError("finite critical-weight denominator collapsed numerically; rescale units")
     linear = k_ratio * (1.0 + 2.0 * ell)
     discriminant = linear * linear + 4.0 * (k_ratio * ell) * A
@@ -213,17 +224,25 @@ def monotonicity_log_derivative(
 ) -> float:
     """Return d log R / db for b>0 and d>0; it is strictly positive.
 
-    The expression is evaluated in the dimensionless ratios ``x=b/a`` and
-    ``ell=lambda/a`` and then converted back to inverse-weight units.
+    Small ``x=b/a`` uses a reciprocal-free log-derivative identity; large x
+    uses ``u=1/x`` so cancellation among three O(1/x) terms is avoided.
     """
 
     b = _positive(function2_weight, "function2_weight")
     a = _positive(function1_weight, "function1_weight")
     lam = _nonnegative(coupling, "coupling")
-    x = b / a
-    ell = lam / a
-    if not math.isfinite(x) or not math.isfinite(ell):
-        raise ValueError("functional-weight ratios are not representable; rescale weight units")
-    numerator = x + 2.0 * ell * (1.0 + x)
-    denominator = x * (1.0 + x) * (x + ell * (1.0 + x))
-    return _finite_result((numerator / denominator) / a, "monotonicity log derivative")
+    x, ell = _weight_ratios(b, a, lam)
+
+    if x >= 1.0:
+        u = 1.0 / x
+        dimensionless = (
+            u * u * (1.0 + 2.0 * ell * (1.0 + u))
+            / ((1.0 + u) * (1.0 + ell * (1.0 + u)))
+        )
+    else:
+        dimensionless = (
+            2.0 / x
+            - 1.0 / (1.0 + x)
+            - (1.0 + ell) / (x + ell * (1.0 + x))
+        )
+    return _finite_result(dimensionless / a, "monotonicity log derivative")
