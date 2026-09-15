@@ -19,6 +19,8 @@ except ImportError:  # pragma: no cover - direct script execution path
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "manuscript" / "mechanism_identification_figures"
 
+# Preserve the public compatibility surface used by the source-authority tests.
+legacy = base.legacy
 _svg = base._svg
 _box = base._box
 _arrow = base._arrow
