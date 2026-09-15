@@ -4,31 +4,34 @@ Complete the author-controlled fields before upload. Do not infer or auto-fill m
 
 ## Manuscript
 
-- Final title: **When does a trait trade-off resolve by differentiation rather than compromise? Linking trait architecture to mechanism identification**
+- Final title: **Trait interaction is not ecological mechanism: an identification framework for multifunctional traits**
 - Article type: **Concepts & Synthesis**
 - Target journal: **Ecology**
-- Running title: **From trait compromise to differentiation**
+- Running title: **Trait interaction is not mechanism**
 - Corresponding author:
 - Corresponding-author email:
 - Repository URL: `https://github.com/zuizui0223/bita`
+- Active review artifact: `bita-mechanism-identification-review-package`
+- Active render receipt: `PACKAGE_QA_RECEIPT.txt`
 - Archived release DOI: [acceptance-stage field]
 - Suggested handling editor: [only if requested by portal]
 
 ### Abstract
 
-Multifunctional traits can face conflicting functional optima. One solution is compromise on a shared trait axis; another is differentiation across partly independent axes. General specialization theory establishes that trade-offs can favour division of labour, but it does not by itself connect an observed ecological compromise to the mechanism of a resulting multi-trait phenotype. We formulate that bridge as an architecture comparison. If a differentiated architecture contains the shared phenotype on its diagonal, its optimized fitness before any extra fixed architecture cost cannot be lower than the best shared compromise. If residual coupling enters as a non-negative penalty, stronger coupling cannot increase the fitness recoverable by differentiation. In a quadratic baseline, the shared-axis conflict load is `L_S^opt`, residual coupling leaves a decoupling fraction `s` of the function-specific separation, and the same fraction of conflict loss is recoverable. Thus `Delta_arch = s L_S^opt - K`, where `K` is the additional architecture cost. Differentiation is favoured when the recovered compromise loss exceeds `K`. A registered 300-condition convex power-loss design finds strict positive recovery in all 300 nonzero-conflict evaluations and increasing recovery with optimum separation in 60/60 declared series; coupling monotonicity in 60/60 series verifies the structural result numerically. Cichlid oral and pharyngeal jaws illustrate partial differentiation with residual integration, whereas *Dalechampia* illustrates historical redeployment and addition of functional structures. We then use floral attraction and defence as a worked case showing that, once multiple trait axes exist, their total fitness interaction still does not identify the ecological pathway producing the apparent release. Across 56 route records from 25 independent biological study clusters and a 17-system high-information audit, the constituent pathways recur but the required identification dimensions remain fragmented across experiments. The framework therefore links shared-trait balance, incomplete differentiation and causal mechanism identification without equating structural separation with evolutionary independence or historical trait splitting.
+Ecologists frequently infer mechanism from statistical interaction. Yet when two traits jointly affect fitness through several ecological channels, the same total interaction can be produced by many different pathway allocations. Floral attraction and defence make this problem explicit: attraction can increase pollination and antagonist exposure, whereas defence can reduce antagonist damage while interfering with pollination or imposing a direct joint cost. We separate the measurable trait interaction from the mechanisms compatible with it. For a two-level attraction-by-defence factorial, the directly estimable interaction is `Delta_AD W = W11 - W10 - W01 + W00`. A positive value shows that defence makes the attraction effect more positive, but it does not by itself establish functional release and it does not identify whether the gain arose through antagonist relief, pollinator interference, or a remaining joint channel. Writing `Delta_AD W = rho_delta - iota_delta - kappa_delta` defines an identified set of compatible mechanisms rather than a point allocation. Explicit biological restrictions and partial channel measurements shrink this set. A crossed attraction × defence × antagonist × pollinator experiment can identify the two consumer-mediated channels when interventions are selective, the trait contrasts remain invariant, pollinator-independent reproduction is characterized, and the four-way interaction supports channel separability; the remaining joint channel requires an independent assay rather than residual labelling. A source-adjudicated synthesis contains 56 directional route records from 25 independent biological clusters and shows recurrence of all four constituent marginal pathways, while a stricter audit of 17 high-information systems finds complementary experimental faces but no system that closes the full allocation design plus independent joint-cost assay. Existing biology is therefore recurrent but identification is fragmented. BITA's contribution is a promotion ladder from interaction detection to partial identification and mechanism allocation, not a claim that interaction itself reveals mechanism.
 
 ### Keywords
 
-Use the exact manuscript keywords; keep them synchronized after final copy-editing:
+Use the exact canonical manuscript keywords:
 
-- functional trade-off
-- multifunctionality
-- trait differentiation
-- modularity
-- specialization
 - causal identification
-- ecological interactions
+- ecological mechanism
+- factorial experiment
+- partial identification
+- trait interaction
+- pollination
+- antagonism
+- floral defence
 
 ## Authors
 
@@ -87,7 +90,7 @@ This is a theoretical/computational, literature-synthesis and aggregate/public-d
 
 Current draft portal statement:
 
-> Review-stage theory and identification code, registered trait-differentiation robustness products, source-audit products, the aggregate *Impatiens capensis* retrofit, and the authoritative V2 high-information identification-coverage matrix are maintained in the public GitHub repository `https://github.com/zuizui0223/bita`. Individual source-data records are not redistributed where licence or source restrictions do not permit it. The exact accepted data/code version will be frozen in a permanent versioned archive and cited in the final article at the acceptance stage.
+> Review-stage identification code, source-audit products, route-level recurrence products, aggregate/public-data reanalyses, high-information identification-coverage products, and the active review-package source are maintained in the public GitHub repository `https://github.com/zuizui0223/bita`. Individual source-data records are not redistributed where licence or source restrictions do not permit it. The exact accepted data/code version will be frozen in a permanent versioned archive and cited in the final article at the acceptance stage.
 
 Final statement must also confirm:
 
@@ -100,7 +103,7 @@ Final statement must also confirm:
 
 Current review-stage title-page statement:
 
-> Review-stage theory code, robustness readouts, source-audited empirical bridge materials, and retained floral identification products are maintained in the public project repository. The accepted exact data/code release will be archived permanently and cited in the final article.
+> Review-stage identification code, source-adjudicated evidence products, derived analysis receipts, and the reader-facing mechanism-identification package are maintained in the public project repository. The accepted exact data/code release will be archived permanently and cited in the final article.
 
 ### Use of generative AI or language tools
 
@@ -124,16 +127,23 @@ List only when there is a specific defensible conflict.
 
 ## Portal checks
 
-- [x] title matches the canonical Chapter 2 package;
-- [x] abstract matches the canonical candidate builder;
-- [x] article framing is BALANCE -> DIFFERENTIATION -> IDENTIFICATION;
-- [x] portal abstract contains the structural architecture result, quadratic decoupling corollary, registered robustness, bounded architecture-state anchors and fragmented floral identification result;
-- [x] 2,592 / 77.2% are not portal-abstract headline results;
-- [x] five trait-differentiation Main figures have canonical SVG sources;
-- [x] keywords are synchronized with the Chapter 2 manuscript;
+- [x] final title matches `manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md`;
+- [x] abstract matches the active canonical Main;
+- [x] article framing is `trait interaction != ecological mechanism`;
+- [x] outcome hierarchy separates interaction relief, constraint release and strict reversal;
+- [x] identified-set and partial-identification logic is explicit;
+- [x] crossed consumer intervention and separability diagnostic are explicit;
+- [x] remaining joint channel requires an independent assay;
+- [x] empirical headline is 56 routes / 25 clusters / 17 high-information systems with fragmented identification;
+- [x] five active mechanism-identification Main figures are embedded in the reader-facing package;
+- [x] current render status is read from `bita-mechanism-identification-review-package/PACKAGE_QA_RECEIPT.txt`;
 - [ ] author list matches title page and portal;
 - [ ] funding statement matches portal fields;
 - [ ] competing-interest statement matches portal fields;
 - [ ] final repository/software/data licence statement is approved;
 - [ ] final Supporting Information files are cited/numbered consistently;
 - [ ] all authors confirm the exact submitted version is not under consideration elsewhere.
+
+## Historical provenance — not portal metadata
+
+The former integrated architecture manuscript, its `R-K` / `sL-K` spine, the registered 300-condition robustness exercise, and the 30+38 reader-facing render remain reproducible in the repository. They are not the active BITA title, abstract, keywords, portal framing, or submission package.
