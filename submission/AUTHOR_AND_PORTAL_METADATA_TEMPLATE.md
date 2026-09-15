@@ -13,6 +13,7 @@ Complete the author-controlled fields before upload. Do not infer or auto-fill m
 - Repository URL: `https://github.com/zuizui0223/bita`
 - Active review artifact: `bita-mechanism-identification-review-package`
 - Active render receipt: `PACKAGE_QA_RECEIPT.txt`
+- Portal handoff contract: `submission/ECOLOGY_2026_PORTAL_HANDOFF.md`
 - Archived release DOI: [acceptance-stage field]
 - Suggested handling editor: [only if requested by portal]
 
@@ -22,16 +23,11 @@ Ecologists frequently infer mechanism from statistical interaction. Yet when two
 
 ### Keywords
 
-Use the exact canonical manuscript keywords:
+Use the current Ecology portal order: 6–12 keywords/phrases, alphabetized and separated by semicolons.
 
-- causal identification
-- ecological mechanism
-- factorial experiment
-- partial identification
-- trait interaction
-- pollination
-- antagonism
-- floral defence
+```text
+antagonism; causal identification; ecological mechanism; factorial experiment; floral defence; partial identification; pollination; trait interaction
+```
 
 ## Authors
 
@@ -109,6 +105,8 @@ Current review-stage title-page statement:
 
 Retain the exact journal-compliant disclosure approved by the authors. Existing repository provenance records AI-assisted coding, structured literature triage, reproducibility checking and drafting/editing, with source claims, numerical results, code and citations checked against underlying analyses and sources. AI output is not empirical evidence and does not determine study inclusion or statistical conclusions.
 
+Current Ecology guidance requires applicable AI use to be disclosed in the relevant manuscript section, additionally in Acknowledgments, and in the submission form.
+
 ## Reviewer suggestions
 
 Complete only the fields requested by the live portal. Do not treat an arbitrary reviewer count as a manuscript prerequisite.
@@ -129,6 +127,8 @@ List only when there is a specific defensible conflict.
 
 - [x] final title matches `manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md`;
 - [x] abstract matches the active canonical Main;
+- [x] title is within the current 120-character limit;
+- [x] eight portal keywords are alphabetized;
 - [x] article framing is `trait interaction != ecological mechanism`;
 - [x] outcome hierarchy separates interaction relief, constraint release and strict reversal;
 - [x] identified-set and partial-identification logic is explicit;
@@ -140,6 +140,8 @@ List only when there is a specific defensible conflict.
 - [ ] author list matches title page and portal;
 - [ ] funding statement matches portal fields;
 - [ ] competing-interest statement matches portal fields;
+- [ ] final Open Research statement is approved;
+- [ ] final AI disclosure is approved and synchronized across manuscript/Acknowledgments/portal;
 - [ ] final repository/software/data licence statement is approved;
 - [ ] final Supporting Information files are cited/numbered consistently;
 - [ ] all authors confirm the exact submitted version is not under consideration elsewhere.
