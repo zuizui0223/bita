@@ -48,7 +48,7 @@ def fig5() -> str:
         "identified conflict / L",
     ], "soft"))
     b.append(_arrow(390, 265, 440, 265))
-    b.append('<text x="415" y="225" text-anchor="middle" class="tiny">exports identified L</text>')
+    b.append('<text x="415" y="245" text-anchor="middle" class="tiny">exports L</text>')
 
     b.append(_box(450, 95, 420, 340, "SLK — transport evolutionary value", [
         "L → R → Φ",
