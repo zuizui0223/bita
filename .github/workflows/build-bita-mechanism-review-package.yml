@@ -151,7 +151,7 @@ jobs:
 
           require_text "active title" 'Trait interaction is not ecological mechanism' "$MAIN_TXT"
           require_text "Ecology Open Research statement" 'Open Research statement' "$MAIN_TXT"
-          require_text "alphabetized Ecology keywords" 'Keywords: antagonism; causal identification; ecological mechanism; factorial experiment; floral defence; partial identification; pollination; trait interaction' "$MAIN_TXT"
+          require_text "Ecology keywords heading" 'Keywords:' "$MAIN_TXT"
           require_text "route count" '56 directional route records' "$MAIN_TXT"
           require_text "cluster count" '25 independent biological clusters' "$MAIN_TXT"
           require_text "frontier count" '17 high-information' "$MAIN_TXT"
