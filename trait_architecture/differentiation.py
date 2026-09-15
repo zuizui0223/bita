@@ -15,6 +15,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from math import isfinite
+from sys import float_info
+
+
+_ROUNDOFF_REL_TOL = 64.0 * float_info.epsilon
 
 
 def _finite(value: float, name: str) -> None:
@@ -30,6 +34,64 @@ def _positive(value: float, name: str) -> None:
 def _non_negative(value: float, name: str) -> None:
     if not isfinite(value) or value < 0.0:
         raise ValueError(f"{name} must be finite and non-negative")
+
+
+def _weight_geometry(weight_1: float, weight_2: float) -> tuple[float, float, float]:
+    """Return normalized weights and the harmonic conflict coefficient.
+
+    The coefficient is ``w1*w2/(w1+w2)`` but is evaluated without materializing
+    ``w1*w2``.  The normalized weights are also used for stable convex trait
+    coordinates.
+    """
+
+    _positive(weight_1, "weight_1")
+    _positive(weight_2, "weight_2")
+    scale = max(float(weight_1), float(weight_2))
+    u = float(weight_1) / scale
+    v = float(weight_2) / scale
+    total = u + v
+    p1 = u / total
+    p2 = v / total
+    coefficient = scale * (u * v / total)
+    if coefficient <= 0.0 or not isfinite(coefficient):
+        raise ValueError("harmonic weight coefficient is not representable as a positive finite float")
+    return p1, p2, coefficient
+
+
+def _conflict_load(
+    optimum_1: float,
+    optimum_2: float,
+    coefficient: float,
+) -> float:
+    """Evaluate ``coefficient*(theta1-theta2)^2`` without a squared distance."""
+
+    conflict = float(optimum_1) - float(optimum_2)
+    if not isfinite(conflict):
+        raise ValueError("optimum separation is not representable as a finite float")
+    value = conflict * (coefficient * conflict)
+    if not isfinite(value):
+        raise ValueError("conflict loss is not representable as a finite float")
+    return value
+
+
+def _decoupling_parts(coefficient: float, coupling: float) -> tuple[float, float]:
+    """Return ``(s, 1-s)`` from commensurate coefficient and coupling scales."""
+
+    _non_negative(coupling, "coupling")
+    c = float(coupling)
+    if c == 0.0:
+        return 1.0, 0.0
+    scale = max(coefficient, c)
+    h = coefficient / scale
+    c_n = c / scale
+    total = h + c_n
+    return h / total, c_n / total
+
+
+def _roundoff_band(*values: float) -> float:
+    if any(not isfinite(float(value)) for value in values):
+        raise ValueError("roundoff comparison values must be finite")
+    return _ROUNDOFF_REL_TOL * max((abs(float(value)) for value in values), default=0.0)
 
 
 @dataclass(frozen=True)
@@ -87,13 +149,10 @@ def shared_axis_optimum(
 
     _finite(optimum_1, "optimum_1")
     _finite(optimum_2, "optimum_2")
-    _positive(weight_1, "weight_1")
-    _positive(weight_2, "weight_2")
+    p1, p2, coefficient = _weight_geometry(weight_1, weight_2)
 
-    denominator = weight_1 + weight_2
-    trait = (weight_1 * optimum_1 + weight_2 * optimum_2) / denominator
-    conflict = optimum_1 - optimum_2
-    conflict_loss = weight_1 * weight_2 * conflict * conflict / denominator
+    trait = p1 * float(optimum_1) + p2 * float(optimum_2)
+    conflict_loss = _conflict_load(optimum_1, optimum_2, coefficient)
 
     return SharedAxisOptimum(
         trait=trait,
@@ -120,18 +179,11 @@ def decoupling_fraction(
     whenever ``theta1 != theta2``. The same quantity also equals the fraction of
     the shared-axis conflict loss that the differentiated architecture can recover
     before paying its fixed architecture cost.
-
-    It ranges from 1 under full decoupling (``coupling = 0``) toward 0 as residual
-    coupling becomes arbitrarily strong.
     """
 
-    _positive(weight_1, "weight_1")
-    _positive(weight_2, "weight_2")
-    _non_negative(coupling, "coupling")
-
-    numerator = weight_1 * weight_2
-    denominator = numerator + coupling * (weight_1 + weight_2)
-    return numerator / denominator
+    _, _, coefficient = _weight_geometry(weight_1, weight_2)
+    fraction, _ = _decoupling_parts(coefficient, coupling)
+    return fraction
 
 
 def differentiated_axis_optimum(
@@ -144,51 +196,40 @@ def differentiated_axis_optimum(
 ) -> DifferentiatedAxisOptimum:
     """Return the best two-axis solution under residual coupling.
 
-    The differentiated architecture maximizes
-
-    ``-w1*(x-theta1)^2 - w2*(y-theta2)^2 - coupling*(x-y)^2 - K``.
-
-    ``coupling`` is a residual cross-talk/coordination penalty that resists
-    functional separation. ``architecture_cost`` is the fixed cost of maintaining
-    the differentiated architecture.
+    The optimized pair has the same weighted center as the shared solution and
+    retains fraction ``s`` of the function-specific optimum separation.  This
+    representation is algebraically identical to the direct 2x2 solution but
+    avoids dimensional coefficient products.
     """
 
     _finite(optimum_1, "optimum_1")
     _finite(optimum_2, "optimum_2")
-    _positive(weight_1, "weight_1")
-    _positive(weight_2, "weight_2")
-    _non_negative(coupling, "coupling")
     _non_negative(architecture_cost, "architecture_cost")
+    p1, p2, coefficient = _weight_geometry(weight_1, weight_2)
+    fraction, residual_fraction = _decoupling_parts(coefficient, coupling)
 
-    denominator = weight_1 * weight_2 + coupling * weight_1 + coupling * weight_2
+    shared_center = p1 * float(optimum_1) + p2 * float(optimum_2)
+    conflict = float(optimum_1) - float(optimum_2)
+    if not isfinite(conflict):
+        raise ValueError("optimum separation is not representable as a finite float")
+    retained_separation = fraction * conflict
+    trait_1 = shared_center + p2 * retained_separation
+    trait_2 = shared_center - p1 * retained_separation
+    if not isfinite(trait_1) or not isfinite(trait_2):
+        raise ValueError("differentiated optimum is not representable as a finite float")
 
-    trait_1 = (
-        weight_1 * weight_2 * optimum_1
-        + weight_1 * coupling * optimum_1
-        + weight_2 * coupling * optimum_2
-    ) / denominator
-    trait_2 = (
-        weight_1 * weight_2 * optimum_2
-        + weight_1 * coupling * optimum_1
-        + weight_2 * coupling * optimum_2
-    ) / denominator
-
-    conflict = optimum_1 - optimum_2
-    residual_conflict_loss = (
-        weight_1
-        * weight_2
-        * coupling
-        * conflict
-        * conflict
-        / denominator
-    )
+    shared_loss = _conflict_load(optimum_1, optimum_2, coefficient)
+    residual_conflict_loss = residual_fraction * shared_loss
+    fitness = -residual_conflict_loss - float(architecture_cost)
+    if not isfinite(fitness):
+        raise ValueError("differentiated fitness is not representable as a finite float")
 
     return DifferentiatedAxisOptimum(
         trait_1=trait_1,
         trait_2=trait_2,
         residual_conflict_loss=residual_conflict_loss,
-        architecture_cost=architecture_cost,
-        fitness=-residual_conflict_loss - architecture_cost,
+        architecture_cost=float(architecture_cost),
+        fitness=fitness,
     )
 
 
@@ -199,18 +240,7 @@ def differentiation_threshold(
     weight_2: float = 1.0,
     coupling: float = 0.0,
 ) -> float:
-    """Maximum fixed architecture cost compatible with differentiation.
-
-    For the quadratic baseline, differentiation is favoured exactly when
-
-    ``architecture_cost < differentiation_threshold(...)``.
-
-    The threshold is the shared-axis conflict loss multiplied by the decoupling
-    fraction. In closed form it is
-
-    ``w1^2 w2^2 (theta1-theta2)^2 /
-      ((w1+w2) * (w1*w2 + coupling*(w1+w2)))``.
-    """
+    """Maximum fixed architecture cost compatible with differentiation."""
 
     shared = shared_axis_optimum(
         optimum_1=optimum_1,
@@ -233,44 +263,62 @@ def compare_architectures(
     weight_2: float = 1.0,
     coupling: float = 0.0,
     architecture_cost: float = 0.0,
-    neutral_tolerance: float = 1e-12,
+    neutral_tolerance: float | None = None,
 ) -> ArchitectureComparison:
-    """Compare optimized shared and differentiated trait architectures."""
+    """Compare optimized shared and differentiated trait architectures.
 
-    _non_negative(neutral_tolerance, "neutral_tolerance")
+    If ``neutral_tolerance`` is supplied, it retains its historical meaning as
+    an absolute fitness-unit neutral band.  With the default ``None``, only a
+    machine-roundoff band relative to the commensurate threshold/cost scale is
+    used, so changing fitness units cannot relabel a genuinely signed gain.
+    """
 
+    if neutral_tolerance is not None:
+        _non_negative(neutral_tolerance, "neutral_tolerance")
+
+    _non_negative(architecture_cost, "architecture_cost")
     shared = shared_axis_optimum(
         optimum_1=optimum_1,
         optimum_2=optimum_2,
         weight_1=weight_1,
         weight_2=weight_2,
     )
-    differentiated = differentiated_axis_optimum(
-        optimum_1=optimum_1,
-        optimum_2=optimum_2,
-        weight_1=weight_1,
-        weight_2=weight_2,
-        coupling=coupling,
-        architecture_cost=architecture_cost,
-    )
-    fraction = decoupling_fraction(
-        weight_1=weight_1,
-        weight_2=weight_2,
-        coupling=coupling,
-    )
-    recoverable = shared.conflict_loss - differentiated.residual_conflict_loss
-    threshold = differentiation_threshold(
-        optimum_1=optimum_1,
-        optimum_2=optimum_2,
-        weight_1=weight_1,
-        weight_2=weight_2,
-        coupling=coupling,
-    )
-    gain = differentiated.fitness - shared.fitness
+    p1, p2, coefficient = _weight_geometry(weight_1, weight_2)
+    del p1, p2
+    fraction, residual_fraction = _decoupling_parts(coefficient, coupling)
 
-    if gain > neutral_tolerance:
+    conflict = float(optimum_1) - float(optimum_2)
+    if not isfinite(conflict):
+        raise ValueError("optimum separation is not representable as a finite float")
+    shared_center = shared.trait
+    retained_separation = fraction * conflict
+    p1, p2, _ = _weight_geometry(weight_1, weight_2)
+    trait_1 = shared_center + p2 * retained_separation
+    trait_2 = shared_center - p1 * retained_separation
+    residual = residual_fraction * shared.conflict_loss
+    differentiated_fitness = -residual - float(architecture_cost)
+    differentiated = DifferentiatedAxisOptimum(
+        trait_1=trait_1,
+        trait_2=trait_2,
+        residual_conflict_loss=residual,
+        architecture_cost=float(architecture_cost),
+        fitness=differentiated_fitness,
+    )
+
+    threshold = fraction * shared.conflict_loss
+    recoverable = threshold
+    gain = threshold - float(architecture_cost)
+    if not isfinite(gain):
+        raise ValueError("architecture gain is not representable as a finite float")
+
+    band = (
+        float(neutral_tolerance)
+        if neutral_tolerance is not None
+        else _roundoff_band(threshold, float(architecture_cost))
+    )
+    if gain > band:
         preferred = "differentiated"
-    elif gain < -neutral_tolerance:
+    elif gain < -band:
         preferred = "shared"
     else:
         preferred = "indifferent"
