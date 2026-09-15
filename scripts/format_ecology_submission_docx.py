@@ -147,6 +147,9 @@ def _configure_sections(doc: Document) -> None:
     p = footer.paragraphs[0] if footer.paragraphs else footer.add_paragraph()
     _remove_all_runs(p)
     _set_page_field(p)
+    # LibreOffice applies section line numbering to footer paragraphs unless
+    # explicitly suppressed, producing a second page-like number at left.
+    _suppress_line_numbers(p)
 
 
 def _format_document(doc: Document, *, appendix: bool) -> None:

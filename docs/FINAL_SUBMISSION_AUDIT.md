@@ -113,7 +113,7 @@ manuscript/FIGURE_REBUILD_PLAN_MECHANISM_IDENTIFICATION_V1.md
 
 ## 6. Reader-facing package status
 
-The historical package was validated as:
+The historical integrated architecture-plus-mechanism package was validated as:
 
 ```text
 Main Document: 30 pages
@@ -121,33 +121,41 @@ Appendix S1:   38 pages
 Main figures:   5
 ```
 
-but it belongs to the superseded integrated architecture-plus-mechanism manuscript.
+It remains superseded and must not be submitted.
 
-Therefore its present status is:
+The active mechanism-identification package has now been rebuilt from the canonical source and independently revalidated end to end:
 
 ```text
-HISTORICAL_PACKAGE_QA = PASS_FOR_OLD_SCIENCE_SOURCE
-ACTIVE_PACKAGE_STATUS = STALE
-ACTIVE_MAIN_RENDER = REBUILD_REQUIRED
-ACTIVE_APPENDIX = REBUILD_REQUIRED
-ACTIVE_FIGURES = REBUILD_REQUIRED
+Main Document: 21 pages
+Appendix S1:   10 pages
+Main figures:   5 embedded mechanism-identification figures
+Length gate:    WITHIN_30_PAGE_TARGET
 ```
 
-The old 68-page QA must not be used as evidence that the refocused mechanism-identification paper is submission-ready.
+The workflow rebuilds source-backed evidence, Figures 1–5, Main and Appendix DOCX files, renders both PDFs, checks active-title and empirical-count guards, renders every page to PNG, and stores a QA receipt. The final visual audit confirmed the Main/Appendix render, single centered page numbering, active line numbering, and the corrected Figure 5 ownership geometry.
+
+Current state:
+
+```text
+HISTORICAL_PACKAGE_QA = PASS_BUT_SUPERSEDED
+ACTIVE_PACKAGE_STATUS = REBUILT_AND_VALIDATED
+ACTIVE_MAIN_RENDER = PASS_21_PAGES
+ACTIVE_APPENDIX = PASS_10_PAGES
+ACTIVE_FIGURES = PASS_5
+VISUAL_QA = PASS
+```
 
 ## 7. Figure state
 
-New five-figure roles are frozen in `manuscript/TRAIT_DIFFERENTIATION_FIGURE_CAPTIONS_V1.md` and the rebuild plan.
-
-Required active figures:
+The active five-figure sequence is:
 
 1. outcome hierarchy;
 2. identified-set geometry;
 3. crossed intervention and separability;
 4. fragmented empirical frontier;
-5. SCH–SLK–BITA ownership + BITA promotion ladder.
+5. SCH–SLK ownership transport plus an orthogonal BITA mechanism-identification track and BITA promotion ladder.
 
-The existing rendered figures must be regenerated before submission.
+Figure 5 explicitly avoids the obsolete visual implication `SLK -> BITA`: SCH may export an identified `L` to SLK, whereas BITA asks a separate mechanism-allocation question from an observed trait interaction.
 
 ## 8. Inference boundaries
 
@@ -171,15 +179,13 @@ residual by subtraction
 
 ## 9. Submission decision
 
-**Science thesis: FROZEN. Canonical Markdown Main: REFOCUSED. Reader-facing submission package: NOT YET READY.**
+**Science thesis: FROZEN. Canonical Markdown Main: REFOCUSED. Reader-facing submission package: REBUILT AND VALIDATED.**
 
-Current blockers are scientific packaging tasks, not only author metadata:
+The scientific-packaging blockers are closed. Remaining pre-submission items are external or author-controlled:
 
-- rebuild all five Main figures;
-- rebuild Main DOCX/PDF around the refocused source;
-- rebuild Appendix routing;
-- rerun narrative/CI checks;
-- repeat page-by-page visual QA;
-- only then add final author-controlled metadata and obtain all-author sign-off.
+- confirm current portal/file-format requirements immediately before upload;
+- insert final author order, affiliations, corresponding-author details, ORCIDs, CRediT, funding, acknowledgments and competing-interest information;
+- obtain all-author approval of the exact submitted files and no-simultaneous-consideration statement;
+- complete final portal metadata and upload.
 
-The publication split therefore strengthens the scientific claim ceiling while intentionally resetting the old submission-ready status.
+The old 30+38-page integrated package remains preserved only as provenance. The current submission surface is the 21-page Main + 10-page Appendix mechanism-identification package.
