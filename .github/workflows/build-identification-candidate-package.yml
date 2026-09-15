@@ -1,4 +1,4 @@
-name: build-identification-candidate-package
+name: LEGACY - build identification candidate package
 
 on:
   pull_request:
@@ -11,11 +11,12 @@ on:
       - 'scripts/build_identification_candidate_package_sources.py'
       - 'scripts/format_ecology_submission_docx.py'
       - 'tests/test_identification_candidate_package.py'
+      - 'tests/test_submission_package_routing.py'
       - '.github/workflows/build-identification-candidate-package.yml'
   workflow_dispatch:
 
 jobs:
-  build:
+  legacy-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -30,13 +31,13 @@ jobs:
           sudo apt-get install -y pandoc libreoffice-writer poppler-utils librsvg2-bin
           python -m pip install python-docx pytest
 
-      - name: Validate candidate source contract
-        run: python -m pytest -q tests/test_identification_candidate_package.py tests/test_identification_manuscript_draft.py tests/test_identification_manuscript_references.py tests/test_identification_design_figures.py
+      - name: Validate legacy candidate source contract
+        run: python -m pytest -q tests/test_identification_candidate_package.py tests/test_identification_manuscript_draft.py tests/test_identification_manuscript_references.py tests/test_identification_design_figures.py tests/test_submission_package_routing.py
 
-      - name: Build candidate Markdown sources
+      - name: Build legacy candidate Markdown sources
         run: python scripts/build_identification_candidate_package_sources.py
 
-      - name: Build candidate Main DOCX
+      - name: Build legacy candidate Main DOCX
         run: |
           cd submission/ecology/identification_candidate/generated
           pandoc MANUSCRIPT_IDENTIFICATION_CANDIDATE.md \
@@ -48,7 +49,7 @@ jobs:
             submission/ecology/identification_candidate/generated/MANUSCRIPT_IDENTIFICATION_CANDIDATE_RAW.docx \
             submission/ecology/identification_candidate/generated/MANUSCRIPT_IDENTIFICATION_CANDIDATE.docx
 
-      - name: Build candidate Appendix DOCX
+      - name: Build legacy candidate Appendix DOCX
         run: |
           cd submission/ecology/identification_candidate/generated
           pandoc APPENDIX_IDENTIFICATION_CANDIDATE.md \
@@ -61,8 +62,12 @@ jobs:
             submission/ecology/identification_candidate/generated/APPENDIX_IDENTIFICATION_CANDIDATE.docx \
             --appendix
 
-      - name: Render candidate DOCX files to PDF
+      - name: Validate rendered legacy candidate package
         run: |
+          MAIN=submission/ecology/identification_candidate/generated/rendered/MANUSCRIPT_IDENTIFICATION_CANDIDATE.pdf
+          SUPP=submission/ecology/identification_candidate/generated/rendered/APPENDIX_IDENTIFICATION_CANDIDATE.pdf
+          MAIN_TXT="$RUNNER_TEMP/main_candidate.txt"
+          SUPP_TXT="$RUNNER_TEMP/supp_candidate.txt"
           mkdir -p submission/ecology/identification_candidate/generated/rendered
           libreoffice --headless --convert-to pdf \
             --outdir submission/ecology/identification_candidate/generated/rendered \
@@ -70,13 +75,6 @@ jobs:
           libreoffice --headless --convert-to pdf \
             --outdir submission/ecology/identification_candidate/generated/rendered \
             submission/ecology/identification_candidate/generated/APPENDIX_IDENTIFICATION_CANDIDATE.docx
-
-      - name: Validate rendered candidate package
-        run: |
-          MAIN=submission/ecology/identification_candidate/generated/rendered/MANUSCRIPT_IDENTIFICATION_CANDIDATE.pdf
-          SUPP=submission/ecology/identification_candidate/generated/rendered/APPENDIX_IDENTIFICATION_CANDIDATE.pdf
-          MAIN_TXT="$RUNNER_TEMP/main_candidate.txt"
-          SUPP_TXT="$RUNNER_TEMP/supp_candidate.txt"
           test -s "$MAIN"
           test -s "$SUPP"
           MAIN_PAGES=$(pdfinfo "$MAIN" | awk '/^Pages:/ {print $2}')
@@ -99,14 +97,16 @@ jobs:
             exit 1
           fi
           if [ "$MAIN_PAGES" -gt 50 ]; then
-            echo "Candidate Main is $MAIN_PAGES pages; exceeds Ecology Concepts & Synthesis maximum of 50." >&2
+            echo "Legacy candidate Main is $MAIN_PAGES pages; exceeds the historical 50-page ceiling." >&2
             exit 1
           fi
           {
             echo "main_pages=$MAIN_PAGES"
             echo "supplement_pages=$SUPP_PAGES"
             echo "embedded_main_media=$MEDIA_COUNT"
-            echo "candidate_only=true"
+            echo "package_role=provenance_regression_only"
+            echo "legacy_candidate=true"
+            echo "active_submission=false"
             echo "canonical_submission_untouched=true"
             echo "main_headline=interaction_detection_to_mechanism_identification"
             echo "old_grid_status=supplement_only"
@@ -118,11 +118,11 @@ jobs:
         run: |
           rm -f submission/ecology/identification_candidate/generated/*_RAW.docx
 
-      - name: Upload candidate package
+      - name: Upload legacy candidate package
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: identification-candidate-package
+          name: legacy-identification-candidate-package
           path: |
             submission/ecology/identification_candidate/generated/MANUSCRIPT_IDENTIFICATION_CANDIDATE.docx
             submission/ecology/identification_candidate/generated/APPENDIX_IDENTIFICATION_CANDIDATE.docx
