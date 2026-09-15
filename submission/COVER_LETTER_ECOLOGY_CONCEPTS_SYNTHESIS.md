@@ -18,7 +18,7 @@ The manuscript is intentionally separated from our companion architecture-value 
 
 We believe this fits *Ecology*'s Concepts & Synthesis section because the contribution is a reusable inference framework tied directly to experimental design. It turns a common verbal warning—interaction is not mechanism—into a sequence of estimands, identified sets, partial-identification bounds, selective interventions, separability diagnostics and independent assays, with a source-audited empirical map showing where existing studies stop along that sequence.
 
-The scientific source has recently been refocused around this mechanism-identification thesis. The previously generated 30-page Main / 38-page Appendix package corresponded to an older integrated architecture-plus-mechanism manuscript and is no longer submission-current. A new journal-formatted package will be rebuilt and visually audited around the refocused Main before submission.
+The current journal-facing package has been rebuilt around this mechanism-identification thesis and visually audited. At the last verified render, the Main Document is **21 pages** with five embedded figures and the Appendix is **10 pages**. The Main is therefore within *Ecology*'s 30-page Concepts & Synthesis target and does not require a special over-length justification.
 
 [Author confirmation required before submission: this manuscript is not under consideration elsewhere, all authors approve the submitted version, and all authors agree to submission to *Ecology*.]
 
