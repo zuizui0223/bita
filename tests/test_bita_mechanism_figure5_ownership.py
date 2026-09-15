@@ -5,7 +5,7 @@ def test_figure5_keeps_bita_orthogonal_and_ladder_in_bounds() -> None:
     svg = figures.fig5()
 
     assert "orthogonal mechanism-identification track" in svg
-    assert "exports identified L" in svg
+    assert "exports L" in svg
     assert "BITA: observed interaction → mechanism allocation" in svg
 
     # The old publication-facing figure incorrectly drew SLK -> BITA as a
