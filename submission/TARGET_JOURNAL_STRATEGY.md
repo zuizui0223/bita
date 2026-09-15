@@ -4,58 +4,56 @@
 
 **Ecology — Concepts & Synthesis**
 
-The canonical manuscript is now the integrated SCH-sister Chapter 2:
+The active BITA manuscript is:
 
-> **When does a trait trade-off resolve by differentiation rather than compromise? Linking trait architecture to mechanism identification**
+> **Trait interaction is not ecological mechanism: an identification framework for multifunctional traits**
 
-It is no longer an identification-only manuscript and the Ecology package is no longer a legacy/fallback artifact. The paper's active sequence is
-
-```text
-shared-axis ecological compromise
--> recoverable loss under partial trait differentiation
--> architecture-cost threshold
--> mechanism identification once multiple trait axes exist
-```
-
-Floral attraction/defence remains the detailed mechanistic worked case rather than the definition of the paper.
-
-## Why Ecology / Concepts & Synthesis fits the current paper
-
-The manuscript is a synthesis across established specialization theory, an explicit architecture comparison, finite nonquadratic robustness, real architecture-state examples, and a prospective ecological identification framework.
-
-The central contribution is not that trade-offs can favour specialization. It is the bridge from a measurable shared-axis compromise to a partially decoupled multi-trait architecture and then to the experiments required to identify the mechanism of that architecture.
-
-Canonical quantitative spine:
+The active paper is a conceptual-methodological identification paper. Its central sequence is
 
 ```text
-general:     Delta_arch = R - K
-quadratic:   R = s L_S*
-             Delta_arch = s L_S* - K
+measured trait interaction
+-> identified set of compatible mechanisms
+-> partial identification
+-> selective crossed consumer intervention
+-> separability diagnostic
+-> independent remaining-channel assay
+-> mechanism-resolved interpretation
 ```
 
-Registered finite-family support:
+BITA does **not** own the broader evolutionary architecture-value sequence `L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy`; that transport belongs to SLK once conflict has been identified. BITA begins from an observed multi-trait fitness interaction and asks which ecological channel allocation generated it.
+
+## Why Ecology / Concepts & Synthesis fits the active paper
+
+The paper addresses a general inference error in ecology: treating an interaction term as if it identified mechanism. It contributes an explicit promotion ladder from a measurable outcome interaction to an identified set, assumption-indexed partial identification, crossed interventions, a separability diagnostic, and an independent remaining-channel assay.
+
+The worked floral attraction-defence system is useful because the same total interaction can arise from several biologically distinct channels. The paper therefore separates three outcome claims from mechanism allocation:
 
 ```text
-strict positive pre-cost recovery:         300 / 300
-recovery increases with optimum distance:    60 / 60 series
-coupling monotonicity implementation check:  60 / 60 series
+Level 1  Delta_AD W > 0     positive interaction relief
+Level 2  A0 <= 0 < A1       functional constraint release
+Level 3  A0 < 0 < A1        strict reversal
 ```
 
-The empirical layer keeps separate claim roles:
+and then uses
 
-- cichlid oral/pharyngeal jaws: partial differentiation with residual integration;
-- *Dalechampia*: historical functional redeployment/addition of structures;
-- floral BITA: 56 route records / 25 independent biological clusters and a 17-system fragmented identification frontier.
+```text
+Delta_AD W = rho_delta - iota_delta - kappa_delta
+```
 
-None of these is used to claim a reconstructed historical transition from one trait to two.
+to show that a measured total interaction generally defines an identified set rather than a unique mechanism.
+
+The empirical synthesis supports the conceptual problem without being used as prevalence evidence:
+
+```text
+56 directional route records
+25 independent biological clusters
+17 high-information systems
+0 systems closing full allocation + independent remaining-channel assay
+```
+
+The resulting empirical conclusion is **recurrent constituent biology + fragmented identification**.
 
 ## Canonical package
-
-Authoritative workflow:
-
-```text
-.github/workflows/build-ecology-submission-package.yml
-```
 
 Authoritative scientific source:
 
@@ -63,53 +61,72 @@ Authoritative scientific source:
 manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md
 ```
 
-Current validated pre-metadata render:
+Authoritative PR/main workflow:
 
 ```text
-Main Document: 30 pages
-Appendix S1:   38 pages
-Main figures:   5
+.github/workflows/build-bita-mechanism-review-package.yml
 ```
 
-The Main is exactly at the standard 30-page target. The current package therefore does not require an over-30-page length justification.
+Authoritative reader-facing artifact:
+
+```text
+bita-mechanism-identification-review-package
+```
+
+Authoritative current-state receipt:
+
+```text
+PACKAGE_QA_RECEIPT.txt
+```
+
+Latest independently reproduced pre-metadata render:
+
+```text
+Main Document: 21 pages
+Appendix S1:   10 pages
+Main figures:   5 embedded
+Length state:   WITHIN_30_PAGE_TARGET
+```
+
+For any later science, formatting or metadata change, the newly generated `PACKAGE_QA_RECEIPT.txt` supersedes these copied page counts.
 
 ## Scientific promotion boundary
 
 The paper may say:
 
 ```text
-a nested differentiated architecture cannot have lower optimized pre-cost fitness than the shared architecture;
-stronger declared non-negative residual coupling cannot increase recoverable compromise loss;
-in the quadratic baseline R = s L_S*;
-strict positive recovery and optimum-distance monotonicity hold across the registered convex family;
-structural differentiation can remain functionally/evolutionarily integrated;
-a total multi-trait interaction does not uniquely identify ecological channel allocation;
-constituent floral pathways recur while current experiments leave allocation fragmented.
+a positive total A x D interaction does not uniquely identify ecological mechanism;
+Level 1 interaction relief is weaker than Level 2 release and Level 3 reversal;
+a measured total interaction defines an identified set of compatible rho/iota/kappa allocations;
+explicit restrictions and channel measurements can partially identify that set;
+a selective A x D x antagonist x pollinator design can identify consumer-mediated channels under declared assumptions;
+the four-way interaction is a separability diagnostic rather than a nuisance term;
+the remaining joint channel requires an independent assay rather than residual naming;
+constituent floral pathways recur while existing experiments leave mechanism allocation fragmented.
 ```
 
 It may not say:
 
 ```text
-specialization or modularity is newly discovered here;
-R = s L_S* is shape-independent;
-every trade-off evolves toward differentiation;
-cichlids or Dalechampia estimate BITA parameters;
-positive A x D interaction proves historical trait splitting;
-56/25 route counts estimate prevalence;
-17-system fragmentation proves absence of the biology.
+a positive interaction proves functional release or historical trait splitting;
+residual subtraction identifies biological construction cost;
+failure to reject a four-way term proves separability;
+56/25 route counts estimate ecological prevalence;
+17-system fragmentation proves absence of the underlying biology;
+BITA identifies evolutionary accessibility, invasion, fixation or occupancy.
 ```
 
 ## Alternatives
 
-Submission order for the integrated Chapter 2 is:
+Current submission order for the active mechanism-identification paper is:
 
 ```text
 1. Ecology — Concepts & Synthesis
-2. The American Naturalist — if a more evolution-theory presentation is preferred
-3. Evolution — if direct transition/phylogenetic evidence is added or requested
+2. The American Naturalist — if a more formal conceptual presentation is preferred
+3. another conceptual/methodological ecology venue if scope feedback requires it
 ```
 
-The previously validated **Theoretical Ecology — Regular Article** package is retained as a narrower identification-paper provenance/alternative path. It should only be revived if the integrated Chapter 2 is deliberately split back into a mechanism-identification paper; it is not the current first-choice submission graph.
+The former integrated architecture paper and its `R-K`, quadratic `sL-K`, finite-family robustness and 30+38 package remain reproducible historical/provenance material. They are not the current BITA submission graph.
 
 ## Current blockers before actual portal upload
 
@@ -117,7 +134,7 @@ Only human/release-controlled fields remain outside the automated scientific pac
 
 - final author names/order and affiliations;
 - corresponding-author contact and ORCIDs;
-- approved CRediT, Funding, acknowledgments and Competing Interests;
+- approved CRediT, funding, acknowledgments and competing interests;
 - repository/software/data licence statement;
 - reviewer fields only if requested by the live portal;
 - all-author approval and no-simultaneous-submission confirmation;
@@ -128,7 +145,8 @@ Only human/release-controlled fields remain outside the automated scientific pac
 
 ```text
 Ecology C&S scientific fit:          GO
-Ecology canonical package:           TECHNICALLY_READY_PRE_METADATA
+active science package:              TECHNICALLY_READY_PRE_METADATA
+reader-facing source of truth:       PACKAGE_QA_RECEIPT.txt
 scientific overclaim gate:           PASS / FAIL-CLOSED
 final author metadata:               BLOCKED_AUTHOR_METADATA
 portal submission:                   NOT YET AUTHORIZED
