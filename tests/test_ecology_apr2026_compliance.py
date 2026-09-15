@@ -109,3 +109,25 @@ def test_ecology_package_and_ai_disclosure_are_tracked() -> None:
     assert "Acknowledgments" in portal
     assert "submission form" in portal
     assert "AI" in portal
+
+
+def test_final_submission_documents_reflect_compliance_closure() -> None:
+    cover = (ROOT / "submission" / "COVER_LETTER_ECOLOGY_CONCEPTS_SYNTHESIS.md").read_text(encoding="utf-8")
+    checklist = (ROOT / "submission" / "SUBMISSION_CHECKLIST.md").read_text(encoding="utf-8")
+    audit = (ROOT / "docs" / "FINAL_SUBMISSION_AUDIT.md").read_text(encoding="utf-8")
+
+    assert "will be rebuilt" not in cover.casefold()
+    assert "30-page Main / 38-page Appendix" not in cover
+    assert "**21 pages**" in cover
+    assert "standard **30-page**" in cover
+    assert "no over-length justification" in cover
+
+    assert "ECOLOGY_APR2026_AUTOMATED_COMPLIANCE = PASS" in checklist
+    assert "ecology_apr2026_title_page=PASS" in checklist
+    assert "AI_DISCLOSURE = BLOCKED_AUTHOR_APPROVAL_IF_REQUIRED" in checklist
+    assert "live author instructions / upload portal" in checklist
+
+    assert "ECOLOGY_APR2026_AUTOMATED_COMPLIANCE = PASS" in audit
+    assert "ecology_apr2026_title_page=PASS" in audit
+    assert "READY_FOR_AUTHOR_METADATA" in audit
+    assert "SUBMITTED" in audit
