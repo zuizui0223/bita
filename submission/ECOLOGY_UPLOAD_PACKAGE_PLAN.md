@@ -2,32 +2,57 @@
 
 Target: **Ecology — Concepts & Synthesis**
 
-The active review package is now built from the refocused BITA paper:
+Official submission contract checked against the Ecology Author Guidelines revised **April 2026**.
+
+Active paper:
 
 > **Trait interaction is not ecological mechanism: an identification framework for multifunctional traits**
 
-The previously validated architecture-plus-mechanism and older identification-only page counts are historical. They must not be used as current submission evidence.
-
-## 1. Main Document
-
-Canonical science source:
+Authoritative science source:
 
 ```text
 manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md
 ```
 
-Focused bibliography:
+Authoritative reader-facing artifact and receipt:
 
 ```text
-manuscript/IDENTIFICATION_DESIGN_REFERENCES.md
+bita-mechanism-identification-review-package
+PACKAGE_QA_RECEIPT.txt
 ```
 
-Active figure builder and output:
+The receipt is the source of truth after every rebuild. Historical 29+12, 30+12, 30+38 and 36+12 packages are provenance only.
+
+## 1. Ecology April 2026 manuscript gates
+
+For the active Concepts & Synthesis submission:
+
+- standard Main Document target: **<=30 pages**;
+- a 31–50 page Main requires the journal's two-part detailed length justification in the cover letter; the current workflow therefore fails closed above 30 unless that policy is deliberately changed;
+- title: **<=120 characters**;
+- Abstract: **<=350 words**;
+- keywords: **6–12, alphabetical**, semicolon-separated in the generated Main;
+- Main Document: Word `.doc/.docx` for this non-LaTeX submission;
+- page: Letter portrait, 8.5 × 11 in, 1-inch margins;
+- text/references/captions: 12-pt Times New Roman, double-spaced, left aligned;
+- continuous line numbering is required for initial submission;
+- title page includes journal/manuscript type, title, author/affiliation placeholders until approved, corresponding-author placeholder, Open Research Statement, and keywords;
+- Appendix is a separate file; **PDF is preferred**;
+- ordinary research data/code follow ESA Open Research policy and are not routed as ordinary Supporting Information data files.
+
+Current automated contract status:
 
 ```text
-scripts/build_mechanism_identification_figures_svg.py
-manuscript/mechanism_identification_figures/
+TITLE_LIMIT_GATE = PASS
+ABSTRACT_LIMIT_GATE = PASS
+KEYWORD_COUNT_AND_ORDER_GATE = PASS
+TITLE_PAGE_OPEN_RESEARCH_GATE = PASS
+FORMATTER_LETTER_1IN_TNR12_DOUBLESPACE = PASS
+CONTINUOUS_LINE_NUMBERING = PASS
+MAIN_STANDARD_PAGE_GATE = <=30_FAIL_CLOSED
 ```
+
+## 2. Main Document
 
 Active package builder:
 
@@ -35,29 +60,37 @@ Active package builder:
 scripts/build_bita_mechanism_candidate_sources.py
 ```
 
-Generated review source directory:
+Generated source directory:
 
 ```text
 submission/ecology/mechanism_identification_candidate/generated/
 ```
 
-Formatting remains Word `.docx`, Letter portrait, 1-inch margins, 12-pt Times New Roman, double-spaced prose/references, review line numbering, native equations, and five embedded Main figures.
+The builder keeps science source and journal formatting separate. It validates the title/Abstract limits, extracts the canonical keyword set, alphabetizes and validates it, moves the keyword line to the title page, inserts the review-stage Open Research Statement and corresponding-author placeholder, then places the Ecology section break before the Abstract.
 
-## 2. Scientific sequence
+The formatter is:
+
+```text
+scripts/format_ecology_submission_docx.py
+```
+
+It enforces Letter page geometry, 1-inch margins, 12-pt Times New Roman, double-spaced prose/references/captions, continuous review line numbering and centered page numbering.
+
+## 3. Scientific sequence
 
 ```text
 four-cell A×D interaction
-→ outcome promotion
+-> outcome promotion
    Level 1 interaction relief
    Level 2 constraint release
    Level 3 strict reversal
-→ identified set of compatible channel allocations
-→ assumption-indexed partial identification
-→ selective A×D×antagonist×pollinator intervention
-→ m0 handling + four-way separability diagnostic
-→ consumer-channel allocation
-→ independent remaining-channel assay
-→ mechanism-resolved interpretation
+-> identified set of compatible channel allocations
+-> assumption-indexed partial identification
+-> selective A×D×antagonist×pollinator intervention
+-> m0 handling + four-way separability diagnostic
+-> consumer-channel allocation
+-> independent remaining-channel assay
+-> mechanism-resolved interpretation
 ```
 
 Core accounting identity:
@@ -66,41 +99,44 @@ Core accounting identity:
 Delta_AD W = rho_delta - iota_delta - kappa_delta
 ```
 
-A measured total interaction defines an identified set, not a unique mechanism. Under an explicit restriction such as `kappa_delta >= 0`, the framework yields a partial-identification bound; the restriction is not a universal theorem.
+## 4. Main figures
 
-## 3. Main figures
+1. Outcome promotion.
+2. Identified-set geometry.
+3. Crossed intervention and separability.
+4. Fragmented empirical frontier: 56 routes / 25 clusters / 17-system audit.
+5. SCH -> SLK transport plus orthogonal BITA mechanism-identification track.
 
-1. **Outcome promotion.** Positive interaction relief vs functional constraint release vs strict reversal.
-2. **Identified-set geometry.** Total interaction, compatible allocations, and partial-identification shrinkage.
-3. **Crossed intervention.** Selective consumer toggles, baseline correction, four-way separability, and independent remaining-channel assay.
-4. **Fragmented empirical frontier.** Source-backed 56-route / 25-cluster recurrence, 17-system V2 identification audit, and public-data retrofit.
-5. **Inference boundaries.** SCH identifies conflict; SLK transports evolutionary value; BITA identifies mechanism.
+The active builder and workflow fail closed if the source-backed empirical state or active figure contract drifts.
 
-Figure 4 is data-driven. The build fails if the authoritative 17-system V2 audit or 56/25 route-ledger state drifts.
+## 5. Appendix / Supporting Information
 
-## 4. Supporting Information
-
-Active source:
+Active scientific source:
 
 ```text
 manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md
 ```
 
-Appendix S1 retains the detailed identification algebra, Kessler reconstruction, *Impatiens* retrofit, 17-system frontier, recurrence provenance, and technical design diagnostics. Architecture-value derivations remain repository provenance and are not part of the active BITA Main spine.
-
-## 5. Open Research package
-
-The active candidate exports at minimum:
+Review artifact output:
 
 ```text
-high_information_identification_coverage_v2.csv
-impatiens_2018_identification_retrofit_v1.json
-pattern_expansion_readout_v1.json
+APPENDIX_S1.docx
+rendered/APPENDIX_S1.pdf
 ```
 
-These products document evidence capacity and identification status. Route counts are overlapping recurrence diagnostics, not prevalence estimates.
+For portal upload, use the separately rendered **Appendix PDF** unless the live portal requests another permitted format. Do not attach ordinary research data/code as Supporting Information merely because the internal review artifact bundles derived QA files.
 
-## 6. Automated review-package gate
+## 6. Open Research routing
+
+Current title-page statement:
+
+> Review-stage identification code, source-adjudicated evidence products, derived analysis receipts, and the reader-facing mechanism-identification package are maintained in the public project repository. The accepted exact data/code release will be archived permanently and cited in the final article.
+
+The internal review artifact bundles selected derived products so the package is auditable. Journal-facing Open Research routing is different: code/data remain in the public/archived repository route, subject to licence restrictions, and the final statement is copied to the submission form.
+
+Acceptance-stage tasks include freezing the exact accepted release and adding its permanent archive DOI.
+
+## 7. Automated review-package gate
 
 Workflow:
 
@@ -108,34 +144,41 @@ Workflow:
 .github/workflows/build-bita-mechanism-review-package.yml
 ```
 
-The workflow must:
+It runs focused scientific/formatting checks, rebuilds the 56/25 receipt and figures, builds Main and Appendix, validates DOCX structure/media, renders PDFs, measures fresh page counts, checks active title/56/25/17 tokens and stale-title exclusions, fails above the 30-page standard target, renders all pages to PNG, and uploads the review artifact plus QA receipt.
 
-1. run focused identification, partial-identification, figure, package, and formatter tests;
-2. regenerate the 56/25 evidence receipt and all five SVG figures;
-3. build candidate Main + Appendix + Open Research sources;
-4. render Main and Appendix DOCX;
-5. verify line numbering and at least five embedded Main media objects;
-6. convert both DOCX files to PDF;
-7. measure fresh Main/Appendix page counts;
-8. reject stale architecture-paper tokens from the active Main;
-9. rasterize every PDF page to PNG for visual QA;
-10. upload the complete review artifact.
-
-## 7. Current package boundary
-
-Current status:
+Latest independently reproduced pre-metadata state:
 
 ```text
-ACTIVE_SCIENCE_SOURCE_REFOCUSED
-FIVE_FIGURE_PIPELINE_GREEN
-CANDIDATE_MARKDOWN_PACKAGE_GREEN
-DOCX_PDF_REBUILD_IN_PROGRESS
-OLD_29_PLUS_12_PAGE_COUNT_STALE
-OLD_30_PLUS_38_PAGE_COUNT_STALE
+MAIN_PDF = 21 pages
+APPENDIX_PDF = 10 pages
+MAIN_FIGURES = 5 embedded
+LENGTH_STATE = WITHIN_30_PAGE_TARGET
+ACTIVE_SUBMISSION = true
 ```
 
-No old generated package is submission-current. The first green run of the new review-package workflow defines the new measured page-count baseline.
+After the title-page compliance patch, the PR-gated workflow must regenerate this package. Any new page count in `PACKAGE_QA_RECEIPT.txt` supersedes the copied numbers above.
 
-## 8. Human-controlled fields required before external upload
+## 8. AI-use disclosure gate — author controlled
 
-Final author list/order/names; affiliations/present addresses; corresponding author/e-mail; ORCIDs; CRediT; funding or no-funding statement; acknowledgments; competing interests; licence; portal-only reviewer fields if requested; all-author approval; and no-simultaneous-consideration confirmation.
+ESA's April 2026 guidance requires transparent disclosure when AI use goes beyond routine spelling/grammar/general editing. Before external upload, the authors must approve the exact disclosure and synchronize it across all required surfaces:
+
+- relevant manuscript section describing how/which AI tool was used, when applicable;
+- an additional disclosure in **Acknowledgments**;
+- the **submission form**.
+
+Repository provenance is not a substitute for the final journal disclosure. This remains an explicit pre-upload blocker.
+
+## 9. Human-controlled fields before upload
+
+- final author list/order/names and affiliations;
+- corresponding author/e-mail;
+- ORCIDs;
+- CRediT;
+- funding/no-funding statement;
+- acknowledgments;
+- competing interests;
+- final repository/software/data licence wording;
+- AI disclosure wording/placement where required;
+- portal-only reviewer fields if requested;
+- all-author approval and no-simultaneous-consideration confirmation;
+- final exact post-metadata rebuild and page-by-page QA.
