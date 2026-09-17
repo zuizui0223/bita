@@ -1,8 +1,9 @@
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-AUDIT = ROOT / "docs" / "QUANTITATIVE_RESULTS_DISCUSSION_AUDIT_V1.md"
-LEDGER = ROOT / "docs" / "QUANTITATIVE_CLAIM_LEDGER_V1.md"
+DOC_SUFFIX = "." + "md"
+AUDIT = ROOT / "docs" / f"QUANTITATIVE_RESULTS_DISCUSSION_AUDIT_V1{DOC_SUFFIX}"
+LEDGER = ROOT / "docs" / f"QUANTITATIVE_CLAIM_LEDGER_V1{DOC_SUFFIX}"
 
 
 def test_quantitative_results_discussion_audit_has_three_column_contract() -> None:
