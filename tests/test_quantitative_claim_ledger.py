@@ -40,3 +40,13 @@ def test_ledger_preserves_identification_ceiling() -> None:
     assert "full allocation design plus an independent remaining-channel assay" in text
     assert "NATURAL_PREVALENCE = NOT_ESTIMATED" in text
     assert "CHANNEL_ALLOCATION = NOT_POINT_IDENTIFIED_FROM_TOTAL_INTERACTION" in text
+
+
+def test_ledger_records_kessler_conditional_numeric_mechanism_bound_without_channel_promotion() -> None:
+    text = LEDGER.read_text(encoding="utf-8")
+    assert "KESSLER_CONDITIONAL_BIOTIC_BALANCE_LOWER_BOUND = +0.1710239" in text
+    assert "kappa_delta >= 0" in text
+    assert "conditional partial-identification bound" in text
+    assert "not a measured channel effect" in text
+    assert "RHO_DELTA = NOT_POINT_IDENTIFIED" in text
+    assert "IOTA_DELTA = NOT_POINT_IDENTIFIED" in text
