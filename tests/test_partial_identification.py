@@ -137,3 +137,60 @@ def test_kessler_like_rounded_ranges_support_relief_but_not_release() -> None:
     assert hierarchy.interaction_relief == "POSITIVE_INTERACTION_RELIEF_IDENTIFIED"
     assert hierarchy.constraint_release == "CONSTRAINT_RELEASE_UNRESOLVED"
     assert hierarchy.strict_reversal == "STRICT_REVERSAL_UNRESOLVED"
+
+
+def test_interval_total_with_nonnegative_kappa_yields_sharp_biotic_balance_floor() -> None:
+    import trait_architecture.partial_identification as pi
+
+    fn = getattr(pi, "partial_identification_from_total_bounds")
+    result = fn(
+        Interval(0.1710239, inf),
+        kappa_bounds=Interval(0.0, inf),
+    )
+    assert result.feasible
+    assert result.delta_w == Interval(0.1710239, inf)
+    assert result.rho == Interval(-inf, inf)
+    assert result.iota == Interval(-inf, inf)
+    assert result.kappa == Interval(0.0, inf)
+    assert result.biotic_balance == Interval(0.1710239, inf)
+    assert not result.point_identified
+
+
+def test_interval_total_point_case_agrees_with_existing_exact_delta_projection() -> None:
+    import trait_architecture.partial_identification as pi
+
+    fn = getattr(pi, "partial_identification_from_total_bounds")
+    exact = partial_identification_from_total(
+        0.2,
+        rho_bounds=Interval(0.0, inf),
+        iota_bounds=Interval(0.0, 0.1),
+        kappa_bounds=Interval(0.0, 0.05),
+    )
+    bounded = fn(
+        Interval(0.2, 0.2),
+        rho_bounds=Interval(0.0, inf),
+        iota_bounds=Interval(0.0, 0.1),
+        kappa_bounds=Interval(0.0, 0.05),
+    )
+    assert bounded.feasible
+    assert bounded.rho == exact.rho
+    assert bounded.iota == exact.iota
+    assert bounded.kappa == exact.kappa
+    assert bounded.biotic_balance == exact.biotic_balance
+
+
+def test_interval_total_detects_incompatible_boxes() -> None:
+    import trait_architecture.partial_identification as pi
+
+    fn = getattr(pi, "partial_identification_from_total_bounds")
+    result = fn(
+        Interval(0.5, 0.6),
+        rho_bounds=Interval(0.0, 0.1),
+        iota_bounds=Interval(0.0, 0.1),
+        kappa_bounds=Interval(0.0, 0.1),
+    )
+    assert not result.feasible
+    assert result.rho is None
+    assert result.iota is None
+    assert result.kappa is None
+    assert result.biotic_balance is None

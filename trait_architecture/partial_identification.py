@@ -111,6 +111,45 @@ class PartialIdentificationResult:
 
 
 @dataclass(frozen=True)
+class PartialIdentificationBoundsResult:
+    """Projection when the total interaction is itself interval identified.
+
+    ``requested_delta_w`` is the caller-supplied total-interaction interval.
+    ``delta_w`` is its feasible projection after intersection with the supplied
+    channel boxes. All other intervals are exact coordinate projections of
+
+        delta_w = rho - iota - kappa
+
+    with ``delta_w`` allowed to vary inside the requested interval. The object
+    remains an identified-set calculation; none of the returned intervals is a
+    sampling confidence interval unless the caller has independently justified
+    that interpretation for the inputs.
+    """
+
+    requested_delta_w: Interval
+    feasible: bool
+    delta_w: Interval | None
+    rho: Interval | None
+    iota: Interval | None
+    kappa: Interval | None
+    biotic_balance: Interval | None
+
+    @property
+    def point_identified(self) -> bool:
+        return bool(
+            self.feasible
+            and self.delta_w is not None
+            and self.rho is not None
+            and self.iota is not None
+            and self.kappa is not None
+            and self.delta_w.is_point
+            and self.rho.is_point
+            and self.iota.is_point
+            and self.kappa.is_point
+        )
+
+
+@dataclass(frozen=True)
 class EscapeClaimHierarchy:
     """Three nested outcome claims for one declared A-by-D response surface.
 
@@ -271,3 +310,84 @@ def partial_identification_from_total(
 
     balance = Interval(delta_w + kappa.low, delta_w + kappa.high)
     return PartialIdentificationResult(delta_w, True, rho, iota, kappa, balance)
+
+
+def partial_identification_from_total_bounds(
+    delta_w_bounds: Interval,
+    *,
+    rho_bounds: Interval = Interval(),
+    iota_bounds: Interval = Interval(),
+    kappa_bounds: Interval = Interval(),
+) -> PartialIdentificationBoundsResult:
+    """Project channel bounds when ``Delta_AD W`` is interval identified.
+
+    This is the interval analogue of :func:`partial_identification_from_total`.
+    It propagates uncertainty in the total interaction through the exact identity
+
+        Delta_AD W = rho_delta - iota_delta - kappa_delta.
+
+    The returned projections are sharp for the supplied interval boxes and one
+    linear identity. In particular, because
+
+        rho_delta - iota_delta = Delta_AD W + kappa_delta,
+
+    ``Delta_AD W >= d`` together with ``kappa_delta >= 0`` yields the sharp
+    conditional lower bound ``rho_delta - iota_delta >= d`` while leaving the
+    individual rho and iota channels potentially unbounded.
+    """
+    achievable_delta = Interval(
+        rho_bounds.low - iota_bounds.high - kappa_bounds.high,
+        rho_bounds.high - iota_bounds.low - kappa_bounds.low,
+    )
+    feasible_delta = delta_w_bounds.intersect(achievable_delta)
+    if feasible_delta is None:
+        return PartialIdentificationBoundsResult(
+            delta_w_bounds, False, None, None, None, None, None
+        )
+
+    rho_from_others = Interval(
+        feasible_delta.low + iota_bounds.low + kappa_bounds.low,
+        feasible_delta.high + iota_bounds.high + kappa_bounds.high,
+    )
+    rho = rho_bounds.intersect(rho_from_others)
+
+    iota_from_others = Interval(
+        rho_bounds.low - kappa_bounds.high - feasible_delta.high,
+        rho_bounds.high - kappa_bounds.low - feasible_delta.low,
+    )
+    iota = iota_bounds.intersect(iota_from_others)
+
+    kappa_from_others = Interval(
+        rho_bounds.low - iota_bounds.high - feasible_delta.high,
+        rho_bounds.high - iota_bounds.low - feasible_delta.low,
+    )
+    kappa = kappa_bounds.intersect(kappa_from_others)
+
+    if rho is None or iota is None or kappa is None:
+        return PartialIdentificationBoundsResult(
+            delta_w_bounds, False, None, None, None, None, None
+        )
+
+    balance_from_delta_and_kappa = Interval(
+        feasible_delta.low + kappa_bounds.low,
+        feasible_delta.high + kappa_bounds.high,
+    )
+    balance_from_rho_and_iota = Interval(
+        rho_bounds.low - iota_bounds.high,
+        rho_bounds.high - iota_bounds.low,
+    )
+    balance = balance_from_delta_and_kappa.intersect(balance_from_rho_and_iota)
+    if balance is None:
+        return PartialIdentificationBoundsResult(
+            delta_w_bounds, False, None, None, None, None, None
+        )
+
+    return PartialIdentificationBoundsResult(
+        requested_delta_w=delta_w_bounds,
+        feasible=True,
+        delta_w=feasible_delta,
+        rho=rho,
+        iota=iota,
+        kappa=kappa,
+        biotic_balance=balance,
+    )

@@ -32,3 +32,18 @@ def test_audit_blocks_mechanism_and_prevalence_overpromotion() -> None:
     assert "CHANNEL_ALLOCATION = NOT_POINT_IDENTIFIED_FROM_TOTAL_INTERACTION" in text
     assert "Level-1" in text
     assert "Level-2/3" in text
+
+
+def test_audit_carries_kessler_conditional_numeric_bound_with_assumption_and_ceiling() -> None:
+    ledger = LEDGER.read_text(encoding="utf-8")
+    audit = AUDIT.read_text(encoding="utf-8")
+    for token in (
+        "KESSLER_CONDITIONAL_BIOTIC_BALANCE_LOWER_BOUND = +0.1710239",
+        "kappa_delta >= 0",
+        "conditional partial-identification bound",
+        "not a measured channel effect",
+        "RHO_DELTA = NOT_POINT_IDENTIFIED",
+        "IOTA_DELTA = NOT_POINT_IDENTIFIED",
+    ):
+        assert token in ledger
+        assert token in audit

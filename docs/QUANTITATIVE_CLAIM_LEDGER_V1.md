@@ -24,7 +24,16 @@ This ledger separates directly measured or reconstructed quantities from literat
 | total interaction | `EMPIRICAL` | `Delta_AD W = A1-A0` remains positive under the registered aggregate constraints | supports Level-1 positive interaction relief only |
 | identified set | `THEORETICAL-WITNESS` | `I(delta) = {(rho,iota,kappa): rho-iota-kappa=delta}` | a total interaction defines a set of compatible allocations rather than a unique mechanism |
 | conditional channel bound | `MODEL-PREDICTION` | if independently justified `kappa_delta >= 0`, then `rho_delta-iota_delta = Delta_AD W + kappa_delta >= Delta_AD W` | conditional partial-identification bound; validity depends on the biological restriction |
+| Kessler conditional biotic-balance bound | `MODEL-PREDICTION` | `KESSLER_CONDITIONAL_BIOTIC_BALANCE_LOWER_BOUND = +0.1710239` under `kappa_delta >= 0` | conditional partial-identification bound propagated from the registered aggregate interaction floor; **not a measured channel effect** and not point identification of either component |
 | crossed consumer intervention | `MODEL-PREDICTION` | selective `A x D x antagonist x pollinator` intervention plus baseline handling and separability diagnostics can add independent identifying contrasts | design prediction; point identification still requires the declared assumptions and an independent remaining-channel assay |
+
+For the Kessler-specific conditional bound, the individual channels remain unresolved:
+
+```text
+RHO_DELTA = NOT_POINT_IDENTIFIED
+IOTA_DELTA = NOT_POINT_IDENTIFIED
+CHANNEL_ALLOCATION = NOT_POINT_IDENTIFIED
+```
 
 ## Quantities explicitly not estimated or not point identified
 
@@ -38,7 +47,7 @@ STRICT_LEVEL2_PREVALENCE = NOT_ESTIMATED
 STRICT_LEVEL3_PREVALENCE = NOT_ESTIMATED
 ```
 
-The `56/25/17` counts are literature-structure quantities, not ecological effect sizes. The Kessler ranges are the strongest system-level aggregate anchor in the current paper, but they do not recover the ecological channel allocation.
+The `56/25/17` counts are literature-structure quantities, not ecological effect sizes. The Kessler ranges are the strongest system-level aggregate anchor in the current paper, but they do not recover the ecological channel allocation. The `+0.1710239` biotic-balance floor is assumption-indexed through `kappa_delta >= 0`; it is not an empirically measured `rho_delta` or `iota_delta`.
 
 ## Promotion rule
 
