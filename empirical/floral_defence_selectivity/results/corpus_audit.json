@@ -1,10 +1,10 @@
 {
-  "derivation_clusters": 12,
+  "derivation_clusters": 14,
   "holdout_clusters": 0,
-  "independent_study_clusters": 12,
-  "registry_rows": 12,
-  "stage1_eligible_clusters": 12,
-  "stage2_null_compatible_clusters": 2,
+  "independent_study_clusters": 14,
+  "registry_rows": 14,
+  "stage1_eligible_clusters": 13,
+  "stage2_null_compatible_clusters": 3,
   "stage2_strict_eligible_clusters": 2,
   "stage2_transition_clusters": 4
 }
