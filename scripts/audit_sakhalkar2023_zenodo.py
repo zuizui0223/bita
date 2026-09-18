@@ -88,6 +88,74 @@ def inspect_xlsx_schema(data: bytes) -> dict[str, object]:
         return {"sheets": sheets}
 
 
+
+def _column_index(cell_ref: str) -> int:
+    letters = "".join(ch for ch in cell_ref if ch.isalpha()).upper()
+    value = 0
+    for ch in letters:
+        value = value * 26 + (ord(ch) - ord("A") + 1)
+    return max(value - 1, 0)
+
+
+def read_xlsx_sheet_rows(data: bytes, sheet_name: str) -> list[dict[str, str]]:
+    with zipfile.ZipFile(io.BytesIO(data)) as book:
+        workbook = ET.fromstring(book.read("xl/workbook.xml"))
+        rel_root = ET.fromstring(book.read("xl/_rels/workbook.xml.rels"))
+        rels = {
+            rel.attrib["Id"]: rel.attrib["Target"]
+            for rel in rel_root.findall(f"{{{_PKG_REL_NS}}}Relationship")
+            if "Id" in rel.attrib and "Target" in rel.attrib
+        }
+        target_path: str | None = None
+        sheets_node = workbook.find(f"{{{_MAIN_NS}}}sheets")
+        if sheets_node is None:
+            raise ValueError("workbook has no sheets")
+        for sheet in sheets_node.findall(f"{{{_MAIN_NS}}}sheet"):
+            if sheet.attrib.get("name") != sheet_name:
+                continue
+            rel_id = sheet.attrib.get(f"{{{_DOC_REL_NS}}}id", "")
+            target = rels.get(rel_id)
+            if target:
+                target_path = posixpath.normpath(
+                    posixpath.join("xl", target.lstrip("/"))
+                )
+            break
+        if target_path is None:
+            raise ValueError(f"worksheet not found: {sheet_name}")
+
+        shared = _xlsx_shared_strings(book)
+        root = ET.fromstring(book.read(target_path))
+        xml_rows = root.findall(f"{{{_MAIN_NS}}}sheetData/{{{_MAIN_NS}}}row")
+        if not xml_rows:
+            return []
+
+        def values(row: ET.Element) -> list[str]:
+            cells = row.findall(f"{{{_MAIN_NS}}}c")
+            if not cells:
+                return []
+            max_index = max(
+                _column_index(cell.attrib.get("r", "A1")) for cell in cells
+            )
+            out = [""] * (max_index + 1)
+            for cell in cells:
+                index = _column_index(cell.attrib.get("r", "A1"))
+                out[index] = _xlsx_cell_text(cell, shared)
+            return out
+
+        headers = values(xml_rows[0])
+        records: list[dict[str, str]] = []
+        for xml_row in xml_rows[1:]:
+            row_values = values(xml_row)
+            row_values.extend([""] * max(0, len(headers) - len(row_values)))
+            records.append(
+                {
+                    header: row_values[index] if index < len(row_values) else ""
+                    for index, header in enumerate(headers)
+                    if header
+                }
+            )
+        return records
+
 def summarize_archive(data: bytes) -> dict[str, object]:
     with zipfile.ZipFile(io.BytesIO(data)) as archive:
         members = [item for item in archive.infolist() if not item.is_dir()]
