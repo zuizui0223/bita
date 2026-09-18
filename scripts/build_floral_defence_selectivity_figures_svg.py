@@ -273,7 +273,8 @@ def build_figure3(rows: list[dict[str, str]]) -> str:
 
     def render_lane(row: dict[str, str], x0: float, y: float) -> None:
         parts.append(f'<g data-cluster="{escape(row["study_cluster_id"])}">')
-        plant_label = row["plant_taxon"].replace("_and_A_napellus", " / A. napellus").replace("_", " ")\n        parts.append(_text(x0, y + 22, _short(plant_label, 35), size=16, weight="bold"))
+        plant_label = row["plant_taxon"].replace("_and_A_napellus", " / A. napellus").replace("_", " ")
+        parts.append(_text(x0, y + 22, _short(plant_label, 35), size=16, weight="bold"))
         parts.append(_text(x0, y + 44, row["macro_axis"].replace("_", " "), size=13, fill="#555"))
         parts.extend(_state_box(x0, y + 58, 285, 82, row["low_or_first_state"], fill="#f2f2f2"))
         parts.append(_line(x0 + 292, y + 99, x0 + 350, y + 99, width=2.5))
