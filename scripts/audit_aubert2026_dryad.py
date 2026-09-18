@@ -7,12 +7,14 @@ import io
 import json
 import zipfile
 from collections import Counter
+from html.parser import HTMLParser
+from urllib.error import HTTPError
+from urllib.parse import urljoin
 from pathlib import Path
 from urllib.request import Request, urlopen
 
 DATASET_DOI = "10.5061/dryad.rn8pk0pqx"
-DOWNLOAD_URL = "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.rn8pk0pqx/download"
-USER_AGENT = "bita-aubert2026-dryad-audit/1.0"
+DOWNLOAD_URL = "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.rn8pk0pqx/download"\nLANDING_URL = "https://datadryad.org/dataset/doi%3A10.5061/dryad.rn8pk0pqx"\nUSER_AGENT = "bita-aubert2026-dryad-audit/1.0"
 API_VERSION = "2.1.0"
 MAX_BYTES = 64 * 1024 * 1024
 REQUIRED = {
@@ -21,6 +23,72 @@ REQUIRED = {
     "Plant_traits.txt",
     "script.R",
 }
+
+
+
+class _FileStreamParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self._href: str | None = None
+        self._text: list[str] = []
+        self.files: dict[str, str] = {}
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag != "a":
+            return
+        href = dict(attrs).get("href")
+        if href and "/downloads/file_stream/" in href:
+            self._href = href
+            self._text = []
+
+    def handle_data(self, data: str) -> None:
+        if self._href is not None:
+            self._text.append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag != "a" or self._href is None:
+            return
+        name = "".join(self._text).strip()
+        if name:
+            self.files[name] = urljoin("https://datadryad.org", self._href)
+        self._href = None
+        self._text = []
+
+
+def extract_public_file_streams(html: str) -> dict[str, str]:
+    parser = _FileStreamParser()
+    parser.feed(html)
+    return parser.files
+
+
+def _fetch_bytes(url: str, max_bytes: int = MAX_BYTES) -> bytes:
+    request = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "*/*"})
+    with urlopen(request, timeout=60) as response:  # nosec B310: fixed public repository URL
+        data = response.read(max_bytes + 1)
+    if len(data) > max_bytes:
+        raise ValueError(f"download exceeds configured size limit: {url}")
+    return data
+
+
+def _download_from_public_landing() -> bytes:
+    html = _fetch_bytes(LANDING_URL, max_bytes=4 * 1024 * 1024).decode(
+        "utf-8", errors="replace"
+    )
+    streams = extract_public_file_streams(html)
+    missing = sorted(REQUIRED - set(streams))
+    if missing:
+        raise ValueError(f"public Dryad landing page missing required file links: {missing}")
+
+    buffer = io.BytesIO()
+    total = 0
+    with zipfile.ZipFile(buffer, "w") as archive:
+        for name in sorted(REQUIRED):
+            data = _fetch_bytes(streams[name])
+            total += len(data)
+            if total > MAX_BYTES:
+                raise ValueError("Dryad public files exceed configured total size limit")
+            archive.writestr(name, data)
+    return buffer.getvalue()
 
 
 def _read_table(data: bytes) -> tuple[list[str], list[dict[str, str]]]:
@@ -108,11 +176,16 @@ def _download() -> bytes:
             "X-API-Version": API_VERSION,
         },
     )
-    with urlopen(request, timeout=60) as response:  # nosec B310: fixed public Dryad DOI
-        data = response.read(MAX_BYTES + 1)
-    if len(data) > MAX_BYTES:
-        raise ValueError("Dryad archive exceeds configured size limit")
-    return data
+    try:
+        with urlopen(request, timeout=60) as response:  # nosec B310: fixed public Dryad DOI
+            data = response.read(MAX_BYTES + 1)
+        if len(data) > MAX_BYTES:
+            raise ValueError("Dryad archive exceeds configured size limit")
+        return data
+    except HTTPError as error:
+        if error.code not in {401, 403}:
+            raise
+        return _download_from_public_landing()
 
 
 def run(output_path: str | Path) -> dict[str, object]:
