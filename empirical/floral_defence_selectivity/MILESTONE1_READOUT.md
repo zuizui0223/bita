@@ -7,15 +7,15 @@ Milestone 1 has migrated the existing matched-defence evidence into a new macro-
 Current analysis-ready registry:
 
 ```text
-12 independent matched-system clusters
-Stage 1 eligible: 12
+14 independent matched-system clusters
+Stage 1 eligible: 13
 Stage 2 strict: 2
-Stage 2 null-compatible: 2
+Stage 2 null-compatible: 3
 Stage 2 transition: 4
 hold-out clusters migrated: 0
 ```
 
-The remaining matched systems currently include pollinator-outcome information that is unresolved for the strict Stage-2 comparison or a boundary case in which the focal antagonist-reduction route itself is weak/null.
+The remaining matched systems include pollinator-outcome information that is unresolved for the strict Stage-2 comparison, transition states, or boundary cases. The original same-system D-side set is now fully inherited, including Ipomopsis and the unresolved Impatiens panel.
 
 ## What was preserved
 
@@ -44,7 +44,7 @@ Their different outcome metrics remain on their source-supported scales. They ar
 
 Stage 1 is already well populated for asking whether a proposed flower-associated defence actually affects its antagonist route.
 
-Stage 2 is not yet sufficiently populated for a high-dimensional cross-system model of pollinator preservation. The current strict binary lane contains only two independent clusters, with two additional null-compatible systems and four transition systems in which dose, exposure duration, or response stage changes the pollinator state.
+Stage 2 is not yet sufficiently populated for a high-dimensional cross-system model of pollinator preservation. The current strict binary lane contains only two independent clusters, with three additional null-compatible systems and four transition systems in which dose, exposure duration, or response stage changes the pollinator state. Impatiens remains outside the strict Stage-1 efficacy gate because its same-panel D-to-antagonism sign is unresolved.
 
 Therefore Milestone 1 **does not yet establish** that effective-domain separation predicts pollinator preservation across floral systems. It establishes a reproducible evidence base and identifies exactly which missing matched contrasts control that test.
 
