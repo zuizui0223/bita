@@ -131,11 +131,11 @@ def build_svg(
         _text(140, 748, f"n = {n_species} species", size=17, weight="bold"),
         _text(345, 748, f"rho = {rho:.3f}", size=17, weight="bold"),
         _text(510, 748, f"permutation p = {pval:.4f}", size=17, weight="bold"),
-        _text(745, 748, "species are inferential units", size=14),
+        _text(140, 773, "Plant species are inferential units; individual visits are not treated as replicates.", size=13),
     ])
 
     # Legend.
-    legend_y = 800
+    legend_y = 818
     for i, (key, label) in enumerate([
         ("robber_only", "robber-only"),
         ("mixed", "mixed robbing + thieving"),
