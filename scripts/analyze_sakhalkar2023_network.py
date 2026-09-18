@@ -7,18 +7,15 @@ import json
 import math
 import random
 import statistics
+import sys
 import zipfile
 from collections import Counter, defaultdict
 from pathlib import Path
-import sys
 
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from scripts.audit_sakhalkar2023_zenodo import (
-    _download,
-    read_xlsx_sheet_rows,
-)
+from scripts.audit_sakhalkar2023_zenodo import _download, read_xlsx_sheet_rows
 
 WORKBOOK_BASENAME = "cheaters_visitation_and_trait_data.xlsx"
 SEED = 20260919
@@ -69,13 +66,15 @@ def _permutation_p(
     y: list[float],
     observed: float,
     permutations: int,
+    *,
+    seed: int,
 ) -> float | None:
     if permutations <= 0 or not math.isfinite(observed):
         return None
-    rng = random.Random(SEED)
-    shuffled = list(y)
+    rng = random.Random(seed)
     extreme = 0
     for _ in range(permutations):
+        shuffled = list(y)
         rng.shuffle(shuffled)
         rho = _spearman(x, shuffled)
         if math.isfinite(rho) and abs(rho) >= abs(observed) - 1e-12:
@@ -91,20 +90,18 @@ def _find_workbook(archive_bytes: bytes) -> bytes:
             if not item.is_dir() and Path(item.filename).name == WORKBOOK_BASENAME
         ]
         if len(matches) != 1:
-            raise ValueError(
-                f"expected one {WORKBOOK_BASENAME}, found {len(matches)}"
-            )
+            raise ValueError(f"expected one {WORKBOOK_BASENAME}, found {len(matches)}")
         return archive.read(matches[0])
 
 
-def analyze_workbook(
-    workbook_bytes: bytes,
+def analyze_rows(
+    raw_visits: list[dict[str, str]],
+    traits: list[dict[str, str]],
     *,
     permutations: int = 9999,
+    seed: int = SEED,
 ) -> dict[str, object]:
-    raw_visits = read_xlsx_sheet_rows(workbook_bytes, "cheater_data")
-    traits = read_xlsx_sheet_rows(workbook_bytes, "plant_traits")
-
+    """Aggregate visit rows to plant species before testing cheating-mode routing."""
     visits = [
         row
         for row in raw_visits
@@ -150,15 +147,21 @@ def analyze_workbook(
         + frequency[sp].get("thieving", 0.0)
         > 0
     ]
-    x = [tube_length_by_species[sp] for sp in cheated_species]
-    balance = []
+    tube_length = [tube_length_by_species[sp] for sp in cheated_species]
+    route_balance: list[float] = []
     for sp in cheated_species:
         rob = frequency[sp].get("robbing", 0.0)
         thief = frequency[sp].get("thieving", 0.0)
-        balance.append((rob - thief) / (rob + thief))
+        route_balance.append((rob - thief) / (rob + thief))
 
-    rho = _spearman(x, balance)
-    p_value = _permutation_p(x, balance, rho, permutations)
+    rho = _spearman(tube_length, route_balance)
+    p_value = _permutation_p(
+        tube_length,
+        route_balance,
+        rho,
+        permutations,
+        seed=seed,
+    )
 
     robber_only = [
         tube_length_by_species[sp]
@@ -183,12 +186,15 @@ def analyze_workbook(
         "species_with_thieving": len(species_with_thieving),
         "species_with_any_cheating_and_tube_length": len(cheated_species),
         "tube_length_cheating_mode_balance": {
-            "definition": "(robbing_frequency-thieving_frequency)/(robbing_frequency+thieving_frequency)",
+            "definition": (
+                "(robbing_frequency-thieving_frequency)/"
+                "(robbing_frequency+thieving_frequency)"
+            ),
             "n_species": len(cheated_species),
             "spearman_rho": None if not math.isfinite(rho) else rho,
             "permutation_p_two_sided": p_value,
             "permutations": permutations,
-            "seed": SEED,
+            "seed": seed,
         },
         "median_tube_length_robber_only": (
             statistics.median(robber_only) if robber_only else None
@@ -200,6 +206,22 @@ def analyze_workbook(
             "Species-level aggregate reanalysis. No raw visit or species rows are emitted."
         ),
     }
+
+
+def analyze_workbook(
+    workbook_bytes: bytes,
+    *,
+    permutations: int = 9999,
+    seed: int = SEED,
+) -> dict[str, object]:
+    raw_visits = read_xlsx_sheet_rows(workbook_bytes, "cheater_data")
+    traits = read_xlsx_sheet_rows(workbook_bytes, "plant_traits")
+    return analyze_rows(
+        raw_visits,
+        traits,
+        permutations=permutations,
+        seed=seed,
+    )
 
 
 def run(output_path: str | Path, *, permutations: int = 9999) -> dict[str, object]:
