@@ -151,3 +151,43 @@ def validate_no_outcome_leakage(rows: Iterable[dict[str, str]]) -> list[str]:
         for field in sorted(FORBIDDEN_ARCHITECTURE_FIELDS.intersection(row)):
             errors.append(f"architecture row {index}: forbidden outcome field {field}")
     return errors
+
+
+
+def orient_effect(role: str, raw_value: float, raw_orientation: str) -> float:
+    if role == "antagonist" and raw_orientation == "higher_is_antagonist_use":
+        return -raw_value
+    if role == "pollinator" and raw_orientation == "higher_is_pollinator_function":
+        return raw_value
+    if raw_orientation == "already_plant_beneficial":
+        return raw_value
+    raise ValueError(f"incompatible role/orientation: {role!r} / {raw_orientation!r}")
+
+
+def derive_defence_state(row: dict[str, str]) -> str:
+    direction = str(row.get("antagonist_effect_direction", "")).strip()
+    uncertainty = str(row.get("antagonist_uncertainty_class", "")).strip()
+    if direction == "suppressed" and uncertainty in {"DIRECTION_SUPPORTED", "EQUIVALENCE_SUPPORTED"}:
+        return "EFFECTIVE"
+    if direction == "no_detected_change" and uncertainty == "NULL_COMPATIBLE":
+        return "NULL_OR_WEAK"
+    if direction == "mixed":
+        return "MIXED"
+    return "UNRESOLVED"
+
+
+def derive_pollinator_state(row: dict[str, str]) -> str:
+    direction = str(row.get("pollinator_effect_direction", "")).strip()
+    uncertainty = str(row.get("pollinator_uncertainty_class", "")).strip()
+    preservation = str(row.get("source_supported_preservation", "")).strip().lower() == "true"
+    if direction in {"preserved", "improved"} and (
+        uncertainty in {"DIRECTION_SUPPORTED", "EQUIVALENCE_SUPPORTED"} or preservation
+    ):
+        return "PRESERVED_OR_IMPROVED"
+    if direction == "impaired" and uncertainty in {"DIRECTION_SUPPORTED", "DIRECTION_ONLY"}:
+        return "IMPAIRED"
+    if direction == "no_detected_change" and uncertainty == "NULL_COMPATIBLE":
+        return "NO_DETECTED_CHANGE"
+    if direction == "mixed":
+        return "MIXED"
+    return "UNRESOLVED"
