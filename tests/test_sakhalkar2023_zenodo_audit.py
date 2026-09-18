@@ -19,7 +19,13 @@ def _fake_archive() -> bytes:
 def test_archive_inventory_reports_safe_file_metadata() -> None:
     report = summarize_archive(_fake_archive())
     assert report["archive_member_count"] == 4
-    assert report["member_names"] == [\n        "project/R/analysis.R",\n        "project/README.md",\n        "project/data/traits.csv",\n        "project/data/visits.csv",\n    ]\n    assert report["csv_files"] == ["project/data/traits.csv", "project/data/visits.csv"]
+    assert report["member_names"] == [
+        "project/R/analysis.R",
+        "project/README.md",
+        "project/data/traits.csv",
+        "project/data/visits.csv",
+    ]
+    assert report["csv_files"] == ["project/data/traits.csv", "project/data/visits.csv"]
     assert report["r_files"] == ["project/R/analysis.R"]
     assert report["readme_files"] == ["project/README.md"]
     assert report["total_uncompressed_bytes"] > 0
