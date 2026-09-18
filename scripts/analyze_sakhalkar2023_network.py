@@ -94,6 +94,63 @@ def _find_workbook(archive_bytes: bytes) -> bytes:
         return archive.read(matches[0])
 
 
+
+def species_route_points(
+    raw_visits: list[dict[str, str]],
+    traits: list[dict[str, str]],
+) -> list[dict[str, float | str]]:
+    """Return anonymous species-level tube-length / cheating-mode points.
+
+    Species identifiers are intentionally omitted so downstream figure artifacts
+    cannot expose raw species rows. The aggregation rules match analyze_rows().
+    """
+    visits = [
+        row
+        for row in raw_visits
+        if str(row.get("behavior", "")).strip().lower() != "visiting"
+    ]
+
+    frequency: dict[str, dict[str, float]] = defaultdict(lambda: defaultdict(float))
+    visited_species: set[str] = set()
+    for row in visits:
+        spcode = str(row.get("spcode", "")).strip()
+        behavior = str(row.get("behavior", "")).strip().lower()
+        value = _as_float(str(row.get("freq_fm_per_species", "")).strip())
+        if not spcode:
+            continue
+        visited_species.add(spcode)
+        if behavior and value is not None:
+            frequency[spcode][behavior] += value
+
+    tube_length_by_species: dict[str, float] = {}
+    for row in traits:
+        spcode = str(row.get("spcode", "")).strip()
+        tube_length = _as_float(str(row.get("tube_length", "")).strip())
+        if spcode and tube_length is not None:
+            tube_length_by_species[spcode] = tube_length
+
+    points: list[dict[str, float | str]] = []
+    for sp in sorted(visited_species.intersection(tube_length_by_species)):
+        rob = frequency[sp].get("robbing", 0.0)
+        thief = frequency[sp].get("thieving", 0.0)
+        total = rob + thief
+        if total <= 0:
+            continue
+        if rob > 0 and thief == 0:
+            route_class = "robber_only"
+        elif thief > 0 and rob == 0:
+            route_class = "thief_only"
+        else:
+            route_class = "mixed"
+        points.append(
+            {
+                "tube_length": tube_length_by_species[sp],
+                "balance": (rob - thief) / total,
+                "route_class": route_class,
+            }
+        )
+    return points
+
 def analyze_rows(
     raw_visits: list[dict[str, str]],
     traits: list[dict[str, str]],
