@@ -64,21 +64,28 @@ def build_figure1() -> str:
         _line(xp, axis_y-115, xp, axis_y+25, width=2, dash="8 6"),
         _text(xh, axis_y-128, "x_H*", anchor="middle", size=20, weight="bold"),
         _text(xp, axis_y-128, "x_P*", anchor="middle", size=20, weight="bold"),
-        _text(750, 390, "x_H* = tau_H / q_H      selective window      x_P* = tau_P / q_P", size=20, anchor="middle"),
+        _text(750, 390, "xH* = τH/qH     |     xH* < x < xP*     |     xP* = τP/qP", size=20, anchor="middle"),
         _text(65, 480, "B", size=22, weight="bold"),
         _text(105, 480, "What changes effective exposure?", size=22, weight="bold"),
     ]
     labels = [
-        ("susceptibility", 205),
-        ("geometry / body size", 430),
-        ("attack route", 700),
-        ("timing", 925),
-        ("cumulative exposure", 1115),
-        ("functional / response stage", 1325),
+        (("susceptibility",), 180, 185),
+        (("geometry /", "body size"), 395, 190),
+        (("attack route",), 610, 180),
+        (("timing",), 810, 165),
+        (("cumulative", "exposure"), 1000, 185),
+        (("functional mode /", "response stage"), 1250, 245),
     ]
-    for label, x in labels:
-        parts.append(f'<rect x="{x-95}" y="515" width="190" height="64" rx="12" fill="#f7f7f7" stroke="#444" stroke-width="1.5"/>')
-        parts.append(_text(x, 553, label, anchor="middle", size=15, weight="bold"))
+    for lines, x, box_w in labels:
+        parts.append(
+            f'<rect x="{x-box_w/2}" y="515" width="{box_w}" height="70" '
+            'rx="12" fill="#f7f7f7" stroke="#444" stroke-width="1.5"/>'
+        )
+        if len(lines) == 1:
+            parts.append(_text(x, 557, lines[0], anchor="middle", size=15, weight="bold"))
+        else:
+            parts.append(_text(x, 548, lines[0], anchor="middle", size=14, weight="bold"))
+            parts.append(_text(x, 568, lines[1], anchor="middle", size=14, weight="bold"))
     parts.extend([
         _text(750, 625, "separation: q_H >> q_P  -> wider window", anchor="middle", size=19, weight="bold"),
         _text(750, 656, "overlap: q_H ~ q_P  -> narrow / absent window", anchor="middle", size=19),
@@ -122,7 +129,7 @@ def _short(value: str, limit: int = 27) -> str:
 
 def build_figure2(rows: list[dict[str, str]], gate: dict[str, object]) -> str:
     rows = sorted(rows, key=lambda r: (r["derivation_or_holdout"], r["study_cluster_id"]))
-    width, height = 1750, 1260
+    width, height = 1750, 1300
     left = 45
     header_y = 125
     row_h = 48
@@ -192,7 +199,7 @@ def build_figure2(rows: list[dict[str, str]], gate: dict[str, object]) -> str:
         _text(1205, box_y + 94, "Caryopteris: separated / physical", size=15),
         _text(1205, box_y + 123, "Gelsemium: overlapped / chemical", size=15),
         _text(1205, box_y + 166, "No domain > modality claim", size=16, weight="bold", fill="#8a1d1d"),
-        _text(45, height - 30, "Rows are independent study clusters. Repeated outcomes do not increase N; architecture and outcome codes retain separate provenance.", size=14),
+        _text(45, height - 24, "Rows are independent study clusters. Repeated outcomes do not increase N; architecture and outcome codes retain separate provenance.", size=14),
         "</svg>",
     ])
     return "\n".join(parts) + "\n"
