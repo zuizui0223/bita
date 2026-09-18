@@ -191,7 +191,21 @@ def _download() -> bytes:
 
 
 def run(output_path: str | Path) -> dict[str, object]:
-    report = summarize_archive(_download())
+    try:
+        report = summarize_archive(_download())
+        report["download_status"] = "DOWNLOADED"
+    except HTTPError as error:
+        if error.code not in {401, 403}:
+            raise
+        report = {
+            "dataset_doi": DATASET_DOI,
+            "download_status": "BLOCKED_PUBLIC_DOWNLOAD",
+            "http_status": error.code,
+            "guardrail": (
+                "Dryad metadata are public, but anonymous file-byte retrieval was blocked. "
+                "No numerical reanalysis is claimed."
+            ),
+        }
     path = Path(output_path)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
