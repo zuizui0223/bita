@@ -14,9 +14,9 @@ Flowers must remain accessible and attractive to mutualists while limiting antag
 
 ## 1. Introduction
 
-Flowers mediate opposing ecological demands. Traits that advertise rewards or permit access can increase pollination, but the same flowers are exposed to florivores, nectar robbers, nectar thieves, seed predators, ovipositing herbivores, and other exploiters. Conversely, traits that reduce antagonist use can interfere with legitimate visitors because both functional groups encounter the same floral surface, reward, volatile, or opening.
+Flowers mediate opposing ecological demands. Traits that advertise rewards or permit access can increase pollination, but the same flowers are exposed to florivores, nectar robbers, nectar thieves, seed predators, ovipositing herbivores, and other exploiters. Conversely, traits that reduce antagonist use can interfere with legitimate visitors because both functional groups encounter the same floral surface, reward, volatile, or opening (Johnson et al. 2015; Lucas-Barbosa 2016; Rusman et al. 2018).
 
-This conflict has often been summarized as a pollination–defence trade-off. That description is incomplete. Floral defence is not uniformly costly to mutualists. Nectar secondary compounds can strongly deter some visitors while being tolerated by others. Physical barriers can block one attack route while leaving another route accessible. Sticky surfaces can suppress florivores but also trap beneficial insects. The same chemical can be selective at one dose and broadly deterrent at another. An apparently strong barrier can also fail if an antagonist simply bypasses it.
+This conflict has often been summarized as a pollination–defence trade-off (Kessler & Halitschke 2009; Johnson et al. 2015). That description is incomplete. Floral defence is not uniformly costly to mutualists. Nectar secondary compounds can strongly deter some visitors while being tolerated by others (Adler & Irwin 2005; Gegear et al. 2007; Barlow et al. 2017). Physical barriers can block one attack route while leaving another route accessible. Sticky surfaces can suppress florivores but also trap beneficial insects. The same chemical can be selective at one dose and broadly deterrent at another (Galen et al. 2011; Jones & Agrawal 2016; Villalona et al. 2020). An apparently strong barrier can also fail if an antagonist simply bypasses it.
 
 These examples suggest that the important ecological object is not defence class alone. What matters is whether the focal antagonist and legitimate pollinator actually experience the same effective domain of the trait. “Domain” here is deliberately broad. It can be biochemical susceptibility, spatial access, attack route, cumulative exposure, temporal overlap, visitor functional mode, or the response stage at which the interaction is measured.
 
@@ -209,7 +209,7 @@ SEPARATED                     2           0
 OVERLAPPED                    0           1
 ~~~
 
-The two separated systems are *Thunia alba* and *Caryopteris divaricata*. The overlapped interference state is high-gelsemine *Gelsemium sempervirens*.
+The two separated systems are *Thunia alba* (Wu & Gao 2024) and *Caryopteris divaricata* (Tie et al. 2023). The overlapped interference state is high-gelsemine *Gelsemium sempervirens* (Adler & Irwin 2005).
 
 The two-sided Fisher exact test is
 
@@ -219,7 +219,7 @@ p=0.333.
 
 The result is therefore directionally coherent but not an inferentially decisive cross-system contrast.
 
-Four additional separated systems—*Catalpa speciosa*, *Pedicularis rex*, *Ipomopsis aggregata*, and *Phlox paniculata*—combine an effective antagonist route with a null-compatible pollinator contrast. If these are included only as a weaker “compatible-or-null” sensitivity, the table becomes
+Four additional separated systems—*Catalpa speciosa* (Stephenson 1982), *Pedicularis rex* (Sun & Huang 2015), *Ipomopsis aggregata*, and *Phlox paniculata* (Junker et al. 2011)—combine an effective antagonist route with a null-compatible pollinator contrast. If these are included only as a weaker “compatible-or-null” sensitivity, the table becomes
 
 ~~~text
                          compatible-or-null   impaired
@@ -251,7 +251,7 @@ Realised defence state changes with:
 4. response stage;
 5. temporal expression.
 
-Four systems provide particularly clear ordered exposure patterns. In *Polemonium*, moderate 2-phenylethanol expression has no detected pollination cost, whereas high expression interferes with bumblebee visitation and pollination. In *Asclepias*, short exposure can be tolerated while extended exposure produces deterrence. In *Aconitum*, robber deterrence occurs at substantially lower exposure than pronounced pollinator interference. *Nicotiana* shows response-stage dependence in which arrival, handling, and consumption need not respond in the same direction.
+Four systems provide particularly clear ordered exposure patterns. In *Polemonium*, moderate 2-phenylethanol expression has no detected pollination cost, whereas high expression interferes with bumblebee visitation and pollination (Galen et al. 2011). In *Asclepias*, short exposure can be tolerated while extended exposure produces deterrence (Jones & Agrawal 2016), and strongly elevated nectar cardenolides can produce negative consumption responses beyond the natural-range pattern (Villalona et al. 2020). In *Aconitum*, robber deterrence occurs at substantially lower exposure than pronounced pollinator interference (Barlow et al. 2017). *Nicotiana* shows response-stage dependence in which arrival, handling, and consumption need not respond in the same direction (Kessler & Baldwin 2007).
 
 These systems are consistent with the threshold sequence
 
@@ -269,7 +269,7 @@ No common numerical threshold ratio is inferred because doses, traits, consumers
 
 ### 4.4 Floral geometry predicts cheating route at community scale
 
-The Sakhalkar dataset contained 183 visited plant species after source-defined filtering; 182 had matched trait data. Robbing occurred in 26 plant species and thieving in 39.
+The Sakhalkar et al. (2023) dataset contained 183 visited plant species after source-defined filtering; 182 had matched trait data. Robbing occurred in 26 plant species and thieving in 39.
 
 Fifty-seven plant species had tube-length information and non-zero robbing or thieving frequency. Tube length was positively associated with robbing-versus-thieving balance:
 
@@ -289,11 +289,11 @@ This supports Prediction 5. Geometric restriction does not simply remove exploit
 
 The effective-domain interpretation was originally developed using the historical evidence set. We therefore evaluated subsequent evidence separately.
 
-*Caryopteris divaricata*, recovered by systematic expansion, provides a separated geometric system in which shorter-tubed flowers experience less robbing and higher legitimate visitation under natural robbing pressure; trait-associated differences are not retained when robbers are excluded.
+*Caryopteris divaricata*, recovered by systematic expansion, provides a separated geometric system in which shorter-tubed flowers experience less robbing and higher legitimate visitation under natural robbing pressure; trait-associated differences are not retained when robbers are excluded (Tie et al. 2023).
 
-*Phlox paniculata*, also recovered after rule formulation, provides an experimental chemical system in which intact floral terpenes repel ants while flying flower visitors show no detected treatment difference. This is compatible with selectivity but remains null-compatible.
+*Phlox paniculata*, also recovered after rule formulation, provides an experimental chemical system in which intact floral terpenes repel ants while flying flower visitors show no detected treatment difference (Junker et al. 2011). This is compatible with selectivity but remains null-compatible.
 
-The registered 2026 *Erica* hold-out was coded as geometrically separated before promoting the focal outcome direction. Longer corollas predict reduced bee robbing and a positive pollination-rate direction, but the latter remains boundary evidence and is coded DIRECTION_ONLY / UNRESOLVED.
+The registered 2026 *Erica* hold-out was coded as geometrically separated before promoting the focal outcome direction (Coetzee et al. 2026). Longer corollas predict reduced bee robbing and a positive pollination-rate direction, but the latter remains boundary evidence and is coded DIRECTION_ONLY / UNRESOLVED.
 
 These post-rule systems do not justify a success percentage. They differ in design and claim strength. Together with the independent Sakhalkar network, they are directionally consistent with the effective-domain framework while leaving formal confirmatory validation open.
 
@@ -353,7 +353,7 @@ and the associated identified-set logic therefore remain valuable for experiment
 
 ### 5.6 Relation to previous floral macro-syntheses
 
-Previous synthesis has shown that floral scent can differentially attract obligate visitors and repel facultative visitors, that herbivory can alter floral traits and pollination, and that multiple ecological agents impose selection on floral phenotypes. The present analysis does not claim novelty for those broad facts.
+Previous synthesis has shown that floral scent can differentially attract obligate visitors and repel facultative visitors (Junker & Blüthgen 2010), that herbivory can alter floral traits and pollination (Haas-Desmarais et al. 2026), that floral larceny has measurable reproductive and reward consequences (Leal et al. 2025), and that multiple ecological agents impose selection on floral phenotypes (Caruso et al. 2019). The present analysis does not claim novelty for those broad facts.
 
 The narrower contribution is to organize same-defence evidence around effective exposure and to connect it to within-system threshold switching and independent community-scale route switching.
 
@@ -406,4 +406,4 @@ All evidence registries, source-adjudication notes, architecture and outcome cod
 
 ## References
 
-A focused reference file should be rebuilt for this refocused manuscript. Until then, retain the existing BITA reference pool and explicitly add the primary sources used in the new matched-D and network layers.
+The candidate manuscript uses the focused working bibliography in `manuscript/FLORAL_DEFENCE_SELECTIVITY_REFERENCES_V0.md`. Final reference style and the remaining bibliography normalization are deferred until target-journal selection.
