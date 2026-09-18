@@ -4,7 +4,7 @@ import io
 import json
 import zipfile
 
-from scripts.audit_aubert2026_dryad import summarize_archive
+from scripts.audit_aubert2026_dryad import extract_public_file_streams, summarize_archive
 
 
 def _fake_archive() -> bytes:
@@ -52,3 +52,21 @@ def test_archive_audit_does_not_emit_raw_interaction_rows() -> None:
     assert "Bird a" not in encoded
     assert "Plant a" not in encoded
     assert "raw_rows" not in report
+
+
+def test_public_landing_parser_recovers_named_file_streams() -> None:
+    html = """
+    <html><body>
+      <a href="/stash/downloads/file_stream/101">Interactions_data_Ecuador.txt</a>
+      <a href="/stash/downloads/file_stream/102">Cameras_data_Ecuador.txt</a>
+      <a href="/stash/downloads/file_stream/103">Plant_traits.txt</a>
+      <a href="/stash/downloads/file_stream/104"><span>script.R</span></a>
+    </body></html>
+    """
+    streams = extract_public_file_streams(html)
+    assert streams == {
+        "Interactions_data_Ecuador.txt": "https://datadryad.org/stash/downloads/file_stream/101",
+        "Cameras_data_Ecuador.txt": "https://datadryad.org/stash/downloads/file_stream/102",
+        "Plant_traits.txt": "https://datadryad.org/stash/downloads/file_stream/103",
+        "script.R": "https://datadryad.org/stash/downloads/file_stream/104",
+    }
