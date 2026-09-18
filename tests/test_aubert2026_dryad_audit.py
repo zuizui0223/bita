@@ -4,7 +4,7 @@ import io
 import json
 import zipfile
 
-from scripts.audit_aubert2026_dryad import extract_public_file_streams, summarize_archive
+from scripts import audit_aubert2026_dryad as audit
 
 
 def _fake_archive() -> bytes:
@@ -34,7 +34,7 @@ def _fake_archive() -> bytes:
 
 
 def test_archive_audit_reports_required_files_and_safe_aggregates() -> None:
-    report = summarize_archive(_fake_archive())
+    report = audit.summarize_archive(_fake_archive())
 
     assert report["required_files_present"] is True
     assert report["interaction_rows"] == 3
@@ -47,7 +47,7 @@ def test_archive_audit_reports_required_files_and_safe_aggregates() -> None:
 
 
 def test_archive_audit_does_not_emit_raw_interaction_rows() -> None:
-    report = summarize_archive(_fake_archive())
+    report = audit.summarize_archive(_fake_archive())
     encoded = json.dumps(report)
     assert "Bird a" not in encoded
     assert "Plant a" not in encoded
@@ -63,10 +63,26 @@ def test_public_landing_parser_recovers_named_file_streams() -> None:
       <a href="/stash/downloads/file_stream/104"><span>script.R</span></a>
     </body></html>
     """
-    streams = extract_public_file_streams(html)
+    streams = audit.extract_public_file_streams(html)
     assert streams == {
         "Interactions_data_Ecuador.txt": "https://datadryad.org/stash/downloads/file_stream/101",
         "Cameras_data_Ecuador.txt": "https://datadryad.org/stash/downloads/file_stream/102",
         "Plant_traits.txt": "https://datadryad.org/stash/downloads/file_stream/103",
         "script.R": "https://datadryad.org/stash/downloads/file_stream/104",
     }
+
+
+def test_run_records_external_403_as_blocked_status(monkeypatch, tmp_path) -> None:
+    from urllib.error import HTTPError
+
+    def blocked() -> bytes:
+        raise HTTPError("https://datadryad.org/file", 403, "Forbidden", {}, None)
+
+    monkeypatch.setattr(audit, "_download", blocked)
+    output = tmp_path / "audit.json"
+    report = audit.run(output)
+
+    assert report["download_status"] == "BLOCKED_PUBLIC_DOWNLOAD"
+    assert report["http_status"] == 403
+    assert report["dataset_doi"] == audit.DATASET_DOI
+    assert output.exists()
