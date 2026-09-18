@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
+import csv
+from pathlib import Path
 
 DOMAIN_CODES = frozenset({"SEPARATED", "OVERLAPPED", "BYPASS_TOLERANCE", "TRANSITIONAL", "UNCLEAR"})
 COHORTS = frozenset({"derivation", "holdout"})
@@ -191,3 +193,9 @@ def derive_pollinator_state(row: dict[str, str]) -> str:
     if direction == "mixed":
         return "MIXED"
     return "UNRESOLVED"
+
+
+
+def load_csv_rows(path: Path) -> list[dict[str, str]]:
+    with path.open(newline="", encoding="utf-8") as handle:
+        return [dict(row) for row in csv.DictReader(handle)]
