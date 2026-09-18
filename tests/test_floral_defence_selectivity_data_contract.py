@@ -31,6 +31,7 @@ def _valid_architecture_row() -> dict[str, str]:
         "pollinator_guild": "legitimate_bees",
         "observational_or_experimental": "experimental",
         "architecture_basis_path": "empirical/mechanism_pattern_synthesis/CATALPA_1982_NECTAR_DEFENCE_AUDIT_V1.md",
+        "architecture_code_origin": "historical_derivation",
     }
 
 
@@ -92,3 +93,10 @@ def test_registry_accepts_systematic_expansion_cohort() -> None:
     row = _valid_registry_row()
     row["derivation_or_holdout"] = "systematic_expansion"
     assert validate_registry([row]) == []
+
+
+def test_architecture_rejects_unknown_code_origin() -> None:
+    row = _valid_architecture_row()
+    row["architecture_code_origin"] = "outcome_backfilled"
+    errors = validate_architecture_codes([row])
+    assert any("architecture_code_origin" in error for error in errors)
