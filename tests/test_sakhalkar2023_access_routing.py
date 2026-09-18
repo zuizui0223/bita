@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 
-from scripts.analyze_sakhalkar2023_access_routing import analyze_rows
+from scripts.analyze_sakhalkar2023_network import analyze_rows
 
 
 def test_species_level_route_balance_tracks_tube_length_without_pseudoreplication() -> None:
@@ -22,16 +22,18 @@ def test_species_level_route_balance_tracks_tube_length_without_pseudoreplicatio
 
     result = analyze_rows(visits, traits, permutations=999, seed=7)
 
-    assert result["input_visit_records"] == 6
-    assert result["analysis_visit_records"] == 5
-    assert result["behavior_record_counts"] == {
+    assert result["raw_cheater_rows"] == 6
+    assert result["analysis_visit_rows"] == 5
+    assert result["behavior_counts"] == {
         "pollinating": 1,
         "robbing": 2,
         "thieving": 2,
     }
-    assert result["route_balance_species"] == 3
-    assert math.isclose(result["tube_length_route_balance_spearman_rho"], 1.0, abs_tol=1e-12)
-    assert 0.0 < result["tube_length_route_balance_permutation_p"] <= 1.0
+    balance = result["tube_length_cheating_mode_balance"]
+    assert balance["n_species"] == 3
+    assert math.isclose(balance["spearman_rho"], 1.0, abs_tol=1e-12)
+    assert 0.0 < balance["permutation_p_two_sided"] <= 1.0
+    assert balance["seed"] == 7
 
 
 def test_species_without_cheater_activity_does_not_enter_route_balance() -> None:
@@ -46,9 +48,10 @@ def test_species_without_cheater_activity_does_not_enter_route_balance() -> None
 
     result = analyze_rows(visits, traits, permutations=99, seed=3)
 
-    assert result["route_balance_species"] == 1
-    assert result["tube_length_route_balance_spearman_rho"] is None
-    assert result["tube_length_route_balance_permutation_p"] is None
+    balance = result["tube_length_cheating_mode_balance"]
+    assert balance["n_species"] == 1
+    assert balance["spearman_rho"] is None
+    assert balance["permutation_p_two_sided"] is None
 
 
 def test_missing_or_non_numeric_frequencies_are_not_promoted_to_signal() -> None:
@@ -60,5 +63,5 @@ def test_missing_or_non_numeric_frequencies_are_not_promoted_to_signal() -> None
 
     result = analyze_rows(visits, traits, permutations=99, seed=1)
 
-    assert result["route_balance_species"] == 0
-    assert result["tube_length_route_balance_spearman_rho"] is None
+    assert result["tube_length_cheating_mode_balance"]["n_species"] == 0
+    assert result["tube_length_cheating_mode_balance"]["spearman_rho"] is None
