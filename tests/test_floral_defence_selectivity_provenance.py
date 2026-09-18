@@ -29,7 +29,9 @@ def test_milestone_readout_reports_current_counts_and_claim_ceiling() -> None:
     assert "16 independent matched-system clusters" in text
     assert "Stage 2 strict: 3" in text
     assert "Stage 2 null-compatible: 3" in text
-    assert "Stage 2 transition: 4" in text\n    assert "hold-out clusters: 1" in text\n    assert "systematic-expansion clusters: 1" in text
+    assert "Stage 2 transition: 4" in text
+    assert "hold-out clusters: 1" in text
+    assert "systematic-expansion clusters: 1" in text
     assert "does not yet establish" in text
     assert "56 directional route records" in text
 
