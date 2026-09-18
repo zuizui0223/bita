@@ -103,6 +103,11 @@ def build_analysis_ready(
         for row in joined
         if row["derivation_or_holdout"] == "holdout"
     }
+    systematic_expansion = {
+        row["study_cluster_id"]
+        for row in joined
+        if row["derivation_or_holdout"] == "systematic_expansion"
+    }
 
     audit = {
         "registry_rows": len(registry_rows),
@@ -113,6 +118,7 @@ def build_analysis_ready(
         "stage2_transition_clusters": len(stage2_transition),
         "derivation_clusters": len(derivation),
         "holdout_clusters": len(holdout),
+        "systematic_expansion_clusters": len(systematic_expansion),
     }
     return joined, audit
 
