@@ -6,6 +6,7 @@ from pathlib import Path
 from scripts.build_floral_defence_selectivity_figures_svg import (
     build_figure1,
     build_figure2,
+    build_figure3,
 )
 from trait_architecture.floral_defence_selectivity import load_csv_rows
 
@@ -45,4 +46,18 @@ def test_figure2_does_not_duplicate_study_cluster_rows() -> None:
 
     for cluster in {row["study_cluster_id"] for row in rows}:
         # Cluster ids are carried as one invisible data attribute per rendered row.
+        assert svg.count(f'data-cluster="{cluster}"') == 1
+
+
+def test_figure3_preserves_all_eight_conditionality_clusters() -> None:
+    rows = load_csv_rows(MODULE / "d_side_conditionality_registry.csv")
+    svg = build_figure3(rows)
+
+    assert len(rows) == 8
+    assert "8 defence-side state-switch systems" in svg
+    assert "Polemonium viscosum" in svg
+    assert "Aconitum lycoctonum" in svg
+    assert "Nicotiana attenuata" in svg
+    assert "same trait, different ecological state" in svg.lower()
+    for cluster in {row["study_cluster_id"] for row in rows}:
         assert svg.count(f'data-cluster="{cluster}"') == 1
