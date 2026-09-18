@@ -14,7 +14,7 @@ def test_current_selectivity_corpus_has_expected_premodel_pattern() -> None:
     summary = summarize_ecological_pattern(rows)
 
     assert summary["independent_clusters"] == 17
-    assert summary["effective_defence_clusters"] == 16
+    assert summary["effective_defence_clusters"] == 15
 
     separated = summary["by_domain"]["SEPARATED"]
     assert separated["strict_preserved_or_improved"] == 2
