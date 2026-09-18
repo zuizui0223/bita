@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import json
 from pathlib import Path
 
 import pytest
@@ -33,6 +34,7 @@ def _architecture(cluster: str = "c1") -> dict[str, str]:
         "pollinator_guild": "pollinator",
         "observational_or_experimental": "experimental",
         "architecture_basis_path": "architecture.md",
+        "architecture_code_origin": "historical_derivation",
     }
 
 
@@ -106,3 +108,22 @@ def test_audit_counts_systematic_expansion_separately() -> None:
     assert audit["systematic_expansion_clusters"] == 1
     assert audit["derivation_clusters"] == 0
     assert audit["holdout_clusters"] == 0
+
+
+def test_committed_selectivity_tables_rebuild_to_committed_audit() -> None:
+    root = Path(__file__).resolve().parents[1]
+    module = root / "empirical" / "floral_defence_selectivity"
+    registry = load_csv_rows(module / "matched_system_registry.csv")
+    architecture = load_csv_rows(module / "architecture_codes.csv")
+    outcomes = load_csv_rows(module / "outcome_codes.csv")
+
+    joined, audit = build_analysis_ready(registry, architecture, outcomes)
+    committed_audit = json.loads((module / "results" / "corpus_audit.json").read_text(encoding="utf-8"))
+
+    assert audit == committed_audit
+    assert len(joined) == committed_audit["registry_rows"]
+    assert all(row["architecture_code_origin"] for row in joined)
+
+    snapshot = load_csv_rows(module / "results" / "analysis_ready_matched_systems.csv")
+    assert len(snapshot) == len(joined)
+    assert all(row.get("architecture_code_origin", "") for row in snapshot)
