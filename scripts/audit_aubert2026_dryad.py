@@ -201,6 +201,11 @@ def run(output_path: str | Path) -> dict[str, object]:
             "dataset_doi": DATASET_DOI,
             "download_status": "BLOCKED_PUBLIC_DOWNLOAD",
             "http_status": error.code,
+            "required_files_present": False,
+            "missing_required_files": sorted(REQUIRED),
+            "interaction_rows": None,
+            "interaction_sites": None,
+            "nectar_robbing_counts": {},
             "guardrail": (
                 "Dryad metadata are public, but anonymous file-byte retrieval was blocked. "
                 "No numerical reanalysis is claimed."
