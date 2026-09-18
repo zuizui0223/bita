@@ -1,4 +1,5 @@
 name: Audit Aubert 2026 Dryad network
+# Re-run marker: verify public Dryad retrieval after parser/workflow fixes
 
 on:
   pull_request:
