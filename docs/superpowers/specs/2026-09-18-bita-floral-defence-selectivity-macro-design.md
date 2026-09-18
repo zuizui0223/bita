@@ -118,7 +118,32 @@ source_verification_state
 
 Outcome information must not be used to back-fill the architecture code.
 
-### 5.2 Outcome fields
+### 5.2 State-coding discipline
+
+State labels must not be created by a simple `P < 0.05` rule.
+
+For every outcome, preserve three separate pieces of information when available:
+
+```text
+estimated_direction
+uncertainty_class
+source_inference
+```
+
+Use:
+
+```text
+uncertainty_class
+    = DIRECTION_SUPPORTED
+    | NULL_COMPATIBLE
+    | EQUIVALENCE_SUPPORTED
+    | DIRECTION_ONLY
+    | UNRESOLVED
+```
+
+A failure to reject zero is not coded as proof of biological preservation. `PRESERVED_OR_IMPROVED` requires a positive/preserved functional result, an explicit equivalence/non-inferiority basis, or a source-supported biological comparison strong enough to justify that label. Otherwise use `NO_DETECTED_CHANGE` or `UNRESOLVED` and carry that distinction into sensitivity analyses.
+
+### 5.3 Outcome fields
 
 For the antagonist side:
 
@@ -149,7 +174,7 @@ pollinator_effect_numeric_eligible
 
 All directions are oriented so that the biological meaning is explicit rather than hidden in coefficient coding.
 
-### 5.3 Derived state fields
+### 5.4 Derived state fields
 
 Derived only after the architecture code is frozen:
 
@@ -163,6 +188,7 @@ defence_efficacy_state
 pollinator_cost_state
     = PRESERVED_OR_IMPROVED
     | IMPAIRED
+    | NO_DETECTED_CHANGE
     | MIXED
     | UNRESOLVED
 
@@ -207,12 +233,14 @@ Where sample size permits, fit a cluster-level hierarchical logistic model. If s
 
 Analysis universe: matched systems in which the focal D route is operationally effective against at least one antagonist channel.
 
-Response:
+Primary response for the strict analysis:
 
 ```text
 Y_P = 1 if pollinator function is PRESERVED_OR_IMPROVED
       0 if IMPAIRED
 ```
+
+`NO_DETECTED_CHANGE` is not silently merged with `PRESERVED_OR_IMPROVED`. It is handled in a predeclared sensitivity analysis and, where sample size permits, in a three-state ordinal/multinomial version of the model.
 
 Primary predictor:
 
@@ -286,19 +314,53 @@ Primary confirmatory reporting:
 
 Hold-out evidence must never be rewritten as if the domain rule was preregistered before its discovery.
 
-## 9. Corpus expansion strategy
+## 9. Corpus construction and systematic expansion
 
-Do **not** reopen broad undirected literature harvesting.
+The final paper must not rely only on the historically accumulated derivation examples.
 
-Expansion is limited to studies that can add a matched defence contrast or an informative failure boundary.
+Build a focused systematic matched-defence corpus whose search target is fixed **before** outcome screening:
 
-Priority order:
+> primary empirical studies in which one flower-associated defence/access trait or manipulation is evaluated against an antagonist response and a legitimate-pollinator or pollination-function response in the same biological system.
 
-1. existing 10 `D -> pollination` clusters with antagonist evidence;
-2. existing D-side systems with a likely unextracted pollinator response;
-3. registered 2020–2026 hold-out search classes;
-4. additional matched systems needed to populate sparse architecture classes;
-5. quantitative extraction only after biological eligibility is established.
+The search is narrow by design: do not reopen generic floral-trait literature harvesting, but do run a reproducible matched-D search to saturation.
+
+### 9.1 Retrieval sources
+
+Use reproducible public bibliographic sources where possible, plus backward/forward citation chasing from admitted seed studies. Record database, query, date, returned count, deduplicated count, and eligibility disposition.
+
+The existing broad Crossref/OpenAlex-style harvest infrastructure may be reused, but the new matched-D query registry must be separate from the older broad route search.
+
+### 9.2 Fixed concept families
+
+Queries should combine:
+
+```text
+flower / floral / nectar
+× defence / defense / secondary metabolite / barrier / sticky / slippery / hair / bract / calyx / access
+× pollinator / pollination / visitation / pollen transfer
+× herbivore / florivore / robber / thief / seed predator / oviposition / antagonist
+```
+
+Equivalent database syntax is allowed; biological concept families are frozen before outcome inspection.
+
+### 9.3 Search saturation
+
+Continue targeted expansion until:
+
+1. all fixed query families have been exhausted at the declared retrieval depth;
+2. backward and forward chasing of newly admitted systems yields no new eligible matched-D system in two consecutive expansion rounds;
+3. unresolved candidate records have an explicit disposition.
+
+This is literature-search saturation, not a claim of natural prevalence.
+
+### 9.4 Priority order
+
+1. recode the existing matched-D systems into the new contract;
+2. recover any unextracted pollinator or antagonist side from already admitted D clusters;
+3. execute the registered 2020–2026 hold-out search unchanged;
+4. run the new focused all-years matched-D systematic search;
+5. perform citation chasing;
+6. extract quantitative effects only after biological eligibility is established.
 
 Every new study must pass the same D-role gate. Defence-like chemistry or morphology is not admitted merely because its outcome is convenient.
 
