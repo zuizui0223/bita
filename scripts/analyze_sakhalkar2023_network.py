@@ -10,6 +10,10 @@ import statistics
 import zipfile
 from collections import Counter, defaultdict
 from pathlib import Path
+import sys
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.audit_sakhalkar2023_zenodo import (
     _download,
