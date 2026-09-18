@@ -26,10 +26,10 @@ def test_new_readme_declares_provenance_not_replacement() -> None:
 
 def test_milestone_readout_reports_current_counts_and_claim_ceiling() -> None:
     text = (MODULE / "MILESTONE1_READOUT.md").read_text(encoding="utf-8")
-    assert "14 independent matched-system clusters" in text
-    assert "Stage 2 strict: 2" in text
+    assert "16 independent matched-system clusters" in text
+    assert "Stage 2 strict: 3" in text
     assert "Stage 2 null-compatible: 3" in text
-    assert "Stage 2 transition: 4" in text
+    assert "Stage 2 transition: 4" in text\n    assert "hold-out clusters: 1" in text\n    assert "systematic-expansion clusters: 1" in text
     assert "does not yet establish" in text
     assert "56 directional route records" in text
 
