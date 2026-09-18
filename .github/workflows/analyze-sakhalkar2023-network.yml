@@ -29,6 +29,40 @@ jobs:
       - name: Run public-data reanalysis
         run: |
           python scripts/analyze_sakhalkar2023_network.py artifacts/sakhalkar2023_network_result.json --permutations 9999
+      - name: Verify frozen aggregate result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          observed = json.loads(Path("artifacts/sakhalkar2023_network_result.json").read_text())
+          frozen = json.loads(Path(
+              "empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json"
+          ).read_text())
+
+          keys = [
+              "raw_cheater_rows",
+              "analysis_visit_rows",
+              "visited_species",
+              "trait_matched_species",
+              "species_with_robbing",
+              "species_with_thieving",
+              "species_with_any_cheating_and_tube_length",
+              "median_tube_length_robber_only",
+              "median_tube_length_thief_only",
+          ]
+          for key in keys:
+              if observed[key] != frozen[key]:
+                  raise SystemExit(f"{key} drift: observed={observed[key]!r}, frozen={frozen[key]!r}")
+
+          o = observed["tube_length_cheating_mode_balance"]
+          f = frozen["tube_length_cheating_mode_balance"]
+          for key in ["n_species", "spearman_rho", "permutation_p_two_sided", "permutations", "seed"]:
+              if o[key] != f[key]:
+                  raise SystemExit(f"route statistic drift in {key}: observed={o[key]!r}, frozen={f[key]!r}")
+
+          print("Frozen Sakhalkar aggregate result reproduced exactly")
+          PY
       - name: Publish aggregate result
         run: |
           {
