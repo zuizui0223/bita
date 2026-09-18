@@ -98,11 +98,65 @@ It cannot by itself support:
 - `rho/iota/kappa` allocation;
 - prevalence of defence selectivity among plant species globally.
 
+## Reproducibility audit completed
+
+The public Zenodo archive was retrieved successfully in GitHub Actions and the workbook/schema were audited without emitting raw biological rows.
+
+Verified primary workbook:
+
+```text
+cheaters_visitation_and_trait_data.xlsx
+
+metadata       A1:C41
+cheater_data   A1:J18441
+species_details A1:C182
+plant_traits   A1:K198
+```
+
+Thus the primary visitation sheet contains 18,440 data rows before the source-script exclusion of `behavior == "visiting"`, and the trait sheet contains 197 data rows.
+
+The source R script explicitly reads:
+
+```text
+sheet = "cheater_data"
+sheet = "plant_traits"
+```
+
+and uses `tube_length` in both parsimonious cheating-mode models:
+
+```text
+robbers: tube_length + shape + tube_width
+thieves: brightness + shape + tube_length
+```
+
+The BITA reanalysis therefore has a source-defined trait axis and does not need to invent a post hoc geometry variable.
+
+## Current analysis target
+
+The BITA-specific reanalysis now operates at the **plant-species level**, not at the 18,440-row visit level, to avoid pseudoreplication.
+
+For each plant species with tube-length data:
+
+```text
+R = summed source-normalized robbing frequency
+T = summed source-normalized thieving frequency
+
+cheating-mode balance = (R - T) / (R + T)
+```
+
+for species with `R + T > 0`.
+
+The primary external-validation statistic is the species-level Spearman association between tube length and cheating-mode balance, with a fixed-seed permutation test. A positive association means longer/tubular flowers route cheating toward **robbing through a bypass hole**, whereas shorter/more accessible flowers route cheating toward **thieving through the legitimate opening**.
+
+This is deliberately separate from the matched-D causal corpus.
+
 ## Current status
 
 ```text
-public data/code:          VERIFIED AVAILABLE
-matched-D cluster:         NO
-network validation role:   HIGH
-reproducibility audit:     NEXT
+public data/code:              VERIFIED AND RETRIEVED
+workbook/schema audit:         PASS
+source analysis model audit:   PASS
+matched-D cluster:             NO
+network validation role:       HIGH
+BITA species-level reanalysis: IN EXECUTION
 ```
