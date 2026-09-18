@@ -72,9 +72,9 @@ def _permutation_p(
     if permutations <= 0 or not math.isfinite(observed):
         return None
     rng = random.Random(seed)
+    shuffled = list(y)
     extreme = 0
     for _ in range(permutations):
-        shuffled = list(y)
         rng.shuffle(shuffled)
         rho = _spearman(x, shuffled)
         if math.isfinite(rho) and abs(rho) >= abs(observed) - 1e-12:
