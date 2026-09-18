@@ -58,6 +58,22 @@ Egan PA, Muola A, Parachnowitsch AL, Stenberg JA (2021) Pollinators and herbivor
 
 Sasidharan R, Junker RR, Eilers EJ, Müller C (2023) Floral volatiles evoke partially similar responses in both florivores and pollinators and are correlated with non-volatile reward chemicals. *Annals of Botany* 132:1–14. https://doi.org/10.1093/aob/mcad064
 
+### Additional primary sources for conditionality
+
+Galen C, Kaczorowski R, Todd SL, Geib J, Raguso RA (2011) Dosage-dependent impacts of a floral volatile compound on pollinators, larcenists, and the potential for floral evolution in the alpine skypilot *Polemonium viscosum*. *The American Naturalist* 177:258–272. https://doi.org/10.1086/657993
+
+Jones PL, Agrawal AA (2016) Consequences of toxic secondary compounds in nectar for mutualist bees and antagonist butterflies. *Ecology* 97:2570–2579. https://doi.org/10.1002/ecy.1483
+
+Gegear RJ, Manson JS, Thomson JD (2007) Ecological context influences pollinator deterrence by alkaloids in floral nectar. *Ecology Letters* 10:375–382. https://doi.org/10.1111/j.1461-0248.2007.01027.x
+
+Kessler D, Baldwin IT (2007) Making sense of nectar scents: the effects of nectar secondary metabolites on floral visitors of *Nicotiana attenuata*. *The Plant Journal* 49:840–854. https://doi.org/10.1111/j.1365-313X.2006.02995.x
+
+Adler LS, Irwin RE (2005) Ecological costs and benefits of defenses in nectar. *Ecology* 86:2968–2978. https://doi.org/10.1890/05-0118
+
+Villalona E, Ezray BD, Laveaga E, Agrawal AA, Ali JG, Hines HM (2020) The role of toxic nectar secondary compounds in driving differential bumble bee preferences for milkweed flowers. *Oecologia* 193:619–630. https://doi.org/10.1007/s00442-020-04701-0
+
+Kessler D, Bing J, Haverkamp A, Baldwin IT (2019) The defensive function of a pollinator-attracting floral volatile. *Functional Ecology* 33:1223–1232. https://doi.org/10.1111/1365-2435.13332
+
 ## 5. Prior macro-syntheses that define the novelty boundary
 
 Caruso CM, Eisen KE, Martin RA, Sletvold N (2019) A meta-analysis of the agents of selection on floral traits. *Evolution* 73:4–14. https://doi.org/10.1111/evo.13639
