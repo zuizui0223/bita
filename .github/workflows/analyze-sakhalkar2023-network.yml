@@ -1,0 +1,48 @@
+name: Analyze Sakhalkar 2023 cheating-mode network
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit_sakhalkar2023_zenodo.py"
+      - "scripts/analyze_sakhalkar2023_network.py"
+      - "tests/test_sakhalkar2023_network_analysis.py"
+      - "empirical/floral_defence_selectivity/NETWORK_VALIDATION_SAKHALKAR_2023_V1.md"
+      - ".github/workflows/analyze-sakhalkar2023-network.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependency
+        run: python -m pip install "pytest>=8,<10"
+      - name: Test BITA reanalysis
+        run: pytest -q tests/test_sakhalkar2023_network_analysis.py
+      - name: Run public-data reanalysis
+        run: |
+          python scripts/analyze_sakhalkar2023_network.py artifacts/sakhalkar2023_network_result.json --permutations 9999
+      - name: Publish aggregate result
+        run: |
+          {
+            echo '## Sakhalkar 2023 BITA network reanalysis'
+            echo
+            echo 'Species-level aggregates only; no raw visit rows are emitted.'
+            echo
+            echo '~~~json'
+            cat artifacts/sakhalkar2023_network_result.json
+            echo '~~~'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sakhalkar2023-network-result
+          path: artifacts/sakhalkar2023_network_result.json
+          if-no-files-found: error
