@@ -97,3 +97,12 @@ def test_join_preserves_both_provenance_paths() -> None:
     assert row["source_provenance_path"] == "source.md"
     assert row["architecture_basis_path"] == "architecture.md"
     assert row["outcome_basis_path"] == "outcome.md"
+
+
+def test_audit_counts_systematic_expansion_separately() -> None:
+    reg = _registry("c3")
+    reg["derivation_or_holdout"] = "systematic_expansion"
+    _, audit = build_analysis_ready([reg], [_architecture("c3")], [_outcome("c3")])
+    assert audit["systematic_expansion_clusters"] == 1
+    assert audit["derivation_clusters"] == 0
+    assert audit["holdout_clusters"] == 0
