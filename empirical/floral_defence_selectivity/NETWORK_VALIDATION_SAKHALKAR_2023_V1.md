@@ -158,5 +158,69 @@ workbook/schema audit:         PASS
 source analysis model audit:   PASS
 matched-D cluster:             NO
 network validation role:       HIGH
-BITA species-level reanalysis: IN EXECUTION
+BITA species-level reanalysis: PASS
 ```
+
+## BITA reanalysis result
+
+A successful GitHub Actions run `35365789840` retrieved the public Zenodo archive, read the source workbook, reproduced the source-script cleaning rule that excludes `behavior == "visiting"`, aggregated normalized cheating frequencies to plant species, and then tested the predeclared access-routing contrast.
+
+Observed aggregate structure:
+
+```text
+raw cheater_data rows:      18,440
+rows after visiting filter: 14,383
+touching records:           13,348
+robbing records:               731
+thieving records:              304
+
+visited plant species:         183
+trait-matched species:         182
+species with robbing:           26
+species with thieving:          39
+species with cheating + tube length: 57
+```
+
+The 14,383 filtered rows are eight fewer than the 14,391 visits stated in the paper summary. The repository reanalysis reports the deposited workbook as it exists now and does not silently force the published count.
+
+For the 57 plant species with at least one robbing/thieving frequency and measured tube length:
+
+```text
+cheating-mode balance =
+    (robbing frequency - thieving frequency)
+    / (robbing frequency + thieving frequency)
+
+Spearman rho = 0.346786
+two-sided permutation p = 0.0086
+permutations = 9,999
+seed = 20260919
+```
+
+The positive association means increasing tube length shifts cheating toward **robbing** relative to **thieving**.
+
+A second descriptive contrast points in the same direction:
+
+```text
+median tube length, robber-only species = 2.0893
+median tube length, thief-only species  = 0.6766
+```
+
+Thus robber-only plants have roughly threefold greater median tube length in the deposited trait scale.
+
+## Ecological interpretation
+
+This is an independent community-scale result, not another matched-D replication:
+
+> **Floral access geometry predicts which cheating route is realised. Longer, less directly accessible flowers shift exploitation from entry through the legitimate floral opening toward bypass through nectar robbing.**
+
+That result provides a macro-ecological bridge to the matched-D defence corpus. In both layers the key object is not “physical versus chemical” defence but whether a consumer can use the legitimate access domain, is blocked by it, or bypasses it.
+
+## Statistical boundary
+
+The BITA statistic is a species-level aggregate association, not a causal manipulation. It deliberately avoids treating the 14,383 visit records as independent replicates.
+
+It does not estimate a direct pollinator cost, `rho/iota/kappa`, or the prevalence of defence selectivity. Its role is independent validation of the **access-routing mechanism** at community scale.
+
+Machine-readable result:
+
+`empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json`
