@@ -34,7 +34,7 @@ SEPARATED:  2 preserved/improved, 0 impaired
 OVERLAPPED: 0 preserved/improved, 1 impaired
 ```
 
-This small strict lane is not yet a final moderator meta-regression.
+This small strict lane is not yet a final moderator meta-regression. The exact Stage-2 gate is frozen in `STAGE2_MODEL_GATE_V1.md`: strict Fisher p = 0.333, the null-compatible sensitivity gives p = 0.143, and domain relation is perfectly confounded with broad defence modality in the three strict systems. Therefore no current claim that domain outperforms chemical/physical class is allowed.
 
 ### 2. Defence-side conditionality
 
