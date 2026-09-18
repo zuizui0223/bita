@@ -86,3 +86,9 @@ def test_valid_minimal_rows_pass() -> None:
     assert validate_registry([_valid_registry_row()]) == []
     assert validate_architecture_codes([_valid_architecture_row()]) == []
     assert validate_outcome_codes([_valid_outcome_row()]) == []
+
+
+def test_registry_accepts_systematic_expansion_cohort() -> None:
+    row = _valid_registry_row()
+    row["derivation_or_holdout"] = "systematic_expansion"
+    assert validate_registry([row]) == []
