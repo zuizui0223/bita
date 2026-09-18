@@ -32,9 +32,9 @@ Coetzee A, Seymour CL, Spottiswoode CN, Pirie MD, van der Niet T (2026) Is bee-a
 
 Barlow SE, Wright GA, Ma C, Barberis M, Farrell IW, Marr EC, Brankin A, Pavlik BM, Stevenson PC (2017) Distasteful nectar deters floral robbery. *Current Biology* 27:2552–2558.e3. https://doi.org/10.1016/j.cub.2017.07.012
 
-Carlson JE, Harms KE (2007) The benefits of bathing buds: water calyces protect flowers from a microlepidopteran herbivore. *Biology Letters*. https://doi.org/10.1098/rsbl.2007.0095
+Carlson JE, Harms KE (2007) The benefits of bathing buds: water calyces protect flowers from a microlepidopteran herbivore. *Biology Letters* 3:405–407. https://doi.org/10.1098/rsbl.2007.0095
 
-Takeda K et al. (2021) Slippery perianths prevent ant access to flowers in *Codonopsis lanceolata* and *Fritillaria koidzumiana*. *Annals of Botany*. https://doi.org/10.1093/aob/mcaa168
+Takeda K, Kadokawa T, Kawakita A (2021) Slippery flowers as a mechanism of defence against nectar-thieving ants. *Annals of Botany* 127:231–239. https://doi.org/10.1093/aob/mcaa168
 
 ## 3. Community-scale interaction routing
 
@@ -64,7 +64,7 @@ Caruso CM, Eisen KE, Martin RA, Sletvold N (2019) A meta-analysis of the agents 
 
 Haas-Desmarais S, Castagneyrol B, Abdala-Roberts L, Lortie CJ, Traveset A, Moreira X (2026) The effect of herbivory on pollinators: a revisited meta-analysis. *Annals of Botany* 137:879–885. https://doi.org/10.1093/aob/mcaf258
 
-Leal LC et al. (2025) Costs of floral larceny: a meta-analytical evaluation of nectar robbing and nectar theft on animal-pollinated plants. *Ecology* 106:e70036. https://doi.org/10.1002/ecy.70036
+Leal LC, Koski MH, Irwin RE, Bronstein JL (2025) Costs of floral larceny: a meta-analytical evaluation of nectar robbing and nectar theft on animal-pollinated plants. *Ecology* 106:e70036. https://doi.org/10.1002/ecy.70036
 
 ## 6. Reference-use rules for the refocused paper
 
@@ -82,8 +82,6 @@ Use Kessler 2015 as a consumer-context / legacy A×D bridge. Do not double-count
 
 The following working citations need a final publisher-level metadata check before manuscript promotion:
 
-- Carlson & Harms 2007: confirm final volume/pages/title punctuation.
-- Takeda et al. 2021: replace the abbreviated author/title line with publisher-formatted full citation.
-- Leal et al. 2025: replace et al. with full author list if required by target journal.
+- Remaining references should receive one final journal-style normalization pass after target-journal selection.
 
 All DOI strings above are source-traced in the repository.
