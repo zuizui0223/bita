@@ -1,0 +1,218 @@
+"""BITA-specific reanalysis of Sakhalkar et al. 2023 network data."""
+
+from __future__ import annotations
+
+import io
+import json
+import math
+import random
+import statistics
+import zipfile
+from collections import Counter, defaultdict
+from pathlib import Path
+
+from scripts.audit_sakhalkar2023_zenodo import (
+    _download,
+    read_xlsx_sheet_rows,
+)
+
+WORKBOOK_BASENAME = "cheaters_visitation_and_trait_data.xlsx"
+SEED = 20260919
+
+
+def _as_float(value: str) -> float | None:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    return number if math.isfinite(number) else None
+
+
+def _rankdata(values: list[float]) -> list[float]:
+    indexed = sorted(enumerate(values), key=lambda pair: pair[1])
+    ranks = [0.0] * len(values)
+    i = 0
+    while i < len(indexed):
+        j = i + 1
+        while j < len(indexed) and indexed[j][1] == indexed[i][1]:
+            j += 1
+        average_rank = (i + 1 + j) / 2.0
+        for k in range(i, j):
+            ranks[indexed[k][0]] = average_rank
+        i = j
+    return ranks
+
+
+def _pearson(x: list[float], y: list[float]) -> float:
+    if len(x) != len(y) or len(x) < 2:
+        return math.nan
+    mx = statistics.fmean(x)
+    my = statistics.fmean(y)
+    dx = [v - mx for v in x]
+    dy = [v - my for v in y]
+    denominator = math.sqrt(sum(v * v for v in dx) * sum(v * v for v in dy))
+    if denominator == 0:
+        return math.nan
+    return sum(a * b for a, b in zip(dx, dy)) / denominator
+
+
+def _spearman(x: list[float], y: list[float]) -> float:
+    return _pearson(_rankdata(x), _rankdata(y))
+
+
+def _permutation_p(
+    x: list[float],
+    y: list[float],
+    observed: float,
+    permutations: int,
+) -> float | None:
+    if permutations <= 0 or not math.isfinite(observed):
+        return None
+    rng = random.Random(SEED)
+    shuffled = list(y)
+    extreme = 0
+    for _ in range(permutations):
+        rng.shuffle(shuffled)
+        rho = _spearman(x, shuffled)
+        if math.isfinite(rho) and abs(rho) >= abs(observed) - 1e-12:
+            extreme += 1
+    return (extreme + 1) / (permutations + 1)
+
+
+def _find_workbook(archive_bytes: bytes) -> bytes:
+    with zipfile.ZipFile(io.BytesIO(archive_bytes)) as archive:
+        matches = [
+            item
+            for item in archive.infolist()
+            if not item.is_dir() and Path(item.filename).name == WORKBOOK_BASENAME
+        ]
+        if len(matches) != 1:
+            raise ValueError(
+                f"expected one {WORKBOOK_BASENAME}, found {len(matches)}"
+            )
+        return archive.read(matches[0])
+
+
+def analyze_workbook(
+    workbook_bytes: bytes,
+    *,
+    permutations: int = 9999,
+) -> dict[str, object]:
+    raw_visits = read_xlsx_sheet_rows(workbook_bytes, "cheater_data")
+    traits = read_xlsx_sheet_rows(workbook_bytes, "plant_traits")
+
+    visits = [
+        row
+        for row in raw_visits
+        if str(row.get("behavior", "")).strip().lower() != "visiting"
+    ]
+    behavior_counts = Counter(
+        str(row.get("behavior", "")).strip().lower()
+        for row in visits
+        if str(row.get("behavior", "")).strip()
+    )
+
+    frequency: dict[str, dict[str, float]] = defaultdict(lambda: defaultdict(float))
+    visited_species: set[str] = set()
+    for row in visits:
+        spcode = str(row.get("spcode", "")).strip()
+        behavior = str(row.get("behavior", "")).strip().lower()
+        value = _as_float(str(row.get("freq_fm_per_species", "")).strip())
+        if not spcode:
+            continue
+        visited_species.add(spcode)
+        if behavior and value is not None:
+            frequency[spcode][behavior] += value
+
+    tube_length_by_species: dict[str, float] = {}
+    for row in traits:
+        spcode = str(row.get("spcode", "")).strip()
+        tube_length = _as_float(str(row.get("tube_length", "")).strip())
+        if spcode and tube_length is not None:
+            tube_length_by_species[spcode] = tube_length
+
+    trait_matched = sorted(visited_species.intersection(tube_length_by_species))
+    species_with_robbing = {
+        sp for sp in visited_species if frequency[sp].get("robbing", 0.0) > 0
+    }
+    species_with_thieving = {
+        sp for sp in visited_species if frequency[sp].get("thieving", 0.0) > 0
+    }
+
+    cheated_species = [
+        sp
+        for sp in trait_matched
+        if frequency[sp].get("robbing", 0.0)
+        + frequency[sp].get("thieving", 0.0)
+        > 0
+    ]
+    x = [tube_length_by_species[sp] for sp in cheated_species]
+    balance = []
+    for sp in cheated_species:
+        rob = frequency[sp].get("robbing", 0.0)
+        thief = frequency[sp].get("thieving", 0.0)
+        balance.append((rob - thief) / (rob + thief))
+
+    rho = _spearman(x, balance)
+    p_value = _permutation_p(x, balance, rho, permutations)
+
+    robber_only = [
+        tube_length_by_species[sp]
+        for sp in trait_matched
+        if frequency[sp].get("robbing", 0.0) > 0
+        and frequency[sp].get("thieving", 0.0) == 0
+    ]
+    thief_only = [
+        tube_length_by_species[sp]
+        for sp in trait_matched
+        if frequency[sp].get("thieving", 0.0) > 0
+        and frequency[sp].get("robbing", 0.0) == 0
+    ]
+
+    return {
+        "raw_cheater_rows": len(raw_visits),
+        "analysis_visit_rows": len(visits),
+        "behavior_counts": dict(sorted(behavior_counts.items())),
+        "visited_species": len(visited_species),
+        "trait_matched_species": len(trait_matched),
+        "species_with_robbing": len(species_with_robbing),
+        "species_with_thieving": len(species_with_thieving),
+        "species_with_any_cheating_and_tube_length": len(cheated_species),
+        "tube_length_cheating_mode_balance": {
+            "definition": "(robbing_frequency-thieving_frequency)/(robbing_frequency+thieving_frequency)",
+            "n_species": len(cheated_species),
+            "spearman_rho": None if not math.isfinite(rho) else rho,
+            "permutation_p_two_sided": p_value,
+            "permutations": permutations,
+            "seed": SEED,
+        },
+        "median_tube_length_robber_only": (
+            statistics.median(robber_only) if robber_only else None
+        ),
+        "median_tube_length_thief_only": (
+            statistics.median(thief_only) if thief_only else None
+        ),
+        "guardrail": (
+            "Species-level aggregate reanalysis. No raw visit or species rows are emitted."
+        ),
+    }
+
+
+def run(output_path: str | Path, *, permutations: int = 9999) -> dict[str, object]:
+    workbook = _find_workbook(_download())
+    result = analyze_workbook(workbook, permutations=permutations)
+    path = Path(output_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return result
+
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("output")
+    parser.add_argument("--permutations", type=int, default=9999)
+    args = parser.parse_args()
+    result = run(args.output, permutations=args.permutations)
+    print(json.dumps(result, indent=2, sort_keys=True))
