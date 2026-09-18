@@ -6,11 +6,43 @@ import zipfile
 from scripts.audit_sakhalkar2023_zenodo import summarize_archive
 
 
+def _fake_xlsx() -> bytes:
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w") as book:
+        book.writestr(
+            "xl/workbook.xml",
+            """<?xml version="1.0" encoding="UTF-8"?>
+            <workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"
+              xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+              <sheets><sheet name="visits" sheetId="1" r:id="rId1"/></sheets>
+            </workbook>""",
+        )
+        book.writestr(
+            "xl/_rels/workbook.xml.rels",
+            """<?xml version="1.0" encoding="UTF-8"?>
+            <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+              <Relationship Id="rId1" Type="worksheet" Target="worksheets/sheet1.xml"/>
+            </Relationships>""",
+        )
+        book.writestr(
+            "xl/worksheets/sheet1.xml",
+            """<?xml version="1.0" encoding="UTF-8"?>
+            <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+              <dimension ref="A1:C3"/>
+              <sheetData><row r="1">
+                <c r="A1" t="inlineStr"><is><t>plant</t></is></c>
+                <c r="B1" t="inlineStr"><is><t>visitor</t></is></c>
+                <c r="C1" t="inlineStr"><is><t>role</t></is></c>
+              </row></sheetData>
+            </worksheet>""",
+        )
+    return buffer.getvalue()
+
+
 def _fake_archive() -> bytes:
     buffer = io.BytesIO()
     with zipfile.ZipFile(buffer, "w") as archive:
-        archive.writestr("project/data/visits.csv", "plant,visitor,role\nA,X,legitimate\n")
-        archive.writestr("project/data/traits.csv", "plant,tube_length\nA,2.3\n")
+        archive.writestr("project/input/cheaters.xlsx", _fake_xlsx())
         archive.writestr("project/R/analysis.R", "print('ok')\n")
         archive.writestr("project/README.md", "test")
     return buffer.getvalue()
@@ -18,22 +50,32 @@ def _fake_archive() -> bytes:
 
 def test_archive_inventory_reports_safe_file_metadata() -> None:
     report = summarize_archive(_fake_archive())
-    assert report["archive_member_count"] == 4
+    assert report["archive_member_count"] == 3
     assert report["member_names"] == [
         "project/R/analysis.R",
         "project/README.md",
-        "project/data/traits.csv",
-        "project/data/visits.csv",
+        "project/input/cheaters.xlsx",
     ]
-    assert report["csv_files"] == ["project/data/traits.csv", "project/data/visits.csv"]
+    assert report["xlsx_files"] == ["project/input/cheaters.xlsx"]
     assert report["r_files"] == ["project/R/analysis.R"]
     assert report["readme_files"] == ["project/README.md"]
     assert report["total_uncompressed_bytes"] > 0
 
 
-def test_archive_inventory_does_not_emit_file_contents() -> None:
+def test_xlsx_schema_reports_sheet_dimension_and_headers_only() -> None:
+    report = summarize_archive(_fake_archive())
+    workbook = report["xlsx_workbooks"]["project/input/cheaters.xlsx"]
+    assert workbook["sheets"] == [
+        {
+            "name": "visits",
+            "dimension": "A1:C3",
+            "headers": ["plant", "visitor", "role"],
+        }
+    ]
+
+
+def test_archive_inventory_does_not_emit_data_rows_or_script_contents() -> None:
     report = summarize_archive(_fake_archive())
     encoded = str(report)
-    assert "legitimate" not in encoded
-    assert "tube_length" not in encoded
     assert "print('ok')" not in encoded
+    assert "raw_rows" not in report
