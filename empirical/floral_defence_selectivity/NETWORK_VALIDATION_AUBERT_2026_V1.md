@@ -88,7 +88,12 @@ Status:
 
 ```text
 source suitability:       PASS
-public data availability: PASS
-BITA reanalysis:          NOT_YET_EXECUTED
-role in paper:            INDEPENDENT_NETWORK_VALIDATION_CANDIDATE
+public metadata/files:    VERIFIED LISTED
+anonymous file retrieval: BLOCKED_403_IN_CI
+BITA reanalysis:          BLOCKED_ON_PUBLIC_BYTES
+role in paper:            SECONDARY_NETWORK_VALIDATION_CANDIDATE
 ```
+
+The failure is an external retrieval boundary, not a negative biological result. After repeated bounded attempts, the Dryad landing page exposed the required file links but anonymous file-stream requests returned HTTP 403 in the CI environment. No additional endpoint guessing is used in the active workstream.
+
+The executable independent-network lane therefore moves to Sakhalkar et al. 2023, whose public Zenodo archive is reproducibly retrievable. Aubert remains valuable corroborating prior evidence and may be reopened only if an accessible public mirror or a changed Dryad access route is verified.
