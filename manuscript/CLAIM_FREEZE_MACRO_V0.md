@@ -18,9 +18,9 @@ The previous identification result remains an inferential boundary and secondary
 
 Use the effective-exposure model:
 
-[
-z_H=q_Hx,qquad z_P=q_Px
-]
+\[
+z_H=q_Hx,\qquad z_P=q_Px
+\]
 
 with thresholds
 
@@ -30,9 +30,9 @@ x_H^*=	au_H/q_H,qquad x_P^*=	au_P/q_P.
 
 Selective window:
 
-[
+\[
 x_H^*<x<x_P^*.
-]
+\]
 
 Permitted qualitative predictions:
 
