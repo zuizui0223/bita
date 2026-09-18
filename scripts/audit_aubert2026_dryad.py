@@ -14,7 +14,9 @@ from pathlib import Path
 from urllib.request import Request, urlopen
 
 DATASET_DOI = "10.5061/dryad.rn8pk0pqx"
-DOWNLOAD_URL = "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.rn8pk0pqx/download"\nLANDING_URL = "https://datadryad.org/dataset/doi%3A10.5061/dryad.rn8pk0pqx"\nUSER_AGENT = "bita-aubert2026-dryad-audit/1.0"
+DOWNLOAD_URL = "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.rn8pk0pqx/download"
+LANDING_URL = "https://datadryad.org/dataset/doi%3A10.5061/dryad.rn8pk0pqx"
+USER_AGENT = "bita-aubert2026-dryad-audit/1.0"
 API_VERSION = "2.1.0"
 MAX_BYTES = 64 * 1024 * 1024
 REQUIRED = {
