@@ -12,7 +12,8 @@ from urllib.request import Request, urlopen
 
 DATASET_DOI = "10.5061/dryad.rn8pk0pqx"
 DOWNLOAD_URL = "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.rn8pk0pqx/download"
-USER_AGENT = "bita-aubert2026-dryad-audit/1.0"\nAPI_VERSION = "2.1.0"
+USER_AGENT = "bita-aubert2026-dryad-audit/1.0"
+API_VERSION = "2.1.0"
 MAX_BYTES = 64 * 1024 * 1024
 REQUIRED = {
     "Interactions_data_Ecuador.txt",
