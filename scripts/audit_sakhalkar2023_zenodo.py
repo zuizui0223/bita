@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import io
 import json
-import zipfile
 import posixpath
 import xml.etree.ElementTree as ET
+import zipfile
 from pathlib import Path
 from urllib.request import Request, urlopen
 
@@ -17,8 +17,6 @@ DOWNLOAD_URL = (
 )
 USER_AGENT = "bita-sakhalkar2023-zenodo-audit/1.0"
 MAX_BYTES = 8 * 1024 * 1024
-
-
 
 _MAIN_NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 _DOC_REL_NS = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
@@ -64,6 +62,7 @@ def inspect_xlsx_schema(data: bytes) -> dict[str, object]:
         sheets_node = workbook.find(f"{{{_MAIN_NS}}}sheets")
         if sheets_node is None:
             return {"sheets": sheets}
+
         for sheet in sheets_node.findall(f"{{{_MAIN_NS}}}sheet"):
             rel_id = sheet.attrib.get(f"{{{_DOC_REL_NS}}}id", "")
             target = rels.get(rel_id)
@@ -72,9 +71,7 @@ def inspect_xlsx_schema(data: bytes) -> dict[str, object]:
             sheet_path = posixpath.normpath(posixpath.join("xl", target.lstrip("/")))
             root = ET.fromstring(book.read(sheet_path))
             dimension = root.find(f"{{{_MAIN_NS}}}dimension")
-            first_row = root.find(
-                f"{{{_MAIN_NS}}}sheetData/{{{_MAIN_NS}}}row"
-            )
+            first_row = root.find(f"{{{_MAIN_NS}}}sheetData/{{{_MAIN_NS}}}row")
             headers: list[str] = []
             if first_row is not None:
                 headers = [
@@ -96,10 +93,18 @@ def summarize_archive(data: bytes) -> dict[str, object]:
         members = [item for item in archive.infolist() if not item.is_dir()]
         names = sorted(item.filename for item in members)
         csv_files = sorted(name for name in names if name.lower().endswith(".csv"))
-        xlsx_files = sorted(\n            name for name in names\n            if name.lower().endswith(".xlsx") and not Path(name).name.startswith("~$")\n        )\n        xlsx_workbooks = {\n            name: inspect_xlsx_schema(archive.read(name)) for name in xlsx_files\n        }\n        r_files = sorted(name for name in names if name.lower().endswith(".r"))
+        xlsx_files = sorted(
+            name
+            for name in names
+            if name.lower().endswith(".xlsx")
+            and not Path(name).name.startswith("~$")
+        )
+        xlsx_workbooks = {
+            name: inspect_xlsx_schema(archive.read(name)) for name in xlsx_files
+        }
+        r_files = sorted(name for name in names if name.lower().endswith(".r"))
         readme_files = sorted(
-            name for name in names
-            if Path(name).name.lower().startswith("readme")
+            name for name in names if Path(name).name.lower().startswith("readme")
         )
         return {
             "dataset_doi": DATASET_DOI,
@@ -111,7 +116,9 @@ def summarize_archive(data: bytes) -> dict[str, object]:
             "xlsx_workbooks": xlsx_workbooks,
             "r_files": r_files,
             "readme_files": readme_files,
-            "guardrail": "Archive inventory only. File contents and raw rows are not emitted.",
+            "guardrail": (
+                "Schema/inventory audit only. Raw data rows and script contents are not emitted."
+            ),
         }
 
 
@@ -143,7 +150,6 @@ if __name__ == "__main__":
         json.dumps(
             {
                 "archive_member_count": result["archive_member_count"],
-                "csv_files": result["csv_files"],
                 "xlsx_files": result["xlsx_files"],
                 "r_files": result["r_files"],
                 "readme_files": result["readme_files"],
