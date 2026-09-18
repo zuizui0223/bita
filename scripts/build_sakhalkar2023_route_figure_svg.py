@@ -77,7 +77,7 @@ def build_svg(
     tubes = [float(point["tube_length"]) for point in points]
     lo, hi = min(tubes), max(tubes)
     pad = max((hi - lo) * 0.05, 0.05)
-    xlo, xhi = lo - pad, hi + pad
+    xlo, xhi = max(0.0, lo - pad), hi + pad
 
     stats = result["tube_length_cheating_mode_balance"]
     rho = float(stats["spearman_rho"])
@@ -126,18 +126,16 @@ def build_svg(
         )
 
     parts.extend([
+        _text(plot_x1 - 12, plot_y0 + 28, "B = (R − T)/(R + T)", size=14, anchor="end"),
         _text((plot_x0 + plot_x1) / 2, plot_y1 + 60, "tube length (source trait scale)", size=16, anchor="middle"),
-        f'<text x="42" y="{(plot_y0+plot_y1)/2}" transform="rotate(-90 42 {(plot_y0+plot_y1)/2})" '
-        'font-family="DejaVu Sans,Arial,sans-serif" font-size="16" text-anchor="middle">'
-        'cheating-mode balance  B = (R − T)/(R + T)</text>',
-        _text(140, 710, f"n = {n_species} species", size=17, weight="bold"),
-        _text(330, 710, f"rho = {rho:.3f}", size=17, weight="bold"),
-        _text(500, 710, f"permutation p = {pval:.4f}", size=17, weight="bold"),
-        _text(730, 710, "species are inferential units; visit rows are not treated as replicates", size=14),
+        _text(140, 748, f"n = {n_species} species", size=17, weight="bold"),
+        _text(345, 748, f"rho = {rho:.3f}", size=17, weight="bold"),
+        _text(510, 748, f"permutation p = {pval:.4f}", size=17, weight="bold"),
+        _text(745, 748, "species are inferential units", size=14),
     ])
 
     # Legend.
-    legend_y = 755
+    legend_y = 800
     for i, (key, label) in enumerate([
         ("robber_only", "robber-only"),
         ("mixed", "mixed robbing + thieving"),
@@ -155,15 +153,16 @@ def build_svg(
         _text(box_x + 22, 215, f'robber-only median = {float(result["median_tube_length_robber_only"]):.3f}', size=17, weight="bold", fill="#8c2d2d"),
         _text(box_x + 22, 252, f'thief-only median = {float(result["median_tube_length_thief_only"]):.3f}', size=17, weight="bold", fill="#315f8c"),
         _text(box_x + 22, 300, "Descriptive contrast only; not a second inferential test.", size=14),
-        _text(box_x + 22, 350, "Longer tubes are associated with relatively more robbery.", size=15, weight="bold"),
+        _text(box_x + 22, 345, "Longer tubes are associated with", size=15, weight="bold"),
+        _text(box_x + 22, 370, "relatively more robbery.", size=15, weight="bold"),
         f'<rect x="{box_x}" y="420" width="470" height="310" rx="14" fill="#fffdf7" stroke="#444" stroke-width="2"/>',
         _text(box_x + 22, 458, "Access-routing interpretation", size=19, weight="bold"),
-        _text(box_x + 35, 510, "short / accessible flower", size=16, weight="bold"),
-        _text(box_x + 235, 510, "→ thieving through opening", size=16, fill="#315f8c"),
-        _text(box_x + 35, 575, "long / constrained flower", size=16, weight="bold"),
-        _text(box_x + 235, 575, "→ bypass / robbing", size=16, fill="#8c2d2d"),
-        _text(box_x + 22, 645, "Access barriers can reroute exploitation", size=17, weight="bold"),
-        _text(box_x + 22, 675, "rather than simply eliminating it.", size=17, weight="bold"),
+        _text(box_x + 35, 505, "short / accessible flower", size=16, weight="bold"),
+        _text(box_x + 55, 535, "→ thieving through opening", size=16, fill="#315f8c"),
+        _text(box_x + 35, 585, "long / constrained flower", size=16, weight="bold"),
+        _text(box_x + 55, 615, "→ bypass / robbing", size=16, fill="#8c2d2d"),
+        _text(box_x + 22, 675, "Access barriers can reroute exploitation", size=17, weight="bold"),
+        _text(box_x + 22, 705, "rather than simply eliminating it.", size=17, weight="bold"),
         _text(120, 875, "Public data: Sakhalkar et al. 2023, Zenodo 10.5281/zenodo.8398202. No species identifiers or raw visit rows are emitted in this figure.", size=13),
         "</svg>",
     ])
