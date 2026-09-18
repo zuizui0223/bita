@@ -1,0 +1,40 @@
+name: Build Sakhalkar 2023 route-switch figure
+
+on:
+  pull_request:
+    paths:
+      - "scripts/analyze_sakhalkar2023_network.py"
+      - "scripts/build_sakhalkar2023_route_figure_svg.py"
+      - "tests/test_sakhalkar2023_route_figure.py"
+      - ".github/workflows/build-sakhalkar2023-route-figure.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package and tests
+        run: python -m pip install -e '.[dev]'
+      - name: Test route-figure contracts
+        run: pytest -q tests/test_sakhalkar2023_route_figure.py tests/test_sakhalkar2023_network_analysis.py
+      - name: Build Figure 4 from public data
+        run: |
+          python scripts/build_sakhalkar2023_route_figure_svg.py --output artifacts/FIGURE_4_SAKHALKAR_ACCESS_ROUTING.svg
+      - name: Verify aggregate annotations
+        run: |
+          grep -q "n = 57 species" artifacts/FIGURE_4_SAKHALKAR_ACCESS_ROUTING.svg
+          grep -q "rho = 0.347" artifacts/FIGURE_4_SAKHALKAR_ACCESS_ROUTING.svg
+          grep -q "permutation p = 0.0086" artifacts/FIGURE_4_SAKHALKAR_ACCESS_ROUTING.svg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sakhalkar2023-route-figure
+          path: artifacts/FIGURE_4_SAKHALKAR_ACCESS_ROUTING.svg
+          if-no-files-found: error
