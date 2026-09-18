@@ -30,9 +30,25 @@ jobs:
           python scripts/build_sakhalkar2023_route_figure_svg.py --output artifacts/FIGURE_4_SAKHALKAR_ACCESS_ROUTING.svg
       - name: Verify aggregate annotations
         run: |
-          grep -q "n = 57 species" artifacts/FIGURE_4_SAKHALKAR_ACCESS_ROUTING.svg
-          grep -q "rho = 0.347" artifacts/FIGURE_4_SAKHALKAR_ACCESS_ROUTING.svg
-          grep -q "permutation p = 0.0086" artifacts/FIGURE_4_SAKHALKAR_ACCESS_ROUTING.svg
+          python - <<'PY'
+          from pathlib import Path
+          path = Path("artifacts/FIGURE_4_SAKHALKAR_ACCESS_ROUTING.svg")
+          text = path.read_text(encoding="utf-8")
+          expected = [
+              "n = 57 species",
+              "rho = 0.347",
+              "permutation p = 0.0086",
+          ]
+          missing = [item for item in expected if item not in text]
+          if missing:
+              stat_lines = [
+                  line.strip()
+                  for line in text.splitlines()
+                  if "species" in line or "rho" in line or "permutation" in line
+              ]
+              raise SystemExit(f"missing annotations: {missing}; observed stat lines: {stat_lines}")
+          print("Figure 4 aggregate annotations verified")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: sakhalkar2023-route-figure
