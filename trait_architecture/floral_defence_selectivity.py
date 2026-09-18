@@ -121,3 +121,33 @@ def validate_outcome_codes(rows: Iterable[dict[str, str]]) -> list[str]:
                 "NULL_COMPATIBLE without source-supported preservation"
             )
     return errors
+
+
+FORBIDDEN_ARCHITECTURE_FIELDS = frozenset(
+    {
+        "observed_state",
+        "observed_state_for_validation",
+        "effect_value",
+        "effect_direction",
+        "validation_result",
+        "p_value",
+        "pollinator_cost_state",
+        "selectivity_state",
+    }
+)
+
+
+def registry_key(row: dict[str, str]) -> tuple[str, str, str]:
+    return (
+        str(row.get("study_cluster_id", "")).strip(),
+        str(row.get("D_axis_id", "")).strip(),
+        str(row.get("context_id", "")).strip(),
+    )
+
+
+def validate_no_outcome_leakage(rows: Iterable[dict[str, str]]) -> list[str]:
+    errors: list[str] = []
+    for index, row in enumerate(rows, start=1):
+        for field in sorted(FORBIDDEN_ARCHITECTURE_FIELDS.intersection(row)):
+            errors.append(f"architecture row {index}: forbidden outcome field {field}")
+    return errors
