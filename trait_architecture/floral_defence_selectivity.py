@@ -5,6 +5,7 @@ import csv
 from pathlib import Path
 
 DOMAIN_CODES = frozenset({"SEPARATED", "OVERLAPPED", "BYPASS_TOLERANCE", "TRANSITIONAL", "UNCLEAR"})
+ARCHITECTURE_CODE_ORIGINS = frozenset({"historical_derivation", "source_mechanistic_posthoc", "prospective_blind"})
 COHORTS = frozenset({"derivation", "holdout", "systematic_expansion"})
 UNCERTAINTY_CLASSES = frozenset(
     {
@@ -48,6 +49,7 @@ ARCHITECTURE_REQUIRED = frozenset(
         "pollinator_guild",
         "observational_or_experimental",
         "architecture_basis_path",
+        "architecture_code_origin",
     }
 )
 OUTCOME_REQUIRED = frozenset(
@@ -97,6 +99,9 @@ def validate_architecture_codes(rows: Iterable[dict[str, str]]) -> list[str]:
         code = str(row.get("pre_outcome_domain_code", "")).strip()
         if code and code not in DOMAIN_CODES:
             errors.append(f"architecture row {index}: invalid pre_outcome_domain_code={code!r}")
+        origin = str(row.get("architecture_code_origin", "")).strip()
+        if origin and origin not in ARCHITECTURE_CODE_ORIGINS:
+            errors.append(f"architecture row {index}: invalid architecture_code_origin={origin!r}")
     return errors
 
 
