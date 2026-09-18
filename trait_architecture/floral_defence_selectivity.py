@@ -204,3 +204,76 @@ def derive_pollinator_state(row: dict[str, str]) -> str:
 def load_csv_rows(path: Path) -> list[dict[str, str]]:
     with path.open(newline="", encoding="utf-8") as handle:
         return [dict(row) for row in csv.DictReader(handle)]
+
+
+def summarize_ecological_pattern(rows: Iterable[dict[str, str]]) -> dict[str, object]:
+    """Summarize cluster-level ecological states without treating nulls as equivalence."""
+    unique: dict[str, dict[str, str]] = {}
+    for row in rows:
+        cluster = str(row.get("study_cluster_id", "")).strip()
+        if not cluster:
+            continue
+        if cluster in unique:
+            raise ValueError(f"multiple analysis-ready rows for study cluster: {cluster}")
+        unique[cluster] = row
+
+    domains = {
+        code: {
+            "clusters": 0,
+            "effective_defence": 0,
+            "strict_preserved_or_improved": 0,
+            "strict_impaired": 0,
+            "null_compatible_no_detected_change": 0,
+            "unresolved_direct_pollinator": 0,
+            "pollinator_not_measured_directly": 0,
+        }
+        for code in DOMAIN_CODES
+    }
+
+    effective = 0
+    transitional_mixed = 0
+    bypass_null_or_weak = 0
+    strict_stage2 = 0
+
+    for row in unique.values():
+        domain = str(row.get("pre_outcome_domain_code", "")).strip()
+        if domain not in domains:
+            continue
+        domains[domain]["clusters"] += 1
+
+        defence_state = str(row.get("defence_efficacy_state", "")).strip()
+        pollinator_state = str(row.get("pollinator_cost_state_derived", "")).strip()
+        pollinator_stage = str(row.get("pollinator_response_stage", "")).strip()
+
+        if defence_state == "EFFECTIVE":
+            effective += 1
+            domains[domain]["effective_defence"] += 1
+
+            if domain in {"SEPARATED", "OVERLAPPED"}:
+                if pollinator_stage == "not_measured_directly":
+                    domains[domain]["pollinator_not_measured_directly"] += 1
+                elif pollinator_state == "PRESERVED_OR_IMPROVED":
+                    domains[domain]["strict_preserved_or_improved"] += 1
+                    strict_stage2 += 1
+                elif pollinator_state == "IMPAIRED":
+                    domains[domain]["strict_impaired"] += 1
+                    strict_stage2 += 1
+                elif pollinator_state == "NO_DETECTED_CHANGE":
+                    domains[domain]["null_compatible_no_detected_change"] += 1
+                elif pollinator_state == "UNRESOLVED":
+                    domains[domain]["unresolved_direct_pollinator"] += 1
+
+        if domain == "TRANSITIONAL" and pollinator_state == "MIXED":
+            transitional_mixed += 1
+        if domain == "BYPASS_TOLERANCE" and defence_state == "NULL_OR_WEAK":
+            bypass_null_or_weak += 1
+
+    return {
+        "independent_clusters": len(unique),
+        "effective_defence_clusters": effective,
+        "by_domain": domains,
+        "transitional_mixed_clusters": transitional_mixed,
+        "bypass_null_or_weak_defence_clusters": bypass_null_or_weak,
+        "strict_stage2_clusters": strict_stage2,
+        "strict_model_gate": "READY" if strict_stage2 >= 15 else "NOT_READY",
+    }
