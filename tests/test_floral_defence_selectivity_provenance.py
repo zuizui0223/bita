@@ -26,9 +26,15 @@ def test_new_readme_declares_provenance_not_replacement() -> None:
 
 def test_milestone_readout_reports_current_counts_and_claim_ceiling() -> None:
     text = (MODULE / "MILESTONE1_READOUT.md").read_text(encoding="utf-8")
-    assert "12 independent matched-system clusters" in text
+    assert "14 independent matched-system clusters" in text
     assert "Stage 2 strict: 2" in text
-    assert "Stage 2 null-compatible: 2" in text
+    assert "Stage 2 null-compatible: 3" in text
     assert "Stage 2 transition: 4" in text
     assert "does not yet establish" in text
     assert "56 directional route records" in text
+
+
+def test_original_same_system_d_side_is_fully_inherited() -> None:
+    registry = (MODULE / "matched_system_registry.csv").read_text(encoding="utf-8")
+    assert "Ipomopsis_2004" in registry
+    assert "Impatiens_2018" in registry
