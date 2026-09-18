@@ -30,6 +30,7 @@ def summarize_archive(data: bytes) -> dict[str, object]:
         return {
             "dataset_doi": DATASET_DOI,
             "archive_member_count": len(members),
+            "member_names": names,
             "total_uncompressed_bytes": sum(item.file_size for item in members),
             "csv_files": csv_files,
             "r_files": r_files,
