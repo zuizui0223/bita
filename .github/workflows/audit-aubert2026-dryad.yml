@@ -1,5 +1,4 @@
 name: Audit Aubert 2026 Dryad network
-# Re-run marker: verify public Dryad retrieval after parser/workflow fixes
 
 on:
   pull_request:
@@ -22,7 +21,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install test dependency\n        run: python -m pip install "pytest>=8,<10"\n      - name: Test archive parser\n        run: pytest -q tests/test_aubert2026_dryad_audit.py
+      - name: Install test dependency
+        run: python -m pip install "pytest>=8,<10"
+      - name: Test archive parser
+        run: pytest -q tests/test_aubert2026_dryad_audit.py
       - name: Audit public Dryad dataset
         run: |
           python scripts/audit_aubert2026_dryad.py artifacts/aubert2026_dryad_audit.json
@@ -33,9 +35,9 @@ jobs:
             echo
             echo 'Raw rows are intentionally not emitted.'
             echo
-            echo '```json'
+            echo '~~~json'
             cat artifacts/aubert2026_dryad_audit.json
-            echo '```'
+            echo '~~~'
           } >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         if: always()
