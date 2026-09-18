@@ -5,7 +5,7 @@ import csv
 from pathlib import Path
 
 DOMAIN_CODES = frozenset({"SEPARATED", "OVERLAPPED", "BYPASS_TOLERANCE", "TRANSITIONAL", "UNCLEAR"})
-COHORTS = frozenset({"derivation", "holdout"})
+COHORTS = frozenset({"derivation", "holdout", "systematic_expansion"})
 UNCERTAINTY_CLASSES = frozenset(
     {
         "DIRECTION_SUPPORTED",
