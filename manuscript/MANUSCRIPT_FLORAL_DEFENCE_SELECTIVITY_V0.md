@@ -20,7 +20,7 @@ This conflict has often been summarized as a pollination–defence trade-off (Ke
 
 These examples suggest that the important ecological object is not defence class alone. What matters is whether the focal antagonist and legitimate pollinator actually experience the same effective domain of the trait. “Domain” here is deliberately broad. It can be biochemical susceptibility, spatial access, attack route, cumulative exposure, temporal overlap, visitor functional mode, or the response stage at which the interaction is measured.
 
-We formalize this idea as an effective-exposure threshold model. The model generates four testable states: separated domains should create a selective window; overlapping domains should narrow or close that window; bypass should eliminate the focal antagonist-reduction effect; and increasing exposure should move systems from ineffective to selective to pollinator-interfering states. A related access prediction is that barriers need not eliminate exploitation: if a bypass route exists, increasing mismatch can shift animals from use of the legitimate opening toward robbery.
+We formalize this idea as an effective-exposure threshold model (Fig. 1). The model generates four testable states: separated domains should create a selective window; overlapping domains should narrow or close that window; bypass should eliminate the focal antagonist-reduction effect; and increasing exposure should move systems from ineffective to selective to pollinator-interfering states. A related access prediction is that barriers need not eliminate exploitation: if a bypass route exists, increasing mismatch can shift animals from use of the legitimate opening toward robbery.
 
 We test these predictions at three scales. First, we construct a matched-defence corpus in which one flower-associated defence or access axis is linked to both antagonist and pollinator outcomes within the same study system. Second, we recover within-system state transitions from earlier BITA evidence on dose, exposure, consumer identity, response stage, and temporal expression. Third, we independently reanalyse a public Afrotropical flower-visitor dataset to ask whether floral tube length predicts the balance between nectar thieving through the floral opening and nectar robbing by bypass.
 
@@ -199,7 +199,7 @@ We tested the association between tube length and \(B_i\) with a species-level S
 
 ### 4.1 Matched floral-defence systems recover the predicted state structure, but strict inference is sparse
 
-The matched-D registry contains 17 independent systems. Fifteen have an effective focal antagonist-reduction route.
+The matched-D registry contains 17 independent systems. Fifteen have an effective focal antagonist-reduction route (Fig. 2).
 
 The strict direction-supported pollinator subset contains only three systems:
 
@@ -241,7 +241,7 @@ This is consistent with Prediction 3: a trait can be structurally conspicuous ye
 
 ### 4.3 Selectivity changes state within systems
 
-Eight independent defence-side clusters preserve the earlier BITA conditionality result.
+Eight independent defence-side clusters preserve the earlier BITA conditionality result (Fig. 3).
 
 Realised defence state changes with:
 
@@ -269,7 +269,7 @@ No common numerical threshold ratio is inferred because doses, traits, consumers
 
 ### 4.4 Floral geometry predicts cheating route at community scale
 
-The Sakhalkar et al. (2023) dataset contained 183 visited plant species after source-defined filtering; 182 had matched trait data. Robbing occurred in 26 plant species and thieving in 39.
+The Sakhalkar et al. (2023) dataset contained 183 visited plant species after source-defined filtering; 182 had matched trait data (Fig. 4). Robbing occurred in 26 plant species and thieving in 39.
 
 Fifty-seven plant species had tube-length information and non-zero robbing or thieving frequency. Tube length was positively associated with robbing-versus-thieving balance:
 
@@ -323,7 +323,7 @@ This common formal structure explains why “chemical versus physical” is an i
 
 ### 5.3 Barriers reroute exploitation rather than simply eliminating it
 
-The Sakhalkar reanalysis adds a result that the case synthesis alone could not provide. Longer floral tubes are associated with a shift from thieving to robbing across plant species. In other words, access restriction changes the behavioral route of cheating.
+The Sakhalkar reanalysis (Fig. 4) adds a result that the case synthesis alone could not provide. Longer floral tubes are associated with a shift from thieving to robbing across plant species. In other words, access restriction changes the behavioral route of cheating.
 
 This suggests that floral defence should often be analysed as a routing problem. Blocking the legitimate path can reduce one exploitative mode while increasing the relative value of bypass. That perspective links physical barriers, nectar robbing, visitor handling, and trait matching within one ecological framework.
 
@@ -331,7 +331,7 @@ It also changes how “successful defence” should be evaluated. A reduction in
 
 ### 5.4 The selective window is dynamic
 
-The defence-side conditionality systems show why static comparisons can be misleading. If antagonist and pollinator thresholds differ, a system can appear selective at one dose but costly at another. A pollinator can also cross a threshold only after repeated exposure or only at a later behavioral stage.
+The defence-side conditionality systems (Fig. 3) show why static comparisons can be misleading. If antagonist and pollinator thresholds differ, a system can appear selective at one dose but costly at another. A pollinator can also cross a threshold only after repeated exposure or only at a later behavioral stage.
 
 This predicts that ecological variation in trait intensity, visitor assemblage, and phenology can shift the same plant population among defence states without requiring evolutionary change in the underlying trait class.
 
