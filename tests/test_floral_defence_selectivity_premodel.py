@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from trait_architecture.floral_defence_selectivity import load_csv_rows, summarize_ecological_pattern
@@ -44,3 +45,13 @@ def test_null_compatible_rows_are_not_counted_as_strict_preservation() -> None:
     assert separated["strict_preserved_or_improved"] != (
         separated["strict_preserved_or_improved"] + separated["null_compatible_no_detected_change"]
     )
+
+
+def test_committed_premodel_summary_matches_current_corpus() -> None:
+    rows = load_csv_rows(SNAPSHOT)
+    expected = summarize_ecological_pattern(rows)
+    committed = json.loads(
+        (ROOT / "empirical" / "floral_defence_selectivity" / "results" / "premodel_pattern_summary.json")
+        .read_text(encoding="utf-8")
+    )
+    assert committed == expected
