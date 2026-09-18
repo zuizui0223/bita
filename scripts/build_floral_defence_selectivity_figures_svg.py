@@ -205,13 +205,120 @@ def build_figure2(rows: list[dict[str, str]], gate: dict[str, object]) -> str:
     return "\n".join(parts) + "\n"
 
 
+
+def _wrap_state(value: str, max_chars: int = 28) -> tuple[str, ...]:
+    words = value.replace("_", " ").split()
+    lines: list[str] = []
+    current = ""
+    for word in words:
+        candidate = word if not current else f"{current} {word}"
+        if len(candidate) <= max_chars:
+            current = candidate
+        else:
+            if current:
+                lines.append(current)
+            current = word
+    if current:
+        lines.append(current)
+    return tuple(lines[:3])
+
+
+def _state_box(
+    x: float,
+    y: float,
+    width: float,
+    height: float,
+    value: str,
+    *,
+    fill: str,
+) -> list[str]:
+    lines = _wrap_state(value)
+    out = [
+        f'<rect x="{x}" y="{y}" width="{width}" height="{height}" rx="10" '
+        f'fill="{fill}" stroke="#555" stroke-width="1.5"/>'
+    ]
+    if len(lines) == 1:
+        ys = [y + height / 2 + 5]
+    elif len(lines) == 2:
+        ys = [y + height / 2 - 5, y + height / 2 + 16]
+    else:
+        ys = [y + height / 2 - 17, y + height / 2 + 4, y + height / 2 + 25]
+    for line, yy in zip(lines, ys):
+        out.append(_text(x + width / 2, yy, line, size=13, anchor="middle"))
+    return out
+
+
+def build_figure3(rows: list[dict[str, str]]) -> str:
+    if len(rows) != 8:
+        raise ValueError(f"expected 8 defence-side conditionality clusters, got {len(rows)}")
+
+    ordered_ids = {
+        "Galen_2011_Polemonium",
+        "Jones_Agrawal_2016_Asclepias",
+        "Villalona_Ezray_2020_Asclepias",
+        "Barlow_2017_Aconitum",
+    }
+    ordered = [row for row in rows if row["study_cluster_id"] in ordered_ids]
+    other = [row for row in rows if row["study_cluster_id"] not in ordered_ids]
+
+    width, height = 1680, 1120
+    parts = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
+        '<rect width="100%" height="100%" fill="white"/>',
+        _text(840, 46, "Figure 3. The same defence axis changes ecological state", size=29, anchor="middle", weight="bold"),
+        _text(840, 80, "8 defence-side state-switch systems; each row is one independent study cluster", size=18, anchor="middle"),
+        _text(45, 127, "Ordered exposure / intensity contrasts", size=21, weight="bold"),
+        _text(855, 127, "Other conditionality axes", size=21, weight="bold"),
+    ]
+
+    def render_lane(row: dict[str, str], x0: float, y: float) -> None:
+        parts.append(f'<g data-cluster="{escape(row["study_cluster_id"])}">')
+        parts.append(_text(x0, y + 22, _short(row["plant_taxon"], 31), size=16, weight="bold"))
+        parts.append(_text(x0, y + 44, row["macro_axis"].replace("_", " "), size=13, fill="#555"))
+        parts.extend(_state_box(x0, y + 58, 285, 82, row["low_or_first_state"], fill="#f2f2f2"))
+        parts.append(_line(x0 + 292, y + 99, x0 + 350, y + 99, width=2.5))
+        parts.append(f'<path d="M {x0+350} {y+99} l -12 -7 l 0 14 z" fill="#222"/>')
+        parts.extend(_state_box(x0 + 362, y + 58, 310, 82, row["high_or_second_state"], fill="#f7eadc"))
+        parts.append(
+            _text(
+                x0 + 336,
+                y + 164,
+                _short(row["ecological_transition"].replace("_", " "), 48),
+                size=13,
+                anchor="middle",
+                weight="bold",
+            )
+        )
+        parts.append("</g>")
+
+    for i, row in enumerate(sorted(ordered, key=lambda r: r["study_cluster_id"])):
+        render_lane(row, 45, 150 + i * 185)
+
+    for i, row in enumerate(sorted(other, key=lambda r: r["study_cluster_id"])):
+        render_lane(row, 855, 150 + i * 185)
+
+    bottom_y = 910
+    parts.extend([
+        f'<rect x="45" y="{bottom_y}" width="1590" height="155" rx="14" fill="#f7f7f7" stroke="#444" stroke-width="2"/>',
+        _text(70, bottom_y + 32, "Kessler 2015 consumer-context bridge", size=19, weight="bold"),
+        _text(70, bottom_y + 66, "same nectar-restriction axis", size=16, weight="bold"),
+        _text(355, bottom_y + 66, "Manduca: SWEET9 seed production = 44.6% of EV (supported cost)", size=15),
+        _text(355, bottom_y + 96, "Hyles: SWEET9 seed production = 111.69% of EV (single-axis cost not detected)", size=15),
+        _text(70, bottom_y + 129, "Main inference: same trait, different ecological state as consumer, exposure, stage or timing changes.", size=17, weight="bold"),
+        _text(1230, bottom_y + 129, "No universal threshold ratio is inferred.", size=14, anchor="middle", fill="#555"),
+        "</svg>",
+    ])
+    return "\n".join(parts) + "\n"
+
 def write_figures(out_dir: Path, module: Path = MODULE) -> list[Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     rows = load_csv_rows(module / "results" / "analysis_ready_matched_systems.csv")
     gate = json.loads((module / "results" / "stage2_model_gate.json").read_text(encoding="utf-8"))
+    conditionality = load_csv_rows(module / "d_side_conditionality_registry.csv")
     payloads = {
         "FIGURE_1_EFFECTIVE_EXPOSURE_THEORY.svg": build_figure1(),
         "FIGURE_2_MATCHED_D_STATE_MAP.svg": build_figure2(rows, gate),
+        "FIGURE_3_DEFENCE_STATE_SWITCHES.svg": build_figure3(conditionality),
     }
     paths: list[Path] = []
     for name, svg in payloads.items():
