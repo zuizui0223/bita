@@ -104,6 +104,30 @@ The pollination estimate lies at the source-reported significance boundary and i
 
 Thus the hold-out is directionally consistent with the rule but does not close the confirmatory gate.
 
+
+## Result 6 — independent community-scale access routing is quantitatively supported
+
+The Sakhalkar et al. 2023 public network dataset provides an external scale check that is independent of the matched-D case compilation.
+
+After source-script cleaning, the deposited workbook contains 14,383 analysed visit records across 183 visited plant species. Species-level aggregation avoids treating visits as independent biological replicates.
+
+For 57 cheating-exposed plant species with tube-length data:
+
+```text
+tube length vs cheating-mode balance:
+Spearman rho = 0.346786
+permutation p = 0.0086
+
+median tube length:
+robber-only species = 2.0893
+thief-only species  = 0.6766
+```
+
+where cheating-mode balance is `(robbing - thieving)/(robbing + thieving)` using source-normalized visitation frequencies.
+
+This independently supports the access-routing prediction: longer, less directly accessible flowers shift exploitation toward bypass by **robbing**, whereas more accessible flowers permit more **thieving through the legitimate opening**.
+
+This network result does not estimate defence efficacy or pollinator cost, so it is not counted as another matched-D cluster.
 ## Ecological interpretation at the current evidence ceiling
 
 The current corpus is better summarized as:
@@ -147,6 +171,6 @@ ecological signal:                    PRESENT
 strict cross-system model capacity:   NOT_READY
 generic literature expansion:         NO
 focused matched-D expansion:          CONTINUE
-independent network validation:       CONTINUE
+independent network validation:       PASS_SAKHALKAR_2023
 legacy BITA results:                  PRESERVE
 ```
