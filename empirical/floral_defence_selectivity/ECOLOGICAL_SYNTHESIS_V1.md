@@ -28,7 +28,7 @@ OVERLAPPED: 0 preserved/improved, 1 impaired
 
 Four additional separated systems are null-compatible for pollinator change rather than equivalence-supported preservation. They are kept separate from the strict binary result.
 
-Interpretation: same-D evidence is directionally consistent with effective-domain separation, but the strict cross-system sample is still too small for a high-dimensional moderator model.
+Interpretation: same-D evidence is directionally consistent with effective-domain separation, but the strict cross-system sample is still too small for a high-dimensional moderator model. Exact analysis gives Fisher two-sided p = 0.333 for the strict 2×2 table. A sensitivity that groups four null-compatible separated systems with the compatible side gives p = 0.143, but null compatibility is not equivalence. In the strict subset, domain relation and broad defence modality are perfectly confounded, so the current data cannot show that domain structure explains more than chemical-versus-physical class.
 
 ## Evidence layer 2 — within-system state switching
 
@@ -81,7 +81,7 @@ It now has three linked ecological observations:
 2. **switching rule** — the same D changes state with exposure, consumer and response stage;
 3. **network consequence** — access geometry predicts which exploitation route animals use across a multispecies community.
 
-The common ecological object is **effective access/exposure domain**, not a chemical-versus-physical label.
+The common ecological candidate is **effective access/exposure domain**. Recurrence across chemical, physical and reward-access implementations argues against treating one defence class as the whole explanation, but a formal domain-versus-modality comparison is not yet identified in the strict Stage-2 subset.
 
 ## Current claim ceiling
 
