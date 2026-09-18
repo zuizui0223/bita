@@ -29,7 +29,7 @@ OVERLAPPED: 0 preserved/improved, 1 impaired
 + 1 explicit bypass/null-D boundary
 ```
 
-Do not oversell n=3 as a final meta-regression. Present it as the strict evidence subset embedded in the larger state-structured corpus.
+Do not oversell n=3 as a final meta-regression. Present it as the strict evidence subset embedded in the larger state-structured corpus. The frozen exact gate gives Fisher p = 0.333; the null-compatible sensitivity gives p = 0.143. The three strict systems also perfectly confound domain relation with broad modality (two separated physical systems versus one overlapped chemical system), so `domain > modality` is explicitly not a current result.
 
 ### Result 2 — selectivity is dynamic within systems
 
@@ -183,4 +183,4 @@ Do not overwrite the existing active mechanism-identification manuscript until t
 1. latest CI green;
 2. Sakhalkar result reproduced on the current head;
 3. matched-D systematic-search disposition complete enough to document search saturation or a bounded stopping rule;
-4. final decision on whether the strict Stage-2 comparison remains descriptive or gains enough systems for a formal low-dimensional model.
+4. preserve the current `DESCRIPTIVE_EXACT_ONLY` decision unless newly admitted strict systems break the domain-modality confounding and materially expand Stage-2.
