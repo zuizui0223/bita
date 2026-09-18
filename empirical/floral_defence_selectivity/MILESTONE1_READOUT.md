@@ -7,12 +7,13 @@ Milestone 1 has migrated the existing matched-defence evidence into a new macro-
 Current analysis-ready registry:
 
 ```text
-14 independent matched-system clusters
-Stage 1 eligible: 13
-Stage 2 strict: 2
+16 independent matched-system clusters
+Stage 1 eligible: 15
+Stage 2 strict: 3
 Stage 2 null-compatible: 3
 Stage 2 transition: 4
-hold-out clusters migrated: 0
+hold-out clusters: 1
+systematic-expansion clusters: 1
 ```
 
 The remaining matched systems include pollinator-outcome information that is unresolved for the strict Stage-2 comparison, transition states, or boundary cases. The original same-system D-side set is now fully inherited, including Ipomopsis and the unresolved Impatiens panel.
@@ -44,7 +45,7 @@ Their different outcome metrics remain on their source-supported scales. They ar
 
 Stage 1 is already well populated for asking whether a proposed flower-associated defence actually affects its antagonist route.
 
-Stage 2 is not yet sufficiently populated for a high-dimensional cross-system model of pollinator preservation. The current strict binary lane contains only two independent clusters, with three additional null-compatible systems and four transition systems in which dose, exposure duration, or response stage changes the pollinator state. Impatiens remains outside the strict Stage-1 efficacy gate because its same-panel D-to-antagonism sign is unresolved.
+Stage 2 is not yet sufficiently populated for a high-dimensional cross-system model of pollinator preservation. The current strict binary lane contains three independent clusters: Thunia and the new systematic-expansion Caryopteris system support preserved/improved pollinator function under an effective separated defence/access state, whereas the overlapped high-gelsemine Gelsemium state supports pollinator impairment. Three additional separated systems are null-compatible rather than equivalence-supported, four systems show dose/exposure/response-stage transitions, and the new Erica hold-out has the predicted positive pollination direction but remains DIRECTION_ONLY at the source-reported boundary. Impatiens remains outside the strict Stage-1 efficacy gate because its same-panel D-to-antagonism sign is unresolved.
 
 Therefore Milestone 1 **does not yet establish** that effective-domain separation predicts pollinator preservation across floral systems. It establishes a reproducible evidence base and identifies exactly which missing matched contrasts control that test.
 
@@ -57,4 +58,4 @@ Do not broaden back into generic floral-trait searching. The next expansion is a
 3. outcome-blind overlap/separation architecture with a direct pollinator outcome;
 4. independent hold-out systems under the already registered 2020–2026 protocol.
 
-Only after that expansion should the domain-separation versus chemical/physical model comparison be promoted to the main ecological result.
+Only after that expansion should the domain-separation versus chemical/physical model comparison be promoted to the main ecological result. The current three-cell strict lane is a directional feasibility signal, not yet the final macro-ecological inference.
