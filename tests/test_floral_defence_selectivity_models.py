@@ -1,6 +1,10 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 from scripts.run_floral_defence_selectivity_models import summarize_stage2_model_gate
+from trait_architecture.floral_defence_selectivity import load_csv_rows
 
 
 def _row(domain: str, state: str, modality: str) -> dict[str, str]:
@@ -64,3 +68,17 @@ def test_strict_domain_modality_confounding_blocks_competing_model_claim() -> No
 
     assert result["strict_domain_modality_confounding"] == "PERFECT_IN_CURRENT_STRICT_SET"
     assert result["can_compare_domain_vs_modality"] is False
+
+
+def test_committed_stage2_gate_matches_current_analysis_ready_data() -> None:
+    root = Path(__file__).resolve().parents[1]
+    module = root / "empirical" / "floral_defence_selectivity"
+    rows = load_csv_rows(module / "results" / "analysis_ready_matched_systems.csv")
+    expected = summarize_stage2_model_gate(rows)
+    committed = json.loads(
+        (module / "results" / "stage2_model_gate.json").read_text(encoding="utf-8")
+    )
+    assert committed == expected
+    assert expected["strict_stage2_n"] == 3
+    assert expected["model_decision"] == "DESCRIPTIVE_EXACT_ONLY"
+    assert expected["strict_domain_modality_confounding"] == "PERFECT_IN_CURRENT_STRICT_SET"
