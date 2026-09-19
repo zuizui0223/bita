@@ -82,18 +82,53 @@ BITA-specific extension, only if supported by the deposited variables:
 
 ## Current execution status
 
-The data are publicly deposited and the file schema is visible through Dryad, but the current execution environment has not yet materialized the file bytes. Therefore no BITA-specific numerical reanalysis is claimed here yet.
+Direct anonymous Dryad file-byte access remains blocked in CI, but an accessible public EPHI Zenodo mirror (DOI 10.5281/zenodo.14185547) exposes the underlying Ecuador interaction, camera, plant-trait and hummingbird-trait tables.
+
+BITA therefore completed an **independent all-18-site Ecuador extension** using the source paper's access-mismatch definition rather than claiming an exact three-transect replication.
 
 Status:
 
 ```text
-source suitability:       PASS
-public metadata/files:    VERIFIED LISTED
-anonymous file retrieval: BLOCKED_403_IN_CI
-BITA reanalysis:          BLOCKED_ON_PUBLIC_BYTES
-role in paper:            SECONDARY_NETWORK_VALIDATION_CANDIDATE
+source suitability:          PASS
+direct Dryad bytes:          BLOCKED_403_IN_CI
+public EPHI Zenodo mirror:   PASS
+mirror schema/unit audit:    PASS
+all-18-site BITA extension:  PASS
+role in paper:               SECOND_INDEPENDENT_NETWORK_VALIDATION
 ```
 
-The failure is an external retrieval boundary, not a negative biological result. After repeated bounded attempts, the Dryad landing page exposed the required file links but anonymous file-stream requests returned HTTP 403 in the CI environment. No additional endpoint guessing is used in the active workstream.
+Frozen extension result:
 
-The executable independent-network lane therefore moves to Sakhalkar et al. 2023, whose public Zenodo archive is reproducibly retrievable. Aubert remains valuable corroborating prior evidence and may be reopened only if an accessible public mirror or a changed Dryad access route is verified.
+```text
+resolved target interactions: 21,114
+trait-matched interactions:   20,572
+bird x plant x site units:     1,378
+sites:                            18
+
+mean robbery rate:
+  flower tube > bill barrier = 0.30698
+  accessible                 = 0.08139
+
+difference = +0.22560
+pair-site permutation p = 0.0001
+
+Spearman rho[log(T/B), robbery rate] = 0.41826
+permutation p = 0.0001
+
+within-site:
+  eligible sites = 17
+  positive sites = 15
+  mean difference = +0.14399
+  sign-test p = 0.00235
+  site-stratified permutation p = 0.0001
+```
+
+This is an independent extension over all 18 Ecuador mirror sites, not an exact numerical replication of the published three-transect Aubert model.
+
+Primary readout:
+
+`AUBERT_ZENODO_EXTENSION_V1.md`
+
+Machine-readable result:
+
+`results/aubert2026_zenodo_extension.json`
