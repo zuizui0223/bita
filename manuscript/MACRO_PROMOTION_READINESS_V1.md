@@ -173,7 +173,7 @@ The candidate has dedicated CI for:
 - candidate figures;
 - legacy submission-package protection.
 
-The latest verified all-green head should be written into the candidate receipt after the current post-robustness CI cycle completes.
+Verified package head `140217d30c9468d41faa00543def4fcb649ce89c` completed all 12 active workflows successfully, including exact regeneration of both network analyses and both figure pipelines.
 
 ## 6. Main figure set
 
