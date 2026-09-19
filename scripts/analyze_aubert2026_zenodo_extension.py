@@ -301,6 +301,66 @@ def _site_difference_summary(
         "site_stratified_permutation_p": (extreme + 1) / (permutations + 1),
     }
 
+
+def _min_interaction_sensitivity(
+    rows: list[dict[str, float | str | bool | int]],
+    *,
+    permutations: int,
+    seed: int,
+) -> dict[str, object]:
+    out: dict[str, object] = {}
+    for offset, minimum in enumerate((1, 2, 5)):
+        subset = [
+            row
+            for row in rows
+            if int(row.get("n_interactions", 1)) >= minimum
+        ]
+        key = f"min_{minimum}"
+        if len(subset) < 6:
+            out[key] = {
+                "n_pair_sites": len(subset),
+                "status": "INSUFFICIENT_ROWS",
+            }
+            continue
+
+        rates = [float(row["robbery_rate"]) for row in subset]
+        mismatch = [float(row["mismatch_log_t_over_b"]) for row in subset]
+        barrier = [bool(row["trait_barrier"]) for row in subset]
+        if not any(barrier) or all(barrier):
+            out[key] = {
+                "n_pair_sites": len(subset),
+                "status": "ONE_BARRIER_CLASS_ONLY",
+            }
+            continue
+
+        rho, rho_p = _perm_p_spearman(
+            mismatch,
+            rates,
+            permutations,
+            seed + 100 + offset,
+        )
+        diff, diff_p = _perm_p_mean_diff(
+            rates,
+            barrier,
+            permutations,
+            seed + 200 + offset,
+        )
+        barrier_rates = [v for v, flag in zip(rates, barrier) if flag]
+        accessible_rates = [v for v, flag in zip(rates, barrier) if not flag]
+        out[key] = {
+            "status": "FIT",
+            "n_pair_sites": len(subset),
+            "barrier_pair_sites": len(barrier_rates),
+            "accessible_pair_sites": len(accessible_rates),
+            "mean_robbery_rate_barrier": _mean(barrier_rates),
+            "mean_robbery_rate_accessible": _mean(accessible_rates),
+            "barrier_minus_accessible_mean_rate": diff,
+            "barrier_mean_difference_permutation_p": diff_p,
+            "mismatch_spearman_rho": rho,
+            "mismatch_spearman_permutation_p": rho_p,
+        }
+    return out
+
 def summarize_pair_sites(rows: list[dict[str, float | str | bool | int]], permutations: int = 9999, seed: int = SEED) -> dict[str, object]:
     if len(rows) < 6:
         raise ValueError("too few trait-matched pair-site rows")
@@ -324,6 +384,11 @@ def summarize_pair_sites(rows: list[dict[str, float | str | bool | int]], permut
             }
 
     site_summary = _site_difference_summary(rows, permutations=permutations, seed=seed + 2)
+    min_interaction_sensitivity = _min_interaction_sensitivity(
+        rows,
+        permutations=permutations,
+        seed=seed,
+    )
 
     return {
         "analysis_name": "aubert_zenodo_all_ecuador_access_barrier_extension",
@@ -340,6 +405,7 @@ def summarize_pair_sites(rows: list[dict[str, float | str | bool | int]], permut
         "mismatch_spearman_permutation_p": rho_p,
         "bird_group_summary": group_summary,
         "site_difference": site_summary,
+        "min_interaction_sensitivity": min_interaction_sensitivity,
         "permutations": permutations,
         "seed": seed,
         "trait_definition": {
