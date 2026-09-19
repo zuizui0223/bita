@@ -231,6 +231,27 @@ Permitted interpretation:
 
 Do not call this a causal defence experiment.
 
+Multitrait sensitivity boundary:
+
+~~~text
+robber-source predictors:
+    tube_length + tube_width + shape
+n = 57
+full-model R2 = 0.2902
+full-model permutation p = 0.2016
+tube-length delta R2 = 0.0288
+tube-length permutation p = 0.2110
+
+brightness available in deposited trait table = 0 / 57
+thief-source and union models = not estimable without external/imputed data
+~~~
+
+Permitted interpretation:
+
+> tube length is associated with robbing-versus-thieving balance, but the current deposited data do not identify tube length as a unique predictor independent of correlated floral morphology.
+
+Prefer “access geometry” over “tube length alone” in the general ecological conclusion.
+
 ## Frozen domain-versus-modality boundary
 
 The three strict Stage-2 systems perfectly confound domain relation with broad modality:
@@ -330,6 +351,7 @@ Do not claim:
 - domain separation outperforms modality in the current strict data;
 - null-compatible means no pollinator cost;
 - the Sakhalkar correlation is causal;
+- tube length is a uniquely identified driver after adjustment for correlated floral morphology;
 - 14,383 exactly reproduces the published 14,391 visit count;
 - the 17-system matched-D corpus estimates natural prevalence;
 - the 56/25 legacy corpus estimates natural prevalence;
