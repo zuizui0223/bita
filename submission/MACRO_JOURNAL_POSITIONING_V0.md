@@ -9,7 +9,7 @@ Candidate manuscript:
 Approximate current manuscript-source length:
 
 ```text
-~3,840 words before final bibliography/legends
+~5,780 words before final bibliography/legends
 4 main figures
 ```
 
@@ -30,7 +30,7 @@ The paper now combines:
 
 ### Route A — Ecology Letters Synthesis proposal first
 
-Current official journal guidance states that Ecology Letters prioritizes clearly stated ecological hypotheses, broad novelty and general interest. Its Synthesis format can combine literature synthesis, quantitative meta-analysis and modelling, with a maximum of 7,500 words and 10 display items. Unsolicited Synthesis submissions are proposal-gated before full submission.
+Current official journal guidance states that Ecology Letters prioritizes clearly stated ecological hypotheses, broad novelty and general interest. Its Synthesis format allows up to 7,500 main-text words and 10 display items. Unsolicited Synthesis manuscripts require prior proposal approval; proposals must be no more than 300 words and should describe the nature and novelty of the work and its contribution to the discipline. The journal editorial guidance also asks proposals to state the qualifications of the authors.
 
 Official source:
 https://onlinelibrary.wiley.com/page/journal/14610248/homepage/ForAuthors.html
@@ -52,7 +52,7 @@ Main editorial risk:
 Action:
 
 ```text
-send short Synthesis proposal
+send <=300-word Synthesis proposal to both editorial-office addresses
 do not reformat the full paper first
 ```
 
