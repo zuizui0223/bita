@@ -1,0 +1,63 @@
+{
+  "analysis_name": "sakhalkar_source_defined_trait_routing_models",
+  "claim_boundary": "No imputation is used. Source-defined predictor sets are fitted only when at least six cheating species have complete data. Models may use different complete-case species subsets and therefore are not compared by raw R2 as if they shared an identical sample.",
+  "coverage": {
+    "cheating_species": 57,
+    "nonmissing": {
+      "brightness": 0,
+      "shape": 57,
+      "tube_length": 57,
+      "tube_width": 57
+    },
+    "robber_source_complete": 57,
+    "thief_source_complete": 0,
+    "union_complete": 0
+  },
+  "models": {
+    "robber_source_predictors": {
+      "block_tests": {
+        "shape": {
+          "bh_q": 0.7447,
+          "delta_r2": 0.15140444406956566,
+          "permutation_p": 0.7447
+        },
+        "tube_length": {
+          "bh_q": 0.633,
+          "delta_r2": 0.028799622246421075,
+          "permutation_p": 0.211
+        },
+        "tube_width": {
+          "bh_q": 0.67305,
+          "delta_r2": 0.010910373343225754,
+          "permutation_p": 0.4487
+        }
+      },
+      "full_model_permutation_p": 0.2016,
+      "full_model_r2": 0.29023896666941373,
+      "n_species_complete": 57,
+      "permutations": 9999,
+      "predictor_blocks": ["tube_length", "tube_width", "shape"],
+      "seed": 20260919,
+      "shape_levels": ["Bell","Dish","Funnel","Gullet","Labiate","Open","Papilionaceous","Salverform","Stellate","Trumpet","Tube","Urceolate"],
+      "status": "FIT"
+    },
+    "thief_source_predictors": {
+      "n_species_complete": 0,
+      "predictor_blocks": ["tube_length", "brightness", "shape"],
+      "status": "INSUFFICIENT_COMPLETE_CASES"
+    },
+    "union_predictors": {
+      "n_species_complete": 0,
+      "predictor_blocks": ["tube_length", "tube_width", "brightness", "shape"],
+      "status": "INSUFFICIENT_COMPLETE_CASES"
+    }
+  },
+  "predictor_provenance": {
+    "robber_source_model": ["tube_length", "shape", "tube_width"],
+    "thief_source_model": ["brightness", "shape", "tube_length"],
+    "union": ["tube_length", "tube_width", "brightness", "shape"]
+  },
+  "response": "rank-transformed species-level (robbing-thieving)/(robbing+thieving)",
+  "workflow_run": 35414173596,
+  "artifact_digest": "sha256:8420532d198de16e21f2a34bd2adc66d0085263b84f1a4a14a8ed2c7a7869141"
+}
