@@ -12,7 +12,7 @@ This adaptation is held in reserve while the Ecology Letters Synthesis proposal 
 
 2. We tested these predictions using three evidence layers: a source-adjudicated matched-defence synthesis, a within-system conditionality synthesis, and an independent public-data reanalysis of an Afrotropical flower–visitor network.
 
-3. The matched-defence corpus contains 17 independent systems, 15 with an effective antagonist-reduction route. The strict direct pollinator subset is small: two separated systems show preserved or improved pollinator function, whereas one overlapped system shows impairment. Four additional separated systems are null-compatible rather than equivalence-supported. Exact analysis is therefore descriptive and current strict data cannot separate domain relation from broad defence modality.
+3. The matched-defence corpus contains 17 independent systems, 15 with an effective antagonist-reduction route. Eleven systems are directly scorable in a broader ecological-state analysis. All nine scorable historical systems and both systematic-expansion systems match the fixed prediction that separated domains show no observed pollinator interference, transitional domains show mixed responses, and overlap shows impairment. A coarse defence-modality classifier recovers 6/9 historical systems by leave-one-out prediction and 1/2 expansion systems. Null-compatible outcomes remain distinct from equivalence, and the narrower direction-supported Stage-2 subset remains only three systems.
 
 4. Eight independent defence-side systems show state switching with dose, cumulative exposure, consumer identity, response stage or temporal expression. In the independent network reanalysis, tube length predicts cheating route among 57 plant species: longer tubes shift exploitation from thieving through the floral opening toward nectar robbing by bypass (Spearman rho = 0.347; permutation p = 0.0086).
 
@@ -54,7 +54,7 @@ Lead in this order:
 
 1. mechanism: effective access/exposure thresholds create a selective window;
 2. macro result: floral geometry predicts cheating-route switching across a multispecies network;
-3. cross-system evidence: 17 matched systems + 8 within-system conditionality systems;
+3. cross-system evidence: 17 matched systems, including 11 scorable ecological-state systems (9/9 historical + 2/2 expansion), plus 8 within-system conditionality systems;
 4. methodological strength: outcome-blind architecture coding, independent cluster counting, exact Stage-2 claim gate;
 5. restraint: no domain>modality or universal-prevalence claim.
 
