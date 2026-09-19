@@ -279,6 +279,19 @@ within-site robustness:
   median difference: +0.13132
   sign-test p = 0.00235
   site-stratified permutation p = 0.0001
+
+minimum-interaction sensitivity:
+  min >= 2 interactions:
+    n = 1,059
+    barrier - accessible = +0.25206
+    mismatch rho = 0.47033
+    both permutation p = 0.0001
+
+  min >= 5 interactions:
+    n = 702
+    barrier - accessible = +0.26437
+    mismatch rho = 0.50509
+    both permutation p = 0.0001
 ~~~
 
 Permitted interpretation:
