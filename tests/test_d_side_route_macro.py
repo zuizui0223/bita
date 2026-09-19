@@ -29,10 +29,10 @@ def test_route_macro_summary_counts_unique_programs_and_modalities() -> None:
 
 def test_followup_coverage_is_reported_by_modality() -> None:
     rows = [
-        {"study_program_id":"A","broad_modality":"chemical","pollination_followup":"yes","pollination_state_family":"CONTEXT_DEPENDENT"},
-        {"study_program_id":"B","broad_modality":"chemical","pollination_followup":"no","pollination_state_family":"NOT_MEASURED"},
-        {"study_program_id":"C","broad_modality":"physical","pollination_followup":"no","pollination_state_family":"NOT_MEASURED"},
-        {"study_program_id":"D","broad_modality":"physical","pollination_followup":"yes","pollination_state_family":"NULL_COMPATIBLE"},
+        {"study_program_id":"A","antagonist_state":"EFFECTIVE","broad_modality":"chemical","pollination_followup":"yes","pollination_state_family":"CONTEXT_DEPENDENT"},
+        {"study_program_id":"B","antagonist_state":"EFFECTIVE","broad_modality":"chemical","pollination_followup":"no","pollination_state_family":"NOT_MEASURED"},
+        {"study_program_id":"C","antagonist_state":"EFFECTIVE","broad_modality":"physical","pollination_followup":"no","pollination_state_family":"NOT_MEASURED"},
+        {"study_program_id":"D","antagonist_state":"EFFECTIVE","broad_modality":"physical","pollination_followup":"yes","pollination_state_family":"NULL_COMPATIBLE"},
     ]
     out = summarize_registry(rows)
     assert out["pollination_followup_by_modality"]["chemical"] == {"measured":1,"total":2}
@@ -41,8 +41,8 @@ def test_followup_coverage_is_reported_by_modality() -> None:
 
 def test_duplicate_program_ids_are_rejected() -> None:
     rows = [
-        {"study_program_id":"A","broad_modality":"chemical","pollination_followup":"yes","pollination_state_family":"INTERFERENCE"},
-        {"study_program_id":"A","broad_modality":"chemical","pollination_followup":"yes","pollination_state_family":"INTERFERENCE"},
+        {"study_program_id":"A","antagonist_state":"EFFECTIVE","broad_modality":"chemical","pollination_followup":"yes","pollination_state_family":"INTERFERENCE"},
+        {"study_program_id":"A","antagonist_state":"EFFECTIVE","broad_modality":"chemical","pollination_followup":"yes","pollination_state_family":"INTERFERENCE"},
     ]
     try:
         summarize_registry(rows)
