@@ -233,6 +233,74 @@ def build_pair_site_rows(
     return rows_out, audit
 
 
+
+def _binomial_two_sided_sign_p(positive: int, total: int) -> float | None:
+    if total <= 0:
+        return None
+    k = min(positive, total - positive)
+    tail = sum(math.comb(total, i) for i in range(k + 1)) / (2 ** total)
+    return min(1.0, 2 * tail)
+
+
+def _site_difference_summary(
+    rows: list[dict[str, float | str | bool | int]],
+    *,
+    permutations: int,
+    seed: int,
+) -> dict[str, object]:
+    by_site: dict[str, list[dict[str, float | str | bool | int]]] = defaultdict(list)
+    for row in rows:
+        by_site[str(row["site"])].append(row)
+
+    observed_diffs: dict[str, float] = {}
+    eligible_rows: dict[str, list[dict[str, float | str | bool | int]]] = {}
+    for site, site_rows in by_site.items():
+        barrier_rates = [float(r["robbery_rate"]) for r in site_rows if bool(r["trait_barrier"])]
+        accessible_rates = [float(r["robbery_rate"]) for r in site_rows if not bool(r["trait_barrier"])]
+        if not barrier_rates or not accessible_rates:
+            continue
+        observed_diffs[site] = _mean(barrier_rates) - _mean(accessible_rates)
+        eligible_rows[site] = site_rows
+
+    if not observed_diffs:
+        return {
+            "eligible_sites": 0,
+            "positive_sites": 0,
+            "mean_within_site_difference": None,
+            "median_within_site_difference": None,
+            "sign_test_p": None,
+            "site_stratified_permutation_p": None,
+        }
+
+    observed_stat = _mean(list(observed_diffs.values()))
+    positive = sum(diff > 0 for diff in observed_diffs.values())
+    nonzero = sum(diff != 0 for diff in observed_diffs.values())
+    sign_p = _binomial_two_sided_sign_p(positive, nonzero) if nonzero else None
+
+    rng = random.Random(seed)
+    extreme = 0
+    for _ in range(permutations):
+        perm_diffs = []
+        for site, site_rows in eligible_rows.items():
+            values = [float(r["robbery_rate"]) for r in site_rows]
+            labels = [bool(r["trait_barrier"]) for r in site_rows]
+            rng.shuffle(labels)
+            a = [v for v, flag in zip(values, labels) if flag]
+            b = [v for v, flag in zip(values, labels) if not flag]
+            perm_diffs.append(_mean(a) - _mean(b))
+        stat = _mean(perm_diffs)
+        if abs(stat) >= abs(observed_stat) - 1e-15:
+            extreme += 1
+
+    return {
+        "eligible_sites": len(observed_diffs),
+        "positive_sites": positive,
+        "mean_within_site_difference": observed_stat,
+        "median_within_site_difference": _median(list(observed_diffs.values())),
+        "sign_test_p": sign_p,
+        "site_stratified_permutation_p": (extreme + 1) / (permutations + 1),
+    }
+
 def summarize_pair_sites(rows: list[dict[str, float | str | bool | int]], permutations: int = 9999, seed: int = SEED) -> dict[str, object]:
     if len(rows) < 6:
         raise ValueError("too few trait-matched pair-site rows")
@@ -255,8 +323,7 @@ def summarize_pair_sites(rows: list[dict[str, float | str | bool | int]], permut
                 "mean_robbery_rate": _mean([float(row["robbery_rate"]) for row in sub]),
             }
 
-    return {
-        "analysis_name": "aubert_zenodo_all_ecuador_access_barrier_extension",
+    site_summary = _site_difference_summary(rows, permutations=permutations, seed=seed + 2)\n\n    return {\n        "analysis_name": "aubert_zenodo_all_ecuador_access_barrier_extension",
         "pair_site_n": len(rows),
         "barrier_pair_sites": len(barrier_rates),
         "accessible_pair_sites": len(accessible_rates),
@@ -269,6 +336,7 @@ def summarize_pair_sites(rows: list[dict[str, float | str | bool | int]], permut
         "mismatch_spearman_rho": rho,
         "mismatch_spearman_permutation_p": rho_p,
         "bird_group_summary": group_summary,
+        "site_difference": site_summary,
         "permutations": permutations,
         "seed": seed,
         "trait_definition": {
