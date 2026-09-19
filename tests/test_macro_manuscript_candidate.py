@@ -110,3 +110,9 @@ def test_claim_freeze_blocks_causal_aubert_overclaim() -> None:
     assert "Aubert/EPHI access-barrier association is causal" in text
     assert "min >= 5 interactions" in text
     assert "n = 702" in text
+
+
+def test_claim_freeze_effective_exposure_math_is_not_corrupted() -> None:
+    text = CLAIMS.read_text(encoding="utf-8")
+    assert r"x_H^*=\tau_H/q_H,\qquad x_P^*=\tau_P/q_P." in text
+    assert "\tau_H" not in text
