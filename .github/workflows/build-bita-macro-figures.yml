@@ -7,6 +7,8 @@ on:
       - "tests/test_floral_defence_selectivity_figures.py"
       - "empirical/floral_defence_selectivity/results/analysis_ready_matched_systems.csv"
       - "empirical/floral_defence_selectivity/results/stage2_model_gate.json"
+      - "empirical/floral_defence_selectivity/results/d_side_route_macro_summary.json"
+      - "empirical/floral_defence_selectivity/d_side_route_macro_registry.csv"
       - "docs/EFFECTIVE_EXPOSURE_SELECTIVITY_THEORY_V1.md"
       - ".github/workflows/build-bita-macro-figures.yml"
   workflow_dispatch:
