@@ -127,7 +127,11 @@ def _short(value: str, limit: int = 27) -> str:
     return value[: limit - 1] + "…"
 
 
-def build_figure2(\n    rows: list[dict[str, str]],\n    gate: dict[str, object],\n    route_macro: dict[str, object] | None = None,\n) -> str:
+def build_figure2(
+    rows: list[dict[str, str]],
+    gate: dict[str, object],
+    route_macro: dict[str, object] | None = None,
+) -> str:
     rows = sorted(rows, key=lambda r: (r["derivation_or_holdout"], r["study_cluster_id"]))
     width, height = 1750, 1425
     left = 45
