@@ -236,14 +236,14 @@ long / constrained
     -> bypass/robbing relatively favoured
 ~~~
 
-**Main message:** access barriers reroute exploitation rather than simply eliminating it.
+**Main message:** access geometry is associated with exploitation route; the univariate tube-length signal should not be presented as a uniquely identified partial effect.
 
 Data/source:
 - Zenodo DOI 10.5281/zenodo.8398202
 - scripts/analyze_sakhalkar2023_network.py
 - empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json
 
-The plotting workflow may download the public workbook at build time, but raw species rows must not be committed.
+The plotting workflow may download the public workbook at build time, but raw species rows must not be committed. Add the source-defined multitrait sensitivity note: full-model permutation p = 0.202 and tube-length block p = 0.211; brightness is unavailable in the deposited trait table, so thief-source and union models are not estimable.
 
 ---
 
