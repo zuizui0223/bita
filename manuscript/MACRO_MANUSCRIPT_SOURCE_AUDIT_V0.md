@@ -20,6 +20,44 @@ Status: **REPRODUCIBLE**.
 
 Boundary: this is a screened evidence corpus, not natural prevalence.
 
+## Claim 1A — macro ecological-state recovery
+
+Claim:
+
+~~~text
+historical derivation: 9 / 9 state families recovered
+systematic expansion:   2 / 2 state families recovered
+pooled scored:         11 / 11
+
+historical modality leave-one-out: 6 / 9
+expansion modality-from-derivation: 1 / 2
+~~~
+
+Fixed domain-state mapping:
+
+~~~text
+SEPARATED    -> NO_INTERFERENCE_OBSERVED
+TRANSITIONAL -> MIXED
+OVERLAPPED   -> IMPAIRED
+~~~
+
+Authoritative sources:
+
+- `empirical/floral_defence_selectivity/results/effective_domain_state_recovery.json`
+- `empirical/floral_defence_selectivity/EFFECTIVE_DOMAIN_STATE_RECOVERY_V1.md`
+- `scripts/run_effective_domain_state_recovery.py`
+- `tests/test_effective_domain_state_recovery.py`
+
+Status: **REPRODUCIBLE MACRO STATE ANALYSIS**.
+
+Boundary:
+
+- NO_INTERFERENCE_OBSERVED includes null-compatible outcomes and is not an equivalence claim;
+- historical rows contributed to theory formation, so 1/630 and 1/2310 are descriptive fixed-margin alignment probabilities, not confirmatory p-values;
+- systematic expansion is post-rule but not prospectively blinded;
+- Erica hold-out remains unresolved and unscored;
+- modality comparison is descriptive rather than a formal superiority test.
+
 ## Claim 2 — strict Stage-2 state pattern
 
 Claim:
