@@ -27,9 +27,14 @@ def test_figure1_contains_effective_exposure_threshold_logic() -> None:
 def test_figure2_contains_all_matched_systems_and_exact_gate() -> None:
     rows = load_csv_rows(MODULE / "results" / "analysis_ready_matched_systems.csv")
     gate = json.loads((MODULE / "results" / "stage2_model_gate.json").read_text(encoding="utf-8"))
-    svg = build_figure2(rows, gate)
+    route_macro = json.loads((MODULE / "results" / "d_side_route_macro_summary.json").read_text(encoding="utf-8"))
+    svg = build_figure2(rows, gate, route_macro)
 
     assert len(rows) == 17
+    assert "17 unique D-study programs" in svg
+    assert "chemical 9 | physical 7 | reward/access 1" in svg
+    assert "pollinator follow-up 10/17" in svg
+    assert "context-dependent 4 | null-compatible 3 | improved 1 | interference 1 | unresolved 1" in svg
     assert "17 matched floral systems" in svg
     assert "Thunia alba" in svg
     assert "Caryopteris divaricata" in svg
@@ -42,7 +47,8 @@ def test_figure2_contains_all_matched_systems_and_exact_gate() -> None:
 def test_figure2_does_not_duplicate_study_cluster_rows() -> None:
     rows = load_csv_rows(MODULE / "results" / "analysis_ready_matched_systems.csv")
     gate = json.loads((MODULE / "results" / "stage2_model_gate.json").read_text(encoding="utf-8"))
-    svg = build_figure2(rows, gate)
+    route_macro = json.loads((MODULE / "results" / "d_side_route_macro_summary.json").read_text(encoding="utf-8"))
+    svg = build_figure2(rows, gate, route_macro)
 
     for cluster in {row["study_cluster_id"] for row in rows}:
         # Cluster ids are carried as one invisible data attribute per rendered row.
