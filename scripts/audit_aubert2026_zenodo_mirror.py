@@ -19,6 +19,11 @@ FILES = {
     "plants": "Plant_traits.txt",
     "birds": "Hummingbird_traits.txt",
 }
+METADATA_FILES = {
+    "metadata_interactions": "Metadata EPHI interactions.csv",
+    "metadata_plants": "Metadata EPHI plant traits.csv",
+    "metadata_birds": "Metadata EPHI hummingbird traits.csv",
+}
 USER_AGENT = "bita-aubert-zenodo-mirror-audit/1.0"
 
 
@@ -75,11 +80,25 @@ def summarize_tables(tables: dict[str, tuple[list[str], list[dict[str, str]]]]) 
     return out
 
 
+def _metadata_matches(data: bytes, terms: tuple[str, ...]) -> list[str]:
+    text = data.decode("utf-8-sig", errors="replace")
+    matches = []
+    for line in text.splitlines():
+        low = line.lower()
+        if any(term.lower() in low for term in terms):
+            matches.append(line.strip())
+    return matches
+
+
 def run(output: str | Path) -> dict[str, object]:
     tables = {}
     for key, name in FILES.items():
         tables[key] = _read(_download(name))
     result = summarize_tables(tables)
+    result["metadata_matches"] = {}
+    terms = ("piercing", "culmen_length", "bill_length", "Tubelength")
+    for key, name in METADATA_FILES.items():
+        result["metadata_matches"][key] = _metadata_matches(_download(name), terms)
     path = Path(output)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
