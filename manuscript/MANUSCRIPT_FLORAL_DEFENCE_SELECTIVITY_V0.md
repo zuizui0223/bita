@@ -416,7 +416,19 @@ This predicts that ecological variation in trait intensity, visitor assemblage, 
 
 The immediate empirical implication is to measure exposure and response stage rather than treating a compound or structure as a single binary category.
 
-### 5.5 What the previous identification framework still contributes
+### 5.5 Attraction signals can leak to antagonists
+
+The refocused paper is defence-centred, but the attraction side of legacy BITA remains biologically relevant. Five historical studies measure the same floral attraction/display axis against both pollinator and antagonist responses. One, *Impatiens capensis*, is directionally unresolved. Among the four paired systems with a scorable ecological state, three show shared tracking of mutualists and antagonists and one is antagonist-biased; none provides a resolved mutualist-exclusive state.
+
+These paired systems include floral sesquiterpenoids in *Cucurbita*, benzylacetone scent in *Nicotiana attenuata*, and showy bract area in *Dalechampia*, each of which is associated with increased mutualist use or service while also increasing antagonist use. Enhanced fragrance in *Cucurbita pepo* instead increases florivore attraction without a detected pollinator increase.
+
+This small historical set is not a prevalence sample and does not support a 4/4 confirmatory probability. Its role is mechanistic context:
+
+> floral attraction signals can be accessible to antagonists as well as mutualists, creating signal leakage that makes selective filtering biologically valuable.
+
+The A-side evidence is therefore retained as a supplementary macro result rather than promoted to a fifth main evidence layer.
+
+### 5.6 What the previous identification framework still contributes
 
 The earlier BITA result—trait interaction is not ecological mechanism—remains important, but its role changes.
 
@@ -430,7 +442,7 @@ The previous decomposition
 
 and the associated identified-set logic therefore remain valuable for experiments that aim to partition antagonist relief, pollinator interference, and remaining channels. They are not the headline result of the present macro paper.
 
-### 5.6 Relation to previous floral macro-syntheses
+### 5.7 Relation to previous floral macro-syntheses
 
 Previous synthesis has shown that floral scent can differentially attract obligate visitors and repel facultative visitors (Junker & Blüthgen 2010), that herbivory can alter floral traits and pollination (Haas-Desmarais et al. 2026), that floral larceny has measurable reproductive and reward consequences (Leal et al. 2025), and that multiple ecological agents impose selection on floral phenotypes (Caruso et al. 2019). The present analysis does not claim novelty for those broad facts.
 
@@ -470,7 +482,7 @@ A bounded targeted search recovered strong linked programmes but no new study sa
 
 Floral defence is not simply a property of a compound or structure. It is a relational state produced by trait intensity, consumer susceptibility, access route, timing, and response threshold.
 
-A simple effective-exposure model predicts when a selective window can exist, when overlap should impose mutualist costs, when bypass should defeat the focal defence, and when stronger expression should close the selective window. The qualitative state mapping recovers all 11 currently scorable historical + systematic-expansion systems, while the narrower strict subset remains too small for a conventional moderator meta-regression. An independent community reanalysis shows the same access logic at larger scale: longer flowers shift cheating toward robbery rather than eliminating exploitation.
+A simple effective-exposure model predicts when a selective window can exist, when overlap should impose mutualist costs, when bypass should defeat the focal defence, and when stronger expression should close the selective window. The qualitative state mapping recovers all 11 currently scorable historical + systematic-expansion systems, while the narrower strict subset remains too small for a conventional moderator meta-regression. An independent community reanalysis shows the same access logic at larger scale: longer flowers are associated with relatively more robbery than thieving, while multitrait sensitivity prevents attributing that pattern uniquely to tube length.
 
 The resulting ecological picture is therefore not “defence versus pollination” as a fixed trade-off. It is **interaction routing through unequal access and exposure domains**.
 
