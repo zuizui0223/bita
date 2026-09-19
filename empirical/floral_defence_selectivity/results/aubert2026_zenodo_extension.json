@@ -1,0 +1,53 @@
+{
+  "accessible_pair_sites": 490,
+  "analysis_name": "aubert_zenodo_all_ecuador_access_barrier_extension",
+  "audit": {
+    "flowerpiercer_pair_sites": 1,
+    "hummingbird_pair_sites": 1377,
+    "pair_site_rows": 1378,
+    "resolved_target_interactions": 21114,
+    "sites": 18,
+    "trait_matched_interactions": 20572
+  },
+  "barrier_mean_difference_permutation_p": 0.0001,
+  "barrier_minus_accessible_mean_rate": 0.22559586103604107,
+  "barrier_pair_sites": 888,
+  "bird_group_summary": {
+    "flowerpiercer": {
+      "mean_robbery_rate": 1.0,
+      "pair_site_n": 1
+    },
+    "hummingbird": {
+      "mean_robbery_rate": 0.22620188350917494,
+      "pair_site_n": 1377
+    }
+  },
+  "claim_boundary": "Independent all-18-site EPHI Zenodo extension, not an exact replication of Aubert et al. 2026. Pair-site robbery rates are the inferential units. Associations do not establish causal floral defence.",
+  "mean_robbery_rate_accessible": 0.08138669738180652,
+  "mean_robbery_rate_barrier": 0.3069825584178476,
+  "median_robbery_rate_accessible": 0.0,
+  "median_robbery_rate_barrier": 0.0,
+  "mismatch_spearman_permutation_p": 0.0001,
+  "mismatch_spearman_rho": 0.41826245373655196,
+  "pair_site_n": 1378,
+  "permutations": 9999,
+  "seed": 20260919,
+  "site_difference": {
+    "eligible_sites": 17,
+    "mean_within_site_difference": 0.1439930786270075,
+    "median_within_site_difference": 0.1313160992520706,
+    "positive_sites": 15,
+    "sign_test_p": 0.002349853515625,
+    "site_stratified_permutation_p": 0.0001
+  },
+  "trait_definition": {
+    "barrier": "mismatch > 0 (flower tube longer than bill)",
+    "bird_bill": "species mean culmen_length in mm divided by 10 to cm",
+    "flower_tube": "site-specific mean Tubelength in cm; species mean fallback",
+    "mismatch": "log(flower_tube_cm / culmen_cm)"
+  },
+  "workflow_run": 35447201668,
+  "artifact_digest": "sha256:d9f8962c4f934bd5ed3786b61223fce837be3fdcf7084c37f6ad8d5fa559efb1",
+  "mirror_doi": "10.5281/zenodo.14185547",
+  "source_paper_doi": "10.1002/oik.11552"
+}

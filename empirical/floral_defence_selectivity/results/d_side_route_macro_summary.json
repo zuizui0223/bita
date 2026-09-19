@@ -1,0 +1,26 @@
+{
+  "antagonist_state_counts": {"EFFECTIVE": 16, "UNRESOLVED": 1},
+  "chemical_vs_physical_followup_fisher_p": 0.12622377622377623,
+  "claim_boundary": "Corpus composition is conditional on D-role admission and is not a prevalence estimate for nature. Pollinator follow-up coverage is a study-design property.",
+  "context_dependent_programs": 4,
+  "fixed_interference_programs": 1,
+  "improved_programs": 1,
+  "modality_counts": {"chemical": 9, "physical": 7, "reward_access": 1},
+  "null_compatible_programs": 3,
+  "pollination_followup_by_modality": {
+    "chemical": {"measured": 7, "total": 9},
+    "physical": {"measured": 2, "total": 7},
+    "reward_access": {"measured": 1, "total": 1}
+  },
+  "pollination_followup_fraction": 0.5882352941176471,
+  "pollination_followup_programs": 10,
+  "pollination_state_counts": {
+    "CONTEXT_DEPENDENT": 4,
+    "IMPROVED": 1,
+    "INTERFERENCE": 1,
+    "NULL_COMPATIBLE": 3,
+    "UNRESOLVED": 1
+  },
+  "unique_study_programs": 17,
+  "unresolved_programs": 1
+}

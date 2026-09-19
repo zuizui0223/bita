@@ -1,0 +1,47 @@
+name: Audit Aubert 2026 Dryad network
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit_aubert2026_dryad.py"
+      - "tests/test_aubert2026_dryad_audit.py"
+      - "empirical/floral_defence_selectivity/NETWORK_VALIDATION_AUBERT_2026_V1.md"
+      - ".github/workflows/audit-aubert2026-dryad.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependency
+        run: python -m pip install "pytest>=8,<10"
+      - name: Test archive parser
+        run: pytest -q tests/test_aubert2026_dryad_audit.py
+      - name: Audit public Dryad dataset
+        run: |
+          python scripts/audit_aubert2026_dryad.py artifacts/aubert2026_dryad_audit.json
+      - name: Publish aggregate audit
+        run: |
+          {
+            echo '## Aubert 2026 Dryad aggregate audit'
+            echo
+            echo 'Raw rows are intentionally not emitted.'
+            echo
+            echo '~~~json'
+            cat artifacts/aubert2026_dryad_audit.json
+            echo '~~~'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aubert2026-dryad-audit
+          path: artifacts/aubert2026_dryad_audit.json
+          if-no-files-found: error
