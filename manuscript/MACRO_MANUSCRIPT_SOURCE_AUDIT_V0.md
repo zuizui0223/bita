@@ -248,6 +248,45 @@ Sources:
 Status: **REPRODUCIBLE ROBUSTNESS / CLAIM-CEILING ANALYSIS**.
 
 Boundary: the main univariate route association remains, but tube length is not identified as a unique partial predictor independent of correlated morphology.
+## Claim 6B — Aubert / EPHI all-Ecuador access-barrier extension
+
+Claim:
+
+~~~text
+18 Ecuador sites
+21,114 resolved target interactions
+20,572 trait-matched interactions
+1,378 bird x plant x site units
+
+mean robbery rate:
+  T > B barrier     = 0.30698
+  T <= B accessible = 0.08139
+  difference        = +0.22560
+  permutation p     = 0.0001
+
+rho[log(T/B), robbery rate] = 0.41826
+permutation p = 0.0001
+
+site robustness:
+  comparable sites = 17
+  positive sites   = 15
+  mean difference  = +0.14399
+  sign-test p      = 0.00235
+  site-stratified permutation p = 0.0001
+~~~
+
+Sources:
+
+- `empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json`
+- `empirical/floral_defence_selectivity/AUBERT_ZENODO_EXTENSION_V1.md`
+- `scripts/analyze_aubert2026_zenodo_extension.py`
+- public EPHI mirror DOI `10.5281/zenodo.14185547`
+- source paper DOI `10.1002/oik.11552`
+- workflow run `35447201668`
+
+Status: **REPRODUCIBLE SECOND INDEPENDENT NETWORK VALIDATION**.
+
+Boundary: all-18-site EPHI mirror extension, not exact replication of Aubert's three-transect GLMM; observational; effectively a hummingbird result because only one trait-matched flowerpiercer pair-site is available.
 ## Claim 7 — route-specific tube-length contrast
 
 Claim:
@@ -329,7 +368,7 @@ Current candidate status:
 
 ~~~text
 science spine:                 PRESENT
-public network result:         REPRODUCED
+public network results:        TWO INDEPENDENT LANES REPRODUCED
 Stage-2 exact gate:            REPRODUCED
 focused search expansion:      BOUNDED / strict increment 0
 focused references:            PRESENT
