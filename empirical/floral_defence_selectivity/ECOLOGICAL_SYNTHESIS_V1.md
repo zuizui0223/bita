@@ -124,7 +124,7 @@ Interpretation: increasing tube length is associated with more **robbing/bypass*
 
 The refocus does not discard the previous theory or empirical work:
 
-- 56 directional route records / 25 independent biological clusters;
+- 56 directional route records / 25 historical cluster labels;
 - 17-system high-information identification audit;
 - direct and near-direct A×D results;
 - Kessler interaction bounds and partial identification;
