@@ -4,8 +4,10 @@ Candidate branch:
 
 ~~~text
 design/bita-floral-defence-selectivity-macro
-verified head: d8376ff7ef6bfec4d2f268074c24d67f9be686db
+candidate-content head before this receipt refresh: ff8e82f42d6276431d316d5454ad0886288c6c8a
 ~~~
+
+Verification is tracked by analysis component rather than by one docs-only head. The current code/tests have green CI on the post-Aubert robustness branch state, and the frozen Aubert aggregate + sparse-pair sensitivity has passed exact-reproduction workflows.
 
 ## 1. Current-head verification
 
@@ -310,6 +312,37 @@ id:       10586051215
 digest:   sha256:1926151e8602de27cf234d01422f7e4e3d0d1b593e47ec9450b7afdafb1a0978
 ~~~
 
+## 7A. Aubert sparse-pair robustness
+
+The all-Ecuador barrier result is not driven by pair-sites represented by a single observation.
+
+~~~text
+minimum 2 interactions:
+  n = 1,059
+  barrier robbery = 0.32485
+  accessible robbery = 0.07279
+  difference = +0.25206
+  mismatch rho = 0.47033
+  both permutation p = 0.0001
+
+minimum 5 interactions:
+  n = 702
+  barrier robbery = 0.31999
+  accessible robbery = 0.05562
+  difference = +0.26437
+  mismatch rho = 0.50509
+  both permutation p = 0.0001
+~~~
+
+Frozen result:
+`empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json`
+
+Aubert sparse-pair generating workflow:
+`35473631104`
+
+Artifact digest:
+`sha256:f0942afe9a4a17eb1f278e8296594b2f158fa6d6580eb32d6d6262b0614dec50`
+
 ## 8. Cross-network result
 
 The two public network analyses recover the same routing direction in different faunas and with different response definitions:
@@ -416,3 +449,24 @@ The candidate does not delete or overwrite:
 - the old canonical mechanism-identification manuscript.
 
 Promotion to canonical status remains an explicit editorial decision.
+
+
+## 14. Aubert mirror schema freeze
+
+The public EPHI Ecuador mirror schema is frozen in:
+
+`empirical/floral_defence_selectivity/results/aubert2026_zenodo_mirror_audit.json`
+
+Key audited units:
+
+~~~text
+plant Tubelength = cm
+bird culmen_length / bill_length = mm
+interaction piercing:
+  yes = piercing / existing-hole cheating
+  no  = legitimate interaction
+~~~
+
+The mirror contains 54,471 interaction rows across 18 Ecuador sites.
+
+CI now regenerates the mirror audit and fails on schema/metadata drift.
