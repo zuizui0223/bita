@@ -13,13 +13,33 @@ OLD_CANONICAL = ROOT / "manuscript" / "MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md"
 def test_candidate_macro_manuscript_contains_frozen_ecological_results() -> None:
     text = CANDIDATE.read_text(encoding="utf-8")
     assert "17 independent systems" in text
+    assert "17 unique study programs" in text
+    assert "chemical       9" in text
+    assert "physical       7" in text
+    assert "10 of the 17 programs" in text
     assert "p=0.333" in text
     assert "p=0.143" in text
     assert "rho=0.346786" in text
+    assert "full-model permutation p=0.202" in text
+    assert "tube-length block p=0.211" in text
     assert "14,383" in text
     assert "57 plant species" in text
     assert "interaction routing through unequal access and exposure domains" in text
+    assert "Attraction signals can leak to antagonists" in text
+    assert "three show shared tracking" in text
 
+
+
+def test_candidate_route_macro_is_not_presented_as_prevalence() -> None:
+    text = CANDIDATE.read_text(encoding="utf-8").lower()
+    assert "these counts describe the source-adjudicated evidence base rather than natural prevalence" in text
+    assert "d-role admission itself is conditioned on antagonist-reduction evidence" in text
+
+
+def test_candidate_network_claim_is_association_not_unique_causality() -> None:
+    text = CANDIDATE.read_text(encoding="utf-8").lower()
+    assert "access geometry is associated with cheating route" in text
+    assert "not that tube length alone uniquely causes the switch" in text
 
 def test_candidate_does_not_claim_domain_outperforms_modality() -> None:
     text = CANDIDATE.read_text(encoding="utf-8").lower()
