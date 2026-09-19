@@ -1,27 +1,29 @@
-# BITA macro candidate figure and analysis receipt v1
+# BITA macro candidate figure and analysis receipt v2
 
 Candidate branch:
 
 ~~~text
 design/bita-floral-defence-selectivity-macro
-verified head: 5d078096ddc89d8a038714d9976598e0eddb79f9
+verified head: d8376ff7ef6bfec4d2f268074c24d67f9be686db
 ~~~
 
 ## 1. Current-head verification
 
-All ten active branch workflows were green at the verified head:
+All twelve active branch workflows were green at the verified head:
 
 ~~~text
-CI                                      SUCCESS   run 35414996104
-submission-scope                        SUCCESS   run 35414996113
-legacy-ecology-submission-package-guard SUCCESS   run 35414996083
-Analyze effective-domain state recovery SUCCESS   run 35414996115
-Analyze Sakhalkar network               SUCCESS   run 35414996110
-Analyze Sakhalkar multitrait routing    SUCCESS   run 35414996106
-Audit Sakhalkar Zenodo                  SUCCESS   run 35414996094
-Audit Aubert Dryad                      SUCCESS   run 35414996102
-Build BITA macro candidate figures      SUCCESS   run 35414996240
-Build Sakhalkar route-switch figure     SUCCESS   run 35414996120
+CI                                      SUCCESS   run 35447623295
+submission-scope                        SUCCESS   run 35447623314
+legacy-ecology-submission-package-guard SUCCESS   run 35447623338
+Analyze effective-domain state recovery SUCCESS   run 35447623296
+Analyze Sakhalkar network               SUCCESS   run 35447623288
+Analyze Sakhalkar multitrait routing    SUCCESS   run 35447623328
+Audit Sakhalkar Zenodo                  SUCCESS   run 35447623292
+Audit Aubert Dryad                      SUCCESS   run 35447623367
+Audit Aubert Zenodo mirror              SUCCESS   run 35447623300
+Analyze Aubert Zenodo access barrier    SUCCESS   run 35447623301
+Build BITA macro candidate figures      SUCCESS   run 35447623282
+Build two-network access-routing figure SUCCESS   run 35447623355
 ~~~
 
 The legacy submission-package guard passing confirms that the macro candidate has not silently replaced or corrupted the old canonical BITA package.
@@ -71,7 +73,7 @@ This contrast audits study-design coverage and is not an ecological chemical-ver
 
 ## 3. Matched-system effective-domain state recovery
 
-Frozen fixed mapping:
+Frozen mapping:
 
 ~~~text
 SEPARATED    -> NO_INTERFERENCE_OBSERVED
@@ -79,52 +81,42 @@ TRANSITIONAL -> MIXED
 OVERLAPPED   -> IMPAIRED
 ~~~
 
-Historical derivation:
+Observed:
 
 ~~~text
-scorable systems = 9
-domain-state recovery = 9 / 9
-descriptive fixed-margin perfect-allocation probability = 1 / 630 = 0.0015873
+historical derivation: 9 / 9 aligned
+systematic expansion:   2 / 2 aligned
+pooled scored:         11 / 11 aligned
 ~~~
 
-Systematic expansion:
+Descriptive fixed-margin alignment probabilities:
 
 ~~~text
-scorable systems = 2
-domain-state recovery = 2 / 2
+historical  = 1 / 630  = 0.0015873
+pooled      = 1 / 2310 = 0.0004329
 ~~~
 
-Pooled historical + systematic expansion:
-
-~~~text
-scorable systems = 11
-domain-state recovery = 11 / 11
-descriptive fixed-margin perfect-allocation probability = 1 / 2310 = 0.0004329
-~~~
-
-The historical and pooled exact allocation values are descriptive alignment probabilities, not confirmatory p-values, because historical systems contributed to theory formation and systematic-expansion coding is not prospectively blinded.
+These are not confirmatory p-values because historical systems contributed to theory formation and systematic-expansion coding was not prospectively blinded.
 
 Coarse modality comparator:
 
 ~~~text
 historical leave-one-out = 6 / 9
-systematic expansion using derivation rule = 1 / 2
+systematic expansion      = 1 / 2
 ~~~
 
-Registered Erica hold-out remains DIRECTION_ONLY / UNRESOLVED and is not scored.
+Registered Erica hold-out remains unresolved and unscored.
 
-State-recovery workflow artifact:
+Latest state-recovery artifact:
 
 ~~~text
-run:      35414996115
+run:      35447623296
 artifact: effective-domain-state-recovery
-id:       10574983706
-digest:   sha256:5274804ade9ea139ee870f70a566f392795167a73497af2b334aede5a879df71
+id:       10586276175
+digest:   sha256:4bf79058fc2a12041c4ccd750e1a9c71790d47e90278b7c477d0d253d6ac8348
 ~~~
 
 ## 4. Strict Stage-2 gate
-
-Direction-supported strict subset:
 
 ~~~text
                          compatible   impaired
@@ -137,10 +129,8 @@ Fisher two-sided p = 0.333333
 Null-compatible sensitivity:
 
 ~~~text
-                         compatible-or-null   impaired
-SEPARATED                           6              0
-OVERLAPPED                          0              1
-
+SEPARATED compatible-or-null = 6
+OVERLAPPED impaired          = 1
 Fisher two-sided p = 0.142857
 ~~~
 
@@ -155,7 +145,7 @@ NO_DETECTED_CHANGE remains distinct from equivalence-supported preservation.
 
 ## 5. Defence-side conditionality
 
-Eight independent D-side study clusters preserve within-system state switching across:
+Eight independent D-side systems preserve within-system switching across:
 
 - dose / expression;
 - cumulative exposure / reward context;
@@ -163,9 +153,9 @@ Eight independent D-side study clusters preserve within-system state switching a
 - response stage;
 - temporal expression.
 
-This layer supports a dynamic selective-window interpretation without pooling heterogeneous outcomes into one effect size or universal threshold ratio.
+This layer supports a dynamic selective-window interpretation without pooling heterogeneous outcomes into one universal effect size.
 
-## 6. Sakhalkar community-scale route association
+## 6. Network validation A — Sakhalkar 2023
 
 Frozen public-data result:
 
@@ -174,45 +164,24 @@ raw workbook rows:               18,440
 rows after source-script filter: 14,383
 visited plant species:              183
 trait-matched plant species:        182
-species with robbery:                26
-species with thieving:               39
 cheating species + tube length:      57
 
-Spearman rho = 0.3467862681178467
+Spearman rho = 0.3467862681
 permutation p = 0.0086
-permutations = 9,999
-seed = 20260919
-
-robber-only median tube length = 2.0892833335
-thief-only median tube length  = 0.6766
 ~~~
 
-The deposited workbook remains eight rows below the 14,391 visits stated in the paper summary; the candidate reports the deposited data as observed.
-
-The public-data reanalysis is verified exactly against the frozen aggregate JSON in CI.
-
-## 7. Sakhalkar source-defined multitrait sensitivity
-
-Predictor sets were frozen from the source paper:
+Route-specific medians:
 
 ~~~text
-robber model: tube_length + tube_width + shape
-thief model:  tube_length + brightness + shape
-union model:  tube_length + tube_width + brightness + shape
+robber-only = 2.0892833335
+thief-only  = 0.6766
 ~~~
 
-Coverage among the 57 cheating species:
+Source-defined multitrait sensitivity:
 
 ~~~text
-tube_length 57 / 57
-tube_width  57 / 57
-shape       57 / 57
-brightness   0 / 57
-~~~
-
-Robber-source sensitivity:
-
-~~~text
+robber-source predictors:
+    tube_length + tube_width + shape
 n = 57
 full-model R2 = 0.290239
 full-model permutation p = 0.2016
@@ -220,73 +189,195 @@ full-model permutation p = 0.2016
 tube-length delta R2 = 0.02880
 tube-length permutation p = 0.2110
 BH q = 0.6330
+
+brightness available = 0 / 57
 ~~~
 
-Therefore the main network result is an association between access geometry and cheating route; tube length is not identified as a unique partial driver after adjustment for correlated morphology.
+Therefore the robust claim is about access geometry and cheating route, not a uniquely identified tube-length effect.
 
-Multitrait workflow artifact:
+## 7. Network validation B — Aubert / EPHI all-Ecuador extension
+
+This is an independent extension of Aubert et al. 2026, not an exact replication of the published three-transect mixed model.
+
+Public mirror:
 
 ~~~text
-run:      35414996106
-artifact: sakhalkar2023-trait-routing
-id:       10575018663
-digest:   sha256:38ea1263d9b44c5194845dc62bba01f33bbe5b4ef991e82e3dd7affffda530be
+EPHI Zenodo DOI 10.5281/zenodo.14185547
+18 Ecuador sites
 ~~~
 
-## 8. Physical-defence pollinator-follow-up gap
+Trait rule:
+
+~~~text
+M = log(T / B)
+
+T = flower tube length
+B = bird bill / culmen length
+TRAIT_BARRIER = T > B
+~~~
+
+Analysis grain:
+
+~~~text
+bird species × plant species × site
+~~~
+
+Coverage:
+
+~~~text
+resolved target interactions: 21,114
+trait-matched interactions:   20,572
+pair-site units:               1,378
+sites:                            18
+
+hummingbird pair-sites:        1,377
+flowerpiercer pair-sites:          1
+~~~
+
+The current extension is therefore effectively a hummingbird result.
+
+Binary barrier result:
+
+~~~text
+barrier pair-sites:    888
+accessible pair-sites: 490
+
+mean robbery rate:
+    barrier     = 0.30698
+    accessible  = 0.08139
+    difference  = +0.22560
+
+pair-site permutation p = 0.0001
+~~~
+
+Continuous mismatch result:
+
+~~~text
+Spearman rho[log(T/B), robbery rate] = 0.41826
+permutation p = 0.0001
+~~~
+
+Within-site recurrence:
+
+~~~text
+eligible sites: 17
+barrier > accessible robbery: 15 / 17
+
+mean within-site difference:   +0.14399
+median within-site difference: +0.13132
+
+two-sided sign-test p = 0.00235
+site-stratified permutation p = 0.0001
+~~~
+
+Supported interpretation:
+
+> when flower tubes exceed legitimate visitor access morphology, nectar robbing becomes more common.
+
+Boundary:
+
+- observational association, not causal floral defence;
+- all-18-site EPHI extension, not exact Aubert three-site replication;
+- no flowerpiercer moderator claim from the mirror;
+- no common pooled effect scale with Sakhalkar.
+
+Frozen result source:
+
+`empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json`
+
+Original generating run recorded in the frozen result:
+
+~~~text
+workflow run: 35447201668
+artifact digest: sha256:d9f8962c4f934bd5ed3786b61223fce837be3fdcf7084c37f6ad8d5fa559efb1
+~~~
+
+Latest exact-reproduction workflow artifact:
+
+~~~text
+run:      35447623301
+artifact: aubert2026-zenodo-extension
+id:       10585521200
+digest:   sha256:6f3872aa4db283de140e1b31046ac31aa1036cb93d807ff5ccb0c877e01ef4a3
+~~~
+
+Zenodo mirror audit artifact:
+
+~~~text
+run:      35447623300
+artifact: aubert2026-zenodo-mirror-audit
+id:       10586051215
+digest:   sha256:1926151e8602de27cf234d01422f7e4e3d0d1b593e47ec9450b7afdafb1a0978
+~~~
+
+## 8. Cross-network result
+
+The two public network analyses recover the same routing direction in different faunas and with different response definitions:
+
+~~~text
+Sakhalkar — Afrotropical insect visitors
+    longer flowers
+    -> relatively more robbing than thieving
+
+Aubert / EPHI — Ecuadorian bird–flower interactions
+    tube > bill barrier
+    -> higher robbery rate
+
+    increasing log(T/B)
+    -> higher robbery rate
+~~~
+
+This recurrence is stronger evidence for a general access-routing principle than either network alone.
+
+It does not imply:
+
+- a common numerical effect size;
+- a shared microscopic mechanism;
+- causality from observational network data.
+
+## 9. Physical-defence pollinator-follow-up gap
 
 The broad D-side corpus contains seven physical-defence study programs but only two same-study D-to-pollination follow-ups.
 
-A targeted re-audit of Takeda 2021, Pedicularis 2015, Chrysothemis 2007, Menyanthes 2018 and Bejaria 2022 admitted no new strict physical-D system.
+A targeted re-audit admitted no new strict physical-D system.
 
-The high-value missing experiment remains a physical access/geometry manipulation that measures the same focal D against antagonist use, legitimate pollinator response, bypass behaviour and reproduction.
+The highest-value missing experiment remains a physical access/geometry manipulation measuring the same focal D against antagonist use, legitimate pollinator response, bypass behaviour and reproduction.
 
-Source:
+## 10. Supplementary A-side signal leakage
 
-`empirical/floral_defence_selectivity/PHYSICAL_D_POLLINATOR_GAP_AUDIT_V1.md`
-
-## 9. Figures 1–3 artifact
-
-Workflow:
+Legacy paired-A evidence is retained as a supplementary result:
 
 ~~~text
-run:      35414996240
-artifact: bita-macro-candidate-figures
-id:       10575751485
-digest:   sha256:309d7fb1e2f08ad34db35cf00fbcf04f5b8c3471c65d09a8ef0989117b04df77
+same-study paired A systems: 5
+scorable states:             4
+
+SHARED_TRACKING:    3
+ANTAGONIST_BIASED:  1
+UNRESOLVED:         1
 ~~~
 
-Generated:
+This supports recurrent signal leakage as contextual motivation for selective filtering.
+
+It is not a fifth main evidence layer and is not a prevalence estimate.
+
+## 11. Figure artifacts
+
+Figures 1–3 are reproducibly generated from the candidate theory / matched-system / conditionality sources.
+
+Figure 4 now contains both independent network analyses.
+
+Latest two-network Figure 4 artifact:
 
 ~~~text
-FIGURE_1_EFFECTIVE_EXPOSURE_THEORY.svg
-FIGURE_2_MATCHED_D_STATE_MAP.svg
-FIGURE_3_DEFENCE_STATE_SWITCHES.svg
+run:      35447623355
+artifact: two-network-access-routing-figure
+id:       10586161127
+digest:   sha256:48bd3945d9af3c428feae7c78816ceb82ff254cda87e279cb8f1bf3dd603d85a
 ~~~
 
-Figure 2 now displays both:
+Figure 4 explicitly labels the different inferential units and retains the observational / non-equivalence claim boundaries.
 
-1. the 17-program broad D-route macro landscape;
-2. the stricter matched-system state-recovery / exact-gate evidence.
-
-Visual QA completed.
-
-## 10. Figure 4 artifact
-
-Workflow:
-
-~~~text
-run:      35414996120
-artifact: sakhalkar2023-route-figure
-id:       10575203433
-digest:   sha256:35f24e9d1e753582b708239fcfc9892bcfacedf108d5ab175907aaa7b4d6218a
-~~~
-
-Figure 4 uses anonymous species-level points and emits no raw visit rows or species identifiers.
-
-It presents the significant univariate route association together with the explicit multitrait claim boundary.
-
-## 11. Current empirical architecture
+## 12. Current empirical architecture
 
 ~~~text
 Layer 1 — broad route-level D macro corpus
@@ -302,16 +393,16 @@ Layer 3 — within-D conditionality
     8 independent state-switch systems
 
 Layer 4 — community-scale routing
-    57 cheating-exposed species
-    rho = 0.347, permutation p = 0.0086
-    multitrait sensitivity prevents unique tube-length claim
+    Network A: Sakhalkar, 57 plant species
+    Network B: Aubert/EPHI, 1,378 bird × plant × site units
+    same qualitative access-routing direction across faunas
 ~~~
 
 Headline ecological result:
 
-> **Access and exposure structure recurrently organizes floral antagonist–mutualist outcomes and exploitation route across route-level, matched-system, within-system and community-scale evidence.**
+> **Access and exposure structure recurrently organizes floral antagonist–mutualist outcomes and exploitation route across route-level, matched-system, within-system and two independent community-scale network analyses.**
 
-## 12. Legacy preservation
+## 13. Legacy preservation
 
 The candidate does not delete or overwrite:
 
@@ -325,33 +416,3 @@ The candidate does not delete or overwrite:
 - the old canonical mechanism-identification manuscript.
 
 Promotion to canonical status remains an explicit editorial decision.
-
-
-## 13. Supplementary A-side signal leakage
-
-Legacy attraction-side route evidence is retained as a supplementary macro result:
-
-~~~text
-A -> pollination unique studies: 5
-A -> antagonism unique studies:  8
-same-study paired A systems:     5
-
-scorable paired states:
-    SHARED_TRACKING    3
-    ANTAGONIST_BIASED  1
-    UNRESOLVED         1
-~~~
-
-Among the four scorable historical paired systems, none shows a resolved mutualist-exclusive attraction state.
-
-This is used only as mechanistic context:
-
-> attraction/display signals can leak to antagonists, creating ecological demand for selective filtering.
-
-It is not counted as a fifth main macro layer and is not treated as a prevalence estimate.
-
-Sources:
-
-- `empirical/floral_defence_selectivity/a_side_signal_leakage_registry.csv`
-- `empirical/floral_defence_selectivity/A_SIDE_SIGNAL_LEAKAGE_READOUT_V1.md`
-- `tests/test_a_side_signal_leakage.py`
