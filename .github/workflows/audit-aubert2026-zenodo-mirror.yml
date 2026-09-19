@@ -26,6 +26,19 @@ jobs:
         run: pytest -q tests/test_aubert2026_zenodo_mirror_audit.py
       - name: Audit mirror
         run: python scripts/audit_aubert2026_zenodo_mirror.py artifacts/aubert2026_zenodo_mirror_audit.json
+      - name: Verify frozen mirror schema audit
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          observed = json.loads(Path("artifacts/aubert2026_zenodo_mirror_audit.json").read_text())
+          frozen = json.loads(Path(
+              "empirical/floral_defence_selectivity/results/aubert2026_zenodo_mirror_audit.json"
+          ).read_text())
+          if observed != frozen:
+              raise SystemExit("Aubert Zenodo mirror schema/metadata drift detected")
+          print("Frozen Aubert Zenodo mirror audit reproduced exactly")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: aubert2026-zenodo-mirror-audit
