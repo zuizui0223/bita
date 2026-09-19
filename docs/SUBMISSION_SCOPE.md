@@ -151,14 +151,19 @@ The older `R=sL`, architecture-cost, nonquadratic differentiation, and partial-d
 
 ## 8. Submission-package status
 
-The previously validated `30 Main pages + 38 Appendix pages` package belongs to the older integrated architecture-plus-mechanism manuscript.
+The older `30 Main pages + 38 Appendix pages` architecture-plus-mechanism package is legacy provenance only.
 
-It is now explicitly stale:
+The active mechanism-identification package has been rebuilt from the canonical science source and independently revalidated:
 
 ```text
-OLD_PACKAGE_STALE
-NEW_CANONICAL_SCIENCE_SOURCE_ACTIVE
-REBUILD_REQUIRED_BEFORE_SUBMISSION
+ACTIVE_ARTIFACT = bita-mechanism-identification-review-package
+ACTIVE_PACKAGE_STATUS = REBUILT_AND_VALIDATED
+ACTIVE_MAIN_RENDER = 21 pages
+ACTIVE_APPENDIX = 10 pages
+ACTIVE_FIGURES = 5 embedded
+ECOLOGY_APR2026_AUTOMATED_COMPLIANCE = PASS
 ```
 
-The next package must rebuild title, abstract, figures, captions, supplement routing, cover letter, page count, and visual QA around the mechanism-identification manuscript. Author metadata remains an external final step after scientific packaging is green.
+The active `PACKAGE_QA_RECEIPT.txt` is the source of truth for page counts, source commit, embedded media, and package role.
+
+Scientific packaging is therefore green at the pre-metadata stage. Remaining submission work is author-controlled: approve final author/declaration/disclosure metadata, re-check live portal requirements, insert those fields, rebuild the exact intended files, rerun automated plus visual QA, and obtain final author approval before upload.
