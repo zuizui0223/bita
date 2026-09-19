@@ -74,6 +74,10 @@ Villalona E, Ezray BD, Laveaga E, Agrawal AA, Ali JG, Hines HM (2020) The role o
 
 Kessler D, Bing J, Haverkamp A, Baldwin IT (2019) The defensive function of a pollinator-attracting floral volatile. *Functional Ecology* 33:1223–1232. https://doi.org/10.1111/1365-2435.13332
 
+Leonard AS, Brent J, Papaj DR, Dornhaus A (2013) Floral nectar guide patterns discourage nectar robbing by bumble bees. *PLoS ONE* 8:e55914. https://doi.org/10.1371/journal.pone.0055914
+
+Adler LS, Leege LM, Irwin RE (2016) Geographic variation in resistance to nectar robbing and consequences for pollination. *American Journal of Botany* 103:1819–1828. https://doi.org/10.3732/ajb.1600114
+
 ## 5. Prior macro-syntheses that define the novelty boundary
 
 Caruso CM, Eisen KE, Martin RA, Sletvold N (2019) A meta-analysis of the agents of selection on floral traits. *Evolution* 73:4–14. https://doi.org/10.1111/evo.13639
