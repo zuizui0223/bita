@@ -404,3 +404,35 @@ Source audit:
 `empirical/floral_defence_selectivity/PHYSICAL_D_POLLINATOR_GAP_AUDIT_V1.md`
 
 Do not weaken the same-D gate to fill the physical follow-up cell.
+
+
+## Supplementary A-side signal leakage
+
+Legacy paired-A evidence is retained as a supplementary / Discussion result, not a fifth main evidence layer.
+
+~~~text
+paired same-study A systems: 5
+scorable directional states: 4
+
+SHARED_TRACKING:    3
+ANTAGONIST_BIASED:  1
+UNRESOLVED:         1
+~~~
+
+Among the four scorable historical systems, no resolved mutualist-exclusive attraction state is present.
+
+Permitted interpretation:
+
+> floral attraction/display axes can be accessible to antagonists as well as mutualists, creating signal leakage that makes selective filtering biologically valuable.
+
+Required boundaries:
+
+- this is not a prevalence sample or 4/4 confirmatory test;
+- Impatiens remains unresolved;
+- shared tracking does not imply the same sensory mechanism in mutualists and antagonists;
+- A-side leakage is contextual support for the D-side paper, not a new main evidence layer.
+
+Sources:
+
+- `empirical/floral_defence_selectivity/a_side_signal_leakage_registry.csv`
+- `empirical/floral_defence_selectivity/A_SIDE_SIGNAL_LEAKAGE_READOUT_V1.md`
