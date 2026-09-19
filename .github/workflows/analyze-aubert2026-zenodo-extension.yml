@@ -1,0 +1,33 @@
+name: Analyze Aubert 2026 Zenodo access barrier
+
+on:
+  pull_request:
+    paths:
+      - "scripts/analyze_aubert2026_zenodo_extension.py"
+      - "tests/test_aubert2026_zenodo_extension.py"
+      - ".github/workflows/analyze-aubert2026-zenodo-extension.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install tests
+        run: python -m pip install -e '.[dev]'
+      - name: Test extension
+        run: pytest -q tests/test_aubert2026_zenodo_extension.py
+      - name: Run all-Ecuador access-barrier extension
+        run: python scripts/analyze_aubert2026_zenodo_extension.py artifacts/aubert2026_zenodo_extension.json --permutations 9999
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aubert2026-zenodo-extension
+          path: artifacts/aubert2026_zenodo_extension.json
+          if-no-files-found: error
