@@ -19,10 +19,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Confirm stale integrated package is not canonical
+      - name: Confirm legacy integrated package is not canonical
         run: |
-          grep -q 'OLD_PACKAGE_STALE' docs/SUBMISSION_SCOPE.md
-          grep -q 'REBUILD_REQUIRED_BEFORE_SUBMISSION' docs/SUBMISSION_SCOPE.md
+          grep -q 'ACTIVE_PACKAGE_STATUS = REBUILT_AND_VALIDATED' docs/SUBMISSION_SCOPE.md
+          grep -q 'ACTIVE_ARTIFACT = bita-mechanism-identification-review-package' docs/SUBMISSION_SCOPE.md
+          grep -q 'legacy provenance only' docs/SUBMISSION_SCOPE.md
           grep -q 'The active paper is no longer the general architecture-value paper' docs/SUBMISSION_SCOPE.md
 
       - name: Confirm current mechanism-identification submission route
