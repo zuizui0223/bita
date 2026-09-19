@@ -1,0 +1,45 @@
+name: Analyze Sakhalkar 2023 multitrait routing
+
+on:
+  pull_request:
+    paths:
+      - "scripts/analyze_sakhalkar2023_trait_routing.py"
+      - "tests/test_sakhalkar2023_trait_routing.py"
+      - ".github/workflows/analyze-sakhalkar2023-trait-routing.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package and tests
+        run: python -m pip install -e '.[dev]'
+      - name: Test multitrait model
+        run: pytest -q tests/test_sakhalkar2023_trait_routing.py
+      - name: Run source-defined multitrait route model
+        run: |
+          python scripts/analyze_sakhalkar2023_trait_routing.py             artifacts/sakhalkar2023_trait_routing.json             --permutations 9999
+      - name: Publish aggregate result
+        run: |
+          {
+            echo '## Sakhalkar 2023 source-defined multitrait route model'
+            echo
+            echo 'Species-level aggregate traits only; no raw species rows are emitted.'
+            echo
+            echo '~~~json'
+            cat artifacts/sakhalkar2023_trait_routing.json
+            echo '~~~'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sakhalkar2023-trait-routing
+          path: artifacts/sakhalkar2023_trait_routing.json
+          if-no-files-found: error
