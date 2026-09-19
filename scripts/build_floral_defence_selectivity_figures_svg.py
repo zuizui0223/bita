@@ -127,13 +127,13 @@ def _short(value: str, limit: int = 27) -> str:
     return value[: limit - 1] + "…"
 
 
-def build_figure2(rows: list[dict[str, str]], gate: dict[str, object]) -> str:
+def build_figure2(\n    rows: list[dict[str, str]],\n    gate: dict[str, object],\n    route_macro: dict[str, object] | None = None,\n) -> str:
     rows = sorted(rows, key=lambda r: (r["derivation_or_holdout"], r["study_cluster_id"]))
-    width, height = 1750, 1330
+    width, height = 1750, 1425
     left = 45
-    header_y = 150
+    header_y = 245
     row_h = 48
-    y0 = 185
+    y0 = 280
     cols = [
         ("Plant system", 55, 330),
         ("Cohort", 390, 160),
@@ -145,10 +145,39 @@ def build_figure2(rows: list[dict[str, str]], gate: dict[str, object]) -> str:
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
         '<rect width="100%" height="100%" fill="white"/>',
-        _text(875, 43, "Figure 2. Matched floral-defence systems and the current Stage-2 gate", size=28, anchor="middle", weight="bold"),
-        _text(875, 78, f'{len(rows)} matched floral systems; outcome states remain on source-supported qualitative scales', size=18, anchor="middle"),
-        _text(875, 108, "Macro state recovery: historical 9/9 + expansion 2/2 | modality comparator: 6/9 + 1/2", size=15, anchor="middle", weight="bold"),
+        _text(875, 43, "Figure 2. D-side macro evidence and matched-system state recovery", size=28, anchor="middle", weight="bold"),
+        _text(875, 78, f'{len(rows)} matched floral systems; outcome states remain on source-supported qualitative scales', size=17, anchor="middle"),
     ]
+    if route_macro is not None:
+        modality = route_macro["modality_counts"]
+        states = route_macro["pollination_state_counts"]
+        parts.extend([
+            '<rect x="45" y="102" width="1640" height="105" rx="14" fill="#f7f7f7" stroke="#444" stroke-width="2"/>',
+            _text(70, 132, "Broader route-level D corpus", size=18, weight="bold"),
+            _text(
+                70,
+                160,
+                f'17 unique D-study programs | chemical {modality["chemical"]} | physical {modality["physical"]} | reward/access {modality["reward_access"]} | pollinator follow-up {route_macro["pollination_followup_programs"]}/17',
+                size=15,
+                weight="bold",
+            ),
+            _text(
+                70,
+                188,
+                f'pollination states: context-dependent {states["CONTEXT_DEPENDENT"]} | null-compatible {states["NULL_COMPATIBLE"]} | improved {states["IMPROVED"]} | interference {states["INTERFERENCE"]} | unresolved {states["UNRESOLVED"]}',
+                size=14,
+            ),
+        ])
+    parts.append(
+        _text(
+            875,
+            228,
+            "Matched-system state recovery: historical 9/9 + expansion 2/2 | modality comparator: 6/9 + 1/2",
+            size=15,
+            anchor="middle",
+            weight="bold",
+        )
+    )
     for label, x, w in cols:
         parts.append(f'<rect x="{x}" y="{header_y}" width="{w}" height="34" fill="#e8e8e8" stroke="#555"/>')
         parts.append(_text(x + 8, header_y + 23, label, size=15, weight="bold"))
@@ -316,10 +345,11 @@ def write_figures(out_dir: Path, module: Path = MODULE) -> list[Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     rows = load_csv_rows(module / "results" / "analysis_ready_matched_systems.csv")
     gate = json.loads((module / "results" / "stage2_model_gate.json").read_text(encoding="utf-8"))
+    route_macro = json.loads((module / "results" / "d_side_route_macro_summary.json").read_text(encoding="utf-8"))
     conditionality = load_csv_rows(module / "d_side_conditionality_registry.csv")
     payloads = {
         "FIGURE_1_EFFECTIVE_EXPOSURE_THEORY.svg": build_figure1(),
-        "FIGURE_2_MATCHED_D_STATE_MAP.svg": build_figure2(rows, gate),
+        "FIGURE_2_MATCHED_D_STATE_MAP.svg": build_figure2(rows, gate, route_macro),
         "FIGURE_3_DEFENCE_STATE_SWITCHES.svg": build_figure3(conditionality),
     }
     paths: list[Path] = []
