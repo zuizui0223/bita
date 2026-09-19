@@ -296,7 +296,7 @@ Do not compute a single “success rate” across these heterogeneous evidence c
 
 Do not delete or overwrite:
 
-- 56 directional route records / 25 independent biological clusters;
+- 56 directional route records / 25 historical cluster labels;
 - 17-system high-information identification audit;
 - direct and near-direct A×D systems;
 - Kessler 2008 aggregate interaction bounds;
