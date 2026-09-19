@@ -67,9 +67,9 @@ OVERLAPPED                    0           1
 
 Two-sided Fisher exact:
 
-[
+\[
 p=0.333333.
-]
+\]
 
 Null-compatible sensitivity:
 
@@ -81,11 +81,64 @@ OVERLAPPED                          0              1
 
 Two-sided Fisher exact:
 
-[
+\[
 p=0.142857.
-]
+\]
 
 NO_DETECTED_CHANGE must never be relabelled as equivalence-supported preservation.
+
+### Broader macro state-recovery result
+
+The primary cross-system macro pattern is broader than the strict direction-supported Stage-2 subset.
+
+Fixed mapping:
+
+~~~text
+SEPARATED    -> NO_INTERFERENCE_OBSERVED
+TRANSITIONAL -> MIXED
+OVERLAPPED   -> IMPAIRED
+~~~
+
+Observed:
+
+~~~text
+historical derivation:
+    scored = 9
+    domain-state correct = 9 / 9
+    descriptive fixed-margin perfect-allocation probability = 1/630 = 0.0015873
+
+systematic expansion:
+    scored = 2
+    domain-state correct = 2 / 2
+
+registered hold-out:
+    Erica = directionally compatible but UNRESOLVED
+    scored = 0
+
+pooled historical + expansion:
+    scored = 11
+    domain-state correct = 11 / 11
+    descriptive fixed-margin perfect-allocation probability = 1/2310 = 0.0004329
+~~~
+
+Coarse modality comparator:
+
+~~~text
+historical leave-one-out = 6 / 9
+systematic expansion using derivation modality rule = 1 / 2
+~~~
+
+Permitted interpretation:
+
+> effective-domain architecture sharply organizes the qualitative pollinator-state family across the current scorable corpus.
+
+Required caveats:
+
+- historical systems contributed to theory formation, so the exact alignment probabilities are descriptive rather than confirmatory;
+- NO_INTERFERENCE_OBSERVED includes null-compatible outcomes and does not mean equivalence-supported preservation;
+- systematic-expansion architecture coding is post-rule but not prospectively blinded;
+- the registered hold-out is unresolved and is not promoted;
+- the modality comparison is descriptive and does not establish formal statistical superiority.
 
 Current model decision:
 
