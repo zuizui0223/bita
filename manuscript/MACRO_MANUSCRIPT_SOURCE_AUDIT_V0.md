@@ -43,6 +43,25 @@ Boundary:
 - this corpus is conditioned on D-role admission and cannot estimate natural prevalence;
 - pollinator follow-up coverage is a research-design property;
 - the legacy 18-cluster D-to-antagonism count contains one duplicated Takeda 2021 study identity; current macro grain is 17 unique programs.
+## Claim 0A — physical-D pollinator follow-up gap
+
+Claim:
+
+~~~text
+physical D programs in route macro corpus = 7
+physical programs with same-study D -> pollination follow-up = 2
+new strict physical-D systems admitted by targeted re-audit = 0
+~~~
+
+Authoritative sources:
+
+- `empirical/floral_defence_selectivity/PHYSICAL_D_POLLINATOR_GAP_AUDIT_V1.md`
+- primary sources DOI 10.1093/aob/mcaa168, 10.1093/aobpla/plv019, 10.1098/rsbl.2007.0095, 10.1016/j.aspen.2018.09.006, 10.1038/s41598-022-23261-2
+
+Status: **TARGETED GAP AUDIT COMPLETE**.
+
+Boundary: the result identifies a literature measurement gap, not evidence that physical defences are biologically safer for pollinators.
+
 ## Claim 1 — matched-D corpus size
 
 Claim:
