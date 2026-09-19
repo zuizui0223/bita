@@ -101,7 +101,7 @@ Four ordered exposure systems particularly support a selective-window pattern in
 
 Interpretation: selectivity is a **state of trait × consumer × context**, not a fixed property of a chemical or physical defence category.
 
-## Evidence layer 4 — independent community-scale routing
+## Evidence layer 4 — two independent community-scale routing tests
 
 Sakhalkar et al. 2023 provides an independently assembled Afrotropical community dataset. The BITA reanalysis aggregates visits to plant species and tests whether floral tube length predicts the balance between two cheating routes.
 
@@ -119,6 +119,50 @@ median tube length:
 ```
 
 Interpretation: increasing tube length is associated with more **robbing/bypass** relative to **thieving through the normal opening**. A source-defined multitrait sensitivity does not isolate tube length as a unique partial predictor (full-model permutation p = 0.202; tube-length block p = 0.211), so the broader conclusion is that floral access geometry is associated with interaction routing at community scale rather than that tube length alone is causal.
+
+### Aubert / EPHI all-Ecuador extension
+
+A second public network test uses the EPHI Zenodo mirror and the Aubert et al. trait-barrier logic, with flower tube and bird culmen placed on a common scale.
+
+~~~text
+pair-site units: 1,378
+sites: 18
+
+mean robbery:
+  flower tube > bill: 0.30698
+  accessible:         0.08139
+difference:          +0.22560
+permutation p:        0.0001
+
+rho[log(T/B), robbery rate] = 0.41826
+permutation p = 0.0001
+~~~
+
+The direction is repeated within sites:
+
+~~~text
+comparable sites: 17
+positive barrier effect: 15
+mean within-site difference: +0.14399
+sign-test p = 0.00235
+site-stratified permutation p = 0.0001
+~~~
+
+Interpretation: flower–bird access mismatch is associated with nectar robbing in Ecuadorian hummingbird interactions. This is an independent all-18-site extension rather than an exact replication of Aubert et al. 2026, and it remains observational.
+
+### Cross-network interpretation
+
+The two network lanes use different faunas and responses:
+
+~~~text
+Sakhalkar — insects
+  plant-level robbing vs thieving balance
+
+Aubert/EPHI — hummingbirds
+  bird x plant x site robbery rate under tube–bill mismatch
+~~~
+
+Their effect sizes are not pooled. Their value is recurrence of the same routing direction under different data structures.
 
 ## Preserved earlier BITA results
 
@@ -143,7 +187,7 @@ It now has four linked ecological observations:
 1. **route-level breadth** — 17 unique D study programs span chemical, physical and reward/access implementations, with heterogeneous pollinator consequences in the 10 same-study follow-ups;
 2. **state-recovery pattern** — 9/9 historical and 2/2 systematic-expansion systems fall into the predicted separated / transitional / overlapped pollinator-state families;
 3. **switching rule** — the same D changes state with exposure, consumer and response stage;
-4. **network consequence** — access geometry predicts which exploitation route animals use across a multispecies community.
+4. **network consequence** — two independent public datasets recover the same access-routing direction in Afrotropical insect visitors and Ecuadorian hummingbird interactions.
 
 The common ecological candidate is **effective access/exposure domain**. Recurrence across chemical, physical and reward-access implementations argues against treating one defence class as the whole explanation, but a formal domain-versus-modality comparison is not yet identified in the strict Stage-2 subset.
 
@@ -165,4 +209,4 @@ Not yet licensed:
 
 Continue focused matched-D retrieval only if it fills strict Stage-2 cells. Do not reopen broad literature harvesting.
 
-The main cross-system result is now the 11-system state-recovery analysis. Additional independent **OVERLAPPED + direct pollinator outcome** and **SEPARATED + direction-supported pollinator outcome** systems remain the priority for converting the high-specificity Stage-2 subset into a formal moderator test. The Sakhalkar network result is analysis-complete and should remain in the main Results.
+The main cross-system result is now the 11-system state-recovery analysis. Additional independent **OVERLAPPED + direct pollinator outcome** and **SEPARATED + direction-supported pollinator outcome** systems remain the priority for converting the high-specificity Stage-2 subset into a formal moderator test. Both Sakhalkar and Aubert/EPHI network lanes are analysis-complete and should remain in the main Results.
