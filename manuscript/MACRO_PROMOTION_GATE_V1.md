@@ -157,9 +157,9 @@ Functional Ecology adaptation is already drafted:
 
 ## Gate 10 — current branch verification
 
-Status: **PASS PENDING ONLY THE MOST RECENT DOCS-ONLY HEAD CHECK**
+Status: **PASS**
 
-The scientific/analysis head immediately preceding this promotion-gate refresh had all 12 active workflows green, including:
+Verified head `140217d30c9468d41faa00543def4fcb649ce89c` completed all 12 active workflows successfully, including:
 
 - CI;
 - legacy submission-package guard;
@@ -169,7 +169,7 @@ The scientific/analysis head immediately preceding this promotion-gate refresh h
 - Aubert all-Ecuador access-barrier extension;
 - both figure workflows.
 
-Any post-gate docs-only commit must still pass the same CI before external submission.
+This promotion-gate refresh changes documentation only; the verified scientific/package state is the all-green head above.
 
 ## Promotion decision
 
