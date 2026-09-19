@@ -60,7 +60,25 @@ Use distinct symbols for preserved/improved, no detected change, impaired, mixed
 
 Architecture code origin must remain visible: historical derivation / source-mechanistic post hoc / prospective blind.
 
-### Panel B — strict Stage-2 exact table
+### Panel B — macro state-recovery summary
+
+Annotate:
+
+~~~text
+historical derivation: 9 / 9
+systematic expansion:  2 / 2
+pooled scored:        11 / 11
+
+modality comparator:
+historical LOO:        6 / 9
+expansion:             1 / 2
+~~~
+
+Add a small note:
+
+> Historical alignment probabilities are descriptive because the derivation systems contributed to theory formation.
+
+### Panel C — strict Stage-2 exact table
 
 ~~~text
                          compatible   impaired
@@ -70,7 +88,7 @@ OVERLAPPED                    0           1
 
 Annotate Fisher two-sided p = 0.333 and DESCRIPTIVE_EXACT_ONLY.
 
-### Panel C — null-compatible sensitivity
+### Panel D — null-compatible sensitivity
 
 ~~~text
 SEPARATED compatible-or-null = 6
@@ -80,7 +98,7 @@ Fisher p = 0.143
 
 Large note: null-compatible is not equivalence-supported preservation.
 
-### Panel D — current confounding
+### Panel E — current confounding
 
 ~~~text
 Thunia        separated   physical
@@ -93,6 +111,7 @@ Therefore domain-versus-modality comparison is not identified.
 Data sources:
 - empirical/floral_defence_selectivity/results/analysis_ready_matched_systems.csv
 - empirical/floral_defence_selectivity/results/stage2_model_gate.json
+- empirical/floral_defence_selectivity/results/effective_domain_state_recovery.json
 
 ---
 
