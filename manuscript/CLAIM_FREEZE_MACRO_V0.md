@@ -379,3 +379,28 @@ Do not replace the current canonical BITA manuscript until:
 6. figure plan for the four evidence layers exists;
 7. final journal class is selected.
 
+
+
+## Physical-defence follow-up gap
+
+Targeted source re-audit confirms that the current shortage of physical-D pollinator follow-up is not repaired by relaxing interpretation of nearby studies.
+
+Current strict outcome:
+
+~~~text
+new physical-D same-study strict systems admitted = 0
+~~~
+
+High-value boundaries:
+
+- Takeda 2021: physical D -> ant exclusion is direct; ant presence -> pollinator disruption is direct; physical D -> pollinator response is not directly manipulated.
+- Chrysothemis 2007: water-calyx D -> herbivore suppression is direct; same-D pollinator response is not experimentally resolved.
+- Menyanthes 2018: petal-hair D -> ant exclusion is direct; same-D pollinator response is not measured.
+- Bejaria 2022: stickiness -> florivory is direct; the source explicitly leaves direct pollinator cost unresolved.
+- Pedicularis 2015 remains the admitted physical null-compatible case.
+
+Source audit:
+
+`empirical/floral_defence_selectivity/PHYSICAL_D_POLLINATOR_GAP_AUDIT_V1.md`
+
+Do not weaken the same-D gate to fill the physical follow-up cell.
