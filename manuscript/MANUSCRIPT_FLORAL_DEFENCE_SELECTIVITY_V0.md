@@ -8,7 +8,7 @@
 
 ## Abstract
 
-Flowers must remain accessible and attractive to mutualists while limiting antagonists that use the same reproductive structures and rewards. Floral defence is therefore often described as a trade-off, yet the same chemical or physical trait can suppress antagonists, interfere with pollinators, or fail when exploiters bypass it. We develop a simple effective-exposure theory in which a focal defence/access axis of intensity \(x\) is experienced by antagonists and pollinators through channel-specific coefficients \(q_H\) and \(q_P\), with response thresholds \(\tau_H\) and \(\tau_P\). A selective window exists when \(\tau_H/q_H < x < \tau_P/q_P\): the antagonist channel is suppressed before pollinator interference begins. The framework predicts selective states under separated access or susceptibility, interference under strong overlap, loss of defence under bypass, and within-system switching as dose or exposure crosses response thresholds. We tested these predictions using three evidence layers. A source-adjudicated matched-defence corpus contains 17 independent systems; 15 have an effective antagonist-reduction route. The strict direct pollinator subset remains small: two separated systems show preserved or improved pollinator function, whereas one overlapped system shows impairment. However, a broader ecological-state analysis is more informative: all nine scorable historical systems and both systematic-expansion systems matched the fixed architecture prediction that separated domains show no observed pollinator interference, transitional domains show mixed responses, and overlap shows impairment. A coarse defence-modality classifier recovered only 6/9 historical systems in leave-one-out prediction and 1/2 expansion systems. Four separated historical systems contributing to state recovery are null-compatible rather than equivalence-supported, so the broader result is a qualitative state analysis rather than proof of zero pollinator cost. Eight independent defence-side systems also show recurrent switching with dose, cumulative exposure, consumer identity, response stage, or temporal expression. Fourth, reanalysis of the public Sakhalkar et al. (2023) Afrotropical visitor network showed that floral tube length is associated with cheating route among 57 plant species (\(\rho=0.347\), permutation \(p=0.0086\)): longer tubes shift exploitation from thieving through the floral opening toward nectar robbing by bypass. Across case, within-system, and community scales, floral defence selectivity is best treated as a state of trait × consumer × context. Existing BITA identification results remain as claim discipline: these patterns support a recurrent access/exposure mechanism but not a universal causal coefficient or prevalence estimate.
+Flowers must remain accessible and attractive to mutualists while limiting antagonists that use the same reproductive structures and rewards. Floral defence is therefore often described as a trade-off, yet the same chemical or physical trait can suppress antagonists, interfere with pollinators, or fail when exploiters bypass it. We develop a simple effective-exposure theory in which a focal defence/access axis of intensity \(x\) is experienced by antagonists and pollinators through channel-specific coefficients \(q_H\) and \(q_P\), with response thresholds \(\tau_H\) and \(\tau_P\). A selective window exists when \(\tau_H/q_H < x < \tau_P/q_P\): the antagonist channel is suppressed before pollinator interference begins. The framework predicts selective states under separated access or susceptibility, interference under strong overlap, loss of defence under bypass, and within-system switching as dose or exposure crosses response thresholds. We tested these predictions using four evidence layers. First, a deduplicated D-side route corpus contains 17 unique study programs spanning chemical (9), physical (7), and reward/access (1) implementations. Ten programs also measured pollinator consequences: four were context-dependent, three null-compatible, one improved, one fixed interference, and one unresolved. Second, a stricter matched-defence corpus contains 17 systems. Across the 11 scorable historical plus systematic-expansion systems, all 11 matched the fixed architecture prediction that separated domains show no observed pollinator interference, transitional domains show mixed responses, and overlap shows impairment; a coarse defence-modality classifier recovered only 6/9 historical systems in leave-one-out prediction and 1/2 expansion systems. Null-compatible outcomes remain distinct from equivalence-supported preservation. Third, eight independent defence-side systems show recurrent switching with dose, cumulative exposure, consumer identity, response stage, or temporal expression. Fourth, reanalysis of the public Sakhalkar et al. (2023) Afrotropical visitor network showed that floral tube length is associated with cheating route among 57 plant species (\(\rho=0.347\), permutation \(p=0.0086\)): longer tubes shift exploitation from thieving through the floral opening toward nectar robbing by bypass. Across case, within-system, and community scales, floral defence selectivity is best treated as a state of trait × consumer × context. Existing BITA identification results remain as claim discipline: these patterns support a recurrent access/exposure mechanism but not a universal causal coefficient or prevalence estimate.
 
 **Keywords:** floral defence; pollination; nectar robbing; florivory; trait matching; interaction networks; visitor filtering; ecological antagonism
 
@@ -114,7 +114,15 @@ one independent study cluster
 
 Repeated outcomes, doses, years, populations, consumers, or reproductive endpoints do not automatically create independent replication.
 
-### 3.2 Matched-defence eligibility
+### 3.2 Route-level D macro corpus
+
+For the broad D-side macro lane, legacy D-to-antagonism records were collapsed to unique study programs using DOI and study identity. This audit reduced the historical 18 D-to-antagonism cluster labels to 17 unique study programs because the Takeda 2021 slippery-perianth experiment had entered the ledger twice through separate ingestion paths.
+
+For each unique program we recorded broad defence modality, antagonist-side source state, whether a same-study D-to-pollination route was available, the qualitative pollination-state family, and the main conditionality axis. The route-level lane quantifies implementation breadth, pollinator-follow-up coverage, and heterogeneity of pollinator consequences.
+
+Because D-role admission itself depends on antagonist-reduction evidence, this corpus is not used to estimate the prevalence or probability of effective floral defence in nature. The chemical-versus-physical comparison of pollinator-follow-up coverage is likewise treated as a study-design audit rather than an ecological treatment effect.
+
+### 3.3 Matched-defence eligibility
 
 A system was admitted to the primary matched-D corpus only when the focal trait had an independently supported antagonist-reducing role and both antagonist and legitimate-pollinator or pollination-function information were available for the same biological system under the frozen evidence contract.
 
@@ -142,7 +150,7 @@ UNRESOLVED
 
 A non-significant contrast was not treated as equivalence. NO_DETECTED_CHANGE therefore remained distinct from PRESERVED_OR_IMPROVED.
 
-### 3.3 Corpus cohorts
+### 3.4 Corpus cohorts
 
 To control circularity, systems were separated into:
 
@@ -156,7 +164,7 @@ The current matched-D registry contains 14 historical systems, two systematic-ex
 
 Targeted searches were used only to fill missing Stage-2 cells. The eligibility rule was not relaxed after candidate outcomes were seen. Linked multi-paper programmes and systems failing the antagonist-benefit or same-D gate were retained as context rather than added to strict N.
 
-### 3.4 Strict Stage-2 model gate
+### 3.5 Strict Stage-2 model gate
 
 The strict Stage-2 comparison included only systems satisfying:
 
@@ -172,13 +180,13 @@ A secondary sensitivity includes separated systems with NO_DETECTED_CHANGE on th
 
 We also explicitly test whether domain relation and broad defence modality are separable in the strict subset. If they are perfectly confounded, no comparison claiming that domain structure outperforms chemical-versus-physical class is permitted.
 
-### 3.5 Defence-side conditionality
+### 3.6 Defence-side conditionality
 
 We filtered the existing BITA sign-switch ledger to defence-side systems. Eight independent study clusters were retained. State switches were classified by their principal changing ecological axis: dose/expression, cumulative exposure or reward context, consumer identity, response stage, or temporal expression.
 
 We did not pool heterogeneous outcome metrics into a synthetic effect size. The aim was recurrence of ordered state transitions, not a universal threshold ratio.
 
-### 3.6 Sakhalkar community-network reanalysis
+### 3.7 Sakhalkar community-network reanalysis
 
 Sakhalkar et al. (2023) provide public data and code for Afrotropical flower-visitor communities. We retrieved the public Zenodo archive and independently audited its workbook structure.
 
@@ -225,7 +233,7 @@ The context-dependent programs comprise dose/expression dependence in *Polemoniu
 
 These counts describe the source-adjudicated evidence base rather than natural prevalence. D-role admission itself is conditioned on antagonist-reduction evidence. Their macro-ecological value is therefore in showing implementation breadth and heterogeneity of mutualist consequences, not estimating how often selective defence occurs in nature.
 
-### 4.1 Effective-domain architecture recovers qualitative pollinator state across systems
+### 4.2 Effective-domain architecture recovers qualitative pollinator state across systems
 
 The matched-D registry contains 17 independent systems. Fifteen have an effective focal antagonist-reduction route (Fig. 2).
 
