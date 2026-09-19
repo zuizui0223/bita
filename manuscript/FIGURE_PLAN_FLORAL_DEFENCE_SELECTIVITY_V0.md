@@ -40,11 +40,38 @@ Source: docs/EFFECTIVE_EXPOSURE_SELECTIVITY_THEORY_V1.md.
 
 ---
 
-## Figure 2 — Cross-system matched-D state map
+## Figure 2 — D-side macro landscape and matched-D state map
 
-**Purpose:** show every current matched system without pretending heterogeneous outcomes share one effect scale.
+**Purpose:** show the broad D-side evidence base and then the stricter matched-system layer without pretending heterogeneous outcomes share one effect scale.
 
-### Panel A — system-by-state matrix
+### Panel A — route-level D macro landscape
+
+Show:
+
+~~~text
+17 unique D-study programs
+
+implementation:
+  chemical      9
+  physical      7
+  reward/access 1
+
+same-study pollinator follow-up:
+  10 / 17
+
+pollination-state families:
+  context-dependent 4
+  null-compatible   3
+  improved          1
+  interference      1
+  unresolved        1
+~~~
+
+Add a note:
+
+> legacy D-side count is deduplicated at study-program level; Takeda 2021 entered the historical ledger twice through separate ingestion paths.
+
+### Panel B — system-by-state matrix
 
 Rows = 17 independent matched systems.
 
@@ -60,7 +87,7 @@ Use distinct symbols for preserved/improved, no detected change, impaired, mixed
 
 Architecture code origin must remain visible: historical derivation / source-mechanistic post hoc / prospective blind.
 
-### Panel B — macro state-recovery summary
+### Panel C — macro state-recovery summary
 
 Annotate:
 
@@ -78,7 +105,7 @@ Add a small note:
 
 > Historical alignment probabilities are descriptive because the derivation systems contributed to theory formation.
 
-### Panel C — strict Stage-2 exact table
+### Panel D — strict Stage-2 exact table
 
 ~~~text
                          compatible   impaired
@@ -88,7 +115,7 @@ OVERLAPPED                    0           1
 
 Annotate Fisher two-sided p = 0.333 and DESCRIPTIVE_EXACT_ONLY.
 
-### Panel D — null-compatible sensitivity
+### Panel E — null-compatible sensitivity
 
 ~~~text
 SEPARATED compatible-or-null = 6
@@ -98,7 +125,7 @@ Fisher p = 0.143
 
 Large note: null-compatible is not equivalence-supported preservation.
 
-### Panel E — current confounding
+### Panel F — current confounding
 
 ~~~text
 Thunia        separated   physical
@@ -112,6 +139,8 @@ Data sources:
 - empirical/floral_defence_selectivity/results/analysis_ready_matched_systems.csv
 - empirical/floral_defence_selectivity/results/stage2_model_gate.json
 - empirical/floral_defence_selectivity/results/effective_domain_state_recovery.json
+- empirical/floral_defence_selectivity/results/d_side_route_macro_summary.json
+- empirical/floral_defence_selectivity/d_side_route_macro_registry.csv
 
 ---
 
