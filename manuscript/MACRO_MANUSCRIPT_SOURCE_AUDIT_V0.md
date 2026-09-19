@@ -273,6 +273,19 @@ site robustness:
   mean difference  = +0.14399
   sign-test p      = 0.00235
   site-stratified permutation p = 0.0001
+
+minimum-interaction sensitivity:
+  min >= 2 interactions:
+    n = 1,059
+    barrier - accessible = +0.25206
+    mismatch rho = 0.47033
+    both permutation p = 0.0001
+
+  min >= 5 interactions:
+    n = 702
+    barrier - accessible = +0.26437
+    mismatch rho = 0.50509
+    both permutation p = 0.0001
 ~~~
 
 Sources:
@@ -280,13 +293,14 @@ Sources:
 - `empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json`
 - `empirical/floral_defence_selectivity/AUBERT_ZENODO_EXTENSION_V1.md`
 - `scripts/analyze_aubert2026_zenodo_extension.py`
+- `empirical/floral_defence_selectivity/results/aubert2026_zenodo_mirror_audit.json`
 - public EPHI mirror DOI `10.5281/zenodo.14185547`
 - source paper DOI `10.1002/oik.11552`
 - workflow run `35447201668`
 
 Status: **REPRODUCIBLE SECOND INDEPENDENT NETWORK VALIDATION**.
 
-Boundary: all-18-site EPHI mirror extension, not exact replication of Aubert's three-transect GLMM; observational; effectively a hummingbird result because only one trait-matched flowerpiercer pair-site is available.
+Boundary: all-18-site EPHI mirror extension, not exact replication of Aubert's three-transect GLMM; observational; effectively a hummingbird result because only one trait-matched flowerpiercer pair-site is available. The barrier result remains after excluding sparse pair-sites, so it is not driven by one-off pair observations.
 ## Claim 7 — route-specific tube-length contrast
 
 Claim:
