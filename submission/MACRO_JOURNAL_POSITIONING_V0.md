@@ -23,7 +23,7 @@ The paper now combines:
 2. a deduplicated 17-program D-side route macro synthesis;
 3. a 17-system matched-defence synthesis with 11 scorable state-recovery systems;
 4. an 8-system defence-side conditionality synthesis;
-5. an independent community-scale public-data reanalysis plus source-defined multitrait sensitivity;
+5. two independent community-scale public-data analyses (Afrotropical insects + Ecuadorian hummingbird interactions), plus the Sakhalkar source-defined multitrait sensitivity;
 6. legacy BITA identification results as claim discipline rather than headline.
 
 ## Submission route
@@ -40,7 +40,7 @@ Why BITA can plausibly fit:
 - the paper is hypothesis-driven rather than descriptive;
 - it derives a general threshold principle rather than only summarizing floral-defence cases;
 - evidence is triangulated across case, within-system and community scales;
-- the Sakhalkar reanalysis adds a quantitative independent test rather than a review-only narrative;
+- two independent network reanalyses add quantitative cross-fauna tests rather than a review-only narrative;
 - the principle is potentially transferable to other mutualist–antagonist access conflicts.
 
 Main editorial risk:
