@@ -14,7 +14,7 @@
   "barrier_pair_sites": 888,
   "bird_group_summary": {
     "flowerpiercer": {
-      "mean_robbery_rate": 1.0,
+      "mean_robbery_rate": 1,
       "pair_site_n": 1
     },
     "hummingbird": {
@@ -25,8 +25,8 @@
   "claim_boundary": "Independent all-18-site EPHI Zenodo extension, not an exact replication of Aubert et al. 2026. Pair-site robbery rates are the inferential units. Associations do not establish causal floral defence.",
   "mean_robbery_rate_accessible": 0.08138669738180652,
   "mean_robbery_rate_barrier": 0.3069825584178476,
-  "median_robbery_rate_accessible": 0.0,
-  "median_robbery_rate_barrier": 0.0,
+  "median_robbery_rate_accessible": 0,
+  "median_robbery_rate_barrier": 0,
   "mismatch_spearman_permutation_p": 0.0001,
   "mismatch_spearman_rho": 0.41826245373655196,
   "pair_site_n": 1378,
@@ -49,5 +49,45 @@
   "workflow_run": 35447201668,
   "artifact_digest": "sha256:d9f8962c4f934bd5ed3786b61223fce837be3fdcf7084c37f6ad8d5fa559efb1",
   "mirror_doi": "10.5281/zenodo.14185547",
-  "source_paper_doi": "10.1002/oik.11552"
+  "source_paper_doi": "10.1002/oik.11552",
+  "min_interaction_sensitivity": {
+    "min_1": {
+      "status": "FIT",
+      "n_pair_sites": 1378,
+      "barrier_pair_sites": 888,
+      "accessible_pair_sites": 490,
+      "mean_robbery_rate_barrier": 0.3069825584178476,
+      "mean_robbery_rate_accessible": 0.08138669738180652,
+      "barrier_minus_accessible_mean_rate": 0.22559586103604107,
+      "barrier_mean_difference_permutation_p": 0.0001,
+      "mismatch_spearman_rho": 0.41826245373655196,
+      "mismatch_spearman_permutation_p": 0.0001
+    },
+    "min_2": {
+      "status": "FIT",
+      "n_pair_sites": 1059,
+      "barrier_pair_sites": 676,
+      "accessible_pair_sites": 383,
+      "mean_robbery_rate_barrier": 0.3248528282175276,
+      "mean_robbery_rate_accessible": 0.07279238046236346,
+      "barrier_minus_accessible_mean_rate": 0.2520604477551641,
+      "barrier_mean_difference_permutation_p": 0.0001,
+      "mismatch_spearman_rho": 0.4703268444699899,
+      "mismatch_spearman_permutation_p": 0.0001
+    },
+    "min_5": {
+      "status": "FIT",
+      "n_pair_sites": 702,
+      "barrier_pair_sites": 436,
+      "accessible_pair_sites": 266,
+      "mean_robbery_rate_barrier": 0.31999352876540177,
+      "mean_robbery_rate_accessible": 0.05562461798402959,
+      "barrier_minus_accessible_mean_rate": 0.2643689107813722,
+      "barrier_mean_difference_permutation_p": 0.0001,
+      "mismatch_spearman_rho": 0.5050904324740966,
+      "mismatch_spearman_permutation_p": 0.0001
+    }
+  },
+  "sensitivity_workflow_run": 35473631104,
+  "sensitivity_artifact_digest": "sha256:f0942afe9a4a17eb1f278e8296594b2f158fa6d6580eb32d6d6262b0614dec50"
 }
