@@ -47,6 +47,7 @@ def test_figure4_svg_contains_points_and_frozen_stats_without_species_ids() -> N
         "pair_site_n": 1378,
         "mean_robbery_rate_barrier": 0.30698,
         "mean_robbery_rate_accessible": 0.08139,
+        "barrier_minus_accessible_mean_rate": 0.22559,
         "barrier_mean_difference_permutation_p": 0.0001,
         "mismatch_spearman_rho": 0.41826,
         "mismatch_spearman_permutation_p": 0.0001,
