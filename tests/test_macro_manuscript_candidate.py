@@ -116,3 +116,19 @@ def test_claim_freeze_effective_exposure_math_is_not_corrupted() -> None:
     text = CLAIMS.read_text(encoding="utf-8")
     assert r"x_H^*=\tau_H/q_H,\qquad x_P^*=\tau_P/q_P." in text
     assert "\tau_H" not in text
+
+
+def test_candidate_contains_second_network_validation() -> None:
+    text = CANDIDATE.read_text(encoding="utf-8")
+    assert "1,378 bird × plant × site units" in text
+    assert "0.30698" in text
+    assert "0.08139" in text
+    assert "15 of the 17 comparable sites" in text
+    assert "site-stratified permutation" in text
+    assert "not an exact replication" in text.lower()
+
+
+def test_candidate_does_not_pool_network_effect_sizes() -> None:
+    text = CANDIDATE.read_text(encoding="utf-8").lower()
+    assert "effect sizes are not pooled" in text
+    assert "different faunas and response constructions" in text
