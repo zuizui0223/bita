@@ -368,6 +368,8 @@ The Sakhalkar reanalysis (Fig. 4) adds a result that the case synthesis alone co
 
 This suggests that floral defence should often be analysed as a routing problem. Blocking the legitimate path can reduce one exploitative mode while increasing the relative value of bypass. That perspective links physical barriers, nectar robbing, visitor handling, and trait matching within one ecological framework.
 
+Independent experiments support the same routing interpretation outside the strict matched-D corpus. Leonard et al. (2013) manipulated nectar-guide patterns on artificial flowers used by bumblebees that could either visit legitimately or rob; nectar guides increased the relative frequency and efficiency of legitimate visits. At a broader geographic scale, Adler et al. (2016) found that *Gelsemium sempervirens* genotypes from a high-robbing region were roughly half as likely to be robbed but also received roughly half as many pollinator visits in common gardens. Neither study enters the matched-D N: the first manipulates a routing signal rather than a validated defence axis, and the second does not isolate one causal floral D. Together they broaden the access-routing pattern beyond the primary evidence design.
+
 It also changes how “successful defence” should be evaluated. A reduction in entry through one route is not sufficient if antagonists compensate through another route.
 
 ### 5.4 The selective window is dynamic
