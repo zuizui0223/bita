@@ -22,7 +22,7 @@ Approximate length: <350 words.
 
 ## Replication statement draft
 
-The primary comparative unit is one independent study cluster × one focal flower-associated defence/access axis × one declared ecological context. Repeated outcomes, doses, years, populations or consumers within a study do not create independent biological replication unless the source design establishes independence. The Sakhalkar network reanalysis uses plant species as the inferential unit; individual visit records are not treated as independent replicates. All corpus counts, exact tests and public-data aggregate results are regenerated in continuous integration from committed source-adjudicated tables and public repositories.
+The primary comparative unit is one independent study cluster × one focal flower-associated defence/access axis × one declared ecological context. Repeated outcomes, doses, years, populations or consumers within a study do not create independent biological replication unless the source design establishes independence. The Sakhalkar network reanalysis uses plant species as the inferential unit; individual visit records are not treated as independent replicates. The Aubert/EPHI extension uses bird species × plant species × site as the inferential unit; individual camera interactions are first aggregated within those units. Site-stratified and minimum-interaction sensitivities are retained separately. All corpus counts, exact tests and public-data aggregate results are regenerated in continuous integration from committed source-adjudicated tables and public repositories.
 
 ## Data Sources section structure
 
@@ -40,13 +40,19 @@ List the eight defence-side source studies underlying empirical/floral_defence_s
 
 Repeated switch records from one publication remain one Data Source entry.
 
-### Data Sources — public network reanalysis
+### Data Sources — public network reanalyses
 
 Sakhalkar et al. 2023 paper DOI: 10.1002/ecs2.4696
 
 Public data/code DOI: 10.5281/zenodo.8398202
 
 State explicitly that the deposited workbook currently yields 14,383 rows after the source-script filter, eight fewer than the paper summary count of 14,391.
+
+Aubert et al. 2026 paper DOI: 10.1002/oik.11552
+
+Public EPHI Ecuador mirror DOI: 10.5281/zenodo.14185547
+
+State explicitly that the BITA analysis is an all-18-site extension using the public EPHI mirror and pair-site aggregation, not an exact reproduction of the published three-transect mixed model.
 
 ## Functional Ecology cover-letter spine
 
