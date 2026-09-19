@@ -129,11 +129,11 @@ def _short(value: str, limit: int = 27) -> str:
 
 def build_figure2(rows: list[dict[str, str]], gate: dict[str, object]) -> str:
     rows = sorted(rows, key=lambda r: (r["derivation_or_holdout"], r["study_cluster_id"]))
-    width, height = 1750, 1300
+    width, height = 1750, 1330
     left = 45
-    header_y = 125
+    header_y = 150
     row_h = 48
-    y0 = 160
+    y0 = 185
     cols = [
         ("Plant system", 55, 330),
         ("Cohort", 390, 160),
@@ -147,6 +147,7 @@ def build_figure2(rows: list[dict[str, str]], gate: dict[str, object]) -> str:
         '<rect width="100%" height="100%" fill="white"/>',
         _text(875, 43, "Figure 2. Matched floral-defence systems and the current Stage-2 gate", size=28, anchor="middle", weight="bold"),
         _text(875, 78, f'{len(rows)} matched floral systems; outcome states remain on source-supported qualitative scales', size=18, anchor="middle"),
+        _text(875, 108, "Macro state recovery: historical 9/9 + expansion 2/2 | modality comparator: 6/9 + 1/2", size=15, anchor="middle", weight="bold"),
     ]
     for label, x, w in cols:
         parts.append(f'<rect x="{x}" y="{header_y}" width="{w}" height="34" fill="#e8e8e8" stroke="#555"/>')
