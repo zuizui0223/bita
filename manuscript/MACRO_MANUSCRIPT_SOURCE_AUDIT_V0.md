@@ -4,6 +4,45 @@ Candidate manuscript: `manuscript/MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md`
 
 Purpose: map each headline statement to a reproducible source-of-record and freeze its current inference ceiling.
 
+## Claim 0 — deduplicated D-side route macro corpus
+
+Claim:
+
+~~~text
+17 unique D -> antagonism study programs
+16 effective / 1 unresolved antagonist states
+
+implementation breadth:
+  chemical      9
+  physical      7
+  reward/access 1
+
+same-study pollinator follow-up: 10 / 17
+
+pollination state families:
+  CONTEXT_DEPENDENT 4
+  NULL_COMPATIBLE   3
+  IMPROVED          1
+  INTERFERENCE      1
+  UNRESOLVED        1
+~~~
+
+Authoritative sources:
+
+- `empirical/floral_defence_selectivity/d_side_route_macro_registry.csv`
+- `empirical/floral_defence_selectivity/results/d_side_route_macro_summary.json`
+- `empirical/floral_defence_selectivity/D_SIDE_ROUTE_MACRO_READOUT_V1.md`
+- `empirical/floral_defence_selectivity/D_SIDE_ROUTE_DEDUPLICATION_AUDIT_V1.md`
+- `scripts/summarize_d_side_route_macro.py`
+- `tests/test_d_side_route_macro.py`
+
+Status: **REPRODUCIBLE ROUTE-LEVEL MACRO SUMMARY**.
+
+Boundary:
+
+- this corpus is conditioned on D-role admission and cannot estimate natural prevalence;
+- pollinator follow-up coverage is a research-design property;
+- the legacy 18-cluster D-to-antagonism count contains one duplicated Takeda 2021 study identity; current macro grain is 17 unique programs.
 ## Claim 1 — matched-D corpus size
 
 Claim:
@@ -223,7 +262,7 @@ Boundary: q_H, q_P, tau_H and tau_P are not estimated as universal empirical con
 
 Preserved source-of-record objects include:
 
-- 56 directional route records / 25 independent biological clusters;
+- 56 directional route records / 25 historical cluster labels; the route-level macro audit separately corrects one duplicated D-side study identity;
 - 17-system high-information identification frontier;
 - Kessler 2008 bounds and direct-factorial work;
 - identified sets and partial-identification logic;
