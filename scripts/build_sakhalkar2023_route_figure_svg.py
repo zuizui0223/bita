@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import math
 import sys
 from html import escape
@@ -24,8 +25,9 @@ DEFAULT_OUTPUT = (
     ROOT
     / "manuscript"
     / "figures_macro_candidate"
-    / "FIGURE_4_SAKHALKAR_ACCESS_ROUTING.svg"
+    / "FIGURE_4_TWO_NETWORK_ACCESS_ROUTING.svg"
 )
+AUBERT_RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "aubert2026_zenodo_extension.json"
 
 
 def _text(
@@ -67,13 +69,14 @@ def _median(values: list[float]) -> float | None:
 def build_svg(
     points: list[dict[str, float | str]],
     result: dict[str, object],
+    aubert: dict[str, object] | None = None,
 ) -> str:
     if not points:
         raise ValueError("cannot build Figure 4 without species-level route points")
 
-    width, height = 1500, 940
-    plot_x0, plot_x1 = 120, 910
-    plot_y0, plot_y1 = 145, 650
+    width, height = 1840, 1040
+    plot_x0, plot_x1 = 120, 1050
+    plot_y0, plot_y1 = 155, 680
     tubes = [float(point["tube_length"]) for point in points]
     lo, hi = min(tubes), max(tubes)
     pad = max((hi - lo) * 0.05, 0.05)
@@ -93,13 +96,12 @@ def build_svg(
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
         '<rect width="100%" height="100%" fill="white"/>',
-        _text(750, 42, "Figure 4. Floral access geometry reroutes cheating mode", size=29, anchor="middle", weight="bold"),
-        _text(750, 75, "Independent reanalysis of the Sakhalkar et al. 2023 Afrotropical visitor network", size=18, anchor="middle"),
-        _text(120, 115, "Species-level tube length versus robbing–thieving balance", size=20, weight="bold"),
+        _text(920, 42, "Figure 4. Access geometry predicts exploitation route in two independent networks", size=28, anchor="middle", weight="bold"),
+        _text(920, 76, "Afrotropical insect cheating modes + Ecuadorian bird–flower access barriers", size=17, anchor="middle"),
+        _text(120, 120, "A  Sakhalkar 2023 — plant-level robbing versus thieving", size=20, weight="bold"),
         f'<rect x="{plot_x0}" y="{plot_y0}" width="{plot_x1-plot_x0}" height="{plot_y1-plot_y0}" fill="#fafafa" stroke="#222" stroke-width="2"/>',
     ]
 
-    # Horizontal reference lines: thief-only, equal balance, robber-only.
     for balance, label in [(-1.0, "thieving only"), (0.0, "equal balance"), (1.0, "robbing only")]:
         y = _scale(balance, -1.0, 1.0, plot_y1, plot_y0)
         parts.append(
@@ -108,7 +110,6 @@ def build_svg(
         )
         parts.append(_text(plot_x0 - 12, y + 5, label, size=13, anchor="end"))
 
-    # X ticks.
     for i in range(6):
         value = xlo + (xhi - xlo) * i / 5
         x = _scale(value, xlo, xhi, plot_x0, plot_x1)
@@ -121,21 +122,20 @@ def build_svg(
         route_class = str(point["route_class"])
         fill = class_fill.get(route_class, "#777")
         parts.append(
-            f'<circle cx="{x:.2f}" cy="{y:.2f}" r="5.4" fill="{fill}" '
+            f'<circle cx="{x:.2f}" cy="{y:.2f}" r="5.2" fill="{fill}" '
             'fill-opacity="0.72" stroke="#222" stroke-width="0.6"/>'
         )
 
     parts.extend([
         _text(plot_x1 - 12, plot_y0 + 28, "B = (R − T)/(R + T)", size=14, anchor="end"),
-        _text((plot_x0 + plot_x1) / 2, plot_y1 + 60, "tube length (source trait scale)", size=16, anchor="middle"),
-        _text(140, 748, f"n = {n_species} species", size=17, weight="bold"),
-        _text(345, 748, f"rho = {rho:.3f}", size=17, weight="bold"),
-        _text(510, 748, f"permutation p = {pval:.4f}", size=17, weight="bold"),
-        _text(140, 773, "Plant species are inferential units; individual visits are not treated as replicates.", size=13),
+        _text((plot_x0 + plot_x1) / 2, plot_y1 + 58, "tube length (source trait scale)", size=16, anchor="middle"),
+        _text(140, 756, f"n = {n_species} species", size=17, weight="bold"),
+        _text(345, 756, f"rho = {rho:.3f}", size=17, weight="bold"),
+        _text(510, 756, f"permutation p = {pval:.4f}", size=17, weight="bold"),
+        _text(140, 782, "Plant species are inferential units; individual visits are not treated as replicates.", size=13),
     ])
 
-    # Legend.
-    legend_y = 818
+    legend_y = 825
     for i, (key, label) in enumerate([
         ("robber_only", "robber-only"),
         ("mixed", "mixed robbing + thieving"),
@@ -145,30 +145,57 @@ def build_svg(
         parts.append(f'<circle cx="{x}" cy="{legend_y}" r="6" fill="{class_fill[key]}" stroke="#222"/>')
         parts.append(_text(x + 14, legend_y + 5, label, size=14))
 
-    # Panel on right: medians and routing interpretation.
-    box_x = 970
+    # Sakhalkar descriptive box
     parts.extend([
-        f'<rect x="{box_x}" y="135" width="470" height="250" rx="14" fill="#f7f7f7" stroke="#444" stroke-width="2"/>',
-        _text(box_x + 22, 170, "Route-specific tube-length contrast", size=19, weight="bold"),
-        _text(box_x + 22, 215, f'robber-only median = {float(result["median_tube_length_robber_only"]):.3f}', size=17, weight="bold", fill="#8c2d2d"),
-        _text(box_x + 22, 252, f'thief-only median = {float(result["median_tube_length_thief_only"]):.3f}', size=17, weight="bold", fill="#315f8c"),
-        _text(box_x + 22, 300, "Descriptive contrast only; not a second inferential test.", size=14),
-        _text(box_x + 22, 345, "Longer tubes are associated with", size=15, weight="bold"),
-        _text(box_x + 22, 370, "relatively more robbery.", size=15, weight="bold"),
-        f'<rect x="{box_x}" y="420" width="470" height="310" rx="14" fill="#fffdf7" stroke="#444" stroke-width="2"/>',
-        _text(box_x + 22, 458, "Access-routing interpretation", size=19, weight="bold"),
-        _text(box_x + 35, 505, "short / accessible flower", size=16, weight="bold"),
-        _text(box_x + 55, 535, "→ thieving through opening", size=16, fill="#315f8c"),
-        _text(box_x + 35, 585, "long / constrained flower", size=16, weight="bold"),
-        _text(box_x + 55, 615, "→ bypass / robbing", size=16, fill="#8c2d2d"),
-        _text(box_x + 22, 675, "Access barriers can reroute exploitation", size=17, weight="bold"),
-        _text(box_x + 22, 705, "rather than simply eliminating it.", size=17, weight="bold"),
-        _text(120, 858, "Multitrait sensitivity does not isolate tube length as a unique partial predictor (full-model p = 0.202; tube-length block p = 0.211).", size=12, fill="#555"),
-        _text(120, 884, "Public data: Sakhalkar et al. 2023, Zenodo 10.5281/zenodo.8398202. No species identifiers or raw visit rows are emitted.", size=12),
+        '<rect x="1090" y="112" width="700" height="172" rx="14" fill="#f7f7f7" stroke="#444" stroke-width="2"/>',
+        _text(1115, 143, "Sakhalkar route-specific contrast", size=18, weight="bold"),
+        _text(1115, 181, f'robber-only median = {float(result["median_tube_length_robber_only"]):.3f}', size=16, weight="bold", fill="#8c2d2d"),
+        _text(1115, 213, f'thief-only median = {float(result["median_tube_length_thief_only"]):.3f}', size=16, weight="bold", fill="#315f8c"),
+        _text(1115, 249, "Multitrait sensitivity: tube-length block p = 0.211; no unique partial-effect claim.", size=13, fill="#555"),
+    ])
+
+    if aubert is not None:
+        site = aubert["site_difference"]
+        barrier_rate = float(aubert["mean_robbery_rate_barrier"])
+        accessible_rate = float(aubert["mean_robbery_rate_accessible"])
+        max_rate = max(0.35, barrier_rate * 1.12)
+        bar_x0, bar_w = 1260, 440
+        barrier_w = bar_w * barrier_rate / max_rate
+        accessible_w = bar_w * accessible_rate / max_rate
+
+        parts.extend([
+            _text(1090, 332, "B  Aubert / EPHI — bird–flower access barrier", size=20, weight="bold"),
+            '<rect x="1090" y="354" width="700" height="318" rx="14" fill="#fffdf7" stroke="#444" stroke-width="2"/>',
+            _text(1115, 386, f'{int(aubert["pair_site_n"]):,} bird × plant × site units | 18 Ecuador sites', size=15, weight="bold"),
+            _text(1115, 425, "mean robbery rate", size=15, weight="bold"),
+            _text(1115, 466, "tube > bill barrier", size=14),
+            f'<rect x="{bar_x0}" y="448" width="{barrier_w:.1f}" height="24" fill="#b24a4a" fill-opacity="0.75"/>',
+            _text(1715, 467, f'barrier = {barrier_rate:.3f}', size=15, anchor="end", weight="bold"),
+            _text(1115, 510, "tube ≤ bill accessible", size=14),
+            f'<rect x="{bar_x0}" y="492" width="{accessible_w:.1f}" height="24" fill="#4777a8" fill-opacity="0.75"/>',
+            _text(1715, 511, f'accessible = {accessible_rate:.3f}', size=15, anchor="end", weight="bold"),
+            _text(1115, 548, f'pair-site difference = +{float(aubert["barrier_minus_accessible_mean_rate"]):.3f}; permutation p = {float(aubert["barrier_mean_difference_permutation_p"]):.4f}', size=14),
+            _text(1115, 582, f'mismatch rho = {float(aubert["mismatch_spearman_rho"]):.3f}; permutation p = {float(aubert["mismatch_spearman_permutation_p"]):.4f}', size=14, weight="bold"),
+            _text(1115, 620, f'{int(site["positive_sites"])} / {int(site["eligible_sites"])} sites show higher robbery under barrier', size=15, weight="bold"),
+            _text(1115, 648, f'within-site mean Δ = +{float(site["mean_within_site_difference"]):.3f}; sign p = {float(site["sign_test_p"]):.5f}; stratified p = {float(site["site_stratified_permutation_p"]):.4f}', size=13),
+        ])
+    else:
+        parts.extend([
+            _text(1090, 332, "B  Aubert / EPHI — aggregate unavailable", size=20, weight="bold"),
+        ])
+
+    parts.extend([
+        '<rect x="1090" y="700" width="700" height="180" rx="14" fill="#f7f7f7" stroke="#444" stroke-width="2"/>',
+        _text(1115, 735, "Cross-network ecological readout", size=19, weight="bold"),
+        _text(1115, 775, "Insects: increasing access constraint shifts cheating toward bypass/robbing.", size=15),
+        _text(1115, 810, "Birds: flower tube > bill mismatch raises robbery rate across sites.", size=15),
+        _text(1115, 850, "Same routing direction; different fauna, response scale and inferential unit.", size=15, weight="bold"),
+        _text(120, 908, "Sakhalkar: significant univariate association; correlated morphology prevents a unique tube-length claim.", size=12, fill="#555"),
+        _text(120, 934, "Aubert/EPHI: observational all-18-site extension, not an exact replication of the published three-transect GLMM.", size=12, fill="#555"),
+        _text(120, 960, "No raw species identifiers or individual interaction rows are emitted in the figure.", size=12),
         "</svg>",
     ])
     return "\n".join(parts) + "\n"
-
 
 def build_from_public_data() -> str:
     workbook = _find_workbook(_download())
@@ -176,7 +203,8 @@ def build_from_public_data() -> str:
     traits = read_xlsx_sheet_rows(workbook, "plant_traits")
     points = species_route_points(visits, traits)
     result = analyze_workbook(workbook, permutations=9999)
-    return build_svg(points, result)
+    aubert = json.loads(AUBERT_RESULT.read_text(encoding="utf-8")) if AUBERT_RESULT.exists() else None
+    return build_svg(points, result, aubert)
 
 
 def main(argv: list[str] | None = None) -> int:
