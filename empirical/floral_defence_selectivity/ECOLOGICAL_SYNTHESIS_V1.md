@@ -6,7 +6,42 @@
 
 This is the ecological main line of the refocused BITA. It replaces the warning-style headline without deleting the earlier identification work.
 
-## Evidence layer 1 — same-defence matched systems
+## Evidence layer 1 — broad D-side route macro corpus
+
+After deduplicating the repeated Takeda 2021 study identity, the legacy D-side evidence contains 17 unique study programs:
+
+~~~text
+chemical      9
+physical      7
+reward/access 1
+
+antagonist EFFECTIVE   16
+antagonist UNRESOLVED   1
+~~~
+
+Ten of the 17 programs also contain same-study D-to-pollination evidence.
+
+~~~text
+CONTEXT_DEPENDENT  4
+NULL_COMPATIBLE    3
+IMPROVED           1
+INTERFERENCE       1
+UNRESOLVED         1
+~~~
+
+Pollinator-side follow-up is unevenly distributed:
+
+~~~text
+chemical  7 / 9
+physical  2 / 7
+Fisher p = 0.1262
+~~~
+
+Interpretation: the broad D-side corpus establishes implementation breadth and heterogeneous mutualist consequences. It also reveals a study-design gap: physical defences are common in antagonist studies but rarely receive pollinator-side follow-up comparable to chemical systems.
+
+These counts are not prevalence estimates because D-role admission depends on antagonist-reduction evidence.
+
+## Evidence layer 2 — same-defence matched systems
 
 Current matched-D corpus:
 
@@ -58,7 +93,7 @@ Four additional separated systems are null-compatible for pollinator change rath
 
 Interpretation: the broader ecological-state analysis shows a sharp domain-state organization across all 11 currently scorable historical + expansion systems. The strict cross-system sample remains too small for a high-dimensional moderator model. Exact analysis gives Fisher two-sided p = 0.333 for the strict 2×2 table. A sensitivity that groups four null-compatible separated systems with the compatible side gives p = 0.143, but null compatibility is not equivalence. In the strict subset, domain relation and broad defence modality are perfectly confounded, so the current data cannot show that domain structure explains more than chemical-versus-physical class.
 
-## Evidence layer 2 — within-system state switching
+## Evidence layer 3 — within-system state switching
 
 Eight independent defence-side conditionality clusters show that the same nominal defence/access axis changes realised state with dose, exposure duration, reward context, consumer identity, response stage, or temporal expression.
 
@@ -66,7 +101,7 @@ Four ordered exposure systems particularly support a selective-window pattern in
 
 Interpretation: selectivity is a **state of trait × consumer × context**, not a fixed property of a chemical or physical defence category.
 
-## Evidence layer 3 — independent community-scale routing
+## Evidence layer 4 — independent community-scale routing
 
 Sakhalkar et al. 2023 provides an independently assembled Afrotropical community dataset. The BITA reanalysis aggregates visits to plant species and tests whether floral tube length predicts the balance between two cheating routes.
 
@@ -103,11 +138,12 @@ Kessler 2015 is retained as a bridge/sensitivity result and does not inflate the
 
 The paper no longer argues merely that `interaction != mechanism`.
 
-It now has three linked ecological observations:
+It now has four linked ecological observations:
 
-1. **state-recovery pattern** — 9/9 historical and 2/2 systematic-expansion systems fall into the predicted separated / transitional / overlapped pollinator-state families;
-2. **switching rule** — the same D changes state with exposure, consumer and response stage;
-3. **network consequence** — access geometry predicts which exploitation route animals use across a multispecies community.
+1. **route-level breadth** — 17 unique D study programs span chemical, physical and reward/access implementations, with heterogeneous pollinator consequences in the 10 same-study follow-ups;
+2. **state-recovery pattern** — 9/9 historical and 2/2 systematic-expansion systems fall into the predicted separated / transitional / overlapped pollinator-state families;
+3. **switching rule** — the same D changes state with exposure, consumer and response stage;
+4. **network consequence** — access geometry predicts which exploitation route animals use across a multispecies community.
 
 The common ecological candidate is **effective access/exposure domain**. Recurrence across chemical, physical and reward-access implementations argues against treating one defence class as the whole explanation, but a formal domain-versus-modality comparison is not yet identified in the strict Stage-2 subset.
 
