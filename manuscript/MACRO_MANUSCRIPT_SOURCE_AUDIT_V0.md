@@ -339,3 +339,27 @@ canonical replacement:         NOT YET
 ~~~
 
 Remaining promotion decisions are editorial: final figure QA, target-journal selection, final bibliography/style normalization, and explicit promotion of the candidate manuscript. None licenses altering the frozen scientific claim ceilings above.
+
+
+## Claim S1 — supplementary A-side signal leakage
+
+Claim:
+
+~~~text
+paired A-side same-study systems = 5
+scorable states = 4
+shared tracking = 3
+antagonist-biased = 1
+unresolved = 1
+~~~
+
+Sources:
+
+- `empirical/floral_defence_selectivity/a_side_signal_leakage_registry.csv`
+- `empirical/floral_defence_selectivity/A_SIDE_SIGNAL_LEAKAGE_READOUT_V1.md`
+- `tests/test_a_side_signal_leakage.py`
+- legacy route ledger `TABLE_S3_MECHANISM_PATTERN_LEDGER.csv`
+
+Status: **REPRODUCIBLE SUPPLEMENTARY PATTERN**.
+
+Boundary: the pattern demonstrates recurrent signal leakage in selected paired systems; it does not estimate prevalence and is not counted as a fifth main macro layer.
