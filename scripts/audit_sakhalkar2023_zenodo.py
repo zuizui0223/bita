@@ -5,9 +5,11 @@ from __future__ import annotations
 import io
 import json
 import posixpath
+import time
 import xml.etree.ElementTree as ET
 import zipfile
 from pathlib import Path
+from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 DATASET_DOI = "10.5281/zenodo.8398202"
@@ -192,11 +194,25 @@ def summarize_archive(data: bytes) -> dict[str, object]:
 
 def _download() -> bytes:
     request = Request(DOWNLOAD_URL, headers={"User-Agent": USER_AGENT, "Accept": "*/*"})
-    with urlopen(request, timeout=60) as response:  # nosec B310: fixed public Zenodo URL
-        data = response.read(MAX_BYTES + 1)
-    if len(data) > MAX_BYTES:
-        raise ValueError("Zenodo archive exceeds configured size limit")
-    return data
+    attempts = 4
+    last_error: Exception | None = None
+    for attempt in range(attempts):
+        try:
+            with urlopen(request, timeout=60) as response:  # nosec B310: fixed public Zenodo URL
+                data = response.read(MAX_BYTES + 1)
+            if len(data) > MAX_BYTES:
+                raise ValueError("Zenodo archive exceeds configured size limit")
+            return data
+        except HTTPError as error:
+            last_error = error
+            if error.code < 500 or attempt == attempts - 1:
+                raise
+        except URLError as error:
+            last_error = error
+            if attempt == attempts - 1:
+                raise
+        time.sleep(2 ** attempt)
+    raise RuntimeError(f"Zenodo download failed after retries: {last_error}")
 
 
 def run(output_path: str | Path) -> dict[str, object]:
