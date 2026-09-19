@@ -44,9 +44,53 @@ Permitted qualitative predictions:
 
 Do not claim universal numerical q or tau values.
 
-## Frozen three-layer evidence structure
+## Frozen four-layer evidence structure
 
-### Layer 1 — matched same-D systems
+### Layer 1 — broad D-side route macro corpus
+
+After DOI-level study deduplication:
+
+~~~text
+unique D -> antagonism study programs: 17
+antagonist EFFECTIVE:                  16
+antagonist UNRESOLVED:                  1
+
+chemical implementations:               9
+physical implementations:               7
+reward/access implementations:           1
+
+same-study D -> pollination follow-up:  10 / 17
+~~~
+
+Pollination-state families among the 10 follow-up programs:
+
+~~~text
+CONTEXT_DEPENDENT  4
+NULL_COMPATIBLE    3
+IMPROVED           1
+INTERFERENCE       1
+UNRESOLVED         1
+~~~
+
+Pollinator follow-up coverage:
+
+~~~text
+chemical  7 / 9
+physical  2 / 7
+Fisher two-sided p = 0.1262
+~~~
+
+Permitted interpretation:
+
+> the admitted D-side evidence spans multiple implementation classes and shows heterogeneous mutualist consequences; pollinator-side follow-up is notably thinner for physical than chemical defences.
+
+Required boundary:
+
+- D-role admission is conditioned on antagonist-reduction evidence, so these counts are not natural prevalence;
+- the chemical-versus-physical follow-up contrast is a study-design audit, not an ecological effect test;
+- the historical Takeda 2021 duplicate is collapsed to one study program in this macro lane.
+
+### Layer 2 — matched same-D systems
 
 Current registry:
 
@@ -146,7 +190,7 @@ Current model decision:
 DESCRIPTIVE_EXACT_ONLY
 ~~~
 
-### Layer 2 — defence-side conditionality
+### Layer 3 — defence-side conditionality
 
 Retain 8 independent D-side conditionality clusters.
 
@@ -158,7 +202,7 @@ Four ordered exposure systems support a qualitative threshold-window pattern.
 
 Do not pool heterogeneous outcomes into one universal effect size or threshold ratio.
 
-### Layer 3 — independent Sakhalkar network reanalysis
+### Layer 4 — independent Sakhalkar network reanalysis
 
 Frozen result:
 
@@ -297,7 +341,7 @@ Do not claim:
 
 Permitted:
 
-> Across matched floral systems, within-system state transitions, and an independently reanalysed multispecies visitor network, access and exposure structure repeatedly organizes antagonist suppression, mutualist compatibility, and exploitation route. Floral defence selectivity is therefore best treated as a state of trait × consumer × context rather than as a fixed property of a defence class.
+> Across a broad D-side route corpus, matched floral systems, within-system state transitions, and an independently reanalysed multispecies visitor network, access and exposure structure repeatedly organizes antagonist suppression, mutualist compatibility, and exploitation route. Floral defence selectivity is therefore best treated as a state of trait × consumer × context rather than as a fixed property of a defence class.
 
 The word “organizes” is preferred over “causes” for the cross-system synthesis.
 
@@ -310,6 +354,6 @@ Do not replace the current canonical BITA manuscript until:
 3. exact Stage-2 result is reproducibly generated from the committed corpus;
 4. targeted-search stopping rule is documented;
 5. focused references are rebuilt;
-6. figure plan for the three evidence layers exists;
+6. figure plan for the four evidence layers exists;
 7. final journal class is selected.
 
