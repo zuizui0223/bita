@@ -89,3 +89,23 @@ def test_old_architecture_programme_is_only_provenance_in_submission_docs() -> N
     assert "historical/provenance" in strategy
     assert "Historical/provenance" in audit
     assert "Historical/provenance" in ledger
+
+
+def test_top_level_status_docs_cannot_regress_to_pre_rebuild_state() -> None:
+    readme = _read("README.md")
+    claim = _read("manuscript/CLAIM_FREEZE.md")
+    scope = _read("docs/SUBMISSION_SCOPE.md")
+
+    for text in (readme, claim, scope):
+        assert "bita-mechanism-identification-review-package" in text
+        assert "ACTIVE_PACKAGE_STATUS = REBUILT_AND_VALIDATED" in text
+        assert "21 pages" in text
+        assert "10 pages" in text
+        assert "5 embedded" in text
+        assert "ECOLOGY_APR2026_AUTOMATED_COMPLIANCE = PASS" in text
+        assert "OLD_PACKAGE_STALE" not in text
+        assert "REBUILD_REQUIRED_BEFORE_SUBMISSION" not in text
+
+    assert "rho_delta - iota_delta >= +0.1710239" in claim
+    assert "conditional partial-identification bound" in claim
+    assert "not a measured `rho_delta` or `iota_delta` effect" in claim
