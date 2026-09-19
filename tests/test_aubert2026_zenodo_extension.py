@@ -40,3 +40,4 @@ def test_summary_detects_higher_robbery_under_barrier() -> None:
     assert out["barrier_minus_accessible_mean_rate"] > 0
     assert out["mismatch_spearman_rho"] > 0
     assert 0 < out["barrier_mean_difference_permutation_p"] <= 1
+    assert out["site_difference"]["eligible_sites"] == 1
