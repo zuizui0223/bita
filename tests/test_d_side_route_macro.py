@@ -9,11 +9,11 @@ from trait_architecture.floral_defence_selectivity import load_csv_rows
 
 def test_route_macro_summary_counts_unique_programs_and_modalities() -> None:
     rows = [
-        {"study_program_id":"A","broad_modality":"chemical","pollination_followup":"yes","pollination_state_family":"CONTEXT_DEPENDENT"},
-        {"study_program_id":"B","broad_modality":"chemical","pollination_followup":"yes","pollination_state_family":"INTERFERENCE"},
-        {"study_program_id":"C","broad_modality":"physical","pollination_followup":"no","pollination_state_family":"NOT_MEASURED"},
-        {"study_program_id":"D","broad_modality":"physical","pollination_followup":"yes","pollination_state_family":"NULL_COMPATIBLE"},
-        {"study_program_id":"E","broad_modality":"reward_access","pollination_followup":"yes","pollination_state_family":"IMPROVED"},
+        {"study_program_id":"A","antagonist_state":"EFFECTIVE","broad_modality":"chemical","pollination_followup":"yes","pollination_state_family":"CONTEXT_DEPENDENT"},
+        {"study_program_id":"B","antagonist_state":"EFFECTIVE","broad_modality":"chemical","pollination_followup":"yes","pollination_state_family":"INTERFERENCE"},
+        {"study_program_id":"C","antagonist_state":"EFFECTIVE","broad_modality":"physical","pollination_followup":"no","pollination_state_family":"NOT_MEASURED"},
+        {"study_program_id":"D","antagonist_state":"EFFECTIVE","broad_modality":"physical","pollination_followup":"yes","pollination_state_family":"NULL_COMPATIBLE"},
+        {"study_program_id":"E","antagonist_state":"EFFECTIVE","broad_modality":"reward_access","pollination_followup":"yes","pollination_state_family":"IMPROVED"},
     ]
     out = summarize_registry(rows)
     assert out["unique_study_programs"] == 5
