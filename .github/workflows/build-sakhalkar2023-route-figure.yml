@@ -1,4 +1,4 @@
-name: Build Sakhalkar 2023 route-switch figure
+name: Build two-network access-routing figure
 
 on:
   pull_request:
@@ -6,6 +6,7 @@ on:
       - "scripts/analyze_sakhalkar2023_network.py"
       - "scripts/build_sakhalkar2023_route_figure_svg.py"
       - "tests/test_sakhalkar2023_route_figure.py"
+      - "empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json"
       - ".github/workflows/build-sakhalkar2023-route-figure.yml"
   workflow_dispatch:
 
@@ -27,17 +28,21 @@ jobs:
         run: pytest -q tests/test_sakhalkar2023_route_figure.py tests/test_sakhalkar2023_network_analysis.py
       - name: Build Figure 4 from public data
         run: |
-          python scripts/build_sakhalkar2023_route_figure_svg.py --output artifacts/FIGURE_4_SAKHALKAR_ACCESS_ROUTING.svg
+          python scripts/build_sakhalkar2023_route_figure_svg.py --output artifacts/FIGURE_4_TWO_NETWORK_ACCESS_ROUTING.svg
       - name: Verify aggregate annotations
         run: |
           python - <<'PY'
           from pathlib import Path
-          path = Path("artifacts/FIGURE_4_SAKHALKAR_ACCESS_ROUTING.svg")
+          path = Path("artifacts/FIGURE_4_TWO_NETWORK_ACCESS_ROUTING.svg")
           text = path.read_text(encoding="utf-8")
           expected = [
               "n = 57 species",
               "rho = 0.347",
               "permutation p = 0.0086",
+              "Aubert / EPHI",
+              "barrier = 0.307",
+              "accessible = 0.081",
+              "15 / 17 sites",
           ]
           missing = [item for item in expected if item not in text]
           if missing:
@@ -51,6 +56,6 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: sakhalkar2023-route-figure
-          path: artifacts/FIGURE_4_SAKHALKAR_ACCESS_ROUTING.svg
+          name: two-network-access-routing-figure
+          path: artifacts/FIGURE_4_TWO_NETWORK_ACCESS_ROUTING.svg
           if-no-files-found: error
