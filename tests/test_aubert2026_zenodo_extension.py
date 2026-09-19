@@ -50,12 +50,14 @@ def test_summary_reports_min_interaction_sensitivity() -> None:
         {"site":"S1","bird_group":"hummingbird","n_interactions":5,"robbery_rate":0.1,"mismatch_log_t_over_b":-0.2,"trait_barrier":False},
         {"site":"S2","bird_group":"hummingbird","n_interactions":6,"robbery_rate":0.7,"mismatch_log_t_over_b":0.2,"trait_barrier":True},
         {"site":"S2","bird_group":"hummingbird","n_interactions":6,"robbery_rate":0.0,"mismatch_log_t_over_b":-0.3,"trait_barrier":False},
+        {"site":"S3","bird_group":"hummingbird","n_interactions":7,"robbery_rate":0.6,"mismatch_log_t_over_b":0.25,"trait_barrier":True},
+        {"site":"S3","bird_group":"hummingbird","n_interactions":7,"robbery_rate":0.05,"mismatch_log_t_over_b":-0.25,"trait_barrier":False},
         {"site":"S2","bird_group":"hummingbird","n_interactions":1,"robbery_rate":0.0,"mismatch_log_t_over_b":-0.4,"trait_barrier":False},
     ]
     out = summarize_pair_sites(rows, permutations=99, seed=8)
     sensitivity = out["min_interaction_sensitivity"]
 
-    assert sensitivity["min_1"]["n_pair_sites"] == 6
-    assert sensitivity["min_5"]["n_pair_sites"] == 4
+    assert sensitivity["min_1"]["n_pair_sites"] == 8
+    assert sensitivity["min_5"]["n_pair_sites"] == 6
     assert sensitivity["min_5"]["barrier_minus_accessible_mean_rate"] > 0
     assert sensitivity["min_5"]["mismatch_spearman_rho"] > 0
