@@ -198,6 +198,37 @@ Status: **PUBLIC-DATA REANALYSIS REPRODUCED IN CI**.
 
 Boundary: observational species-level association, not a causal defence manipulation. The deposited workbook gives 14,383 after the source-script filter, eight fewer than the 14,391 visits stated in the publication summary.
 
+## Claim 6A — Sakhalkar multitrait sensitivity
+
+Claim boundary:
+
+~~~text
+robber-source model:
+  tube_length + tube_width + shape
+  n = 57
+  R2 = 0.290239
+  full-model permutation p = 0.2016
+
+tube-length block:
+  delta R2 = 0.02880
+  permutation p = 0.2110
+  BH q = 0.6330
+
+brightness nonmissing = 0 / 57
+thief-source model = not estimable
+union model = not estimable
+~~~
+
+Sources:
+
+- `empirical/floral_defence_selectivity/results/sakhalkar2023_trait_routing.json`
+- `empirical/floral_defence_selectivity/SAKHALKAR_MULTITRAIT_SENSITIVITY_V1.md`
+- `scripts/analyze_sakhalkar2023_trait_routing.py`
+- workflow run `35414173596`
+
+Status: **REPRODUCIBLE ROBUSTNESS / CLAIM-CEILING ANALYSIS**.
+
+Boundary: the main univariate route association remains, but tube length is not identified as a unique partial predictor independent of correlated morphology.
 ## Claim 7 — route-specific tube-length contrast
 
 Claim:
