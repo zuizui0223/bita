@@ -1,0 +1,33 @@
+name: Audit Aubert 2026 Zenodo mirror
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit_aubert2026_zenodo_mirror.py"
+      - "tests/test_aubert2026_zenodo_mirror_audit.py"
+      - ".github/workflows/audit-aubert2026-zenodo-mirror.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install tests
+        run: python -m pip install -e '.[dev]'
+      - name: Test mirror audit
+        run: pytest -q tests/test_aubert2026_zenodo_mirror_audit.py
+      - name: Audit mirror
+        run: python scripts/audit_aubert2026_zenodo_mirror.py artifacts/aubert2026_zenodo_mirror_audit.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aubert2026-zenodo-mirror-audit
+          path: artifacts/aubert2026_zenodo_mirror_audit.json
+          if-no-files-found: error
