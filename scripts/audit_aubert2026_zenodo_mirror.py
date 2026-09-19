@@ -9,6 +9,7 @@ import csv
 import io
 import json
 import urllib.request
+from urllib.parse import quote
 from collections import Counter
 from pathlib import Path
 
@@ -28,7 +29,7 @@ USER_AGENT = "bita-aubert-zenodo-mirror-audit/1.0"
 
 
 def _download(name: str) -> bytes:
-    url = f"{BASE}/{name}?download=1"
+    url = f"{BASE}/{quote(name)}?download=1"
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     with urllib.request.urlopen(req, timeout=90) as response:  # nosec B310 fixed public Zenodo URL
         return response.read()
