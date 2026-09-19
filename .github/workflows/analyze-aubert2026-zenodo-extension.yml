@@ -75,6 +75,26 @@ jobs:
               if observed["site_difference"][key] != frozen["site_difference"][key]:
                   raise SystemExit(f"site {key} drift")
 
+          for threshold in ["min_1", "min_2", "min_5"]:
+              o = observed["min_interaction_sensitivity"][threshold]
+              f = frozen["min_interaction_sensitivity"][threshold]
+              for key in [
+                  "status",
+                  "n_pair_sites",
+                  "barrier_pair_sites",
+                  "accessible_pair_sites",
+                  "mean_robbery_rate_barrier",
+                  "mean_robbery_rate_accessible",
+                  "barrier_minus_accessible_mean_rate",
+                  "barrier_mean_difference_permutation_p",
+                  "mismatch_spearman_rho",
+                  "mismatch_spearman_permutation_p",
+              ]:
+                  if o[key] != f[key]:
+                      raise SystemExit(
+                          f"sensitivity {threshold} {key} drift: {o[key]!r} != {f[key]!r}"
+                      )
+
           print("Frozen Aubert/EPHI extension reproduced exactly")
           PY
       - uses: actions/upload-artifact@v4
