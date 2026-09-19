@@ -137,15 +137,20 @@ The older BITA architecture derivations remain preserved as technical provenance
 
 ## Package status
 
-The previously validated 30-page Main + 38-page Appendix package belonged to the older integrated architecture-plus-mechanism manuscript and is now **historical, not submission-current**.
+The mechanism-identification package has now been rebuilt from the canonical science source and independently revalidated.
 
 ```text
-SCIENCE_SOURCE_REFOCUSED
-OLD_PACKAGE_STALE
-REBUILD_REQUIRED
+ACTIVE_ARTIFACT = bita-mechanism-identification-review-package
+ACTIVE_PACKAGE_STATUS = REBUILT_AND_VALIDATED
+ACTIVE_MAIN_RENDER = 21 pages
+ACTIVE_APPENDIX = 10 pages
+ACTIVE_FIGURES = 5 embedded
+ECOLOGY_APR2026_AUTOMATED_COMPLIANCE = PASS
 ```
 
-Do not submit the old generated package after the canonical manuscript refocus. Rebuild figures, captions, supplement routing, cover letter, and page-count checks around the new mechanism-identification manuscript before any journal upload.
+The active `PACKAGE_QA_RECEIPT.txt` is the source of truth for page counts, embedded media, source commit, and package role. The older 30-page Main + 38-page Appendix architecture-plus-mechanism render is legacy provenance only.
+
+The remaining submission blocker is author-controlled metadata and disclosure approval. After those fields are inserted, rebuild the exact intended submission files and rerun automated plus visual QA before upload.
 
 ## Testing
 
