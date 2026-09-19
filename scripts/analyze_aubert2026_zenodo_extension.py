@@ -323,7 +323,10 @@ def summarize_pair_sites(rows: list[dict[str, float | str | bool | int]], permut
                 "mean_robbery_rate": _mean([float(row["robbery_rate"]) for row in sub]),
             }
 
-    site_summary = _site_difference_summary(rows, permutations=permutations, seed=seed + 2)\n\n    return {\n        "analysis_name": "aubert_zenodo_all_ecuador_access_barrier_extension",
+    site_summary = _site_difference_summary(rows, permutations=permutations, seed=seed + 2)
+
+    return {
+        "analysis_name": "aubert_zenodo_all_ecuador_access_barrier_extension",
         "pair_site_n": len(rows),
         "barrier_pair_sites": len(barrier_rates),
         "accessible_pair_sites": len(accessible_rates),
