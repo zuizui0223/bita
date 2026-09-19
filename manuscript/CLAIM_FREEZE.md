@@ -137,6 +137,8 @@ Permitted interpretation:
 - defended attraction effect `A1` sign-identified positive under declared constraints;
 - undefended attraction effect `A0` remains zero-compatible;
 - strict Level-2/3 release is not identified;
+- under the explicit restriction `kappa_delta >= 0`, the registered aggregate floor implies `rho_delta - iota_delta >= +0.1710239` on the capsule-probability scale;
+- the `+0.1710239` result is a conditional partial-identification bound, not a measured `rho_delta` or `iota_delta` effect;
 - exact source/design-based uncertainty remains unresolved;
 - systemic nicotine manipulation leaves the focal defence scope imperfectly bounded;
 - ecological channel allocation remains unidentified.
@@ -204,16 +206,32 @@ Longer mature identification provenance source:
 manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md
 ```
 
-The old integrated architecture-plus-mechanism generated submission package is stale and must not be uploaded.
+The old integrated architecture-plus-mechanism generated package remains legacy provenance and must not be uploaded.
 
-## Remaining manuscript work
+## Active submission-package status
 
-1. Rebuild the figure set around the identification ladder, identified set, crossed intervention, and fragmented empirical frontier.
-2. Reconcile figure captions with the new canonical Main.
-3. Regenerate Appendix routing so architecture-value derivations are background/provenance rather than Main claims.
-4. Rewrite the cover letter around `trait interaction != mechanism`.
-5. Rebuild DOCX/PDF and repeat page-limit and visual QA.
-6. Add author-controlled metadata only after the new scientific package is green.
+The mechanism-identification package has been rebuilt from the canonical science source and independently revalidated.
+
+```text
+ACTIVE_ARTIFACT = bita-mechanism-identification-review-package
+ACTIVE_PACKAGE_STATUS = REBUILT_AND_VALIDATED
+ACTIVE_MAIN_RENDER = 21 pages
+ACTIVE_APPENDIX = 10 pages
+ACTIVE_FIGURES = 5 embedded
+ECOLOGY_APR2026_AUTOMATED_COMPLIANCE = PASS
+```
+
+The active `PACKAGE_QA_RECEIPT.txt` is the source of truth after every rebuild.
+
+The remaining work is intentionally external/author-controlled rather than new science:
+
+1. supply and approve final author order, affiliations, corresponding-author details, CRediT roles, funding, acknowledgments, competing interests, and licence wording;
+2. approve any AI/language-tool disclosure required by the live journal policy;
+3. re-check live portal-only requirements at upload time;
+4. insert the approved metadata, rebuild the exact intended files, and rerun automated plus visual QA;
+5. obtain final author approval and upload.
+
+Do not infer author-controlled metadata from repository history, account profiles, memories, or old drafts.
 
 ## Editorial test
 
