@@ -8,7 +8,7 @@
 
 ## Abstract
 
-Flowers must remain accessible and attractive to mutualists while limiting antagonists that use the same reproductive structures and rewards. Floral defence is therefore often described as a trade-off, yet the same chemical or physical trait can suppress antagonists, interfere with pollinators, or fail when exploiters bypass it. We develop a simple effective-exposure theory in which a focal defence/access axis of intensity \(x\) is experienced by antagonists and pollinators through channel-specific coefficients \(q_H\) and \(q_P\), with response thresholds \(\tau_H\) and \(\tau_P\). A selective window exists when \(\tau_H/q_H < x < \tau_P/q_P\): the antagonist channel is suppressed before pollinator interference begins. The framework predicts selective states under separated access or susceptibility, interference under strong overlap, loss of defence under bypass, and within-system switching as dose or exposure crosses response thresholds. We tested these predictions using four evidence layers. First, a deduplicated D-side route corpus contains 17 unique study programs spanning chemical (9), physical (7), and reward/access (1) implementations. Ten programs also measured pollinator consequences: four were context-dependent, three null-compatible, one improved, one fixed interference, and one unresolved. Second, a stricter matched-defence corpus contains 17 systems. Across the 11 scorable historical plus systematic-expansion systems, all 11 matched the fixed architecture prediction that separated domains show no observed pollinator interference, transitional domains show mixed responses, and overlap shows impairment; a coarse defence-modality classifier recovered only 6/9 historical systems in leave-one-out prediction and 1/2 expansion systems. Null-compatible outcomes remain distinct from equivalence-supported preservation. Third, eight independent defence-side systems show recurrent switching with dose, cumulative exposure, consumer identity, response stage, or temporal expression. Fourth, reanalysis of the public Sakhalkar et al. (2023) Afrotropical visitor network showed that floral tube length is associated with cheating route among 57 plant species (\(\rho=0.347\), permutation \(p=0.0086\)): longer tubes shift exploitation from thieving through the floral opening toward nectar robbing by bypass. Across case, within-system, and community scales, floral defence selectivity is best treated as a state of trait × consumer × context. Existing BITA identification results remain as claim discipline: these patterns support a recurrent access/exposure mechanism but not a universal causal coefficient or prevalence estimate.
+Flowers must remain accessible and attractive to mutualists while limiting antagonists that use the same reproductive structures and rewards. Floral defence is therefore often described as a trade-off, yet the same chemical or physical trait can suppress antagonists, interfere with pollinators, or fail when exploiters bypass it. We develop a simple effective-exposure theory in which a focal defence/access axis of intensity \(x\) is experienced by antagonists and pollinators through channel-specific coefficients \(q_H\) and \(q_P\), with response thresholds \(\tau_H\) and \(\tau_P\). A selective window exists when \(\tau_H/q_H < x < \tau_P/q_P\): the antagonist channel is suppressed before pollinator interference begins. The framework predicts selective states under separated access or susceptibility, interference under strong overlap, loss of defence under bypass, and within-system switching as dose or exposure crosses response thresholds. We tested these predictions using four evidence layers. First, a deduplicated D-side route corpus contains 17 unique study programs spanning chemical (9), physical (7), and reward/access (1) implementations. Ten programs also measured pollinator consequences: four were context-dependent, three null-compatible, one improved, one fixed interference, and one unresolved. Second, a stricter matched-defence corpus contains 17 systems. Across the 11 scorable historical plus systematic-expansion systems, all 11 matched the fixed architecture prediction that separated domains show no observed pollinator interference, transitional domains show mixed responses, and overlap shows impairment; a coarse defence-modality classifier recovered only 6/9 historical systems in leave-one-out prediction and 1/2 expansion systems. Null-compatible outcomes remain distinct from equivalence-supported preservation. Third, eight independent defence-side systems show recurrent switching with dose, cumulative exposure, consumer identity, response stage, or temporal expression. Fourth, two independent public network analyses recovered the access-routing prediction in different faunas. In the Afrotropical Sakhalkar et al. (2023) network, floral tube length is associated with cheating route among 57 plant species (\(\rho=0.347\), permutation \(p=0.0086\)). In an independent all-Ecuador EPHI extension of the Aubert et al. (2026) trait-barrier framework, 1,378 bird × plant × site units show higher robbery when flower tubes exceed bird bills (mean 0.307 vs 0.081); 15 of 17 comparable sites show the same direction (sign-test \(p=0.00235\); site-stratified permutation \(p=0.0001\)). Across case, within-system, and community scales, floral defence selectivity is best treated as a state of trait × consumer × context. Existing BITA identification results remain as claim discipline: these patterns support a recurrent access/exposure mechanism but not a universal causal coefficient or prevalence estimate.
 
 **Keywords:** floral defence; pollination; nectar robbing; florivory; trait matching; interaction networks; visitor filtering; ecological antagonism
 
@@ -22,7 +22,7 @@ These examples suggest that the important ecological object is not defence class
 
 We formalize this idea as an effective-exposure threshold model (Fig. 1). The model generates four testable states: separated domains should create a selective window; overlapping domains should narrow or close that window; bypass should eliminate the focal antagonist-reduction effect; and increasing exposure should move systems from ineffective to selective to pollinator-interfering states. A related access prediction is that barriers need not eliminate exploitation: if a bypass route exists, increasing mismatch can shift animals from use of the legitimate opening toward robbery.
 
-We test these predictions using four linked evidence layers. First, we deduplicate the legacy D-side route corpus at the study-program level and quantify implementation breadth, pollinator-follow-up coverage, and pollination-state heterogeneity. Second, we construct a stricter matched-defence corpus in which one flower-associated defence or access axis is linked to both antagonist and pollinator outcomes within the same study system. Third, we recover within-system state transitions from earlier BITA evidence on dose, exposure, consumer identity, response stage, and temporal expression. Fourth, we independently reanalyse a public Afrotropical flower-visitor dataset to ask whether floral tube length predicts the balance between nectar thieving through the floral opening and nectar robbing by bypass.
+We test these predictions using four linked evidence layers. First, we deduplicate the legacy D-side route corpus at the study-program level and quantify implementation breadth, pollinator-follow-up coverage, and pollination-state heterogeneity. Second, we construct a stricter matched-defence corpus in which one flower-associated defence or access axis is linked to both antagonist and pollinator outcomes within the same study system. Third, we recover within-system state transitions from earlier BITA evidence on dose, exposure, consumer identity, response stage, and temporal expression. Fourth, we test interaction routing in two independent public network datasets: an Afrotropical insect–flower network in which robbing and thieving can be contrasted across plant species, and an Ecuadorian bird–plant network extension in which flower-tube–bill mismatch defines an access barrier.
 
 This refocus preserves rather than discards earlier BITA results. The previous 56-route / 25-historical-cluster synthesis established recurrence of attraction, antagonism, defence, and pollination pathways; direct attraction-by-defence factorials showed context-dependent interaction signs; and the identification framework showed that a total trait interaction does not uniquely identify an ecological channel allocation. Those results remain important, but here they become the evidential and inferential foundation for a biological question: **what ecological architecture makes floral defence selective?**
 
@@ -203,6 +203,22 @@ where \(R_i\) is robbing frequency and \(T_i\) thieving frequency. \(B_i=1\) den
 
 We tested the association between tube length and \(B_i\) with a species-level Spearman correlation. A fixed-seed two-sided permutation test used 9,999 permutations. The species, not individual visits, were the inferential units.
 
+### 3.8 Aubert / EPHI all-Ecuador access-barrier extension
+
+Aubert et al. (2026) model nectar robbing as a consequence of trait mismatch between flower tube length and bird bill length. Direct anonymous Dryad file-byte retrieval remained blocked in the CI environment, but the broader Ecuador EPHI dataset is publicly available through Zenodo (DOI 10.5281/zenodo.14185547).
+
+We retained the source paper's mismatch definition,
+
+\[
+M=\log(T/B),
+\]
+
+where \(T\) is flower tube length and \(B\) bird bill length; positive \(M\) indicates a flower tube longer than the bill. The mirror metadata specify plant \(Tubelength\) in cm and hummingbird \(culmen_length\) in mm, so culmen length was divided by 10 before calculating mismatch. We defined a binary access barrier as \(T>B\).
+
+This is an independent extension rather than an exact replication of the source three-transect mixed-effects analysis. We used all 18 Ecuador sites represented in the mirror. Resolved piercing interactions were joined through camera waypoints to plant species and sites, then to plant and bird traits. Individual interaction rows were aggregated to bird species × plant species × site units, and robbery rate was calculated within each pair-site unit.
+
+We tested (i) the difference in mean robbery rate between barrier and accessible pair-sites and (ii) the Spearman association between continuous \(\log(T/B)\) mismatch and robbery rate using 9,999 permutations. To reduce sensitivity to among-site composition, we also calculated within-site barrier-minus-accessible differences, a two-sided sign test across comparable sites, and a site-stratified permutation test.
+
 ## 4. Results
 
 ### 4.1 The broader D-side corpus spans implementation classes and heterogeneous pollinator consequences
@@ -362,7 +378,34 @@ The same pattern appeared in a simple descriptive contrast. Median tube length w
 
 This supports Prediction 5 at the level of a cross-species association. A source-defined multitrait sensitivity using tube length, tube width, and a 12-level shape factor did not isolate tube length as a unique partial predictor (full-model permutation p=0.202; tube-length block p=0.211), and the deposited workbook lacked usable brightness values needed for the source-defined thief model. We therefore interpret the result as evidence that access geometry is associated with cheating route, not that tube length alone uniquely causes the switch.
 
-### 4.6 Post-rule evidence is directionally consistent but does not close confirmation
+### 4.6 Bird–flower access mismatch independently predicts nectar robbing across Ecuador sites
+
+The EPHI mirror yielded 21,114 resolved target interactions, of which 20,572 could be matched to plant and bird access traits. Aggregation produced 1,378 bird × plant × site units across all 18 Ecuador sites.
+
+A binary access barrier was present in 888 pair-sites, whereas 490 were accessible under the criterion \(T\le B\). Mean robbery rate was substantially higher when the flower tube exceeded bird bill length:
+
+~~~text
+T > B barrier:       0.30698
+T <= B accessible:   0.08139
+difference:          +0.22560
+permutation p:        0.0001
+~~~
+
+Continuous mismatch gave the same result:
+
+\[
+\rho_{\log(T/B),\,robbery}=0.41826,
+\qquad
+p_{\mathrm{perm}}=0.0001.
+\]
+
+The pattern was also repeated within sites. Seventeen sites contained both barrier and accessible pair-sites; 15 of those 17 had higher mean robbery under the barrier state. The mean within-site difference was +0.14399 and the median +0.13132. A two-sided sign test gave \(p=0.00235\), and a site-stratified permutation test gave \(p=0.0001\).
+
+The mirror trait join yielded 1,377 hummingbird pair-sites but only one trait-matched flowerpiercer pair-site, so this extension should be interpreted primarily as a hummingbird result rather than a bird-family comparison.
+
+This analysis is not an exact numerical replication of Aubert et al. (2026), because it uses all 18 Ecuador EPHI sites, mirror culmen measurements, and a pair-site aggregation instead of the source three-transect GLMM. Its role is an independent extension of the same predeclared access-barrier prediction.
+
+### 4.7 Post-rule evidence is directionally consistent but does not close confirmation
 
 The effective-domain interpretation was originally developed using the historical evidence set. We therefore evaluated subsequent evidence separately.
 
@@ -372,9 +415,9 @@ The effective-domain interpretation was originally developed using the historica
 
 The registered 2026 *Erica* hold-out was coded as geometrically separated before promoting the focal outcome direction (Coetzee et al. 2026). Longer corollas predict reduced bee robbing and a positive pollination-rate direction, but the latter remains boundary evidence and is coded DIRECTION_ONLY / UNRESOLVED.
 
-These post-rule systems do not justify a success percentage. They differ in design and claim strength. Together with the independent Sakhalkar network, they are directionally consistent with the effective-domain framework while leaving formal confirmatory validation open.
+These post-rule systems do not justify a success percentage. They differ in design and claim strength. Together with the two independent network-scale analyses, they are directionally consistent with the effective-domain framework while leaving formal prospective validation of the matched-D rule open.
 
-### 4.7 Legacy BITA systems explain why selectivity is a context property
+### 4.8 Legacy BITA systems explain why selectivity is a context property
 
 Kessler et al. (2015) remains a particularly informative bridge. When nectar absence is treated only as a broad antagonist-reducing access restriction, its pollination cost changes with consumer identity: *Manduca sexta* pollination declines strongly without nectar, whereas *Hyles lineata* retains pollination service when scent remains available. The same crossed scent × nectar architecture also produces different source-mean interaction signs across pollinator contexts.
 
@@ -386,9 +429,9 @@ This linked result is not added as a new matched-D replication because nectar is
 
 Across the four evidence layers, the recurring pattern is conditional rather than categorical. The broader state-recovery analysis strengthens that point: the fixed effective-domain mapping recovered all 11 scorable historical + expansion systems, whereas a coarse modality-only classifier missed several systems. A floral defence is not inherently safe or costly to pollination. Its outcome depends on who experiences it, through what route, at what intensity, and at what stage.
 
-The broader route-level corpus shows that D implementations span chemical, physical, and reward/access mechanisms while pollinator consequences vary among context-dependent, null-compatible, improved, interference, and unresolved states. The stricter matched-D evidence is smaller but aligned with the predicted state structure. Within-system data show that the same nominal defence can move between states as exposure changes. The community network provides a quantitatively independent consequence: access geometry predicts whether exploiters use the normal floral opening or switch to robbery.
+The broader route-level corpus shows that D implementations span chemical, physical, and reward/access mechanisms while pollinator consequences vary among context-dependent, null-compatible, improved, interference, and unresolved states. The stricter matched-D evidence is smaller but aligned with the predicted state structure. Within-system data show that the same nominal defence can move between states as exposure changes. The two community-scale analyses provide quantitatively independent consequences in different faunas: floral geometry is associated with robbing-versus-thieving route balance in the Afrotropical insect network, while flower-tube–bill mismatch predicts nectar robbery across Ecuadorian hummingbird interactions.
 
-This combination matters because each layer addresses a different weakness in the others. Case-level systems give close biological interpretation but limited generality. Within-system transitions establish that states are not fixed properties of trait categories. The network analysis provides breadth across many plant species but is observational. Their convergence is stronger than treating any one layer as definitive.
+This combination matters because each layer addresses a different weakness in the others. Case-level systems give close biological interpretation but limited generality. Within-system transitions establish that states are not fixed properties of trait categories. The network analyses provide breadth across plant species, sites and visitor faunas but remain observational. Their convergence is stronger than treating any one layer as definitive.
 
 ### 5.2 Separation can arise through several biological coordinates
 
@@ -401,6 +444,10 @@ This common formal structure explains why “chemical versus physical” is an i
 ### 5.3 Barriers reroute exploitation rather than simply eliminating it
 
 The Sakhalkar reanalysis (Fig. 4) adds a result that the case synthesis alone could not provide. Longer floral tubes are associated with a shift from thieving to robbing across plant species. A source-defined multitrait sensitivity does not identify tube length as a unique partial driver after accounting for correlated morphology, so the broader interpretation is that floral access geometry is associated with the behavioral route of cheating.
+
+The independent EPHI/Aubert extension recovers the same access-routing logic in a different faunal system and at a different grain. When Ecuadorian flower tubes exceed hummingbird bills, pair-site robbery rates rise from 0.081 to 0.307 on average. The direction persists in 15 of 17 comparable sites, and continuous \(\log(T/B)\) mismatch correlates positively with robbery rate. Because this is an observational all-site extension rather than an exact replication of the Aubert three-transect model, it strengthens cross-system recurrence without providing a universal causal coefficient.
+
+Together, these two public datasets make the routing result less dependent on a single trait, taxon or sampling design: one contrasts robbing versus thieving among Afrotropical insect visitors, whereas the other tests legitimate access versus piercing in Ecuadorian hummingbird interactions.
 
 This suggests that floral defence should often be analysed as a routing problem. Blocking the legitimate path can reduce one exploitative mode while increasing the relative value of bypass. That perspective links physical barriers, nectar robbing, visitor handling, and trait matching within one ecological framework.
 
@@ -458,8 +505,8 @@ Current evidence supports:
 2. qualitative pollinator-state recovery in 9/9 scorable historical systems and 2/2 systematic-expansion systems under the fixed domain-state mapping, with null-compatible outcomes kept distinct from preservation;
 3. a narrower direction-supported Stage-2 pattern in three systems, retained as a high-specificity subset rather than the main sample size;
 4. repeated within-system state switching with dose, exposure, consumer identity, response stage, and time;
-5. a quantitative community-scale association between tube length and cheating route;
-6. post-rule systems that are directionally compatible with the framework without completing confirmatory validation.
+5. two independent community-scale access-routing associations: the Sakhalkar plant-species route-balance result and the EPHI/Aubert bird–flower access-barrier extension, including repeated direction across 15/17 comparable Ecuador sites;
+6. post-rule matched systems that are directionally compatible with the framework without completing prospective confirmatory validation.
 
 Current evidence does **not** establish:
 
@@ -482,7 +529,7 @@ A bounded targeted search recovered strong linked programmes but no new study sa
 
 Floral defence is not simply a property of a compound or structure. It is a relational state produced by trait intensity, consumer susceptibility, access route, timing, and response threshold.
 
-A simple effective-exposure model predicts when a selective window can exist, when overlap should impose mutualist costs, when bypass should defeat the focal defence, and when stronger expression should close the selective window. The qualitative state mapping recovers all 11 currently scorable historical + systematic-expansion systems, while the narrower strict subset remains too small for a conventional moderator meta-regression. An independent community reanalysis shows the same access logic at larger scale: longer flowers are associated with relatively more robbery than thieving, while multitrait sensitivity prevents attributing that pattern uniquely to tube length.
+A simple effective-exposure model predicts when a selective window can exist, when overlap should impose mutualist costs, when bypass should defeat the focal defence, and when stronger expression should close the selective window. The qualitative state mapping recovers all 11 currently scorable historical + systematic-expansion systems, while the narrower strict subset remains too small for a conventional moderator meta-regression. Two independent community reanalyses show the same access logic at larger scale. In Afrotropical insect–flower networks, longer flowers are associated with relatively more robbery than thieving, while multitrait sensitivity prevents attributing that pattern uniquely to tube length. In Ecuadorian bird–flower interactions, robbery is higher when flower tubes exceed bird bills, and the direction recurs within 15 of 17 comparable sites.
 
 The resulting ecological picture is therefore not “defence versus pollination” as a fixed trade-off. It is **interaction routing through unequal access and exposure domains**.
 
