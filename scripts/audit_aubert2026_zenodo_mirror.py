@@ -57,15 +57,19 @@ def summarize_tables(tables: dict[str, tuple[list[str], list[dict[str, str]]]]) 
                 if str(row.get("site", "")).strip()
             })
             entry["site_count"] = len(entry["sites"])
+            rob_field = "nectar_robbing" if "nectar_robbing" in header else "piercing"
+            fam_field = "bird_family" if "bird_family" in header else "hummingbird_family"
+            entry["robbing_field"] = rob_field
             entry["nectar_robbing_counts"] = dict(sorted(Counter(
-                str(row.get("nectar_robbing", "")).strip()
+                str(row.get(rob_field, "")).strip()
                 for row in rows
-                if str(row.get("nectar_robbing", "")).strip()
+                if str(row.get(rob_field, "")).strip()
             ).items()))
+            entry["bird_family_field"] = fam_field
             entry["bird_family_counts"] = dict(sorted(Counter(
-                str(row.get("bird_family", "")).strip()
+                str(row.get(fam_field, "")).strip()
                 for row in rows
-                if str(row.get("bird_family", "")).strip()
+                if str(row.get(fam_field, "")).strip()
             ).items()))
         out["tables"][key] = entry
     return out
