@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import io
 import zipfile
+from urllib.error import HTTPError
 
+from scripts import audit_sakhalkar2023_zenodo as audit
 from scripts.audit_sakhalkar2023_zenodo import summarize_archive
 
 
@@ -79,3 +81,30 @@ def test_archive_inventory_does_not_emit_data_rows_or_script_contents() -> None:
     encoded = str(report)
     assert "print('ok')" not in encoded
     assert "raw_rows" not in report
+
+
+def test_download_retries_transient_5xx(monkeypatch) -> None:
+    calls = {"n": 0}
+
+    class FakeResponse:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self, _limit):
+            return b"abc"
+
+    def fake_urlopen(request, timeout=60):
+        calls["n"] += 1
+        if calls["n"] < 3:
+            raise HTTPError(request.full_url, 504, "Gateway Time-out", {}, None)
+        return FakeResponse()
+
+    monkeypatch.setattr(audit, "urlopen", fake_urlopen)
+    monkeypatch.setattr(audit.time, "sleep", lambda _seconds: None)
+    monkeypatch.setattr(audit, "MAX_BYTES", 10)
+
+    assert audit._download() == b"abc"
+    assert calls["n"] == 3
