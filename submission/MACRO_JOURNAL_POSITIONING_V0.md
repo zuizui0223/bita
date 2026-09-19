@@ -15,7 +15,7 @@ Approximate current manuscript-source length:
 
 Core contribution:
 
-> **Access and exposure structure repeatedly organizes floral defence selectivity and exploitation route across a broad route-level D corpus, matched systems, within-system state transitions, and an independently reanalysed multispecies visitor network.**
+> **Access and exposure structure repeatedly organizes floral defence selectivity and exploitation route across a broad route-level D corpus, matched systems, within-system state transitions, and two independently reanalysed multispecies visitor networks.**
 
 The paper now combines:
 
@@ -77,7 +77,7 @@ Required adaptation:
 - Functional Ecology uses a numbered factual abstract style;
 - add an explicit replication statement;
 - add a formal Data Sources section for matched-D primary sources;
-- make the mechanistic prediction and Sakhalkar public-data result the first two selling points in the cover letter.
+- make the mechanistic prediction and the cross-fauna Sakhalkar + Aubert/EPHI network recurrence the first two selling points in the cover letter.
 
 ### Route C — Oikos
 
