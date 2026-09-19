@@ -15,15 +15,16 @@ Approximate current manuscript-source length:
 
 Core contribution:
 
-> **Access and exposure structure repeatedly organizes floral defence selectivity and exploitation route across matched systems, within-system state transitions, and an independently reanalysed multispecies visitor network.**
+> **Access and exposure structure repeatedly organizes floral defence selectivity and exploitation route across a broad route-level D corpus, matched systems, within-system state transitions, and an independently reanalysed multispecies visitor network.**
 
 The paper now combines:
 
 1. a compact effective-exposure theory;
-2. a source-adjudicated 17-system matched-defence synthesis;
-3. an 8-system defence-side conditionality synthesis;
-4. an independent community-scale public-data reanalysis;
-5. legacy BITA identification results as claim discipline rather than headline.
+2. a deduplicated 17-program D-side route macro synthesis;
+3. a 17-system matched-defence synthesis with 11 scorable state-recovery systems;
+4. an 8-system defence-side conditionality synthesis;
+5. an independent community-scale public-data reanalysis plus source-defined multitrait sensitivity;
+6. legacy BITA identification results as claim discipline rather than headline.
 
 ## Submission route
 
