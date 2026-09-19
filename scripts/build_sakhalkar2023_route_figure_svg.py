@@ -163,7 +163,8 @@ def build_svg(
         _text(box_x + 55, 615, "→ bypass / robbing", size=16, fill="#8c2d2d"),
         _text(box_x + 22, 675, "Access barriers can reroute exploitation", size=17, weight="bold"),
         _text(box_x + 22, 705, "rather than simply eliminating it.", size=17, weight="bold"),
-        _text(120, 875, "Public data: Sakhalkar et al. 2023, Zenodo 10.5281/zenodo.8398202. No species identifiers or raw visit rows are emitted in this figure.", size=13),
+        _text(120, 858, "Multitrait sensitivity does not isolate tube length as a unique partial predictor (full-model p = 0.202; tube-length block p = 0.211).", size=12, fill="#555"),
+        _text(120, 884, "Public data: Sakhalkar et al. 2023, Zenodo 10.5281/zenodo.8398202. No species identifiers or raw visit rows are emitted.", size=12),
         "</svg>",
     ])
     return "\n".join(parts) + "\n"
