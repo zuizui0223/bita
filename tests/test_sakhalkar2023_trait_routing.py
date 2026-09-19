@@ -6,6 +6,7 @@ from scripts.analyze_sakhalkar2023_trait_routing import (
     benjamini_hochberg,
     build_species_trait_rows,
     fit_source_defined_model,
+    trait_coverage_summary,
 )
 
 
@@ -74,3 +75,20 @@ def test_missing_source_defined_trait_excludes_species_from_complete_model() -> 
     rows = build_species_trait_rows(visits, traits)
     result = fit_source_defined_model(rows, permutations=49, seed=2)
     assert result["n_species_complete"] == 7
+
+
+def test_trait_coverage_reports_source_model_complete_cases() -> None:
+    visits, traits = _synthetic()
+    traits[0]["brightness"] = ""
+    traits[1]["tube_width"] = ""
+    rows = build_species_trait_rows(visits, traits)
+    coverage = trait_coverage_summary(rows)
+
+    assert coverage["cheating_species"] == 8
+    assert coverage["nonmissing"]["tube_length"] == 8
+    assert coverage["nonmissing"]["tube_width"] == 7
+    assert coverage["nonmissing"]["brightness"] == 7
+    assert coverage["nonmissing"]["shape"] == 8
+    assert coverage["robber_source_complete"] == 7
+    assert coverage["thief_source_complete"] == 7
+    assert coverage["union_complete"] == 6
