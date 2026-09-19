@@ -185,11 +185,11 @@ Data sources:
 
 ---
 
-## Figure 4 — Community-scale route switching in Sakhalkar 2023
+## Figure 4 — Independent community-scale access routing in insects and birds
 
-**Purpose:** provide the macro-ecological quantitative result.
+**Purpose:** show that the access-routing prediction recurs in two independent public datasets with different visitor faunas and analysis grains.
 
-### Panel A — species-level tube length vs cheating-mode balance
+### Panel A — Sakhalkar species-level tube length vs cheating-mode balance
 
 x-axis = tube length.
 
@@ -211,7 +211,7 @@ permutation p = 0.0086
 n = 57 species
 ~~~
 
-### Panel B — route-specific descriptive distributions
+### Panel B — Sakhalkar route-specific descriptive distributions
 
 Compare tube length for robber-only and thief-only species.
 
@@ -224,7 +224,39 @@ thief-only   0.6766
 
 Do not present the approximate threefold ratio as an inferential test.
 
-### Panel C — ecological routing interpretation
+### Panel C — Aubert/EPHI binary access barrier
+
+Show aggregate robbery rates:
+
+~~~text
+T > B barrier       0.30698
+T <= B accessible   0.08139
+difference         +0.22560
+pair-site permutation p = 0.0001
+~~~
+
+Also annotate:
+
+~~~text
+1,378 bird x plant x site units
+18 sites
+~~~
+
+### Panel D — Aubert/EPHI site robustness
+
+Show either a compact site-level direction strip or summary annotation:
+
+~~~text
+17 comparable sites
+15 positive barrier differences
+mean within-site difference +0.14399
+sign-test p = 0.00235
+site-stratified permutation p = 0.0001
+~~~
+
+Do not plot species identifiers.
+
+### Panel E — cross-network routing interpretation
 
 ~~~text
 short / accessible
@@ -236,12 +268,15 @@ long / constrained
     -> bypass/robbing relatively favoured
 ~~~
 
-**Main message:** access geometry is associated with exploitation route; the univariate tube-length signal should not be presented as a uniquely identified partial effect.
+**Main message:** access geometry is associated with exploitation route in two independent network datasets. Sakhalkar does not identify tube length as a unique partial driver; Aubert/EPHI is an observational all-site extension, not an exact source-model replication.
 
 Data/source:
 - Zenodo DOI 10.5281/zenodo.8398202
 - scripts/analyze_sakhalkar2023_network.py
 - empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json
+- scripts/analyze_aubert2026_zenodo_extension.py
+- empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json
+- Zenodo EPHI DOI 10.5281/zenodo.14185547
 
 The plotting workflow may download the public workbook at build time, but raw species rows must not be committed. Add the source-defined multitrait sensitivity note: full-model permutation p = 0.202 and tube-length block p = 0.211; brightness is unavailable in the deposited trait table, so thief-source and union models are not estimable.
 
@@ -273,5 +308,6 @@ These remain scientifically useful but no longer define the paper's visual first
 - repeated outcomes from one study must not appear as independent systems;
 - null-compatible states must be graphically distinct from preservation;
 - cohort/origin must remain visible in Figure 2;
-- Figure 4 must use plant species as the inferential unit;
+- Figure 4 Sakhalkar panel must use plant species as the inferential unit;
+- Figure 4 Aubert/EPHI panel must use bird × plant × site units and retain the 17-site robustness summary;
 - no panel may imply a domain-versus-modality comparison that the strict data cannot identify.
