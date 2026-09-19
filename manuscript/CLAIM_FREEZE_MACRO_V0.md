@@ -202,7 +202,7 @@ Four ordered exposure systems support a qualitative threshold-window pattern.
 
 Do not pool heterogeneous outcomes into one universal effect size or threshold ratio.
 
-### Layer 4 — independent Sakhalkar network reanalysis
+### Layer 4 — two independent community-scale routing analyses
 
 Frozen result:
 
@@ -252,6 +252,50 @@ Permitted interpretation:
 
 Prefer “access geometry” over “tube length alone” in the general ecological conclusion.
 
+Aubert / EPHI independent extension:
+
+~~~text
+all Ecuador sites represented:           18
+resolved target interactions:        21,114
+trait-matched interactions:          20,572
+bird x plant x site units:            1,378
+
+T > B barrier pair-sites:               888
+T <= B accessible pair-sites:           490
+
+mean robbery rate:
+  barrier:      0.30698
+  accessible:   0.08139
+  difference:  +0.22560
+pair-site permutation p = 0.0001
+
+Spearman rho[log(T/B), robbery rate] = 0.41826
+permutation p = 0.0001
+
+within-site robustness:
+  comparable sites: 17
+  barrier > accessible: 15
+  mean difference: +0.14399
+  median difference: +0.13132
+  sign-test p = 0.00235
+  site-stratified permutation p = 0.0001
+~~~
+
+Permitted interpretation:
+
+> flower-tube–bill mismatch is associated with higher nectar robbing across the Ecuador EPHI network, and the direction recurs across sites.
+
+Required boundaries:
+
+- this is an independent all-18-site extension, not an exact replication of Aubert et al. 2026;
+- it is observational and must not be called a causal floral-defence experiment;
+- the mirror trait join yields 1,377 hummingbird pair-sites but only one trait-matched flowerpiercer pair-site, so no bird-group comparison is licensed;
+- the Sakhalkar and Aubert/EPHI response scales must not be pooled into one effect size.
+
+Layer-4 paper-level interpretation:
+
+> two independent network datasets, using different faunas and response constructions, recover the same access-routing direction.
+
 ## Frozen domain-versus-modality boundary
 
 The three strict Stage-2 systems perfectly confound domain relation with broad modality:
@@ -278,7 +322,7 @@ Keep separate:
 historical derivation:       14 matched systems
 systematic expansion:         2 matched systems
 registered hold-out:          1 matched system
-independent network:          Sakhalkar 2023
+independent networks:         Sakhalkar 2023 + Aubert/EPHI extension
 ~~~
 
 Do not present all 17 matched systems as prospective validation.
@@ -288,7 +332,8 @@ Current post-rule interpretation:
 - Caryopteris: supportive matched system;
 - Phlox: null-compatible chemical matched system;
 - Erica: directionally supportive but unresolved hold-out;
-- Sakhalkar: independent quantitative access-routing support.
+- Sakhalkar: independent insect-network access-routing support.
+- Aubert/EPHI: independent bird-network access-barrier extension with site-level robustness.
 
 Do not compute a single “success rate” across these heterogeneous evidence classes.
 
@@ -351,6 +396,7 @@ Do not claim:
 - domain separation outperforms modality in the current strict data;
 - null-compatible means no pollinator cost;
 - the Sakhalkar correlation is causal;
+- the Aubert/EPHI access-barrier association is causal or an exact replication of the published three-transect model;
 - tube length is a uniquely identified driver after adjustment for correlated floral morphology;
 - 14,383 exactly reproduces the published 14,391 visit count;
 - the 17-system matched-D corpus estimates natural prevalence;
@@ -363,7 +409,7 @@ Do not claim:
 
 Permitted:
 
-> Across a broad D-side route corpus, matched floral systems, within-system state transitions, and an independently reanalysed multispecies visitor network, access and exposure structure repeatedly organizes antagonist suppression, mutualist compatibility, and exploitation route. Floral defence selectivity is therefore best treated as a state of trait × consumer × context rather than as a fixed property of a defence class.
+> Across a broad D-side route corpus, matched floral systems, within-system state transitions, and two independently reanalysed multispecies visitor networks, access and exposure structure repeatedly organizes antagonist suppression, mutualist compatibility, and exploitation route. Floral defence selectivity is therefore best treated as a state of trait × consumer × context rather than as a fixed property of a defence class.
 
 The word “organizes” is preferred over “causes” for the cross-system synthesis.
 
