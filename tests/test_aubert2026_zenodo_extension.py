@@ -41,3 +41,21 @@ def test_summary_detects_higher_robbery_under_barrier() -> None:
     assert out["mismatch_spearman_rho"] > 0
     assert 0 < out["barrier_mean_difference_permutation_p"] <= 1
     assert out["site_difference"]["eligible_sites"] == 1
+
+
+def test_summary_reports_min_interaction_sensitivity() -> None:
+    rows = [
+        {"site":"S1","bird_group":"hummingbird","n_interactions":1,"robbery_rate":1.0,"mismatch_log_t_over_b":0.4,"trait_barrier":True},
+        {"site":"S1","bird_group":"hummingbird","n_interactions":5,"robbery_rate":0.8,"mismatch_log_t_over_b":0.3,"trait_barrier":True},
+        {"site":"S1","bird_group":"hummingbird","n_interactions":5,"robbery_rate":0.1,"mismatch_log_t_over_b":-0.2,"trait_barrier":False},
+        {"site":"S2","bird_group":"hummingbird","n_interactions":6,"robbery_rate":0.7,"mismatch_log_t_over_b":0.2,"trait_barrier":True},
+        {"site":"S2","bird_group":"hummingbird","n_interactions":6,"robbery_rate":0.0,"mismatch_log_t_over_b":-0.3,"trait_barrier":False},
+        {"site":"S2","bird_group":"hummingbird","n_interactions":1,"robbery_rate":0.0,"mismatch_log_t_over_b":-0.4,"trait_barrier":False},
+    ]
+    out = summarize_pair_sites(rows, permutations=99, seed=8)
+    sensitivity = out["min_interaction_sensitivity"]
+
+    assert sensitivity["min_1"]["n_pair_sites"] == 6
+    assert sensitivity["min_5"]["n_pair_sites"] == 4
+    assert sensitivity["min_5"]["barrier_minus_accessible_mean_rate"] > 0
+    assert sensitivity["min_5"]["mismatch_spearman_rho"] > 0
