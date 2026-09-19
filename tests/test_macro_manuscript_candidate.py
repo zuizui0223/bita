@@ -92,3 +92,21 @@ def test_figure_plan_has_four_main_figures_and_frozen_statistics() -> None:
 def test_old_canonical_remains_the_identification_manuscript() -> None:
     first = OLD_CANONICAL.read_text(encoding="utf-8").splitlines()[0]
     assert first == "# Trait interaction is not ecological mechanism: an identification framework for multifunctional traits"
+
+
+def test_candidate_aubert_network_robustness_is_frozen() -> None:
+    text = CANDIDATE.read_text(encoding="utf-8")
+    assert "1,378 bird × plant × site units" in text
+    assert "15 of 17 comparable sites" in text
+    assert "at least five resolved interactions" in text
+    assert "702 pair-sites" in text
+    assert "difference +0.264" in text
+    assert "mismatch rho=0.505" in text
+    assert "not an exact numerical replication of Aubert et al. (2026)" in text
+
+
+def test_claim_freeze_blocks_causal_aubert_overclaim() -> None:
+    text = CLAIMS.read_text(encoding="utf-8")
+    assert "Aubert/EPHI access-barrier association is causal" in text
+    assert "min >= 5 interactions" in text
+    assert "n = 702" in text
