@@ -118,7 +118,7 @@ median tube length:
   thief-only  = 0.6766
 ```
 
-Interpretation: increasing tube length shifts cheating toward **robbing/bypass** relative to **thieving through the normal opening**. Floral geometry therefore routes interaction mode at community scale rather than simply reducing all antagonism.
+Interpretation: increasing tube length is associated with more **robbing/bypass** relative to **thieving through the normal opening**. A source-defined multitrait sensitivity does not isolate tube length as a unique partial predictor (full-model permutation p = 0.202; tube-length block p = 0.211), so the broader conclusion is that floral access geometry is associated with interaction routing at community scale rather than that tube length alone is causal.
 
 ## Preserved earlier BITA results
 
