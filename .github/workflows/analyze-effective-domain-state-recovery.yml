@@ -1,0 +1,51 @@
+name: Analyze effective-domain macro state recovery
+
+on:
+  pull_request:
+    paths:
+      - "scripts/run_effective_domain_state_recovery.py"
+      - "tests/test_effective_domain_state_recovery.py"
+      - "empirical/floral_defence_selectivity/results/analysis_ready_matched_systems.csv"
+      - ".github/workflows/analyze-effective-domain-state-recovery.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package and tests
+        run: python -m pip install -e '.[dev]'
+      - name: Test state-recovery logic
+        run: pytest -q tests/test_effective_domain_state_recovery.py
+      - name: Run macro state recovery
+        run: |
+          python scripts/run_effective_domain_state_recovery.py             --input empirical/floral_defence_selectivity/results/analysis_ready_matched_systems.csv             --output artifacts/effective_domain_state_recovery.json
+      - name: Verify headline counts
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          result = json.loads(Path("artifacts/effective_domain_state_recovery.json").read_text())
+          assert result["derivation"]["scored_n"] == 9
+          assert result["derivation"]["domain_rule_correct"] == 9
+          assert result["systematic_expansion"]["scored_n"] == 2
+          assert result["systematic_expansion"]["domain_rule_correct"] == 2
+          assert result["pooled_scored"]["scored_n"] == 11
+          assert result["pooled_scored"]["domain_rule_correct"] == 11
+          assert result["derivation"]["modality_loo_correct"] == 6
+          assert result["systematic_expansion"]["modality_from_derivation_correct"] == 1
+          print("Effective-domain state-recovery headline verified")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: effective-domain-state-recovery
+          path: artifacts/effective_domain_state_recovery.json
+          if-no-files-found: error
