@@ -5,6 +5,7 @@ on:
     paths:
       - "scripts/analyze_aubert2026_zenodo_extension.py"
       - "tests/test_aubert2026_zenodo_extension.py"
+      - "empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json"
       - ".github/workflows/analyze-aubert2026-zenodo-extension.yml"
   workflow_dispatch:
 
@@ -26,6 +27,56 @@ jobs:
         run: pytest -q tests/test_aubert2026_zenodo_extension.py
       - name: Run all-Ecuador access-barrier extension
         run: python scripts/analyze_aubert2026_zenodo_extension.py artifacts/aubert2026_zenodo_extension.json --permutations 9999
+      - name: Verify frozen aggregate result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          observed = json.loads(Path("artifacts/aubert2026_zenodo_extension.json").read_text())
+          frozen = json.loads(Path(
+              "empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json"
+          ).read_text())
+
+          scalar_keys = [
+              "pair_site_n",
+              "barrier_pair_sites",
+              "accessible_pair_sites",
+              "mean_robbery_rate_barrier",
+              "mean_robbery_rate_accessible",
+              "barrier_minus_accessible_mean_rate",
+              "barrier_mean_difference_permutation_p",
+              "mismatch_spearman_rho",
+              "mismatch_spearman_permutation_p",
+              "permutations",
+              "seed",
+          ]
+          for key in scalar_keys:
+              if observed[key] != frozen[key]:
+                  raise SystemExit(f"{key} drift: {observed[key]!r} != {frozen[key]!r}")
+
+          for key in [
+              "resolved_target_interactions",
+              "trait_matched_interactions",
+              "pair_site_rows",
+              "sites",
+          ]:
+              if observed["audit"][key] != frozen["audit"][key]:
+                  raise SystemExit(f"audit {key} drift")
+
+          for key in [
+              "eligible_sites",
+              "positive_sites",
+              "mean_within_site_difference",
+              "median_within_site_difference",
+              "sign_test_p",
+              "site_stratified_permutation_p",
+          ]:
+              if observed["site_difference"][key] != frozen["site_difference"][key]:
+                  raise SystemExit(f"site {key} drift")
+
+          print("Frozen Aubert/EPHI extension reproduced exactly")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: aubert2026-zenodo-extension
