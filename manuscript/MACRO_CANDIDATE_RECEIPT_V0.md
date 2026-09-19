@@ -4,7 +4,7 @@ Candidate branch:
 
 ~~~text
 design/bita-floral-defence-selectivity-macro
-verified head: e5fe26eb4ccf8424ffd82eb9baf1b74334da6286
+verified head: 5d078096ddc89d8a038714d9976598e0eddb79f9
 ~~~
 
 ## 1. Current-head verification
@@ -12,16 +12,16 @@ verified head: e5fe26eb4ccf8424ffd82eb9baf1b74334da6286
 All ten active branch workflows were green at the verified head:
 
 ~~~text
-CI                                      SUCCESS   run 35414655045
-submission-scope                        SUCCESS   run 35414655051
-legacy-ecology-submission-package-guard SUCCESS   run 35414655046
-Analyze effective-domain state recovery SUCCESS   run 35414654983
-Analyze Sakhalkar network               SUCCESS   run 35414655043
-Analyze Sakhalkar multitrait routing    SUCCESS   run 35414655015
-Audit Sakhalkar Zenodo                  SUCCESS   run 35414655038
-Audit Aubert Dryad                      SUCCESS   run 35414655114
-Build BITA macro candidate figures      SUCCESS   run 35414655018
-Build Sakhalkar route-switch figure     SUCCESS   run 35414655153
+CI                                      SUCCESS   run 35414996104
+submission-scope                        SUCCESS   run 35414996113
+legacy-ecology-submission-package-guard SUCCESS   run 35414996083
+Analyze effective-domain state recovery SUCCESS   run 35414996115
+Analyze Sakhalkar network               SUCCESS   run 35414996110
+Analyze Sakhalkar multitrait routing    SUCCESS   run 35414996106
+Audit Sakhalkar Zenodo                  SUCCESS   run 35414996094
+Audit Aubert Dryad                      SUCCESS   run 35414996102
+Build BITA macro candidate figures      SUCCESS   run 35414996240
+Build Sakhalkar route-switch figure     SUCCESS   run 35414996120
 ~~~
 
 The legacy submission-package guard passing confirms that the macro candidate has not silently replaced or corrupted the old canonical BITA package.
@@ -116,10 +116,10 @@ Registered Erica hold-out remains DIRECTION_ONLY / UNRESOLVED and is not scored.
 State-recovery workflow artifact:
 
 ~~~text
-run:      35414654983
+run:      35414996115
 artifact: effective-domain-state-recovery
-id:       10574788327
-digest:   sha256:2fd0d6a46273c79f04d12caf7a4baefc26442361d6099dc904680b5bf22c1bba
+id:       10574983706
+digest:   sha256:5274804ade9ea139ee870f70a566f392795167a73497af2b334aede5a879df71
 ~~~
 
 ## 4. Strict Stage-2 gate
@@ -227,10 +227,10 @@ Therefore the main network result is an association between access geometry and 
 Multitrait workflow artifact:
 
 ~~~text
-run:      35414655015
+run:      35414996106
 artifact: sakhalkar2023-trait-routing
-id:       10575417686
-digest:   sha256:d02c0d9ae01b4c62360b132147e32274a3fe7da02ba68b7d2bae885d6a4e3e96
+id:       10575018663
+digest:   sha256:38ea1263d9b44c5194845dc62bba01f33bbe5b4ef991e82e3dd7affffda530be
 ~~~
 
 ## 8. Physical-defence pollinator-follow-up gap
@@ -250,10 +250,10 @@ Source:
 Workflow:
 
 ~~~text
-run:      35414655018
+run:      35414996240
 artifact: bita-macro-candidate-figures
-id:       10574798322
-digest:   sha256:a6c0ca0b5734c9e69d8383ea50ac483d81a8fbd92228dc29eb7ab1440fe1c816
+id:       10575751485
+digest:   sha256:309d7fb1e2f08ad34db35cf00fbcf04f5b8c3471c65d09a8ef0989117b04df77
 ~~~
 
 Generated:
@@ -276,10 +276,10 @@ Visual QA completed.
 Workflow:
 
 ~~~text
-run:      35414655153
+run:      35414996120
 artifact: sakhalkar2023-route-figure
-id:       10575531276
-digest:   sha256:18c7866b900329a5ddc12e77b718cecef28eb045a5525d75a9d2bce9711b060c
+id:       10575203433
+digest:   sha256:35f24e9d1e753582b708239fcfc9892bcfacedf108d5ab175907aaa7b4d6218a
 ~~~
 
 Figure 4 uses anonymous species-level points and emits no raw visit rows or species identifiers.
@@ -325,3 +325,33 @@ The candidate does not delete or overwrite:
 - the old canonical mechanism-identification manuscript.
 
 Promotion to canonical status remains an explicit editorial decision.
+
+
+## 13. Supplementary A-side signal leakage
+
+Legacy attraction-side route evidence is retained as a supplementary macro result:
+
+~~~text
+A -> pollination unique studies: 5
+A -> antagonism unique studies:  8
+same-study paired A systems:     5
+
+scorable paired states:
+    SHARED_TRACKING    3
+    ANTAGONIST_BIASED  1
+    UNRESOLVED         1
+~~~
+
+Among the four scorable historical paired systems, none shows a resolved mutualist-exclusive attraction state.
+
+This is used only as mechanistic context:
+
+> attraction/display signals can leak to antagonists, creating ecological demand for selective filtering.
+
+It is not counted as a fifth main macro layer and is not treated as a prevalence estimate.
+
+Sources:
+
+- `empirical/floral_defence_selectivity/a_side_signal_leakage_registry.csv`
+- `empirical/floral_defence_selectivity/A_SIDE_SIGNAL_LEAKAGE_READOUT_V1.md`
+- `tests/test_a_side_signal_leakage.py`
