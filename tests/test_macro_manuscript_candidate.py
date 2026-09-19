@@ -24,6 +24,9 @@ def test_candidate_macro_manuscript_contains_frozen_ecological_results() -> None
     assert "tube-length block p=0.211" in text
     assert "14,383" in text
     assert "57 plant species" in text
+    assert "1,378 bird × plant × site units" in text
+    assert "15 of 17 comparable sites" in text
+    assert "site-stratified permutation \\(p=0.0001\\)" in text
     assert "interaction routing through unequal access and exposure domains" in text
     assert "Attraction signals can leak to antagonists" in text
     assert "three show shared tracking" in text
@@ -40,6 +43,8 @@ def test_candidate_network_claim_is_association_not_unique_causality() -> None:
     text = CANDIDATE.read_text(encoding="utf-8").lower()
     assert "access geometry is associated with cheating route" in text
     assert "not that tube length alone uniquely causes the switch" in text
+    assert "not an exact numerical replication of Aubert et al. (2026)" in text
+    assert "observational" in text
 
 def test_candidate_does_not_claim_domain_outperforms_modality() -> None:
     text = CANDIDATE.read_text(encoding="utf-8").lower()
