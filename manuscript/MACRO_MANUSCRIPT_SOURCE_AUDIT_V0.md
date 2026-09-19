@@ -301,6 +301,25 @@ Sources:
 Status: **REPRODUCIBLE SECOND INDEPENDENT NETWORK VALIDATION**.
 
 Boundary: all-18-site EPHI mirror extension, not exact replication of Aubert's three-transect GLMM; observational; effectively a hummingbird result because only one trait-matched flowerpiercer pair-site is available. The barrier result remains after excluding sparse pair-sites, so it is not driven by one-off pair observations.
+## Claim 6C — two-network access-routing recurrence
+
+Claim:
+
+> Two independently assembled visitor networks, spanning insect and bird faunas, recover the same qualitative access-routing direction: stronger mismatch with the legitimate floral access route is associated with greater use of bypass / robbing.
+
+Sources:
+
+- `empirical/floral_defence_selectivity/TWO_NETWORK_ACCESS_ROUTING_READOUT_V1.md`
+- `empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json`
+- `empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json`
+
+Status: **REPRODUCIBLE CROSS-DATASET DIRECTIONAL RECURRENCE**.
+
+Boundary:
+
+- effect sizes are not pooled because predictors, response scales and inferential units differ;
+- both analyses are observational;
+- cross-network recurrence supports routing generality, not a universal causal coefficient.
 ## Claim 7 — route-specific tube-length contrast
 
 Claim:
@@ -322,7 +341,7 @@ Boundary: approximately threefold is descriptive only, not a second inferential 
 
 Claim:
 
-> two systematic-expansion systems, one registered hold-out, and one independently assembled network provide post-rule evidence without being pooled into a success rate.
+> two systematic-expansion systems, one registered hold-out, and two independently assembled network analyses provide post-rule evidence without being pooled into a success rate.
 
 Source:
 
@@ -330,7 +349,7 @@ Source:
 
 Status: **AUDITED**.
 
-Boundary: Caryopteris supportive; Phlox null-compatible; Erica directionally supportive but unresolved; Sakhalkar independent access-routing evidence.
+Boundary: Caryopteris supportive; Phlox null-compatible; Erica directionally supportive but unresolved; Sakhalkar and Aubert/EPHI provide independent access-routing evidence on different scales and are not pooled.
 
 ## Claim 9 — Kessler 2015 bridge
 
