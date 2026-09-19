@@ -24,9 +24,9 @@ z_H=q_Hx,\qquad z_P=q_Px
 
 with thresholds
 
-[
-x_H^*=	au_H/q_H,qquad x_P^*=	au_P/q_P.
-]
+\[
+x_H^*=\tau_H/q_H,\qquad x_P^*=\tau_P/q_P.
+\]
 
 Selective window:
 
