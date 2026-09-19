@@ -19,6 +19,34 @@ transition systems:                 4
 explicit bypass/null-D system:      1
 ```
 
+Broader macro state-recovery pattern:
+
+~~~text
+historical derivation:
+  9 / 9 scorable systems match the fixed domain-state rule
+
+systematic expansion:
+  2 / 2 scorable systems match the fixed domain-state rule
+
+pooled scored:
+  11 / 11
+~~~
+
+Fixed mapping:
+
+~~~text
+SEPARATED    -> NO_INTERFERENCE_OBSERVED
+TRANSITIONAL -> MIXED
+OVERLAPPED   -> IMPAIRED
+~~~
+
+A coarse modality-only leave-one-out classifier recovers 6/9 historical systems, and the derivation modality rule recovers 1/2 systematic-expansion systems.
+
+Historical exact fixed-margin perfect-allocation probability: 1/630 = 0.0015873.
+Pooled historical + expansion fixed-margin perfect-allocation probability: 1/2310 = 0.0004329.
+
+These are descriptive alignment probabilities, not confirmatory p-values, because historical systems contributed to theory formation. NO_INTERFERENCE_OBSERVED includes null-compatible outcomes and does not mean equivalence-supported preservation.
+
 Strict direct pattern:
 
 ```text
@@ -28,7 +56,7 @@ OVERLAPPED: 0 preserved/improved, 1 impaired
 
 Four additional separated systems are null-compatible for pollinator change rather than equivalence-supported preservation. They are kept separate from the strict binary result.
 
-Interpretation: same-D evidence is directionally consistent with effective-domain separation, but the strict cross-system sample is still too small for a high-dimensional moderator model. Exact analysis gives Fisher two-sided p = 0.333 for the strict 2×2 table. A sensitivity that groups four null-compatible separated systems with the compatible side gives p = 0.143, but null compatibility is not equivalence. In the strict subset, domain relation and broad defence modality are perfectly confounded, so the current data cannot show that domain structure explains more than chemical-versus-physical class.
+Interpretation: the broader ecological-state analysis shows a sharp domain-state organization across all 11 currently scorable historical + expansion systems. The strict cross-system sample remains too small for a high-dimensional moderator model. Exact analysis gives Fisher two-sided p = 0.333 for the strict 2×2 table. A sensitivity that groups four null-compatible separated systems with the compatible side gives p = 0.143, but null compatibility is not equivalence. In the strict subset, domain relation and broad defence modality are perfectly confounded, so the current data cannot show that domain structure explains more than chemical-versus-physical class.
 
 ## Evidence layer 2 — within-system state switching
 
@@ -77,7 +105,7 @@ The paper no longer argues merely that `interaction != mechanism`.
 
 It now has three linked ecological observations:
 
-1. **selectivity pattern** — separated same-D systems are pollinator-compatible while an overlapped high-exposure state is costly;
+1. **state-recovery pattern** — 9/9 historical and 2/2 systematic-expansion systems fall into the predicted separated / transitional / overlapped pollinator-state families;
 2. **switching rule** — the same D changes state with exposure, consumer and response stage;
 3. **network consequence** — access geometry predicts which exploitation route animals use across a multispecies community.
 
@@ -101,4 +129,4 @@ Not yet licensed:
 
 Continue focused matched-D retrieval only if it fills strict Stage-2 cells. Do not reopen broad literature harvesting.
 
-The main quantitative expansion priority is additional independent **OVERLAPPED + direct pollinator outcome** and **SEPARATED + direction-supported pollinator outcome** systems. The Sakhalkar network result is already analysis-complete and should enter the main Results rather than remain a future-work note.
+The main cross-system result is now the 11-system state-recovery analysis. Additional independent **OVERLAPPED + direct pollinator outcome** and **SEPARATED + direction-supported pollinator outcome** systems remain the priority for converting the high-specificity Stage-2 subset into a formal moderator test. The Sakhalkar network result is analysis-complete and should remain in the main Results.
