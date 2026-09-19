@@ -8,7 +8,7 @@
 
 ## Abstract
 
-Flowers must remain accessible and attractive to mutualists while limiting antagonists that use the same reproductive structures and rewards. Floral defence is therefore often described as a trade-off, yet the same chemical or physical trait can suppress antagonists, interfere with pollinators, or fail when exploiters bypass it. We develop a simple effective-exposure theory in which a focal defence/access axis of intensity \(x\) is experienced by antagonists and pollinators through channel-specific coefficients \(q_H\) and \(q_P\), with response thresholds \(\tau_H\) and \(\tau_P\). A selective window exists when \(\tau_H/q_H < x < \tau_P/q_P\): the antagonist channel is suppressed before pollinator interference begins. The framework predicts selective states under separated access or susceptibility, interference under strong overlap, loss of defence under bypass, and within-system switching as dose or exposure crosses response thresholds. We tested these predictions using three evidence layers. A source-adjudicated matched-defence corpus contains 17 independent systems; 15 have an effective antagonist-reduction route. The strict direct pollinator subset remains small: two separated systems show preserved or improved pollinator function, whereas one overlapped system shows impairment; four additional separated systems are null-compatible rather than equivalence-supported. Exact analysis therefore remains descriptive. Eight independent defence-side systems nevertheless show recurrent switching with dose, cumulative exposure, consumer identity, response stage, or temporal expression. Finally, reanalysis of the public Sakhalkar et al. (2023) Afrotropical visitor network showed that floral tube length predicts cheating route among 57 plant species (\(\rho=0.347\), permutation \(p=0.0086\)): longer tubes shift exploitation from thieving through the floral opening toward nectar robbing by bypass. Across case, within-system, and community scales, floral defence selectivity is best treated as a state of trait × consumer × context. Existing BITA identification results remain as claim discipline: these patterns support a recurrent access/exposure mechanism but not a universal causal coefficient or prevalence estimate.
+Flowers must remain accessible and attractive to mutualists while limiting antagonists that use the same reproductive structures and rewards. Floral defence is therefore often described as a trade-off, yet the same chemical or physical trait can suppress antagonists, interfere with pollinators, or fail when exploiters bypass it. We develop a simple effective-exposure theory in which a focal defence/access axis of intensity \(x\) is experienced by antagonists and pollinators through channel-specific coefficients \(q_H\) and \(q_P\), with response thresholds \(\tau_H\) and \(\tau_P\). A selective window exists when \(\tau_H/q_H < x < \tau_P/q_P\): the antagonist channel is suppressed before pollinator interference begins. The framework predicts selective states under separated access or susceptibility, interference under strong overlap, loss of defence under bypass, and within-system switching as dose or exposure crosses response thresholds. We tested these predictions using three evidence layers. A source-adjudicated matched-defence corpus contains 17 independent systems; 15 have an effective antagonist-reduction route. The strict direct pollinator subset remains small: two separated systems show preserved or improved pollinator function, whereas one overlapped system shows impairment. However, a broader ecological-state analysis is more informative: all nine scorable historical systems and both systematic-expansion systems matched the fixed architecture prediction that separated domains show no observed pollinator interference, transitional domains show mixed responses, and overlap shows impairment. A coarse defence-modality classifier recovered only 6/9 historical systems in leave-one-out prediction and 1/2 expansion systems. Four separated historical systems contributing to state recovery are null-compatible rather than equivalence-supported, so the broader result is a qualitative state analysis rather than proof of zero pollinator cost. Eight independent defence-side systems also show recurrent switching with dose, cumulative exposure, consumer identity, response stage, or temporal expression. Finally, reanalysis of the public Sakhalkar et al. (2023) Afrotropical visitor network showed that floral tube length predicts cheating route among 57 plant species (\(\rho=0.347\), permutation \(p=0.0086\)): longer tubes shift exploitation from thieving through the floral opening toward nectar robbing by bypass. Across case, within-system, and community scales, floral defence selectivity is best treated as a state of trait × consumer × context. Existing BITA identification results remain as claim discipline: these patterns support a recurrent access/exposure mechanism but not a universal causal coefficient or prevalence estimate.
 
 **Keywords:** floral defence; pollination; nectar robbing; florivory; trait matching; interaction networks; visitor filtering; ecological antagonism
 
@@ -197,11 +197,52 @@ We tested the association between tube length and \(B_i\) with a species-level S
 
 ## 4. Results
 
-### 4.1 Matched floral-defence systems recover the predicted state structure, but strict inference is sparse
+### 4.1 Effective-domain architecture recovers qualitative pollinator state across systems
 
 The matched-D registry contains 17 independent systems. Fifteen have an effective focal antagonist-reduction route (Fig. 2).
 
-The strict direction-supported pollinator subset contains only three systems:
+For the broader macro state-recovery analysis, pollinator outcomes were reduced to three explicitly heterogeneous state families:
+
+~~~text
+PRESERVED_OR_IMPROVED / NO_DETECTED_CHANGE
+    -> NO_INTERFERENCE_OBSERVED
+
+MIXED
+    -> MIXED
+
+IMPAIRED
+    -> IMPAIRED
+~~~
+
+The first category does not equate a null-compatible result with equivalence; it records only that interference was not detected on the source outcome.
+
+Nine historical systems were scorable under the fixed domain-state mapping:
+
+~~~text
+SEPARATED    -> NO_INTERFERENCE_OBSERVED
+TRANSITIONAL -> MIXED
+OVERLAPPED   -> IMPAIRED
+~~~
+
+All nine were recovered by that rule. Given the observed fixed category margins (4 separated, 4 transitional, 1 overlapped), one perfect allocation has probability \(1/630=0.00159\) under random reassignment. Because these historical systems contributed to theory formation, this value is descriptive rather than confirmatory.
+
+As a coarse comparator, leave-one-out prediction from broad defence modality recovered 6/9 historical systems. The derivation-set modality rule classified chemical systems as MIXED, physical and reward-access systems as NO_INTERFERENCE_OBSERVED, with MIXED as the fallback.
+
+Two post-rule systematic-expansion systems were also scorable. *Caryopteris* and *Phlox* both matched the domain-state prediction (2/2), whereas the derivation-trained modality classifier recovered only *Caryopteris* (1/2). Their architecture coding was source-mechanistic/post hoc rather than prospectively blinded, so this remains post-rule corroboration rather than independent confirmation.
+
+The registered *Erica* hold-out is coded SEPARATED and has a positive pollination direction, but remains DIRECTION_ONLY / UNRESOLVED and is therefore not scored.
+
+Across the 11 scorable historical + expansion systems, the state mapping is 11/11 aligned:
+
+~~~text
+SEPARATED     6 -> NO_INTERFERENCE_OBSERVED 6
+TRANSITIONAL  4 -> MIXED                    4
+OVERLAPPED    1 -> IMPAIRED                 1
+~~~
+
+The corresponding fixed-margin perfect-allocation probability is \(1/2310=0.000433\), again retained only as a descriptive alignment statistic.
+
+The strict direction-supported Stage-2 subset is nested within this broader state analysis and contains only three systems:
 
 ~~~text
                          compatible   impaired
@@ -217,7 +258,7 @@ The two-sided Fisher exact test is
 p=0.333.
 \]
 
-The result is therefore directionally coherent but not an inferentially decisive cross-system contrast.
+The strict result is therefore directionally coherent but not an inferentially decisive cross-system contrast. Its role is high-specificity confirmation of the state labels, not the primary macro-scale sample size.
 
 Four additional separated systems—*Catalpa speciosa* (Stephenson 1982), *Pedicularis rex* (Sun & Huang 2015), *Ipomopsis aggregata*, and *Phlox paniculata* (Junker et al. 2011)—combine an effective antagonist route with a null-compatible pollinator contrast. If these are included only as a weaker “compatible-or-null” sensitivity, the table becomes
 
@@ -307,7 +348,7 @@ This linked result is not added as a new matched-D replication because nectar is
 
 ### 5.1 Floral defence selectivity is an ecological state, not a defence-class property
 
-Across the three evidence layers, the recurring pattern is conditional rather than categorical. A floral defence is not inherently safe or costly to pollination. Its outcome depends on who experiences it, through what route, at what intensity, and at what stage.
+Across the three evidence layers, the recurring pattern is conditional rather than categorical. The broader state-recovery analysis strengthens that point: the fixed effective-domain mapping recovered all 11 scorable historical + expansion systems, whereas a coarse modality-only classifier missed several systems. A floral defence is not inherently safe or costly to pollination. Its outcome depends on who experiences it, through what route, at what intensity, and at what stage.
 
 The matched-D evidence is small but aligned with the predicted state structure. Within-system data show that the same nominal defence can move between states as exposure changes. The community network provides a quantitatively independent consequence: access geometry predicts whether exploiters use the normal floral opening or switch to robbery.
 
@@ -364,10 +405,11 @@ The strongest unresolved comparison is whether effective-domain structure explai
 Current evidence supports:
 
 1. recurrent antagonist-reducing floral traits across chemical, physical, and access implementations;
-2. a directionally coherent matched-D separation/overlap pattern, but only three strict direct Stage-2 systems;
-3. repeated within-system state switching with dose, exposure, consumer identity, response stage, and time;
-4. a quantitative community-scale association between tube length and cheating route;
-5. post-rule systems that are directionally compatible with the framework without completing confirmatory validation.
+2. qualitative pollinator-state recovery in 9/9 scorable historical systems and 2/2 systematic-expansion systems under the fixed domain-state mapping, with null-compatible outcomes kept distinct from preservation;
+3. a narrower direction-supported Stage-2 pattern in three systems, retained as a high-specificity subset rather than the main sample size;
+4. repeated within-system state switching with dose, exposure, consumer identity, response stage, and time;
+5. a quantitative community-scale association between tube length and cheating route;
+6. post-rule systems that are directionally compatible with the framework without completing confirmatory validation.
 
 Current evidence does **not** establish:
 
@@ -390,7 +432,7 @@ A bounded targeted search recovered strong linked programmes but no new study sa
 
 Floral defence is not simply a property of a compound or structure. It is a relational state produced by trait intensity, consumer susceptibility, access route, timing, and response threshold.
 
-A simple effective-exposure model predicts when a selective window can exist, when overlap should impose mutualist costs, when bypass should defeat the focal defence, and when stronger expression should close the selective window. Existing floral systems recover these states across several biological implementations. An independent community reanalysis shows the same access logic at larger scale: longer flowers shift cheating toward robbery rather than eliminating exploitation.
+A simple effective-exposure model predicts when a selective window can exist, when overlap should impose mutualist costs, when bypass should defeat the focal defence, and when stronger expression should close the selective window. The qualitative state mapping recovers all 11 currently scorable historical + systematic-expansion systems, while the narrower strict subset remains too small for a conventional moderator meta-regression. An independent community reanalysis shows the same access logic at larger scale: longer flowers shift cheating toward robbery rather than eliminating exploitation.
 
 The resulting ecological picture is therefore not “defence versus pollination” as a fixed trade-off. It is **interaction routing through unequal access and exposure domains**.
 
