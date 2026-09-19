@@ -43,7 +43,22 @@ def test_figure4_svg_contains_points_and_frozen_stats_without_species_ids() -> N
         "median_tube_length_robber_only": 8.0,
         "median_tube_length_thief_only": 2.0,
     }
-    svg = build_svg(points, result)
+    aubert = {
+        "pair_site_n": 1378,
+        "mean_robbery_rate_barrier": 0.30698,
+        "mean_robbery_rate_accessible": 0.08139,
+        "barrier_mean_difference_permutation_p": 0.0001,
+        "mismatch_spearman_rho": 0.41826,
+        "mismatch_spearman_permutation_p": 0.0001,
+        "site_difference": {
+            "eligible_sites": 17,
+            "positive_sites": 15,
+            "mean_within_site_difference": 0.14399,
+            "sign_test_p": 0.00235,
+            "site_stratified_permutation_p": 0.0001,
+        },
+    }
+    svg = build_svg(points, result, aubert)
 
     assert svg.count("<circle") >= 3
     assert "n = 3 species" in svg
@@ -51,6 +66,11 @@ def test_figure4_svg_contains_points_and_frozen_stats_without_species_ids() -> N
     assert "p = 0.0400" in svg
     assert "robber-only median = 8.000" in svg
     assert "thief-only median = 2.000" in svg
+    assert "Aubert / EPHI" in svg
+    assert "barrier = 0.307" in svg
+    assert "accessible = 0.081" in svg
+    assert "15 / 17 sites" in svg
+    assert "mismatch rho = 0.418" in svg
     assert ">A<" not in svg
     assert ">B<" not in svg
     assert ">C<" not in svg
