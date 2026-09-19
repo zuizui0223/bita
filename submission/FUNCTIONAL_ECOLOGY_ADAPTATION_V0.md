@@ -14,7 +14,7 @@ This adaptation is held in reserve while the Ecology Letters Synthesis proposal 
 
 3. The broad D-side route corpus contains 17 unique study programs spanning chemical (9), physical (7) and reward/access (1) implementations; 10 programs also contain same-study pollinator outcomes, which split among context-dependent (4), null-compatible (3), improved (1), interference (1) and unresolved (1) states. The stricter matched-defence corpus contains 17 systems. Eleven systems are directly scorable in a broader ecological-state analysis. All nine scorable historical systems and both systematic-expansion systems match the fixed prediction that separated domains show no observed pollinator interference, transitional domains show mixed responses, and overlap shows impairment. A coarse defence-modality classifier recovers 6/9 historical systems by leave-one-out prediction and 1/2 expansion systems. Null-compatible outcomes remain distinct from equivalence, and the narrower direction-supported Stage-2 subset remains only three systems.
 
-4. Eight independent defence-side systems show state switching with dose, cumulative exposure, consumer identity, response stage or temporal expression. In the independent network reanalysis, tube length is associated with cheating route among 57 plant species: longer tubes shift exploitation from thieving through the floral opening toward nectar robbing by bypass (Spearman rho = 0.347; permutation p = 0.0086).
+4. Eight independent defence-side systems show state switching with dose, cumulative exposure, consumer identity, response stage or temporal expression. Two independent network reanalyses recover access routing in different faunas. In the Sakhalkar insect network, tube length is associated with robbing-versus-thieving balance among 57 plant species (Spearman rho = 0.347; permutation p = 0.0086). In the Aubert/EPHI Ecuador bird-network extension, mean robbery is 0.307 under flower-tube–bill barriers versus 0.081 when accessible across 1,378 pair-site units, with the same direction in 15/17 comparable sites (sign-test p = 0.00235; site-stratified permutation p = 0.0001).
 
 5. Across case, within-system and community scales, floral defence selectivity is best treated as a state of trait × consumer × context. Access and exposure structure can organize whether antagonists are suppressed, mutualistic function is retained or impaired, and exploiters switch routes. We do not infer a universal causal coefficient or prevalence estimate.
 
@@ -53,7 +53,7 @@ State explicitly that the deposited workbook currently yields 14,383 rows after 
 Lead in this order:
 
 1. mechanism: effective access/exposure thresholds create a selective window;
-2. macro result: floral geometry is associated with cheating-route switching across a multispecies network, with a multitrait sensitivity limiting the claim to access geometry rather than a unique tube-length effect;
+2. macro result: the same access-routing direction recurs in two independent public networks—Afrotropical insect cheating modes and Ecuadorian bird–flower access barriers—while both remain observational;
 3. cross-system evidence: 17 unique route-level D programs, 17 matched systems including 11 scorable ecological-state systems (9/9 historical + 2/2 expansion), plus 8 within-system conditionality systems;
 4. methodological strength: outcome-blind architecture coding, independent cluster counting, exact Stage-2 claim gate;
 5. restraint: no domain>modality or universal-prevalence claim.
