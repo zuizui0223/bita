@@ -403,7 +403,7 @@ The pattern was also repeated within sites. Seventeen sites contained both barri
 
 The mirror trait join yielded 1,377 hummingbird pair-sites but only one trait-matched flowerpiercer pair-site, so this extension should be interpreted primarily as a hummingbird result rather than a bird-family comparison.
 
-This analysis is not an exact numerical replication of Aubert et al. (2026), because it uses all 18 Ecuador EPHI sites, mirror culmen measurements, and a pair-site aggregation instead of the source three-transect GLMM. Its role is an independent extension of the same predeclared access-barrier prediction.
+This analysis is not an exact numerical replication of Aubert et al. (2026), because it uses all 18 Ecuador EPHI sites, mirror culmen measurements, and a pair-site aggregation instead of the source three-transect GLMM. Its role is an independent extension of the same predeclared access-barrier prediction. The result is robust to sparse pair-sites: restricting to units with at least five resolved interactions leaves 702 pair-sites, with mean robbery 0.320 under barriers versus 0.0556 when accessible (difference +0.264; permutation p=0.0001) and mismatch rho=0.505 (permutation p=0.0001).
 
 ### 4.7 Post-rule evidence is directionally consistent but does not close confirmation
 
