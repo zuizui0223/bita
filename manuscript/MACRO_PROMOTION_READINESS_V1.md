@@ -219,11 +219,17 @@ The Ecology Letters proposal and Functional Ecology fallback adaptation already 
 
 ## 9. Promotion rule
 
-The scientific package is ready. The remaining decision is editorial, not analytical.
+The editorial decision has now been made: `MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md` is the **primary forward BITA candidate**.
 
-Do not overwrite `manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md` automatically.
+This does not silently overwrite `manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md`. The old mechanism-identification manuscript remains preserved as provenance and an inferential support layer until the promotion PR is reviewed and merged.
 
-Promotion should mean either:
+Current promotion state:
 
-- explicitly designating `MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md` as the new canonical manuscript while archiving the old canonical; or
-- leaving both intact and using the macro candidate solely for the external Synthesis proposal / submission route.
+~~~text
+PRIMARY_FORWARD_PAPER = MACRO_FLORAL_DEFENCE_SELECTIVITY
+PR_224 = READY_FOR_REVIEW
+OLD_CANONICAL = PRESERVED
+CANONICAL_REPLACEMENT = PENDING_REVIEWED_MERGE
+~~~
+
+External proposal/submission remains a separate author-controlled action.
