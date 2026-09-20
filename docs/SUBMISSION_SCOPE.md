@@ -1,164 +1,145 @@
-# Submission scope — BITA mechanism-identification paper
+# Submission scope — BITA floral-defence selectivity macro paper
 
-Primary target class: **Ecology — Concepts & Synthesis** or a comparable conceptual/methodological ecology venue.
+Primary forward route: **Ecology Letters — Synthesis proposal**.
+
+Fallback full-submission route: **Functional Ecology — Research Article**.
 
 ## Canonical question
 
-> **When two traits interact on fitness, what does that interaction identify, which ecological mechanisms remain compatible with it, and what additional interventions are required to identify the mechanism?**
+> **When can a flower-associated trait restrict antagonists without imposing the same cost on mutualists, and when does restriction instead reroute exploitation?**
 
-The active paper is no longer the general architecture-value paper. The architecture-value spine (`L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy`) is owned by SLK.
+## 1. Active theory
 
-## 1. Primary estimand
-
-For two focal trait contrasts `A` and `D`,
+For focal defence/access intensity `x`,
 
 ```text
-Delta_AD W = W11 - W10 - W01 + W00.
+z_H = q_H x
+z_P = q_P x
+
+x_H* = tau_H / q_H
+x_P* = tau_P / q_P
 ```
 
-Define
+A selective window exists when
 
 ```text
-A0 = W10 - W00
-A1 = W11 - W01
+x_H* < x < x_P*
 ```
 
-so `Delta_AD W = A1 - A0`.
+Permitted qualitative predictions:
 
-The active paper separates:
+- separated effective domains can widen the selective window;
+- overlap can narrow or close it;
+- bypass/tolerance can eliminate focal antagonist-reduction efficacy;
+- increasing exposure can move a system from ineffective to selective to interfering;
+- access restriction can reroute cheating toward bypass/robbing.
+
+No universal numerical `q` or `tau` values are claimed.
+
+## 2. Active empirical layers
+
+### Layer 1 — broad D-side route corpus
 
 ```text
-Level 1  Delta_AD W > 0                 positive interaction relief
-Level 2  A0 <= 0 < A1                   functional constraint release
-Level 3  A0 < 0 < A1                    strict reversal
+17 unique D -> antagonism study programs
+chemical      9
+physical      7
+reward/access 1
+same-study D -> pollination follow-up 10 / 17
 ```
 
-Level 1 does not imply Levels 2 or 3.
+These counts describe evidence structure, not natural prevalence.
 
-## 2. Mechanism non-identification
-
-Use the bookkeeping decomposition
+### Layer 2 — matched-D state recovery
 
 ```text
-Delta_AD W = rho_delta - iota_delta - kappa_delta
+historical scorable        9 / 9 aligned
+systematic expansion       2 / 2 aligned
+pooled scorable           11 / 11 aligned
+strict Stage-2 n           3
+strict Fisher p            0.333333
 ```
 
-where the terms represent antagonist relief, pollinator interference, and a remaining direct/allocation channel on a common declared scale.
+The 11/11 result is descriptive state recovery, not a prospective confirmatory success rate. Null-compatible outcomes are not equivalence-supported preservation.
 
-A measured total interaction `delta` defines
+### Layer 3 — within-D conditionality
+
+Eight independent systems show switching with dose/expression, cumulative exposure, consumer identity, response stage, or temporal expression.
+
+### Layer 4 — community-scale routing
+
+Sakhalkar insect–flower network:
 
 ```text
-I(delta) = {(rho,iota,kappa): rho-iota-kappa=delta}
+n = 57 plant species
+rho = 0.346786
+permutation p = 0.0086
 ```
 
-rather than a unique mechanism.
-
-The paper's methodological progression is:
+Aubert/EPHI Ecuador extension:
 
 ```text
+n = 1,378 bird x plant x site units
+barrier robbery     = 0.30698
+accessible robbery  = 0.08139
+difference          = +0.22560
+mismatch rho        = 0.41826
+permutation p       = 0.0001
+15 / 17 comparable sites in same direction
+```
+
+Both analyses are observational and are not pooled onto one effect scale.
+
+## 3. Required claim boundaries
+
+Do not claim:
+
+- prevalence of selective defence from the screened corpus;
+- domain separation has a significant strict matched-D effect;
+- domain structure statistically outperforms chemical/physical modality in the strict subset;
+- null-compatible means no pollinator cost;
+- either network establishes causality;
+- tube length alone is uniquely identified in Sakhalkar;
+- Aubert/EPHI exactly replicates the published three-transect model;
+- a universal pooled selectivity effect;
+- universal empirical `q_H`, `q_P`, `tau_H`, or `tau_P`.
+
+## 4. Preserved mechanism-identification layer
+
+The previous BITA mechanism-identification framework remains active provenance and claim discipline:
+
+```text
+trait interaction != ecological mechanism
 interaction detection
 -> identified set
--> partial identification under explicit restrictions or channel measurements
--> selective A x D x antagonist x pollinator intervention
--> baseline handling + four-way separability diagnostic
--> independent assay of the remaining joint channel
+-> partial identification
+-> selective intervention
+-> separability
+-> independent remaining-channel assay
 ```
 
-## 3. Empirical pattern layer
+Its data products and theory are preserved, but it is no longer the primary submission identity.
 
-The source-adjudicated route synthesis contains:
+## 5. Active source graph
+
+- Main: `manuscript/MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md`
+- Claim freeze: `manuscript/CLAIM_FREEZE_MACRO_V0.md`
+- Promotion gate: `manuscript/MACRO_PROMOTION_GATE_V1.md`
+- Promotion readiness: `manuscript/MACRO_PROMOTION_READINESS_V1.md`
+- Source audit: `manuscript/MACRO_MANUSCRIPT_SOURCE_AUDIT_V0.md`
+- References: `manuscript/FLORAL_DEFENCE_SELECTIVITY_REFERENCES_V0.md`
+- Journal positioning: `submission/MACRO_JOURNAL_POSITIONING_V0.md`
+- Ecology Letters proposal: `submission/ECOLOGY_LETTERS_SYNTHESIS_PROPOSAL_V0.md`
+- Proposal email: `submission/ECOLOGY_LETTERS_SYNTHESIS_PROPOSAL_EMAIL_V1.md`
+
+## 6. Current state
 
 ```text
-56 directional route records
-25 independent biological clusters
+PRIMARY_FORWARD_PAPER = MACRO_FLORAL_DEFENCE_SELECTIVITY
+SCIENTIFIC_ARCHITECTURE = READY
+REPRODUCIBLE_ANALYSES = READY
+MAIN_FIGURES = READY
+BOUNDED_SEARCH_STOPPING_RULE = READY
+LEGACY_MECHANISM_PAPER = PRESERVED
+EXTERNAL_SUBMISSION = NOT_YET_SENT
 ```
-
-These establish recurrence of constituent pathways, not prevalence and not point identification of the total mechanism.
-
-The strict high-information audit contains:
-
-```text
-17 systems
-0 systems closing the full allocation design + independent joint-channel assay
-```
-
-The conclusion is **fragmented identification**, not absence of relevant biology.
-
-## 4. Strongest current system-level anchor
-
-Kessler et al. (2008) supplies the strongest direct attraction-by-defence-like factorial anchor.
-
-Under the registered aggregate constraints:
-
-```text
-A1 approximately +0.200 to +0.240
-A0 approximately -0.030 to +0.030
-Delta_AD remains positive
-```
-
-This supports strong Level-1 evidence and asymmetric partial identification of the stronger release claim. It does not identify strict Level 2/3 because `A0` remains zero-compatible, and it does not allocate the ecological mechanism.
-
-## 5. Required claim boundaries
-
-```text
-positive A x D interaction
-!= ecological mechanism
-!= trait differentiation
-!= historical splitting
-
-marginal route recurrence
-!= total interaction identification
-!= channel allocation
-!= prevalence
-
-structural separation
-!= functional independence
-
-unmeasured residual
-!= biological joint cost
-```
-
-BITA does not claim the historical origin of differentiated traits, prevalence of differentiated architectures, or a universal route by which trait interactions arise.
-
-## 6. Relationship to the other programme papers
-
-```text
-SCH
-multifunctionality != conflict
-        |
-        v
-identified L when justified
-        |
-        v
-SLK
-L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy
-        |
-        v
-BITA
-trait interaction != mechanism
-```
-
-The older `R=sL`, architecture-cost, nonquadratic differentiation, and partial-decoupling derivations remain preserved in the repository as provenance and technical support. They are not active submission novelty claims.
-
-## 7. Canonical source graph
-
-- active Main science source: `manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md`
-- mature longer identification provenance source: `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`
-- active claim freeze: `manuscript/CLAIM_FREEZE.md`
-- focused references: `manuscript/TRAIT_DIFFERENTIATION_REFERENCES_V1.md`
-- detailed identification supplement: `manuscript/supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`
-- publication programme status: `docs/PUBLICATION_STATUS.md`
-
-## 8. Submission-package status
-
-The previously validated `30 Main pages + 38 Appendix pages` package belongs to the older integrated architecture-plus-mechanism manuscript.
-
-It is now explicitly stale:
-
-```text
-OLD_PACKAGE_STALE
-NEW_CANONICAL_SCIENCE_SOURCE_ACTIVE
-REBUILD_REQUIRED_BEFORE_SUBMISSION
-```
-
-The next package must rebuild title, abstract, figures, captions, supplement routing, cover letter, page count, and visual QA around the mechanism-identification manuscript. Author metadata remains an external final step after scientific packaging is green.

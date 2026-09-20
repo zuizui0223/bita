@@ -4,19 +4,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_readme_declares_active_mechanism_identification_story() -> None:
+def test_readme_declares_active_macro_selectivity_story() -> None:
     text = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "primary forward paper" in text
+    assert "trait × consumer × context state" in text
+    assert "x_H* < x < x_P*" in text
+    assert "17 unique study programs" in text
+    assert "11 scorable" in text
+    assert "8 independent systems" in text
+    assert "Sakhalkar" in text
+    assert "Aubert/EPHI" in text
+    assert "Ecology Letters" in text
     assert "trait interaction != ecological mechanism" in text
-    assert "interaction detection" in text
-    assert "identified set" in text
-    assert "partial identification" in text
-    assert "four-way separability diagnostic" in text
-    assert "56 directional route records" in text
-    assert "25 independent biological clusters" in text
-    assert "17 high-information systems" in text
-    assert "FRAGMENTED_IDENTIFICATION" in text
-    assert "OLD_PACKAGE_STALE" in text
-    assert "REBUILD_REQUIRED" in text
 
 
 def test_readme_assigns_architecture_value_spine_to_slk() -> None:
@@ -41,18 +40,17 @@ def test_canonical_main_is_mechanism_identification_paper() -> None:
     assert "not the novelty center of this paper" in text
 
 
-def test_scope_preserves_active_identification_boundaries() -> None:
+def test_scope_preserves_active_macro_claim_boundaries() -> None:
     text = (ROOT / "docs" / "SUBMISSION_SCOPE.md").read_text(encoding="utf-8")
-    assert "BITA mechanism-identification paper" in text
-    assert "Level 1" in text
-    assert "Level 2" in text
-    assert "Level 3" in text
-    assert "I(delta)" in text
-    assert "fragmented identification" in text.lower()
-    assert "OLD_PACKAGE_STALE" in text
-    assert "REBUILD_REQUIRED_BEFORE_SUBMISSION" in text
-    assert "positive A x D interaction" in text
-    assert "!= ecological mechanism" in text
+    assert "floral-defence selectivity macro paper" in text
+    assert "Ecology Letters" in text
+    assert "x_H* < x < x_P*" in text
+    assert "17 unique D -> antagonism study programs" in text
+    assert "strict Stage-2 n" in text
+    assert "Sakhalkar" in text
+    assert "Aubert/EPHI" in text
+    assert "trait interaction != ecological mechanism" in text
+    assert "no longer the primary submission identity" in text
 
 
 def test_claim_freeze_blocks_reimporting_slk_novelty() -> None:
