@@ -45,6 +45,9 @@ def test_letter_keeps_causal_and_replication_boundaries() -> None:
     assert "not an exact reconstruction" in text
     assert "not a universal causal coefficient" in text
     assert "raw observations were not pooled" in text
+    assert "k=2" in text
+    assert "does not estimate between-network heterogeneity" in text
+    assert "generality beyond the two network systems" in text
 
 
 def test_letter_has_no_internal_repo_program_names() -> None:
