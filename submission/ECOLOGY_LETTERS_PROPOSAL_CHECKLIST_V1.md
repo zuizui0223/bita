@@ -1,5 +1,7 @@
 # Ecology Letters Synthesis proposal checklist v1
 
+> **RESERVE — NOT THE CURRENT FIRST SUBMISSION.** The active external route is `manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md` as an Ecology Letters Letter. This Synthesis material is preserved for later use.
+
 ## Official route
 
 Current Ecology Letters author guidance requires unsolicited Synthesis manuscripts to receive prior proposal approval.
