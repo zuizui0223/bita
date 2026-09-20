@@ -265,7 +265,9 @@ Insert the final acknowledgments and funding statement here. All authors must al
 ## References
 
 - Sakhalkar SP, Janeček Š, Klomberg Y, Mertens JEJ, Hodeček J, Tropek R (2023) Cheaters among pollinators: Nectar robbing and thieving vary spatiotemporally with floral traits in Afrotropical forests. *Ecosphere* 14:e4696. https://doi.org/10.1002/ecs2.4696
+- Sakhalkar S, Janeček Š, Klomberg Y, Mertens JEJ, Hodeček J, Tropek R (2023) R code and datasets for flower-visitor interactions (pollinators, robbers, thieves) and plant traits from Mount Cameroon. Zenodo, v1.0.0. https://doi.org/10.5281/zenodo.8398202
 - Aubert S, Duchenne F, Tinoco BA, Santander T, Guevara EA, Graham CH (2026) Trait matching affects the probability of nectar robbing in plant-pollinator networks. *Oikos* 2026(3):e11552. https://doi.org/10.1002/oik.11552
+- Santander T, Varassin I, Maglianesi MA, et al. (2024) Plant-hummingbird interactions, floral abundance and floral traits for three altitudinal gradients in the Americas. Zenodo. https://doi.org/10.5281/zenodo.14185547
 - Johnson MTJ, Campbell SA, Barrett SCH (2015) Evolutionary interactions between plant reproduction and defense against herbivores. *Annual Review of Ecology, Evolution, and Systematics* 46:191–213. https://doi.org/10.1146/annurev-ecolsys-112414-054215
 - Lucas-Barbosa D (2016) Integrating studies on plant–pollinator and plant–herbivore interactions. *Trends in Plant Science* 21:125–133. https://doi.org/10.1016/j.tplants.2015.10.013
 - Rusman Q, Lucas-Barbosa D, Poelman EH (2018) Dealing with mutualists and antagonists: specificity of plant-mediated interactions between herbivores and flower visitors, and consequences for plant fitness. *Functional Ecology* 32:1022–1035. https://doi.org/10.1111/1365-2435.13035
