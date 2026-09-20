@@ -30,7 +30,7 @@ Access-constraint proxy: log(flower tube / bird bill).
 
 Bypass-response proxy: robbery rate.
 
-Effect: Spearman rho.
+Effect: site-adjusted Spearman-type rank correlation. Global ranks of mismatch and robbery rate are centered within site before correlation, so among-site composition does not define the network effect. The unadjusted global rho is retained only as a descriptive reference.
 
 ## Joint statistic
 
@@ -51,9 +51,9 @@ The arithmetic mean correlation is also reported as a descriptive sensitivity.
 
 Sakhalkar: shuffle bypass-response values across plant species.
 
-Aubert/EPHI: shuffle robbery-rate values within site only.
+Aubert/EPHI: shuffle robbery-rate ranks within site only, then remove site-specific rank means before recomputing the correlation.
 
-Thus the Aubert null preserves site composition and each site's observed robbery-rate distribution.
+Thus the Aubert null preserves site composition and each site's observed robbery-rate distribution, while the observed Aubert effect itself is defined on the within-site-centered rank scale.
 
 For every permutation:
 
