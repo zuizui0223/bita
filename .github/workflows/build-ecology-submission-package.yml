@@ -19,20 +19,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Confirm stale integrated package is not canonical
+      - name: Confirm macro paper is current while mechanism package is preserved
         run: |
-          grep -q 'OLD_PACKAGE_STALE' docs/SUBMISSION_SCOPE.md
-          grep -q 'REBUILD_REQUIRED_BEFORE_SUBMISSION' docs/SUBMISSION_SCOPE.md
-          grep -q 'The active paper is no longer the general architecture-value paper' docs/SUBMISSION_SCOPE.md
+          grep -q 'PRIMARY_FORWARD_PAPER = MACRO_FLORAL_DEFENCE_SELECTIVITY' docs/SUBMISSION_SCOPE.md
+          grep -q 'Ecology Letters' docs/SUBMISSION_SCOPE.md
+          test -f manuscript/MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md
+          test -f manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md
 
-      - name: Confirm current mechanism-identification submission route
+      - name: Confirm legacy mechanism-identification package remains reproducible
         run: |
           grep -q 'Trait interaction is not ecological mechanism' manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md
           test -f scripts/build_bita_mechanism_candidate_sources.py
           test -f .github/workflows/build-bita-mechanism-review-package.yml
-          grep -q 'bita-mechanism-identification-review-package' .github/workflows/build-bita-mechanism-review-package.yml
 
       - name: Record routing decision
         run: |
-          echo 'Legacy integrated Ecology package is intentionally retired.'
-          echo 'Active review package is built by build-bita-mechanism-review-package.yml.'
+          echo 'Macro floral-defence selectivity is the primary forward BITA paper.'
+          echo 'Mechanism-identification package remains preserved as legacy/supporting inference.'
