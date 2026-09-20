@@ -98,6 +98,7 @@ SCH
 functional conflict identification
 
 SLK
+L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy
 architecture value and evolutionary realization
 
 BITA
