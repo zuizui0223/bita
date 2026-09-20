@@ -12,6 +12,8 @@ import zipfile
 from collections import Counter, defaultdict
 from pathlib import Path
 
+from trait_architecture.numerics import spearman as _shared_spearman
+
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -29,37 +31,8 @@ def _as_float(value: str) -> float | None:
     return number if math.isfinite(number) else None
 
 
-def _rankdata(values: list[float]) -> list[float]:
-    indexed = sorted(enumerate(values), key=lambda pair: pair[1])
-    ranks = [0.0] * len(values)
-    i = 0
-    while i < len(indexed):
-        j = i + 1
-        while j < len(indexed) and indexed[j][1] == indexed[i][1]:
-            j += 1
-        average_rank = (i + 1 + j) / 2.0
-        for k in range(i, j):
-            ranks[indexed[k][0]] = average_rank
-        i = j
-    return ranks
-
-
-def _pearson(x: list[float], y: list[float]) -> float:
-    if len(x) != len(y) or len(x) < 2:
-        return math.nan
-    mx = statistics.fmean(x)
-    my = statistics.fmean(y)
-    dx = [v - mx for v in x]
-    dy = [v - my for v in y]
-    denominator = math.sqrt(sum(v * v for v in dx) * sum(v * v for v in dy))
-    if denominator == 0:
-        return math.nan
-    return sum(a * b for a, b in zip(dx, dy)) / denominator
-
-
 def _spearman(x: list[float], y: list[float]) -> float:
-    return _pearson(_rankdata(x), _rankdata(y))
-
+    return _shared_spearman(x, y)
 
 def _permutation_p(
     x: list[float],
