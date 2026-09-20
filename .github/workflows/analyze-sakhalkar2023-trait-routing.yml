@@ -4,7 +4,9 @@ on:
   pull_request:
     paths:
       - "scripts/analyze_sakhalkar2023_trait_routing.py"
+      - "trait_architecture/numerics.py"
       - "tests/test_sakhalkar2023_trait_routing.py"
+      - "empirical/floral_defence_selectivity/results/sakhalkar2023_trait_routing.json"
       - ".github/workflows/analyze-sakhalkar2023-trait-routing.yml"
   workflow_dispatch:
 
@@ -27,6 +29,30 @@ jobs:
       - name: Run source-defined multitrait route model
         run: |
           python scripts/analyze_sakhalkar2023_trait_routing.py             artifacts/sakhalkar2023_trait_routing.json             --permutations 9999
+      - name: Verify frozen aggregate result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          observed = json.loads(Path("artifacts/sakhalkar2023_trait_routing.json").read_text())
+          frozen = json.loads(Path(
+              "empirical/floral_defence_selectivity/results/sakhalkar2023_trait_routing.json"
+          ).read_text())
+          for key in (
+              "analysis_name",
+              "claim_boundary",
+              "coverage",
+              "models",
+              "predictor_provenance",
+              "response",
+          ):
+              if observed[key] != frozen[key]:
+                  raise SystemExit(
+                      f"multitrait result drift in {key}: observed={observed[key]!r}, frozen={frozen[key]!r}"
+                  )
+          print("Frozen Sakhalkar multitrait result reproduced exactly")
+          PY
       - name: Publish aggregate result
         run: |
           {

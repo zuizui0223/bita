@@ -23,41 +23,80 @@
         },
         "tube_length": {
           "bh_q": 0.633,
-          "delta_r2": 0.028799622246421075,
+          "delta_r2": 0.028799622246421408,
           "permutation_p": 0.211
         },
         "tube_width": {
-          "bh_q": 0.67305,
-          "delta_r2": 0.010910373343225754,
+          "bh_q": 0.6730499999999999,
+          "delta_r2": 0.010910373343225865,
           "permutation_p": 0.4487
         }
       },
       "full_model_permutation_p": 0.2016,
-      "full_model_r2": 0.29023896666941373,
+      "full_model_r2": 0.29023896666941384,
       "n_species_complete": 57,
       "permutations": 9999,
-      "predictor_blocks": ["tube_length", "tube_width", "shape"],
+      "predictor_blocks": [
+        "tube_length",
+        "tube_width",
+        "shape"
+      ],
       "seed": 20260919,
-      "shape_levels": ["Bell","Dish","Funnel","Gullet","Labiate","Open","Papilionaceous","Salverform","Stellate","Trumpet","Tube","Urceolate"],
+      "shape_levels": [
+        "Bell",
+        "Dish",
+        "Funnel",
+        "Gullet",
+        "Labiate",
+        "Open",
+        "Papilionaceous",
+        "Salverform",
+        "Stellate",
+        "Trumpet",
+        "Tube",
+        "Urceolate"
+      ],
       "status": "FIT"
     },
     "thief_source_predictors": {
       "n_species_complete": 0,
-      "predictor_blocks": ["tube_length", "brightness", "shape"],
+      "predictor_blocks": [
+        "tube_length",
+        "brightness",
+        "shape"
+      ],
       "status": "INSUFFICIENT_COMPLETE_CASES"
     },
     "union_predictors": {
       "n_species_complete": 0,
-      "predictor_blocks": ["tube_length", "tube_width", "brightness", "shape"],
+      "predictor_blocks": [
+        "tube_length",
+        "tube_width",
+        "brightness",
+        "shape"
+      ],
       "status": "INSUFFICIENT_COMPLETE_CASES"
     }
   },
   "predictor_provenance": {
-    "robber_source_model": ["tube_length", "shape", "tube_width"],
-    "thief_source_model": ["brightness", "shape", "tube_length"],
-    "union": ["tube_length", "tube_width", "brightness", "shape"]
+    "robber_source_model": [
+      "tube_length",
+      "shape",
+      "tube_width"
+    ],
+    "thief_source_model": [
+      "brightness",
+      "shape",
+      "tube_length"
+    ],
+    "union": [
+      "tube_length",
+      "tube_width",
+      "brightness",
+      "shape"
+    ]
   },
   "response": "rank-transformed species-level (robbing-thieving)/(robbing+thieving)",
-  "workflow_run": 35414173596,
-  "artifact_digest": "sha256:8420532d198de16e21f2a34bd2adc66d0085263b84f1a4a14a8ed2c7a7869141"
+  "workflow_run": 35486351356,
+  "artifact_digest": "sha256:c2ed9131a072270862d76f066e12f9453afe5a0f5705b41e5ef3f77791108513"
 }

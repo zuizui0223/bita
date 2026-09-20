@@ -83,24 +83,51 @@ def relative_range(values: Sequence[float]) -> float:
     return span / abs(center)
 
 
+def pooled_sample_sd(first: Sequence[float], second: Sequence[float]) -> float:
+    """Sample-size-weighted pooled SD for two independent groups."""
+
+    if len(first) < 2 or len(second) < 2:
+        raise ValueError("pooled SD requires at least two observations per group")
+    s_first = sample_sd(first)
+    s_second = sample_sd(second)
+    df = len(first) + len(second) - 2
+    variance = (
+        (len(first) - 1) * s_first * s_first
+        + (len(second) - 1) * s_second * s_second
+    ) / df
+    return math.sqrt(max(0.0, variance))
+
+
+def hedges_small_sample_correction(df: float) -> float:
+    """Approximate Hedges J correction used elsewhere in BITA."""
+
+    if df <= 1:
+        raise ValueError("Hedges correction requires df > 1")
+    return 1.0 - 3.0 / (4.0 * df - 1.0)
+
+
 def standardized_mean_difference(
     first: Sequence[float],
     second: Sequence[float],
     *,
     absolute: bool = False,
 ) -> float:
-    """Return (mean(second)-mean(first))/pooled sample SD.
+    """Return Cohen's d using the sample-size-weighted pooled sample SD.
 
-    With ``absolute=True`` the magnitude is returned. If both groups are
-    exactly constant, equal means give zero and unequal means give an infinite
-    standardized difference. No fixed threshold in measurement units is used.
+    This function is used for randomization/manipulation balance diagnostics,
+    where the uncorrected standardized mean difference is the intended object.
+    Use hedges_g for a small-sample bias-corrected effect size.
+
+    If both groups are exactly constant, equal means give zero and unequal
+    means give an infinite standardized difference. No fixed threshold in
+    measurement units is used.
     """
 
     if not first or not second:
         raise ValueError("standardized mean difference requires two non-empty groups")
-    s_first = sample_sd(first)
-    s_second = sample_sd(second)
-    pooled = math.hypot(s_first, s_second) / math.sqrt(2.0)
+    if len(first) < 2 or len(second) < 2:
+        raise ValueError("standardized mean difference requires at least two observations per group")
+    pooled = pooled_sample_sd(first, second)
     difference = mean(second) - mean(first)
     if pooled == 0.0:
         if difference == 0.0:
@@ -109,3 +136,21 @@ def standardized_mean_difference(
     else:
         result = difference / pooled
     return abs(result) if absolute else result
+
+
+def hedges_g(
+    first: Sequence[float],
+    second: Sequence[float],
+    *,
+    absolute: bool = False,
+) -> float:
+    """Return small-sample bias-corrected standardized mean difference."""
+
+    d = standardized_mean_difference(first, second, absolute=False)
+    if not math.isfinite(d):
+        result = d
+    else:
+        df = len(first) + len(second) - 2
+        result = hedges_small_sample_correction(float(df)) * d
+    return abs(result) if absolute else result
+
