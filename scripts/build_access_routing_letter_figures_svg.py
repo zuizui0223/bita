@@ -71,8 +71,10 @@ def build_figure1() -> str:
     parts.extend(_arrow(180, 280, 315, 280))
     parts.extend([
         _text(245, 263, "legitimate route", size=14, anchor="middle"),
-        _text(625, 270, "reward reached through normal opening", size=17, weight="bold"),
-        _text(625, 302, "filtering may reduce exploitation without forcing bypass", size=15),
+        _text(610, 260, "reward reached through", size=16, weight="bold"),
+        _text(610, 287, "normal opening", size=16, weight="bold"),
+        _text(610, 325, "filtering may reduce exploitation", size=14),
+        _text(610, 348, "without forcing bypass", size=14),
         _text(65, 455, "B", size=22, weight="bold"),
         _text(105, 455, "High mismatch: legitimate route constrained, bypass remains", size=21, weight="bold"),
         '<ellipse cx="355" cy="610" rx="150" ry="82" fill="#f5f5f5" stroke="#222" stroke-width="2"/>',
