@@ -26,14 +26,15 @@ def _keywords(text: str) -> list[str]:
     return [item.strip() for item in line.removeprefix("**Keywords:**").strip().split(";") if item.strip()]
 
 
-def test_ecology_remains_current_target_class_for_active_mechanism_paper() -> None:
+def test_old_ecology_mechanism_package_remains_preserved_but_macro_is_forward_route() -> None:
     portal = PORTAL.read_text(encoding="utf-8")
     strategy = STRATEGY.read_text(encoding="utf-8")
     status = (ROOT / "docs" / "PUBLICATION_STATUS.md").read_text(encoding="utf-8")
     assert "Concepts & Synthesis" in portal
-    assert "Ecology" in portal
     assert "Ecology" in strategy
-    assert "ECOLOGY_CONCEPTS_AND_SYNTHESIS" in status
+    assert "FLORAL_DEFENCE_SELECTIVITY_MACRO" in status
+    assert "Ecology Letters" in status
+    assert "PRESERVED_SUPPORT" in status
 
 
 def test_canonical_abstract_is_mechanism_identification_led() -> None:
