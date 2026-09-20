@@ -43,7 +43,13 @@ def _spearman(x: list[float], y: list[float]) -> float:
         raise ValueError("Spearman vectors must have equal length")
     if len(x) < 2:
         return math.nan
-    return _shared_spearman(x, y)
+    return _shared_spearman(
+        x,
+        y,
+        mean_method="fmean",
+        denominator_method="joint",
+        zero_variance="nan",
+    )
 
 def _permutation_p(
     x: list[float],
