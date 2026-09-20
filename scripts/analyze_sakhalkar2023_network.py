@@ -12,11 +12,10 @@ import zipfile
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from trait_architecture.numerics import spearman as _shared_spearman
-
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from trait_architecture.numerics import spearman as _shared_spearman
 from scripts.audit_sakhalkar2023_zenodo import _download, read_xlsx_sheet_rows
 
 WORKBOOK_BASENAME = "cheaters_visitation_and_trait_data.xlsx"
