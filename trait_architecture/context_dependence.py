@@ -607,6 +607,20 @@ def meta_regression(
     ]
 
     multiple_effects_per_cluster = k > n_clusters
+    outcome_scale = max(
+        [abs(value) for value in outcomes]
+        + [abs(value) for value in beta]
+        + [0.0]
+    )
+    residual_scale = max((abs(value) for value in residuals), default=0.0)
+    numerical_exact_fit = (
+        residual_scale == 0.0
+        or (
+            outcome_scale > 0.0
+            and residual_scale
+            <= 100.0 * math.ulp(outcome_scale)
+        )
+    )
     basis = "cluster_robust_CR1" if multiple_effects_per_cluster else "model_based_random_effects"
     df = float(n_clusters - parameters)
     critical = student_t_quantile_975(df)
@@ -641,10 +655,13 @@ def meta_regression(
     sub = [[covariance[i][j] for j in moderator_indices] for i in moderator_indices]
     sub_beta = [beta[i] for i in moderator_indices]
     try:
+        if multiple_effects_per_cluster and numerical_exact_fit:
+            raise ValueError("cluster-robust covariance collapses under exact fit")
         sub_inverse = _invert(sub)
     except ValueError:
         # A cluster-robust covariance collapses when every cluster residual is
-        # zero. The coefficients remain reportable; the omnibus test does not.
+        # zero up to floating-point precision. The coefficients remain
+        # reportable; the omnibus test does not.
         omnibus_estimable = False
         q_moderator, q_moderator_df, q_moderator_p = 0.0, len(moderator_indices), 1.0
     else:
