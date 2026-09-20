@@ -80,6 +80,8 @@ The broader floral-defence evidence package remains useful for interpretation:
 
 Matched effective-domain classifications are author-coded and have not yet undergone outcome-blind independent recoding. They are therefore not treated as independent validation in the Letter, and the 11/11 state alignment is not a headline or confirmatory result.
 
+These counts describe evidence structure, not natural prevalence, and they are not pooled into one grand meta-analytic effect.
+
 ## 6. Required claim boundaries
 
 Do not claim:
