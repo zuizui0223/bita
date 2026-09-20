@@ -1,5 +1,7 @@
 # Ecology Letters Synthesis proposal email v3
 
+> **RESERVE — NOT THE CURRENT FIRST SUBMISSION.** The active external route is `manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md` as an Ecology Letters Letter. This Synthesis material is preserved for later use.
+
 To: ecolets@cefe.cnrs.fr; ecolets2@cefe.cnrs.fr
 
 Subject: Synthesis proposal — Access and exposure domains organize floral defence selectivity and interaction routing
