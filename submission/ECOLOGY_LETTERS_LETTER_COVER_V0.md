@@ -1,22 +1,24 @@
-# Ecology Letters Letter cover letter v0
+# Ecology Letters Letter cover letter v1
 
 **Article type:** Letter
 
-**Provisional title:** Access constraints reroute floral exploitation across insect and bird visitor networks
+**Provisional title:** Access constraints reroute floral exploitation across bird and insect visitor networks
 
 Dear Editors,
 
-Please consider our manuscript, “Access constraints reroute floral exploitation across insect and bird visitor networks,” as a Letter in *Ecology Letters*.
+Please consider our manuscript, “Access constraints reroute floral exploitation across bird and insect visitor networks,” as a Letter in *Ecology Letters*.
 
-The manuscript tests one general ecological prediction: when the legitimate route to a resource becomes increasingly mismatched with consumer access morphology, exploitation should shift toward bypass routes rather than simply disappear. We test this prediction in two independently assembled public visitor networks with different faunas and sampling structures.
+The manuscript tests one general ecological prediction: when the legitimate route to a resource becomes increasingly mismatched with consumer access morphology, exploitation should shift toward bypass routes rather than simply disappear.
 
-In an Afrotropical insect–flower network, floral access geometry is associated with a shift from nectar thieving toward robbing among 57 plant species. In an independent Ecuadorian bird–flower network, flower-tube–bill mismatch predicts higher robbery across 1,378 bird × plant × site units and the direction recurs across sites. We then place the two datasets on a common rank-based scale and test them jointly with equal network weight. The network effects are nearly identical (rho = 0.347 and site-adjusted rho = 0.351), yielding a joint effect of rho_J = 0.349 with a stratified permutation p = 0.0001.
+Our primary quantitative test uses an all-Ecuador bird–flower network. Across 1,378 bird × plant × site units, mean robbery was 0.307 when flower tubes exceeded bird bills and 0.081 when they did not; the direction recurred in 15 of 17 comparable sites. The site-adjusted rank association between tube–bill mismatch and robbery was 0.351 with a within-site permutation p=0.0001, and the result strengthened rather than disappeared after excluding sparse pair-site units.
 
-The novelty is not another analysis of nectar robbing in one taxonomic system. It is the cross-fauna test of a general routing principle: access barriers can reorganize interaction pathways by increasing bypass exploitation. This prediction links consumer behavior, trait matching and mutualist–antagonist interactions, and generates direct experimental tests beyond the floral systems analysed here.
+We then asked whether a smaller, independently assembled Afrotropical insect network recovered the same routing direction. Among 57 plant species, floral tube length was associated with a shift from nectar thieving toward robbing (rho=0.347, permutation p=0.0086). A source-defined multitrait sensitivity did not isolate tube length as a unique partial predictor, so we interpret this as corroboration of an access-geometry association rather than a unique tube-length effect.
 
-The analyses remain deliberately conservative. Raw observations from the two networks are not pooled, the larger bird dataset cannot dominate by sample size, the bird effect is adjusted for site composition, and we do not infer a universal causal coefficient. Source-audited floral-defence evidence is used as mechanistic corroboration rather than as the primary statistical test.
+The two datasets were never pooled at the observation level. Each contributes one rank effect with equal network weight, yielding rho_J=0.349 and a stratified permutation p=0.0001. Because the joint statistic contains only k=2 independent networks, we do not estimate between-network heterogeneity or claim generality beyond these two systems.
 
-This manuscript is distinct from the source network studies: neither tested a common equal-network access-routing effect across independent insect and bird datasets. All analysis code and aggregate outputs are reproducible from public repositories.
+The novelty is the direct cross-fauna test of a routing principle: access barriers can reorganize interaction pathways by increasing bypass exploitation. Source-audited floral-defence cases are used only as mechanistic context for this interpretation, not as an independent validation dataset.
+
+All analyses and aggregate outputs are reproducible from public data and repository workflows.
 
 Thank you for considering the manuscript.
 
