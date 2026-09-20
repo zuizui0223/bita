@@ -15,7 +15,7 @@ from pathlib import Path
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from trait_architecture.numerics import rankdata as _shared_rankdata, spearman as _shared_spearman
+from trait_architecture.numerics import pearson as _shared_pearson, rankdata as _shared_rankdata, spearman as _shared_spearman
 from scripts.audit_sakhalkar2023_zenodo import _download, read_xlsx_sheet_rows
 
 WORKBOOK_BASENAME = "cheaters_visitation_and_trait_data.xlsx"
@@ -34,6 +34,20 @@ def _rankdata(values: list[float]) -> list[float]:
     """Backward-compatible alias to the shared tie-aware implementation."""
 
     return _shared_rankdata(values)
+
+
+def _pearson(x: list[float], y: list[float]) -> float:
+    """Backward-compatible alias preserving the historical Sakhalkar contract."""
+
+    if len(x) != len(y) or len(x) < 2:
+        return math.nan
+    return _shared_pearson(
+        x,
+        y,
+        mean_method="fmean",
+        denominator_method="joint",
+        zero_variance="nan",
+    )
 
 
 def _spearman(x: list[float], y: list[float]) -> float:
