@@ -1,6 +1,16 @@
 name: Build access-routing Letter package
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - "manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md"
+      - "submission/**"
+      - "scripts/export_access_routing_archive.py"
+      - "scripts/reproduce_access_routing_archive.py"
+      - "scripts/format_ecology_submission_docx.py"
+      - ".github/workflows/build-access-routing-letter-package.yml"
   pull_request:
     paths:
       - "manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md"
@@ -16,6 +26,7 @@ on:
       - "scripts/analyze_sakhalkar2023_trait_routing.py"
       - "scripts/audit_sakhalkar2023_zenodo.py"
       - "scripts/build_access_routing_letter_figures_svg.py"
+      - "scripts/format_ecology_submission_docx.py"
       - "scripts/build_sakhalkar2023_route_figure_svg.py"
       - "trait_architecture/numerics.py"
       - "tests/test_access_routing_letter.py"
@@ -44,6 +55,11 @@ jobs:
 
       - name: Install package and tests
         run: python -m pip install -e '.[dev]'
+
+      - name: Install document toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc libreoffice-writer poppler-utils
 
       - name: Test Letter contracts
         run: |
@@ -180,6 +196,49 @@ jobs:
 
           printf '%s\n' "$GITHUB_SHA" > artifacts/letter/data_archive/REPOSITORY_COMMIT.txt
 
+      - name: Build submission-facing DOCX
+        run: |
+          cp submission/ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md \
+            artifacts/letter/ECOLOGY_LETTERS_LETTER_SUBMISSION.md
+          printf '\n\n[[ECOLOGY_SECTION_BREAK_AFTER_TITLE]]\n\n' \
+            >> artifacts/letter/ECOLOGY_LETTERS_LETTER_SUBMISSION.md
+          tail -n +2 manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md \
+            >> artifacts/letter/ECOLOGY_LETTERS_LETTER_SUBMISSION.md
+
+          pandoc artifacts/letter/ECOLOGY_LETTERS_LETTER_SUBMISSION.md \
+            --from=markdown+tex_math_single_backslash \
+            --to=docx \
+            --output=artifacts/letter/ECOLOGY_LETTERS_LETTER_RAW.docx
+
+          python scripts/format_ecology_submission_docx.py \
+            artifacts/letter/ECOLOGY_LETTERS_LETTER_RAW.docx \
+            artifacts/letter/ECOLOGY_LETTERS_LETTER_SUBMISSION.docx
+
+          rm artifacts/letter/ECOLOGY_LETTERS_LETTER_RAW.docx
+
+      - name: Render and validate submission DOCX
+        run: |
+          mkdir -p artifacts/letter/rendered/page_pngs
+          libreoffice --headless --convert-to pdf \
+            --outdir artifacts/letter/rendered \
+            artifacts/letter/ECOLOGY_LETTERS_LETTER_SUBMISSION.docx
+
+          PDF=artifacts/letter/rendered/ECOLOGY_LETTERS_LETTER_SUBMISSION.pdf
+          TXT="$RUNNER_TEMP/access-routing-letter.txt"
+          test -s "$PDF"
+          pdfinfo "$PDF" | tee "$RUNNER_TEMP/access-routing-letter-pdfinfo.txt"
+          pdftotext -layout "$PDF" "$TXT"
+
+          grep -q 'Access constraints reroute floral exploitation' "$TXT"
+          grep -q 'Article type:' "$TXT"
+          grep -q 'Abstract' "$TXT"
+          grep -q 'Data accessibility and reproducibility' "$TXT"
+          grep -q 'ACCESS-ROUTING ARCHIVE DOI' "$TXT"
+          grep -q 'References' "$TXT"
+
+          pdftoppm -png -r 110 "$PDF" artifacts/letter/rendered/page_pngs/page >/dev/null 2>&1
+          test "$(find artifacts/letter/rendered/page_pngs -name 'page-*.png' | wc -l)" -gt 0
+
       - name: Verify package inventory
         run: |
           python - <<'PY'
@@ -195,6 +254,9 @@ jobs:
               "FIGURE_PLAN_ACCESS_ROUTING_LETTER_V0.md",
               "ECOLOGY_LETTERS_LETTER_COVER_V0.md",
               "ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md",
+              "ECOLOGY_LETTERS_LETTER_SUBMISSION.md",
+              "ECOLOGY_LETTERS_LETTER_SUBMISSION.docx",
+              "rendered/ECOLOGY_LETTERS_LETTER_SUBMISSION.pdf",
               "joint_access_routing.json",
               "data_archive/sakhalkar_species_analysis.csv",
               "data_archive/aubert_ephi_pair_site_analysis.csv",
