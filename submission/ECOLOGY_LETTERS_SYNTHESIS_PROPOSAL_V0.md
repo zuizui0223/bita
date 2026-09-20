@@ -1,5 +1,7 @@
 # Ecology Letters Synthesis proposal v4
 
+> **RESERVE — NOT THE CURRENT FIRST SUBMISSION.** The active external route is `manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md` as an Ecology Letters Letter. This Synthesis material is preserved for later use.
+
 **Provisional title:** Access and exposure domains organize floral defence selectivity and interaction routing
 
 Flowers face a general routing problem: the same structures and rewards must remain accessible to mutualists while limiting antagonists. We propose a Synthesis asking when a trait can filter antagonists selectively, when it instead interferes with mutualists, and when barriers reroute rather than stop exploitation. We develop an effective-exposure framework in which consumers differ in access, susceptibility, timing and response thresholds. The framework predicts selective windows under domain separation, interference under overlap, failure under bypass, and route switching under access mismatch.
