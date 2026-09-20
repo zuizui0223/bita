@@ -1,6 +1,6 @@
 # Access constraints reroute floral exploitation across insect and bird visitor networks
 
-**Ecology Letters Letter candidate v0 — derived from the promoted BITA macro paper**
+**Ecology Letters Letter candidate v0**
 
 ## Abstract
 
