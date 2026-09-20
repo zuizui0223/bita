@@ -2,11 +2,14 @@ from __future__ import annotations
 
 import math
 
+import pytest
+
 from scripts.analyze_sakhalkar2023_trait_routing import (
     benjamini_hochberg,
     build_species_trait_rows,
     fit_source_defined_model,
     fit_source_model_set,
+    _invert,
     trait_coverage_summary,
 )
 
@@ -32,6 +35,21 @@ def _synthetic():
         })
     return visits, traits
 
+
+def test_multitrait_ridge_is_invariant_to_predictor_units() -> None:
+    base = [[5.0, 10.0], [10.0, 30.0]]
+    scale = 1e-9
+    scaled = [
+        [base[0][0], scale * base[0][1]],
+        [scale * base[1][0], scale * scale * base[1][1]],
+    ]
+    base_inv = _invert(base)
+    scaled_inv = _invert(scaled)
+
+    assert scaled_inv[0][0] == pytest.approx(base_inv[0][0], rel=1e-10)
+    assert scaled_inv[0][1] == pytest.approx(base_inv[0][1] / scale, rel=1e-10)
+    assert scaled_inv[1][0] == pytest.approx(base_inv[1][0] / scale, rel=1e-10)
+    assert scaled_inv[1][1] == pytest.approx(base_inv[1][1] / (scale * scale), rel=1e-10)
 
 def test_species_trait_rows_are_anonymous_and_source_defined() -> None:
     visits, traits = _synthetic()
