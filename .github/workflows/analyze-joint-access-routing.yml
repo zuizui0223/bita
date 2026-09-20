@@ -6,6 +6,7 @@ on:
       - "scripts/analyze_joint_access_routing.py"
       - "tests/test_joint_access_routing.py"
       - ".github/workflows/analyze-joint-access-routing.yml"
+      - "empirical/floral_defence_selectivity/results/joint_access_routing.json"
   workflow_dispatch:
 
 permissions:
@@ -27,6 +28,49 @@ jobs:
       - name: Run joint public-data analysis
         run: |
           python scripts/analyze_joint_access_routing.py artifacts/joint_access_routing.json --permutations 9999 --seed 20260920
+      - name: Verify frozen aggregate result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          observed = json.loads(Path("artifacts/joint_access_routing.json").read_text())
+          frozen = json.loads(Path(
+              "empirical/floral_defence_selectivity/results/joint_access_routing.json"
+          ).read_text())
+
+          keys = [
+              "analysis_name",
+              "network_count",
+              "joint_equal_network_fisher_z_rho",
+              "joint_equal_network_mean_rho",
+              "joint_permutation_p_two_sided",
+              "null_probability_both_positive",
+              "network_direction_concordance",
+              "sakhalkar_permutation_scheme",
+              "aubert_permutation_scheme",
+              "permutations",
+              "seed",
+          ]
+          for key in keys:
+              if observed[key] != frozen[key]:
+                  raise SystemExit(f"{key} drift: {observed[key]!r} != {frozen[key]!r}")
+
+          for network in ["sakhalkar", "aubert_ephi"]:
+              o = observed["network_effects"][network]
+              f = frozen["network_effects"][network]
+              for key in o:
+                  if key in {"permutation_p_two_sided_recomputed", "permutation_p_two_sided_within_site"} or key in {
+                      "n_units", "unit", "access_constraint", "bypass_response", "rho",
+                      "site_count", "rho_definition", "rho_global_descriptive"
+                  }:
+                      if o[key] != f[key]:
+                          raise SystemExit(
+                              f"{network}.{key} drift: {o[key]!r} != {f[key]!r}"
+                          )
+
+          print("Frozen joint access-routing result reproduced exactly")
+          PY
       - name: Publish aggregate result
         run: |
           {
