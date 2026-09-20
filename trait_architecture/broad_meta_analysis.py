@@ -323,7 +323,7 @@ def effect_estimate(row: dict[str, str]) -> EffectEstimate:
             if pooled_sd <= 0:
                 raise ValueError(f"effect {effect_id}: Hedges g needs nonzero pooled SD")
             d = (mt - mc) / pooled_sd
-            correction = 1 - 3 / (4 * df - 1)
+            correction = hedges_small_sample_correction(df)
             value = correction * d
             variance = (nt + nc) / (nt * nc) + (value ** 2) / (2 * df)
             return EffectEstimate(effect_id, row["study_cluster_id"], value, math.sqrt(variance), "group_means_to_hedges_g", row)
