@@ -15,6 +15,7 @@ from pathlib import Path
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from trait_architecture.numerics import pearson as _shared_pearson, rankdata as _shared_rankdata, spearman as _shared_spearman
 from scripts.audit_sakhalkar2023_zenodo import _download, read_xlsx_sheet_rows
 
 WORKBOOK_BASENAME = "cheaters_visitation_and_trait_data.xlsx"
@@ -30,36 +31,39 @@ def _as_float(value: str) -> float | None:
 
 
 def _rankdata(values: list[float]) -> list[float]:
-    indexed = sorted(enumerate(values), key=lambda pair: pair[1])
-    ranks = [0.0] * len(values)
-    i = 0
-    while i < len(indexed):
-        j = i + 1
-        while j < len(indexed) and indexed[j][1] == indexed[i][1]:
-            j += 1
-        average_rank = (i + 1 + j) / 2.0
-        for k in range(i, j):
-            ranks[indexed[k][0]] = average_rank
-        i = j
-    return ranks
+    """Backward-compatible alias to the shared tie-aware implementation."""
+
+    return _shared_rankdata(values)
 
 
 def _pearson(x: list[float], y: list[float]) -> float:
+    """Backward-compatible alias preserving the historical Sakhalkar contract."""
+
     if len(x) != len(y) or len(x) < 2:
         return math.nan
-    mx = statistics.fmean(x)
-    my = statistics.fmean(y)
-    dx = [v - mx for v in x]
-    dy = [v - my for v in y]
-    denominator = math.sqrt(sum(v * v for v in dx) * sum(v * v for v in dy))
-    if denominator == 0:
-        return math.nan
-    return sum(a * b for a, b in zip(dx, dy)) / denominator
+    return _shared_pearson(
+        x,
+        y,
+        mean_method="fmean",
+        denominator_method="joint",
+        zero_variance="nan",
+    )
 
 
 def _spearman(x: list[float], y: list[float]) -> float:
-    return _pearson(_rankdata(x), _rankdata(y))
+    """Preserve the historical Sakhalkar contract for undersized panels."""
 
+    if len(x) != len(y):
+        raise ValueError("Spearman vectors must have equal length")
+    if len(x) < 2:
+        return math.nan
+    return _shared_spearman(
+        x,
+        y,
+        mean_method="fmean",
+        denominator_method="joint",
+        zero_variance="nan",
+    )
 
 def _permutation_p(
     x: list[float],

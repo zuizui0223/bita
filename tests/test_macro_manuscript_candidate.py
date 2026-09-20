@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 CANDIDATE = ROOT / "manuscript" / "MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md"
@@ -25,7 +26,7 @@ def test_candidate_macro_manuscript_contains_frozen_ecological_results() -> None
     assert "14,383" in text
     assert "57 plant species" in text
     assert "1,378 bird × plant × site units" in text
-    assert "15 of 17 comparable sites" in text
+    assert re.search(r"15 of (?:the )?17 comparable sites", text)
     assert "site-stratified permutation \\(p=0.0001\\)" in text
     assert "interaction routing through unequal access and exposure domains" in text
     assert "Attraction signals can leak to antagonists" in text
@@ -43,7 +44,7 @@ def test_candidate_network_claim_is_association_not_unique_causality() -> None:
     text = CANDIDATE.read_text(encoding="utf-8").lower()
     assert "access geometry is associated with cheating route" in text
     assert "not that tube length alone uniquely causes the switch" in text
-    assert "not an exact numerical replication of Aubert et al. (2026)" in text
+    assert "not an exact numerical replication of aubert et al. (2026)" in text
     assert "observational" in text
 
 def test_candidate_does_not_claim_domain_outperforms_modality() -> None:
@@ -59,10 +60,11 @@ def test_candidate_does_not_claim_domain_outperforms_modality() -> None:
 
 def test_candidate_claim_freeze_keeps_null_and_causal_boundaries() -> None:
     text = CLAIMS.read_text(encoding="utf-8")
+    lower = text.lower()
     assert "NO_DETECTED_CHANGE must never be relabelled" in text
     assert "Do not call this a causal defence experiment" in text
     assert "DESCRIPTIVE_EXACT_ONLY" in text
-    assert "strict Stage-2 increment from that targeted batch: 0" in text
+    assert "strict stage-2 increment from that targeted batch: 0" in lower
 
 
 def test_focused_references_cover_main_evidence_layers() -> None:
@@ -123,12 +125,13 @@ def test_candidate_contains_second_network_validation() -> None:
     assert "1,378 bird × plant × site units" in text
     assert "0.30698" in text
     assert "0.08139" in text
-    assert "15 of the 17 comparable sites" in text
+    assert re.search(r"15 of (?:the )?17 comparable sites", text)
     assert "site-stratified permutation" in text
-    assert "not an exact replication" in text.lower()
+    assert "not an exact numerical replication" in text.lower()
 
 
 def test_candidate_does_not_pool_network_effect_sizes() -> None:
     text = CANDIDATE.read_text(encoding="utf-8").lower()
     assert "effect sizes are not pooled" in text
-    assert "different faunas and response constructions" in text
+    assert "different faunas" in text
+    assert "different response constructions" in text

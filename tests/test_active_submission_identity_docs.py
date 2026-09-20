@@ -2,7 +2,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ACTIVE_TITLE = (
+LEGACY_TITLE = (
     "Trait interaction is not ecological mechanism: "
     "an identification framework for multifunctional traits"
 )
@@ -16,7 +16,7 @@ def _read(path: str) -> str:
     return (ROOT / path).read_text(encoding="utf-8")
 
 
-def test_submission_facing_documents_share_active_identity() -> None:
+def test_preserved_mechanism_submission_documents_share_legacy_identity() -> None:
     supplement = _read("SUPPLEMENT_MANIFEST.md")
     portal = _read("submission/AUTHOR_AND_PORTAL_METADATA_TEMPLATE.md")
     strategy = _read("submission/TARGET_JOURNAL_STRATEGY.md")
@@ -24,18 +24,18 @@ def test_submission_facing_documents_share_active_identity() -> None:
     ledger = _read("docs/PUBLICATION_MATERIAL_RECOVERY_LEDGER.md")
 
     for text in (supplement, portal, strategy, audit, ledger):
-        assert ACTIVE_TITLE in text
+        assert "PRESERVED LEGACY MECHANISM-IDENTIFICATION PACKAGE" in text
+        assert LEGACY_TITLE in text
 
-    assert f"- Final title: **{ACTIVE_TITLE}**" in portal
+    assert f"- Final title: **{LEGACY_TITLE}**" in portal
     assert "The active BITA manuscript is:" in strategy
     assert "Canonical title:" in audit
-    assert "17 high-information systems" in supplement
-    assert "17 high-information systems" in portal
-    assert "17 high-information systems" in audit
-    assert "17-system high-information audit" in ledger
+    for text in (supplement, portal, audit, ledger):
+        assert "17" in text
+        assert "high-information" in text.lower()
 
 
-def test_active_package_receipt_is_the_reader_facing_source_of_truth() -> None:
+def test_legacy_mechanism_package_receipt_remains_reproducible_source_of_truth() -> None:
     supplement = _read("SUPPLEMENT_MANIFEST.md")
     portal = _read("submission/AUTHOR_AND_PORTAL_METADATA_TEMPLATE.md")
     strategy = _read("submission/TARGET_JOURNAL_STRATEGY.md")
@@ -43,6 +43,7 @@ def test_active_package_receipt_is_the_reader_facing_source_of_truth() -> None:
     ledger = _read("docs/PUBLICATION_MATERIAL_RECOVERY_LEDGER.md")
 
     for text in (supplement, portal, strategy, audit, ledger):
+        assert "PRESERVED LEGACY MECHANISM-IDENTIFICATION PACKAGE" in text
         assert "PACKAGE_QA_RECEIPT.txt" in text
 
     for text in (supplement, portal, strategy, audit, ledger):

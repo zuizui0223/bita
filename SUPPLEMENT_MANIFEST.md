@@ -1,5 +1,9 @@
 # Supplement manifest — active BITA mechanism-identification paper
 
+> **STATUS — PRESERVED LEGACY MECHANISM-IDENTIFICATION PACKAGE; NOT THE CURRENT BITA SUBMISSION ROUTE.**
+>
+> This file records the pre-2026-09-20 Ecology / mechanism-identification package. The current canonical forward paper is `manuscript/MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md`, routed first through the Ecology Letters Synthesis proposal. Any words such as “active” or “canonical” below describe the historical package state and must not override `README.md`, `docs/PUBLICATION_STATUS.md`, or `docs/SUBMISSION_SCOPE.md`.
+
 ## 1. Active submission identity
 
 Canonical title:
@@ -27,6 +31,17 @@ PACKAGE_QA_RECEIPT.txt
 ```
 
 The receipt, not a hard-coded historical page count, is the source of truth for the current Main/Appendix page counts, source commit and embedded-figure count.
+
+## Historical quantitative provenance retained
+
+Leal et al. 2025 provenance remains pinned to immutable commit
+`ed33b25593c0d90ad6657753f6f5501d9efc7b82`. The antagonist-relief gate was
+pre-registered at `0e36eac` and completed at `965d657`; its source synthesis is
+`doi:10.1002/ecy.70036`.
+
+These route-level quantitative results remain reproducible supporting evidence.
+They constrain constituent pathways but **do not validate the identification framework**
+and do not replace the current macro floral-defence selectivity paper.
 
 ## 2. Scientific core
 

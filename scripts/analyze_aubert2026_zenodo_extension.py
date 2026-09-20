@@ -14,10 +14,17 @@ import io
 import json
 import math
 import random
+import sys
 import urllib.request
+from urllib.error import HTTPError, URLError
 from collections import defaultdict
 from pathlib import Path
 from urllib.parse import quote
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from trait_architecture.numerics import spearman as _shared_spearman
 
 BASE = "https://zenodo.org/records/14185547/files"
 FILES = {
@@ -33,8 +40,17 @@ USER_AGENT = "bita-aubert-zenodo-extension/1.0"
 def _download(name: str) -> bytes:
     url = f"{BASE}/{quote(name)}?download=1"
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(req, timeout=90) as response:  # nosec B310 fixed Zenodo URL
-        return response.read()
+    try:
+        with urllib.request.urlopen(req, timeout=90) as response:  # nosec B310 fixed Zenodo URL
+            return response.read()
+    except (HTTPError, URLError, TimeoutError) as error:
+        raise RuntimeError(
+            "Unable to retrieve the frozen EPHI Ecuador mirror file from Zenodo. "
+            "Mirror DOI: 10.5281/zenodo.14185547. Regeneration requires network "
+            "access to the fixed record; the committed "
+            "results/aubert2026_zenodo_extension.json remains the frozen analysis receipt. "
+            f"Failed file: {name}. Original error: {error}"
+        ) from error
 
 
 def _read(data: bytes) -> list[dict[str, str]]:
@@ -66,34 +82,8 @@ def _median(values: list[float]) -> float:
     return s[m] if n % 2 else (s[m - 1] + s[m]) / 2
 
 
-def _rankdata(values: list[float]) -> list[float]:
-    order = sorted(range(len(values)), key=lambda i: values[i])
-    ranks = [0.0] * len(values)
-    i = 0
-    while i < len(order):
-        j = i + 1
-        while j < len(order) and values[order[j]] == values[order[i]]:
-            j += 1
-        rank = (i + 1 + j) / 2
-        for k in range(i, j):
-            ranks[order[k]] = rank
-        i = j
-    return ranks
-
-
-def _pearson(x: list[float], y: list[float]) -> float:
-    mx, my = _mean(x), _mean(y)
-    num = sum((a - mx) * (b - my) for a, b in zip(x, y))
-    dx = math.sqrt(sum((a - mx) ** 2 for a in x))
-    dy = math.sqrt(sum((b - my) ** 2 for b in y))
-    if dx == 0 or dy == 0:
-        return 0.0
-    return num / (dx * dy)
-
-
 def spearman(x: list[float], y: list[float]) -> float:
-    return _pearson(_rankdata(x), _rankdata(y))
-
+    return _shared_spearman(x, y)
 
 def _perm_p_spearman(x: list[float], y: list[float], permutations: int, seed: int) -> tuple[float, float]:
     obs = spearman(x, y)

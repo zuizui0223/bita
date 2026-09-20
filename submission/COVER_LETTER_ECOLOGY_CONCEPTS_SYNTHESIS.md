@@ -1,5 +1,9 @@
 # Cover letter — Ecology, Concepts & Synthesis
 
+> **STATUS — PRESERVED LEGACY MECHANISM-IDENTIFICATION PACKAGE; NOT THE CURRENT BITA SUBMISSION ROUTE.**
+>
+> This file records the pre-2026-09-20 Ecology / mechanism-identification package. The current canonical forward paper is `manuscript/MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md`, routed first through the Ecology Letters Synthesis proposal. Any words such as “active” or “canonical” below describe the historical package state and must not override `README.md`, `docs/PUBLICATION_STATUS.md`, or `docs/SUBMISSION_SCOPE.md`.
+
 Dear Editors,
 
 Please consider our manuscript, **“Trait interaction is not ecological mechanism: an identification framework for multifunctional traits,”** for publication as a **Concepts & Synthesis** article in *Ecology*.

@@ -24,19 +24,21 @@ def test_el_synthesis_proposal_is_within_300_word_limit() -> None:
 
 def test_el_synthesis_proposal_contains_required_editorial_elements() -> None:
     text = PROPOSAL.read_text(encoding="utf-8")
-    assert "general design problem" in text
-    assert "broader principle" in text
-    assert "lead author works on" in text
-    assert "two independent public networks" in text
+    lower = text.lower()
+    assert "general routing problem" in lower
+    assert "broader ecological principle" in lower
+    assert "lead author works on" in lower
+    assert "two public network analyses independently recover" in lower
     assert "1,378 bird × plant × site units" in text
 
 
 def test_el_proposal_email_targets_both_editorial_addresses() -> None:
     text = EMAIL.read_text(encoding="utf-8")
+    lower = text.lower()
     assert "ecolets@cefe.cnrs.fr" in text
     assert "ecolets2@cefe.cnrs.fr" in text
     assert "Synthesis proposal" in text
-    assert "two independent public networks" in text
+    assert "two public network analyses independently recover" in lower
     assert "Ruiqi Zhang" in text
 
 
