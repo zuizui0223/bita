@@ -9,10 +9,11 @@ EMAIL = ROOT / "submission" / "ECOLOGY_LETTERS_SYNTHESIS_PROPOSAL_EMAIL_V1.md"
 
 
 def _proposal_words(text: str) -> list[str]:
-    body = re.sub(r"^#.*$", " ", text, flags=re.MULTILINE)
-    body = re.sub(r"^\*\*Provisional title:.*$", " ", body, flags=re.MULTILINE)
+    marker = "**Provisional title:**"
+    after = text.split(marker, 1)[1]
+    body = after.split("\n\n", 1)[1].strip()
     body = body.replace("**", "")
-    return [token for token in re.split(r"\s+", body.strip()) if token]
+    return [token for token in re.split(r"\s+", body) if token]
 
 
 def test_el_synthesis_proposal_is_within_300_word_limit() -> None:
