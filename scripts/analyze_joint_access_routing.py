@@ -26,7 +26,8 @@ if __package__ in {None, ""}:
 
 from scripts.analyze_sakhalkar2023_network import (
     _find_workbook,
-    _spearman,
+    _pearson,
+    _rankdata,
     species_route_points,
 )
 from scripts.audit_sakhalkar2023_zenodo import (
@@ -96,8 +97,13 @@ def summarize_joint(
     ay = [float(row["robbery_rate"]) for row in aubert_rows]
     sites = [str(row["site"]) for row in aubert_rows]
 
-    s_rho = _spearman(sx, sy)
-    a_rho = _spearman(ax, ay)
+    sx_rank = _rankdata(sx)
+    sy_rank = _rankdata(sy)
+    ax_rank = _rankdata(ax)
+    ay_rank = _rankdata(ay)
+
+    s_rho = _pearson(sx_rank, sy_rank)
+    a_rho = _pearson(ax_rank, ay_rank)
     if not math.isfinite(s_rho) or not math.isfinite(a_rho):
         raise ValueError("network correlations must be finite")
 
@@ -106,7 +112,7 @@ def summarize_joint(
 
     rng_s = random.Random(seed)
     rng_a = random.Random(seed + 1)
-    shuffled_s = list(sy)
+    shuffled_s = list(sy_rank)
 
     joint_extreme = 0
     s_extreme = 0
@@ -115,10 +121,10 @@ def summarize_joint(
 
     for _ in range(permutations):
         rng_s.shuffle(shuffled_s)
-        perm_a = _permute_within_site(ay, sites, rng=rng_a)
+        perm_a = _permute_within_site(ay_rank, sites, rng=rng_a)
 
-        ps = _spearman(sx, shuffled_s)
-        pa = _spearman(ax, perm_a)
+        ps = _pearson(sx_rank, shuffled_s)
+        pa = _pearson(ax_rank, perm_a)
         if not math.isfinite(ps) or not math.isfinite(pa):
             continue
 
