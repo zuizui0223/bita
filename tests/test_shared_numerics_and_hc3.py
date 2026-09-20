@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import math
 
+import pytest
+
 from trait_architecture.context_dependence import _invert as context_invert
 from trait_architecture.numerics import invert_matrix, rankdata, spearman
 from trait_architecture.ols_hc3 import _invert as ols_invert, fit_ols_hc3
@@ -26,6 +28,43 @@ def test_inversion_rank_decision_is_scale_relative() -> None:
     _assert_matrix_close(ols_invert(matrix), base)
     _assert_matrix_close(context_invert(matrix), base)
 
+
+
+def test_inversion_is_invariant_to_tiny_slope_units_with_intercept() -> None:
+    base_x = [[1.0, value] for value in [0.0, 1.0, 2.0, 3.0, 4.0]]
+    tiny = 1e-10
+    tiny_x = [[row[0], tiny * row[1]] for row in base_x]
+
+    def gram(x: list[list[float]]) -> list[list[float]]:
+        return [
+            [sum(row[i] * row[j] for row in x) for j in range(2)]
+            for i in range(2)
+        ]
+
+    base_inv = invert_matrix(gram(base_x))
+    tiny_inv = invert_matrix(gram(tiny_x))
+
+    assert tiny_inv[0][0] == pytest.approx(base_inv[0][0], rel=1e-12)
+    assert tiny_inv[0][1] == pytest.approx(base_inv[0][1] / tiny, rel=1e-12)
+    assert tiny_inv[1][0] == pytest.approx(base_inv[1][0] / tiny, rel=1e-12)
+    assert tiny_inv[1][1] == pytest.approx(base_inv[1][1] / (tiny * tiny), rel=1e-12)
+
+
+def test_equilibrated_ridge_is_unit_invariant() -> None:
+    base = [[5.0, 10.0], [10.0, 30.0]]
+    tiny = 1e-9
+    scaled = [
+        [base[0][0], tiny * base[0][1]],
+        [tiny * base[1][0], tiny * tiny * base[1][1]],
+    ]
+    ridge = 1e-9
+    base_inv = invert_matrix(base, ridge=ridge)
+    scaled_inv = invert_matrix(scaled, ridge=ridge)
+
+    assert scaled_inv[0][0] == pytest.approx(base_inv[0][0], rel=1e-10)
+    assert scaled_inv[0][1] == pytest.approx(base_inv[0][1] / tiny, rel=1e-10)
+    assert scaled_inv[1][0] == pytest.approx(base_inv[1][0] / tiny, rel=1e-10)
+    assert scaled_inv[1][1] == pytest.approx(base_inv[1][1] / (tiny * tiny), rel=1e-10)
 
 def test_inversion_rejects_rank_deficiency_independent_of_scale() -> None:
     singular = [[1.0, 2.0], [2.0, 4.0]]
