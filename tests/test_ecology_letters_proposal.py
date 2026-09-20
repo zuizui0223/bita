@@ -24,10 +24,10 @@ def test_el_synthesis_proposal_is_within_300_word_limit() -> None:
 
 def test_el_synthesis_proposal_contains_required_editorial_elements() -> None:
     text = PROPOSAL.read_text(encoding="utf-8")
-    assert "general design problem" in text
-    assert "broader principle" in text
+    assert "general routing problem" in text
+    assert "broader ecological principle" in text
     assert "lead author works on" in text
-    assert "two independent public networks" in text
+    assert "two public network analyses independently recover" in text
     assert "1,378 bird × plant × site units" in text
 
 
