@@ -18,10 +18,10 @@ def test_old_bita_evidence_assets_remain_present() -> None:
     assert all(path.exists() for path in required)
 
 
-def test_new_readme_declares_provenance_not_replacement() -> None:
+def test_canonical_readme_preserves_earlier_bita_provenance() -> None:
     text = (MODULE / "README.md").read_text(encoding="utf-8")
-    assert "does not replace earlier BITA results" in text
-    assert "56-route / 25-cluster / 17-system" in text
+    assert "does **not** delete earlier BITA results" in text
+    assert "56-route / 25 historical cluster-label / 17-system" in text
 
 
 def test_milestone_readout_reports_current_counts_and_claim_ceiling() -> None:
