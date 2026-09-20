@@ -58,14 +58,15 @@ def test_canonical_abstract_is_mechanism_identification_led() -> None:
         assert token in keywords
 
 
-def test_concepts_and_synthesis_framing_keeps_architecture_value_in_slk() -> None:
+def test_preserved_ecology_fit_keeps_architecture_value_in_slk() -> None:
     text = MAN.read_text(encoding="utf-8")
     fit = FIT.read_text(encoding="utf-8")
     assert "broader architecture-value question" in text
     assert "owned by the companion SLK framework" in text
+    assert "PRESERVED LEGACY MECHANISM-IDENTIFICATION PACKAGE" in fit
     assert "Trait interaction is not ecological mechanism" in fit
-    assert "belongs to SLK" in fit
-    assert "historical and not submission-current" in fit
+    assert "SLK: transport identified conflict" in fit
+    assert "Historical BITA architecture derivations remain provenance" in fit
 
 
 def test_open_research_and_ai_disclosure_surfaces_remain_available() -> None:
@@ -77,8 +78,9 @@ def test_open_research_and_ai_disclosure_surfaces_remain_available() -> None:
     assert "not treated as empirical evidence" in block
 
 
-def test_ecology_cover_letter_matches_current_mechanism_story() -> None:
+def test_preserved_ecology_cover_letter_matches_legacy_mechanism_story() -> None:
     text = COVER.read_text(encoding="utf-8")
+    assert "PRESERVED LEGACY MECHANISM-IDENTIFICATION PACKAGE" in text
     assert "Concepts & Synthesis" in text
     assert "Trait interaction is not ecological mechanism" in text
     assert "Delta_AD W = rho_delta - iota_delta - kappa_delta" in text
@@ -86,12 +88,12 @@ def test_ecology_cover_letter_matches_current_mechanism_story() -> None:
     assert "17-system high-information audit" in text
     assert "recurrent constituent biology with fragmented identification" in text
     assert "companion SLK framework owns" in text
-    assert "previously generated 30-page Main / 38-page Appendix package" in text
-    assert "no longer submission-current" in text
+    assert "**21 pages**" in text
 
 
-def test_fit_audit_routes_to_current_builder_and_requires_fresh_qa() -> None:
+def test_preserved_fit_audit_routes_to_legacy_builder_and_frozen_qa() -> None:
     text = FIT.read_text(encoding="utf-8")
+    assert "PRESERVED LEGACY MECHANISM-IDENTIFICATION PACKAGE" in text
     assert "scripts/build_bita_mechanism_candidate_sources.py" in text
     assert ".github/workflows/build-bita-mechanism-review-package.yml" in text
     assert "56 directional route records" in text
@@ -99,4 +101,4 @@ def test_fit_audit_routes_to_current_builder_and_requires_fresh_qa() -> None:
     assert "17 high-information systems" in text
     assert "RECURRENT_CONSTITUENT_BIOLOGY" in text
     assert "FRAGMENTED_IDENTIFICATION" in text
-    assert "rebuild the active mechanism-identification DOCX/PDF" in text
+    assert "21-page Main + 10-page Appendix" in text
