@@ -206,13 +206,19 @@ def _download() -> bytes:
         except HTTPError as error:
             last_error = error
             if error.code < 500 or attempt == attempts - 1:
-                raise
+                break
         except URLError as error:
             last_error = error
             if attempt == attempts - 1:
-                raise
+                break
         time.sleep(2 ** attempt)
-    raise RuntimeError(f"Zenodo download failed after retries: {last_error}")
+    raise RuntimeError(
+        "Unable to retrieve the frozen Sakhalkar 2023 Zenodo archive after retries. "
+        f"Dataset DOI: {DATASET_DOI}. Regenerating the network analysis requires "
+        "network access to the fixed Zenodo record; the repository's committed "
+        "results/sakhalkar2023_network_result.json remains the frozen analysis receipt. "
+        f"Last download error: {last_error}"
+    ) from last_error
 
 
 def run(output_path: str | Path) -> dict[str, object]:
