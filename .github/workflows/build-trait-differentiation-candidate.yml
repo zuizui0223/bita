@@ -18,19 +18,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Confirm old Chapter 2 package is retired
+      - name: Confirm macro paper promotion and preserved legacy manuscript
         run: |
-          grep -q 'OLD_PACKAGE_STALE' docs/SUBMISSION_SCOPE.md
-          grep -q 'NEW_CANONICAL_SCIENCE_SOURCE_ACTIVE' docs/SUBMISSION_SCOPE.md
-          grep -q 'Trait interaction is not ecological mechanism' manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md
+          grep -q 'PRIMARY_FORWARD_PAPER = MACRO_FLORAL_DEFENCE_SELECTIVITY' docs/SUBMISSION_SCOPE.md
+          grep -q 'trait interaction != ecological mechanism' docs/SUBMISSION_SCOPE.md
+          test -f manuscript/MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md
+          test -f manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md
 
-      - name: Confirm active mechanism package route exists
+      - name: Confirm legacy mechanism package route still exists
         run: |
           test -f scripts/build_bita_mechanism_candidate_sources.py
           test -f .github/workflows/build-bita-mechanism-review-package.yml
           grep -q 'build_bita_mechanism_candidate_sources.py' .github/workflows/build-bita-mechanism-review-package.yml
 
-      - name: Reject stale architecture-package rebuild
+      - name: Reject stale architecture-package promotion
         run: |
           ! grep -q 'build_trait_differentiation_candidate_package_sources.py' docs/SUBMISSION_SCOPE.md
-          echo 'Legacy trait-differentiation package is retired; active mechanism-identification package owns review builds.'
+          echo 'Macro floral-defence selectivity is active; legacy mechanism package is preserved, not canonical.'
