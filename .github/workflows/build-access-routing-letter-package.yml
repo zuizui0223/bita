@@ -37,6 +37,18 @@ jobs:
       - name: Build Letter Figure 2 from public data
         run: |
           python scripts/build_sakhalkar2023_route_figure_svg.py             --output artifacts/letter/FIGURE_2_TWO_NETWORK_ACCESS_ROUTING.svg
+      - name: Renumber reused network figure for Letter
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path("artifacts/letter/FIGURE_2_TWO_NETWORK_ACCESS_ROUTING.svg")
+          text = path.read_text(encoding="utf-8")
+          text = text.replace(
+              "Figure 4. Access geometry predicts exploitation route in two independent networks",
+              "Figure 2. Access geometry predicts exploitation route in two independent networks",
+          )
+          path.write_text(text, encoding="utf-8")
+          PY
       - name: Assemble source package
         run: |
           cp manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md artifacts/letter/
