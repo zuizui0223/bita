@@ -4,18 +4,17 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_readme_declares_active_macro_selectivity_story() -> None:
+def test_readme_declares_active_access_routing_letter_story() -> None:
     text = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "primary forward paper" in text
-    assert "trait × consumer × context state" in text
-    assert "x_H* < x < x_P*" in text
-    assert "17 unique study programs" in text
-    assert "11 scorable" in text
-    assert "8 independent systems" in text
-    assert "Sakhalkar" in text
-    assert "Aubert/EPHI" in text
-    assert "Ecology Letters" in text
-    assert "trait interaction != ecological mechanism" in text
+    assert "primary submission paper" in text
+    assert "Access constraints reroute floral exploitation" in text
+    assert "PRIMARY:" not in text
+    assert "1,378 bird × plant × site units" in text
+    assert "57 plant species" in text
+    assert "rho_J = 0.349" in text
+    assert "k = 2" in text
+    assert "matched effective-domain classifications are author-coded" in text
+    assert "Ecology Letters — Letter" in text
 
 
 def test_readme_preserves_slk_architecture_value_boundary() -> None:
@@ -39,17 +38,16 @@ def test_preserved_mechanism_main_remains_reproducible() -> None:
     assert "not the novelty center of this paper" in text
 
 
-def test_scope_preserves_active_macro_claim_boundaries() -> None:
+def test_scope_preserves_active_letter_claim_boundaries() -> None:
     text = (ROOT / "docs" / "SUBMISSION_SCOPE.md").read_text(encoding="utf-8")
-    assert "floral-defence selectivity macro paper" in text
-    assert "Ecology Letters" in text
-    assert "x_H* < x < x_P*" in text
-    assert "17 unique D -> antagonism study programs" in text
-    assert "strict Stage-2 n" in text
-    assert "Sakhalkar" in text
-    assert "Aubert/EPHI" in text
-    assert "trait interaction != ecological mechanism" in text
-    assert "no longer the primary submission identity" in text
+    assert "BITA access-routing Letter" in text
+    assert "Ecology Letters — Letter" in text
+    assert "1,378 bird × plant × site units" in text
+    assert "57 plant species" in text
+    assert "JOINT_NETWORK_K = 2" in text
+    assert "author-coded" in text
+    assert "not treated as independent validation" in text
+    assert "EXTENDED_SYNTHESIS = PRESERVED_RESERVE" in text
 
 
 def test_claim_freeze_blocks_reimporting_slk_novelty() -> None:
@@ -110,9 +108,9 @@ def test_legacy_three_world_document_is_provenance_not_active_scope() -> None:
     assert "Chapter 1 / SCH" in legacy
     assert "Chapter 2 / BALANCE" in legacy
     assert "Chapter 3 / BITA" in legacy
-    assert "BITA floral-defence selectivity macro paper" in active
-    assert "Preserved mechanism-identification layer" in active
-    assert "trait interaction != ecological mechanism" in active
+    assert "BITA access-routing Letter" in active
+    assert "Extended Synthesis" in active
+    assert "Mechanism-identification foundation" in active
 
 
 def test_one_trait_shared_cue_lane_remains_externalized_to_sch() -> None:
