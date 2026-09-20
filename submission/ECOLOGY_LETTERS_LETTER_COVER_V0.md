@@ -20,6 +20,12 @@ The novelty is the direct cross-fauna test of a routing principle: access barrie
 
 All analyses and aggregate outputs are reproducible from public data and repository workflows.
 
+The analysis-ready data tables, metadata, reproduction code and frozen outputs will be archived at **[ACCESS-ROUTING ARCHIVE DOI — REQUIRED BEFORE SUBMISSION]**. The underlying public datasets remain cited at Zenodo DOI 10.5281/zenodo.8398202 and Zenodo DOI 10.5281/zenodo.14185547.
+
+**Author-relative novelty statement — AUTHOR-CONTROLLED BEFORE SUBMISSION:** Ecology Letters asks authors to state exactly how the manuscript is outstandingly novel relative to recent work by the author or coauthors cited in the submission. Confirm whether any 2025–2026 author/coauthor papers cited here fall under that rule; if none do, replace this placeholder with an explicit statement to that effect.
+
+**Conflict-of-interest statement — AUTHOR-CONTROLLED BEFORE SUBMISSION:** confirm and insert the collective disclosure for all authors.
+
 Thank you for considering the manuscript.
 
 Best regards,

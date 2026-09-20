@@ -53,6 +53,25 @@ It contains the 17-program defence corpus, matched-system state recovery, eight 
 
 The identification framework remains supporting provenance and claim discipline.
 
+## Initial-submission readiness gate
+
+The scientific and package layers are ready, but Ecology Letters requires an externally archived analysis-data/code package with a persistent DOI at initial submission.
+
+Current blockers:
+
+~~~text
+ACCESS_ROUTING_ARCHIVE = STAGING_READY
+ACCESS_ROUTING_ARCHIVE_DOI = REQUIRED
+FINAL_AUTHOR_LIST_AND_AFFILIATIONS = REQUIRED
+AUTHORSHIP_STATEMENT = REQUIRED
+CONFLICT_OF_INTEREST = REQUIRED
+FUNDING_ACKNOWLEDGMENTS = REQUIRED
+AUTHOR_RELATIVE_NOVELTY_STATEMENT = REQUIRED
+EXTERNAL_SUBMISSION = BLOCKED_UNTIL_THESE_ARE_COMPLETE
+~~~
+
+The CI-built archive staging contains the exact 57-species and 1,378-pair-site analysis tables, metadata, reproduction code and frozen outputs. The remaining data step is DOI-bearing external deposit.
+
 ## Journal route
 
 ```text
@@ -63,9 +82,11 @@ The identification framework remains supporting provenance and claim discipline.
 ```
 
 ```text
-STATUS = PRIMARY_SUBMISSION_READY
+STATUS = SCIENTIFIC_PACKAGE_READY
 ACTIVE_PAPER = ACCESS_ROUTING_LETTER
 EXTENDED_SYNTHESIS = PRESERVED_RESERVE
 LEGACY_IDENTIFICATION_PAPER = PRESERVED_SUPPORT
-EXTERNAL_SUBMISSION = NOT_YET_SENT
+DATA_CODE_ARCHIVE = STAGING_READY_DOI_REQUIRED
+AUTHOR_METADATA = REQUIRED
+EXTERNAL_SUBMISSION = BLOCKED_PENDING_DOI_AND_AUTHOR_CONTROLLED_FIELDS
 ```

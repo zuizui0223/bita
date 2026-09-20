@@ -248,19 +248,31 @@ The ecological implication is simple: **barriers do not only filter interactions
 
 ## Data accessibility and reproducibility
 
-The analyses use public data from Sakhalkar et al. (2023; Zenodo DOI 10.5281/zenodo.8398202) and the EPHI Ecuador mirror (Zenodo DOI 10.5281/zenodo.14185547) associated with the trait-matching framework of Aubert et al. (2026). Aggregate analysis outputs, source-audited evidence registries, tests and workflows are maintained in the project repository. Raw species and site identifiers are not emitted by the joint aggregate workflow.
+**A permanent analysis-data/code archive DOI is required before submission.** The submission archive will contain the exact analysis-ready tables used for inference, column metadata, reproduction code and frozen derived outputs. The archive tables omit source species identifiers not required to reproduce the reported statistics and deterministically relabel EPHI site identifiers while preserving the within-site permutation structure.
+
+Underlying public source data are Sakhalkar et al. (2023), Zenodo DOI 10.5281/zenodo.8398202, and the EPHI Ecuador mirror, Zenodo DOI 10.5281/zenodo.14185547, associated with Aubert et al. (2026).
+
+Final submission wording after deposit:
+
+> The analysis-ready data tables, metadata, analysis code and frozen derived outputs supporting this Letter are archived at **[ACCESS-ROUTING ARCHIVE DOI]**. Underlying public source datasets are archived by their original authors at Zenodo DOI 10.5281/zenodo.8398202 and Zenodo DOI 10.5281/zenodo.14185547.
+
+## Acknowledgments, funding and conflict of interest
+
+**AUTHOR-CONTROLLED — REQUIRED BEFORE SUBMISSION.**
+
+Insert the final acknowledgments and funding statement here. All authors must also provide the collective conflict-of-interest disclosure required by Ecology Letters. If there are no relevant conflicts, replace this placeholder with the author-approved no-conflict statement.
 
 ## References
 
-Use the focused BITA reference pool and retain the primary network sources:
-
-- Sakhalkar SP et al. 2023. *Ecosphere* 14:e4696. DOI 10.1002/ecs2.4696.
-- Aubert S et al. 2026. *Oikos* 2026(3):e11552. DOI 10.1002/oik.11552.
-- Johnson MTJ, Campbell SA, Barrett SCH. 2015.
-- Lucas-Barbosa D. 2016.
-- Rusman Q, Lucas-Barbosa D, Poelman EH. 2018.
-- Adler LS, Irwin RE. 2005.
-- Gegear RJ, Manson JS, Thomson JD. 2007.
-- Barlow SE et al. 2017.
-- Galen C et al. 2011.
-- Jones PL, Agrawal AA. 2016.
+- Sakhalkar SP, Janeček Š, Klomberg Y, Mertens JEJ, Hodeček J, Tropek R (2023) Cheaters among pollinators: Nectar robbing and thieving vary spatiotemporally with floral traits in Afrotropical forests. *Ecosphere* 14:e4696. https://doi.org/10.1002/ecs2.4696
+- Sakhalkar S, Janeček Š, Klomberg Y, Mertens JEJ, Hodeček J, Tropek R (2023) R code and datasets for flower-visitor interactions (pollinators, robbers, thieves) and plant traits from Mount Cameroon. Zenodo, v1.0.0. https://doi.org/10.5281/zenodo.8398202
+- Aubert S, Duchenne F, Tinoco BA, Santander T, Guevara EA, Graham CH (2026) Trait matching affects the probability of nectar robbing in plant-pollinator networks. *Oikos* 2026(3):e11552. https://doi.org/10.1002/oik.11552
+- Santander T, Varassin I, Maglianesi MA, et al. (2024) Plant-hummingbird interactions, floral abundance and floral traits for three altitudinal gradients in the Americas. Zenodo. https://doi.org/10.5281/zenodo.14185547
+- Johnson MTJ, Campbell SA, Barrett SCH (2015) Evolutionary interactions between plant reproduction and defense against herbivores. *Annual Review of Ecology, Evolution, and Systematics* 46:191–213. https://doi.org/10.1146/annurev-ecolsys-112414-054215
+- Lucas-Barbosa D (2016) Integrating studies on plant–pollinator and plant–herbivore interactions. *Trends in Plant Science* 21:125–133. https://doi.org/10.1016/j.tplants.2015.10.013
+- Rusman Q, Lucas-Barbosa D, Poelman EH (2018) Dealing with mutualists and antagonists: specificity of plant-mediated interactions between herbivores and flower visitors, and consequences for plant fitness. *Functional Ecology* 32:1022–1035. https://doi.org/10.1111/1365-2435.13035
+- Adler LS, Irwin RE (2005) Ecological costs and benefits of defenses in nectar. *Ecology* 86:2968–2978. https://doi.org/10.1890/05-0118
+- Gegear RJ, Manson JS, Thomson JD (2007) Ecological context influences pollinator deterrence by alkaloids in floral nectar. *Ecology Letters* 10:375–382. https://doi.org/10.1111/j.1461-0248.2007.01027.x
+- Barlow SE, Wright GA, Ma C, Barberis M, Farrell IW, Marr EC, Brankin A, Pavlik BM, Stevenson PC (2017) Distasteful nectar deters floral robbery. *Current Biology* 27:2552–2558.e3. https://doi.org/10.1016/j.cub.2017.07.012
+- Galen C, Kaczorowski R, Todd SL, Geib J, Raguso RA (2011) Dosage-dependent impacts of a floral volatile compound on pollinators, larcenists, and the potential for floral evolution in the alpine skypilot *Polemonium viscosum*. *The American Naturalist* 177:258–272. https://doi.org/10.1086/657993
+- Jones PL, Agrawal AA (2016) Consequences of toxic secondary compounds in nectar for mutualist bees and antagonist butterflies. *Ecology* 97:2570–2579. https://doi.org/10.1002/ecy.1483

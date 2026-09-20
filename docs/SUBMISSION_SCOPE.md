@@ -96,7 +96,31 @@ Do not claim:
 - matched-domain alignment estimates prevalence or a confirmatory success rate;
 - the access-routing result identifies evolutionary origin of floral barriers.
 
-## 7. Preserved reserve papers
+## 7. Ecology Letters initial-submission archive gate
+
+Before external upload, deposit the CI-built analysis-data/code archive in a DOI-bearing repository.
+
+Required archive contents:
+
+~~~text
+57-row anonymous Sakhalkar species analysis table
+1,378-row anonymous Aubert/EPHI pair-site analysis table
+column metadata
+exact reproduction code
+frozen aggregate outputs
+repository commit receipt
+~~~
+
+The archive DOI must appear in the manuscript Data accessibility statement and title page. Public source DOIs alone do not replace this submission-stage archive.
+
+Current state:
+
+~~~text
+ARCHIVE_STAGING = READY
+ARCHIVE_DOI = REQUIRED
+~~~
+
+## 8. Preserved reserve papers
 
 Extended Synthesis:
 
@@ -114,7 +138,7 @@ The mechanism-identification manuscript is preserved support and is no longer th
 - `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`
 - `manuscript/CLAIM_FREEZE.md`
 
-## 8. Current state
+## 9. Current state
 
 ```text
 PRIMARY_FORWARD_PAPER = ACCESS_ROUTING_LETTER
@@ -124,5 +148,7 @@ JOINT_NETWORK_K = 2
 EXTENDED_SYNTHESIS = PRESERVED_RESERVE
 REPRODUCIBLE_ANALYSES = READY
 LETTER_PACKAGE = READY
-EXTERNAL_SUBMISSION = NOT_YET_SENT
+DATA_CODE_ARCHIVE = STAGING_READY_DOI_REQUIRED
+AUTHOR_CONTROLLED_METADATA = REQUIRED
+EXTERNAL_SUBMISSION = BLOCKED_PENDING_DOI_AND_AUTHOR_FIELDS
 ```
