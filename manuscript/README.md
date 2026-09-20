@@ -1,90 +1,72 @@
 # Manuscript directory
 
-## Primary forward BITA paper
+## Primary submission paper
 
-The current manuscript to advance is:
+The manuscript to advance first is:
 
-- `MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md` — macro-ecological floral-defence selectivity / access-routing paper
-- `CLAIM_FREEZE_MACRO_V0.md` — active scientific claim ceiling
-- `MACRO_PROMOTION_GATE_V1.md` — promotion decision and readiness gate
-- `MACRO_PROMOTION_READINESS_V1.md` — reproducibility / figure / journal-route readiness
-- `MACRO_MANUSCRIPT_SOURCE_AUDIT_V0.md` — source-backed claim audit
-- `FLORAL_DEFENCE_SELECTIVITY_REFERENCES_V0.md` — focused working references
+- `MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md` — Ecology Letters Letter
+- `FIGURE_PLAN_ACCESS_ROUTING_LETTER_V0.md` — three-figure Letter plan
+- `../submission/ECOLOGY_LETTERS_LETTER_COVER_V0.md` — Letter cover
 
-## Active scientific spine
+Scientific spine:
 
 ```text
-unequal effective access / exposure
+primary all-Ecuador bird network
         |
         v
-selective window
+access mismatch -> robbery / bypass
+
+independent Afrotropical insect network
         |
-        +--> overlap -> mutualist interference
-        +--> bypass  -> defence failure
-        +--> exposure increase -> state switching
-        +--> access mismatch -> exploitation rerouting
+        v
+same directional routing association
+
+equal network weight
+        |
+        v
+joint recurrence test (k = 2)
 ```
 
-The active empirical structure is:
+The bird network is the primary quantitative test. The smaller insect network is independent corroboration, not a co-equal evidence base by sample size.
 
-```text
-17 D-side programs
-+ 11 scorable matched-state systems
-+ 8 within-D switching systems
-+ 2 independent community-network routing analyses
-```
+## Mechanistic context
 
-## Active main figures
+The effective-access / exposure framework and floral-defence corpus explain why route switching is biologically plausible.
 
-1. effective-exposure / selective-window theory;
-2. D-route macro landscape + matched-system state recovery + strict gate;
-3. defence-side state switching + Kessler bridge;
-4. two-network access routing: Sakhalkar insects + Aubert/EPHI birds.
+They are not used as independent validation in the Letter. In particular, matched effective-domain classifications are author-coded and have not yet undergone outcome-blind independent recoding; the 11/11 alignment therefore remains outside the Letter's main inferential spine.
 
-The macro figure builders and dedicated CI live in the repository and are green at promotion.
+## Extended Synthesis reserve
+
+Preserved intact for a later Synthesis or full research paper:
+
+- `MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md`
+- `CLAIM_FREEZE_MACRO_V0.md`
+- `MACRO_PROMOTION_GATE_V1.md`
+- `MACRO_PROMOTION_READINESS_V1.md`
+- `MACRO_MANUSCRIPT_SOURCE_AUDIT_V0.md`
+- `FLORAL_DEFENCE_SELECTIVITY_REFERENCES_V0.md`
 
 ## Preserved mechanism-identification manuscript
 
-The previous canonical paper is retained intact:
-
-- `MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md` — mechanism-identification manuscript
-- `MANUSCRIPT_IDENTIFICATION_DESIGN.md` — longer identification framework
-- `CLAIM_FREEZE.md` — historical mechanism-identification claim freeze
+- `MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md`
+- `MANUSCRIPT_IDENTIFICATION_DESIGN.md`
+- `CLAIM_FREEZE.md`
 - `IDENTIFICATION_DESIGN_REFERENCES.md`
 - `mechanism_identification_figures/`
-- `supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`
 
-Its key principle remains valid:
+Its key principle remains:
 
 ```text
 trait interaction != ecological mechanism
 ```
 
-It now functions as inferential support and provenance rather than the preferred next-paper headline.
-
-## Programme boundary
-
-```text
-SCH
-functional conflict identification
-
-SLK
-architecture value and evolutionary realization
-
-BITA
-floral antagonist–mutualist selectivity and routing
-through unequal access / exposure
-```
-
-Do not use the macro paper to claim architecture-value results owned by SLK, and do not use observational network recurrence to claim causal mechanism allocation.
-
 ## Submission route
 
 ```text
-1. Ecology Letters — Synthesis proposal
-2. Functional Ecology — Research Article
-3. Oikos — Research
-4. New Phytologist — presubmission only
+1. Ecology Letters — Letter
+2. Functional Ecology — Research Article fallback
+3. Oikos — Research fallback
+4. extended BITA Synthesis retained in reserve
 ```
 
-The Ecology Letters proposal and email text are under `submission/`. External sending remains author-controlled.
+External sending remains author-controlled.
