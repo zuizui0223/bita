@@ -15,7 +15,7 @@ from pathlib import Path
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from trait_architecture.numerics import spearman as _shared_spearman
+from trait_architecture.numerics import rankdata as _shared_rankdata, spearman as _shared_spearman
 from scripts.audit_sakhalkar2023_zenodo import _download, read_xlsx_sheet_rows
 
 WORKBOOK_BASENAME = "cheaters_visitation_and_trait_data.xlsx"
@@ -28,6 +28,12 @@ def _as_float(value: str) -> float | None:
     except (TypeError, ValueError):
         return None
     return number if math.isfinite(number) else None
+
+
+def _rankdata(values: list[float]) -> list[float]:
+    """Backward-compatible alias to the shared tie-aware implementation."""
+
+    return _shared_rankdata(values)
 
 
 def _spearman(x: list[float], y: list[float]) -> float:
