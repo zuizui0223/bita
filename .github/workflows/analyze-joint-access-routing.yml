@@ -1,0 +1,45 @@
+name: Analyze joint access routing
+
+on:
+  pull_request:
+    paths:
+      - "scripts/analyze_joint_access_routing.py"
+      - "tests/test_joint_access_routing.py"
+      - ".github/workflows/analyze-joint-access-routing.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install tests
+        run: python -m pip install -e '.[dev]'
+      - name: Test joint analysis
+        run: pytest -q tests/test_joint_access_routing.py
+      - name: Run joint public-data analysis
+        run: |
+          python scripts/analyze_joint_access_routing.py artifacts/joint_access_routing.json --permutations 9999 --seed 20260920
+      - name: Publish aggregate result
+        run: |
+          {
+            echo '## Joint access-routing analysis'
+            echo
+            echo 'Equal-network rank synthesis; no raw rows are emitted.'
+            echo
+            echo '~~~json'
+            cat artifacts/joint_access_routing.json
+            echo '~~~'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: joint-access-routing
+          path: artifacts/joint_access_routing.json
+          if-no-files-found: error
