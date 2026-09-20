@@ -31,9 +31,9 @@ def test_main_candidate_separates_interaction_from_mechanism_allocation() -> Non
     assert "remaining joint channel" in text
 
 
-def test_ecology_abstract_and_keywords_fit_current_submission_contract() -> None:
+def test_legacy_ecology_abstract_and_keywords_fit_preserved_package_contract() -> None:
     text = candidate.build_main_source()
-    abstract = text.split("## Abstract", 1)[1].split("**Keywords:**", 1)[0]
+    abstract = candidate._abstract_text(text)
     words = re.findall(r"\b[\w]+(?:[-'][\w]+)*\b", abstract, flags=re.UNICODE)
     assert 150 <= len(words) <= 350, len(words)
     assert "interaction" in abstract.lower()
