@@ -1,10 +1,10 @@
-# BITA macro-ecology candidate claim freeze v0
+# BITA macro-ecology canonical claim freeze v1
 
-This file governs only the candidate refocused macro-ecology manuscript:
+This file governs the canonical macro-ecology manuscript:
 
-manuscript/MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md
+`manuscript/MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md`
 
-It does not replace manuscript/CLAIM_FREEZE.md until the refocus is explicitly promoted to canonical status.
+The previous `manuscript/CLAIM_FREEZE.md` remains preserved for the mechanism-identification support layer; it no longer defines the primary forward BITA submission identity.
 
 ## Active thesis
 
@@ -426,17 +426,19 @@ Permitted:
 
 The word “organizes” is preferred over “causes” for the cross-system synthesis.
 
-## Promotion gate to canonical manuscript
+## Canonical promotion status
 
-Do not replace the current canonical BITA manuscript until:
+Promotion is complete as of 2026-09-20. The gates that previously controlled promotion are now satisfied:
 
-1. current branch CI is green;
-2. current-head Sakhalkar reanalysis is green;
-3. exact Stage-2 result is reproducibly generated from the committed corpus;
-4. targeted-search stopping rule is documented;
-5. focused references are rebuilt;
-6. figure plan for the four evidence layers exists;
-7. final journal class is selected.
+1. branch and post-promotion CI are green;
+2. Sakhalkar and Aubert/EPHI analyses are reproducible under their registered workflows;
+3. exact Stage-2 output is generated from the committed corpus;
+4. the targeted-search stopping rule is documented;
+5. focused references and four main figures are present;
+6. the macro manuscript is the primary forward BITA paper;
+7. the first editorial route is Ecology Letters Synthesis proposal, with Functional Ecology as the prepared fallback.
+
+Promotion does not relax any claim ceiling in this document.
 
 
 
