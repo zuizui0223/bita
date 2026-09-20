@@ -31,13 +31,15 @@ The archive does not silently republish source species identifiers. It contains 
 
 ## Reproduction
 
-After generating the data tables:
+Inside the deposited archive directory:
 
 ~~~bash
-python scripts/reproduce_access_routing_archive.py \
-  --input-dir data_archive \
-  --output data_archive/archive_reproduction.json
+PYTHONPATH=code python code/scripts/reproduce_access_routing_archive.py \
+  --input-dir . \
+  --output archive_reproduction_recheck.json
 ~~~
+
+This command uses only the deposited analysis tables and deposited code; it does not redownload the source datasets.
 
 The workflow verifies that the regenerated headline values agree with the committed frozen results.
 
