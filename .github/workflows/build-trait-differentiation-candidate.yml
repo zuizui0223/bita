@@ -21,7 +21,7 @@ jobs:
       - name: Confirm Letter promotion and preserved legacy manuscripts
         run: |
           grep -q 'PRIMARY_FORWARD_PAPER = ACCESS_ROUTING_LETTER' docs/SUBMISSION_SCOPE.md
-          grep -q 'trait interaction != ecological mechanism' docs/SUBMISSION_SCOPE.md
+          grep -q 'EXTENDED_SYNTHESIS = PRESERVED_RESERVE' docs/SUBMISSION_SCOPE.md
           test -f manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md
           test -f manuscript/MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md
           test -f manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md
@@ -35,4 +35,4 @@ jobs:
       - name: Reject stale architecture-package promotion
         run: |
           ! grep -q 'build_trait_differentiation_candidate_package_sources.py' docs/SUBMISSION_SCOPE.md
-          echo 'Macro floral-defence selectivity is active; legacy mechanism package is preserved, not canonical.'
+          echo 'Access-routing Letter is active; macro Synthesis and mechanism-identification packages are preserved in reserve.'
