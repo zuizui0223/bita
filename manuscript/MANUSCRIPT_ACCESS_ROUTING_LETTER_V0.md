@@ -158,7 +158,7 @@ p_{\mathrm{perm}}=0.0001.
 
 The pattern was not generated solely by among-site composition. Seventeen sites contained both barrier and accessible pair-sites; 15 showed higher robbery under the barrier state. The mean within-site difference was +0.144, the two-sided sign-test \(p=0.00235\), and the site-stratified permutation \(p=0.0001\).
 
-The result also persisted when sparsely observed pair-site units were removed. Requiring at least five interactions left 702 units, with mean robbery rates of 0.320 under barriers and 0.0556 when accessible; mismatch and robbery remained positively associated (\(\rho=0.505\), permutation \(p=0.0001\)).
+The result also persisted when sparsely observed pair-site units were removed. Requiring at least five interactions left 702 units, with mean robbery rates of 0.320 under barriers and 0.0556 when accessible; mismatch and robbery remained positively associated (\(\rho=0.505\), permutation \(p=0.0001\)). At the cross-network level, the equal-network joint effect also persisted under this filter (\(r_J=0.385\), permutation \(p=0.0001\)).
 
 ### One standardized routing effect recurs across networks
 
