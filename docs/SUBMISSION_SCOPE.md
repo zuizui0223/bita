@@ -107,6 +107,8 @@ Extended Synthesis:
 
 Mechanism-identification foundation:
 
+The preserved inference principle remains `trait interaction != ecological mechanism`; it constrains interpretation but is not the Letter headline.
+
 - `manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md`
 - `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`
 - `manuscript/CLAIM_FREEZE.md`
