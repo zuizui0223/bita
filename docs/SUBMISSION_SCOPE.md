@@ -68,6 +68,8 @@ independent network contributions k = 2
 
 Raw observations are never pooled. The joint test does not estimate between-network heterogeneity, a population mean across networks, or generality beyond the two systems.
 
+Both analyses are observational and are not pooled onto one effect scale.
+
 ## 5. Mechanistic context only
 
 The broader floral-defence evidence package remains useful for interpretation:
