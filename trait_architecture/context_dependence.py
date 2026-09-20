@@ -48,6 +48,7 @@ from pathlib import Path
 from statistics import NormalDist
 from typing import Iterable, Sequence
 
+from trait_architecture.numerics import invert_matrix
 from trait_architecture.broad_meta_analysis import (
     EffectEstimate,
     _text,
@@ -250,26 +251,12 @@ def chi_square_upper_p(statistic: float, df: int) -> float:
 
 
 def _invert(matrix: list[list[float]]) -> list[list[float]]:
-    """Gauss-Jordan inverse for the small design matrices used here."""
+    """Scale-relative inverse for the small declared moderator designs."""
 
-    size = len(matrix)
-    work = [list(row) + [1.0 if i == j else 0.0 for j in range(size)] for i, row in enumerate(matrix)]
-    for column in range(size):
-        pivot_row = max(range(column, size), key=lambda r: abs(work[r][column]))
-        if abs(work[pivot_row][column]) < 1e-12:
-            raise ValueError("moderator design matrix is singular; declared levels are collinear")
-        work[column], work[pivot_row] = work[pivot_row], work[column]
-        pivot = work[column][column]
-        work[column] = [value / pivot for value in work[column]]
-        for row in range(size):
-            if row == column:
-                continue
-            factor = work[row][column]
-            if factor == 0.0:
-                continue
-            work[row] = [value - factor * pivot_value for value, pivot_value in zip(work[row], work[column])]
-    return [row[size:] for row in work]
-
+    return invert_matrix(
+        matrix,
+        singular_message="moderator design matrix is singular; declared levels are collinear",
+    )
 
 def _matvec(matrix: Sequence[Sequence[float]], vector: Sequence[float]) -> list[float]:
     return [sum(a * b for a, b in zip(row, vector)) for row in matrix]
