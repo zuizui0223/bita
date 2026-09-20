@@ -31,10 +31,10 @@ def test_current_pattern_layer_does_not_overclaim_grand_meta_analysis() -> None:
     assert "We use **meta-analysis** only where study outcomes can be expressed on a defensible common quantitative scale" in historical
     assert "we did not fit a cross-outcome grand moderator coefficient" in historical
 
-    assert "recurrence of constituent pathways" in scope
-    assert "not prevalence" in scope_lower
-    assert "not point identification of the total mechanism" in scope_lower
-    assert "fragmented identification" in scope_lower
+    assert "These counts describe evidence structure, not natural prevalence" in scope
+    assert "Both analyses are observational and are not pooled onto one effect scale" in scope
+    assert "trait interaction != ecological mechanism" in scope
+    assert "no longer the primary submission identity" in scope
     assert "marginal route recurrence does not estimate" in current
     assert "none of these counts is an estimate of natural prevalence" in current
 
