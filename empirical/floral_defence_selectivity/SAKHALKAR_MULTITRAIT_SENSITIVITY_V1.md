@@ -65,6 +65,10 @@ shape:
   BH q = 0.7447
 ~~~
 
+## Numerical-audit note
+
+The 2026-09-20 numerical audit replaced the original absolute-scale ridge with a dimensionless ridge applied after matrix equilibration. Regeneration changed only floating-point tail digits of the fitted R2 / block-drop R2 values; all printed values, permutation p-values, BH decisions, and the claim ceiling are unchanged.
+
 ## Interpretation
 
 The univariate BITA result remains:
@@ -102,8 +106,8 @@ Report this multitrait analysis as a robustness / claim-ceiling result:
 
 ## Provenance
 
-Workflow run: 35414173596
+Workflow run: 35486351356
 
 Artifact digest:
 
-sha256:8420532d198de16e21f2a34bd2adc66d0085263b84f1a4a14a8ed2c7a7869141
+sha256:c2ed9131a072270862d76f066e12f9453afe5a0f5705b41e5ef3f77791108513
