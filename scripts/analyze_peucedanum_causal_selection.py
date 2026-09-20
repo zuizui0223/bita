@@ -172,6 +172,9 @@ def _coefficient_map(result) -> dict[str, dict[str, float]]:
         coefficient.term: {
             "estimate": coefficient.estimate,
             "hc3_se": coefficient.hc3_se,
+            "t_value": coefficient.t_value,
+            "p_value_t": coefficient.p_value_t,
+            "residual_df": result.residual_df,
             "z_value": coefficient.z_value,
             "p_value_normal": coefficient.p_value_normal,
             "ci95_lower": coefficient.ci95_lower,
