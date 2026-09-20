@@ -109,5 +109,5 @@ def test_primary_audit_and_publication_ledger_preserve_directness_boundaries() -
     assert "direct rho_delta:                    0 studies" in audit
     assert "full point identification:          0 studies" in audit
     assert "plausibility" in audit and "identification" in audit
-    assert "six high-information systems source-checked" in ledger
-    assert "Targeted audit is not prevalence" in ledger
+    assert "17-system high-information audit" in ledger
+    assert "Do not convert 0/17 into literature prevalence" in ledger
