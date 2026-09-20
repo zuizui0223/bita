@@ -53,6 +53,16 @@ def test_letter_title_page_matches_current_manuscript_counts() -> None:
     assert len(keywords) <= 10
 
 
+def test_letter_submission_source_excludes_internal_workflow_language() -> None:
+    letter = LETTER.read_text(encoding="utf-8")
+    lower = letter.lower()
+    assert "ecology letters letter candidate v0" not in lower
+    assert "our ci environment" not in lower
+    assert "mechanistic corroboration from floral-defence systems" not in lower
+    assert "floral-defence evidence as mechanistic context" in lower
+    assert "not as an independent validation dataset" in lower
+
+
 def test_letter_submission_remains_fail_closed_until_archive_doi_and_author_metadata() -> None:
     title = TITLE_PAGE.read_text(encoding="utf-8")
     cover = COVER.read_text(encoding="utf-8")
