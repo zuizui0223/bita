@@ -80,14 +80,14 @@ def test_open_research_package_exports_current_identification_products(tmp_path,
     assert "not prevalence estimates" in manifest
 
 
-def test_cover_letter_marks_old_architecture_package_stale() -> None:
+def test_cover_letter_is_preserved_legacy_mechanism_package() -> None:
     text = COVER.read_text(encoding="utf-8")
+    assert "PRESERVED LEGACY MECHANISM-IDENTIFICATION PACKAGE" in text
     assert "Trait interaction is not ecological mechanism" in text
     assert "56 directional route records from 25 independent biological clusters" in text
     assert "17-system high-information audit" in text
-    assert "previously generated 30-page Main / 38-page Appendix package" in text
-    assert "no longer submission-current" in text
-    assert "new journal-formatted package will be rebuilt" in text
+    assert "**21 pages**" in text
+    assert "separate 10-page Appendix" in text
 
 
 def test_historical_sources_remain_preserved_but_are_not_active_builder_inputs() -> None:
