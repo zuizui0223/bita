@@ -26,6 +26,23 @@ The paper now combines:
 5. two independent community-scale public-data analyses (Afrotropical insects + Ecuadorian hummingbird interactions), plus the Sakhalkar source-defined multitrait sensitivity;
 6. legacy BITA identification results as claim discipline rather than headline.
 
+## Ecology Letters proposal compliance check — 2026-09-20
+
+Current official guidance was re-checked before promotion:
+
+~~~text
+unsolicited Synthesis = proposal required before full submission
+proposal length        = <= 300 words
+must describe          = nature + novelty + disciplinary contribution
+must include           = author qualification
+send to                = ecolets@cefe.cnrs.fr
+                         ecolets2@cefe.cnrs.fr
+full Synthesis limit   = 7,500 main-text words
+display items          = <= 10
+~~~
+
+The current proposal remains within the 300-word gate and the repository now has a regression test for proposal length and both official editorial-office addresses.
+
 ## Submission route
 
 ### Route A — Ecology Letters Synthesis proposal first
