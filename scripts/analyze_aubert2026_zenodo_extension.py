@@ -14,12 +14,16 @@ import io
 import json
 import math
 import random
+import sys
 import urllib.request
 from collections import defaultdict
 from pathlib import Path
+from urllib.parse import quote
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from trait_architecture.numerics import spearman as _shared_spearman
-from urllib.parse import quote
 
 BASE = "https://zenodo.org/records/14185547/files"
 FILES = {
