@@ -1,0 +1,77 @@
+name: Analyze joint access-routing robustness
+
+on:
+  pull_request:
+    paths:
+      - "scripts/analyze_joint_access_routing_robustness.py"
+      - "tests/test_joint_access_routing_robustness.py"
+      - ".github/workflows/analyze-joint-access-routing-robustness.yml"
+      - "empirical/floral_defence_selectivity/results/joint_access_routing_robustness.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install tests
+        run: python -m pip install -e '.[dev]'
+      - name: Test robustness logic
+        run: pytest -q tests/test_joint_access_routing_robustness.py
+      - name: Run public-data robustness
+        run: |
+          python scripts/analyze_joint_access_routing_robustness.py             artifacts/joint_access_routing_robustness.json             --permutations 9999             --seed 20260920
+      - name: Verify frozen robustness result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          observed = json.loads(Path("artifacts/joint_access_routing_robustness.json").read_text())
+          frozen = json.loads(Path(
+              "empirical/floral_defence_selectivity/results/joint_access_routing_robustness.json"
+          ).read_text())
+
+          if observed["analysis_name"] != frozen["analysis_name"]:
+              raise SystemExit("analysis_name drift")
+          for threshold in ["min_1", "min_2", "min_5"]:
+              o = observed["thresholds"][threshold]
+              f = frozen["thresholds"][threshold]
+              for key in [
+                  "aubert_n_units",
+                  "aubert_site_count",
+                  "aubert_site_adjusted_rho",
+                  "aubert_permutation_p_two_sided_within_site",
+                  "sakhalkar_rho",
+                  "joint_equal_network_fisher_z_rho",
+                  "joint_equal_network_mean_rho",
+                  "joint_permutation_p_two_sided",
+                  "network_direction_concordance",
+              ]:
+                  if o[key] != f[key]:
+                      raise SystemExit(
+                          f"{threshold}.{key} drift: {o[key]!r} != {f[key]!r}"
+                      )
+          print("Frozen joint robustness result reproduced exactly")
+          PY
+      - name: Publish aggregate result
+        run: |
+          {
+            echo '## Joint access-routing sparse-pair robustness'
+            echo
+            echo '~~~json'
+            cat artifacts/joint_access_routing_robustness.json
+            echo '~~~'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: joint-access-routing-robustness
+          path: artifacts/joint_access_routing_robustness.json
+          if-no-files-found: error
