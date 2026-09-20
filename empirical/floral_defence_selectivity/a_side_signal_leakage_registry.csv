@@ -1,0 +1,6 @@
+study_program_id,doi,plant_taxon,A_axis,pollinator_state,antagonist_state,paired_state,source_provenance
+Impatiens_2018,10.1002/ajb2.1182,Impatiens capensis,floral_redness,NULL_COMPATIBLE,UNRESOLVED,UNRESOLVED,manuscript/supplementary/tables/TABLE_S3_MECHANISM_PATTERN_LEDGER.csv
+Cucurbita_2014,10.3732/ajb.1400171,Cucurbita spp.,floral_sesquiterpenoids,POSITIVE,POSITIVE,SHARED_TRACKING,manuscript/supplementary/tables/TABLE_S3_MECHANISM_PATTERN_LEDGER.csv
+Cucurbita_2012,10.1890/11-0825.1,Cucurbita pepo var. texana,enhanced_floral_fragrance,NULL_COMPATIBLE,POSITIVE,ANTAGONIST_BIASED,manuscript/supplementary/tables/TABLE_S3_MECHANISM_PATTERN_LEDGER.csv
+Nicotiana_2015,10.7554/eLife.07641,Nicotiana attenuata,benzylacetone_floral_scent,POSITIVE,POSITIVE,SHARED_TRACKING,manuscript/supplementary/tables/TABLE_S3_MECHANISM_PATTERN_LEDGER.csv
+Dalechampia_2013,10.1111/j.1600-0706.2013.20780.x,Dalechampia scandens,showy_involucral_bract_area,POSITIVE,POSITIVE,SHARED_TRACKING,manuscript/supplementary/tables/TABLE_S3_MECHANISM_PATTERN_LEDGER.csv

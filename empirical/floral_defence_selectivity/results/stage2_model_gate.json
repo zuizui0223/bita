@@ -1,0 +1,31 @@
+{
+  "can_compare_domain_vs_modality": false,
+  "claim_boundary": "Exact tables are descriptive evidence. Null-compatible rows are used only in sensitivity analysis and are not promoted to equivalence-supported preservation.",
+  "compatibility_sensitivity_fisher_two_sided_p": 0.14285714285714285,
+  "compatibility_sensitivity_n": 7,
+  "compatibility_sensitivity_table": {
+    "OVERLAPPED": {
+      "compatible_or_null": 0,
+      "impaired": 1
+    },
+    "SEPARATED": {
+      "compatible_or_null": 6,
+      "impaired": 0
+    }
+  },
+  "model_decision": "DESCRIPTIVE_EXACT_ONLY",
+  "null_compatible_is_not_equivalence": true,
+  "strict_domain_modality_confounding": "PERFECT_IN_CURRENT_STRICT_SET",
+  "strict_fisher_two_sided_p": 0.3333333333333333,
+  "strict_stage2_n": 3,
+  "strict_table": {
+    "OVERLAPPED": {
+      "compatible": 0,
+      "impaired": 1
+    },
+    "SEPARATED": {
+      "compatible": 2,
+      "impaired": 0
+    }
+  }
+}

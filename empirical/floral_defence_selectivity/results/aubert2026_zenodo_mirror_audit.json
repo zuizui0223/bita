@@ -1,0 +1,40 @@
+{
+  "guardrail": "Aggregate/schema audit only; no raw rows are emitted.",
+  "metadata_matches": {
+    "metadata_birds": [
+      "culmen_length,Culmen length,\"Numeric, millimeters\"",
+      "bill_length,Bill length,\"Numeric, millimeters\""
+    ],
+    "metadata_interactions": [
+      "piercing,Indicating if the bird was interacting with the flower by piercing or using a existing hole in the flower (cheating).,\"“yes” for piercing, “no” for legitimate interaction, \"\"maybe\"\" for possible piercing that could not be distinguished from the picture, \"\"thief\"\" for nectart thiefing without piercing (e.g. feeding from nectaries of Marcgraviastrum gigantophyllum), \"\"not_interacting\"\" when the bird was just seen around on pictures, or “NA” when it was not specified (most probably NA is “no” as some people filled this column only when the bird was piercing)\""
+    ],
+    "metadata_plants": [
+      "Tubelength,\"The length of the floral tube corresponds to the distance, in a straight line, from the base of the corolla to the corolla opening, without taking into account curvatures or protuberances.\",cm"
+    ]
+  },
+  "source": "EPHI Zenodo 10.5281/zenodo.14185547",
+  "tables": {
+    "birds": {
+      "columns": ["hummingbird_genus","hummingbird_species","hummingbird_sex","hummingbird_age","N","culmen_length","bill_length","mass","Wing_chord","tail_length","CentralCurva","DorsalCurva","VentralCurva","tarsus","curvature_ratio_mean","curvature_ratio_sd","curvature_angle_mean","curvature_angle_sd","source","hummingbird_kingdom","hummingbird_family","hummingbird_order","Group"],
+      "rows": 10988
+    },
+    "cameras": {
+      "columns": ["waypoint","site","plant_species","plant_genus","plant_family","plant_order","plant_kingdom","start_date","end_date","start_time","end_time","duration_sampling_hours","duration_from_pics","Longitude_waypoint","Latitude_waypoint","Elevation_waypoint","Time_waypoint","distance_to_transect","camera_height_cm","camera_flowers_count","camera_problem"],
+      "rows": 6198
+    },
+    "interactions": {
+      "bird_family_counts": {"Fringillidae":73,"Parulidae":33,"Passerellidae":15,"Pipridae":5,"Ramphastidae":1,"Thraupidae":64,"Trochilidae":54276,"Troglodytidae":4},
+      "bird_family_field": "hummingbird_family",
+      "columns": ["waypoint","site","date","time","hummingbird_species","hummingbird_genus","hummingbird_family","hummingbird_order","hummingbird_kingdom","hummingbird_sex","feeding_activity","piercing","folder","filename"],
+      "nectar_robbing_counts": {"There is a Sylph perched in the same picture":1,"maybe":12,"no":17511,"no flower contact":1,"not_interacting":105,"thief":338,"yes":4673},
+      "robbing_field": "piercing",
+      "rows": 54471,
+      "site_count": 18,
+      "sites": ["Alaspungo","Alaspungo_disturbed","Amagusa","LasGralarias","Maquipucuna","MashpiLaguna","Mashpi_Capuchin","Puyucunapi","Rumisitana","Sachatamia","Sachatamia_disturbed","SantaLuciaLower","SantaLuciaUpper","UnPocoChoco","UnPocoDelChoco_disturbed","Verdecocha","Yanacocha","Yanacocha_disturbed"]
+    },
+    "plants": {
+      "columns": ["plant_species","plant_genus","plant_family","plant_order","rang","FlowerSymmetry","FlowerType","AntherPosition","FlowerPosition","PetalsFusion","AntherDehiscence","ColoredPart","Tubelength","StamenLength","StyleLength","Opening_corolla_lateral","Opening_corolla_dorsal","CurvatureCentral","SexualSystem","DistilyOccurrence","SexualMaturation","FlowerOrientation","Resupination","site","Indiv_ID","Flower_ID","Country"],
+      "rows": 4371
+    }
+  }
+}

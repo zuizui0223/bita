@@ -1,0 +1,91 @@
+{
+  "analysis_name": "effective_domain_pollinator_state_recovery",
+  "claim_boundary": "This is state-recovery across heterogeneous pollinator outcomes, not a pooled effect-size meta-analysis. NO_DETECTED_CHANGE means no interference was detected and is not evidence of equivalence. Historical derivation rows contributed to rule formation, so exact alignment probabilities are descriptive rather than confirmatory.",
+  "derivation": {
+    "domain_counts": {
+      "OVERLAPPED": 1,
+      "SEPARATED": 4,
+      "TRANSITIONAL": 4
+    },
+    "domain_rule_accuracy": 1.0,
+    "domain_rule_correct": 9,
+    "exact_perfect_alignment_probability": 0.0015873015873015873,
+    "modality_loo_accuracy": 0.6666666666666666,
+    "modality_loo_correct": 6,
+    "modality_loo_n": 9,
+    "outcome_family_counts": {
+      "IMPAIRED": 1,
+      "MIXED": 4,
+      "NO_INTERFERENCE_OBSERVED": 4
+    },
+    "scored_n": 9,
+    "total_rows": 14,
+    "unscored_n": 5
+  },
+  "derivation_modality_rule": {
+    "fallback": "MIXED",
+    "mapping": {
+      "chemical": "MIXED",
+      "physical": "NO_INTERFERENCE_OBSERVED",
+      "reward_access": "NO_INTERFERENCE_OBSERVED"
+    }
+  },
+  "domain_rule": {
+    "OVERLAPPED": "IMPAIRED",
+    "SEPARATED": "NO_INTERFERENCE_OBSERVED",
+    "TRANSITIONAL": "MIXED"
+  },
+  "holdout": {
+    "domain_counts": {},
+    "domain_rule_accuracy": null,
+    "domain_rule_correct": 0,
+    "exact_perfect_alignment_probability": null,
+    "modality_from_derivation_accuracy": null,
+    "modality_from_derivation_correct": 0,
+    "modality_from_derivation_n": 0,
+    "outcome_family_counts": {},
+    "scored_n": 0,
+    "total_rows": 1,
+    "unscored_n": 1
+  },
+  "null_compatible_is_not_equivalence": true,
+  "outcome_family_definition": {
+    "IMPAIRED": "IMPAIRED",
+    "MIXED": "MIXED",
+    "NO_DETECTED_CHANGE": "NO_INTERFERENCE_OBSERVED",
+    "PRESERVED_OR_IMPROVED": "NO_INTERFERENCE_OBSERVED"
+  },
+  "pooled_scored": {
+    "domain_counts": {
+      "OVERLAPPED": 1,
+      "SEPARATED": 6,
+      "TRANSITIONAL": 4
+    },
+    "domain_rule_accuracy": 1.0,
+    "domain_rule_correct": 11,
+    "exact_perfect_alignment_probability": 0.0004329004329004329,
+    "outcome_family_counts": {
+      "IMPAIRED": 1,
+      "MIXED": 4,
+      "NO_INTERFERENCE_OBSERVED": 6
+    },
+    "scored_n": 11
+  },
+  "systematic_expansion": {
+    "domain_counts": {
+      "SEPARATED": 2
+    },
+    "domain_rule_accuracy": 1.0,
+    "domain_rule_correct": 2,
+    "exact_perfect_alignment_probability": 1.0,
+    "modality_from_derivation_accuracy": 0.5,
+    "modality_from_derivation_correct": 1,
+    "modality_from_derivation_n": 2,
+    "outcome_family_counts": {
+      "NO_INTERFERENCE_OBSERVED": 2
+    },
+    "scored_n": 2,
+    "total_rows": 2,
+    "unscored_n": 0
+  }
+}

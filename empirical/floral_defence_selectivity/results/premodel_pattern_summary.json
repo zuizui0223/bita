@@ -1,0 +1,55 @@
+{
+  "independent_clusters": 17,
+  "effective_defence_clusters": 15,
+  "by_domain": {
+    "SEPARATED": {
+      "clusters": 9,
+      "effective_defence": 9,
+      "strict_preserved_or_improved": 2,
+      "strict_impaired": 0,
+      "null_compatible_no_detected_change": 4,
+      "unresolved_direct_pollinator": 1,
+      "pollinator_not_measured_directly": 2
+    },
+    "OVERLAPPED": {
+      "clusters": 2,
+      "effective_defence": 2,
+      "strict_preserved_or_improved": 0,
+      "strict_impaired": 1,
+      "null_compatible_no_detected_change": 0,
+      "unresolved_direct_pollinator": 0,
+      "pollinator_not_measured_directly": 1
+    },
+    "BYPASS_TOLERANCE": {
+      "clusters": 1,
+      "effective_defence": 0,
+      "strict_preserved_or_improved": 0,
+      "strict_impaired": 0,
+      "null_compatible_no_detected_change": 0,
+      "unresolved_direct_pollinator": 0,
+      "pollinator_not_measured_directly": 0
+    },
+    "TRANSITIONAL": {
+      "clusters": 4,
+      "effective_defence": 4,
+      "strict_preserved_or_improved": 0,
+      "strict_impaired": 0,
+      "null_compatible_no_detected_change": 0,
+      "unresolved_direct_pollinator": 0,
+      "pollinator_not_measured_directly": 0
+    },
+    "UNCLEAR": {
+      "clusters": 1,
+      "effective_defence": 0,
+      "strict_preserved_or_improved": 0,
+      "strict_impaired": 0,
+      "null_compatible_no_detected_change": 0,
+      "unresolved_direct_pollinator": 0,
+      "pollinator_not_measured_directly": 0
+    }
+  },
+  "transitional_mixed_clusters": 4,
+  "bypass_null_or_weak_defence_clusters": 1,
+  "strict_stage2_clusters": 3,
+  "strict_model_gate": "NOT_READY"
+}

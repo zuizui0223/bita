@@ -1,0 +1,47 @@
+name: Audit Sakhalkar 2023 Zenodo network
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit_sakhalkar2023_zenodo.py"
+      - "tests/test_sakhalkar2023_zenodo_audit.py"
+      - "empirical/floral_defence_selectivity/NETWORK_VALIDATION_SAKHALKAR_2023_V1.md"
+      - ".github/workflows/audit-sakhalkar2023-zenodo.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependency
+        run: python -m pip install "pytest>=8,<10"
+      - name: Test archive parser
+        run: pytest -q tests/test_sakhalkar2023_zenodo_audit.py
+      - name: Audit public Zenodo archive
+        run: |
+          python scripts/audit_sakhalkar2023_zenodo.py artifacts/sakhalkar2023_zenodo_audit.json
+      - name: Publish aggregate audit
+        run: |
+          {
+            echo '## Sakhalkar 2023 Zenodo archive audit'
+            echo
+            echo 'Raw rows and file contents are intentionally not emitted.'
+            echo
+            echo '~~~json'
+            cat artifacts/sakhalkar2023_zenodo_audit.json
+            echo '~~~'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sakhalkar2023-zenodo-audit
+          path: artifacts/sakhalkar2023_zenodo_audit.json
+          if-no-files-found: error

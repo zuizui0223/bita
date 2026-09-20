@@ -1,0 +1,44 @@
+name: Build BITA macro candidate figures
+
+on:
+  pull_request:
+    paths:
+      - "scripts/build_floral_defence_selectivity_figures_svg.py"
+      - "tests/test_floral_defence_selectivity_figures.py"
+      - "empirical/floral_defence_selectivity/results/analysis_ready_matched_systems.csv"
+      - "empirical/floral_defence_selectivity/results/stage2_model_gate.json"
+      - "empirical/floral_defence_selectivity/results/d_side_route_macro_summary.json"
+      - "empirical/floral_defence_selectivity/d_side_route_macro_registry.csv"
+      - "docs/EFFECTIVE_EXPOSURE_SELECTIVITY_THEORY_V1.md"
+      - ".github/workflows/build-bita-macro-figures.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package and tests
+        run: python -m pip install -e '.[dev]'
+      - name: Test figure contracts
+        run: pytest -q tests/test_floral_defence_selectivity_figures.py
+      - name: Build SVG figures
+        run: |
+          python scripts/build_floral_defence_selectivity_figures_svg.py --output-dir artifacts/macro_figures
+      - name: Inventory figures
+        run: |
+          ls -lh artifacts/macro_figures
+          grep -q "Effective-exposure selectivity" artifacts/macro_figures/FIGURE_1_EFFECTIVE_EXPOSURE_THEORY.svg
+          grep -q "17 matched floral systems" artifacts/macro_figures/FIGURE_2_MATCHED_D_STATE_MAP.svg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-macro-candidate-figures
+          path: artifacts/macro_figures/*.svg
+          if-no-files-found: error

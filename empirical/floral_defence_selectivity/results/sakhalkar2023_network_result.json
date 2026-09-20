@@ -1,0 +1,27 @@
+{
+  "analysis_visit_rows": 14383,
+  "behavior_counts": {"robbing": 731, "thieving": 304, "touching": 13348},
+  "guardrail": "Species-level aggregate reanalysis. No raw visit or species rows are emitted.",
+  "median_tube_length_robber_only": 2.0892833335,
+  "median_tube_length_thief_only": 0.6766,
+  "raw_cheater_rows": 18440,
+  "species_with_any_cheating_and_tube_length": 57,
+  "species_with_robbing": 26,
+  "species_with_thieving": 39,
+  "trait_matched_species": 182,
+  "tube_length_cheating_mode_balance": {
+    "definition": "(robbing_frequency-thieving_frequency)/(robbing_frequency+thieving_frequency)",
+    "n_species": 57,
+    "permutation_p_two_sided": 0.0086,
+    "permutations": 9999,
+    "seed": 20260919,
+    "spearman_rho": 0.3467862681178467
+  },
+  "visited_species": 183,
+  "provenance": {
+    "workflow_run": 35365789840,
+    "head_sha": "5341c69409298e1f41a1198c35390b9c6b7595ee",
+    "source_doi": "10.1002/ecs2.4696",
+    "data_doi": "10.5281/zenodo.8398202"
+  }
+}
