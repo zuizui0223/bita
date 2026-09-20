@@ -6,6 +6,8 @@ BITA's **primary submission paper** is now the Ecology Letters Letter:
 
 The broader floral-defence selectivity Synthesis remains preserved as the extended BITA evidence package and fallback manuscript architecture.
 
+The mechanism-identification result `trait interaction != ecological mechanism` remains a BITA support principle: observational routing patterns are not promoted beyond the mechanisms and causal contrasts the data actually identify.
+
 ## Current submission thesis
 
 > **Access constraints can reorganize ecological interactions by shifting exploitation from legitimate access toward bypass routes rather than simply eliminating use.**
