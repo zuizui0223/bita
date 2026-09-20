@@ -1,10 +1,10 @@
-# Access constraints reroute floral exploitation across insect and bird visitor networks
+# Access constraints reroute floral exploitation across bird and insect visitor networks
 
 **Ecology Letters Letter candidate v0**
 
 ## Abstract
 
-Traits that restrict antagonists may not eliminate exploitation if consumers can switch to alternative access routes. We derive a general access-routing prediction: increasing mismatch with the legitimate floral access route should increase bypass exploitation. We test this prediction in two independently assembled visitor networks. In an Afrotropical insect–flower network, floral tube length was associated with a shift from nectar thieving toward robbing among 57 plant species (Spearman \(\rho=0.347\), permutation \(p=0.0086\)). In an Ecuadorian bird–flower network, site-adjusted tube–bill mismatch was associated with robbery across 1,378 bird × plant × site units (\(\rho=0.351\), within-site permutation \(p=0.0001\)). An equal-network joint test gave \(\rho_J=0.349\) and \(p=0.0001\). Comparative floral-defence evidence independently shows that access and exposure states, rather than defence class alone, organize mutualist–antagonist outcomes. Access constraints can therefore reroute exploitation rather than simply prevent it.
+Access constraints may reroute exploitation rather than eliminate it. We test this prediction primarily in an all-Ecuador bird–flower network and then ask whether a smaller independent insect network recovers the same direction. Across 1,378 bird × plant × site units, robbery was higher when flower tubes exceeded bird bills (0.307 versus 0.081); site-adjusted tube–bill mismatch correlated with robbery (\(\rho=0.351\), within-site permutation \(p=0.0001\)), with the same direction in 15 of 17 comparable sites. In an Afrotropical insect network, floral tube length was associated with a shift from thieving toward robbing among 57 plant species (\(\rho=0.347\), \(p=0.0086\)), although multitrait sensitivity did not isolate tube length uniquely. An equal-network joint test gave \(\rho_J=0.349\), \(p=0.0001\). Thus access constraints can reorganize interaction routes, while \(k=2\) limits claims about broader network generality.
 
 ## Introduction
 
@@ -18,9 +18,9 @@ This yields a simple prediction that is more general than any one floral defence
 
 > **As mismatch with the legitimate access route increases, exploitation should shift toward bypass routes rather than merely decline.**
 
-Existing floral studies support pieces of this logic, but the prediction has not been tested as a common standardized association across independently assembled visitor networks with different faunas. We therefore reanalyse two public datasets that encode distinct forms of floral cheating. The first is an Afrotropical insect–flower network in which nectar robbing and nectar thieving can be contrasted across plant species (Sakhalkar et al. 2023). The second is an Ecuadorian bird–flower network in which floral tube length can be compared with visitor bill length to define an access mismatch related to nectar robbing (Aubert et al. 2026; EPHI public data).
+Existing floral studies support pieces of this logic, but the prediction has not been tested as a common standardized association across independently assembled visitor networks with different faunas. We therefore use the all-Ecuador EPHI bird–flower network as the primary quantitative test because it contains 1,378 trait-matched bird × plant × site units across 18 sites and supports both binary barrier and continuous mismatch contrasts (Aubert et al. 2026; EPHI public data). We then use the smaller Afrotropical insect–flower network of Sakhalkar et al. (2023) as an independent corroborative test on a different cheating contrast: robbing versus thieving among plant species.
 
-Our analysis has two levels. We first test the routing prediction within each network using its native biological scale. We then define one standardized rank association per network and combine them with equal network weight in a predeclared permutation test. This prevents the much larger bird dataset from dominating the smaller insect dataset by observation count alone. Finally, we ask whether the network result is mechanistically consistent with an independent source-audited corpus of floral-defence systems in which access/exposure architecture and pollinator consequences have been classified without pooling heterogeneous outcome scales.
+Our analysis has two levels. We first test the routing prediction within the Ecuadorian network and ask whether the independent insect network recovers the same directional association on its native biological scale. We then define one standardized rank association per network and combine them with equal network weight in a predeclared permutation test. This prevents the much larger bird dataset from dominating the smaller insect dataset by observation count alone. Source-audited floral-defence cases are used only as mechanistic context for the access/exposure interpretation, not as an independent validation dataset.
 
 ## Theory and predictions
 
@@ -50,32 +50,15 @@ The network test focuses only on the route-switching consequence. It does not re
 
 We test three predictions.
 
-**P1. Insect route switching.** Across plant species, stronger floral access constraint should be associated with a shift from nectar thieving through the floral opening toward nectar robbing by bypass.
+**P1. Bird access barriers.** Across bird–plant interactions, flowers whose tubes exceed visitor bill length should experience greater robbery, and continuous tube–bill mismatch should be positively associated with robbery rate.
 
-**P2. Bird access barriers.** Across bird–plant interactions, flowers whose tubes exceed visitor bill length should experience greater robbery, and continuous tube–bill mismatch should be positively associated with robbery rate.
+**P2. Insect route switching.** Across plant species, stronger floral access constraint should be associated with a shift from nectar thieving through the floral opening toward nectar robbing by bypass.
 
 **P3. Cross-network recurrence.** After converting each network to a rank-based association between access constraint and bypass propensity, the two network effects should be positive and their equal-network joint statistic should exceed a null generated by network-appropriate permutations.
 
 ## Methods
 
-### Afrotropical insect network
-
-We reanalysed the public dataset of Sakhalkar et al. (2023), which records flower visitors, cheating behavior and floral traits in Afrotropical forests. The current Zenodo workbook contains 18,440 visitation rows. Following the source analysis, rows coded as generic visiting behavior were excluded, leaving 14,383 analysed rows in the deposited file. This is eight fewer than the 14,391 visits reported in the publication summary; we use the deposited data as currently available rather than forcing equality.
-
-Visit frequencies were aggregated to plant species before inference. For each species with tube-length data and at least one robbing or thieving interaction, we calculated
-
-\[
-B_i=
-\frac{R_i-T_i}{R_i+T_i},
-\]
-
-where \(R_i\) is robbing frequency and \(T_i\) thieving frequency. Thus \(B_i=1\) denotes robbery only and \(B_i=-1\) thieving only. Fifty-seven plant species met these criteria.
-
-We tested the association between floral tube length and \(B_i\) with Spearman rank correlation and a fixed-seed two-sided permutation test using 9,999 permutations. Plant species were the inferential units; individual visits were not treated as independent replicates.
-
-Because tube length can covary with other floral traits, we also retained the source paper's parsimonious robber predictor set—tube length, tube width and flower shape—in a robustness analysis. This sensitivity is used only to set the claim ceiling on tube length as an independent predictor.
-
-### Ecuadorian bird–flower network
+### Primary Ecuadorian bird–flower test
 
 Aubert et al. (2026) analysed nectar robbing as a consequence of trait mismatch between flowers and avian visitors. Anonymous file-byte retrieval from the paper's Dryad archive was blocked in our CI environment, but the broader Ecuador EPHI dataset is publicly mirrored on Zenodo. We therefore conduct an independent all-Ecuador extension rather than an exact replication of the source three-transect mixed-effects model.
 
@@ -92,6 +75,23 @@ where \(T\) is flower tube length and \(B\) mean bird culmen length. Positive \(
 Individual interactions were aggregated to bird species × plant species × site units. After trait matching, 1,378 pair-site units remained across 18 sites. We calculated robbery rate within each unit.
 
 The primary native-scale analyses were (i) the difference in mean robbery rate between barrier and accessible pair-sites and (ii) the Spearman association between continuous mismatch and robbery rate. Permutation tests used 9,999 iterations. We also compared barrier and accessible states within sites and repeated the analysis after requiring at least two or at least five resolved interactions per pair-site unit.
+
+### Independent Afrotropical insect corroboration
+
+We reanalysed the public dataset of Sakhalkar et al. (2023), which records flower visitors, cheating behavior and floral traits in Afrotropical forests. The current Zenodo workbook contains 18,440 visitation rows. Following the source analysis, rows coded as generic visiting behavior were excluded, leaving 14,383 analysed rows in the deposited file. This is eight fewer than the 14,391 visits reported in the publication summary; we use the deposited data as currently available rather than forcing equality.
+
+Visit frequencies were aggregated to plant species before inference. For each species with tube-length data and at least one robbing or thieving interaction, we calculated
+
+\[
+B_i=
+\frac{R_i-T_i}{R_i+T_i},
+\]
+
+where \(R_i\) is robbing frequency and \(T_i\) thieving frequency. Thus \(B_i=1\) denotes robbery only and \(B_i=-1\) thieving only. Fifty-seven plant species met these criteria.
+
+We tested the association between floral tube length and \(B_i\) with Spearman rank correlation and a fixed-seed two-sided permutation test using 9,999 permutations. Plant species were the inferential units; individual visits were not treated as independent replicates.
+
+Because tube length can covary with other floral traits, we also retained the source paper's parsimonious robber predictor set—tube length, tube width and flower shape—in a robustness analysis. This sensitivity is used only to set the claim ceiling on tube length as an independent predictor.
 
 ### Joint cross-network test
 
@@ -130,21 +130,7 @@ The broad defence-side corpus contains 17 unique study programs spanning chemica
 
 ## Results
 
-### Access constraints predict bypass routing in insects
-
-Among the 57 Sakhalkar plant species, tube length was positively associated with robbing–thieving balance,
-
-\[
-\rho=0.3468,
-\qquad
-p_{\mathrm{perm}}=0.0086.
-\]
-
-Thus longer flowers were associated with relatively greater use of robbery rather than thieving through the floral opening. Robber-only species had a median tube length of 2.089 on the deposited trait scale, compared with 0.677 for thief-only species.
-
-The source-defined multitrait sensitivity did not isolate tube length as a unique partial predictor after accounting for tube width and a 12-level flower-shape factor (full-model permutation \(p=0.202\); tube-length block \(p=0.211\)). We therefore interpret the insect result as an association with access geometry rather than as evidence that tube length alone is causal.
-
-### Access mismatch predicts robbery in birds
+### Primary Ecuadorian test: access mismatch predicts robbery
 
 The Ecuadorian network showed the same routing direction. Mean robbery rate was 0.307 when flower tubes exceeded bird bills and 0.081 when they did not, a difference of +0.226 (\(p_{\mathrm{perm}}=0.0001\)).
 
@@ -159,6 +145,20 @@ p_{\mathrm{perm}}=0.0001.
 The pattern was not generated solely by among-site composition. Seventeen sites contained both barrier and accessible pair-sites; 15 showed higher robbery under the barrier state. The mean within-site difference was +0.144, the two-sided sign-test \(p=0.00235\), and the site-stratified permutation \(p=0.0001\).
 
 The result also persisted when sparsely observed pair-site units were removed. Requiring at least five interactions left 702 units, with mean robbery rates of 0.320 under barriers and 0.0556 when accessible; mismatch and robbery remained positively associated (\(\rho=0.505\), permutation \(p=0.0001\)). At the cross-network level, the equal-network joint effect also persisted under this filter (\(r_J=0.385\), permutation \(p=0.0001\)).
+
+### Independent insect corroboration recovers the same routing direction
+
+Among the 57 Sakhalkar plant species, tube length was positively associated with robbing–thieving balance,
+
+\[
+\rho=0.3468,
+\qquad
+p_{\mathrm{perm}}=0.0086.
+\]
+
+Thus longer flowers were associated with relatively greater use of robbery rather than thieving through the floral opening. Robber-only species had a median tube length of 2.089 on the deposited trait scale, compared with 0.677 for thief-only species.
+
+The source-defined multitrait sensitivity did not isolate tube length as a unique partial predictor after accounting for tube width and a 12-level flower-shape factor (full-model permutation \(p=0.202\); tube-length block \(p=0.211\)). We therefore interpret the insect result as an association with access geometry rather than as evidence that tube length alone is causal.
 
 ### One standardized routing effect recurs across networks
 
@@ -192,13 +192,13 @@ Both observed network effects were positive. Under the joint permutation null, t
 
 Thus the strongest empirical result is not merely that each source dataset contains an access association. A common standardized prediction is recovered at nearly the same rank-effect magnitude in an insect network and a bird network.
 
-### Independent floral-defence evidence supports a relational mechanism
+### Floral-defence cases provide mechanistic context, not independent validation
 
-The broader defence-side corpus contains 17 unique study programs: nine chemical, seven physical and one reward/access implementation. Ten studies also measured pollinator consequences under the same focal defence. Those outcomes were heterogeneous—four context-dependent, three null-compatible, one improved, one interference and one unresolved—rather than showing a fixed pollinator penalty.
+The broader defence-side corpus contains 17 unique study programs: nine chemical, seven physical and one reward/access implementation. Ten studies also measured pollinator consequences under the same focal defence, and those outcomes were heterogeneous rather than showing one fixed pollinator penalty. Eight independent systems additionally show within-trait state changes with dose, cumulative exposure, consumer identity, response stage or timing.
 
-In the stricter matched-system layer, all 11 currently scorable historical plus systematic-expansion systems fall into the fixed effective-domain state mapping: separated domains show no observed pollinator interference, transitional domains show mixed responses, and the overlapped state shows impairment. These alignments are descriptive rather than confirmatory because historical systems contributed to theory formation. Eight independent systems additionally show within-trait state changes with dose, cumulative exposure, consumer identity, response stage or timing.
+The matched effective-domain classifications are author-coded from source descriptions, and historical systems contributed to development of the framework. They have not yet undergone outcome-blinded independent recoding. We therefore do not use the matched-domain layer as an independent validation dataset, report no inter-rater agreement statistic, and do not make an 11/11 success-rate argument in this Letter.
 
-Together these systems support the interpretation that floral defence selectivity is a relational state of trait × consumer × context, while the two-network analysis supplies the independent quantitative test of its routing consequence.
+These cases motivate the access/exposure mechanism and its experimental predictions. The quantitative inferential contribution of the Letter is the Ecuadorian network test, the independent insect corroboration, and their equal-network joint statistic.
 
 ## Discussion
 
@@ -212,7 +212,7 @@ The same logic should apply beyond nectar robbing. Any ecological system with a 
 
 ### A relational view clarifies floral defence selectivity
 
-The source-audited defence corpus helps explain why broad labels such as chemical versus physical defence are insufficient. The same nominal defence can be selective at one exposure and interfering at another, and physically similar structures can affect consumers differently depending on body size, timing or attack route.
+The source-audited defence corpus is used here only as mechanistic context, not as a validation dataset. It helps explain why broad labels such as chemical versus physical defence are insufficient: the same nominal defence can be selective at one exposure and interfering at another, and physically similar structures can affect consumers differently depending on body size, timing or attack route.
 
 In the effective-exposure view, a defence is selective when antagonists cross their response threshold before legitimate visitors do. Bypass is a limiting case: if antagonists stop traversing the defended domain, effective exposure to the focal defence falls even as exploitation persists. The network result provides a community-scale manifestation of that boundary condition.
 
@@ -226,7 +226,7 @@ The joint statistic contains only \(k=2\) independent network-level contribution
 
 The result remains observational. Floral tube length was not randomly assigned, and correlated morphology prevents a unique tube-length claim in the insect network. The Ecuador analysis is an all-site extension using the public EPHI mirror, not an exact reconstruction of Aubert et al.'s three-transect mixed model. Our claim is consequently about a recurrent rank-based routing association, not a universal causal coefficient.
 
-The matched floral-defence evidence is similarly supportive rather than independently confirmatory in every case. Historical systems contributed to the development of the effective-domain framing, null-compatible outcomes are not equivalence tests, and the strict direction-supported matched subset remains small. These limitations are precisely why the cross-network analysis is the primary inferential contribution of the Letter.
+The matched floral-defence material is mechanistic context rather than independent validation. Historical systems contributed to development of the effective-domain framing, the domain coding has not yet been outcome-blind independently replicated, null-compatible outcomes are not equivalence tests, and the strict direction-supported matched subset remains small. These limitations are precisely why the network analyses—not the matched-domain alignment—carry the inferential contribution of the Letter.
 
 ### Predictions
 
@@ -242,7 +242,7 @@ Finally, defence experiments should measure pollinator response and antagonist r
 
 ## Conclusion
 
-Across independently assembled insect and bird visitor networks, stronger constraint on the legitimate floral access route is associated with greater bypass exploitation. A joint equal-network rank test yields a common effect of \(r_J=0.349\) with permutation \(p=0.0001\), while independent floral-defence evidence shows that mutualist and antagonist consequences depend on access, exposure and context rather than defence class alone.
+Across an all-Ecuador bird–flower network and an independent Afrotropical insect network, stronger constraint on the legitimate floral access route is associated with greater bypass exploitation. A joint equal-network rank test yields \(r_J=0.349\) with permutation \(p=0.0001\). Source-audited floral-defence cases provide mechanistic context for access and exposure dependence rather than an independent validation claim.
 
 The ecological implication is simple: **barriers do not only filter interactions; they can reroute them.** Treating access architecture as a determinant of interaction mode provides a general, testable way to connect floral defence, cheating behavior and mutualist–antagonist trade-offs without assuming that one trait has one fixed ecological effect.
 
