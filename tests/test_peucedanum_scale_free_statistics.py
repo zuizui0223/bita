@@ -8,6 +8,8 @@ from scripts import analyze_peucedanum_causal_selection as stage_a
 from scripts import analyze_peucedanum_stage_b_fitness as stage_b_fitness
 from scripts import evaluate_peucedanum_stage_b_manipulation as stage_b_validation
 from trait_architecture.scale_free_stats import (
+    hedges_g,
+    pooled_sample_sd,
     population_sd,
     relative_range,
     sample_sd,
@@ -59,6 +61,24 @@ def test_standardized_mean_difference_is_unit_invariant_in_both_peucedanum_route
         ]
         assert stage_a._smd(rows, "x") == pytest.approx(1.0, rel=2e-15)
 
+
+def test_pooled_sd_uses_sample_size_weights_and_hedges_is_explicit() -> None:
+    first = [0.0, 2.0]
+    second = [2.0, 4.0, 6.0, 8.0]
+
+    s1 = sample_sd(first)
+    s2 = sample_sd(second)
+    df = len(first) + len(second) - 2
+    expected_pooled = math.sqrt(
+        ((len(first) - 1) * s1 * s1 + (len(second) - 1) * s2 * s2) / df
+    )
+    expected_d = (sum(second) / len(second) - sum(first) / len(first)) / expected_pooled
+    expected_g = (1.0 - 3.0 / (4.0 * df - 1.0)) * expected_d
+
+    assert pooled_sample_sd(first, second) == pytest.approx(expected_pooled)
+    assert standardized_mean_difference(first, second) == pytest.approx(expected_d)
+    assert hedges_g(first, second) == pytest.approx(expected_g)
+    assert abs(hedges_g(first, second)) < abs(standardized_mean_difference(first, second))
 
 def test_exactly_constant_inputs_keep_fail_closed_degeneracy_semantics():
     with pytest.raises(ValueError, match="constant variable"):
