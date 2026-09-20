@@ -32,6 +32,17 @@ PACKAGE_QA_RECEIPT.txt
 
 The receipt, not a hard-coded historical page count, is the source of truth for the current Main/Appendix page counts, source commit and embedded-figure count.
 
+## Historical quantitative provenance retained
+
+Leal et al. 2025 provenance remains pinned to immutable commit
+`ed33b25593c0d90ad6657753f6f5501d9efc7b82`. The antagonist-relief gate was
+pre-registered at `0e36eac` and completed at `965d657`; its source synthesis is
+`doi:10.1002/ecy.70036`.
+
+These route-level quantitative results remain reproducible supporting evidence.
+They constrain constituent pathways but **do not validate the identification framework**
+and do not replace the current macro floral-defence selectivity paper.
+
 ## 2. Scientific core
 
 The active inference sequence is:
