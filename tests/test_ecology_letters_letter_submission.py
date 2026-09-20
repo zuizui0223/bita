@@ -9,6 +9,7 @@ LETTER = ROOT / "manuscript" / "MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md"
 TITLE_PAGE = ROOT / "submission" / "ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md"
 COVER = ROOT / "submission" / "ECOLOGY_LETTERS_LETTER_COVER_V0.md"
 ARCHIVE_README = ROOT / "submission" / "access_routing_archive" / "README.md"
+DEPOSIT_CHECKLIST = ROOT / "submission" / "access_routing_archive" / "DEPOSIT_CHECKLIST_V1.md"
 
 
 def _words(text: str) -> list[str]:
@@ -86,3 +87,21 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
 
     assert (ROOT / "scripts" / "export_access_routing_archive.py").exists()
     assert (ROOT / "scripts" / "reproduce_access_routing_archive.py").exists()
+
+
+def test_archive_has_one_file_deposit_contract() -> None:
+    readme = ARCHIVE_README.read_text(encoding="utf-8")
+    checklist = DEPOSIT_CHECKLIST.read_text(encoding="utf-8")
+
+    for token in (
+        "access-routing-letter-data-code-v1.zip",
+        "access-routing-letter-data-code-v1.sha256",
+        "FILE_SHA256SUMS.txt",
+        "DEPOSIT_CHECKLIST_V1.md",
+    ):
+        assert token in readme
+
+    assert "exact submission commit" in checklist
+    assert "10.5281/zenodo.8398202" in checklist
+    assert "10.5281/zenodo.14185547" in checklist
+    assert "Do not submit while any of these remain" in checklist

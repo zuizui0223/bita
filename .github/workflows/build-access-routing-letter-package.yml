@@ -175,6 +175,7 @@ jobs:
 
           cp submission/access_routing_archive/README.md artifacts/letter/data_archive/
           cp submission/access_routing_archive/ZENODO_METADATA_TEMPLATE.md artifacts/letter/data_archive/
+          cp submission/access_routing_archive/DEPOSIT_CHECKLIST_V1.md artifacts/letter/data_archive/
 
           mkdir -p artifacts/letter/data_archive/code/scripts
           mkdir -p artifacts/letter/data_archive/code/trait_architecture
@@ -195,6 +196,26 @@ jobs:
           cp empirical/floral_defence_selectivity/results/joint_access_routing.json artifacts/letter/data_archive/frozen_outputs/
 
           printf '%s\n' "$GITHUB_SHA" > artifacts/letter/data_archive/REPOSITORY_COMMIT.txt
+
+      - name: Build deposit-ready archive and checksums
+        run: |
+          (
+            cd artifacts/letter/data_archive
+            find . -type f ! -name 'FILE_SHA256SUMS.txt' -print0 \
+              | sort -z \
+              | xargs -0 sha256sum > FILE_SHA256SUMS.txt
+          )
+
+          (
+            cd artifacts/letter
+            zip -qr access-routing-letter-data-code-v1.zip data_archive
+            sha256sum access-routing-letter-data-code-v1.zip \
+              > access-routing-letter-data-code-v1.sha256
+          )
+
+          test -s artifacts/letter/access-routing-letter-data-code-v1.zip
+          test -s artifacts/letter/access-routing-letter-data-code-v1.sha256
+          test -s artifacts/letter/data_archive/FILE_SHA256SUMS.txt
 
       - name: Build submission-facing DOCX
         run: |
@@ -265,7 +286,11 @@ jobs:
               "data_archive/archive_reproduction.json",
               "data_archive/README.md",
               "data_archive/ZENODO_METADATA_TEMPLATE.md",
+              "data_archive/DEPOSIT_CHECKLIST_V1.md",
               "data_archive/REPOSITORY_COMMIT.txt",
+              "data_archive/FILE_SHA256SUMS.txt",
+              "access-routing-letter-data-code-v1.zip",
+              "access-routing-letter-data-code-v1.sha256",
           ]
           missing = [name for name in required if not (root / name).exists()]
           if missing:

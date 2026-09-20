@@ -43,6 +43,17 @@ This command uses only the deposited analysis tables and deposited code; it does
 
 The workflow verifies that the regenerated headline values agree with the committed frozen results.
 
+## Deposit-ready package
+
+The CI workflow additionally creates one upload-ready archive:
+
+~~~text
+access-routing-letter-data-code-v1.zip
+access-routing-letter-data-code-v1.sha256
+~~~
+
+The ZIP contains the complete `data_archive/` directory. Internal file checksums are stored in `FILE_SHA256SUMS.txt`. Use `DEPOSIT_CHECKLIST_V1.md` for the final DOI-deposit sequence.
+
 ## DOI gate
 
 ~~~text
