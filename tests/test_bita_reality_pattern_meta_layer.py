@@ -113,10 +113,11 @@ def test_three_paper_concordance_preserves_current_ownership_and_literature_firs
     assert "strict mechanism-allocation lane remains empty" in text
 
 
-def test_macro_publication_status_preserves_identification_claim_ceiling() -> None:
+def test_letter_publication_status_preserves_identification_claim_ceiling() -> None:
     status = STATUS.read_text(encoding="utf-8")
     protocol = PROTOCOL.read_text(encoding="utf-8")
-    assert "FLORAL_DEFENCE_SELECTIVITY_MACRO" in status
+    assert "ACCESS_ROUTING_LETTER" in status
+    assert "EXTENDED_SYNTHESIS = PRESERVED_RESERVE" in status
     assert "PRESERVED_SUPPORT" in status
     assert "Trait interaction is not ecological mechanism" in status
     assert "56 directional route records from 25 independent biological clusters" in protocol

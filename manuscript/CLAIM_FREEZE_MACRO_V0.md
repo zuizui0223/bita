@@ -436,7 +436,7 @@ Promotion is complete as of 2026-09-20. The gates that previously controlled pro
 4. the targeted-search stopping rule is documented;
 5. focused references and four main figures are present;
 6. the macro manuscript is the primary forward BITA paper;
-7. the first editorial route is Ecology Letters Synthesis proposal, with Functional Ecology as the prepared fallback.
+7. the macro Synthesis is preserved as an extended reserve; the current first editorial route is the Ecology Letters access-routing Letter.
 
 Promotion does not relax any claim ceiling in this document.
 

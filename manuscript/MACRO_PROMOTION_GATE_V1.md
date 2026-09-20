@@ -138,22 +138,20 @@ Final style normalization remains journal-dependent, not a science blocker.
 
 Status: **PASS FOR EDITORIAL TEST**
 
-Current route:
+Current route after editorial review:
 
 ~~~text
-1. Ecology Letters — Synthesis proposal
+1. Ecology Letters — Letter
 2. Functional Ecology — Research Article fallback
 3. Oikos — Research fallback
-4. New Phytologist — presubmission only
+4. extended Synthesis retained in reserve
 ~~~
 
-Ecology Letters proposal is already drafted:
+Primary Letter:
 
-`submission/ECOLOGY_LETTERS_SYNTHESIS_PROPOSAL_V0.md`
+`manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md`
 
-Functional Ecology adaptation is already drafted:
-
-`submission/FUNCTIONAL_ECOLOGY_ADAPTATION_V0.md`
+The Synthesis proposal and Functional Ecology adaptation remain preserved as reserve materials.
 
 ## Gate 10 — current branch verification
 
@@ -176,18 +174,16 @@ This promotion-gate refresh changes documentation only; the verified scientific/
 Editorial decision recorded on 2026-09-20:
 
 ~~~text
-PRIMARY_BITA_CANDIDATE = FLORAL_DEFENCE_SELECTIVITY_MACRO
+PRIMARY_BITA_CANDIDATE = ACCESS_ROUTING_LETTER
 READY_FOR_REVIEW = YES
-READY_FOR_EDITORIAL_PROPOSAL = YES
+READY_FOR_LETTER_SUBMISSION = YES
 OLD_CANONICAL_MECHANISM_MANUSCRIPT = PRESERVED_PROVENANCE
 MAIN_BRANCH_REPLACEMENT = NOT YET MERGED
 EXTERNAL_SUBMISSION = NOT YET SENT
 ~~~
 
-The macro candidate is now the **primary forward BITA paper**. The previous mechanism-identification manuscript remains preserved and continues to supply claim discipline, partial-identification logic, and provenance, but it is no longer the preferred next-paper storyline.
+The macro candidate was successfully promoted and remains the extended BITA evidence package. A later editorial review identified a narrower, stronger submission spine: the access-routing Letter. The previous mechanism-identification manuscript remains preserved as provenance and inference discipline.
 
-The next repository action is packaging/promotion rather than additional broad evidence harvesting. The next external action, once author-controlled submission details are approved, is the Ecology Letters Synthesis proposal.
-
-Do not merge over the old canonical source merely to express this editorial decision; canonical replacement should occur only through the reviewed promotion PR.
+Current first external action, once author-controlled submission details are approved, is the Ecology Letters Letter. The Synthesis remains a reserve rather than being deleted or scientifically retracted.
 
 

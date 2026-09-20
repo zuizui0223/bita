@@ -4,7 +4,7 @@ Candidate source:
 
 manuscript/MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md
 
-This adaptation is held in reserve while the Ecology Letters Synthesis proposal is the first editorial test.
+This adaptation is held in reserve as a full-paper fallback if the Ecology Letters Letter is not pursued or is declined.
 
 ## Numbered abstract draft
 

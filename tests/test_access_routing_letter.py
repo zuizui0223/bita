@@ -50,6 +50,25 @@ def test_letter_keeps_causal_and_replication_boundaries() -> None:
     assert "generality beyond the two network systems" in text
 
 
+def test_letter_weights_ecuador_primary_and_insects_as_corroboration() -> None:
+    text = LETTER.read_text(encoding="utf-8")
+    abstract = text.split("## Abstract", 1)[1].split("## Introduction", 1)[0]
+    assert "primarily in an all-Ecuador bird–flower network" in abstract
+    assert "smaller independent insect network" in abstract
+    assert abstract.index("1,378 bird × plant × site units") < abstract.index("57 plant species")
+
+    assert "### Primary Ecuadorian test" in text
+    assert "### Independent insect corroboration" in text
+    assert text.index("### Primary Ecuadorian test") < text.index("### Independent insect corroboration")
+
+
+def test_letter_demotes_matched_domain_corpus_to_mechanistic_context() -> None:
+    text = LETTER.read_text(encoding="utf-8").lower()
+    assert "mechanistic context, not independent validation" in text
+    assert "have not yet undergone outcome-blinded independent recoding" in text
+    assert "do not make an 11/11 success-rate argument" in text
+    assert "network analyses—not the matched-domain alignment—carry the inferential contribution" in text
+
 def test_letter_has_no_internal_repo_program_names() -> None:
     text = LETTER.read_text(encoding="utf-8")
     # "SCH" can occur legitimately as an author initial (e.g. Barrett SCH).

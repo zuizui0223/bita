@@ -19,10 +19,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Confirm macro paper is current while mechanism package is preserved
+      - name: Confirm Letter is current while synthesis and mechanism packages are preserved
         run: |
-          grep -q 'PRIMARY_FORWARD_PAPER = MACRO_FLORAL_DEFENCE_SELECTIVITY' docs/SUBMISSION_SCOPE.md
+          grep -q 'PRIMARY_FORWARD_PAPER = ACCESS_ROUTING_LETTER' docs/SUBMISSION_SCOPE.md
           grep -q 'Ecology Letters' docs/SUBMISSION_SCOPE.md
+          test -f manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md
           test -f manuscript/MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md
           test -f manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md
 
@@ -34,5 +35,5 @@ jobs:
 
       - name: Record routing decision
         run: |
-          echo 'Macro floral-defence selectivity is the primary forward BITA paper.'
+          echo 'Access-routing Letter is the primary forward BITA submission; the macro Synthesis is preserved in reserve.'
           echo 'Mechanism-identification package remains preserved as legacy/supporting inference.'

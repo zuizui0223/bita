@@ -26,14 +26,14 @@ def _keywords(text: str) -> list[str]:
     return [item.strip() for item in line.removeprefix("**Keywords:**").strip().split(";") if item.strip()]
 
 
-def test_old_ecology_mechanism_package_remains_preserved_but_macro_is_forward_route() -> None:
+def test_old_ecology_mechanism_package_remains_preserved_but_letter_is_forward_route() -> None:
     portal = PORTAL.read_text(encoding="utf-8")
     strategy = STRATEGY.read_text(encoding="utf-8")
     status = (ROOT / "docs" / "PUBLICATION_STATUS.md").read_text(encoding="utf-8")
     assert "Concepts & Synthesis" in portal
     assert "Ecology" in strategy
-    assert "FLORAL_DEFENCE_SELECTIVITY_MACRO" in status
-    assert "Ecology Letters" in status
+    assert "ACCESS_ROUTING_LETTER" in status
+    assert "EXTENDED_SYNTHESIS = PRESERVED_RESERVE" in status
     assert "PRESERVED_SUPPORT" in status
 
 

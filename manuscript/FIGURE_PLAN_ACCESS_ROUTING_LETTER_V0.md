@@ -46,9 +46,9 @@ Show bypass as the boundary where the antagonist stops traversing the defended d
 ### Panel C — test architecture
 
 ~~~text
-independent insect network
+primary bird network
         +
-independent bird network
+independent insect corroboration
         ↓
 equal-network rank synthesis
 ~~~
@@ -63,24 +63,7 @@ Main message:
 
 Use the existing two-network public-data figure as the base.
 
-### Panel A — Sakhalkar insects
-
-Plant species:
-
-~~~text
-n = 57
-tube length vs robbing–thieving balance
-rho = 0.347
-permutation p = 0.0086
-~~~
-
-Keep the multitrait claim ceiling visible:
-
-~~~text
-tube-length partial block p = 0.211
-~~~
-
-### Panel B — Aubert / EPHI birds
+### Panel A — Aubert / EPHI birds: primary test
 
 ~~~text
 n = 1,378 bird × plant × site units
@@ -90,7 +73,7 @@ difference = +0.226
 permutation p = 0.0001
 ~~~
 
-### Panel C — site robustness
+### Panel B — site robustness
 
 ~~~text
 17 comparable sites
@@ -114,11 +97,11 @@ Purpose: make the new Letter contribution visually unmistakable.
 Show three aligned estimates:
 
 ~~~text
-Sakhalkar insects:
-  rho = 0.3468
-
-Aubert/EPHI birds:
+Aubert/EPHI birds — primary:
   site-adjusted rho = 0.3505
+
+Sakhalkar insects — corroborative:
+  rho = 0.3468
 
 equal-network Fisher-z joint:
   rho_J = 0.3487
@@ -142,21 +125,22 @@ joint:
   equal network weight
 ~~~
 
-### Panel C — mechanistic corroboration
+### Panel C — mechanistic context
 
-Use only compact supporting numbers:
+Use only compact supporting information:
 
 ~~~text
 17 D-side study programs
-11 / 11 scorable effective-domain states aligned
+10 same-defence pollinator follow-ups
 8 independent within-D switching systems
+matched-domain classifications = author-coded context, not validation
 ~~~
 
-These support interpretation but are not the primary Letter test.
+Do not display 11/11 as a success fraction. The matched-domain layer has not yet undergone outcome-blind independent recoding and is not an inferential pillar of the Letter.
 
 Main message:
 
-> a common standardized routing association recurs across independent networks, while source-audited defence evidence supplies the mechanism context.
+> the Ecuadorian network supplies the primary quantitative test, the insect network independently corroborates the routing direction, and source-audited defence cases supply mechanism context.
 
 ## Supplementary figure routing
 

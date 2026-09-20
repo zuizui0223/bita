@@ -1,145 +1,128 @@
-# Submission scope — BITA floral-defence selectivity macro paper
+# Submission scope — BITA access-routing Letter
 
-Primary forward route: **Ecology Letters — Synthesis proposal**.
+Primary forward route: **Ecology Letters — Letter**.
 
-Fallback full-submission route: **Functional Ecology — Research Article**.
+Primary manuscript:
+
+`manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md`
 
 ## Canonical question
 
-> **When can a flower-associated trait restrict antagonists without imposing the same cost on mutualists, and when does restriction instead reroute exploitation?**
+> **When legitimate access becomes more constrained, does exploitation simply decline, or does it reroute toward bypass?**
 
-## 1. Active theory
-
-For focal defence/access intensity `x`,
+## 1. Primary prediction
 
 ```text
-z_H = q_H x
-z_P = q_P x
-
-x_H* = tau_H / q_H
-x_P* = tau_P / q_P
+access mismatch increases
+        ->
+legitimate route becomes less usable
+        ->
+if bypass remains available:
+bypass / robbing propensity increases
 ```
 
-A selective window exists when
+The prediction is ordinal and does not require one common mechanistic coefficient across taxa.
+
+## 2. Primary empirical test — Ecuador birds
 
 ```text
-x_H* < x < x_P*
+n = 1,378 bird × plant × site units
+18 Ecuador sites
+barrier robbery     = 0.30698
+accessible robbery  = 0.08139
+difference          = +0.22560
+global mismatch rho = 0.41826
+site-adjusted rho   = 0.3505
+within-site permutation p = 0.0001
+15 / 17 comparable sites in same direction
+min >= 5 interactions:
+  n = 702
+  difference = +0.264
+  rho = 0.505
+  p = 0.0001
 ```
 
-Permitted qualitative predictions:
+This is an observational all-Ecuador extension, not an exact replication of the source three-transect GLMM.
 
-- separated effective domains can widen the selective window;
-- overlap can narrow or close it;
-- bypass/tolerance can eliminate focal antagonist-reduction efficacy;
-- increasing exposure can move a system from ineffective to selective to interfering;
-- access restriction can reroute cheating toward bypass/robbing.
-
-No universal numerical `q` or `tau` values are claimed.
-
-## 2. Active empirical layers
-
-### Layer 1 — broad D-side route corpus
-
-```text
-17 unique D -> antagonism study programs
-chemical      9
-physical      7
-reward/access 1
-same-study D -> pollination follow-up 10 / 17
-```
-
-These counts describe evidence structure, not natural prevalence.
-
-### Layer 2 — matched-D state recovery
-
-```text
-historical scorable        9 / 9 aligned
-systematic expansion       2 / 2 aligned
-pooled scorable           11 / 11 aligned
-strict Stage-2 n           3
-strict Fisher p            0.333333
-```
-
-The 11/11 result is descriptive state recovery, not a prospective confirmatory success rate. Null-compatible outcomes are not equivalence-supported preservation.
-
-### Layer 3 — within-D conditionality
-
-Eight independent systems show switching with dose/expression, cumulative exposure, consumer identity, response stage, or temporal expression.
-
-### Layer 4 — community-scale routing
-
-Sakhalkar insect–flower network:
+## 3. Independent corroboration — Sakhalkar insects
 
 ```text
 n = 57 plant species
 rho = 0.346786
 permutation p = 0.0086
+full multitrait model p = 0.2016
+tube-length block p = 0.2110
 ```
 
-Aubert/EPHI Ecuador extension:
+The licensed claim is access-geometry association, not a unique causal tube-length effect.
+
+## 4. Joint network test
 
 ```text
-n = 1,378 bird x plant x site units
-barrier robbery     = 0.30698
-accessible robbery  = 0.08139
-difference          = +0.22560
-mismatch rho        = 0.41826
-permutation p       = 0.0001
-15 / 17 comparable sites in same direction
+r_A = 0.3505
+r_S = 0.3468
+equal-network Fisher-z rho_J = 0.3487
+joint permutation p = 0.0001
+independent network contributions k = 2
 ```
+
+Raw observations are never pooled. The joint test does not estimate between-network heterogeneity, a population mean across networks, or generality beyond the two systems.
 
 Both analyses are observational and are not pooled onto one effect scale.
 
-## 3. Required claim boundaries
+## 5. Mechanistic context only
+
+The broader floral-defence evidence package remains useful for interpretation:
+
+```text
+17 unique D-side study programs
+10 same-defence pollinator follow-ups
+8 independent within-D state-switch systems
+```
+
+Matched effective-domain classifications are author-coded and have not yet undergone outcome-blind independent recoding. They are therefore not treated as independent validation in the Letter, and the 11/11 state alignment is not a headline or confirmatory result.
+
+These counts describe evidence structure, not natural prevalence, and they are not pooled into one grand meta-analytic effect.
+
+## 6. Required claim boundaries
 
 Do not claim:
 
-- prevalence of selective defence from the screened corpus;
-- domain separation has a significant strict matched-D effect;
-- domain structure statistically outperforms chemical/physical modality in the strict subset;
-- null-compatible means no pollinator cost;
 - either network establishes causality;
-- tube length alone is uniquely identified in Sakhalkar;
-- Aubert/EPHI exactly replicates the published three-transect model;
-- a universal pooled selectivity effect;
-- universal empirical `q_H`, `q_P`, `tau_H`, or `tau_P`.
+- Sakhalkar uniquely identifies tube length;
+- the two networks estimate a universal effect;
+- `k=2` demonstrates network-wide generality;
+- source-audited domain coding is independently validated;
+- matched-domain alignment estimates prevalence or a confirmatory success rate;
+- the access-routing result identifies evolutionary origin of floral barriers.
 
-## 4. Preserved mechanism-identification layer
+## 7. Preserved reserve papers
 
-The previous BITA mechanism-identification framework remains active provenance and claim discipline:
+Extended Synthesis:
 
-```text
-trait interaction != ecological mechanism
-interaction detection
--> identified set
--> partial identification
--> selective intervention
--> separability
--> independent remaining-channel assay
-```
+- `manuscript/MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md`
+- `manuscript/CLAIM_FREEZE_MACRO_V0.md`
+- `submission/ECOLOGY_LETTERS_SYNTHESIS_PROPOSAL_V0.md`
+- `submission/FUNCTIONAL_ECOLOGY_ADAPTATION_V0.md`
 
-Its data products and theory are preserved, but it is no longer the primary submission identity.
+Mechanism-identification foundation:
 
-## 5. Active source graph
+The preserved inference principle remains `trait interaction != ecological mechanism`; it constrains interpretation but is not the Letter headline.
+The mechanism-identification manuscript is preserved support and is no longer the primary submission identity.
 
-- Main: `manuscript/MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md`
-- Claim freeze: `manuscript/CLAIM_FREEZE_MACRO_V0.md`
-- Promotion gate: `manuscript/MACRO_PROMOTION_GATE_V1.md`
-- Promotion readiness: `manuscript/MACRO_PROMOTION_READINESS_V1.md`
-- Source audit: `manuscript/MACRO_MANUSCRIPT_SOURCE_AUDIT_V0.md`
-- References: `manuscript/FLORAL_DEFENCE_SELECTIVITY_REFERENCES_V0.md`
-- Journal positioning: `submission/MACRO_JOURNAL_POSITIONING_V0.md`
-- Ecology Letters proposal: `submission/ECOLOGY_LETTERS_SYNTHESIS_PROPOSAL_V0.md`
-- Proposal email: `submission/ECOLOGY_LETTERS_SYNTHESIS_PROPOSAL_EMAIL_V1.md`
+- `manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md`
+- `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`
+- `manuscript/CLAIM_FREEZE.md`
 
-## 6. Current state
+## 8. Current state
 
 ```text
-PRIMARY_FORWARD_PAPER = MACRO_FLORAL_DEFENCE_SELECTIVITY
-SCIENTIFIC_ARCHITECTURE = READY
+PRIMARY_FORWARD_PAPER = ACCESS_ROUTING_LETTER
+PRIMARY_DATASET = AUBERT_EPHI_ALL_ECUADOR
+INDEPENDENT_CORROBORATION = SAKHALKAR_INSECTS
+JOINT_NETWORK_K = 2
+EXTENDED_SYNTHESIS = PRESERVED_RESERVE
 REPRODUCIBLE_ANALYSES = READY
-MAIN_FIGURES = READY
-BOUNDED_SEARCH_STOPPING_RULE = READY
-LEGACY_MECHANISM_PAPER = PRESERVED
+LETTER_PACKAGE = READY
 EXTERNAL_SUBMISSION = NOT_YET_SENT
 ```

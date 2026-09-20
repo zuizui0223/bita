@@ -1,5 +1,9 @@
 # BITA macro-ecology journal positioning v0
 
+> **EDITORIAL UPDATE — LETTER FIRST.**
+>
+> The first external submission is now `manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md` as an *Ecology Letters* Letter. The broader floral-defence selectivity Synthesis is preserved as an extended reserve manuscript. The route analysis below is retained as provenance for that reserve and does not override the current Letter-first decision.
+
 ## Current paper identity
 
 Candidate manuscript:
@@ -128,13 +132,13 @@ The biological topic is in scope, but the present manuscript is a mixed synthesi
 ## Current route decision
 
 ```text
-1. Ecology Letters Synthesis proposal
-2. if not invited -> Functional Ecology Research Article
-3. Oikos Research as next full-submission fallback
-4. New Phytologist only after positive presubmission response
+1. Ecology Letters Letter — Access constraints reroute floral exploitation
+2. Functional Ecology Research Article fallback
+3. Oikos Research fallback
+4. extended Ecology Letters Synthesis retained in reserve
 ```
 
-This ordering does not imply that the current evidence satisfies Ecology Letters' novelty threshold. The first step is deliberately a proposal because the journal requires proposal screening for unsolicited Synthesis articles and the cost of testing editorial interest is low.
+The editorial reason is structural rather than cosmetic: the Letter makes the strongest tested prediction—the access-routing association in the Ecuadorian network, independently corroborated by the insect network—the paper's central claim. The weaker matched-domain literature layer becomes mechanistic context instead of an inferential pillar.
 
 ## What not to change for journal targeting
 

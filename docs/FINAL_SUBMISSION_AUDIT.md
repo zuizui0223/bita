@@ -2,7 +2,7 @@
 
 > **STATUS — PRESERVED LEGACY MECHANISM-IDENTIFICATION PACKAGE; NOT THE CURRENT BITA SUBMISSION ROUTE.**
 >
-> This file records the pre-2026-09-20 Ecology / mechanism-identification package. The current canonical forward paper is `manuscript/MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md`, routed first through the Ecology Letters Synthesis proposal. Any words such as “active” or “canonical” below describe the historical package state and must not override `README.md`, `docs/PUBLICATION_STATUS.md`, or `docs/SUBMISSION_SCOPE.md`.
+> This file records the pre-2026-09-20 Ecology / mechanism-identification package. The current primary submission is `manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md` as an Ecology Letters Letter; the broader floral-defence selectivity Synthesis remains preserved in reserve. Any words such as “active” or “canonical” below describe the historical package state and must not override `README.md`, `docs/PUBLICATION_STATUS.md`, or `docs/SUBMISSION_SCOPE.md`.
 
 Primary target class: **Ecology — Concepts & Synthesis**
 
