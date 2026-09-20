@@ -29,7 +29,7 @@ These counts are guarded against the current manuscript source:
 ~~~text
 abstract words: 140
 main-text words: 3,087
-references: 10
+references: 12
 figures: 3
 tables: 0
 text boxes: 0
