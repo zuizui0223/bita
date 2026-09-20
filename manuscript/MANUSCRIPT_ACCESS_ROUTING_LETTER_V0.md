@@ -1,6 +1,5 @@
 # Access constraints reroute floral exploitation across bird and insect visitor networks
 
-**Ecology Letters Letter candidate v0**
 
 ## Abstract
 
@@ -60,7 +59,7 @@ We test three predictions.
 
 ### Primary Ecuadorian bird–flower test
 
-Aubert et al. (2026) analysed nectar robbing as a consequence of trait mismatch between flowers and avian visitors. Anonymous file-byte retrieval from the paper's Dryad archive was blocked in our CI environment, but the broader Ecuador EPHI dataset is publicly mirrored on Zenodo. We therefore conduct an independent all-Ecuador extension rather than an exact replication of the source three-transect mixed-effects model.
+Aubert et al. (2026) analysed nectar robbing as a consequence of trait mismatch between flowers and avian visitors. We analyse the broader all-Ecuador EPHI dataset publicly archived on Zenodo and treat this analysis as an independent extension rather than an exact replication of the source three-transect mixed-effects model.
 
 The mirror contains 54,471 interaction rows, 6,198 camera records, 4,371 plant-trait records and 10,988 hummingbird-trait records across 18 Ecuador sites. Resolved interactions were joined through camera waypoints to plant species and sites and then to floral and bird traits. Plant tube length is recorded in centimetres and culmen length in millimetres; culmen length was converted to centimetres before comparison.
 
@@ -122,11 +121,11 @@ r_J=
 
 The permutation null preserved each dataset's sampling structure. In Sakhalkar, bypass-response values were shuffled across plant species. In Aubert/EPHI, robbery-rate ranks were shuffled within site. For every permutation, both network correlations and the equal-network joint effect were recomputed. We used 9,999 permutations and a two-sided test.
 
-### Mechanistic corroboration from floral-defence systems
+### Floral-defence evidence as mechanistic context
 
-The network analysis tests route switching rather than the evolutionary origin of floral barriers. To evaluate whether its interpretation is compatible with independent floral-defence evidence, we use an existing source-adjudicated corpus assembled under a frozen same-trait evidence contract.
+The network analysis tests route switching rather than the evolutionary origin of floral barriers. To evaluate whether its interpretation is biologically consistent with the floral-defence literature, we use an existing source-adjudicated corpus assembled under a frozen same-trait evidence contract.
 
-The broad defence-side corpus contains 17 unique study programs spanning chemical, physical and reward/access implementations. A stricter matched-system layer classifies each focal defence by effective access/exposure architecture—separated, transitional, overlapped or bypass—and records pollinator outcomes separately from architecture coding. Heterogeneous endpoints are not pooled into a common effect size. We use this layer only as mechanistic corroboration and not as the primary inferential test of the Letter.
+The broad defence-side corpus contains 17 unique study programs spanning chemical, physical and reward/access implementations. A stricter matched-system layer classifies each focal defence by effective access/exposure architecture—separated, transitional, overlapped or bypass—and records pollinator outcomes separately from architecture coding. These matched classifications are author-coded and have not yet undergone outcome-blind independent recoding. Heterogeneous endpoints are not pooled into a common effect size. We therefore use this evidence only as mechanistic context, not as an independent validation dataset or as the primary inferential test of the Letter.
 
 ## Results
 
@@ -190,7 +189,7 @@ and the two-sided joint permutation test gave
 
 Both observed network effects were positive. Under the joint permutation null, the probability that both permuted effects were positive was 0.2536, close to the 0.25 expectation for two approximately symmetric directional nulls.
 
-Thus the strongest empirical result is not merely that each source dataset contains an access association. A common standardized prediction is recovered at nearly the same rank-effect magnitude in an insect network and a bird network.
+Thus the strongest empirical result is not merely that each source dataset contains an access association. The primary Ecuadorian test and independent insect corroboration recover nearly the same standardized rank-effect magnitude.
 
 ### Floral-defence cases provide mechanistic context, not independent validation
 
