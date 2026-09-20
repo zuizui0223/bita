@@ -6,11 +6,25 @@ on:
       - "manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md"
       - "manuscript/FIGURE_PLAN_ACCESS_ROUTING_LETTER_V0.md"
       - "submission/ECOLOGY_LETTERS_LETTER_COVER_V0.md"
+      - "submission/ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md"
+      - "submission/access_routing_archive/**"
+      - "scripts/export_access_routing_archive.py"
+      - "scripts/reproduce_access_routing_archive.py"
+      - "scripts/analyze_aubert2026_zenodo_extension.py"
+      - "scripts/analyze_joint_access_routing.py"
+      - "scripts/analyze_sakhalkar2023_network.py"
+      - "scripts/analyze_sakhalkar2023_trait_routing.py"
+      - "scripts/audit_sakhalkar2023_zenodo.py"
       - "scripts/build_access_routing_letter_figures_svg.py"
       - "scripts/build_sakhalkar2023_route_figure_svg.py"
+      - "trait_architecture/numerics.py"
       - "tests/test_access_routing_letter.py"
       - "tests/test_access_routing_letter_figures.py"
+      - "tests/test_ecology_letters_letter_submission.py"
       - "empirical/floral_defence_selectivity/results/joint_access_routing.json"
+      - "empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json"
+      - "empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json"
+      - "empirical/floral_defence_selectivity/results/sakhalkar2023_trait_routing.json"
       - ".github/workflows/build-access-routing-letter-package.yml"
   workflow_dispatch:
 
@@ -20,23 +34,34 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
       - name: Install package and tests
         run: python -m pip install -e '.[dev]'
+
       - name: Test Letter contracts
         run: |
-          pytest -q             tests/test_access_routing_letter.py             tests/test_access_routing_letter_figures.py
+          pytest -q \
+            tests/test_access_routing_letter.py \
+            tests/test_access_routing_letter_figures.py \
+            tests/test_ecology_letters_letter_submission.py
+
       - name: Build Letter Figures 1 and 3
         run: |
-          python scripts/build_access_routing_letter_figures_svg.py             --output-dir artifacts/letter
+          python scripts/build_access_routing_letter_figures_svg.py \
+            --output-dir artifacts/letter
+
       - name: Build Letter Figure 2 from public data
         run: |
-          python scripts/build_sakhalkar2023_route_figure_svg.py             --output artifacts/letter/FIGURE_2_TWO_NETWORK_ACCESS_ROUTING.svg
+          python scripts/build_sakhalkar2023_route_figure_svg.py \
+            --output artifacts/letter/FIGURE_2_TWO_NETWORK_ACCESS_ROUTING.svg
+
       - name: Renumber reused network figure for Letter
         run: |
           python - <<'PY'
@@ -49,16 +74,118 @@ jobs:
           )
           path.write_text(text, encoding="utf-8")
           PY
-      - name: Assemble source package
+
+      - name: Export exact analysis-ready archive tables
+        run: |
+          python scripts/export_access_routing_archive.py \
+            --output-dir artifacts/letter/data_archive
+
+      - name: Reproduce headline analyses from archive tables only
+        run: |
+          python scripts/reproduce_access_routing_archive.py \
+            --input-dir artifacts/letter/data_archive \
+            --output artifacts/letter/data_archive/archive_reproduction.json
+
+      - name: Verify archive reproduction against frozen results
+        run: |
+          python - <<'PY'
+          import json
+          import math
+          from pathlib import Path
+
+          root = Path("empirical/floral_defence_selectivity/results")
+          observed = json.loads(
+              Path("artifacts/letter/data_archive/archive_reproduction.json").read_text()
+          )
+          sakh = json.loads((root / "sakhalkar2023_network_result.json").read_text())
+          multi = json.loads((root / "sakhalkar2023_trait_routing.json").read_text())
+          aubert = json.loads((root / "aubert2026_zenodo_extension.json").read_text())
+          joint = json.loads((root / "joint_access_routing.json").read_text())
+
+          assert observed["sakhalkar"]["n_species"] == 57
+          assert math.isclose(
+              observed["sakhalkar"]["spearman_rho"],
+              sakh["tube_length_cheating_mode_balance"]["spearman_rho"],
+              rel_tol=0.0,
+              abs_tol=1e-15,
+          )
+          assert observed["sakhalkar"]["permutation_p_two_sided"] == 0.0086
+          assert (
+              observed["sakhalkar"]["multitrait"]["models"]["robber_source_predictors"]["full_model_permutation_p"]
+              == multi["models"]["robber_source_predictors"]["full_model_permutation_p"]
+          )
+          assert (
+              observed["sakhalkar"]["multitrait"]["models"]["robber_source_predictors"]["block_tests"]["tube_length"]["permutation_p"]
+              == multi["models"]["robber_source_predictors"]["block_tests"]["tube_length"]["permutation_p"]
+          )
+
+          assert observed["aubert_ephi"]["pair_site_n"] == aubert["pair_site_n"]
+          for key in (
+              "mean_robbery_rate_barrier",
+              "mean_robbery_rate_accessible",
+              "barrier_minus_accessible_mean_rate",
+              "mismatch_spearman_rho",
+              "mismatch_spearman_permutation_p",
+          ):
+              assert math.isclose(
+                  float(observed["aubert_ephi"][key]),
+                  float(aubert[key]),
+                  rel_tol=0.0,
+                  abs_tol=1e-15,
+              ), key
+          assert observed["aubert_ephi"]["site_difference"] == aubert["site_difference"]
+          assert observed["aubert_ephi"]["min_interaction_sensitivity"] == aubert["min_interaction_sensitivity"]
+
+          assert observed["joint"]["network_count"] == 2
+          assert math.isclose(
+              observed["joint"]["joint_equal_network_fisher_z_rho"],
+              joint["joint_equal_network_fisher_z_rho"],
+              rel_tol=0.0,
+              abs_tol=1e-15,
+          )
+          assert observed["joint"]["joint_permutation_p_two_sided"] == joint["joint_permutation_p_two_sided"]
+          assert observed["joint"]["network_effects"] == joint["network_effects"]
+
+          print("Archive-only reproduction matches frozen Letter results")
+          PY
+
+      - name: Assemble source and archive package
         run: |
           cp manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md artifacts/letter/
           cp manuscript/FIGURE_PLAN_ACCESS_ROUTING_LETTER_V0.md artifacts/letter/
           cp submission/ECOLOGY_LETTERS_LETTER_COVER_V0.md artifacts/letter/
+          cp submission/ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md artifacts/letter/
           cp empirical/floral_defence_selectivity/results/joint_access_routing.json artifacts/letter/
+
+          cp submission/access_routing_archive/README.md artifacts/letter/data_archive/
+          cp submission/access_routing_archive/ZENODO_METADATA_TEMPLATE.md artifacts/letter/data_archive/
+
+          mkdir -p artifacts/letter/data_archive/code/scripts
+          mkdir -p artifacts/letter/data_archive/code/trait_architecture
+          mkdir -p artifacts/letter/data_archive/frozen_outputs
+
+          cp scripts/export_access_routing_archive.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/reproduce_access_routing_archive.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/analyze_aubert2026_zenodo_extension.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/analyze_joint_access_routing.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/analyze_sakhalkar2023_network.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/analyze_sakhalkar2023_trait_routing.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/audit_sakhalkar2023_zenodo.py artifacts/letter/data_archive/code/scripts/
+          cp trait_architecture/numerics.py artifacts/letter/data_archive/code/trait_architecture/
+
+          cp empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json artifacts/letter/data_archive/frozen_outputs/
+          cp empirical/floral_defence_selectivity/results/sakhalkar2023_trait_routing.json artifacts/letter/data_archive/frozen_outputs/
+          cp empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json artifacts/letter/data_archive/frozen_outputs/
+          cp empirical/floral_defence_selectivity/results/joint_access_routing.json artifacts/letter/data_archive/frozen_outputs/
+
+          printf '%s\n' "$GITHUB_SHA" > artifacts/letter/data_archive/REPOSITORY_COMMIT.txt
+
       - name: Verify package inventory
         run: |
           python - <<'PY'
+          import csv
           from pathlib import Path
+
           root = Path("artifacts/letter")
           required = [
               "FIGURE_1_ACCESS_ROUTING_HYPOTHESIS.svg",
@@ -67,17 +194,36 @@ jobs:
               "MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md",
               "FIGURE_PLAN_ACCESS_ROUTING_LETTER_V0.md",
               "ECOLOGY_LETTERS_LETTER_COVER_V0.md",
+              "ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md",
               "joint_access_routing.json",
+              "data_archive/sakhalkar_species_analysis.csv",
+              "data_archive/aubert_ephi_pair_site_analysis.csv",
+              "data_archive/metadata.csv",
+              "data_archive/archive_manifest.json",
+              "data_archive/archive_reproduction.json",
+              "data_archive/README.md",
+              "data_archive/ZENODO_METADATA_TEMPLATE.md",
+              "data_archive/REPOSITORY_COMMIT.txt",
           ]
           missing = [name for name in required if not (root / name).exists()]
           if missing:
               raise SystemExit(f"missing Letter package files: {missing}")
+
+          def rows(path: Path) -> int:
+              with path.open(encoding="utf-8", newline="") as handle:
+                  return sum(1 for _ in csv.DictReader(handle))
+
+          assert rows(root / "data_archive/sakhalkar_species_analysis.csv") == 57
+          assert rows(root / "data_archive/aubert_ephi_pair_site_analysis.csv") == 1378
+
           f3 = (root / "FIGURE_3_JOINT_ACCESS_ROUTING.svg").read_text()
           for token in ["0.347", "0.351", "0.349", "p = 0.0001"]:
               if token not in f3:
                   raise SystemExit(f"Figure 3 missing token: {token}")
-          print("Letter package inventory verified")
+
+          print("Letter package and DOI-archive staging inventory verified")
           PY
+
       - uses: actions/upload-artifact@v4
         with:
           name: access-routing-letter-package
