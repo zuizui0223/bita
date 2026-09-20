@@ -23,6 +23,7 @@ from pathlib import Path
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from trait_architecture.numerics import invert_matrix
 from scripts.analyze_sakhalkar2023_network import _as_float, _find_workbook, _rankdata
 from scripts.audit_sakhalkar2023_zenodo import _download, read_xlsx_sheet_rows
 
@@ -124,33 +125,17 @@ def _matvec(a: list[list[float]], v: list[float]) -> list[float]:
 
 
 def _invert(matrix: list[list[float]], ridge: float = 1e-9) -> list[list[float]]:
-    n = len(matrix)
-    work = [row[:] + [1.0 if i == j else 0.0 for j in range(n)] for i, row in enumerate(matrix)]
-    for i in range(n):
-        work[i][i] += ridge
+    """Scale-invariant ridge inverse for the source-defined sensitivity model.
 
-    for col in range(n):
-        pivot = max(range(col, n), key=lambda r: abs(work[r][col]))
-        if abs(work[pivot][col]) < 1e-12:
-            raise ValueError("singular design matrix")
-        if pivot != col:
-            work[col], work[pivot] = work[pivot], work[col]
+    The ridge is applied after matrix equilibration by the shared numerical
+    helper, so its strength is dimensionless rather than tied to predictor units.
+    """
 
-        scale = work[col][col]
-        work[col] = [value / scale for value in work[col]]
-
-        for row in range(n):
-            if row == col:
-                continue
-            factor = work[row][col]
-            if factor == 0:
-                continue
-            work[row] = [
-                value - factor * pivot_value
-                for value, pivot_value in zip(work[row], work[col])
-            ]
-
-    return [row[n:] for row in work]
+    return invert_matrix(
+        matrix,
+        ridge=ridge,
+        singular_message="singular design matrix",
+    )
 
 
 def _fit_r2(x: list[list[float]], y: list[float], cols: list[int] | None = None) -> float:
