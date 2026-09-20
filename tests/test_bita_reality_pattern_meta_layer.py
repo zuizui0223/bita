@@ -113,10 +113,12 @@ def test_three_paper_concordance_preserves_current_ownership_and_literature_firs
     assert "strict mechanism-allocation lane remains empty" in text
 
 
-def test_publication_status_and_new_protocol_agree_on_claim_ceiling() -> None:
+def test_macro_publication_status_preserves_identification_claim_ceiling() -> None:
     status = STATUS.read_text(encoding="utf-8")
     protocol = PROTOCOL.read_text(encoding="utf-8")
+    assert "FLORAL_DEFENCE_SELECTIVITY_MACRO" in status
+    assert "PRESERVED_SUPPORT" in status
     assert "Trait interaction is not ecological mechanism" in status
-    assert "56 route records / 25 independent biological clusters / 17-system high-information frontier" in status
-    assert "not the central novelty claim of the BITA paper" in status
+    assert "56 directional route records from 25 independent biological clusters" in protocol
+    assert "17 high-information systems" in protocol
     assert "not natural prevalence" in protocol
