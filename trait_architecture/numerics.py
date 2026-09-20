@@ -2,7 +2,8 @@
 from __future__ import annotations
 
 import math
-from typing import Sequence
+import statistics
+from typing import Literal, Sequence
 
 
 def invert_matrix(
@@ -76,16 +77,42 @@ def rankdata(values: Sequence[float]) -> list[float]:
     return ranks
 
 
-def pearson(x: Sequence[float], y: Sequence[float]) -> float:
+def pearson(
+    x: Sequence[float],
+    y: Sequence[float],
+    *,
+    mean_method: Literal["sum", "fmean"] = "sum",
+    denominator_method: Literal["separate", "joint"] = "separate",
+    zero_variance: Literal["zero", "nan"] = "zero",
+) -> float:
+    """Pearson correlation with explicit floating-point evaluation contract.
+
+    The options preserve exact historical BITA receipts while centralizing the
+    implementation. Mathematically equivalent evaluation orders can differ by
+    one ULP, which matters for frozen-result reproducibility checks.
+    """
+
     if len(x) != len(y) or len(x) < 2:
         raise ValueError("pearson requires equal-length vectors with at least two values")
-    mx, my = mean(x), mean(y)
-    numerator = sum((a - mx) * (b - my) for a, b in zip(x, y))
-    dx = math.sqrt(sum((a - mx) ** 2 for a in x))
-    dy = math.sqrt(sum((b - my) ** 2 for b in y))
-    if dx == 0.0 or dy == 0.0:
-        return 0.0
-    value = numerator / (dx * dy)
+    if mean_method == "fmean":
+        mx, my = statistics.fmean(x), statistics.fmean(y)
+    else:
+        mx, my = mean(x), mean(y)
+
+    dx_values = [a - mx for a in x]
+    dy_values = [b - my for b in y]
+    numerator = sum(a * b for a, b in zip(dx_values, dy_values))
+    ssx = sum(value * value for value in dx_values)
+    ssy = sum(value * value for value in dy_values)
+    if ssx == 0.0 or ssy == 0.0:
+        return math.nan if zero_variance == "nan" else 0.0
+
+    if denominator_method == "joint":
+        denominator = math.sqrt(ssx * ssy)
+    else:
+        denominator = math.sqrt(ssx) * math.sqrt(ssy)
+
+    value = numerator / denominator
     if math.isclose(value, 1.0, rel_tol=0.0, abs_tol=1e-15):
         return 1.0
     if math.isclose(value, -1.0, rel_tol=0.0, abs_tol=1e-15):
@@ -93,7 +120,20 @@ def pearson(x: Sequence[float], y: Sequence[float]) -> float:
     return value
 
 
-def spearman(x: Sequence[float], y: Sequence[float]) -> float:
+def spearman(
+    x: Sequence[float],
+    y: Sequence[float],
+    *,
+    mean_method: Literal["sum", "fmean"] = "sum",
+    denominator_method: Literal["separate", "joint"] = "separate",
+    zero_variance: Literal["zero", "nan"] = "zero",
+) -> float:
     if len(x) != len(y) or len(x) < 2:
         raise ValueError("spearman requires equal-length vectors with at least two values")
-    return pearson(rankdata(x), rankdata(y))
+    return pearson(
+        rankdata(x),
+        rankdata(y),
+        mean_method=mean_method,
+        denominator_method=denominator_method,
+        zero_variance=zero_variance,
+    )
