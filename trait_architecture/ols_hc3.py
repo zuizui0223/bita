@@ -10,12 +10,17 @@ from dataclasses import dataclass
 from math import erf, isfinite, sqrt
 from typing import Iterable, Sequence
 
+from trait_architecture.distributions import student_t_quantile_975, student_t_two_sided_p
+from trait_architecture.numerics import invert_matrix
+
 
 @dataclass(frozen=True)
 class OlsCoefficient:
     term: str
     estimate: float
     hc3_se: float
+    t_value: float
+    p_value_t: float
     z_value: float
     p_value_normal: float
     ci95_lower: float
@@ -31,46 +36,12 @@ class OlsResult:
     coefficients: tuple[OlsCoefficient, ...]
 
 
-def _identity(n: int) -> list[list[float]]:
-    return [[1.0 if i == j else 0.0 for j in range(n)] for i in range(n)]
-
-
-def _transpose(m: Sequence[Sequence[float]]) -> list[list[float]]:
-    return [list(column) for column in zip(*m)]
-
-
-def _matmul(a: Sequence[Sequence[float]], b: Sequence[Sequence[float]]) -> list[list[float]]:
-    if not a or not b or len(a[0]) != len(b):
-        raise ValueError("matrix dimensions do not align")
-    return [[sum(a[i][k] * b[k][j] for k in range(len(b))) for j in range(len(b[0]))] for i in range(len(a))]
-
-
-def _matvec(m: Sequence[Sequence[float]], v: Sequence[float]) -> list[float]:
-    if not m or len(m[0]) != len(v):
-        raise ValueError("matrix/vector dimensions do not align")
-    return [sum(row[i] * v[i] for i in range(len(v))) for row in m]
-
-
 def _invert(m: Sequence[Sequence[float]], *, tol: float = 1e-12) -> list[list[float]]:
-    n = len(m)
-    if n == 0 or any(len(row) != n for row in m):
-        raise ValueError("matrix must be non-empty and square")
-    aug = [list(map(float, row)) + identity for row, identity in zip(m, _identity(n))]
-    for col in range(n):
-        pivot = max(range(col, n), key=lambda row: abs(aug[row][col]))
-        if abs(aug[pivot][col]) <= tol:
-            raise ValueError("design matrix is singular or numerically rank deficient")
-        aug[col], aug[pivot] = aug[pivot], aug[col]
-        divisor = aug[col][col]
-        aug[col] = [x / divisor for x in aug[col]]
-        for row in range(n):
-            if row == col:
-                continue
-            factor = aug[row][col]
-            if factor:
-                aug[row] = [aug[row][j] - factor * aug[col][j] for j in range(2 * n)]
-    return [row[n:] for row in aug]
-
+    return invert_matrix(
+        m,
+        tol=tol,
+        singular_message="design matrix is singular or numerically rank deficient",
+    )
 
 def _p_two_sided_normal(z: float) -> float:
     return max(0.0, min(1.0, 1.0 - erf(abs(z) / sqrt(2.0))))
@@ -110,24 +81,33 @@ def fit_ols_hc3(y: Iterable[float], design: Iterable[Iterable[float]], terms: Se
                 meat[i][j] += weight * row[i] * row[j]
     cov = _matmul(_matmul(xtx_inv, meat), xtx_inv)
 
+    residual_df = n - p
+    critical = student_t_quantile_975(float(residual_df))
+
     coefficients = []
     for i, term in enumerate(terms):
         se = sqrt(max(0.0, cov[i][i]))
-        z = beta[i] / se if se > 0 else float("nan")
-        p_value = _p_two_sided_normal(z) if isfinite(z) else float("nan")
+        t_value = beta[i] / se if se > 0 else float("nan")
+        p_value_t = student_t_two_sided_p(t_value, float(residual_df)) if isfinite(t_value) else float("nan")
+        # Legacy normal-reference fields are retained for backward-compatible
+        # serialized outputs. HC3 inference now uses residual-df Student t.
+        z_value = t_value
+        p_value_normal = _p_two_sided_normal(z_value) if isfinite(z_value) else float("nan")
         coefficients.append(OlsCoefficient(
             term=term,
             estimate=beta[i],
             hc3_se=se,
-            z_value=z,
-            p_value_normal=p_value,
-            ci95_lower=beta[i] - 1.96 * se,
-            ci95_upper=beta[i] + 1.96 * se,
+            t_value=t_value,
+            p_value_t=p_value_t,
+            z_value=z_value,
+            p_value_normal=p_value_normal,
+            ci95_lower=beta[i] - critical * se,
+            ci95_upper=beta[i] + critical * se,
         ))
     return OlsResult(
         n=n,
         parameter_count=p,
-        residual_df=n - p,
+        residual_df=residual_df,
         r_squared=r2,
         coefficients=tuple(coefficients),
     )
