@@ -173,14 +173,21 @@ This promotion-gate refresh changes documentation only; the verified scientific/
 
 ## Promotion decision
 
-Scientific package status:
+Editorial decision recorded on 2026-09-20:
 
 ~~~text
-READY_FOR_EDITORIAL_PROPOSAL
-NOT YET SENT EXTERNALLY
-OLD CANONICAL NOT REPLACED
+PRIMARY_BITA_CANDIDATE = FLORAL_DEFENCE_SELECTIVITY_MACRO
+READY_FOR_REVIEW = YES
+READY_FOR_EDITORIAL_PROPOSAL = YES
+OLD_CANONICAL_MECHANISM_MANUSCRIPT = PRESERVED_PROVENANCE
+MAIN_BRANCH_REPLACEMENT = NOT YET MERGED
+EXTERNAL_SUBMISSION = NOT YET SENT
 ~~~
 
-The remaining action before external submission is not additional ecological analysis. It is an explicit decision to send the Ecology Letters Synthesis proposal.
+The macro candidate is now the **primary forward BITA paper**. The previous mechanism-identification manuscript remains preserved and continues to supply claim discipline, partial-identification logic, and provenance, but it is no longer the preferred next-paper storyline.
 
-Do not continue broad literature harvesting merely to increase counts unless a new study directly fills a frozen high-value cell or changes one of the current claim ceilings.
+The next repository action is packaging/promotion rather than additional broad evidence harvesting. The next external action, once author-controlled submission details are approved, is the Ecology Letters Synthesis proposal.
+
+Do not merge over the old canonical source merely to express this editorial decision; canonical replacement should occur only through the reviewed promotion PR.
+
+
