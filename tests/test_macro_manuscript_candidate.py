@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 CANDIDATE = ROOT / "manuscript" / "MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md"
@@ -25,7 +26,7 @@ def test_candidate_macro_manuscript_contains_frozen_ecological_results() -> None
     assert "14,383" in text
     assert "57 plant species" in text
     assert "1,378 bird × plant × site units" in text
-    assert "15 of 17 comparable sites" in text
+    assert re.search(r"15 of (?:the )?17 comparable sites", text)
     assert "site-stratified permutation \\(p=0.0001\\)" in text
     assert "interaction routing through unequal access and exposure domains" in text
     assert "Attraction signals can leak to antagonists" in text
@@ -123,7 +124,7 @@ def test_candidate_contains_second_network_validation() -> None:
     assert "1,378 bird × plant × site units" in text
     assert "0.30698" in text
     assert "0.08139" in text
-    assert "15 of the 17 comparable sites" in text
+    assert re.search(r"15 of (?:the )?17 comparable sites", text)
     assert "site-stratified permutation" in text
     assert "not an exact replication" in text.lower()
 
