@@ -1,168 +1,90 @@
 # Manuscript directory
 
-## Canonical source
+## Primary forward BITA paper
 
-The active BITA full paper is the mechanism-identification paper:
+The current manuscript to advance is:
 
-- `MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md` — canonical science source for **trait interaction != ecological mechanism**.
-- `IDENTIFICATION_DESIGN_REFERENCES.md` — focused bibliography for the active Main.
-- `TRAIT_DIFFERENTIATION_FIGURE_CAPTIONS_V1.md` — active five-figure caption set.
-- `mechanism_identification_figures/` — generated active Figures 1–5.
-- `supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md` — active technical identification Appendix source.
-
-Retained provenance / technical modules:
-
-- `MANUSCRIPT_IDENTIFICATION_DESIGN.md` — mature longer source text for the identification framework.
-- `MANUSCRIPT_THEORETICAL_ECOLOGY.md` — historical theorem-led source retained for provenance.
-- `trait_differentiation_figures/` — historical figures from the superseded architecture-plus-mechanism paper; not submission-current.
-- `TRAIT_DIFFERENTIATION_REFERENCES_V1.md` — broader historical architecture + worked-case reference pool.
+- `MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md` — macro-ecological floral-defence selectivity / access-routing paper
+- `CLAIM_FREEZE_MACRO_V0.md` — active scientific claim ceiling
+- `MACRO_PROMOTION_GATE_V1.md` — promotion decision and readiness gate
+- `MACRO_PROMOTION_READINESS_V1.md` — reproducibility / figure / journal-route readiness
+- `MACRO_MANUSCRIPT_SOURCE_AUDIT_V0.md` — source-backed claim audit
+- `FLORAL_DEFENCE_SELECTIVITY_REFERENCES_V0.md` — focused working references
 
 ## Active scientific spine
 
 ```text
-four-cell trait interaction
+unequal effective access / exposure
         |
         v
-outcome promotion
-Level 1 interaction relief
-Level 2 constraint release
-Level 3 strict reversal
+selective window
         |
-        v
-identified set of compatible mechanisms
-        |
-        v
-partial identification
-        |
-        v
-selective A x D x antagonist x pollinator intervention
-        |
-        v
-four-way separability diagnostic
-        |
-        v
-independent remaining-channel assay
-        |
-        v
-mechanism-resolved interpretation
+        +--> overlap -> mutualist interference
+        +--> bypass  -> defence failure
+        +--> exposure increase -> state switching
+        +--> access mismatch -> exploitation rerouting
 ```
 
-The paper does not use the architecture-value result as its novelty center. That transport spine belongs to SLK.
+The active empirical structure is:
+
+```text
+17 D-side programs
++ 11 scorable matched-state systems
++ 8 within-D switching systems
++ 2 independent community-network routing analyses
+```
+
+## Active main figures
+
+1. effective-exposure / selective-window theory;
+2. D-route macro landscape + matched-system state recovery + strict gate;
+3. defence-side state switching + Kessler bridge;
+4. two-network access routing: Sakhalkar insects + Aubert/EPHI birds.
+
+The macro figure builders and dedicated CI live in the repository and are green at promotion.
+
+## Preserved mechanism-identification manuscript
+
+The previous canonical paper is retained intact:
+
+- `MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md` — mechanism-identification manuscript
+- `MANUSCRIPT_IDENTIFICATION_DESIGN.md` — longer identification framework
+- `CLAIM_FREEZE.md` — historical mechanism-identification claim freeze
+- `IDENTIFICATION_DESIGN_REFERENCES.md`
+- `mechanism_identification_figures/`
+- `supplementary/SUPPLEMENT_IDENTIFICATION_DESIGN.md`
+
+Its key principle remains valid:
+
+```text
+trait interaction != ecological mechanism
+```
+
+It now functions as inferential support and provenance rather than the preferred next-paper headline.
 
 ## Programme boundary
 
 ```text
 SCH
-multifunctionality != identified functional conflict
-        |
-        v
-identified conflict / L when justified
-        |
-        v
+functional conflict identification
+
 SLK
-L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy
-        |
-        v
-multiple trait axes / observed joint fitness effect
-        |
-        v
+architecture value and evolutionary realization
+
 BITA
-trait interaction != ecological mechanism
+floral antagonist–mutualist selectivity and routing
+through unequal access / exposure
 ```
 
-The older BITA architecture derivations remain reusable technical provenance, but they are not active Main claims.
+Do not use the macro paper to claim architecture-value results owned by SLK, and do not use observational network recurrence to claim causal mechanism allocation.
 
-## Empirical evidence layer
-
-The active empirical synthesis is source-adjudicated and bounded:
+## Submission route
 
 ```text
-56 directional route records
-25 independent biological clusters
-17 high-information identification-frontier systems
-0 independent joint-cost assays in the frontier
-0 fully channel-identified systems in the frontier
+1. Ecology Letters — Synthesis proposal
+2. Functional Ecology — Research Article
+3. Oikos — Research
+4. New Phytologist — presubmission only
 ```
 
-All four constituent marginal route families recur. These counts describe recurrence and evidence capacity, not natural prevalence.
-
-## Active Main figures
-
-1. **Outcome promotion:** positive interaction relief vs functional release vs strict reversal.
-2. **Identified-set geometry:** total interaction vs compatible mechanism allocations and partial identification.
-3. **Crossed intervention:** selective consumer toggles, `m0` handling, four-way separability, and independent remaining-channel assay.
-4. **Fragmented empirical frontier:** source-backed 56/25 recurrence + 17-system V2 audit + *Impatiens* retrofit.
-5. **Inference boundaries:** SCH identifies conflict, SLK transports evolutionary value, BITA identifies mechanism.
-
-The deterministic builder is:
-
-```text
-scripts/build_mechanism_identification_figures_svg.py
-```
-
-Figure 4 reads the authoritative V2 coverage CSV and mechanism-pattern completion counts. The build fails if the expected 17-system or 56/25 evidence state drifts.
-
-## Candidate package
-
-The active candidate source builder is:
-
-```text
-scripts/build_bita_mechanism_candidate_sources.py
-```
-
-It generates:
-
-```text
-submission/ecology/mechanism_identification_candidate/generated/
-  MANUSCRIPT_ECOLOGY_SUBMISSION.md
-  APPENDIX_S1.md
-  OPEN_RESEARCH_DATA_MANIFEST.md
-  open_research_data/
-```
-
-The focused workflow is:
-
-```text
-.github/workflows/build-bita-mechanism-paper.yml
-```
-
-It rebuilds the evidence readout, generates all five figures, builds Main + Appendix + Open Research sources, runs focused regression tests, and uploads the candidate source artifact.
-
-## Package state
-
-The previously validated **30-page Main + 38-page Appendix** belonged to the superseded architecture-plus-mechanism paper and is historical only.
-
-Current state:
-
-```text
-ACTIVE_SCIENCE_SOURCE_REFOCUSED
-ACTIVE_FIVE_FIGURE_PIPELINE_GREEN
-MECHANISM_CANDIDATE_SOURCE_BUILDER_ACTIVE
-OLD_30_PLUS_38_PACKAGE_STALE
-FINAL_DOCX_PDF_REBUILD_PENDING
-```
-
-Do not submit the old generated DOCX/PDF package.
-
-## Claim ceiling
-
-Do not equate:
-
-```text
-positive A x D interaction
-!= functional release
-!= ecological mechanism
-!= trait differentiation
-!= historical splitting
-
-route recurrence
-!= prevalence
-
-residual by subtraction
-!= identified joint cost
-
-structural separation
-!= functional independence
-```
-
-BITA's active contribution is the evidence-promotion ladder from an observed trait interaction to increasingly identified ecological mechanism.
+The Ecology Letters proposal and email text are under `submission/`. External sending remains author-controlled.
