@@ -17,6 +17,8 @@ import random
 import urllib.request
 from collections import defaultdict
 from pathlib import Path
+
+from trait_architecture.numerics import spearman as _shared_spearman
 from urllib.parse import quote
 
 BASE = "https://zenodo.org/records/14185547/files"
@@ -66,34 +68,8 @@ def _median(values: list[float]) -> float:
     return s[m] if n % 2 else (s[m - 1] + s[m]) / 2
 
 
-def _rankdata(values: list[float]) -> list[float]:
-    order = sorted(range(len(values)), key=lambda i: values[i])
-    ranks = [0.0] * len(values)
-    i = 0
-    while i < len(order):
-        j = i + 1
-        while j < len(order) and values[order[j]] == values[order[i]]:
-            j += 1
-        rank = (i + 1 + j) / 2
-        for k in range(i, j):
-            ranks[order[k]] = rank
-        i = j
-    return ranks
-
-
-def _pearson(x: list[float], y: list[float]) -> float:
-    mx, my = _mean(x), _mean(y)
-    num = sum((a - mx) * (b - my) for a, b in zip(x, y))
-    dx = math.sqrt(sum((a - mx) ** 2 for a in x))
-    dy = math.sqrt(sum((b - my) ** 2 for b in y))
-    if dx == 0 or dy == 0:
-        return 0.0
-    return num / (dx * dy)
-
-
 def spearman(x: list[float], y: list[float]) -> float:
-    return _pearson(_rankdata(x), _rankdata(y))
-
+    return _shared_spearman(x, y)
 
 def _perm_p_spearman(x: list[float], y: list[float], permutations: int, seed: int) -> tuple[float, float]:
     obs = spearman(x, y)
