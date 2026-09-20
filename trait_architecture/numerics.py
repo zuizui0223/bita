@@ -85,7 +85,12 @@ def pearson(x: Sequence[float], y: Sequence[float]) -> float:
     dy = math.sqrt(sum((b - my) ** 2 for b in y))
     if dx == 0.0 or dy == 0.0:
         return 0.0
-    return numerator / (dx * dy)
+    value = numerator / (dx * dy)
+    if math.isclose(value, 1.0, rel_tol=0.0, abs_tol=1e-15):
+        return 1.0
+    if math.isclose(value, -1.0, rel_tol=0.0, abs_tol=1e-15):
+        return -1.0
+    return value
 
 
 def spearman(x: Sequence[float], y: Sequence[float]) -> float:
