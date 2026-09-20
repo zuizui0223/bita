@@ -3,202 +3,107 @@
 ## Status
 
 ~~~text
-scientific package:          READY
+primary submission:          Ecology Letters Letter
+primary manuscript:          MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md
+primary empirical test:      Aubert / EPHI all-Ecuador birds
+independent corroboration:   Sakhalkar insects
+joint network contributions: k = 2
+extended Synthesis:          PRESERVED_RESERVE
 analysis reproducibility:    VERIFIED
-four main evidence layers:   FROZEN
-two-network validation:      VERIFIED
-main figures:                READY
-Ecology Letters proposal:    READY
-external proposal email:     NOT SENT
-old canonical manuscript:    PRESERVED
-PR #224:                     OPEN / DRAFT
+external submission:         NOT SENT
 ~~~
 
-## Verified analysis state
+## Primary claim
 
-Code/tests/package head:
+> **When legitimate access becomes more constrained, exploitation can reroute toward bypass rather than simply disappear.**
+
+## Primary evidence
+
+Aubert / EPHI all-Ecuador bird–flower network:
 
 ~~~text
-81a5186e543dc68180acabcdfe722b40fd0df1ca
+n = 1,378 bird × plant × site units
+barrier robbery     = 0.30698
+accessible robbery  = 0.08139
+difference          = +0.22560
+site-adjusted rho   = 0.3505
+within-site permutation p = 0.0001
+15 / 17 comparable sites in same direction
+min >= 5 interactions:
+  n = 702
+  difference = +0.26437
+  rho = 0.50509
+  p = 0.0001
 ~~~
 
-At that head:
+## Independent corroboration
 
-- CI: SUCCESS;
-- submission-scope: SUCCESS;
-- legacy submission-package guard: SUCCESS;
-- effective-domain state recovery: SUCCESS;
-- Sakhalkar network: SUCCESS;
-- Sakhalkar multitrait sensitivity: SUCCESS;
-- Aubert Dryad audit: SUCCESS;
-- Aubert Zenodo mirror audit: SUCCESS;
-- Aubert all-Ecuador access-barrier extension: SUCCESS;
-- Figure 1–3 build: SUCCESS;
-- two-network Figure 4 build: SUCCESS.
-
-The Aubert workflow reproduced the frozen aggregate result exactly after the proposal-requirement tests were added.
-
-## Main ecological package
-
-### Layer 1 — route-level D macro corpus
-
-~~~text
-17 unique D study programs
-chemical 9 / physical 7 / reward-access 1
-10 same-study pollinator follow-ups
-~~~
-
-Pollinator states among those ten:
-
-~~~text
-context-dependent 4
-null-compatible 3
-improved 1
-interference 1
-unresolved 1
-~~~
-
-### Layer 2 — effective-domain matched-system recovery
-
-~~~text
-historical scorable: 9 / 9 aligned
-systematic expansion: 2 / 2 aligned
-pooled scorable: 11 / 11 aligned
-
-coarse modality comparator:
-  historical LOO: 6 / 9
-  expansion:      1 / 2
-~~~
-
-Strict direction-supported Stage-2 remains descriptive only:
-
-~~~text
-n = 3
-Fisher p = 0.333
-~~~
-
-### Layer 3 — within-D conditionality
-
-~~~text
-8 independent state-switch systems
-~~~
-
-Axes include dose/expression, cumulative exposure, consumer identity, response stage and timing.
-
-### Layer 4 — independent network routing
-
-Sakhalkar insects:
+Sakhalkar Afrotropical insect–flower network:
 
 ~~~text
 n = 57 species
 rho = 0.346786
 permutation p = 0.0086
+full multitrait model p = 0.2016
+tube-length block p = 0.2110
 ~~~
 
-Aubert/EPHI birds:
+The insect result supports access-geometry routing but does not uniquely identify tube length.
+
+## Joint test
 
 ~~~text
-18 Ecuador sites
-1,378 bird × plant × site units
-barrier robbery = 0.30698
-accessible robbery = 0.08139
-difference = +0.22560
-permutation p = 0.0001
-15 / 17 comparable sites positive
-site-stratified permutation p = 0.0001
+r_A = 0.3505
+r_S = 0.3468
+equal-network rho_J = 0.3487
+joint permutation p = 0.0001
+k = 2 independent network contributions
 ~~~
 
-The two network effect sizes are not pooled.
+The joint statistic does not estimate between-network heterogeneity, a population-level network mean, or generality beyond the two analysed systems.
 
-## Main manuscript
+## Mechanistic context
 
-Candidate source:
-
-`manuscript/MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md`
-
-Approximate current main-text source length:
+The broader defence-side synthesis remains available, but it is not the Letter's inferential pillar.
 
 ~~~text
-~5,780 words before final bibliography / journal styling
+17 D-side programs
+10 same-defence pollinator follow-ups
+8 within-D state-switch systems
 ~~~
 
-Main figures:
+Matched effective-domain coding is author-derived and has not yet undergone outcome-blind independent recoding. The Letter therefore does not use the 11-system alignment as independent validation or a success fraction.
 
-1. effective-exposure theory;
-2. D-route macro landscape + matched-system recovery;
-3. within-D state switching;
-4. two-network access routing.
+## Primary submission files
 
-## Ecology Letters proposal package
+- `manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md`
+- `manuscript/FIGURE_PLAN_ACCESS_ROUTING_LETTER_V0.md`
+- `submission/ECOLOGY_LETTERS_LETTER_COVER_V0.md`
+- `empirical/floral_defence_selectivity/results/joint_access_routing.json`
 
-Proposal:
+## Reserve package
 
-`submission/ECOLOGY_LETTERS_SYNTHESIS_PROPOSAL_V0.md`
+The broader Synthesis remains preserved:
 
-Current proposal body:
+- `manuscript/MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY_V0.md`
+- `manuscript/CLAIM_FREEZE_MACRO_V0.md`
+- `submission/ECOLOGY_LETTERS_SYNTHESIS_PROPOSAL_V0.md`
+- `submission/FUNCTIONAL_ECOLOGY_ADAPTATION_V0.md`
 
-~~~text
-277 words
-official maximum = 300
-status = PASS
-~~~
-
-Email draft:
-
-`submission/ECOLOGY_LETTERS_SYNTHESIS_PROPOSAL_EMAIL_V1.md`
-
-Required recipients:
-
-~~~text
-ecolets@cefe.cnrs.fr
-ecolets2@cefe.cnrs.fr
-~~~
-
-Proposal requirement guard:
-
-`tests/test_ecology_letters_proposal.py`
-
-It checks:
-
-- <=300 words;
-- nature / novelty / disciplinary contribution;
-- author qualification;
-- both editorial addresses;
-- current two-network evidence;
-- no false invitation/submission claim.
-
-## Claim ceilings retained
+## Claim ceiling
 
 Do not claim:
 
-- natural prevalence from the screened literature corpus;
-- null-compatible = no pollinator cost;
-- domain > modality from strict n=3;
 - causal network effects;
-- tube length as a uniquely identified driver in Sakhalkar;
-- exact replication of Aubert et al. 2026;
-- one pooled effect size across the two networks;
-- universal q or tau values.
-
-## Legacy BITA preservation
-
-The V1 submission candidate does not overwrite:
-
-- `manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md`;
-- 56-route / 25 historical cluster-label evidence;
-- direct A×D systems;
-- Kessler bounds;
-- partial-identification framework;
-- intervention / separability logic;
-- larceny synthesis;
-- supplementary A-side signal-leakage result.
+- unique tube-length causality;
+- network-wide generality from `k=2`;
+- a pooled raw effect across networks;
+- independently validated domain coding;
+- 11/11 as a confirmatory success rate;
+- evolutionary origin of floral barriers from the observational routing result.
 
 ## External-action boundary
 
-No email has been sent.
+No external submission has been sent.
 
-No merge to main has been performed.
-
-No canonical manuscript has been replaced.
-
-The next external action is the Ecology Letters Synthesis proposal email, which remains gated on an explicit send instruction.
+The next external action is the Ecology Letters Letter submission. External sending remains author-controlled.
