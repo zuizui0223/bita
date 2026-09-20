@@ -77,6 +77,18 @@ def _permute_within_site(
     return out
 
 
+def _center_within_group(values: list[float], groups: list[str]) -> list[float]:
+    if len(values) != len(groups):
+        raise ValueError("values and groups must have equal length")
+    sums: dict[str, float] = defaultdict(float)
+    counts: dict[str, int] = defaultdict(int)
+    for value, group in zip(values, groups):
+        sums[group] += value
+        counts[group] += 1
+    means = {group: sums[group] / counts[group] for group in sums}
+    return [value - means[group] for value, group in zip(values, groups)]
+
+
 def summarize_joint(
     sakhalkar_points: list[dict[str, float | str]],
     aubert_rows: list[dict[str, float | str | bool | int]],
@@ -103,7 +115,12 @@ def summarize_joint(
     ay_rank = _rankdata(ay)
 
     s_rho = _pearson(sx_rank, sy_rank)
-    a_rho = _pearson(ax_rank, ay_rank)
+
+    ax_rank_centered = _center_within_group(ax_rank, sites)
+    ay_rank_centered = _center_within_group(ay_rank, sites)
+    a_rho_global = _pearson(ax_rank, ay_rank)
+    a_rho = _pearson(ax_rank_centered, ay_rank_centered)
+
     if not math.isfinite(s_rho) or not math.isfinite(a_rho):
         raise ValueError("network correlations must be finite")
 
@@ -122,9 +139,10 @@ def summarize_joint(
     for _ in range(permutations):
         rng_s.shuffle(shuffled_s)
         perm_a = _permute_within_site(ay_rank, sites, rng=rng_a)
+        perm_a_centered = _center_within_group(perm_a, sites)
 
         ps = _pearson(sx_rank, shuffled_s)
-        pa = _pearson(ax_rank, perm_a)
+        pa = _pearson(ax_rank_centered, perm_a_centered)
         if not math.isfinite(ps) or not math.isfinite(pa):
             continue
 
@@ -156,6 +174,8 @@ def summarize_joint(
                 "access_constraint": "log_flower_tube_over_bill",
                 "bypass_response": "robbery_rate",
                 "rho": a_rho,
+                "rho_global_descriptive": a_rho_global,
+                "rho_definition": "rank correlation after removing site-specific rank means",
                 "site_count": len(set(sites)),
                 "permutation_p_two_sided_within_site": (a_extreme + 1) / (permutations + 1),
             },
@@ -171,8 +191,9 @@ def summarize_joint(
         "seed": seed,
         "claim_boundary": (
             "Networks contribute equally to the joint statistic; raw observations are not pooled. "
-            "The result tests recurrence of a common rank-based access-routing direction, not a "
-            "shared causal coefficient or commensurate raw effect size."
+            "The Aubert contribution uses a site-adjusted rank association so among-site composition "
+            "does not define the joint effect. The result tests recurrence of a common rank-based "
+            "access-routing direction, not a shared causal coefficient or commensurate raw effect size."
         ),
         "guardrail": "Aggregate output only; no species or site identifiers are emitted.",
     }
