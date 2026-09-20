@@ -37,6 +37,12 @@ def _rankdata(values: list[float]) -> list[float]:
 
 
 def _spearman(x: list[float], y: list[float]) -> float:
+    """Preserve the historical Sakhalkar contract for undersized panels."""
+
+    if len(x) != len(y):
+        raise ValueError("Spearman vectors must have equal length")
+    if len(x) < 2:
+        return math.nan
     return _shared_spearman(x, y)
 
 def _permutation_p(
