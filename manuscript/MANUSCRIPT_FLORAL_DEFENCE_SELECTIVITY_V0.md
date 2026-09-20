@@ -1,6 +1,6 @@
 # Access and exposure domains organize floral defence selectivity and interaction routing across plant–visitor systems
 
-**Candidate refocused BITA manuscript v0 — not yet canonical**
+**Canonical BITA macro-ecology manuscript — promoted 2026-09-20**
 
 **Paper type:** comparative macro-ecological synthesis + public-data reanalysis
 
@@ -429,7 +429,7 @@ This linked result is not added as a new matched-D replication because nectar is
 
 Across the four evidence layers, the recurring pattern is conditional rather than categorical. The broader state-recovery analysis strengthens that point: the fixed effective-domain mapping recovered all 11 scorable historical + expansion systems, whereas a coarse modality-only classifier missed several systems. A floral defence is not inherently safe or costly to pollination. Its outcome depends on who experiences it, through what route, at what intensity, and at what stage.
 
-The broader route-level corpus shows that D implementations span chemical, physical, and reward/access mechanisms while pollinator consequences vary among context-dependent, null-compatible, improved, interference, and unresolved states. The stricter matched-D evidence is smaller but aligned with the predicted state structure. Within-system data show that the same nominal defence can move between states as exposure changes. The two community-scale analyses provide quantitatively independent consequences in different faunas: floral geometry is associated with robbing-versus-thieving route balance in the Afrotropical insect network, while flower-tube–bill mismatch predicts nectar robbery across Ecuadorian hummingbird interactions.
+The broader route-level corpus shows that D implementations span chemical, physical, and reward/access mechanisms while pollinator consequences vary among context-dependent, null-compatible, improved, interference, and unresolved states. The stricter matched-D evidence is smaller but aligned with the predicted state structure. Within-system data show that the same nominal defence can move between states as exposure changes. The two community-scale analyses provide quantitatively independent consequences in different faunas and use different response constructions: floral geometry is associated with robbing-versus-thieving route balance in the Afrotropical insect network, while flower-tube–bill mismatch predicts nectar robbery across Ecuadorian hummingbird interactions. Their effect sizes are not pooled because the predictors, response scales, and inferential units are not commensurate.
 
 This combination matters because each layer addresses a different weakness in the others. Case-level systems give close biological interpretation but limited generality. Within-system transitions establish that states are not fixed properties of trait categories. The network analyses provide breadth across plant species, sites and visitor faunas but remain observational. Their convergence is stronger than treating any one layer as definitive.
 
