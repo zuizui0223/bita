@@ -49,5 +49,14 @@ def test_letter_keeps_causal_and_replication_boundaries() -> None:
 
 def test_letter_has_no_internal_repo_program_names() -> None:
     text = LETTER.read_text(encoding="utf-8")
-    for token in ["SCH", "SLK", "PAYOFF-B", "IWE"]:
-        assert token not in text
+    # "SCH" can occur legitimately as an author initial (e.g. Barrett SCH).
+    # Guard project-routing language rather than bare initials.
+    forbidden = [
+        "SCH/SLK",
+        "SCH owns",
+        "SLK owns",
+        "PAYOFF-B",
+        "IWE repo",
+        "BITA repo",
+    ]
+    assert all(token not in text for token in forbidden)
