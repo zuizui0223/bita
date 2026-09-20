@@ -18,16 +18,15 @@ def test_readme_declares_active_macro_selectivity_story() -> None:
     assert "trait interaction != ecological mechanism" in text
 
 
-def test_readme_assigns_architecture_value_spine_to_slk() -> None:
+def test_readme_preserves_slk_architecture_value_boundary() -> None:
     text = (ROOT / "README.md").read_text(encoding="utf-8")
-    lower = text.lower()
     assert "L -> R -> Phi -> accessibility -> invasion -> fixation -> occupancy" in text
-    assert "SLK owns" in text
-    assert "older bita architecture derivations remain preserved" in lower
-    assert "not the novelty center of the active full paper" in text
+    assert "SLK" in text
+    assert "mechanism-identification result `trait interaction != ecological mechanism` remains a BITA support principle" in text
+    assert "Preserved mechanism-identification foundation" in text
 
 
-def test_canonical_main_is_mechanism_identification_paper() -> None:
+def test_preserved_mechanism_main_remains_reproducible() -> None:
     text = (ROOT / "manuscript" / "MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md").read_text(encoding="utf-8")
     assert text.startswith("# Trait interaction is not ecological mechanism")
     assert "Level 1 — positive interaction relief" in text
@@ -63,33 +62,35 @@ def test_claim_freeze_blocks_reimporting_slk_novelty() -> None:
     assert "active BITA paper owns the general `Phi=R-K`" in text
 
 
-def test_submission_checklist_resets_old_go_state() -> None:
+def test_legacy_mechanism_submission_checklist_is_preserved_not_current() -> None:
     text = (ROOT / "submission" / "SUBMISSION_CHECKLIST.md").read_text(encoding="utf-8")
+    assert "PRESERVED LEGACY MECHANISM-IDENTIFICATION PACKAGE" in text
     assert "SCIENCE_THESIS = FROZEN" in text
-    assert "OLD_30_PLUS_38_PACKAGE = STALE" in text
-    assert "FIGURES = REBUILD_REQUIRED" in text
-    assert "APPENDIX = REBUILD_REQUIRED" in text
-    assert "EXTERNAL_SUBMISSION = NOT_YET_READY" in text
-    assert "The current blocker is no longer author metadata alone" in text
+    assert "ACTIVE_MAIN = PASS_21_PAGES_AT_LAST_CHECK" in text
+    assert "ACTIVE_APPENDIX = PASS_10_PAGES_AT_LAST_CHECK" in text
+    assert "SCIENTIFIC_PACKAGE = READY_FOR_AUTHOR_METADATA_AND_FINAL_UPLOAD_CHECK" in text
+    assert "EXTERNAL_SUBMISSION = NOT_YET_COMPLETED" in text
 
 
-def test_final_audit_marks_old_package_historical() -> None:
+def test_legacy_final_audit_records_validated_mechanism_package() -> None:
     text = (ROOT / "docs" / "FINAL_SUBMISSION_AUDIT.md").read_text(encoding="utf-8")
+    assert "PRESERVED LEGACY MECHANISM-IDENTIFICATION PACKAGE" in text
     assert "BITA mechanism-identification paper" in text
-    assert "HISTORICAL_PACKAGE_QA = PASS_FOR_OLD_SCIENCE_SOURCE" in text
-    assert "ACTIVE_PACKAGE_STATUS = STALE" in text
-    assert "ACTIVE_MAIN_RENDER = REBUILD_REQUIRED" in text
-    assert "Reader-facing submission package: NOT YET READY" in text
+    assert "HISTORICAL_PACKAGE_QA = PASS_BUT_SUPERSEDED" in text
+    assert "ACTIVE_PACKAGE_STATUS = REBUILT_AND_VALIDATED" in text
+    assert "ACTIVE_MAIN_RENDER = PASS_21_PAGES" in text
+    assert "ACTIVE_APPENDIX = PASS_10_PAGES" in text
 
 
-def test_cover_letter_uses_new_thesis_and_does_not_claim_old_package_ready() -> None:
+def test_legacy_cover_letter_is_clearly_preserved_and_reproducible() -> None:
     text = (ROOT / "submission" / "COVER_LETTER_ECOLOGY_CONCEPTS_SYNTHESIS.md").read_text(encoding="utf-8")
+    assert "PRESERVED LEGACY MECHANISM-IDENTIFICATION PACKAGE" in text
     assert "Trait interaction is not ecological mechanism" in text
     assert "56 directional route records from 25 independent biological clusters" in text
     assert "17-system high-information audit" in text
     assert "fragmented identification" in text.lower()
-    assert "no longer submission-current" in text
-    assert "will be rebuilt" in text
+    assert "**21 pages**" in text
+    assert "separate 10-page Appendix" in text
 
 
 def test_figure_plan_matches_active_main_story() -> None:
@@ -109,8 +110,9 @@ def test_legacy_three_world_document_is_provenance_not_active_scope() -> None:
     assert "Chapter 1 / SCH" in legacy
     assert "Chapter 2 / BALANCE" in legacy
     assert "Chapter 3 / BITA" in legacy
-    assert "architecture-value spine" in active
-    assert "owned by SLK" in active
+    assert "BITA floral-defence selectivity macro paper" in active
+    assert "Preserved mechanism-identification layer" in active
+    assert "trait interaction != ecological mechanism" in active
 
 
 def test_one_trait_shared_cue_lane_remains_externalized_to_sch() -> None:
