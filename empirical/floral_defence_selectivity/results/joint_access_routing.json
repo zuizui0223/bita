@@ -1,0 +1,41 @@
+{
+  "analysis_name": "joint_equal_network_access_routing",
+  "aubert_permutation_scheme": "within_site",
+  "claim_boundary": "Networks contribute equally to the joint statistic; raw observations are not pooled. The Aubert contribution uses a site-adjusted rank association so among-site composition does not define the joint effect. The result tests recurrence of a common rank-based access-routing direction, not a shared causal coefficient or commensurate raw effect size.",
+  "guardrail": "Aggregate output only; no species or site identifiers are emitted.",
+  "joint_equal_network_fisher_z_rho": 0.3486505954113519,
+  "joint_equal_network_mean_rho": 0.34864921795126047,
+  "joint_permutation_p_two_sided": 0.0001,
+  "network_count": 2,
+  "network_direction_concordance": "2_of_2_positive",
+  "network_effects": {
+    "aubert_ephi": {
+      "access_constraint": "log_flower_tube_over_bill",
+      "bypass_response": "robbery_rate",
+      "n_units": 1378,
+      "permutation_p_two_sided_within_site": 0.0001,
+      "rho": 0.3505121677846742,
+      "rho_definition": "rank correlation after removing site-specific rank means",
+      "rho_global_descriptive": 0.41826245373655196,
+      "site_count": 18,
+      "unit": "bird_x_plant_x_site"
+    },
+    "sakhalkar": {
+      "access_constraint": "tube_length",
+      "bypass_response": "robbing_minus_thieving_balance",
+      "n_units": 57,
+      "permutation_p_two_sided_recomputed": 0.0082,
+      "rho": 0.3467862681178467,
+      "unit": "plant_species"
+    }
+  },
+  "null_probability_both_positive": 0.2536,
+  "permutations": 9999,
+  "sakhalkar_permutation_scheme": "across_species",
+  "seed": 20260920,
+  "provenance": {
+    "workflow_run": 35479028223,
+    "artifact_id": 10595177156,
+    "artifact_digest": "sha256:71f310d17940564bfb031f35183513aa9ac5173253d95c5f0586601fbcd07ba3"
+  }
+}
