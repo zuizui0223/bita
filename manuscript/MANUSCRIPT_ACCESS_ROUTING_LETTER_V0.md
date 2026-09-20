@@ -256,6 +256,12 @@ Final submission wording after deposit:
 
 > The analysis-ready data tables, metadata, analysis code and frozen derived outputs supporting this Letter are archived at **[ACCESS-ROUTING ARCHIVE DOI]**. Underlying public source datasets are archived by their original authors at Zenodo DOI 10.5281/zenodo.8398202 and Zenodo DOI 10.5281/zenodo.14185547.
 
+## Acknowledgments, funding and conflict of interest
+
+**AUTHOR-CONTROLLED — REQUIRED BEFORE SUBMISSION.**
+
+Insert the final acknowledgments and funding statement here. All authors must also provide the collective conflict-of-interest disclosure required by Ecology Letters. If there are no relevant conflicts, replace this placeholder with the author-approved no-conflict statement.
+
 ## References
 
 - Sakhalkar SP, Janeček Š, Klomberg Y, Mertens JEJ, Hodeček J, Tropek R (2023) Cheaters among pollinators: Nectar robbing and thieving vary spatiotemporally with floral traits in Afrotropical forests. *Ecosphere* 14:e4696. https://doi.org/10.1002/ecs2.4696
