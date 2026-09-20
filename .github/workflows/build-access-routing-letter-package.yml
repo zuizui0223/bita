@@ -6,10 +6,15 @@ on:
       - "manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md"
       - "manuscript/FIGURE_PLAN_ACCESS_ROUTING_LETTER_V0.md"
       - "submission/ECOLOGY_LETTERS_LETTER_COVER_V0.md"
+      - "submission/ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md"
+      - "submission/ECOLOGY_LETTERS_LETTER_CHECKLIST_V1.md"
+      - "submission/access_routing_letter_submission_counts.json"
+      - "scripts/count_access_routing_letter_submission.py"
       - "scripts/build_access_routing_letter_figures_svg.py"
       - "scripts/build_sakhalkar2023_route_figure_svg.py"
       - "tests/test_access_routing_letter.py"
       - "tests/test_access_routing_letter_figures.py"
+      - "tests/test_ecology_letters_letter_submission.py"
       - "empirical/floral_defence_selectivity/results/joint_access_routing.json"
       - ".github/workflows/build-access-routing-letter-package.yml"
   workflow_dispatch:
@@ -30,13 +35,35 @@ jobs:
         run: python -m pip install -e '.[dev]'
       - name: Test Letter contracts
         run: |
-          pytest -q             tests/test_access_routing_letter.py             tests/test_access_routing_letter_figures.py
+          pytest -q \
+            tests/test_access_routing_letter.py \
+            tests/test_access_routing_letter_figures.py \
+            tests/test_ecology_letters_letter_submission.py
+      - name: Recompute submission counts
+        run: |
+          python scripts/count_access_routing_letter_submission.py \
+            --output artifacts/recomputed_letter_counts.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          observed = json.loads(Path("artifacts/recomputed_letter_counts.json").read_text())
+          frozen = json.loads(Path(
+              "submission/access_routing_letter_submission_counts.json"
+          ).read_text())
+          if observed != frozen:
+              raise SystemExit(
+                  f"Letter submission count drift: observed={observed!r}, frozen={frozen!r}"
+              )
+          print("Frozen Letter submission counts reproduced exactly")
+          PY
       - name: Build Letter Figures 1 and 3
         run: |
-          python scripts/build_access_routing_letter_figures_svg.py             --output-dir artifacts/letter
+          python scripts/build_access_routing_letter_figures_svg.py \
+            --output-dir artifacts/letter
       - name: Build Letter Figure 2 from public data
         run: |
-          python scripts/build_sakhalkar2023_route_figure_svg.py             --output artifacts/letter/FIGURE_2_TWO_NETWORK_ACCESS_ROUTING.svg
+          python scripts/build_sakhalkar2023_route_figure_svg.py \
+            --output artifacts/letter/FIGURE_2_TWO_NETWORK_ACCESS_ROUTING.svg
       - name: Renumber reused network figure for Letter
         run: |
           python - <<'PY'
@@ -54,7 +81,11 @@ jobs:
           cp manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md artifacts/letter/
           cp manuscript/FIGURE_PLAN_ACCESS_ROUTING_LETTER_V0.md artifacts/letter/
           cp submission/ECOLOGY_LETTERS_LETTER_COVER_V0.md artifacts/letter/
+          cp submission/ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md artifacts/letter/
+          cp submission/ECOLOGY_LETTERS_LETTER_CHECKLIST_V1.md artifacts/letter/
+          cp submission/access_routing_letter_submission_counts.json artifacts/letter/
           cp empirical/floral_defence_selectivity/results/joint_access_routing.json artifacts/letter/
+          cp empirical/floral_defence_selectivity/results/joint_access_routing_robustness.json artifacts/letter/
       - name: Verify package inventory
         run: |
           python - <<'PY'
@@ -67,7 +98,11 @@ jobs:
               "MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md",
               "FIGURE_PLAN_ACCESS_ROUTING_LETTER_V0.md",
               "ECOLOGY_LETTERS_LETTER_COVER_V0.md",
+              "ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md",
+              "ECOLOGY_LETTERS_LETTER_CHECKLIST_V1.md",
+              "access_routing_letter_submission_counts.json",
               "joint_access_routing.json",
+              "joint_access_routing_robustness.json",
           ]
           missing = [name for name in required if not (root / name).exists()]
           if missing:
