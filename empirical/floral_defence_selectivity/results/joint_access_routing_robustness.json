@@ -1,0 +1,47 @@
+{
+  "analysis_name": "joint_access_routing_sparse_pair_robustness",
+  "claim_boundary": "Sakhalkar species-level units are unchanged. Only Aubert/EPHI pair-site units are filtered by minimum resolved interaction count. Networks remain equally weighted and raw observations are not pooled.",
+  "guardrail": "Aggregate output only; no species or site identifiers are emitted.",
+  "permutations": 9999,
+  "seed": 20260920,
+  "thresholds": {
+    "min_1": {
+      "aubert_n_units": 1378,
+      "aubert_permutation_p_two_sided_within_site": 0.0001,
+      "aubert_site_adjusted_rho": 0.3505121677846742,
+      "aubert_site_count": 18,
+      "joint_equal_network_fisher_z_rho": 0.3486505954113519,
+      "joint_equal_network_mean_rho": 0.34864921795126047,
+      "joint_permutation_p_two_sided": 0.0001,
+      "network_direction_concordance": "2_of_2_positive",
+      "sakhalkar_rho": 0.3467862681178467
+    },
+    "min_2": {
+      "aubert_n_units": 1059,
+      "aubert_permutation_p_two_sided_within_site": 0.0001,
+      "aubert_site_adjusted_rho": 0.4039516243069617,
+      "aubert_site_count": 18,
+      "joint_equal_network_fisher_z_rho": 0.3757263033548698,
+      "joint_equal_network_mean_rho": 0.3753689462124042,
+      "joint_permutation_p_two_sided": 0.0001,
+      "network_direction_concordance": "2_of_2_positive",
+      "sakhalkar_rho": 0.3467862681178467
+    },
+    "min_5": {
+      "aubert_n_units": 702,
+      "aubert_permutation_p_two_sided_within_site": 0.0001,
+      "aubert_site_adjusted_rho": 0.42285547194772116,
+      "aubert_site_count": 18,
+      "joint_equal_network_fisher_z_rho": 0.3854756388118007,
+      "joint_equal_network_mean_rho": 0.3848208700327839,
+      "joint_permutation_p_two_sided": 0.0001,
+      "network_direction_concordance": "2_of_2_positive",
+      "sakhalkar_rho": 0.3467862681178467
+    }
+  },
+  "provenance": {
+    "workflow_run": 35479712673,
+    "artifact_id": 10594863515,
+    "artifact_digest": "sha256:1fecf3e06273a915c9c90b5d92ccd45932450a5339cef50a5592292cc6f480f5"
+  }
+}
