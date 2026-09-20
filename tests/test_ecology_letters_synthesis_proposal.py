@@ -23,7 +23,6 @@ def test_ecology_letters_synthesis_proposal_stays_within_300_words() -> None:
     text = PROPOSAL.read_text(encoding="utf-8")
     body = _proposal_body(text)
     assert _word_count(body) <= 300
-    assert "nature" not in body.lower() or True
     assert "broader principle" in body.lower()
     assert "lead author" in body.lower()
 
