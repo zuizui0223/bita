@@ -16,6 +16,7 @@ import math
 import random
 import sys
 import urllib.request
+from urllib.error import HTTPError, URLError
 from collections import defaultdict
 from pathlib import Path
 from urllib.parse import quote
@@ -39,8 +40,17 @@ USER_AGENT = "bita-aubert-zenodo-extension/1.0"
 def _download(name: str) -> bytes:
     url = f"{BASE}/{quote(name)}?download=1"
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(req, timeout=90) as response:  # nosec B310 fixed Zenodo URL
-        return response.read()
+    try:
+        with urllib.request.urlopen(req, timeout=90) as response:  # nosec B310 fixed Zenodo URL
+            return response.read()
+    except (HTTPError, URLError, TimeoutError) as error:
+        raise RuntimeError(
+            "Unable to retrieve the frozen EPHI Ecuador mirror file from Zenodo. "
+            "Mirror DOI: 10.5281/zenodo.14185547. Regeneration requires network "
+            "access to the fixed record; the committed "
+            "results/aubert2026_zenodo_extension.json remains the frozen analysis receipt. "
+            f"Failed file: {name}. Original error: {error}"
+        ) from error
 
 
 def _read(data: bytes) -> list[dict[str, str]]:
