@@ -206,16 +206,16 @@ Do not promote:
 
 ## 8. Journal route
 
-Current route:
+Subsequent editorial review changed the first submission route:
 
 ~~~text
-1. Ecology Letters Synthesis proposal
-2. Functional Ecology Research Article
-3. Oikos Research
-4. New Phytologist only after positive presubmission response
+1. Ecology Letters Letter
+2. Functional Ecology Research Article fallback
+3. Oikos Research fallback
+4. extended Synthesis retained in reserve
 ~~~
 
-The Ecology Letters proposal and Functional Ecology fallback adaptation already reflect the two-network evidence.
+The Letter centers the all-Ecuador routing test, uses Sakhalkar as independent corroboration, and treats the matched-domain corpus as mechanistic context rather than independent validation.
 
 ## 9. Promotion rule
 
@@ -223,13 +223,13 @@ The editorial decision has now been made: `MANUSCRIPT_FLORAL_DEFENCE_SELECTIVITY
 
 This does not silently overwrite `manuscript/MANUSCRIPT_TRAIT_DIFFERENTIATION_V1.md`. The old mechanism-identification manuscript remains preserved as provenance and an inferential support layer until the promotion PR is reviewed and merged.
 
-Current promotion state:
+Current editorial state:
 
 ~~~text
-PRIMARY_FORWARD_PAPER = MACRO_FLORAL_DEFENCE_SELECTIVITY
-PR_224 = READY_FOR_REVIEW
+PRIMARY_FORWARD_PAPER = ACCESS_ROUTING_LETTER
+EXTENDED_SYNTHESIS = PRESERVED_RESERVE
 OLD_CANONICAL = PRESERVED
-CANONICAL_REPLACEMENT = PENDING_REVIEWED_MERGE
+EXTERNAL_SUBMISSION = NOT_YET_SENT
 ~~~
 
-External proposal/submission remains a separate author-controlled action.
+The macro synthesis remains scientifically preserved; only submission priority has changed.
