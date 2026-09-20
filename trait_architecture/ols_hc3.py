@@ -43,6 +43,32 @@ def _invert(m: Sequence[Sequence[float]], *, tol: float = 1e-12) -> list[list[fl
         singular_message="design matrix is singular or numerically rank deficient",
     )
 
+
+def _transpose(m: Sequence[Sequence[float]]) -> list[list[float]]:
+    return [list(column) for column in zip(*m)]
+
+
+def _matmul(
+    a: Sequence[Sequence[float]],
+    b: Sequence[Sequence[float]],
+) -> list[list[float]]:
+    if not a or not b or len(a[0]) != len(b):
+        raise ValueError("matrix dimensions do not align")
+    return [
+        [
+            sum(a[i][k] * b[k][j] for k in range(len(b)))
+            for j in range(len(b[0]))
+        ]
+        for i in range(len(a))
+    ]
+
+
+def _matvec(m: Sequence[Sequence[float]], v: Sequence[float]) -> list[float]:
+    if not m or len(m[0]) != len(v):
+        raise ValueError("matrix/vector dimensions do not align")
+    return [sum(row[i] * v[i] for i in range(len(v))) for row in m]
+
+
 def _p_two_sided_normal(z: float) -> float:
     return max(0.0, min(1.0, 1.0 - erf(abs(z) / sqrt(2.0))))
 
