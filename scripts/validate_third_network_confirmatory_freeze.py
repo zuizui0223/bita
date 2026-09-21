@@ -89,6 +89,8 @@ def validate(receipt: dict[str, object]) -> dict[str, object]:
         camera = {}
     if camera.get("rule") in {None, "", REQUIRED}:
         failures.append("camera_effort_rule_not_frozen")
+    if camera.get("rule_version") in {None, "", REQUIRED}:
+        failures.append("camera_effort_rule_version_not_frozen")
     if camera.get("may_extend_based_on_route_outcomes") is not False:
         failures.append("outcome_adaptive_camera_effort_forbidden")
 
