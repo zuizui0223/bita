@@ -10,6 +10,9 @@ ROUTE_MANUAL = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWOR
 PILOT_SPLIT = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_PILOT_SPLIT_CONTRACT_V1.md"
 SEED_RECEIPT = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_SEED_RECEIPT_V1.json"
 FREEZE_TEMPLATE = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_CONFIRMATORY_FREEZE_RECEIPT_TEMPLATE_V1.json"
+FIELD_GATE = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_FIELD_EXECUTION_GATE_V1.md"
+PRESURVEY_SCHEMA = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_ROUTE_BLIND_PRESURVEY_SCHEMA_V1.csv"
+FIELD_TEMPLATE = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_FIELD_READINESS_TEMPLATE_V1.json"
 
 
 def test_third_network_estimand_is_frozen_before_confirmatory_outcome_search() -> None:
@@ -152,3 +155,26 @@ def test_pilot_route_presence_is_not_a_site_selection_gate() -> None:
     assert "Observed absence of B or L in pilot footage is **not** a pilot-failure criterion." in split
     assert '"pilot_B_or_L_presence_used_for_selection": false' in template
     assert '"may_extend_based_on_route_outcomes": false' in template
+
+
+
+def test_field_execution_gate_is_fail_closed_and_route_blind() -> None:
+    gate = FIELD_GATE.read_text(encoding="utf-8")
+    schema = PRESURVEY_SCHEMA.read_text(encoding="utf-8")
+    template = FIELD_TEMPLATE.read_text(encoding="utf-8")
+
+    for token in (
+        "THIRD_NETWORK_FIELD_EXECUTION_BLOCKED",
+        "route-blind presurvey",
+        "PERMITTED",
+        "NOT_REQUIRED_CONFIRMED_BY_AUTHORITY",
+        "SHA256-bound",
+        "not legal advice",
+    ):
+        assert token in gate
+
+    assert "route_code" not in schema
+    assert "B_count" not in schema
+    assert "Y_bypass_prop" not in schema
+    assert '"receipt_path": "REQUIRED_BEFORE_USE"' in template
+    assert '"sha256": "REQUIRED_BEFORE_USE"' in template
