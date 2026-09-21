@@ -1,8 +1,10 @@
 """Build prospective third-network confirmatory analysis units.
 
 The builder is the only supported path from event/morphology tables to the
-frozen third-network analysis CSV. It rejects pilot events rather than silently
-dropping them, preserving the preregistered pilot/confirmatory split.
+frozen third-network analysis CSV. It requires a checksum-frozen input manifest
+before joining route outcomes to morphology, and it rejects pilot events rather
+than silently dropping them, preserving the preregistered pilot/confirmatory
+split.
 """
 from __future__ import annotations
 
