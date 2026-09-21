@@ -182,6 +182,21 @@ Recommended operational order:
 This ordering is based on direct relevance to the prospective Protea mammal
 system, not on any observed route outcome.
 
+## Reply contamination gate
+
+Use:
+
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_RESPONSE_INTAKE_SCHEMA_V1.csv`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_EXPOSURE_REGISTRY_V1.csv`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_INTAKE_PROTOCOL_V1.md`
+- `scripts/evaluate_third_network_collaboration_intake.py`
+
+If a collaborator volunteers site-specific historical route-outcome information,
+that site is quarantined from confirmatory site selection. Taxon-specific
+exposure triggers the no-cherry-picking rule; the disclosed direction is not
+stored. The first route-blind feasible collaboration is selected by reply time,
+and the project stops shopping for a more favorable historical outcome.
+
 ## First-response gate
 
 A positive reply is useful only if it can address route-blind feasibility.
