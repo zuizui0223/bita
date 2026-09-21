@@ -99,3 +99,9 @@ def test_non_schema_outcome_column_is_rejected(tmp_path) -> None:
         writer.writerow({**row, "robbery_rate": ""})
     with pytest.raises(ValueError, match="non-schema columns"):
         run(path)
+
+
+
+def test_route_outcome_detail_is_rejected_from_free_text_extract() -> None:
+    with pytest.raises(ValueError, match="OUTCOME_DETAIL_FORBIDDEN_IN_ROUTE_BLIND_EXTRACT"):
+        evaluate_rows([_row(notes_route_blind="This site had frequent robbing historically")])
