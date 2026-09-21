@@ -1,0 +1,15 @@
+{
+  "receipt": "BITA_THIRD_NETWORK_SEED_RECEIPT_V1",
+  "frozen_date": "2026-09-21",
+  "third_network_permutation_seed": 20260921,
+  "k3_joint_primary_seed": 20260921,
+  "double_code_subset_seed": 20260922,
+  "primary_permutations": 9999,
+  "analysis_unit": "mammal_species_x_plant_species_x_site",
+  "minimum_units": 30,
+  "minimum_visitor_species": 5,
+  "minimum_plant_species": 5,
+  "planning_target_units": 70,
+  "pilot_events_allowed_in_confirmatory_analysis": false,
+  "claim": "Seeds and minimum gates are frozen before confirmatory outcome data."
+}
