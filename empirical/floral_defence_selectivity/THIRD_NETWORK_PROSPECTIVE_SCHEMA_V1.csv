@@ -9,6 +9,7 @@ events,coding_manual_version,string,identifier,audit,true,Frozen route-coding ma
 events,route_code,string,L_B_A_N,outcome,true,Blind route code
 events,coder_id,string,identifier,reliability,true,Primary coder
 events,double_coded,boolean,flag,reliability,true,Marks reliability subset
+events,second_coder_id,string,identifier,reliability,false,Required and distinct when double-coded
 events,second_route_code,string,L_B_A_N,reliability,false,Independent second code
 events,clip_quality,string,category,quality,true,Predeclared quality status
 plant_traits,site_id,string,identifier,stratum,true,Join to event site
