@@ -44,6 +44,9 @@ def _field_readiness_receipt(freeze_sha: str, *, status: str = "THIRD_NETWORK_FI
             "final_sites": ["S1"],
             "final_plant_species": ["P0", "P1", "P2", "P3", "P4"],
             "final_mammal_species": ["M0", "M1", "M2", "M3", "M4"],
+            "final_site_plant_pairs": [
+                {"site_id": "S1", "plant_species": f"P{i}"} for i in range(5)
+            ],
         },
         "gates": {
             "route_blind_presurvey_checksum_matches": True,
@@ -52,6 +55,7 @@ def _field_readiness_receipt(freeze_sha: str, *, status: str = "THIRD_NETWORK_FI
             "final_sites_supported_by_route_blind_presurvey": True,
             "final_plants_supported_by_route_blind_presurvey": True,
             "final_mammals_supported_by_route_blind_presurvey": True,
+            "final_site_plant_pairs_supported_by_route_blind_presurvey": True,
             "confirmatory_freeze_receipt_checksum_matches": True,
             "confirmatory_freeze_receipt_ready": True,
             "land_site_access_resolved": True,
@@ -73,6 +77,9 @@ def _freeze_receipt() -> dict:
             "final_sites": ["S1"],
             "final_plant_species": ["P0", "P1", "P2", "P3", "P4"],
             "final_mammal_species": ["M0", "M1", "M2", "M3", "M4"],
+            "final_site_plant_pairs": [
+                {"site_id": "S1", "plant_species": f"P{i}"} for i in range(5)
+            ],
             "route_outcome_blind": True,
             "pilot_B_or_L_presence_used_for_selection": False,
             "selection_basis": "route-blind presurvey",
@@ -495,4 +502,25 @@ def test_plant_morphology_cannot_omit_frozen_site_plant_unit(tmp_path) -> None:
     _write_csv(paths["plants"], list(rows[0]), rows)
 
     with pytest.raises(ValueError, match="plant morphology missing frozen site x plant units"):
+        _freeze(paths)
+
+
+
+def test_event_site_plant_must_be_in_frozen_pair_set(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    freeze = json.loads(paths["freeze"].read_text(encoding="utf-8"))
+    freeze["site_selection"]["final_site_plant_pairs"] = [
+        {"site_id": "S1", "plant_species": f"P{i}"} for i in range(4)
+    ]
+    freeze["site_selection"]["final_plant_species"] = [f"P{i}" for i in range(4)]
+    paths["freeze"].write_text(json.dumps(freeze), encoding="utf-8")
+
+    field = _field_readiness_receipt(_sha(paths["freeze"]))
+    field["confirmatory_freeze_receipt"]["final_plant_species"] = [f"P{i}" for i in range(4)]
+    field["confirmatory_freeze_receipt"]["final_site_plant_pairs"] = [
+        {"site_id": "S1", "plant_species": f"P{i}"} for i in range(4)
+    ]
+    paths["field"].write_text(json.dumps(field), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="event plant outside frozen plant list|event site x plant outside frozen pair list"):
         _freeze(paths)
