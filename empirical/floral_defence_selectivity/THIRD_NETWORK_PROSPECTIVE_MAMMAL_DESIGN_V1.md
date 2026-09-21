@@ -434,10 +434,11 @@ Already frozen:
 - `scripts/build_third_access_routing_units.py`
 - `scripts/analyze_third_access_routing_network.py`
 - `scripts/analyze_joint_access_routing_k3.py`
-
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_CAMERA_DEPLOYMENT_SCHEMA_V1.csv`\n- `scripts/freeze_third_network_confirmatory_inputs.py`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_INPUT_FREEZE_GATE_V1.md`\n
 Still field-specific and therefore not yet fillable:
 
 - source / permit / site receipt;
 - exact confirmatory camera deployment receipt;
-- checksum receipt for frozen morphology and route tables;
+- completed checksum manifest generated from actual confirmatory morphology,
+  route and camera-deployment tables;
 - exact-reproduction workflow using the eventual confirmatory data.
