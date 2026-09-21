@@ -5,6 +5,7 @@ events,plant_species,string,taxon,plant_id,true,Frozen confirmatory plant list
 events,mammal_species,string,taxon,visitor_id,true,Species-level visitor identity
 events,timestamp,datetime,time,audit,true,Camera timestamp
 events,camera_id,string,identifier,audit,true,Camera identifier
+events,coding_manual_version,string,identifier,audit,true,Frozen route-coding manual version
 events,route_code,string,L_B_A_N,outcome,true,Blind route code
 events,coder_id,string,identifier,reliability,true,Primary coder
 events,double_coded,boolean,flag,reliability,true,Marks reliability subset
@@ -12,10 +13,12 @@ events,second_route_code,string,L_B_A_N,reliability,false,Independent second cod
 events,clip_quality,string,category,quality,true,Predeclared quality status
 plant_traits,site_id,string,identifier,stratum,true,Join to event site
 plant_traits,plant_species,string,taxon,plant_id,true,Join to plant
+plant_traits,protocol_version,string,identifier,audit,true,Frozen plant morphology protocol version
 plant_traits,inflorescence_id,string,identifier,replicate,true,Morphology replicate
 plant_traits,access_depth_mm,float,mm,P_j,true,Primary legitimate access depth
 plant_traits,repeat_index,integer,count,quality,true,Repeated morphology measure
 mammal_traits,mammal_species,string,taxon,visitor_id,true,Join to mammal
+mammal_traits,protocol_version,string,identifier,audit,true,Frozen mammal morphology protocol version
 mammal_traits,individual_id,string,identifier,replicate,true,Morphology replicate
 mammal_traits,rostral_reach_mm,float,mm,V_i,true,Primary visitor reach phenotype
 mammal_traits,repeat_index,integer,count,quality,true,Repeated morphology measure
