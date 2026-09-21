@@ -90,20 +90,30 @@ route outcomes are known to support the prediction.
 Purpose:
 
 - verify camera placement and species identification;
-- verify that legitimate and bypass/destructive nectar-access events can be
-  distinguished reliably;
-- confirm that >=5 mammal species and >=5 plant species can plausibly be sampled;
-- estimate observation effort needed to produce >=70 realized pair-site units.
+- verify that L/B/A/N route categories can be distinguished from image geometry
+  without viewing morphology values;
+- confirm from independent presurvey / trapping records that >=5 mammal species
+  and >=5 plant species can plausibly be sampled;
+- estimate camera uptime, storage and field effort needed for the frozen design.
 
 Pilot restrictions:
 
 - pilot events are never included in the confirmatory analysis;
 - access mismatch M is not calculated against pilot route outcomes;
 - no M–Y correlation is computed;
-- no site is selected because its observed M–Y direction is favorable.
+- no site, plant species or mammal species is retained or dropped because B or L
+  was or was not observed in pilot footage;
+- pilot route frequencies are not used to choose camera effort.
 
-A site can pass the pilot only on **schema/variance** criteria: adequate fauna,
-adequate plant richness, cameras work, and both route classes are observable.
+Site and plant inclusion are frozen from **pre-route ecological and logistical
+criteria only**: independent richness records, flowering availability, permits,
+accessibility and camera operability. Pilot video may train/validate the coding
+manual, but route-class presence or absence cannot determine confirmatory site
+selection.
+
+If the final confirmatory dataset contains no B or no L events, the frozen
+eligibility gate fails and the system remains ineligible; the project does not
+replace sites post hoc to manufacture route variation.
 
 ### Stage B — confirmatory collection
 
@@ -407,8 +417,10 @@ zero-compatible or opposite in sign, that result remains the confirmatory third
 network. The project must not replace it with another mammal dataset to restore
 concordance.
 
-If route B is absent during the **excluded pilot**, the system is not suitable
-for the frozen estimand and confirmatory collection does not begin.
+Absence of B during the **excluded pilot** is not a site-selection rule. The
+confirmatory site/plant set is determined independently of pilot route outcomes.
+If the completed confirmatory dataset contains no B or no L events, the frozen
+eligibility gate fails and no k=3 claim is made.
 
 ## 18. Frozen implementation assets before field analysis
 

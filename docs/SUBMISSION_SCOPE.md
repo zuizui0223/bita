@@ -91,6 +91,8 @@ The active lane is now one prospective **non-flying-mammal × Protea** network:
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_ROUTE_CODING_MANUAL_V1.md`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_PILOT_SPLIT_CONTRACT_V1.md`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_SEED_RECEIPT_V1.json`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_CONFIRMATORY_FREEZE_RECEIPT_TEMPLATE_V1.json`
+- `scripts/validate_third_network_confirmatory_freeze.py`
 - `scripts/build_third_access_routing_units.py`
 - `scripts/analyze_third_access_routing_network.py`
 - `scripts/analyze_joint_access_routing_k3.py`
@@ -106,7 +108,9 @@ greater bypass / robbing propensity
 Prospective safeguards:
 
 - eligibility pilot data are excluded from confirmatory inference;
+- pilot B/L presence or absence cannot select/drop confirmatory sites;
 - morphology and route coding are frozen separately;
+- a fail-closed pre-video freeze receipt must pass before confirmatory route videos are opened;
 - route coders do not receive P, V, or M values;
 - the confirmatory planning target is >=70 realized mammal × plant × site units;
 - the frozen eligibility minimum remains >=30 units, >=5 mammal species and

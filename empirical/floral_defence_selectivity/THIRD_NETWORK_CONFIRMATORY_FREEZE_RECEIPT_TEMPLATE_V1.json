@@ -1,0 +1,50 @@
+{
+  "receipt": "BITA_THIRD_NETWORK_CONFIRMATORY_FREEZE_V1",
+  "status": "REQUIRED_BEFORE_CONFIRMATORY_VIDEO_OPEN",
+  "parent_prereg_commit": "ae98e496a99fa7f5b333bbe7881025d13a8d8768",
+  "design_system": "CAPE_SMALL_MAMMAL_X_PROTEA",
+  "site_selection": {
+    "final_sites": [],
+    "final_plant_species": [],
+    "route_outcome_blind": true,
+    "pilot_B_or_L_presence_used_for_selection": false,
+    "selection_basis": "REQUIRED_BEFORE_USE"
+  },
+  "visitor_identification": {
+    "protocol_version": "REQUIRED_BEFORE_USE",
+    "minimum_confidence": "MEDIUM"
+  },
+  "morphology": {
+    "plant_protocol_version": "REQUIRED_BEFORE_USE",
+    "mammal_protocol_version": "REQUIRED_BEFORE_USE",
+    "plant_primary_trait": "legitimate_nectar_access_depth_mm",
+    "mammal_primary_trait": "functional_rostral_reach_mm"
+  },
+  "route_coding": {
+    "manual": "THIRD_NETWORK_ROUTE_CODING_MANUAL_V1",
+    "coders_blind_to_P_V_M": true,
+    "double_code_fraction_minimum": 0.2,
+    "target_kappa_LBAN": 0.8
+  },
+  "camera_effort": {
+    "rule": "REQUIRED_BEFORE_USE",
+    "may_extend_based_on_route_outcomes": false
+  },
+  "analysis": {
+    "third_network_seed": 20260921,
+    "k3_joint_seed": 20260921,
+    "permutations": 9999,
+    "minimum_units": 30,
+    "minimum_mammal_species": 5,
+    "minimum_plant_species": 5,
+    "planning_target_units": 70
+  },
+  "permissions": {
+    "land_access": "REQUIRED_BEFORE_USE",
+    "animal_capture_or_handling": "REQUIRED_BEFORE_USE",
+    "plant_measurement_or_collection": "REQUIRED_BEFORE_USE"
+  },
+  "freeze_time_utc": "REQUIRED_BEFORE_USE",
+  "frozen_by": "REQUIRED_BEFORE_USE",
+  "claim": "This receipt must be complete and checksum-frozen before confirmatory route videos are opened."
+}
