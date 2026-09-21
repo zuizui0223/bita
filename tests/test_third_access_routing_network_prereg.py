@@ -6,6 +6,9 @@ REGISTRY = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_CA
 SEARCH_AUDIT = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_BOUNDED_SEARCH_V1.md"
 PROSPECTIVE_DESIGN = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_PROSPECTIVE_MAMMAL_DESIGN_V1.md"
 PROSPECTIVE_SCHEMA = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_PROSPECTIVE_SCHEMA_V1.csv"
+ROUTE_MANUAL = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_ROUTE_CODING_MANUAL_V1.md"
+PILOT_SPLIT = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_PILOT_SPLIT_CONTRACT_V1.md"
+SEED_RECEIPT = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_SEED_RECEIPT_V1.json"
 
 
 def test_third_network_estimand_is_frozen_before_confirmatory_outcome_search() -> None:
@@ -105,3 +108,34 @@ def test_prospective_mammal_design_preserves_frozen_estimand() -> None:
         "Y_bypass_prop",
     ):
         assert column in schema
+
+
+def test_route_coding_and_pilot_split_are_frozen_before_data() -> None:
+    manual = ROUTE_MANUAL.read_text(encoding="utf-8")
+    split = PILOT_SPLIT.read_text(encoding="utf-8")
+    seed = SEED_RECEIPT.read_text(encoding="utf-8")
+
+    for token in (
+        "MORPHOLOGY_BLIND = REQUIRED",
+        "L = LEGITIMATE",
+        "B = BYPASS",
+        "A = AMBIGUOUS",
+        "N = NON_NECTAR",
+        "target kappa >=0.80",
+        "Y = B_count / (B_count + L_count)",
+    ):
+        assert token in manual
+
+    assert "PILOT_EVENTS_IN_CONFIRMATORY_ANALYSIS = FORBIDDEN" in split
+    assert "confirmatory unit builder accepts **CONFIRMATORY only**" in split
+    assert '"third_network_permutation_seed": 20260921' in seed
+    assert '"pilot_events_allowed_in_confirmatory_analysis": false' in seed
+
+
+def test_confirmatory_builder_exists_as_only_supported_data_entry() -> None:
+    path = ROOT / "scripts" / "build_third_access_routing_units.py"
+    text = path.read_text(encoding="utf-8")
+    assert "PILOT_OR_NONCONFIRMATORY_EVENT_SUPPLIED" in text
+    assert 'roles != {"CONFIRMATORY"}' in text
+    assert "M_log_ratio" in text
+    assert "Y_bypass_prop" in text
