@@ -6,6 +6,7 @@ events,plant_species,string,taxon,true,Plant identity
 events,mammal_species,string,taxon,true,Mammal identity
 events,timestamp,datetime,time,true,Camera timestamp
 events,camera_id,string,identifier,true,Camera identifier
+events,coding_manual_version,string,identifier,true,Must equal frozen route-coding manual version
 events,route_code,string,L|B|A|N,true,Blind route classification
 events,visitor_id_confidence,string,HIGH|MEDIUM|LOW,true,Frozen identity confidence
 events,route_visibility,string,FULL|PARTIAL|POOR,true,Visibility diagnostic
