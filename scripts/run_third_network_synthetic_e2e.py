@@ -10,6 +10,7 @@ import csv
 import hashlib
 import json
 import math
+import random
 from pathlib import Path
 
 from scripts.analyze_joint_access_routing_k3 import summarize_joint_k3
@@ -110,6 +111,8 @@ def _freeze_receipt() -> dict[str, object]:
             "coders_blind_to_P_V_M": True,
             "double_code_fraction_minimum": 0.2,
             "target_kappa_LBAN": 0.8,
+            "double_code_subset_seed": 20260922,
+            "double_code_selection_method": "SEEDED_RANDOM_SAMPLE_OF_NON_N_EVENT_IDS",
         },
         "camera_effort": {
             "rule": "synthetic fixed 120 camera-hours per plant x site",
@@ -325,10 +328,21 @@ def _raw_tables(outdir: Path, scenario: str) -> dict[str, Path]:
                             "preexisting_bypass_opening": "NO",
                             "clip_quality": "PASS",
                             "coder_id": "SYNTHETIC_CODER_A",
-                            "double_coded": "true",
-                            "second_coder_id": "SYNTHETIC_CODER_B",
-                            "second_route_code": route,
+                            "double_coded": "false",
+                            "second_coder_id": "",
+                            "second_route_code": "",
                         })
+    rng = random.Random(20260922)
+    feeding_ids = sorted(row["event_id"] for row in event_rows)
+    selected_double_ids = set(
+        rng.sample(feeding_ids, math.ceil(0.2 * len(feeding_ids)))
+    )
+    for row in event_rows:
+        if row["event_id"] in selected_double_ids:
+            row["double_coded"] = "true"
+            row["second_coder_id"] = "SYNTHETIC_CODER_B"
+            row["second_route_code"] = row["route_code"]
+
     _write_csv(
         events,
         [
