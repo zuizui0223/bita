@@ -3,6 +3,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PREREG = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_ACCESS_ROUTING_NETWORK_PREREG_V1.md"
 REGISTRY = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_CANDIDATE_REGISTRY_V1.csv"
+SEARCH_AUDIT = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_BOUNDED_SEARCH_V1.md"
 
 
 def test_third_network_estimand_is_frozen_before_confirmatory_outcome_search() -> None:
@@ -39,3 +40,37 @@ def test_exposed_candidates_cannot_reenter_confirmatory_lane() -> None:
     assert "DinizAguiar_2023_bat_flower" in text
     assert "Mucuna_macrocarpa_Dryad" in text
     assert text.count("DISCOVERY_EXPOSED_NOT_CONFIRMATORY") >= 5
+
+
+def test_bounded_search_closes_without_relaxing_third_network_estimand() -> None:
+    text = SEARCH_AUDIT.read_text(encoding="utf-8")
+    for token in (
+        "PUBLIC_THIRD_NETWORK = NOT_AVAILABLE",
+        "NO_PUBLIC_DATASET_PASSED_ALL_FROZEN_ELIGIBILITY_GATES",
+        "ESTIMAND_RELAXATION = PROHIBITED",
+        "EXISTING_CONFIRMATORY_NETWORKS = 2",
+        "PUBLIC_SCHEMA_ELIGIBLE_THIRD_NETWORK = 0",
+        "JOINT_NETWORK_K = 2",
+        "K3_PUBLIC_REANALYSIS = NOT_CURRENTLY_AVAILABLE",
+        "newly released public dataset",
+        "prospective third-fauna field dataset",
+    ):
+        assert token in text
+
+
+def test_postfreeze_registry_contains_schema_failures_not_selected_outcomes() -> None:
+    text = REGISTRY.read_text(encoding="utf-8")
+    for candidate in (
+        "MaguinaConde_2024_bat_trait_matching",
+        "Caatinga_bat_flower_network",
+        "Pantanal_bat_flower_network",
+        "NeoBat_interactions",
+        "Yungas_bat_pollination",
+        "Cneorum_Podarcis",
+        "Grizzled_giant_squirrel_feeding",
+        "Flower_eDNA_multitaxon",
+    ):
+        assert candidate in text
+    assert "INELIGIBLE_NO_ROUTE_OUTCOME" in text
+    assert "INELIGIBLE_PLANT_RICHNESS" in text
+    assert "INELIGIBLE_VISITOR_RICHNESS" in text
