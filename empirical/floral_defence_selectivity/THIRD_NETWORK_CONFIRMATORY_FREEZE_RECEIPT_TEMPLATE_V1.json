@@ -30,7 +30,8 @@
   },
   "camera_effort": {
     "rule": "REQUIRED_BEFORE_USE",
-    "may_extend_based_on_route_outcomes": false
+    "may_extend_based_on_route_outcomes": false,
+    "rule_version": "REQUIRED_BEFORE_USE"
   },
   "analysis": {
     "third_network_seed": 20260921,
