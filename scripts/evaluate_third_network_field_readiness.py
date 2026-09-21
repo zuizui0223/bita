@@ -214,8 +214,19 @@ def evaluate(
             for value in site_cfg.get("final_mammal_species", [])
             if str(value).strip()
         }
+        final_site_plant_pairs = {
+            (
+                str(row.get("site_id", "")).strip(),
+                str(row.get("plant_species", "")).strip(),
+            )
+            for row in site_cfg.get("final_site_plant_pairs", [])
+            if isinstance(row, dict)
+            and str(row.get("site_id", "")).strip()
+            and str(row.get("plant_species", "")).strip()
+        }
     else:
         final_sites, final_plants, final_mammals = set(), set(), set()
+        final_site_plant_pairs = set()
 
     final_sites_supported_by_presurvey = bool(final_sites) and final_sites.issubset(presurvey_sites)
     allowed_plants = set().union(
@@ -230,6 +241,16 @@ def evaluate(
     )
     final_mammals_supported_by_presurvey = (
         bool(final_mammals) and final_mammals.issubset(allowed_mammals)
+    )
+    final_site_plant_pairs_supported_by_presurvey = (
+        bool(final_site_plant_pairs)
+        and all(
+            site in presurvey_sites
+            and plant in presurvey_plants_by_site.get(site, set())
+            for site, plant in final_site_plant_pairs
+        )
+        and {site for site, _plant in final_site_plant_pairs} == final_sites
+        and {plant for _site, plant in final_site_plant_pairs} == final_plants
     )
 
     actions = {
@@ -290,6 +311,7 @@ def evaluate(
         "final_sites_supported_by_route_blind_presurvey": final_sites_supported_by_presurvey,
         "final_plants_supported_by_route_blind_presurvey": final_plants_supported_by_presurvey,
         "final_mammals_supported_by_route_blind_presurvey": final_mammals_supported_by_presurvey,
+        "final_site_plant_pairs_supported_by_route_blind_presurvey": final_site_plant_pairs_supported_by_presurvey,
         "confirmatory_freeze_receipt_checksum_matches": freeze_sha_ok,
         "confirmatory_freeze_receipt_ready": freeze_ready,
         "land_site_access_resolved": actions["land_site_access"]["gate"],
@@ -336,6 +358,10 @@ def evaluate(
             "final_sites": sorted(final_sites),
             "final_plant_species": sorted(final_plants),
             "final_mammal_species": sorted(final_mammals),
+            "final_site_plant_pairs": [
+                {"site_id": site, "plant_species": plant}
+                for site, plant in sorted(final_site_plant_pairs)
+            ],
         },
         "action_authorizations": actions,
         "mammal_morphology_source": {
