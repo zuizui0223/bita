@@ -1,0 +1,12 @@
+table,column,type,allowed_or_unit,required,notes
+deployment,deployment_id,string,identifier,true,Immutable deployment row
+deployment,site_id,string,identifier,true,Frozen confirmatory site
+deployment,plant_species,string,taxon,true,Frozen confirmatory plant
+deployment,camera_id,string,identifier,true,Camera unit
+deployment,planned_start_utc,datetime,UTC,true,Predeclared start
+deployment,planned_end_utc,datetime,UTC,true,Predeclared end
+deployment,planned_camera_hours,float,hours,true,Fixed planned effort
+deployment,camera_angle,string,PRIMARY|SECONDARY_VALIDATION,true,Primary sampling or route-validation angle
+deployment,dataset_role,string,CONFIRMATORY,true,Pilot deployments are stored separately
+deployment,effort_rule_version,string,identifier,true,Links to frozen camera-effort rule
+deployment,route_outcome_adaptive,boolean,false,true,Must always be false
