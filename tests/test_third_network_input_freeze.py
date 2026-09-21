@@ -42,6 +42,8 @@ def _field_readiness_receipt(freeze_sha: str, *, status: str = "THIRD_NETWORK_FI
             "validator_status": "READY_FOR_CONFIRMATORY_VIDEO_OPEN",
             "validator_failures": [],
             "final_sites": ["S1"],
+            "final_plant_species": ["P0", "P1", "P2", "P3", "P4"],
+            "final_mammal_species": ["M0", "M1", "M2", "M3", "M4"],
         },
         "gates": {
             "route_blind_presurvey_checksum_matches": True,
@@ -68,6 +70,7 @@ def _freeze_receipt() -> dict:
         "site_selection": {
             "final_sites": ["S1"],
             "final_plant_species": ["P0", "P1", "P2", "P3", "P4"],
+            "final_mammal_species": ["M0", "M1", "M2", "M3", "M4"],
             "route_outcome_blind": True,
             "pilot_B_or_L_presence_used_for_selection": False,
             "selection_basis": "route-blind presurvey",
@@ -455,4 +458,25 @@ def test_event_timestamp_must_fall_inside_frozen_camera_window(tmp_path) -> None
     _write_csv(paths["events"], list(rows[0]), rows)
 
     with pytest.raises(ValueError, match="EVENT_OUTSIDE_FROZEN_CAMERA_WINDOW"):
+        _freeze(paths)
+
+
+
+def test_event_mammal_must_be_in_frozen_taxon_list(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["events"].open(encoding="utf-8")))
+    rows[0]["mammal_species"] = "M_OUTSIDE"
+    _write_csv(paths["events"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="event mammal outside frozen mammal list"):
+        _freeze(paths)
+
+
+def test_mammal_morphology_cannot_omit_frozen_taxon(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["mammals"].open(encoding="utf-8")))
+    rows = [row for row in rows if row["mammal_species"] != "M4"]
+    _write_csv(paths["mammals"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="mammal morphology missing frozen species: M4"):
         _freeze(paths)
