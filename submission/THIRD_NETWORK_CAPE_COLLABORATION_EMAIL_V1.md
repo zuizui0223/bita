@@ -1,6 +1,6 @@
 # Prospective Cape third-network collaboration inquiry v1
 
-**Status:** draft for author approval; do not send automatically.
+**Status:** send-ready draft; explicit author send approval still required.
 
 **Suggested recipients:** Prof Sandy-Lynn Steenhuisen; Emeritus Prof Jeremy Midgley
 
@@ -46,5 +46,5 @@ I would be very grateful for any advice on whether this is practical in the Cape
 Best regards,
 
 Ruiqi Zhang
-[current affiliation]
-[email]
+Graduate School of Agriculture, Kyoto University
+zhang.ruiqi.77h@st.kyoto-u.ac.jp

@@ -47,8 +47,9 @@ def test_submission_scope_points_to_outcome_blind_collaboration_next_action() ->
     text = SCOPE.read_text(encoding="utf-8")
     assert "THIRD_NETWORK_CAPE_COLLABORATION_ROUTE_V1.md" in text
     assert "THIRD_NETWORK_CAPE_COLLABORATION_EMAIL_V1.md" in text
+    assert "THIRD_NETWORK_CAPE_FIRST_CONTACT_PACKET_V1.md" in text
     assert "NEXT_EXTERNAL_ACTION = OUTCOME_BLIND_CAPE_COLLABORATION_INQUIRY" in text
-    assert "COLLABORATION_EMAIL = DRAFT_AUTHOR_APPROVAL_REQUIRED" in text
+    assert "COLLABORATION_EMAIL = SEND_READY_AUTHOR_SEND_APPROVAL_REQUIRED" in text
     assert "\\n- `scripts/evaluate_third_network_route_blind_presurvey.py`" not in text
 
 
