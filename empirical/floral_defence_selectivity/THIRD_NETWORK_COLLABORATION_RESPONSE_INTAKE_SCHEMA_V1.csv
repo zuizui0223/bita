@@ -1,0 +1,15 @@
+table,column,type,allowed_or_unit,required,notes
+intake,response_id,string,identifier,true,One structured collaboration reply
+intake,contact_id,string,identifier,true,Collaborator/contact identifier
+intake,received_utc,datetime,UTC,true,Reply receipt time
+intake,candidate_site_id,string,identifier,true,Route-blind candidate site/region code
+intake,region,string,text,true,Geographic feasibility context only
+intake,flowering_plant_species_count,integer,count,true,Route-blind count; no route outcomes
+intake,mammal_species_count,integer,count,true,Route-blind count; no route outcomes
+intake,flowering_window,string,text,true,Feasibility window
+intake,camera_feasible,string,YES|NO|UNCERTAIN,true,Near-focus IR camera feasibility
+intake,plant_access_depth_feasible,string,YES|NO|UNCERTAIN,true,Can primary P trait be measured
+intake,mammal_rostral_morphometrics_feasible,string,YES|NO|UNCERTAIN,true,Can primary V trait be sourced
+intake,land_permit_ethics_path_identified,string,YES|NO|UNCERTAIN,true,Administrative pathway only
+intake,collaboration_interest,string,YES|NO|MAYBE,true,Willingness to discuss collaboration
+intake,outcome_exposure_flag,string,NONE|EXPOSED,true,Whether reply volunteered prohibited historical route-outcome information
