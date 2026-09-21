@@ -17,6 +17,7 @@ def _ready_receipt() -> dict[str, object]:
     receipt = json.loads(TEMPLATE.read_text(encoding="utf-8"))
     receipt["site_selection"]["final_sites"] = ["S1", "S2"]
     receipt["site_selection"]["final_plant_species"] = ["P1", "P2", "P3", "P4", "P5"]
+    receipt["site_selection"]["final_mammal_species"] = ["M1", "M2", "M3", "M4", "M5"]
     receipt["site_selection"]["selection_basis"] = "pre-route ecology + permits + flowering"
     receipt["visitor_identification"]["protocol_version"] = "ID_V1"
     receipt["morphology"]["plant_protocol_version"] = "PLANT_MORPH_V1"
@@ -57,3 +58,12 @@ def test_camera_effort_cannot_adapt_to_route_outcome() -> None:
     result = validate(receipt)
     assert result["status"] == "BLOCKED"
     assert "outcome_adaptive_camera_effort_forbidden" in result["failures"]
+
+
+
+def test_mammal_species_list_is_required_before_video_open() -> None:
+    receipt = _ready_receipt()
+    receipt["site_selection"]["final_mammal_species"] = []
+    result = validate(receipt)
+    assert result["status"] == "BLOCKED"
+    assert "final_mammal_species_not_frozen" in result["failures"]
