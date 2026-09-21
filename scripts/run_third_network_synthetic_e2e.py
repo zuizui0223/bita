@@ -326,6 +326,7 @@ def _raw_tables(outdir: Path, scenario: str) -> dict[str, Path]:
                             "clip_quality": "PASS",
                             "coder_id": "SYNTHETIC_CODER_A",
                             "double_coded": "true",
+                            "second_coder_id": "SYNTHETIC_CODER_B",
                             "second_route_code": route,
                         })
     _write_csv(
@@ -349,6 +350,7 @@ def _raw_tables(outdir: Path, scenario: str) -> dict[str, Path]:
             "clip_quality",
             "coder_id",
             "double_coded",
+            "second_coder_id",
             "second_route_code",
         ],
         event_rows,
