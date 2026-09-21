@@ -242,16 +242,25 @@ def _validate_events(
             raise ValueError("coder_id must not be blank")
 
         is_double = _bool_text(row["double_coded"], "double_coded")
+        second_coder = str(row.get("second_coder_id", "")).strip()
         second_route = str(row.get("second_route_code", "")).strip().upper()
         if is_double:
+            if not second_coder:
+                raise ValueError(
+                    "second_coder_id is required when double_coded=true"
+                )
+            if second_coder == coder:
+                raise ValueError(
+                    "SECOND_CODER_MUST_BE_INDEPENDENT_OF_PRIMARY_CODER"
+                )
             if second_route not in ALLOWED_ROUTE_CODES:
                 raise ValueError(
                     "second_route_code must be L/B/A/N when double_coded=true"
                 )
             double_coded_pairs.append((route, second_route))
-        elif second_route:
+        elif second_coder or second_route:
             raise ValueError(
-                "second_route_code must be blank when double_coded=false"
+                "second_coder_id and second_route_code must be blank when double_coded=false"
             )
 
         if route != "N":
