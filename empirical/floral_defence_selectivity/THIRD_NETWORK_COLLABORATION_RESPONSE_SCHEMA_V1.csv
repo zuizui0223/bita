@@ -1,0 +1,18 @@
+table,column,type,allowed_or_unit,required,notes
+response,response_id,string,identifier,true,Immutable extracted response row
+response,source_contact,string,identifier,true,Collaborator or institutional source
+response,response_date,date,YYYY-MM-DD,true,Date response was received
+response,candidate_site_id,string,identifier,true,Route-blind candidate site or region code
+response,candidate_region,string,text,true,Route-blind geographic label
+response,plant_species,string,taxon,false,Candidate plant identity only; no route information
+response,mammal_species,string,taxon,false,Candidate mammal identity only; no route information
+response,flowering_window,string,text,false,Route-blind flowering timing
+response,camera_feasible,string,YES|NO|UNKNOWN,true,Route-blind camera feasibility
+response,plant_depth_feasible,string,YES|NO|UNKNOWN,true,Whether legitimate access depth can be measured
+response,mammal_morph_source_available,string,YES|NO|UNKNOWN,true,Whether predeclared regional morphology can be obtained
+response,land_permit_path_known,string,YES|NO|UNKNOWN,true,Whether land/permit route is known
+response,ethics_path_known,string,YES|NO|UNKNOWN,true,Whether ethics/review route is known
+response,collaboration_interest,string,YES|NO|MAYBE|UNKNOWN,true,Prospective collaboration interest
+response,outcome_exposure_status,string,CLEAN|GENERIC_ONLY|SITE_EXPOSED|PLANT_EXPOSED|MAMMAL_EXPOSED|SYSTEM_EXPOSED,true,Contamination flag only; never store outcome direction/value
+response,exposure_scope_id,string,identifier_or_blank,false,Entity to exclude when exposure status is entity-specific
+response,notes_route_blind,string,text,false,Route-blind logistics only; do not copy outcome details
