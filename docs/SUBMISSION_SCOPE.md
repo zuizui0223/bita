@@ -103,7 +103,11 @@ The active lane is now one prospective **non-flying-mammal × Protea** network:
 - `scripts/analyze_joint_access_routing_k3.py`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_CAPE_COLLABORATION_ROUTE_V1.md`
 - `submission/THIRD_NETWORK_CAPE_COLLABORATION_EMAIL_V1.md`
-- `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_RESPONSE_INTAKE_SCHEMA_V1.csv`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_EXPOSURE_REGISTRY_V1.csv`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_INTAKE_PROTOCOL_V1.md`\n- `scripts/evaluate_third_network_collaboration_intake.py`\n
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_RESPONSE_INTAKE_SCHEMA_V1.csv`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_EXPOSURE_REGISTRY_V1.csv`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_INTAKE_PROTOCOL_V1.md`
+- `scripts/evaluate_third_network_collaboration_intake.py`
+
 The same predeclared estimand remains:
 
 ~~~text
