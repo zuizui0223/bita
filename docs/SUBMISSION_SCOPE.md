@@ -87,6 +87,11 @@ The active lane is now one prospective **non-flying-mammal × Protea** network:
 
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_PROSPECTIVE_MAMMAL_DESIGN_V1.md`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_PROSPECTIVE_SCHEMA_V1.csv`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_EVENT_SCHEMA_V1.csv`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_ROUTE_CODING_MANUAL_V1.md`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_PILOT_SPLIT_CONTRACT_V1.md`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_SEED_RECEIPT_V1.json`
+- `scripts/build_third_access_routing_units.py`
 - `scripts/analyze_third_access_routing_network.py`
 - `scripts/analyze_joint_access_routing_k3.py`
 
