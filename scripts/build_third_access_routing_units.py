@@ -36,6 +36,9 @@ def verify_freeze_manifest(
     events_csv: str | Path,
     plant_traits_csv: str | Path,
     mammal_traits_csv: str | Path,
+    camera_deployment_csv: str | Path,
+    confirmatory_freeze_json: str | Path,
+    field_readiness_json: str | Path,
 ) -> dict[str, object]:
     manifest_path = Path(manifest_json)
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -53,6 +56,9 @@ def verify_freeze_manifest(
         "events": Path(events_csv),
         "plant_traits": Path(plant_traits_csv),
         "mammal_traits": Path(mammal_traits_csv),
+        "camera_deployment": Path(camera_deployment_csv),
+        "confirmatory_freeze": Path(confirmatory_freeze_json),
+        "field_readiness": Path(field_readiness_json),
     }
 
     verified: dict[str, str] = {}
@@ -271,6 +277,9 @@ def run(
     events_csv: str | Path,
     plant_traits_csv: str | Path,
     mammal_traits_csv: str | Path,
+    camera_deployment_csv: str | Path,
+    confirmatory_freeze_json: str | Path,
+    field_readiness_json: str | Path,
     freeze_manifest_json: str | Path,
     output_csv: str | Path,
     audit_json: str | Path,
@@ -280,6 +289,9 @@ def run(
         events_csv=events_csv,
         plant_traits_csv=plant_traits_csv,
         mammal_traits_csv=mammal_traits_csv,
+        camera_deployment_csv=camera_deployment_csv,
+        confirmatory_freeze_json=confirmatory_freeze_json,
+        field_readiness_json=field_readiness_json,
     )
 
     units, audit = build_units(
@@ -304,6 +316,9 @@ if __name__ == "__main__":
     parser.add_argument("events_csv")
     parser.add_argument("plant_traits_csv")
     parser.add_argument("mammal_traits_csv")
+    parser.add_argument("camera_deployment_csv")
+    parser.add_argument("confirmatory_freeze_json")
+    parser.add_argument("field_readiness_json")
     parser.add_argument("freeze_manifest_json")
     parser.add_argument("output_csv")
     parser.add_argument("audit_json")
@@ -314,6 +329,9 @@ if __name__ == "__main__":
                 args.events_csv,
                 args.plant_traits_csv,
                 args.mammal_traits_csv,
+                args.camera_deployment_csv,
+                args.confirmatory_freeze_json,
+                args.field_readiness_json,
                 args.freeze_manifest_json,
                 args.output_csv,
                 args.audit_json,
