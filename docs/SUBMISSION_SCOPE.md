@@ -70,7 +70,34 @@ Raw observations are never pooled. The joint test does not estimate between-netw
 
 Both analyses are observational and are not pooled onto one effect scale.
 
-## 5. Mechanistic context only
+## 5. Third independent network priority
+
+The current (k=2) ceiling is now the highest-priority unresolved scientific limit.
+
+A confirmatory third-network protocol is frozen in:
+
+- `empirical/floral_defence_selectivity/THIRD_ACCESS_ROUTING_NETWORK_PREREG_V1.md`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_CANDIDATE_REGISTRY_V1.csv`
+
+The third network must be an independently sampled **non-Insecta / non-Aves** visitor fauna and recover the same predeclared estimand:
+
+~~~text
+greater legitimate-route access constraint
+        ->
+greater bypass / robbing propensity
+~~~
+
+Dataset selection cannot use the observed outcome direction. Candidates whose relevant outcome direction was already exposed are permanently excluded from the confirmatory lane.
+
+Until a third eligible network is found and tested under the frozen protocol:
+
+~~~text
+JOINT_NETWORK_K = 2
+K3_GENERALITY_TEST = PREREGISTERED_PENDING_DATASET
+K3_GENERALITY_TEST = PENDING_OUTCOME_BLIND_DATASET
+~~~
+
+## 6. Mechanistic context only
 
 The broader floral-defence evidence package remains useful for interpretation:
 
@@ -84,7 +111,7 @@ Matched effective-domain classifications are author-coded and have not yet under
 
 These counts describe evidence structure, not natural prevalence, and they are not pooled into one grand meta-analytic effect.
 
-## 6. Required claim boundaries
+## 7. Required claim boundaries
 
 Do not claim:
 
@@ -96,7 +123,7 @@ Do not claim:
 - matched-domain alignment estimates prevalence or a confirmatory success rate;
 - the access-routing result identifies evolutionary origin of floral barriers.
 
-## 7. Ecology Letters initial-submission archive gate
+## 8. Ecology Letters initial-submission archive gate
 
 Before external upload, deposit the CI-built analysis-data/code archive in a DOI-bearing repository.
 
@@ -120,7 +147,7 @@ ARCHIVE_STAGING = READY
 ARCHIVE_DOI = REQUIRED
 ~~~
 
-## 8. Preserved reserve papers
+## 9. Preserved reserve papers
 
 Extended Synthesis:
 
@@ -138,7 +165,7 @@ The mechanism-identification manuscript is preserved support and is no longer th
 - `manuscript/MANUSCRIPT_IDENTIFICATION_DESIGN.md`
 - `manuscript/CLAIM_FREEZE.md`
 
-## 9. Current state
+## 10. Current state
 
 ```text
 PRIMARY_FORWARD_PAPER = ACCESS_ROUTING_LETTER
