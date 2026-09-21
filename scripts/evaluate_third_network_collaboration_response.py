@@ -51,6 +51,20 @@ FORBIDDEN_COLUMN_TOKENS = {
     "rho",
 }
 
+FORBIDDEN_FREE_TEXT_TOKENS = {
+    "robbery",
+    "robbing",
+    "bypass",
+    "destructive access",
+    "legitimate access",
+    "route-specific",
+    "mismatch",
+    "coefficient",
+    "p-value",
+    "p value",
+    "rho=",
+}
+
 
 def _read(path: str | Path) -> list[dict[str, str]]:
     with Path(path).open(encoding="utf-8", newline="") as handle:
@@ -101,6 +115,17 @@ def evaluate_rows(rows: list[dict[str, str]]) -> dict[str, object]:
         if not site:
             raise ValueError("candidate_site_id must not be blank")
         sites.add(site)
+
+        free_text = " ".join(
+            str(row[field]).strip().lower()
+            for field in ("candidate_region", "flowering_window", "notes_route_blind")
+        )
+        leaked = sorted(token for token in FORBIDDEN_FREE_TEXT_TOKENS if token in free_text)
+        if leaked:
+            raise ValueError(
+                "OUTCOME_DETAIL_FORBIDDEN_IN_ROUTE_BLIND_EXTRACT: "
+                + ",".join(leaked)
+            )
 
         plant = str(row["plant_species"]).strip()
         mammal = str(row["mammal_species"]).strip()
