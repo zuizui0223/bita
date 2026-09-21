@@ -26,7 +26,7 @@ def test_third_network_estimand_is_frozen_before_confirmatory_outcome_search() -
 
 def test_third_network_k3_statistic_is_equal_network_and_nonpooled() -> None:
     text = PREREG.read_text(encoding="utf-8")
-    assert "r_{J3}" in text
+    assert "r_J3" in text
     assert "Each network has equal weight." in text
     assert "No raw observations are pooled." in text
     assert "universal causality" in text
