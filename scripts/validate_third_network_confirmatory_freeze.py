@@ -82,6 +82,14 @@ def validate(receipt: dict[str, object]) -> dict[str, object]:
     route = receipt.get("route_coding", {})
     if not isinstance(route, dict) or route.get("coders_blind_to_P_V_M") is not True:
         failures.append("route_coder_blinding_not_frozen")
+    if not isinstance(route, dict) or not isinstance(route.get("double_code_subset_seed"), int):
+        failures.append("double_code_subset_seed_not_frozen")
+    if (
+        not isinstance(route, dict)
+        or route.get("double_code_selection_method")
+        != "SEEDED_RANDOM_SAMPLE_OF_NON_N_EVENT_IDS"
+    ):
+        failures.append("double_code_selection_method_not_frozen")
 
     camera = receipt.get("camera_effort", {})
     if not isinstance(camera, dict):
