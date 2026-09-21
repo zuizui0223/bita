@@ -18,6 +18,11 @@ def _ready_receipt() -> dict[str, object]:
     receipt["site_selection"]["final_sites"] = ["S1", "S2"]
     receipt["site_selection"]["final_plant_species"] = ["P1", "P2", "P3", "P4", "P5"]
     receipt["site_selection"]["final_mammal_species"] = ["M1", "M2", "M3", "M4", "M5"]
+    receipt["site_selection"]["final_site_plant_pairs"] = [
+        {"site_id": site, "plant_species": plant}
+        for site in ("S1", "S2")
+        for plant in ("P1", "P2", "P3", "P4", "P5")
+    ]
     receipt["site_selection"]["selection_basis"] = "pre-route ecology + permits + flowering"
     receipt["visitor_identification"]["protocol_version"] = "ID_V1"
     receipt["morphology"]["plant_protocol_version"] = "PLANT_MORPH_V1"
@@ -67,3 +72,14 @@ def test_mammal_species_list_is_required_before_video_open() -> None:
     result = validate(receipt)
     assert result["status"] == "BLOCKED"
     assert "final_mammal_species_not_frozen" in result["failures"]
+
+
+
+def test_site_plant_pair_set_must_match_frozen_site_and_plant_lists() -> None:
+    receipt = _ready_receipt()
+    receipt["site_selection"]["final_site_plant_pairs"] = [
+        {"site_id": "S1", "plant_species": "P1"}
+    ]
+    result = validate(receipt)
+    assert result["status"] == "BLOCKED"
+    assert "final_site_plant_pairs_do_not_match_frozen_lists" in result["failures"]
