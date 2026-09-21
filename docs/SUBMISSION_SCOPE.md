@@ -93,7 +93,7 @@ The active lane is now one prospective **non-flying-mammal × Protea** network:
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_SEED_RECEIPT_V1.json`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_CONFIRMATORY_FREEZE_RECEIPT_TEMPLATE_V1.json`
 - `scripts/validate_third_network_confirmatory_freeze.py`
-- `scripts/build_third_access_routing_units.py`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_ROUTE_BLIND_PRESURVEY_SCHEMA_V1.csv`\n- `scripts/evaluate_third_network_route_blind_presurvey.py`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_FIELD_READINESS_TEMPLATE_V1.json`\n- `scripts/evaluate_third_network_field_readiness.py`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_FIELD_EXECUTION_GATE_V1.md`\n- `scripts/build_third_access_routing_units.py`
 - `scripts/analyze_third_access_routing_network.py`
 - `scripts/analyze_joint_access_routing_k3.py`
 
@@ -123,6 +123,8 @@ JOINT_NETWORK_K = 2
 PUBLIC_THIRD_NETWORK = NOT_AVAILABLE_UNDER_FROZEN_GATES
 ACTIVE_K3_LANE = CAPE_SMALL_MAMMAL_X_PROTEA_PROSPECTIVE
 PLANNING_TARGET_UNITS = 70
+FIELD_EXECUTION_GATE = IMPLEMENTED_FAIL_CLOSED
+FIELD_EXECUTION_STATUS = BLOCKED_PENDING_REAL_SITE_AND_AUTHORIZATION_RECEIPTS
 K3_GENERALITY_TEST = PROSPECTIVE_MAMMAL_DESIGN_FROZEN_PENDING_DATA
 ~~~
 

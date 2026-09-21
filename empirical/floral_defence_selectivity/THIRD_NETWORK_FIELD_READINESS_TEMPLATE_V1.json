@@ -1,0 +1,61 @@
+{
+  "schema_version": "BITA_THIRD_NETWORK_FIELD_READINESS_V1",
+  "system": "CAPE_SMALL_MAMMAL_X_PROTEA",
+  "planned_field_start": "REQUIRED_BEFORE_USE",
+  "planned_field_end": "REQUIRED_BEFORE_USE",
+  "site_locations_verified_privately": "REQUIRED_BEFORE_USE",
+  "site_location_receipt_reference": "REQUIRED_BEFORE_USE",
+  "route_blind_presurvey": {
+    "receipt_path": "REQUIRED_BEFORE_USE",
+    "sha256": "REQUIRED_BEFORE_USE"
+  },
+  "confirmatory_freeze_receipt": {
+    "path": "REQUIRED_BEFORE_USE",
+    "sha256": "REQUIRED_BEFORE_USE"
+  },
+  "land_site_access": {
+    "planned": true,
+    "regulatory_status": "REQUIRED_BEFORE_USE",
+    "evidence_reference": "REQUIRED_BEFORE_USE",
+    "authorization_valid_from": "REQUIRED_BEFORE_USE",
+    "authorization_valid_until": "REQUIRED_BEFORE_USE"
+  },
+  "camera_deployment": {
+    "planned": true,
+    "regulatory_status": "REQUIRED_BEFORE_USE",
+    "evidence_reference": "REQUIRED_BEFORE_USE",
+    "authorization_valid_from": "REQUIRED_BEFORE_USE",
+    "authorization_valid_until": "REQUIRED_BEFORE_USE"
+  },
+  "plant_morphology_measurement": {
+    "planned": true,
+    "regulatory_status": "REQUIRED_BEFORE_USE",
+    "evidence_reference": "REQUIRED_BEFORE_USE",
+    "authorization_valid_from": "REQUIRED_BEFORE_USE",
+    "authorization_valid_until": "REQUIRED_BEFORE_USE"
+  },
+  "plant_tissue_collection": {
+    "planned": false
+  },
+  "mammal_capture_or_handling": {
+    "planned": "REQUIRED_BEFORE_USE",
+    "regulatory_status": "REQUIRED_BEFORE_USE",
+    "evidence_reference": "REQUIRED_BEFORE_USE",
+    "authorization_valid_from": "REQUIRED_BEFORE_USE",
+    "authorization_valid_until": "REQUIRED_BEFORE_USE"
+  },
+  "mammal_morphology_source": {
+    "mode": "REQUIRED_BEFORE_USE",
+    "evidence_reference": "REQUIRED_BEFORE_USE",
+    "same_regional_assemblage_supported": "REQUIRED_BEFORE_USE"
+  },
+  "animal_ethics_or_institutional_review": {
+    "planned": true,
+    "regulatory_status": "REQUIRED_BEFORE_USE",
+    "evidence_reference": "REQUIRED_BEFORE_USE",
+    "authorization_valid_from": "REQUIRED_BEFORE_USE",
+    "authorization_valid_until": "REQUIRED_BEFORE_USE"
+  },
+  "other_required_authorizations_checked": "REQUIRED_BEFORE_USE",
+  "claim": "Template is intentionally fail-closed. Do not infer permit or ethics status from ecology, land category, or prior studies."
+}
