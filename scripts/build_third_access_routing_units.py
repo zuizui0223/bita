@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import math
 import statistics
@@ -17,6 +18,58 @@ from pathlib import Path
 ALLOWED_ROUTE_CODES = {"L", "B", "A", "N"}
 ANALYSIS_ROUTE_CODES = {"L", "B"}
 ALLOWED_ID_CONFIDENCE = {"HIGH", "MEDIUM"}
+
+
+def _sha256(path: str | Path) -> str:
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def verify_freeze_manifest(
+    manifest_json: str | Path,
+    *,
+    events_csv: str | Path,
+    plant_traits_csv: str | Path,
+    mammal_traits_csv: str | Path,
+) -> dict[str, object]:
+    manifest_path = Path(manifest_json)
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+
+    if manifest.get("receipt") != "BITA_THIRD_NETWORK_INPUT_FREEZE_V1":
+        raise ValueError("INVALID_THIRD_NETWORK_INPUT_FREEZE_RECEIPT")
+    if manifest.get("status") != "INPUTS_FROZEN_READY_FOR_JOIN":
+        raise ValueError("THIRD_NETWORK_INPUTS_NOT_READY_FOR_JOIN")
+
+    files = manifest.get("files")
+    if not isinstance(files, dict):
+        raise ValueError("freeze manifest missing files block")
+
+    expected_paths = {
+        "events": Path(events_csv),
+        "plant_traits": Path(plant_traits_csv),
+        "mammal_traits": Path(mammal_traits_csv),
+    }
+
+    verified: dict[str, str] = {}
+    for key, path in expected_paths.items():
+        receipt = files.get(key)
+        if not isinstance(receipt, dict):
+            raise ValueError(f"freeze manifest missing {key} receipt")
+        expected = str(receipt.get("sha256", "")).strip().lower()
+        if not expected:
+            raise ValueError(f"freeze manifest missing {key} sha256")
+        actual = _sha256(path)
+        if actual != expected:
+            raise ValueError(f"FROZEN_INPUT_HASH_MISMATCH: {key}")
+        verified[key] = actual
+
+    return {
+        "manifest_sha256": _sha256(manifest_path),
+        "verified_input_sha256": verified,
+    }
 
 
 def _read_csv(path: str | Path) -> list[dict[str, str]]:
@@ -216,14 +269,24 @@ def run(
     events_csv: str | Path,
     plant_traits_csv: str | Path,
     mammal_traits_csv: str | Path,
+    freeze_manifest_json: str | Path,
     output_csv: str | Path,
     audit_json: str | Path,
-) -> dict[str, int]:
+) -> dict[str, object]:
+    freeze_audit = verify_freeze_manifest(
+        freeze_manifest_json,
+        events_csv=events_csv,
+        plant_traits_csv=plant_traits_csv,
+        mammal_traits_csv=mammal_traits_csv,
+    )
+
     units, audit = build_units(
         _read_csv(events_csv),
         _read_csv(plant_traits_csv),
         _read_csv(mammal_traits_csv),
     )
+    audit["input_freeze"] = freeze_audit
+
     write_units(output_csv, units)
     audit_path = Path(audit_json)
     audit_path.parent.mkdir(parents=True, exist_ok=True)
@@ -239,6 +302,7 @@ if __name__ == "__main__":
     parser.add_argument("events_csv")
     parser.add_argument("plant_traits_csv")
     parser.add_argument("mammal_traits_csv")
+    parser.add_argument("freeze_manifest_json")
     parser.add_argument("output_csv")
     parser.add_argument("audit_json")
     args = parser.parse_args()
@@ -248,6 +312,7 @@ if __name__ == "__main__":
                 args.events_csv,
                 args.plant_traits_csv,
                 args.mammal_traits_csv,
+                args.freeze_manifest_json,
                 args.output_csv,
                 args.audit_json,
             ),
