@@ -125,6 +125,7 @@ def _validate_events(
     *,
     final_sites: set[str],
     final_plants: set[str],
+    final_mammals: set[str],
     camera_windows: dict[tuple[str, str, str], list[tuple[dt.datetime, dt.datetime]]],
 ) -> dict[str, object]:
     ids: list[str] = []
@@ -163,6 +164,8 @@ def _validate_events(
             raise ValueError(f"event site outside frozen site list: {site}")
         if plant not in final_plants:
             raise ValueError(f"event plant outside frozen plant list: {plant}")
+        if visitor not in final_mammals:
+            raise ValueError(f"event mammal outside frozen mammal list: {visitor}")
 
         key = (site, plant, camera)
         windows = camera_windows.get(key)
@@ -227,7 +230,11 @@ def _validate_plant_traits(
     return {"rows": len(rows), "sites": len(sites), "plants": len(plants)}
 
 
-def _validate_mammal_traits(rows: list[dict[str, str]]) -> dict[str, object]:
+def _validate_mammal_traits(
+    rows: list[dict[str, str]],
+    *,
+    final_mammals: set[str],
+) -> dict[str, object]:
     replicates: set[tuple[str, str, int]] = set()
     mammals: set[str] = set()
 
@@ -238,12 +245,19 @@ def _validate_mammal_traits(rows: list[dict[str, str]]) -> dict[str, object]:
         _positive_float(row["rostral_reach_mm"], "mammal_traits.rostral_reach_mm")
         if not mammal or not individual:
             raise ValueError("mammal morphology identifiers must not be blank")
+        if mammal not in final_mammals:
+            raise ValueError(f"mammal morphology species outside frozen mammal list: {mammal}")
         key = (mammal, individual, repeat)
         if key in replicates:
             raise ValueError("duplicate mammal morphology replicate key")
         replicates.add(key)
         mammals.add(mammal)
 
+    missing = final_mammals.difference(mammals)
+    if missing:
+        raise ValueError(
+            "mammal morphology missing frozen species: " + ",".join(sorted(missing))
+        )
     return {"rows": len(rows), "mammals": len(mammals)}
 
 
@@ -341,18 +355,45 @@ def _validate_field_readiness_receipt(
     if expected != confirmatory_freeze_sha256 or actual != confirmatory_freeze_sha256:
         raise ValueError("FIELD_READINESS_CONFIRMATORY_FREEZE_HASH_MISMATCH")
 
+    selection = freeze_payload.get("site_selection", {})
+    if not isinstance(selection, dict):
+        raise ValueError("CONFIRMATORY_FREEZE_SITE_SELECTION_MISSING")
     frozen_sites = {
         str(site).strip()
-        for site in freeze_payload.get("site_selection", {}).get("final_sites", [])
+        for site in selection.get("final_sites", [])
         if str(site).strip()
+    }
+    frozen_plants = {
+        str(value).strip()
+        for value in selection.get("final_plant_species", [])
+        if str(value).strip()
+    }
+    frozen_mammals = {
+        str(value).strip()
+        for value in selection.get("final_mammal_species", [])
+        if str(value).strip()
     }
     readiness_sites = {
         str(site).strip()
         for site in freeze_ref.get("final_sites", [])
         if str(site).strip()
     }
+    readiness_plants = {
+        str(value).strip()
+        for value in freeze_ref.get("final_plant_species", [])
+        if str(value).strip()
+    }
+    readiness_mammals = {
+        str(value).strip()
+        for value in freeze_ref.get("final_mammal_species", [])
+        if str(value).strip()
+    }
     if readiness_sites != frozen_sites:
         raise ValueError("FIELD_READINESS_FINAL_SITE_MISMATCH")
+    if readiness_plants != frozen_plants:
+        raise ValueError("FIELD_READINESS_FINAL_PLANT_MISMATCH")
+    if readiness_mammals != frozen_mammals:
+        raise ValueError("FIELD_READINESS_FINAL_MAMMAL_MISMATCH")
 
     route_blind = field.get("route_blind_presurvey")
     if not isinstance(route_blind, dict):
@@ -416,8 +457,11 @@ def freeze_inputs(
     final_plants = {
         str(x) for x in site_selection.get("final_plant_species", []) if str(x).strip()
     }
-    if not final_sites or not final_plants:
-        raise ValueError("frozen site/plant lists are empty")
+    final_mammals = {
+        str(x) for x in site_selection.get("final_mammal_species", []) if str(x).strip()
+    }
+    if not final_sites or not final_plants or not final_mammals:
+        raise ValueError("frozen site/plant/mammal lists are empty")
 
     events = _read_csv(events_csv, EVENT_REQUIRED, "events")
     plant_traits = _read_csv(plant_traits_csv, PLANT_REQUIRED, "plant_traits")
@@ -436,6 +480,7 @@ def freeze_inputs(
             events,
             final_sites=final_sites,
             final_plants=final_plants,
+            final_mammals=final_mammals,
             camera_windows=camera_windows,
         ),
         "plant_traits": _validate_plant_traits(
@@ -443,7 +488,10 @@ def freeze_inputs(
             final_sites=final_sites,
             final_plants=final_plants,
         ),
-        "mammal_traits": _validate_mammal_traits(mammal_traits),
+        "mammal_traits": _validate_mammal_traits(
+            mammal_traits,
+            final_mammals=final_mammals,
+        ),
         "camera_deployment": camera_validation,
     }
 
@@ -471,6 +519,7 @@ def freeze_inputs(
         "field_readiness_validation": field_validation,
         "final_sites": sorted(final_sites),
         "final_plant_species": sorted(final_plants),
+        "final_mammal_species": sorted(final_mammals),
         "join_rule": (
             "Route outcomes and morphology may be joined only through the checksum-verifying "
             "third-network unit builder using this manifest."
