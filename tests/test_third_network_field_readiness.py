@@ -53,6 +53,7 @@ def _ready_freeze() -> dict:
         },
         "camera_effort": {
             "rule": "fixed 120 camera-hours per plant x site",
+            "rule_version": "EFFORT_V1",
             "may_extend_based_on_route_outcomes": False,
         },
         "analysis": {
