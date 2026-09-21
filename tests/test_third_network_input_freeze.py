@@ -49,7 +49,9 @@ def _field_readiness_receipt(freeze_sha: str, *, status: str = "THIRD_NETWORK_FI
             ],
         },
         "gates": {
+            "site_locations_verified_privately": True,
             "route_blind_presurvey_checksum_matches": True,
+            "route_blind_presurvey_receipt_type_valid": True,
             "route_blind_presurvey_ready": True,
             "route_and_morphology_fields_absent_from_presurvey": True,
             "final_sites_supported_by_route_blind_presurvey": True,
@@ -61,8 +63,12 @@ def _field_readiness_receipt(freeze_sha: str, *, status: str = "THIRD_NETWORK_FI
             "land_site_access_resolved": True,
             "camera_deployment_resolved": True,
             "plant_morphology_measurement_resolved": True,
+            "plant_tissue_collection_resolved_or_not_planned": True,
             "mammal_capture_or_handling_resolved_or_not_planned": True,
             "animal_ethics_or_institutional_review_resolved": True,
+            "mammal_morphology_mode_predeclared": True,
+            "mammal_morphology_same_regional_assemblage_supported": True,
+            "other_required_authorizations_checked": True,
         },
     }
 
@@ -526,4 +532,25 @@ def test_removed_frozen_site_plant_pair_blocks_existing_camera_and_events(tmp_pa
         ValueError,
         match="camera plant outside frozen plant list|camera site x plant outside frozen pair list",
     ):
+        _freeze(paths)
+
+
+
+def test_missing_required_field_readiness_gate_is_rejected(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    field = json.loads(paths["field"].read_text(encoding="utf-8"))
+    del field["gates"]["route_blind_presurvey_receipt_type_valid"]
+    paths["field"].write_text(json.dumps(field), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="FIELD_READINESS_REQUIRED_GATES_MISSING"):
+        _freeze(paths)
+
+
+def test_field_readiness_presurvey_hashes_must_agree(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    field = json.loads(paths["field"].read_text(encoding="utf-8"))
+    field["route_blind_presurvey"]["actual_sha256"] = "b" * 64
+    paths["field"].write_text(json.dumps(field), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="FIELD_READINESS_PRESURVEY_HASH_MISMATCH"):
         _freeze(paths)
