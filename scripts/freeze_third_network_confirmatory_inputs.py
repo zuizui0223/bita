@@ -14,6 +14,7 @@ import datetime as dt
 import hashlib
 import json
 import math
+import random
 from pathlib import Path
 
 from scripts.evaluate_third_network_field_readiness import (
@@ -192,13 +193,16 @@ def _validate_events(
     coding_manual_version: str,
     minimum_double_code_fraction: float,
     minimum_kappa: float,
+    double_code_subset_seed: int,
 ) -> dict[str, object]:
     ids: list[str] = []
     visitors: set[str] = set()
     plants: set[str] = set()
     sites: set[str] = set()
     feeding_events = 0
+    feeding_event_ids: list[str] = []
     double_coded_feeding_events = 0
+    double_coded_event_ids: set[str] = set()
     double_coded_pairs: list[tuple[str, str]] = []
 
     for row in rows:
@@ -258,6 +262,7 @@ def _validate_events(
                     "second_route_code must be L/B/A/N when double_coded=true"
                 )
             double_coded_pairs.append((route, second_route))
+            double_coded_event_ids.add(event_id)
         elif second_coder or second_route:
             raise ValueError(
                 "second_coder_id and second_route_code must be blank when double_coded=false"
@@ -265,6 +270,7 @@ def _validate_events(
 
         if route != "N":
             feeding_events += 1
+            feeding_event_ids.append(event_id)
             if is_double:
                 double_coded_feeding_events += 1
 
@@ -323,6 +329,22 @@ def _validate_events(
             f"observed={fraction:.6f}, required={minimum_double_code_fraction:.6f}"
         )
 
+    required_n = math.ceil(minimum_double_code_fraction * feeding_events)
+    rng = random.Random(double_code_subset_seed)
+    expected_double_ids = set(
+        rng.sample(sorted(feeding_event_ids), required_n)
+    )
+    if double_coded_event_ids != expected_double_ids:
+        missing = expected_double_ids.difference(double_coded_event_ids)
+        extra = double_coded_event_ids.difference(expected_double_ids)
+        detail = (
+            "missing=" + ",".join(sorted(missing))
+            + ";extra=" + ",".join(sorted(extra))
+        )
+        raise ValueError(
+            "DOUBLE_CODE_SUBSET_DOES_NOT_MATCH_FROZEN_SEED: " + detail
+        )
+
     kappa = _cohen_kappa(double_coded_pairs)
     if kappa + 1e-15 < minimum_kappa:
         raise ValueError(
@@ -340,6 +362,8 @@ def _validate_events(
         "double_code_fraction": fraction,
         "cohen_kappa_LBAN": kappa,
         "coding_manual_version": coding_manual_version,
+        "double_code_subset_seed": double_code_subset_seed,
+        "double_code_required_n": required_n,
     }
 
 
@@ -700,6 +724,10 @@ def freeze_inputs(
     coding_manual_version = str(route_coding.get("manual", "")).strip()
     minimum_double_code_fraction = float(route_coding.get("double_code_fraction_minimum", -1))
     minimum_kappa = float(route_coding.get("target_kappa_LBAN", -1))
+    double_code_subset_seed = route_coding.get("double_code_subset_seed")
+    double_code_selection_method = str(
+        route_coding.get("double_code_selection_method", "")
+    ).strip()
     plant_protocol_version = str(morphology.get("plant_protocol_version", "")).strip()
     mammal_protocol_version = str(morphology.get("mammal_protocol_version", "")).strip()
     effort_rule_version = str(camera_effort.get("rule_version", "")).strip()
@@ -708,6 +736,10 @@ def freeze_inputs(
         raise ValueError("CONFIRMATORY_FREEZE_PROTOCOL_VERSION_MISSING")
     if not (0 < minimum_double_code_fraction <= 1):
         raise ValueError("invalid frozen double_code_fraction_minimum")
+    if not isinstance(double_code_subset_seed, int):
+        raise ValueError("invalid frozen double_code_subset_seed")
+    if double_code_selection_method != "SEEDED_RANDOM_SAMPLE_OF_NON_N_EVENT_IDS":
+        raise ValueError("invalid frozen double_code_selection_method")
     if not (-1 <= minimum_kappa <= 1):
         raise ValueError("invalid frozen target_kappa_LBAN")
 
@@ -761,6 +793,7 @@ def freeze_inputs(
             coding_manual_version=coding_manual_version,
             minimum_double_code_fraction=minimum_double_code_fraction,
             minimum_kappa=minimum_kappa,
+            double_code_subset_seed=double_code_subset_seed,
         ),
         "plant_traits": _validate_plant_traits(
             plant_traits,
