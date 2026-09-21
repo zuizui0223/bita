@@ -105,7 +105,7 @@ Use:
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_FIELD_READINESS_TEMPLATE_V1.json`
 - `scripts/evaluate_third_network_field_readiness.py`
 
-This gate deliberately contains no legal inference engine. For every planned
+This document is an operational research gate, not legal advice.\n\nThis gate deliberately contains no legal inference engine. For every planned
 action it accepts only:
 
 ~~~text
