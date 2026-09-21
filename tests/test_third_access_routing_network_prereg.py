@@ -9,6 +9,7 @@ PROSPECTIVE_SCHEMA = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_
 ROUTE_MANUAL = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_ROUTE_CODING_MANUAL_V1.md"
 PILOT_SPLIT = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_PILOT_SPLIT_CONTRACT_V1.md"
 SEED_RECEIPT = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_SEED_RECEIPT_V1.json"
+FREEZE_TEMPLATE = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_CONFIRMATORY_FREEZE_RECEIPT_TEMPLATE_V1.json"
 
 
 def test_third_network_estimand_is_frozen_before_confirmatory_outcome_search() -> None:
@@ -139,3 +140,15 @@ def test_confirmatory_builder_exists_as_only_supported_data_entry() -> None:
     assert 'roles != {"CONFIRMATORY"}' in text
     assert "M_log_ratio" in text
     assert "Y_bypass_prop" in text
+
+
+
+def test_pilot_route_presence_is_not_a_site_selection_gate() -> None:
+    design = PROSPECTIVE_DESIGN.read_text(encoding="utf-8")
+    split = PILOT_SPLIT.read_text(encoding="utf-8")
+    template = FREEZE_TEMPLATE.read_text(encoding="utf-8")
+
+    assert "no site, plant species or mammal species is retained or dropped because B or L" in design
+    assert "Observed absence of B or L in pilot footage is **not** a pilot-failure criterion." in split
+    assert '"pilot_B_or_L_presence_used_for_selection": false' in template
+    assert '"may_extend_based_on_route_outcomes": false' in template
