@@ -410,12 +410,22 @@ concordance.
 If route B is absent during the **excluded pilot**, the system is not suitable
 for the frozen estimand and confirmatory collection does not begin.
 
-## 18. Implementation files to create before field analysis
+## 18. Frozen implementation assets before field analysis
+
+Already frozen:
 
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_PROSPECTIVE_SCHEMA_V1.csv`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_EVENT_SCHEMA_V1.csv`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_ROUTE_CODING_MANUAL_V1.md`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_PILOT_SPLIT_CONTRACT_V1.md`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_SEED_RECEIPT_V1.json`
+- `scripts/build_third_access_routing_units.py`
 - `scripts/analyze_third_access_routing_network.py`
 - `scripts/analyze_joint_access_routing_k3.py`
-- frozen seed receipt;
-- source/permit/site receipt;
-- exact-reproduction workflow.
+
+Still field-specific and therefore not yet fillable:
+
+- source / permit / site receipt;
+- exact confirmatory camera deployment receipt;
+- checksum receipt for frozen morphology and route tables;
+- exact-reproduction workflow using the eventual confirmatory data.
