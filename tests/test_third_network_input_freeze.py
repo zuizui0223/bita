@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 
 import pytest
@@ -17,6 +18,45 @@ def _write_csv(path, fields, rows):
         writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
         writer.writerows(rows)
+
+
+def _sha(path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _field_readiness_receipt(freeze_sha: str, *, status: str = "THIRD_NETWORK_FIELD_EXECUTION_READY") -> dict:
+    return {
+        "receipt_schema_version": "BITA_THIRD_NETWORK_FIELD_READINESS_V1",
+        "status": status,
+        "route_blind_presurvey": {
+            "path": "presurvey_receipt.json",
+            "expected_sha256": "a" * 64,
+            "actual_sha256": "a" * 64,
+            "status": "PRESURVEY_ROUTE_BLIND_ELIGIBLE_SITES_PRESENT",
+            "eligible_sites": ["S1"],
+        },
+        "confirmatory_freeze_receipt": {
+            "path": "confirmatory_freeze.json",
+            "expected_sha256": freeze_sha,
+            "actual_sha256": freeze_sha,
+            "validator_status": "READY_FOR_CONFIRMATORY_VIDEO_OPEN",
+            "validator_failures": [],
+            "final_sites": ["S1"],
+        },
+        "gates": {
+            "route_blind_presurvey_checksum_matches": True,
+            "route_blind_presurvey_ready": True,
+            "route_and_morphology_fields_absent_from_presurvey": True,
+            "final_sites_supported_by_route_blind_presurvey": True,
+            "confirmatory_freeze_receipt_checksum_matches": True,
+            "confirmatory_freeze_receipt_ready": True,
+            "land_site_access_resolved": True,
+            "camera_deployment_resolved": True,
+            "plant_morphology_measurement_resolved": True,
+            "mammal_capture_or_handling_resolved_or_not_planned": True,
+            "animal_ethics_or_institutional_review_resolved": True,
+        },
+    }
 
 
 def _freeze_receipt() -> dict:
@@ -202,7 +242,7 @@ def _fixture(tmp_path):
 
     freeze.write_text(json.dumps(_freeze_receipt()), encoding="utf-8")
     field.write_text(
-        json.dumps({"status": "THIRD_NETWORK_FIELD_EXECUTION_READY"}),
+        json.dumps(_field_readiness_receipt(_sha(freeze))),
         encoding="utf-8",
     )
 
@@ -279,10 +319,9 @@ def test_outcome_adaptive_camera_effort_is_rejected_before_freeze(tmp_path) -> N
 
 def test_field_readiness_must_be_ready_before_input_freeze(tmp_path) -> None:
     paths = _fixture(tmp_path)
-    paths["field"].write_text(
-        json.dumps({"status": "THIRD_NETWORK_FIELD_EXECUTION_BLOCKED"}),
-        encoding="utf-8",
-    )
+    field = json.loads(paths["field"].read_text(encoding="utf-8"))
+    field["status"] = "THIRD_NETWORK_FIELD_EXECUTION_BLOCKED"
+    paths["field"].write_text(json.dumps(field), encoding="utf-8")
 
     with pytest.raises(ValueError, match="FIELD_READINESS_NOT_READY"):
         _freeze(paths)
@@ -295,4 +334,35 @@ def test_camera_deployment_must_cover_every_frozen_plant(tmp_path) -> None:
     _write_csv(paths["cameras"], list(rows[0]), rows)
 
     with pytest.raises(ValueError, match="does not cover every frozen plant species"):
+        _freeze(paths)
+
+
+
+def test_status_only_fake_readiness_receipt_is_rejected(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    paths["field"].write_text(
+        json.dumps({"status": "THIRD_NETWORK_FIELD_EXECUTION_READY"}),
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError, match="INVALID_FIELD_READINESS_RECEIPT_SCHEMA"):
+        _freeze(paths)
+
+
+def test_field_readiness_must_reference_exact_confirmatory_freeze_hash(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    field = json.loads(paths["field"].read_text(encoding="utf-8"))
+    field["confirmatory_freeze_receipt"]["actual_sha256"] = "0" * 64
+    paths["field"].write_text(json.dumps(field), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="FIELD_READINESS_CONFIRMATORY_FREEZE_HASH_MISMATCH"):
+        _freeze(paths)
+
+
+def test_field_readiness_with_false_gate_is_rejected_even_if_status_says_ready(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    field = json.loads(paths["field"].read_text(encoding="utf-8"))
+    field["gates"]["camera_deployment_resolved"] = False
+    paths["field"].write_text(json.dumps(field), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="FIELD_READINESS_GATES_NOT_ALL_TRUE"):
         _freeze(paths)
