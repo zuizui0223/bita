@@ -91,7 +91,7 @@ def test_prospective_mammal_design_preserves_frozen_estimand() -> None:
         "M_ij = log(P_j / V_i)",
         "Y = B / (B + L)",
         "Morphology and route tables are joined only after both are checksum-frozen",
-        "target kappa >=0.80",
+        "kappa_LBAN >= 0.80",
         "INELIGIBLE_CONFIRMATORY_DATASET",
         "If the prospective mammal network passes the sampling gates but r_T is",
     ):
@@ -120,7 +120,7 @@ def test_route_coding_and_pilot_split_are_frozen_before_data() -> None:
         "L = LEGITIMATE",
         "B = BYPASS",
         "A = AMBIGUOUS",
-        "N = NON_NECTAR",
+        "N = NON_NECTAR / NOT A FEEDING EVENT",
         "target kappa >=0.80",
         "Y = B_count / (B_count + L_count)",
     ):
