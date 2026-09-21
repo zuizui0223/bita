@@ -108,6 +108,7 @@ def _freeze_receipt() -> dict:
         },
         "camera_effort": {
             "rule": "fixed effort v1",
+            "rule_version": "EFFORT_V1",
             "may_extend_based_on_route_outcomes": False,
         },
         "analysis": {
@@ -155,9 +156,18 @@ def _fixture(tmp_path):
                     "mammal_species": f"M{m}",
                     "timestamp": "2027-03-01T00:00:00Z",
                     "camera_id": f"C{p}",
+                    "coding_manual_version": "THIRD_NETWORK_ROUTE_CODING_MANUAL_V1",
                     "route_code": "B" if p > m else "L",
                     "visitor_id_confidence": "HIGH",
+                    "route_visibility": "FULL",
+                    "tissue_damage": "YES" if p > m else "NO",
+                    "pollen_presenter_contact": "NO" if p > m else "YES",
+                    "nectar_behavior_confidence": "HIGH",
+                    "preexisting_bypass_opening": "NO",
                     "clip_quality": "PASS",
+                    "coder_id": "CODER_A",
+                    "double_coded": "true",
+                    "second_route_code": "B" if p > m else "L",
                 }
             )
     _write_csv(
@@ -170,9 +180,18 @@ def _fixture(tmp_path):
             "mammal_species",
             "timestamp",
             "camera_id",
+            "coding_manual_version",
             "route_code",
             "visitor_id_confidence",
+            "route_visibility",
+            "tissue_damage",
+            "pollen_presenter_contact",
+            "nectar_behavior_confidence",
+            "preexisting_bypass_opening",
             "clip_quality",
+            "coder_id",
+            "double_coded",
+            "second_route_code",
         ],
         event_rows,
     )
@@ -184,6 +203,7 @@ def _fixture(tmp_path):
                 {
                     "site_id": "S1",
                     "plant_species": f"P{p}",
+                    "protocol_version": "PLANT_V1",
                     "inflorescence_id": f"I{p}",
                     "access_depth_mm": str(20 + p + rep / 10),
                     "repeat_index": str(rep),
@@ -194,6 +214,7 @@ def _fixture(tmp_path):
         [
             "site_id",
             "plant_species",
+            "protocol_version",
             "inflorescence_id",
             "access_depth_mm",
             "repeat_index",
@@ -207,6 +228,7 @@ def _fixture(tmp_path):
             mammal_rows.append(
                 {
                     "mammal_species": f"M{m}",
+                    "protocol_version": "MAMMAL_V1",
                     "individual_id": f"IND{m}",
                     "rostral_reach_mm": str(12 + m + rep / 10),
                     "repeat_index": str(rep),
@@ -216,6 +238,7 @@ def _fixture(tmp_path):
         mammals,
         [
             "mammal_species",
+            "protocol_version",
             "individual_id",
             "rostral_reach_mm",
             "repeat_index",
@@ -553,4 +576,79 @@ def test_field_readiness_presurvey_hashes_must_agree(tmp_path) -> None:
     paths["field"].write_text(json.dumps(field), encoding="utf-8")
 
     with pytest.raises(ValueError, match="FIELD_READINESS_PRESURVEY_HASH_MISMATCH"):
+        _freeze(paths)
+
+
+
+def test_wrong_route_coding_manual_version_blocks_input_freeze(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["events"].open(encoding="utf-8")))
+    rows[0]["coding_manual_version"] = "WRONG_MANUAL"
+    _write_csv(paths["events"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="ROUTE_CODING_MANUAL_VERSION_MISMATCH"):
+        _freeze(paths)
+
+
+def test_wrong_plant_morphology_protocol_blocks_input_freeze(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["plants"].open(encoding="utf-8")))
+    rows[0]["protocol_version"] = "WRONG_PLANT_PROTOCOL"
+    _write_csv(paths["plants"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="PLANT_MORPHOLOGY_PROTOCOL_VERSION_MISMATCH"):
+        _freeze(paths)
+
+
+def test_wrong_mammal_morphology_protocol_blocks_input_freeze(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["mammals"].open(encoding="utf-8")))
+    rows[0]["protocol_version"] = "WRONG_MAMMAL_PROTOCOL"
+    _write_csv(paths["mammals"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="MAMMAL_MORPHOLOGY_PROTOCOL_VERSION_MISMATCH"):
+        _freeze(paths)
+
+
+def test_wrong_camera_effort_rule_version_blocks_input_freeze(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["cameras"].open(encoding="utf-8")))
+    rows[0]["effort_rule_version"] = "WRONG_EFFORT_RULE"
+    _write_csv(paths["cameras"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="CAMERA_EFFORT_RULE_VERSION_MISMATCH"):
+        _freeze(paths)
+
+
+def test_double_code_fraction_below_frozen_minimum_blocks_input_freeze(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["events"].open(encoding="utf-8")))
+    for index, row in enumerate(rows):
+        if index >= 4:
+            row["double_coded"] = "false"
+            row["second_route_code"] = ""
+    _write_csv(paths["events"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="DOUBLE_CODE_FRACTION_BELOW_FROZEN_MINIMUM"):
+        _freeze(paths)
+
+
+def test_inter_rater_kappa_below_frozen_target_blocks_input_freeze(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["events"].open(encoding="utf-8")))
+    for row in rows:
+        row["second_route_code"] = "L" if row["route_code"] == "B" else "B"
+    _write_csv(paths["events"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="INTER_RATER_KAPPA_BELOW_FROZEN_TARGET"):
+        _freeze(paths)
+
+
+def test_planned_camera_hours_cannot_exceed_deployment_window(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["cameras"].open(encoding="utf-8")))
+    rows[0]["planned_camera_hours"] = "121"
+    _write_csv(paths["cameras"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="PLANNED_CAMERA_HOURS_EXCEED_DEPLOYMENT_WINDOW"):
         _freeze(paths)
