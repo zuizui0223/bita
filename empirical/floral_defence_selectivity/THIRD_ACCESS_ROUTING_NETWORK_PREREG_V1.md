@@ -15,7 +15,7 @@ inspection of any new candidate's route-outcome values.
 
 The existing two-network result remains unchanged:
 
-> greater constraint on the legitimate floral access route -> greater bypass / robbing propensity.
+> **greater constraint on the legitimate floral access route -> greater bypass / robbing propensity**
 
 The third network must test the same directional construct on an independently
 sampled visitor fauna.
@@ -42,7 +42,7 @@ Preferred unit:
 visitor species x plant species x site/context stratum
 ~~~
 
-A single-site dataset may use visitor species × plant species if all other gates
+A single-site dataset may use visitor species x plant species if all other gates
 pass.
 
 Repeated visits are aggregated before inference. Individual visits are not
@@ -51,18 +51,18 @@ treated as independent replicates.
 ## 3. Frozen access-constraint variable
 
 The third network must permit a **pre-outcome, monotone access-constraint score**
-(M) in which larger values mean greater difficulty using the legitimate route.
+M in which larger values mean greater difficulty using the legitimate route.
 
 Preferred construction, when positive commensurate reach/depth traits exist:
 
-[
-M_{ij} = log(P_j/V_i),
-]
+~~~text
+M_ij = log(P_j / V_i)
+~~~
 
 where:
 
-- (P_j) = plant legitimate-route depth / access distance;
-- (V_i) = visitor reach phenotype measured in the same physical dimension.
+- P_j = plant legitimate-route depth / access distance;
+- V_i = visitor reach phenotype measured in the same physical dimension.
 
 Examples of admissible visitor reach phenotypes include tongue, rostrum, snout,
 or another directly relevant pre-existing access trait. Body size alone is not
@@ -74,27 +74,27 @@ formula must be frozen in a protocol amendment **before** route-outcome values
 are inspected.
 
 Outcome-derived categories, robber identity, or observed route choice may not be
-used to construct (M).
+used to construct M.
 
 ## 4. Frozen bypass outcome
 
 For each inferential unit:
 
-[
-Y = rac{B}{B+L},
-]
+~~~text
+Y = B / (B + L)
+~~~
 
 where:
 
-- (B) = bypass / nectar-robbing / nectar-theft interactions that avoid the
+- B = bypass / nectar-robbing / nectar-theft interactions that avoid the
   legitimate access route;
-- (L) = legitimate access interactions.
+- L = legitimate access interactions.
 
 The source coding must distinguish bypass from legitimate use at event or
 aggregated-count level.
 
 If a source distinguishes primary robbery, secondary robbery and theft, all
-predeclared non-legitimate access categories are combined into (B), unless a
+predeclared non-legitimate access categories are combined into B, unless a
 protocol amendment specifying a narrower definition is committed before outcome
 inspection.
 
@@ -102,7 +102,7 @@ inspection.
 
 Primary effect:
 
-> rank association between access constraint (M) and bypass propensity (Y).
+> rank association between access constraint M and bypass propensity Y.
 
 If one sampling stratum:
 
@@ -112,7 +112,7 @@ r_T = Spearman(M, Y)
 
 If multiple sites/context strata:
 
-1. rank (M) and (Y) globally;
+1. rank M and Y globally;
 2. remove stratum-specific rank means from both variables;
 3. calculate Pearson correlation of the centered ranks.
 
@@ -120,9 +120,9 @@ This matches the site-adjusted Aubert/EPHI construction.
 
 The expected direction is:
 
-[
-r_T > 0.
-]
+~~~text
+r_T > 0
+~~~
 
 Primary test is two-sided; the direction is interpreted only after the frozen
 test is computed.
@@ -131,13 +131,13 @@ test is computed.
 
 If one stratum:
 
-- shuffle (Y) across inferential units.
+- shuffle Y across inferential units.
 
 If multiple strata:
 
-- shuffle (Y) within strata only;
+- shuffle Y within strata only;
 - re-center ranks within strata;
-- recompute (r_T).
+- recompute r_T.
 
 Primary permutation count:
 
@@ -154,7 +154,7 @@ The confirmatory third network must have, after trait matching:
 - at least **30** inferential units;
 - at least **5 visitor species**;
 - at least **5 plant species**;
-- non-zero variation in (M);
+- non-zero variation in M;
 - at least one legitimate and one bypass interaction in the analysis dataset.
 
 These are eligibility gates, not post-hoc power filters. A dataset failing a gate
@@ -163,7 +163,7 @@ is ineligible even if its visible outcome is strongly supportive.
 ## 8. Frozen k=3 synthesis
 
 If an eligible third network is identified, it contributes one standardized
-rank effect (r_T).
+rank effect r_T.
 
 The existing effects remain frozen:
 
@@ -174,24 +174,16 @@ r_A = Aubert/EPHI bird network
 
 Primary three-network statistic:
 
-[
-r_{J3}
-=
-	anhleft(
-rac{
-operatorname{atanh}(r_S)
-+
-operatorname{atanh}(r_A)
-+
-operatorname{atanh}(r_T)
-}{3}
-ight).
-]
+~~~text
+r_J3 = tanh(
+  (atanh(r_S) + atanh(r_A) + atanh(r_T)) / 3
+)
+~~~
 
 Each network has equal weight.
 
 The joint null independently applies the frozen network-specific permutation
-scheme within all three networks and recomputes (r_{J3}) on every iteration.
+scheme within all three networks and recomputes r_J3 on every iteration.
 
 No raw observations are pooled.
 
@@ -209,8 +201,8 @@ may be replaced only by:
 > the same standardized access-routing association has now been tested in three
 > independently sampled visitor networks spanning three major visitor faunas.
 
-Even at (k=3), do not claim a population-level mean across all ecological
-networks, universal causality, or estimated between-network heterogeneity.
+Even at k=3, do not claim a population-level mean across all ecological networks,
+universal causality, or estimated between-network heterogeneity.
 
 ## 10. Outcome-blind search rule
 
