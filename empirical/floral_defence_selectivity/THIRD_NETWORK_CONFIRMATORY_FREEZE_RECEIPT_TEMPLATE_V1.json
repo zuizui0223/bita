@@ -8,7 +8,8 @@
     "final_plant_species": [],
     "route_outcome_blind": true,
     "pilot_B_or_L_presence_used_for_selection": false,
-    "selection_basis": "REQUIRED_BEFORE_USE"
+    "selection_basis": "REQUIRED_BEFORE_USE",
+    "final_mammal_species": []
   },
   "visitor_identification": {
     "protocol_version": "REQUIRED_BEFORE_USE",
