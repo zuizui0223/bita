@@ -46,3 +46,23 @@ def test_submission_scope_points_to_outcome_blind_collaboration_next_action() ->
     assert "NEXT_EXTERNAL_ACTION = OUTCOME_BLIND_CAPE_COLLABORATION_INQUIRY" in text
     assert "COLLABORATION_EMAIL = DRAFT_AUTHOR_APPROVAL_REQUIRED" in text
     assert "\\n- `scripts/evaluate_third_network_route_blind_presurvey.py`" not in text
+
+
+
+def test_collaboration_reply_quarantine_is_in_scope() -> None:
+    scope = SCOPE.read_text(encoding="utf-8")
+    route = ROUTE.read_text(encoding="utf-8")
+
+    for token in (
+        "THIRD_NETWORK_COLLABORATION_RESPONSE_INTAKE_SCHEMA_V1.csv",
+        "THIRD_NETWORK_COLLABORATION_EXPOSURE_REGISTRY_V1.csv",
+        "THIRD_NETWORK_COLLABORATION_INTAKE_PROTOCOL_V1.md",
+        "evaluate_third_network_collaboration_intake.py",
+        "COLLABORATION_REPLY_QUARANTINE = IMPLEMENTED",
+    ):
+        assert token in scope
+
+    assert "site-specific historical route-outcome information" in route
+    assert "that site is quarantined" in route
+    assert "first route-blind feasible collaboration" in route
+    assert "\\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_EXPOSURE_REGISTRY_V1.csv`" not in scope
