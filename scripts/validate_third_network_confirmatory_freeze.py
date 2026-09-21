@@ -26,6 +26,8 @@ def validate(receipt: dict[str, object]) -> dict[str, object]:
         failures.append("final_sites_not_frozen")
     if not site.get("final_plant_species"):
         failures.append("final_plant_species_not_frozen")
+    if not site.get("final_mammal_species"):
+        failures.append("final_mammal_species_not_frozen")
     if site.get("selection_basis") in {None, "", REQUIRED}:
         failures.append("selection_basis_not_frozen")
 
