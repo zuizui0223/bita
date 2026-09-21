@@ -2,7 +2,8 @@
 
 This module deliberately contains no legal inference engine. It accepts only
 resolved authorization/review statuses supplied by the researcher or relevant
-authority and verifies that the route-blind pre-video design freeze is complete.
+authority, verifies the route-blind presurvey receipt, and verifies the
+pre-video confirmatory freeze receipt before field execution can be promoted.
 """
 from __future__ import annotations
 
@@ -24,6 +25,7 @@ ALLOWED_MORPH_MODES = {
     "EXISTING_SPECIMENS",
     "INDEPENDENT_MORPHOMETRIC_DATA",
 }
+PRESURVEY_READY = "PRESURVEY_ROUTE_BLIND_ELIGIBLE_SITES_PRESENT"
 
 
 def _required_text(payload: dict, key: str) -> str:
@@ -57,6 +59,22 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _load_hashed_json(
+    payload: dict,
+    *,
+    base_dir: str | Path,
+    label: str,
+) -> tuple[Path, str, str, dict]:
+    rel = _required_text(payload, "receipt_path" if "receipt_path" in payload else "path")
+    expected = _required_text(payload, "sha256").lower()
+    path = Path(base_dir) / rel
+    if not path.exists():
+        raise ValueError(f"{label} receipt not found: {path}")
+    actual = _sha256(path)
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return path, expected, actual, data
 
 
 def _action_gate(action: dict, *, field_start: dt.date, field_end: dt.date, label: str) -> dict:
@@ -124,27 +142,44 @@ def evaluate(
     sites_verified = _bool(config, "site_locations_verified_privately")
     site_receipt = _required_text(config, "site_location_receipt_reference")
 
-    presurvey = config.get("route_blind_presurvey", {})
-    if not isinstance(presurvey, dict):
+    presurvey_cfg = config.get("route_blind_presurvey", {})
+    if not isinstance(presurvey_cfg, dict):
         raise ValueError("route_blind_presurvey must be an object")
-    presurvey_complete = _bool(presurvey, "complete")
-    presurvey_ref = _required_text(presurvey, "evidence_reference")
-    route_used = _bool(presurvey, "route_outcomes_used_for_site_selection")
+    presurvey_path, presurvey_expected_sha, presurvey_actual_sha, presurvey_payload = _load_hashed_json(
+        presurvey_cfg,
+        base_dir=base_dir,
+        label="route-blind presurvey",
+    )
+    presurvey_sha_ok = presurvey_actual_sha == presurvey_expected_sha
+    presurvey_status = str(presurvey_payload.get("status", ""))
+    presurvey_ready = presurvey_status == PRESURVEY_READY
+    presurvey_route_fields_absent = (
+        presurvey_payload.get("route_outcome_fields_present") is False
+        and presurvey_payload.get("morphology_fields_present") is False
+    )
+    presurvey_sites = {
+        str(site) for site in presurvey_payload.get("eligible_sites", [])
+        if str(site).strip()
+    }
 
     freeze_cfg = config.get("confirmatory_freeze_receipt", {})
     if not isinstance(freeze_cfg, dict):
         raise ValueError("confirmatory_freeze_receipt must be an object")
-    freeze_rel = _required_text(freeze_cfg, "path")
-    freeze_expected_sha = _required_text(freeze_cfg, "sha256").lower()
-    freeze_path = Path(base_dir) / freeze_rel
-    if not freeze_path.exists():
-        raise ValueError(f"confirmatory freeze receipt not found: {freeze_path}")
-
-    freeze_actual_sha = _sha256(freeze_path)
+    freeze_path, freeze_expected_sha, freeze_actual_sha, freeze_payload = _load_hashed_json(
+        freeze_cfg,
+        base_dir=base_dir,
+        label="confirmatory freeze",
+    )
     freeze_sha_ok = freeze_actual_sha == freeze_expected_sha
-    freeze_payload = json.loads(freeze_path.read_text(encoding="utf-8"))
     freeze_result = validate_freeze(freeze_payload)
     freeze_ready = freeze_result["status"] == "READY_FOR_CONFIRMATORY_VIDEO_OPEN"
+
+    site_cfg = freeze_payload.get("site_selection", {})
+    final_sites = {
+        str(site) for site in site_cfg.get("final_sites", [])
+        if str(site).strip()
+    } if isinstance(site_cfg, dict) else set()
+    final_sites_supported_by_presurvey = bool(final_sites) and final_sites.issubset(presurvey_sites)
 
     actions = {
         "land_site_access": _action_gate(
@@ -197,8 +232,10 @@ def evaluate(
 
     gates = {
         "site_locations_verified_privately": sites_verified,
-        "route_blind_presurvey_complete": presurvey_complete,
-        "route_outcomes_not_used_for_site_selection": not route_used,
+        "route_blind_presurvey_checksum_matches": presurvey_sha_ok,
+        "route_blind_presurvey_ready": presurvey_ready,
+        "route_and_morphology_fields_absent_from_presurvey": presurvey_route_fields_absent,
+        "final_sites_supported_by_route_blind_presurvey": final_sites_supported_by_presurvey,
         "confirmatory_freeze_receipt_checksum_matches": freeze_sha_ok,
         "confirmatory_freeze_receipt_ready": freeze_ready,
         "land_site_access_resolved": actions["land_site_access"]["gate"],
@@ -221,13 +258,20 @@ def evaluate(
             "end": field_end.isoformat(),
         },
         "site_location_receipt_reference": site_receipt,
-        "route_blind_presurvey_reference": presurvey_ref,
+        "route_blind_presurvey": {
+            "path": str(presurvey_path),
+            "expected_sha256": presurvey_expected_sha,
+            "actual_sha256": presurvey_actual_sha,
+            "status": presurvey_status,
+            "eligible_sites": sorted(presurvey_sites),
+        },
         "confirmatory_freeze_receipt": {
-            "path": freeze_rel,
+            "path": str(freeze_path),
             "expected_sha256": freeze_expected_sha,
             "actual_sha256": freeze_actual_sha,
             "validator_status": freeze_result["status"],
             "validator_failures": freeze_result["failures"],
+            "final_sites": sorted(final_sites),
         },
         "action_authorizations": actions,
         "mammal_morphology_source": {
