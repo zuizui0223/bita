@@ -16,11 +16,14 @@ import json
 import math
 from pathlib import Path
 
+from scripts.evaluate_third_network_field_readiness import (
+    SCHEMA as FIELD_READINESS_SCHEMA,
+    READY_STATUS as FIELD_READY_STATUS,
+)
 from scripts.validate_third_network_confirmatory_freeze import validate as validate_confirmatory_freeze
 
 RECEIPT = "BITA_THIRD_NETWORK_INPUT_FREEZE_V1"
 READY_STATUS = "INPUTS_FROZEN_READY_FOR_JOIN"
-FIELD_READY_STATUS = "THIRD_NETWORK_FIELD_EXECUTION_READY"
 ALLOWED_ROUTE_CODES = {"L", "B", "A", "N"}
 ALLOWED_ID_CONFIDENCE = {"HIGH", "MEDIUM", "LOW"}
 ALLOWED_CLIP_QUALITY = {"PASS", "FAIL"}
@@ -290,6 +293,67 @@ def _validate_camera_deployment(
     }
 
 
+def _validate_field_readiness_receipt(
+    field: dict[str, object],
+    *,
+    confirmatory_freeze_sha256: str,
+    freeze_payload: dict[str, object],
+) -> dict[str, object]:
+    if field.get("receipt_schema_version") != FIELD_READINESS_SCHEMA:
+        raise ValueError("INVALID_FIELD_READINESS_RECEIPT_SCHEMA")
+    if field.get("status") != FIELD_READY_STATUS:
+        raise ValueError("FIELD_READINESS_NOT_READY")
+
+    gates = field.get("gates")
+    if not isinstance(gates, dict) or not gates:
+        raise ValueError("FIELD_READINESS_GATES_MISSING")
+    failed = sorted(str(key) for key, value in gates.items() if value is not True)
+    if failed:
+        raise ValueError("FIELD_READINESS_GATES_NOT_ALL_TRUE: " + ",".join(failed))
+
+    freeze_ref = field.get("confirmatory_freeze_receipt")
+    if not isinstance(freeze_ref, dict):
+        raise ValueError("FIELD_READINESS_FREEZE_REFERENCE_MISSING")
+    if str(freeze_ref.get("validator_status", "")) != "READY_FOR_CONFIRMATORY_VIDEO_OPEN":
+        raise ValueError("FIELD_READINESS_FREEZE_NOT_READY")
+    failures = freeze_ref.get("validator_failures")
+    if failures not in ([], None):
+        raise ValueError("FIELD_READINESS_FREEZE_HAS_FAILURES")
+
+    expected = str(freeze_ref.get("expected_sha256", "")).strip().lower()
+    actual = str(freeze_ref.get("actual_sha256", "")).strip().lower()
+    if expected != confirmatory_freeze_sha256 or actual != confirmatory_freeze_sha256:
+        raise ValueError("FIELD_READINESS_CONFIRMATORY_FREEZE_HASH_MISMATCH")
+
+    frozen_sites = {
+        str(site).strip()
+        for site in freeze_payload.get("site_selection", {}).get("final_sites", [])
+        if str(site).strip()
+    }
+    readiness_sites = {
+        str(site).strip()
+        for site in freeze_ref.get("final_sites", [])
+        if str(site).strip()
+    }
+    if readiness_sites != frozen_sites:
+        raise ValueError("FIELD_READINESS_FINAL_SITE_MISMATCH")
+
+    route_blind = field.get("route_blind_presurvey")
+    if not isinstance(route_blind, dict):
+        raise ValueError("FIELD_READINESS_PRESURVEY_REFERENCE_MISSING")
+    if not str(route_blind.get("actual_sha256", "")).strip():
+        raise ValueError("FIELD_READINESS_PRESURVEY_HASH_MISSING")
+    if not str(route_blind.get("expected_sha256", "")).strip():
+        raise ValueError("FIELD_READINESS_PRESURVEY_HASH_MISSING")
+
+    return {
+        "receipt_schema_version": field.get("receipt_schema_version"),
+        "status": field.get("status"),
+        "confirmatory_freeze_sha256": confirmatory_freeze_sha256,
+        "gates_verified_true": len(gates),
+    }
+
+
 def freeze_inputs(
     *,
     events_csv: str | Path,
@@ -299,14 +363,21 @@ def freeze_inputs(
     confirmatory_freeze_json: str | Path,
     field_readiness_json: str | Path,
 ) -> dict[str, object]:
-    field = json.loads(Path(field_readiness_json).read_text(encoding="utf-8"))
-    if field.get("status") != FIELD_READY_STATUS:
-        raise ValueError("FIELD_READINESS_NOT_READY")
+    field_path = Path(field_readiness_json)
+    freeze_path = Path(confirmatory_freeze_json)
+    field = json.loads(field_path.read_text(encoding="utf-8"))
+    freeze = json.loads(freeze_path.read_text(encoding="utf-8"))
+    freeze_sha256 = _sha256(freeze_path)
 
-    freeze = json.loads(Path(confirmatory_freeze_json).read_text(encoding="utf-8"))
     freeze_result = validate_confirmatory_freeze(freeze)
     if freeze_result["status"] != "READY_FOR_CONFIRMATORY_VIDEO_OPEN":
         raise ValueError("CONFIRMATORY_FREEZE_NOT_READY")
+
+    field_validation = _validate_field_readiness_receipt(
+        field,
+        confirmatory_freeze_sha256=freeze_sha256,
+        freeze_payload=freeze,
+    )
 
     site_selection = freeze.get("site_selection", {})
     final_sites = {str(x) for x in site_selection.get("final_sites", []) if str(x).strip()}
@@ -361,6 +432,7 @@ def freeze_inputs(
             for key, path in paths.items()
         },
         "validation": validation,
+        "field_readiness_validation": field_validation,
         "final_sites": sorted(final_sites),
         "final_plant_species": sorted(final_plants),
         "join_rule": (
