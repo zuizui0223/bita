@@ -13,6 +13,8 @@ FREEZE_TEMPLATE = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NET
 FIELD_GATE = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_FIELD_EXECUTION_GATE_V1.md"
 PRESURVEY_SCHEMA = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_ROUTE_BLIND_PRESURVEY_SCHEMA_V1.csv"
 FIELD_TEMPLATE = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_FIELD_READINESS_TEMPLATE_V1.json"
+INPUT_FREEZE_GATE = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_INPUT_FREEZE_GATE_V1.md"
+CAMERA_SCHEMA = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_CAMERA_DEPLOYMENT_SCHEMA_V1.csv"
 
 
 def test_third_network_estimand_is_frozen_before_confirmatory_outcome_search() -> None:
@@ -178,3 +180,26 @@ def test_field_execution_gate_is_fail_closed_and_route_blind() -> None:
     assert "Y_bypass_prop" not in schema
     assert '"receipt_path": "REQUIRED_BEFORE_USE"' in template
     assert '"sha256": "REQUIRED_BEFORE_USE"' in template
+
+
+
+def test_confirmatory_inputs_require_checksum_manifest_before_join() -> None:
+    gate = INPUT_FREEZE_GATE.read_text(encoding="utf-8")
+    camera = CAMERA_SCHEMA.read_text(encoding="utf-8")
+    builder = (ROOT / "scripts" / "build_third_access_routing_units.py").read_text(
+        encoding="utf-8"
+    )
+
+    for token in (
+        "BITA_THIRD_NETWORK_INPUT_FREEZE_V1",
+        "INPUTS_FROZEN_READY_FOR_JOIN",
+        "FROZEN_INPUT_HASH_MISMATCH",
+        "No route/morphology join is permitted before the manifest exists.",
+    ):
+        assert token in gate
+
+    assert "route_outcome_adaptive" in camera
+    assert "Must always be false" in camera
+    assert "def verify_freeze_manifest(" in builder
+    assert "FROZEN_INPUT_HASH_MISMATCH" in builder
+    assert 'parser.add_argument("freeze_manifest_json")' in builder
