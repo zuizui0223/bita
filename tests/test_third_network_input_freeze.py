@@ -3,6 +3,8 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import math
+import random
 
 import pytest
 
@@ -105,6 +107,8 @@ def _freeze_receipt() -> dict:
             "coders_blind_to_P_V_M": True,
             "double_code_fraction_minimum": 0.2,
             "target_kappa_LBAN": 0.8,
+            "double_code_subset_seed": 20260922,
+            "double_code_selection_method": "SEEDED_RANDOM_SAMPLE_OF_NON_N_EVENT_IDS",
         },
         "camera_effort": {
             "rule": "fixed effort v1",
@@ -166,11 +170,22 @@ def _fixture(tmp_path):
                     "preexisting_bypass_opening": "NO",
                     "clip_quality": "PASS",
                     "coder_id": "CODER_A",
-                    "double_coded": "true",
-                    "second_coder_id": "CODER_B",
-                    "second_route_code": "B" if p > m else "L",
+                    "double_coded": "false",
+                    "second_coder_id": "",
+                    "second_route_code": "",
                 }
             )
+    rng = random.Random(20260922)
+    feeding_ids = sorted(row["event_id"] for row in event_rows)
+    selected_double_ids = set(
+        rng.sample(feeding_ids, math.ceil(0.2 * len(feeding_ids)))
+    )
+    for row in event_rows:
+        if row["event_id"] in selected_double_ids:
+            row["double_coded"] = "true"
+            row["second_coder_id"] = "CODER_B"
+            row["second_route_code"] = row["route_code"]
+
     _write_csv(
         events,
         [
@@ -625,11 +640,10 @@ def test_wrong_camera_effort_rule_version_blocks_input_freeze(tmp_path) -> None:
 def test_double_code_fraction_below_frozen_minimum_blocks_input_freeze(tmp_path) -> None:
     paths = _fixture(tmp_path)
     rows = list(csv.DictReader(paths["events"].open(encoding="utf-8")))
-    for index, row in enumerate(rows):
-        if index >= 4:
-            row["double_coded"] = "false"
-            row["second_coder_id"] = ""
-            row["second_route_code"] = ""
+    selected = next(row for row in rows if row["double_coded"] == "true")
+    selected["double_coded"] = "false"
+    selected["second_coder_id"] = ""
+    selected["second_route_code"] = ""
     _write_csv(paths["events"], list(rows[0]), rows)
 
     with pytest.raises(ValueError, match="DOUBLE_CODE_FRACTION_BELOW_FROZEN_MINIMUM"):
@@ -640,7 +654,8 @@ def test_inter_rater_kappa_below_frozen_target_blocks_input_freeze(tmp_path) -> 
     paths = _fixture(tmp_path)
     rows = list(csv.DictReader(paths["events"].open(encoding="utf-8")))
     for row in rows:
-        row["second_route_code"] = "L" if row["route_code"] == "B" else "B"
+        if row["double_coded"] == "true":
+            row["second_route_code"] = "L" if row["route_code"] == "B" else "B"
     _write_csv(paths["events"], list(rows[0]), rows)
 
     with pytest.raises(ValueError, match="INTER_RATER_KAPPA_BELOW_FROZEN_TARGET"):
@@ -661,8 +676,29 @@ def test_planned_camera_hours_cannot_exceed_deployment_window(tmp_path) -> None:
 def test_second_coder_must_be_independent(tmp_path) -> None:
     paths = _fixture(tmp_path)
     rows = list(csv.DictReader(paths["events"].open(encoding="utf-8")))
-    rows[0]["second_coder_id"] = rows[0]["coder_id"]
+    selected = next(row for row in rows if row["double_coded"] == "true")
+    selected["second_coder_id"] = selected["coder_id"]
     _write_csv(paths["events"], list(rows[0]), rows)
 
     with pytest.raises(ValueError, match="SECOND_CODER_MUST_BE_INDEPENDENT_OF_PRIMARY_CODER"):
+        _freeze(paths)
+
+
+
+def test_double_code_subset_must_match_frozen_seed(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["events"].open(encoding="utf-8")))
+    selected = next(row for row in rows if row["double_coded"] == "true")
+    unselected = next(row for row in rows if row["double_coded"] == "false")
+
+    selected["double_coded"] = "false"
+    selected["second_coder_id"] = ""
+    selected["second_route_code"] = ""
+
+    unselected["double_coded"] = "true"
+    unselected["second_coder_id"] = "CODER_B"
+    unselected["second_route_code"] = unselected["route_code"]
+    _write_csv(paths["events"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="DOUBLE_CODE_SUBSET_DOES_NOT_MATCH_FROZEN_SEED"):
         _freeze(paths)
