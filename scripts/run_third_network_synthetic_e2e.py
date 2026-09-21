@@ -85,6 +85,7 @@ def _freeze_receipt() -> dict[str, object]:
         "site_selection": {
             "final_sites": ["S1", "S2"],
             "final_plant_species": [f"P{i}" for i in range(6)],
+            "final_mammal_species": [f"M{i}" for i in range(6)],
             "route_outcome_blind": True,
             "pilot_B_or_L_presence_used_for_selection": False,
             "selection_basis": "synthetic route-blind presurvey only",
