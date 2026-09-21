@@ -167,6 +167,7 @@ def _fixture(tmp_path):
                     "clip_quality": "PASS",
                     "coder_id": "CODER_A",
                     "double_coded": "true",
+                    "second_coder_id": "CODER_B",
                     "second_route_code": "B" if p > m else "L",
                 }
             )
@@ -191,6 +192,7 @@ def _fixture(tmp_path):
             "clip_quality",
             "coder_id",
             "double_coded",
+            "second_coder_id",
             "second_route_code",
         ],
         event_rows,
@@ -626,6 +628,7 @@ def test_double_code_fraction_below_frozen_minimum_blocks_input_freeze(tmp_path)
     for index, row in enumerate(rows):
         if index >= 4:
             row["double_coded"] = "false"
+            row["second_coder_id"] = ""
             row["second_route_code"] = ""
     _write_csv(paths["events"], list(rows[0]), rows)
 
@@ -651,4 +654,15 @@ def test_planned_camera_hours_cannot_exceed_deployment_window(tmp_path) -> None:
     _write_csv(paths["cameras"], list(rows[0]), rows)
 
     with pytest.raises(ValueError, match="PLANNED_CAMERA_HOURS_EXCEED_DEPLOYMENT_WINDOW"):
+        _freeze(paths)
+
+
+
+def test_second_coder_must_be_independent(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["events"].open(encoding="utf-8")))
+    rows[0]["second_coder_id"] = rows[0]["coder_id"]
+    _write_csv(paths["events"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="SECOND_CODER_MUST_BE_INDEPENDENT_OF_PRIMARY_CODER"):
         _freeze(paths)
