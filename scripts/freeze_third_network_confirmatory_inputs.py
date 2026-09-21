@@ -125,6 +125,7 @@ def _validate_events(
     *,
     final_sites: set[str],
     final_plants: set[str],
+    camera_windows: dict[tuple[str, str, str], list[tuple[dt.datetime, dt.datetime]]],
 ) -> dict[str, object]:
     ids: list[str] = []
     visitors: set[str] = set()
@@ -155,12 +156,27 @@ def _validate_events(
         site = str(row["site_id"]).strip()
         plant = str(row["plant_species"]).strip()
         visitor = str(row["mammal_species"]).strip()
-        if not site or not plant or not visitor:
-            raise ValueError("events site/plant/mammal identifiers must not be blank")
+        camera = str(row["camera_id"]).strip()
+        if not site or not plant or not visitor or not camera:
+            raise ValueError("events site/plant/mammal/camera identifiers must not be blank")
         if site not in final_sites:
             raise ValueError(f"event site outside frozen site list: {site}")
         if plant not in final_plants:
             raise ValueError(f"event plant outside frozen plant list: {plant}")
+
+        key = (site, plant, camera)
+        windows = camera_windows.get(key)
+        if not windows:
+            raise ValueError(
+                "EVENT_CAMERA_NOT_IN_FROZEN_DEPLOYMENT: "
+                f"site={site}, plant={plant}, camera={camera}"
+            )
+        timestamp = _parse_iso(row["timestamp"], "events.timestamp")
+        if not any(start <= timestamp <= end for start, end in windows):
+            raise ValueError(
+                "EVENT_OUTSIDE_FROZEN_CAMERA_WINDOW: "
+                f"event_id={event_id}, camera={camera}"
+            )
 
         sites.add(site)
         plants.add(plant)
@@ -354,6 +370,22 @@ def _validate_field_readiness_receipt(
     }
 
 
+def _camera_event_windows(
+    rows: list[dict[str, str]],
+) -> dict[tuple[str, str, str], list[tuple[dt.datetime, dt.datetime]]]:
+    windows: dict[tuple[str, str, str], list[tuple[dt.datetime, dt.datetime]]] = {}
+    for row in rows:
+        key = (
+            str(row["site_id"]).strip(),
+            str(row["plant_species"]).strip(),
+            str(row["camera_id"]).strip(),
+        )
+        start = _parse_iso(row["planned_start_utc"], "planned_start_utc")
+        end = _parse_iso(row["planned_end_utc"], "planned_end_utc")
+        windows.setdefault(key, []).append((start, end))
+    return windows
+
+
 def freeze_inputs(
     *,
     events_csv: str | Path,
@@ -392,11 +424,19 @@ def freeze_inputs(
     mammal_traits = _read_csv(mammal_traits_csv, MAMMAL_REQUIRED, "mammal_traits")
     camera = _read_csv(camera_deployment_csv, CAMERA_REQUIRED, "camera_deployment")
 
+    camera_validation = _validate_camera_deployment(
+        camera,
+        final_sites=final_sites,
+        final_plants=final_plants,
+    )
+    camera_windows = _camera_event_windows(camera)
+
     validation = {
         "events": _validate_events(
             events,
             final_sites=final_sites,
             final_plants=final_plants,
+            camera_windows=camera_windows,
         ),
         "plant_traits": _validate_plant_traits(
             plant_traits,
@@ -404,11 +444,7 @@ def freeze_inputs(
             final_plants=final_plants,
         ),
         "mammal_traits": _validate_mammal_traits(mammal_traits),
-        "camera_deployment": _validate_camera_deployment(
-            camera,
-            final_sites=final_sites,
-            final_plants=final_plants,
-        ),
+        "camera_deployment": camera_validation,
     }
 
     paths = {
