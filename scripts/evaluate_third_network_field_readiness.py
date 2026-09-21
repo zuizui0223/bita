@@ -151,6 +151,9 @@ def evaluate(
         label="route-blind presurvey",
     )
     presurvey_sha_ok = presurvey_actual_sha == presurvey_expected_sha
+    presurvey_receipt_ok = (
+        presurvey_payload.get("receipt") == "BITA_THIRD_NETWORK_ROUTE_BLIND_PRESURVEY_V1"
+    )
     presurvey_status = str(presurvey_payload.get("status", ""))
     presurvey_ready = presurvey_status == PRESURVEY_READY
     presurvey_route_fields_absent = (
@@ -161,6 +164,26 @@ def evaluate(
         str(site) for site in presurvey_payload.get("eligible_sites", [])
         if str(site).strip()
     }
+    presurvey_summary = presurvey_payload.get("site_summary", {})
+    if not isinstance(presurvey_summary, dict):
+        presurvey_summary = {}
+
+    presurvey_plants_by_site: dict[str, set[str]] = {}
+    presurvey_mammals_by_site: dict[str, set[str]] = {}
+    for site, summary in presurvey_summary.items():
+        if not isinstance(summary, dict):
+            continue
+        site_id = str(site).strip()
+        presurvey_plants_by_site[site_id] = {
+            str(value).strip()
+            for value in summary.get("flowering_plant_species_list", [])
+            if str(value).strip()
+        }
+        presurvey_mammals_by_site[site_id] = {
+            str(value).strip()
+            for value in summary.get("mammal_species_list", [])
+            if str(value).strip()
+        }
 
     freeze_cfg = config.get("confirmatory_freeze_receipt", {})
     if not isinstance(freeze_cfg, dict):
@@ -175,11 +198,39 @@ def evaluate(
     freeze_ready = freeze_result["status"] == "READY_FOR_CONFIRMATORY_VIDEO_OPEN"
 
     site_cfg = freeze_payload.get("site_selection", {})
-    final_sites = {
-        str(site) for site in site_cfg.get("final_sites", [])
-        if str(site).strip()
-    } if isinstance(site_cfg, dict) else set()
+    if isinstance(site_cfg, dict):
+        final_sites = {
+            str(site).strip()
+            for site in site_cfg.get("final_sites", [])
+            if str(site).strip()
+        }
+        final_plants = {
+            str(value).strip()
+            for value in site_cfg.get("final_plant_species", [])
+            if str(value).strip()
+        }
+        final_mammals = {
+            str(value).strip()
+            for value in site_cfg.get("final_mammal_species", [])
+            if str(value).strip()
+        }
+    else:
+        final_sites, final_plants, final_mammals = set(), set(), set()
+
     final_sites_supported_by_presurvey = bool(final_sites) and final_sites.issubset(presurvey_sites)
+    allowed_plants = set().union(
+        *(presurvey_plants_by_site.get(site, set()) for site in final_sites)
+    ) if final_sites else set()
+    allowed_mammals = set().union(
+        *(presurvey_mammals_by_site.get(site, set()) for site in final_sites)
+    ) if final_sites else set()
+
+    final_plants_supported_by_presurvey = (
+        bool(final_plants) and final_plants.issubset(allowed_plants)
+    )
+    final_mammals_supported_by_presurvey = (
+        bool(final_mammals) and final_mammals.issubset(allowed_mammals)
+    )
 
     actions = {
         "land_site_access": _action_gate(
@@ -233,9 +284,12 @@ def evaluate(
     gates = {
         "site_locations_verified_privately": sites_verified,
         "route_blind_presurvey_checksum_matches": presurvey_sha_ok,
+        "route_blind_presurvey_receipt_type_valid": presurvey_receipt_ok,
         "route_blind_presurvey_ready": presurvey_ready,
         "route_and_morphology_fields_absent_from_presurvey": presurvey_route_fields_absent,
         "final_sites_supported_by_route_blind_presurvey": final_sites_supported_by_presurvey,
+        "final_plants_supported_by_route_blind_presurvey": final_plants_supported_by_presurvey,
+        "final_mammals_supported_by_route_blind_presurvey": final_mammals_supported_by_presurvey,
         "confirmatory_freeze_receipt_checksum_matches": freeze_sha_ok,
         "confirmatory_freeze_receipt_ready": freeze_ready,
         "land_site_access_resolved": actions["land_site_access"]["gate"],
@@ -264,6 +318,14 @@ def evaluate(
             "actual_sha256": presurvey_actual_sha,
             "status": presurvey_status,
             "eligible_sites": sorted(presurvey_sites),
+            "plants_by_site": {
+                site: sorted(presurvey_plants_by_site.get(site, set()))
+                for site in sorted(presurvey_sites)
+            },
+            "mammals_by_site": {
+                site: sorted(presurvey_mammals_by_site.get(site, set()))
+                for site in sorted(presurvey_sites)
+            },
         },
         "confirmatory_freeze_receipt": {
             "path": str(freeze_path),
@@ -272,6 +334,8 @@ def evaluate(
             "validator_status": freeze_result["status"],
             "validator_failures": freeze_result["failures"],
             "final_sites": sorted(final_sites),
+            "final_plant_species": sorted(final_plants),
+            "final_mammal_species": sorted(final_mammals),
         },
         "action_authorizations": actions,
         "mammal_morphology_source": {
