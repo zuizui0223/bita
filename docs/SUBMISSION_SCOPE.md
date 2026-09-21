@@ -93,9 +93,16 @@ The active lane is now one prospective **non-flying-mammal × Protea** network:
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_SEED_RECEIPT_V1.json`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_CONFIRMATORY_FREEZE_RECEIPT_TEMPLATE_V1.json`
 - `scripts/validate_third_network_confirmatory_freeze.py`
-- `empirical/floral_defence_selectivity/THIRD_NETWORK_ROUTE_BLIND_PRESURVEY_SCHEMA_V1.csv`\n- `scripts/evaluate_third_network_route_blind_presurvey.py`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_FIELD_READINESS_TEMPLATE_V1.json`\n- `scripts/evaluate_third_network_field_readiness.py`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_FIELD_EXECUTION_GATE_V1.md`\n- `scripts/build_third_access_routing_units.py`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_ROUTE_BLIND_PRESURVEY_SCHEMA_V1.csv`
+- `scripts/evaluate_third_network_route_blind_presurvey.py`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_FIELD_READINESS_TEMPLATE_V1.json`
+- `scripts/evaluate_third_network_field_readiness.py`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_FIELD_EXECUTION_GATE_V1.md`
+- `scripts/build_third_access_routing_units.py`
 - `scripts/analyze_third_access_routing_network.py`
 - `scripts/analyze_joint_access_routing_k3.py`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_CAPE_COLLABORATION_ROUTE_V1.md`
+- `submission/THIRD_NETWORK_CAPE_COLLABORATION_EMAIL_V1.md`
 
 The same predeclared estimand remains:
 
@@ -126,6 +133,8 @@ PLANNING_TARGET_UNITS = 70
 FIELD_EXECUTION_GATE = IMPLEMENTED_FAIL_CLOSED
 FIELD_EXECUTION_STATUS = BLOCKED_PENDING_REAL_SITE_AND_AUTHORIZATION_RECEIPTS
 CONFIRMATORY_INPUT_FREEZE = IMPLEMENTED_MANIFEST_REQUIRED
+NEXT_EXTERNAL_ACTION = OUTCOME_BLIND_CAPE_COLLABORATION_INQUIRY
+COLLABORATION_EMAIL = DRAFT_AUTHOR_APPROVAL_REQUIRED
 K3_GENERALITY_TEST = PROSPECTIVE_MAMMAL_DESIGN_FROZEN_PENDING_DATA
 ~~~
 
