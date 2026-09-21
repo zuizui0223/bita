@@ -50,6 +50,8 @@ def _field_readiness_receipt(freeze_sha: str, *, status: str = "THIRD_NETWORK_FI
             "route_blind_presurvey_ready": True,
             "route_and_morphology_fields_absent_from_presurvey": True,
             "final_sites_supported_by_route_blind_presurvey": True,
+            "final_plants_supported_by_route_blind_presurvey": True,
+            "final_mammals_supported_by_route_blind_presurvey": True,
             "confirmatory_freeze_receipt_checksum_matches": True,
             "confirmatory_freeze_receipt_ready": True,
             "land_site_access_resolved": True,
@@ -308,6 +310,9 @@ def test_postfreeze_event_edit_blocks_join(tmp_path) -> None:
             paths["events"],
             paths["plants"],
             paths["mammals"],
+            paths["cameras"],
+            paths["freeze"],
+            paths["field"],
             paths["manifest"],
             paths["units"],
             paths["audit"],
@@ -479,4 +484,15 @@ def test_mammal_morphology_cannot_omit_frozen_taxon(tmp_path) -> None:
     _write_csv(paths["mammals"], list(rows[0]), rows)
 
     with pytest.raises(ValueError, match="mammal morphology missing frozen species: M4"):
+        _freeze(paths)
+
+
+
+def test_plant_morphology_cannot_omit_frozen_site_plant_unit(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["plants"].open(encoding="utf-8")))
+    rows = [row for row in rows if row["plant_species"] != "P4"]
+    _write_csv(paths["plants"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="plant morphology missing frozen site x plant units"):
         _freeze(paths)
