@@ -11,6 +11,9 @@ def test_positive_synthetic_e2e_reaches_k3_without_shortcuts(tmp_path) -> None:
     assert result["status"] == "DEVELOPMENT_SYNTHETIC_ONLY"
     assert result["field_readiness_status"] == "THIRD_NETWORK_FIELD_EXECUTION_READY"
     assert result["input_freeze_status"] == "INPUTS_FROZEN_READY_FOR_JOIN"
+    assert result["double_code_fraction"] == 1.0
+    assert result["cohen_kappa_LBAN"] == 1.0
+    assert result["verified_join_input_count"] == 6
     assert result["third_gate"]["n_units"] == 72
     assert result["third_gate"]["n_visitor_species"] == 6
     assert result["third_gate"]["n_plant_species"] == 6
