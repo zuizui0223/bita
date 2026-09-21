@@ -27,6 +27,28 @@ READY_STATUS = "INPUTS_FROZEN_READY_FOR_JOIN"
 ALLOWED_ROUTE_CODES = {"L", "B", "A", "N"}
 ALLOWED_ID_CONFIDENCE = {"HIGH", "MEDIUM", "LOW"}
 ALLOWED_CLIP_QUALITY = {"PASS", "FAIL"}
+REQUIRED_FIELD_READINESS_GATES = {
+    "site_locations_verified_privately",
+    "route_blind_presurvey_checksum_matches",
+    "route_blind_presurvey_receipt_type_valid",
+    "route_blind_presurvey_ready",
+    "route_and_morphology_fields_absent_from_presurvey",
+    "final_sites_supported_by_route_blind_presurvey",
+    "final_plants_supported_by_route_blind_presurvey",
+    "final_mammals_supported_by_route_blind_presurvey",
+    "final_site_plant_pairs_supported_by_route_blind_presurvey",
+    "confirmatory_freeze_receipt_checksum_matches",
+    "confirmatory_freeze_receipt_ready",
+    "land_site_access_resolved",
+    "camera_deployment_resolved",
+    "plant_morphology_measurement_resolved",
+    "plant_tissue_collection_resolved_or_not_planned",
+    "mammal_capture_or_handling_resolved_or_not_planned",
+    "animal_ethics_or_institutional_review_resolved",
+    "mammal_morphology_mode_predeclared",
+    "mammal_morphology_same_regional_assemblage_supported",
+    "other_required_authorizations_checked",
+}
 
 EVENT_REQUIRED = {
     "event_id",
@@ -368,6 +390,11 @@ def _validate_field_readiness_receipt(
     gates = field.get("gates")
     if not isinstance(gates, dict) or not gates:
         raise ValueError("FIELD_READINESS_GATES_MISSING")
+    missing_gates = sorted(REQUIRED_FIELD_READINESS_GATES.difference(gates))
+    if missing_gates:
+        raise ValueError(
+            "FIELD_READINESS_REQUIRED_GATES_MISSING: " + ",".join(missing_gates)
+        )
     failed = sorted(str(key) for key, value in gates.items() if value is not True)
     if failed:
         raise ValueError("FIELD_READINESS_GATES_NOT_ALL_TRUE: " + ",".join(failed))
@@ -451,10 +478,12 @@ def _validate_field_readiness_receipt(
     route_blind = field.get("route_blind_presurvey")
     if not isinstance(route_blind, dict):
         raise ValueError("FIELD_READINESS_PRESURVEY_REFERENCE_MISSING")
-    if not str(route_blind.get("actual_sha256", "")).strip():
+    presurvey_actual = str(route_blind.get("actual_sha256", "")).strip().lower()
+    presurvey_expected = str(route_blind.get("expected_sha256", "")).strip().lower()
+    if not presurvey_actual or not presurvey_expected:
         raise ValueError("FIELD_READINESS_PRESURVEY_HASH_MISSING")
-    if not str(route_blind.get("expected_sha256", "")).strip():
-        raise ValueError("FIELD_READINESS_PRESURVEY_HASH_MISSING")
+    if presurvey_actual != presurvey_expected:
+        raise ValueError("FIELD_READINESS_PRESURVEY_HASH_MISMATCH")
 
     return {
         "receipt_schema_version": field.get("receipt_schema_version"),
