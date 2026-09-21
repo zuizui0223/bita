@@ -144,8 +144,17 @@ Before confirmatory collection, either:
 At least 20% of confirmatory feeding events are independently coded by a second
 coder.
 
-The double-coded subset is chosen by a deterministic hash or a random seed
-frozen before outcome coding.
+The double-coded subset is chosen from primary non-N feeding-event IDs by the
+frozen deterministic rule:
+
+~~~text
+selection = random sample without replacement
+seed = 20260922
+n = ceil(0.20 * number_of_non_N_feeding_events)
+~~~
+
+The exact selected event IDs are reconstructed at input freeze. Substituting
+different events while keeping the same sample size is rejected.
 
 Report:
 
