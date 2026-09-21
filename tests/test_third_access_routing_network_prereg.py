@@ -4,6 +4,8 @@ ROOT = Path(__file__).resolve().parents[1]
 PREREG = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_ACCESS_ROUTING_NETWORK_PREREG_V1.md"
 REGISTRY = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_CANDIDATE_REGISTRY_V1.csv"
 SEARCH_AUDIT = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_BOUNDED_SEARCH_V1.md"
+PROSPECTIVE_DESIGN = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_PROSPECTIVE_MAMMAL_DESIGN_V1.md"
+PROSPECTIVE_SCHEMA = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_PROSPECTIVE_SCHEMA_V1.csv"
 
 
 def test_third_network_estimand_is_frozen_before_confirmatory_outcome_search() -> None:
@@ -74,3 +76,32 @@ def test_postfreeze_registry_contains_schema_failures_not_selected_outcomes() ->
     assert "INELIGIBLE_NO_ROUTE_OUTCOME" in text
     assert "INELIGIBLE_PLANT_RICHNESS" in text
     assert "INELIGIBLE_VISITOR_RICHNESS" in text
+
+
+def test_prospective_mammal_design_preserves_frozen_estimand() -> None:
+    text = PROSPECTIVE_DESIGN.read_text(encoding="utf-8")
+    for token in (
+        "FAUNA = NON_FLYING_MAMMALIA",
+        "PRIMARY_ESTIMAND = UNCHANGED",
+        "target realized units     >= 70",
+        "pilot events are never included in the confirmatory analysis",
+        "M_ij = log(P_j / V_i)",
+        "Y = B / (B + L)",
+        "Morphology and route tables are joined only after both are checksum-frozen",
+        "target kappa >=0.80",
+        "INELIGIBLE_CONFIRMATORY_DATASET",
+        "If the prospective mammal network passes the sampling gates but r_T is",
+    ):
+        assert token in text
+
+    schema = PROSPECTIVE_SCHEMA.read_text(encoding="utf-8")
+    for column in (
+        "route_code",
+        "access_depth_mm",
+        "rostral_reach_mm",
+        "M_log_ratio",
+        "B_count",
+        "L_count",
+        "Y_bypass_prop",
+    ):
+        assert column in schema

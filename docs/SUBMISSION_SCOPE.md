@@ -72,14 +72,25 @@ Both analyses are observational and are not pooled onto one effect scale.
 
 ## 5. Third independent network priority
 
-The current (k=2) ceiling is now the highest-priority unresolved scientific limit.
+The current \(k=2\) ceiling is the highest-priority unresolved scientific limit.
 
-A confirmatory third-network protocol is frozen in:
+The frozen confirmatory protocol and completed public-data search are:
 
 - `empirical/floral_defence_selectivity/THIRD_ACCESS_ROUTING_NETWORK_PREREG_V1.md`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_CANDIDATE_REGISTRY_V1.csv`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_BOUNDED_SEARCH_V1.md`
 
-The third network must be an independently sampled **non-Insecta / non-Aves** visitor fauna and recover the same predeclared estimand:
+The bounded Dryad / Zenodo / OSF / Figshare search found no public dataset that
+passed all frozen gates. The estimand was not relaxed.
+
+The active lane is now one prospective **non-flying-mammal × Protea** network:
+
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_PROSPECTIVE_MAMMAL_DESIGN_V1.md`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_PROSPECTIVE_SCHEMA_V1.csv`
+- `scripts/analyze_third_access_routing_network.py`
+- `scripts/analyze_joint_access_routing_k3.py`
+
+The same predeclared estimand remains:
 
 ~~~text
 greater legitimate-route access constraint
@@ -87,14 +98,23 @@ greater legitimate-route access constraint
 greater bypass / robbing propensity
 ~~~
 
-Dataset selection cannot use the observed outcome direction. Candidates whose relevant outcome direction was already exposed are permanently excluded from the confirmatory lane.
+Prospective safeguards:
 
-Until a third eligible network is found and tested under the frozen protocol:
+- eligibility pilot data are excluded from confirmatory inference;
+- morphology and route coding are frozen separately;
+- route coders do not receive P, V, or M values;
+- the confirmatory planning target is >=70 realized mammal × plant × site units;
+- the frozen eligibility minimum remains >=30 units, >=5 mammal species and
+  >=5 plant species;
+- if the third effect is null-compatible or opposite in sign, it remains the
+  confirmatory third network.
 
 ~~~text
 JOINT_NETWORK_K = 2
-K3_GENERALITY_TEST = PUBLIC_SEARCH_CLOSED_PROSPECTIVE_OR_NEW_RELEASE_REQUIRED
-K3_GENERALITY_TEST = PENDING_OUTCOME_BLIND_DATASET
+PUBLIC_THIRD_NETWORK = NOT_AVAILABLE_UNDER_FROZEN_GATES
+ACTIVE_K3_LANE = CAPE_SMALL_MAMMAL_X_PROTEA_PROSPECTIVE
+PLANNING_TARGET_UNITS = 70
+K3_GENERALITY_TEST = PROSPECTIVE_MAMMAL_DESIGN_FROZEN_PENDING_DATA
 ~~~
 
 ## 6. Mechanistic context only
