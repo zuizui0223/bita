@@ -27,6 +27,7 @@ def _ready_freeze() -> dict:
         "site_selection": {
             "final_sites": ["S1"],
             "final_plant_species": ["P0", "P1", "P2", "P3", "P4"],
+            "final_mammal_species": ["M0", "M1", "M2", "M3", "M4"],
             "route_outcome_blind": True,
             "pilot_B_or_L_presence_used_for_selection": False,
             "selection_basis": "route-blind presurvey + permits + flowering",
@@ -215,3 +216,19 @@ def test_template_like_placeholder_fails_closed(tmp_path) -> None:
     config["planned_field_start"] = "REQUIRED_BEFORE_USE"
     with pytest.raises(ValueError, match="must be resolved"):
         evaluate(config, base_dir=tmp_path)
+
+
+
+def test_final_plant_and_mammal_lists_must_come_from_route_blind_presurvey(tmp_path) -> None:
+    config = _config(tmp_path)
+    freeze_path = tmp_path / config["confirmatory_freeze_receipt"]["path"]
+    freeze = json.loads(freeze_path.read_text(encoding="utf-8"))
+    freeze["site_selection"]["final_plant_species"] = ["P0", "P1", "P2", "P3", "P_OUTSIDE"]
+    freeze["site_selection"]["final_mammal_species"] = ["M0", "M1", "M2", "M3", "M_OUTSIDE"]
+    freeze_path.write_text(json.dumps(freeze), encoding="utf-8")
+    config["confirmatory_freeze_receipt"]["sha256"] = _sha(freeze_path)
+
+    result = evaluate(config, base_dir=tmp_path)
+    assert result["status"] == BLOCKED_STATUS
+    assert result["gates"]["final_plants_supported_by_route_blind_presurvey"] is False
+    assert result["gates"]["final_mammals_supported_by_route_blind_presurvey"] is False
