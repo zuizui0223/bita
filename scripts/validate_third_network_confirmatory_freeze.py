@@ -28,6 +28,42 @@ def validate(receipt: dict[str, object]) -> dict[str, object]:
         failures.append("final_plant_species_not_frozen")
     if not site.get("final_mammal_species"):
         failures.append("final_mammal_species_not_frozen")
+
+    pair_rows = site.get("final_site_plant_pairs")
+    parsed_pairs: set[tuple[str, str]] = set()
+    if not isinstance(pair_rows, list) or not pair_rows:
+        failures.append("final_site_plant_pairs_not_frozen")
+    else:
+        malformed = False
+        for row in pair_rows:
+            if not isinstance(row, dict):
+                malformed = True
+                continue
+            site_id = str(row.get("site_id", "")).strip()
+            plant = str(row.get("plant_species", "")).strip()
+            if not site_id or not plant:
+                malformed = True
+                continue
+            parsed_pairs.add((site_id, plant))
+        if malformed or len(parsed_pairs) != len(pair_rows):
+            failures.append("final_site_plant_pairs_invalid_or_duplicate")
+
+        final_sites = {
+            str(value).strip()
+            for value in site.get("final_sites", [])
+            if str(value).strip()
+        }
+        final_plants = {
+            str(value).strip()
+            for value in site.get("final_plant_species", [])
+            if str(value).strip()
+        }
+        pair_sites = {value[0] for value in parsed_pairs}
+        pair_plants = {value[1] for value in parsed_pairs}
+        if parsed_pairs and (
+            pair_sites != final_sites or pair_plants != final_plants
+        ):
+            failures.append("final_site_plant_pairs_do_not_match_frozen_lists")
     if site.get("selection_basis") in {None, "", REQUIRED}:
         failures.append("selection_basis_not_frozen")
 
