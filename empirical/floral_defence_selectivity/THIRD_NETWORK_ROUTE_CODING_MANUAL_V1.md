@@ -12,6 +12,16 @@ MORPHOLOGY_BLIND = REQUIRED
 This manual governs event-level route classification for the prospective
 small-mammal third network. It is frozen before confirmatory video decoding.
 
+
+Frozen code meanings:
+
+~~~text
+L = LEGITIMATE
+B = BYPASS
+A = AMBIGUOUS
+N = NON_NECTAR / NOT A FEEDING EVENT
+~~~
+
 Route coders must not receive:
 
 - plant access depth P_j;
