@@ -117,7 +117,9 @@ def evaluate_rows(rows: list[dict[str, str]]) -> dict[str, object]:
         gate = n_plants >= MIN_PLANTS and n_mammals >= MIN_MAMMALS and camera
         summaries[site] = {
             "flowering_plant_species": n_plants,
+            "flowering_plant_species_list": sorted(plant_by_site.get(site, set())),
             "mammal_species": n_mammals,
+            "mammal_species_list": sorted(mammal_by_site.get(site, set())),
             "camera_operable": camera,
             "route_blind_eligibility_gate": gate,
         }
