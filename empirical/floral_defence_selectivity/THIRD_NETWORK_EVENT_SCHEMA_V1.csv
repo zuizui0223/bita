@@ -17,4 +17,5 @@ events,preexisting_bypass_opening,string,YES|NO|UNCLEAR,true,Secondary robbery s
 events,clip_quality,string,PASS|FAIL,true,Primary quality gate
 events,coder_id,string,identifier,true,Primary route coder
 events,double_coded,boolean,true|false,true,Reliability subset marker
+events,second_coder_id,string,identifier,false,Required and distinct from coder_id when double_coded=true
 events,second_route_code,string,L|B|A|N,false,Independent second route code
