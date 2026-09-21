@@ -435,3 +435,24 @@ def test_postfreeze_field_readiness_edit_blocks_join(tmp_path) -> None:
             paths["units"],
             paths["audit"],
         )
+
+
+
+def test_event_camera_must_exist_in_frozen_deployment(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["events"].open(encoding="utf-8")))
+    rows[0]["camera_id"] = "UNREGISTERED_CAMERA"
+    _write_csv(paths["events"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="EVENT_CAMERA_NOT_IN_FROZEN_DEPLOYMENT"):
+        _freeze(paths)
+
+
+def test_event_timestamp_must_fall_inside_frozen_camera_window(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["events"].open(encoding="utf-8")))
+    rows[0]["timestamp"] = "2027-03-10T00:00:00Z"
+    _write_csv(paths["events"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="EVENT_OUTSIDE_FROZEN_CAMERA_WINDOW"):
+        _freeze(paths)
