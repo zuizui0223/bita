@@ -103,7 +103,7 @@ The active lane is now one prospective **non-flying-mammal × Protea** network:
 - `scripts/analyze_joint_access_routing_k3.py`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_CAPE_COLLABORATION_ROUTE_V1.md`
 - `submission/THIRD_NETWORK_CAPE_COLLABORATION_EMAIL_V1.md`
-
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_RESPONSE_INTAKE_SCHEMA_V1.csv`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_EXPOSURE_REGISTRY_V1.csv`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_INTAKE_PROTOCOL_V1.md`\n- `scripts/evaluate_third_network_collaboration_intake.py`\n
 The same predeclared estimand remains:
 
 ~~~text
@@ -135,6 +135,7 @@ FIELD_EXECUTION_STATUS = BLOCKED_PENDING_REAL_SITE_AND_AUTHORIZATION_RECEIPTS
 CONFIRMATORY_INPUT_FREEZE = IMPLEMENTED_MANIFEST_REQUIRED
 NEXT_EXTERNAL_ACTION = OUTCOME_BLIND_CAPE_COLLABORATION_INQUIRY
 COLLABORATION_EMAIL = DRAFT_AUTHOR_APPROVAL_REQUIRED
+COLLABORATION_REPLY_QUARANTINE = IMPLEMENTED
 K3_GENERALITY_TEST = PROSPECTIVE_MAMMAL_DESIGN_FROZEN_PENDING_DATA
 ~~~
 
