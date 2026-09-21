@@ -58,19 +58,29 @@ EVENT_REQUIRED = {
     "mammal_species",
     "timestamp",
     "camera_id",
+    "coding_manual_version",
     "route_code",
     "visitor_id_confidence",
+    "route_visibility",
+    "tissue_damage",
+    "pollen_presenter_contact",
+    "nectar_behavior_confidence",
+    "preexisting_bypass_opening",
     "clip_quality",
+    "coder_id",
+    "double_coded",
 }
 PLANT_REQUIRED = {
     "site_id",
     "plant_species",
+    "protocol_version",
     "inflorescence_id",
     "access_depth_mm",
     "repeat_index",
 }
 MAMMAL_REQUIRED = {
     "mammal_species",
+    "protocol_version",
     "individual_id",
     "rostral_reach_mm",
     "repeat_index",
@@ -142,6 +152,35 @@ def _parse_iso(value: str, label: str) -> dt.datetime:
     return parsed
 
 
+def _bool_text(value: object, label: str) -> bool:
+    text = str(value).strip().lower()
+    if text == "true":
+        return True
+    if text == "false":
+        return False
+    raise ValueError(f"{label} must be true or false")
+
+
+def _cohen_kappa(pairs: list[tuple[str, str]]) -> float:
+    if not pairs:
+        raise ValueError("INTER_RATER_KAPPA_NOT_ESTIMABLE: no double-coded events")
+
+    labels = sorted(ALLOWED_ROUTE_CODES)
+    n = len(pairs)
+    observed = sum(a == b for a, b in pairs) / n
+    first = {label: 0 for label in labels}
+    second = {label: 0 for label in labels}
+    for a, b in pairs:
+        first[a] += 1
+        second[b] += 1
+    expected = sum((first[label] / n) * (second[label] / n) for label in labels)
+    if expected >= 1.0 - 1e-15:
+        raise ValueError(
+            "INTER_RATER_KAPPA_NOT_ESTIMABLE: double-coded labels have no marginal variation"
+        )
+    return (observed - expected) / (1.0 - expected)
+
+
 def _validate_events(
     rows: list[dict[str, str]],
     *,
@@ -150,11 +189,17 @@ def _validate_events(
     final_mammals: set[str],
     final_site_plant_pairs: set[tuple[str, str]],
     camera_windows: dict[tuple[str, str, str], list[tuple[dt.datetime, dt.datetime]]],
+    coding_manual_version: str,
+    minimum_double_code_fraction: float,
+    minimum_kappa: float,
 ) -> dict[str, object]:
     ids: list[str] = []
     visitors: set[str] = set()
     plants: set[str] = set()
     sites: set[str] = set()
+    feeding_events = 0
+    double_coded_feeding_events = 0
+    double_coded_pairs: list[tuple[str, str]] = []
 
     for row in rows:
         event_id = str(row["event_id"]).strip()
@@ -165,9 +210,54 @@ def _validate_events(
         if str(row["dataset_role"]).strip().upper() != "CONFIRMATORY":
             raise ValueError("PILOT_OR_NONCONFIRMATORY_EVENT_SUPPLIED")
 
+        version = str(row["coding_manual_version"]).strip()
+        if version != coding_manual_version:
+            raise ValueError(
+                "ROUTE_CODING_MANUAL_VERSION_MISMATCH: "
+                f"expected={coding_manual_version}, observed={version}"
+            )
+
         route = str(row["route_code"]).strip().upper()
         if route not in ALLOWED_ROUTE_CODES:
             raise ValueError(f"invalid route_code: {route!r}")
+
+        visibility = str(row["route_visibility"]).strip().upper()
+        if visibility not in {"FULL", "PARTIAL", "POOR"}:
+            raise ValueError(f"invalid route_visibility: {visibility!r}")
+        for field in (
+            "tissue_damage",
+            "pollen_presenter_contact",
+            "preexisting_bypass_opening",
+        ):
+            value = str(row[field]).strip().upper()
+            if value not in {"YES", "NO", "UNCLEAR"}:
+                raise ValueError(f"invalid {field}: {value!r}")
+        nectar_conf = str(row["nectar_behavior_confidence"]).strip().upper()
+        if nectar_conf not in {"HIGH", "MEDIUM", "LOW"}:
+            raise ValueError(
+                f"invalid nectar_behavior_confidence: {nectar_conf!r}"
+            )
+        coder = str(row["coder_id"]).strip()
+        if not coder:
+            raise ValueError("coder_id must not be blank")
+
+        is_double = _bool_text(row["double_coded"], "double_coded")
+        second_route = str(row.get("second_route_code", "")).strip().upper()
+        if is_double:
+            if second_route not in ALLOWED_ROUTE_CODES:
+                raise ValueError(
+                    "second_route_code must be L/B/A/N when double_coded=true"
+                )
+            double_coded_pairs.append((route, second_route))
+        elif second_route:
+            raise ValueError(
+                "second_route_code must be blank when double_coded=false"
+            )
+
+        if route != "N":
+            feeding_events += 1
+            if is_double:
+                double_coded_feeding_events += 1
 
         conf = str(row["visitor_id_confidence"]).strip().upper()
         if conf not in ALLOWED_ID_CONFIDENCE:
@@ -214,12 +304,33 @@ def _validate_events(
 
     if len(ids) != len(set(ids)):
         raise ValueError("events.event_id must be unique")
+    if feeding_events <= 0:
+        raise ValueError("NO_CONFIRMATORY_FEEDING_EVENTS_FOR_RELIABILITY")
+
+    fraction = double_coded_feeding_events / feeding_events
+    if fraction + 1e-15 < minimum_double_code_fraction:
+        raise ValueError(
+            "DOUBLE_CODE_FRACTION_BELOW_FROZEN_MINIMUM: "
+            f"observed={fraction:.6f}, required={minimum_double_code_fraction:.6f}"
+        )
+
+    kappa = _cohen_kappa(double_coded_pairs)
+    if kappa + 1e-15 < minimum_kappa:
+        raise ValueError(
+            "INTER_RATER_KAPPA_BELOW_FROZEN_TARGET: "
+            f"observed={kappa:.6f}, required={minimum_kappa:.6f}"
+        )
 
     return {
         "rows": len(rows),
         "sites": len(sites),
         "plants": len(plants),
         "mammals": len(visitors),
+        "feeding_events": feeding_events,
+        "double_coded_feeding_events": double_coded_feeding_events,
+        "double_code_fraction": fraction,
+        "cohen_kappa_LBAN": kappa,
+        "coding_manual_version": coding_manual_version,
     }
 
 
@@ -229,6 +340,7 @@ def _validate_plant_traits(
     final_sites: set[str],
     final_plants: set[str],
     final_site_plant_pairs: set[tuple[str, str]],
+    protocol_version: str,
 ) -> dict[str, object]:
     replicates: set[tuple[str, str, str, int]] = set()
     sites: set[str] = set()
@@ -237,6 +349,12 @@ def _validate_plant_traits(
     for row in rows:
         site = str(row["site_id"]).strip()
         plant = str(row["plant_species"]).strip()
+        observed_version = str(row["protocol_version"]).strip()
+        if observed_version != protocol_version:
+            raise ValueError(
+                "PLANT_MORPHOLOGY_PROTOCOL_VERSION_MISMATCH: "
+                f"expected={protocol_version}, observed={observed_version}"
+            )
         inflo = str(row["inflorescence_id"]).strip()
         repeat = _positive_int(row["repeat_index"], "plant_traits.repeat_index")
         _positive_float(row["access_depth_mm"], "plant_traits.access_depth_mm")
@@ -265,19 +383,31 @@ def _validate_plant_traits(
         encoded = ",".join(f"{site}:{plant}" for site, plant in sorted(missing_pairs))
         raise ValueError("plant morphology missing frozen site x plant units: " + encoded)
 
-    return {"rows": len(rows), "sites": len(sites), "plants": len(plants)}
+    return {
+        "rows": len(rows),
+        "sites": len(sites),
+        "plants": len(plants),
+        "protocol_version": protocol_version,
+    }
 
 
 def _validate_mammal_traits(
     rows: list[dict[str, str]],
     *,
     final_mammals: set[str],
+    protocol_version: str,
 ) -> dict[str, object]:
     replicates: set[tuple[str, str, int]] = set()
     mammals: set[str] = set()
 
     for row in rows:
         mammal = str(row["mammal_species"]).strip()
+        observed_version = str(row["protocol_version"]).strip()
+        if observed_version != protocol_version:
+            raise ValueError(
+                "MAMMAL_MORPHOLOGY_PROTOCOL_VERSION_MISMATCH: "
+                f"expected={protocol_version}, observed={observed_version}"
+            )
         individual = str(row["individual_id"]).strip()
         repeat = _positive_int(row["repeat_index"], "mammal_traits.repeat_index")
         _positive_float(row["rostral_reach_mm"], "mammal_traits.rostral_reach_mm")
@@ -296,7 +426,11 @@ def _validate_mammal_traits(
         raise ValueError(
             "mammal morphology missing frozen species: " + ",".join(sorted(missing))
         )
-    return {"rows": len(rows), "mammals": len(mammals)}
+    return {
+        "rows": len(rows),
+        "mammals": len(mammals),
+        "protocol_version": protocol_version,
+    }
 
 
 def _validate_camera_deployment(
@@ -305,6 +439,7 @@ def _validate_camera_deployment(
     final_sites: set[str],
     final_plants: set[str],
     final_site_plant_pairs: set[tuple[str, str]],
+    effort_rule_version: str,
 ) -> dict[str, object]:
     ids: list[str] = []
     sites: set[str] = set()
@@ -327,6 +462,11 @@ def _validate_camera_deployment(
         plant = str(row["plant_species"]).strip()
         camera = str(row["camera_id"]).strip()
         rule = str(row["effort_rule_version"]).strip()
+        if rule != effort_rule_version:
+            raise ValueError(
+                "CAMERA_EFFORT_RULE_VERSION_MISMATCH: "
+                f"expected={effort_rule_version}, observed={rule}"
+            )
         angle = str(row["camera_angle"]).strip().upper()
 
         if site not in final_sites:
@@ -348,6 +488,12 @@ def _validate_camera_deployment(
             raise ValueError("camera deployment end must be after start")
 
         hours = _positive_float(row["planned_camera_hours"], "planned_camera_hours")
+        available_hours = (end - start).total_seconds() / 3600.0
+        if hours > available_hours + 1e-9:
+            raise ValueError(
+                "PLANNED_CAMERA_HOURS_EXCEED_DEPLOYMENT_WINDOW: "
+                f"planned={hours}, available={available_hours}"
+            )
         total_hours += hours
         sites.add(site)
         plants.add(plant)
@@ -373,6 +519,7 @@ def _validate_camera_deployment(
         "sites": len(sites),
         "plants": len(plants),
         "planned_camera_hours_total": total_hours,
+        "effort_rule_version": effort_rule_version,
     }
 
 
@@ -535,6 +682,26 @@ def freeze_inputs(
     )
 
     site_selection = freeze.get("site_selection", {})
+    route_coding = freeze.get("route_coding", {})
+    morphology = freeze.get("morphology", {})
+    camera_effort = freeze.get("camera_effort", {})
+    if not all(isinstance(value, dict) for value in (site_selection, route_coding, morphology, camera_effort)):
+        raise ValueError("CONFIRMATORY_FREEZE_PROTOCOL_BLOCK_MISSING")
+
+    coding_manual_version = str(route_coding.get("manual", "")).strip()
+    minimum_double_code_fraction = float(route_coding.get("double_code_fraction_minimum", -1))
+    minimum_kappa = float(route_coding.get("target_kappa_LBAN", -1))
+    plant_protocol_version = str(morphology.get("plant_protocol_version", "")).strip()
+    mammal_protocol_version = str(morphology.get("mammal_protocol_version", "")).strip()
+    effort_rule_version = str(camera_effort.get("rule_version", "")).strip()
+
+    if not coding_manual_version or not plant_protocol_version or not mammal_protocol_version or not effort_rule_version:
+        raise ValueError("CONFIRMATORY_FREEZE_PROTOCOL_VERSION_MISSING")
+    if not (0 < minimum_double_code_fraction <= 1):
+        raise ValueError("invalid frozen double_code_fraction_minimum")
+    if not (-1 <= minimum_kappa <= 1):
+        raise ValueError("invalid frozen target_kappa_LBAN")
+
     final_sites = {str(x) for x in site_selection.get("final_sites", []) if str(x).strip()}
     final_plants = {
         str(x) for x in site_selection.get("final_plant_species", []) if str(x).strip()
@@ -570,6 +737,7 @@ def freeze_inputs(
         final_sites=final_sites,
         final_plants=final_plants,
         final_site_plant_pairs=final_site_plant_pairs,
+        effort_rule_version=effort_rule_version,
     )
     camera_windows = _camera_event_windows(camera)
 
@@ -581,16 +749,21 @@ def freeze_inputs(
             final_mammals=final_mammals,
             final_site_plant_pairs=final_site_plant_pairs,
             camera_windows=camera_windows,
+            coding_manual_version=coding_manual_version,
+            minimum_double_code_fraction=minimum_double_code_fraction,
+            minimum_kappa=minimum_kappa,
         ),
         "plant_traits": _validate_plant_traits(
             plant_traits,
             final_sites=final_sites,
             final_plants=final_plants,
             final_site_plant_pairs=final_site_plant_pairs,
+            protocol_version=plant_protocol_version,
         ),
         "mammal_traits": _validate_mammal_traits(
             mammal_traits,
             final_mammals=final_mammals,
+            protocol_version=mammal_protocol_version,
         ),
         "camera_deployment": camera_validation,
     }
