@@ -171,3 +171,18 @@ It does not establish:
 - that k=3 is significant.
 
 Those claims remain downstream of the frozen third-network analysis.
+
+
+## Join-time integrity rule
+
+The unit builder now re-hashes **all six frozen inputs** immediately before the
+route/morphology join:
+
+1. confirmatory route events;
+2. plant morphology;
+3. mammal morphology;
+4. camera deployment;
+5. pre-video confirmatory freeze receipt;
+6. field-readiness receipt.
+
+Any post-freeze edit returns `FROZEN_INPUT_HASH_MISMATCH` and the join stops.
