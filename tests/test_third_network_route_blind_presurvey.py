@@ -58,6 +58,12 @@ def test_route_blind_presurvey_can_promote_schema_eligible_site() -> None:
     result = evaluate_rows(_rows())
     assert result["status"] == "PRESURVEY_ROUTE_BLIND_ELIGIBLE_SITES_PRESENT"
     assert result["eligible_sites"] == ["S1"]
+    assert result["site_summary"]["S1"]["flowering_plant_species_list"] == [
+        "P0", "P1", "P2", "P3", "P4"
+    ]
+    assert result["site_summary"]["S1"]["mammal_species_list"] == [
+        "M0", "M1", "M2", "M3", "M4"
+    ]
     assert result["route_outcome_fields_present"] is False
     assert result["morphology_fields_present"] is False
 
