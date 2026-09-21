@@ -281,6 +281,9 @@ def test_frozen_inputs_can_be_joined_only_with_matching_manifest(tmp_path) -> No
         paths["events"],
         paths["plants"],
         paths["mammals"],
+        paths["cameras"],
+        paths["freeze"],
+        paths["field"],
         paths["manifest"],
         paths["units"],
         paths["audit"],
@@ -366,3 +369,69 @@ def test_field_readiness_with_false_gate_is_rejected_even_if_status_says_ready(t
 
     with pytest.raises(ValueError, match="FIELD_READINESS_GATES_NOT_ALL_TRUE"):
         _freeze(paths)
+
+
+
+def test_postfreeze_camera_edit_blocks_join(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    _freeze(paths)
+
+    with paths["cameras"].open("a", encoding="utf-8") as handle:
+        handle.write("\n")
+
+    with pytest.raises(ValueError, match="FROZEN_INPUT_HASH_MISMATCH: camera_deployment"):
+        build_units_run(
+            paths["events"],
+            paths["plants"],
+            paths["mammals"],
+            paths["cameras"],
+            paths["freeze"],
+            paths["field"],
+            paths["manifest"],
+            paths["units"],
+            paths["audit"],
+        )
+
+
+def test_postfreeze_confirmatory_receipt_edit_blocks_join(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    _freeze(paths)
+
+    freeze = json.loads(paths["freeze"].read_text(encoding="utf-8"))
+    freeze["claim"] = "edited after freeze"
+    paths["freeze"].write_text(json.dumps(freeze), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="FROZEN_INPUT_HASH_MISMATCH: confirmatory_freeze"):
+        build_units_run(
+            paths["events"],
+            paths["plants"],
+            paths["mammals"],
+            paths["cameras"],
+            paths["freeze"],
+            paths["field"],
+            paths["manifest"],
+            paths["units"],
+            paths["audit"],
+        )
+
+
+def test_postfreeze_field_readiness_edit_blocks_join(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    _freeze(paths)
+
+    field = json.loads(paths["field"].read_text(encoding="utf-8"))
+    field["claim_boundary"] = "edited after freeze"
+    paths["field"].write_text(json.dumps(field), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="FROZEN_INPUT_HASH_MISMATCH: field_readiness"):
+        build_units_run(
+            paths["events"],
+            paths["plants"],
+            paths["mammals"],
+            paths["cameras"],
+            paths["freeze"],
+            paths["field"],
+            paths["manifest"],
+            paths["units"],
+            paths["audit"],
+        )
