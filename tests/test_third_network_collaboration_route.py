@@ -11,6 +11,7 @@ SCOPE = ROOT / "docs" / "SUBMISSION_SCOPE.md"
 FORM = ROOT / "submission" / "THIRD_NETWORK_CAPE_FEASIBILITY_FORM_V1.md"
 QUARANTINE = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_COLLABORATION_RESPONSE_QUARANTINE_V1.md"
 RESPONSE_SCHEMA = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_COLLABORATION_RESPONSE_SCHEMA_V1.csv"
+CONTACT_RECEIPT = ROOT / "empirical" / "floral_defence_selectivity" / "THIRD_NETWORK_CAPE_CONTACT_VERIFICATION_V1.md"
 
 
 def test_collaboration_route_preserves_outcome_blind_site_selection() -> None:
@@ -94,3 +95,18 @@ def test_submission_scope_records_response_quarantine() -> None:
     assert "THIRD_NETWORK_CAPE_FEASIBILITY_FORM_V1.md" in text
     assert "THIRD_NETWORK_COLLABORATION_RESPONSE_QUARANTINE_V1.md" in text
     assert "COLLABORATION_RESPONSE_QUARANTINE = IMPLEMENTED" in text
+
+
+
+def test_contact_verification_receipt_pins_current_official_routes() -> None:
+    text = CONTACT_RECEIPT.read_text(encoding="utf-8")
+    assert "Verification date:** 2026-09-21" in text
+    for token in (
+        "steenhuisens@ufs.ac.za",
+        "jeremy.midgley@uct.ac.za",
+        "c.peter@ru.ac.za",
+        "johnsonsd@ukzn.ac.za",
+        "primary first contact:",
+        "Steenhuisen + Midgley",
+    ):
+        assert token in text
