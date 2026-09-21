@@ -227,6 +227,18 @@ def _validate_plant_traits(
         sites.add(site)
         plants.add(plant)
 
+    missing_pairs = {
+        (site, plant)
+        for site in final_sites
+        for plant in final_plants
+        if (site, plant) not in {
+            (key[0], key[1]) for key in replicates
+        }
+    }
+    if missing_pairs:
+        encoded = ",".join(f"{site}:{plant}" for site, plant in sorted(missing_pairs))
+        raise ValueError("plant morphology missing frozen site x plant units: " + encoded)
+
     return {"rows": len(rows), "sites": len(sites), "plants": len(plants)}
 
 
