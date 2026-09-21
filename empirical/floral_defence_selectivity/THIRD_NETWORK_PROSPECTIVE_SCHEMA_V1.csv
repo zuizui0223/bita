@@ -1,0 +1,30 @@
+table,column,type,unit,role,required,notes
+events,event_id,string,identifier,join_key,true,Immutable event identifier
+events,site_id,string,identifier,stratum,true,Confirmatory site stratum
+events,plant_species,string,taxon,plant_id,true,Frozen confirmatory plant list
+events,mammal_species,string,taxon,visitor_id,true,Species-level visitor identity
+events,timestamp,datetime,time,audit,true,Camera timestamp
+events,camera_id,string,identifier,audit,true,Camera identifier
+events,route_code,string,L_B_A_N,outcome,true,Blind route code
+events,coder_id,string,identifier,reliability,true,Primary coder
+events,double_coded,boolean,flag,reliability,true,Marks reliability subset
+events,second_route_code,string,L_B_A_N,reliability,false,Independent second code
+events,clip_quality,string,category,quality,true,Predeclared quality status
+plant_traits,site_id,string,identifier,stratum,true,Join to event site
+plant_traits,plant_species,string,taxon,plant_id,true,Join to plant
+plant_traits,inflorescence_id,string,identifier,replicate,true,Morphology replicate
+plant_traits,access_depth_mm,float,mm,P_j,true,Primary legitimate access depth
+plant_traits,repeat_index,integer,count,quality,true,Repeated morphology measure
+mammal_traits,mammal_species,string,taxon,visitor_id,true,Join to mammal
+mammal_traits,individual_id,string,identifier,replicate,true,Morphology replicate
+mammal_traits,rostral_reach_mm,float,mm,V_i,true,Primary visitor reach phenotype
+mammal_traits,repeat_index,integer,count,quality,true,Repeated morphology measure
+analysis_units,site_id,string,identifier,stratum,true,Site stratum
+analysis_units,plant_species,string,taxon,plant_id,true,Plant identity
+analysis_units,mammal_species,string,taxon,visitor_id,true,Mammal identity
+analysis_units,P_j_mm,float,mm,predictor,true,Species x site median plant access depth
+analysis_units,V_i_mm,float,mm,predictor,true,Species median mammal reach
+analysis_units,M_log_ratio,float,unitless,predictor,true,log(P_j/V_i)
+analysis_units,B_count,integer,count,outcome,true,Bypass events
+analysis_units,L_count,integer,count,outcome,true,Legitimate events
+analysis_units,Y_bypass_prop,float,proportion,outcome,true,B/(B+L)
