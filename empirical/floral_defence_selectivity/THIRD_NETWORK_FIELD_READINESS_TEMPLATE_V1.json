@@ -6,9 +6,8 @@
   "site_locations_verified_privately": "REQUIRED_BEFORE_USE",
   "site_location_receipt_reference": "REQUIRED_BEFORE_USE",
   "route_blind_presurvey": {
-    "complete": "REQUIRED_BEFORE_USE",
-    "evidence_reference": "REQUIRED_BEFORE_USE",
-    "route_outcomes_used_for_site_selection": false
+    "receipt_path": "REQUIRED_BEFORE_USE",
+    "sha256": "REQUIRED_BEFORE_USE"
   },
   "confirmatory_freeze_receipt": {
     "path": "REQUIRED_BEFORE_USE",
