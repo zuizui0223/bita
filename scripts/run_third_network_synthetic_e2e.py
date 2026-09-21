@@ -113,6 +113,7 @@ def _freeze_receipt() -> dict[str, object]:
         },
         "camera_effort": {
             "rule": "synthetic fixed 120 camera-hours per plant x site",
+            "rule_version": "SYNTHETIC_FIXED_V1",
             "may_extend_based_on_route_outcomes": False,
         },
         "analysis": {
@@ -217,13 +218,21 @@ def _raw_tables(outdir: Path, scenario: str) -> dict[str, Path]:
                 plant_rows.append({
                     "site_id": site,
                     "plant_species": f"P{p}",
+                    "protocol_version": "SYNTHETIC_PLANT_MORPH_V1",
                     "inflorescence_id": f"{site}_P{p}_I{rep}",
                     "access_depth_mm": 18.0 + 2.5 * p + 0.4 * s_idx + (rep - 1.5) * 0.02,
                     "repeat_index": rep,
                 })
     _write_csv(
         plants,
-        ["site_id", "plant_species", "inflorescence_id", "access_depth_mm", "repeat_index"],
+        [
+            "site_id",
+            "plant_species",
+            "protocol_version",
+            "inflorescence_id",
+            "access_depth_mm",
+            "repeat_index",
+        ],
         plant_rows,
     )
 
@@ -232,13 +241,20 @@ def _raw_tables(outdir: Path, scenario: str) -> dict[str, Path]:
         for rep in (1, 2):
             mammal_rows.append({
                 "mammal_species": f"M{m}",
+                "protocol_version": "SYNTHETIC_MAMMAL_MORPH_V1",
                 "individual_id": f"M{m}_IND{rep}",
                 "rostral_reach_mm": 11.0 + 1.6 * m + (rep - 1.5) * 0.02,
                 "repeat_index": rep,
             })
     _write_csv(
         mammals,
-        ["mammal_species", "individual_id", "rostral_reach_mm", "repeat_index"],
+        [
+            "mammal_species",
+            "protocol_version",
+            "individual_id",
+            "rostral_reach_mm",
+            "repeat_index",
+        ],
         mammal_rows,
     )
 
@@ -299,9 +315,18 @@ def _raw_tables(outdir: Path, scenario: str) -> dict[str, Path]:
                             "mammal_species": f"M{m}",
                             "timestamp": f"2027-03-{1 + (event_id % 5):02d}T00:00:00Z",
                             "camera_id": f"C_{site}_P{p}",
+                            "coding_manual_version": "THIRD_NETWORK_ROUTE_CODING_MANUAL_V1",
                             "route_code": route,
                             "visitor_id_confidence": "HIGH",
+                            "route_visibility": "FULL",
+                            "tissue_damage": "YES" if route == "B" else "NO",
+                            "pollen_presenter_contact": "NO" if route == "B" else "YES",
+                            "nectar_behavior_confidence": "HIGH",
+                            "preexisting_bypass_opening": "NO",
                             "clip_quality": "PASS",
+                            "coder_id": "SYNTHETIC_CODER_A",
+                            "double_coded": "true",
+                            "second_route_code": route,
                         })
     _write_csv(
         events,
@@ -313,9 +338,18 @@ def _raw_tables(outdir: Path, scenario: str) -> dict[str, Path]:
             "mammal_species",
             "timestamp",
             "camera_id",
+            "coding_manual_version",
             "route_code",
             "visitor_id_confidence",
+            "route_visibility",
+            "tissue_damage",
+            "pollen_presenter_contact",
+            "nectar_behavior_confidence",
+            "preexisting_bypass_opening",
             "clip_quality",
+            "coder_id",
+            "double_coded",
+            "second_route_code",
         ],
         event_rows,
     )
@@ -399,7 +433,7 @@ def run(outdir: str | Path, *, scenario: str = "positive", permutations: int = 1
 
     units_path = root / "third_analysis_units.csv"
     unit_audit_path = root / "third_unit_build_audit.json"
-    build_units(
+    unit_audit = build_units(
         raw["events"],
         raw["plants"],
         raw["mammals"],
@@ -438,6 +472,9 @@ def run(outdir: str | Path, *, scenario: str = "positive", permutations: int = 1
         "permutations": permutations,
         "field_readiness_status": field_receipt["status"],
         "input_freeze_status": manifest["status"],
+        "double_code_fraction": manifest["validation"]["events"]["double_code_fraction"],
+        "cohen_kappa_LBAN": manifest["validation"]["events"]["cohen_kappa_LBAN"],
+        "verified_join_input_count": len(unit_audit["input_freeze"]["verified_input_sha256"]),
         "third_gate": third["gate"],
         "third_rho": third["effect"]["rho_site_adjusted_rank"],
         "third_p": third["effect"]["permutation_p_two_sided"],
