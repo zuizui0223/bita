@@ -126,6 +126,7 @@ def _validate_events(
     final_sites: set[str],
     final_plants: set[str],
     final_mammals: set[str],
+    final_site_plant_pairs: set[tuple[str, str]],
     camera_windows: dict[tuple[str, str, str], list[tuple[dt.datetime, dt.datetime]]],
 ) -> dict[str, object]:
     ids: list[str] = []
@@ -166,6 +167,10 @@ def _validate_events(
             raise ValueError(f"event plant outside frozen plant list: {plant}")
         if visitor not in final_mammals:
             raise ValueError(f"event mammal outside frozen mammal list: {visitor}")
+        if (site, plant) not in final_site_plant_pairs:
+            raise ValueError(
+                f"event site x plant outside frozen pair list: {site}:{plant}"
+            )
 
         key = (site, plant, camera)
         windows = camera_windows.get(key)
@@ -201,6 +206,7 @@ def _validate_plant_traits(
     *,
     final_sites: set[str],
     final_plants: set[str],
+    final_site_plant_pairs: set[tuple[str, str]],
 ) -> dict[str, object]:
     replicates: set[tuple[str, str, str, int]] = set()
     sites: set[str] = set()
@@ -217,6 +223,10 @@ def _validate_plant_traits(
             raise ValueError(f"plant morphology site outside frozen site list: {site}")
         if plant not in final_plants:
             raise ValueError(f"plant morphology species outside frozen plant list: {plant}")
+        if (site, plant) not in final_site_plant_pairs:
+            raise ValueError(
+                f"plant morphology site x plant outside frozen pair list: {site}:{plant}"
+            )
         if not inflo:
             raise ValueError("plant_traits.inflorescence_id must not be blank")
 
@@ -227,14 +237,8 @@ def _validate_plant_traits(
         sites.add(site)
         plants.add(plant)
 
-    missing_pairs = {
-        (site, plant)
-        for site in final_sites
-        for plant in final_plants
-        if (site, plant) not in {
-            (key[0], key[1]) for key in replicates
-        }
-    }
+    observed_pairs = {(key[0], key[1]) for key in replicates}
+    missing_pairs = final_site_plant_pairs.difference(observed_pairs)
     if missing_pairs:
         encoded = ",".join(f"{site}:{plant}" for site, plant in sorted(missing_pairs))
         raise ValueError("plant morphology missing frozen site x plant units: " + encoded)
@@ -278,11 +282,13 @@ def _validate_camera_deployment(
     *,
     final_sites: set[str],
     final_plants: set[str],
+    final_site_plant_pairs: set[tuple[str, str]],
 ) -> dict[str, object]:
     ids: list[str] = []
     sites: set[str] = set()
     plants: set[str] = set()
     total_hours = 0.0
+    observed_pairs: set[tuple[str, str]] = set()
 
     for row in rows:
         deployment_id = str(row["deployment_id"]).strip()
@@ -305,6 +311,10 @@ def _validate_camera_deployment(
             raise ValueError(f"camera site outside frozen site list: {site}")
         if plant not in final_plants:
             raise ValueError(f"camera plant outside frozen plant list: {plant}")
+        if (site, plant) not in final_site_plant_pairs:
+            raise ValueError(
+                f"camera site x plant outside frozen pair list: {site}:{plant}"
+            )
         if not camera or not rule:
             raise ValueError("camera_id and effort_rule_version must not be blank")
         if angle not in {"PRIMARY", "SECONDARY_VALIDATION"}:
@@ -319,6 +329,7 @@ def _validate_camera_deployment(
         total_hours += hours
         sites.add(site)
         plants.add(plant)
+        observed_pairs.add((site, plant))
 
     if len(ids) != len(set(ids)):
         raise ValueError("deployment_id must be unique")
@@ -326,6 +337,14 @@ def _validate_camera_deployment(
         raise ValueError("camera deployment does not cover every frozen site")
     if plants != final_plants:
         raise ValueError("camera deployment does not cover every frozen plant species")
+    if observed_pairs != final_site_plant_pairs:
+        missing = final_site_plant_pairs.difference(observed_pairs)
+        extra = observed_pairs.difference(final_site_plant_pairs)
+        detail = (
+            "missing=" + ",".join(f"{s}:{p}" for s, p in sorted(missing))
+            + ";extra=" + ",".join(f"{s}:{p}" for s, p in sorted(extra))
+        )
+        raise ValueError("camera deployment does not match frozen site x plant pairs: " + detail)
 
     return {
         "rows": len(rows),
@@ -400,12 +419,34 @@ def _validate_field_readiness_receipt(
         for value in freeze_ref.get("final_mammal_species", [])
         if str(value).strip()
     }
+    frozen_pairs = {
+        (
+            str(row.get("site_id", "")).strip(),
+            str(row.get("plant_species", "")).strip(),
+        )
+        for row in selection.get("final_site_plant_pairs", [])
+        if isinstance(row, dict)
+        and str(row.get("site_id", "")).strip()
+        and str(row.get("plant_species", "")).strip()
+    }
+    readiness_pairs = {
+        (
+            str(row.get("site_id", "")).strip(),
+            str(row.get("plant_species", "")).strip(),
+        )
+        for row in freeze_ref.get("final_site_plant_pairs", [])
+        if isinstance(row, dict)
+        and str(row.get("site_id", "")).strip()
+        and str(row.get("plant_species", "")).strip()
+    }
     if readiness_sites != frozen_sites:
         raise ValueError("FIELD_READINESS_FINAL_SITE_MISMATCH")
     if readiness_plants != frozen_plants:
         raise ValueError("FIELD_READINESS_FINAL_PLANT_MISMATCH")
     if readiness_mammals != frozen_mammals:
         raise ValueError("FIELD_READINESS_FINAL_MAMMAL_MISMATCH")
+    if readiness_pairs != frozen_pairs:
+        raise ValueError("FIELD_READINESS_FINAL_SITE_PLANT_PAIR_MISMATCH")
 
     route_blind = field.get("route_blind_presurvey")
     if not isinstance(route_blind, dict):
@@ -472,8 +513,23 @@ def freeze_inputs(
     final_mammals = {
         str(x) for x in site_selection.get("final_mammal_species", []) if str(x).strip()
     }
-    if not final_sites or not final_plants or not final_mammals:
-        raise ValueError("frozen site/plant/mammal lists are empty")
+    final_site_plant_pairs = {
+        (
+            str(row.get("site_id", "")).strip(),
+            str(row.get("plant_species", "")).strip(),
+        )
+        for row in site_selection.get("final_site_plant_pairs", [])
+        if isinstance(row, dict)
+        and str(row.get("site_id", "")).strip()
+        and str(row.get("plant_species", "")).strip()
+    }
+    if (
+        not final_sites
+        or not final_plants
+        or not final_mammals
+        or not final_site_plant_pairs
+    ):
+        raise ValueError("frozen site/plant/mammal/pair lists are empty")
 
     events = _read_csv(events_csv, EVENT_REQUIRED, "events")
     plant_traits = _read_csv(plant_traits_csv, PLANT_REQUIRED, "plant_traits")
@@ -484,6 +540,7 @@ def freeze_inputs(
         camera,
         final_sites=final_sites,
         final_plants=final_plants,
+        final_site_plant_pairs=final_site_plant_pairs,
     )
     camera_windows = _camera_event_windows(camera)
 
@@ -493,12 +550,14 @@ def freeze_inputs(
             final_sites=final_sites,
             final_plants=final_plants,
             final_mammals=final_mammals,
+            final_site_plant_pairs=final_site_plant_pairs,
             camera_windows=camera_windows,
         ),
         "plant_traits": _validate_plant_traits(
             plant_traits,
             final_sites=final_sites,
             final_plants=final_plants,
+            final_site_plant_pairs=final_site_plant_pairs,
         ),
         "mammal_traits": _validate_mammal_traits(
             mammal_traits,
@@ -532,6 +591,10 @@ def freeze_inputs(
         "final_sites": sorted(final_sites),
         "final_plant_species": sorted(final_plants),
         "final_mammal_species": sorted(final_mammals),
+        "final_site_plant_pairs": [
+            {"site_id": site, "plant_species": plant}
+            for site, plant in sorted(final_site_plant_pairs)
+        ],
         "join_rule": (
             "Route outcomes and morphology may be joined only through the checksum-verifying "
             "third-network unit builder using this manifest."
