@@ -13,7 +13,7 @@ SCOPE = ROOT / "docs" / "SUBMISSION_SCOPE.md"
 def test_collaboration_route_preserves_outcome_blind_site_selection() -> None:
     text = ROUTE.read_text(encoding="utf-8")
     assert "HISTORICAL_ROUTE_OUTCOME_DISCLOSURE_BEFORE_SITE_FREEZE = NOT_REQUESTED" in text
-    assert "Do **not** ask collaborators" in text
+    assert "do **not** ask collaborators" in text
     assert "unpublished B/L event counts" in text
     assert "route-blind feasibility" in text
     assert "If no collaboration can satisfy the frozen richness/schema gates, retain k=2" in text
