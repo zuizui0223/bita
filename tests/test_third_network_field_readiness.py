@@ -50,6 +50,8 @@ def _ready_freeze() -> dict:
             "coders_blind_to_P_V_M": True,
             "double_code_fraction_minimum": 0.2,
             "target_kappa_LBAN": 0.8,
+            "double_code_subset_seed": 20260922,
+            "double_code_selection_method": "SEEDED_RANDOM_SAMPLE_OF_NON_N_EVENT_IDS",
         },
         "camera_effort": {
             "rule": "fixed 120 camera-hours per plant x site",
