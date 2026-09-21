@@ -37,7 +37,11 @@ Would you be interested in discussing a collaboration, or advising whether there
 
 The site and plant list would be frozen before confirmatory route videos are opened, and pilot route frequencies would not be used to select sites. If the eventual mammal result is null or opposite in sign, it remains the confirmatory third test.
 
-I can share the full preregistration, route-coding manual, field-readiness gate and reproducible analysis pipeline. I would be very grateful for any advice on whether this is practical in the Cape system and, if so, where a route-blind feasibility survey should begin.
+I can share the full preregistration, route-coding manual, field-readiness gate and reproducible analysis pipeline. I have also prepared a short route-blind feasibility form that asks only about candidate sites, flowering species, mammal presence, camera logistics, morphology sources and permission/ethics pathways.
+
+To preserve the confirmatory design, please do not include unpublished site-, plant- or mammal-specific information about which taxa show more destructive/lateral/bypass access, route-specific counts, or route-specific coefficients before we freeze the candidate site and plant list.
+
+I would be very grateful for any advice on whether this is practical in the Cape system and, if so, where a route-blind feasibility survey should begin.
 
 Best regards,
 

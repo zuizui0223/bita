@@ -182,9 +182,33 @@ Recommended operational order:
 This ordering is based on direct relevance to the prospective Protea mammal
 system, not on any observed route outcome.
 
+## Response quarantine
+
+Preferred response surface:
+
+- `submission/THIRD_NETWORK_CAPE_FEASIBILITY_FORM_V1.md`
+
+Extract replies only into:
+
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_RESPONSE_SCHEMA_V1.csv`
+
+Adjudicate unsolicited outcome disclosure with:
+
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_RESPONSE_QUARANTINE_V1.md`
+- `scripts/evaluate_third_network_collaboration_response.py`
+
+If a collaborator voluntarily discloses route-specific information for a named
+site, plant or mammal, the affected entity is permanently excluded from the
+confirmatory candidate pool. If the disclosure exposes the intended system
+broadly enough that route-blind site selection is no longer credible, the Cape
+confirmatory lane is blocked rather than rescued by selective use of the reply.
+
+Do not copy outcome direction, counts, coefficients or p-values into the
+route-blind response extract.
+
 ## First-response gate
 
-A positive reply is useful only if it can address route-blind feasibility.
+A positive reply is useful only if it can address route-blind feasibility. The raw reply itself is correspondence provenance; only the quarantined route-blind extraction enters site selection.
 
 Record:
 
