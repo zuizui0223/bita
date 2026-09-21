@@ -28,6 +28,7 @@ def _ready_receipt() -> dict[str, object]:
     receipt["morphology"]["plant_protocol_version"] = "PLANT_MORPH_V1"
     receipt["morphology"]["mammal_protocol_version"] = "MAMMAL_MORPH_V1"
     receipt["camera_effort"]["rule"] = "fixed camera-hours per plant x site"
+    receipt["camera_effort"]["rule_version"] = "EFFORT_V1"
     receipt["permissions"]["land_access"] = "RESOLVED"
     receipt["permissions"]["animal_capture_or_handling"] = "RESOLVED"
     receipt["permissions"]["plant_measurement_or_collection"] = "RESOLVED"
@@ -83,3 +84,12 @@ def test_site_plant_pair_set_must_match_frozen_site_and_plant_lists() -> None:
     result = validate(receipt)
     assert result["status"] == "BLOCKED"
     assert "final_site_plant_pairs_do_not_match_frozen_lists" in result["failures"]
+
+
+
+def test_camera_effort_rule_version_is_required_before_video_open() -> None:
+    receipt = _ready_receipt()
+    receipt["camera_effort"]["rule_version"] = "REQUIRED_BEFORE_USE"
+    result = validate(receipt)
+    assert result["status"] == "BLOCKED"
+    assert "camera_effort_rule_version_not_frozen" in result["failures"]
