@@ -1,0 +1,9 @@
+table,column,type,allowed_or_unit,required,notes
+presurvey,record_id,string,identifier,true,Immutable route-blind presurvey record
+presurvey,site_id,string,identifier,true,Candidate site
+presurvey,record_type,string,PLANT|MAMMAL|CAMERA,true,Route-blind evidence class
+presurvey,plant_species,string,taxon,false,Required only for PLANT rows
+presurvey,mammal_species,string,taxon,false,Required only for MAMMAL rows
+presurvey,evidence_method,string,predeclared route-blind method,true,Must not encode flower handling route
+presurvey,flowering_available,string,YES|NO|NA,true,PLANT rows use YES/NO; others NA
+presurvey,camera_operable,string,YES|NO|NA,true,CAMERA rows use YES/NO; others NA
