@@ -28,6 +28,9 @@ def _ready_freeze() -> dict:
             "final_sites": ["S1"],
             "final_plant_species": ["P0", "P1", "P2", "P3", "P4"],
             "final_mammal_species": ["M0", "M1", "M2", "M3", "M4"],
+            "final_site_plant_pairs": [
+                {"site_id": "S1", "plant_species": f"P{i}"} for i in range(5)
+            ],
             "route_outcome_blind": True,
             "pilot_B_or_L_presence_used_for_selection": False,
             "selection_basis": "route-blind presurvey + permits + flowering",
@@ -232,3 +235,21 @@ def test_final_plant_and_mammal_lists_must_come_from_route_blind_presurvey(tmp_p
     assert result["status"] == BLOCKED_STATUS
     assert result["gates"]["final_plants_supported_by_route_blind_presurvey"] is False
     assert result["gates"]["final_mammals_supported_by_route_blind_presurvey"] is False
+
+
+
+def test_final_site_plant_pairs_must_be_route_blind_presurvey_pairs(tmp_path) -> None:
+    config = _config(tmp_path)
+    freeze_path = tmp_path / config["confirmatory_freeze_receipt"]["path"]
+    freeze = json.loads(freeze_path.read_text(encoding="utf-8"))
+    freeze["site_selection"]["final_plant_species"] = ["P0", "P1", "P2", "P3", "P_OUTSIDE"]
+    freeze["site_selection"]["final_site_plant_pairs"] = [
+        {"site_id": "S1", "plant_species": value}
+        for value in freeze["site_selection"]["final_plant_species"]
+    ]
+    freeze_path.write_text(json.dumps(freeze), encoding="utf-8")
+    config["confirmatory_freeze_receipt"]["sha256"] = _sha(freeze_path)
+
+    result = evaluate(config, base_dir=tmp_path)
+    assert result["status"] == BLOCKED_STATUS
+    assert result["gates"]["final_site_plant_pairs_supported_by_route_blind_presurvey"] is False
