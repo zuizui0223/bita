@@ -506,7 +506,7 @@ def test_plant_morphology_cannot_omit_frozen_site_plant_unit(tmp_path) -> None:
 
 
 
-def test_event_site_plant_must_be_in_frozen_pair_set(tmp_path) -> None:
+def test_removed_frozen_site_plant_pair_blocks_existing_camera_and_events(tmp_path) -> None:
     paths = _fixture(tmp_path)
     freeze = json.loads(paths["freeze"].read_text(encoding="utf-8"))
     freeze["site_selection"]["final_site_plant_pairs"] = [
@@ -522,5 +522,8 @@ def test_event_site_plant_must_be_in_frozen_pair_set(tmp_path) -> None:
     ]
     paths["field"].write_text(json.dumps(field), encoding="utf-8")
 
-    with pytest.raises(ValueError, match="event plant outside frozen plant list|event site x plant outside frozen pair list"):
+    with pytest.raises(
+        ValueError,
+        match="camera plant outside frozen plant list|camera site x plant outside frozen pair list",
+    ):
         _freeze(paths)
