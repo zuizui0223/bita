@@ -118,7 +118,8 @@ The active lane is now one prospective **non-flying-mammal × Protea** network:
 - `scripts/evaluate_third_network_collaboration_response.py`
 - `scripts/verify_third_network_confirmatory_bundle.py`
 - `scripts/plan_third_network_claim_transition.py`
-- `empirical/floral_defence_selectivity/THIRD_NETWORK_CLAIM_TRANSITION_GATE_V1.md`\n
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_CLAIM_TRANSITION_GATE_V1.md`
+
 The same predeclared estimand remains:
 
 ~~~text
