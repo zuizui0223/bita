@@ -293,3 +293,13 @@ def test_production_run_exposes_no_frozen_k2_receipt_override() -> None:
     signature = inspect.signature(runner.run)
     assert "existing_network_archive_dir" in signature.parameters
     assert "frozen_k2_result_json" not in signature.parameters
+
+
+
+def test_standalone_k3_analysis_has_no_live_existing_network_download_path() -> None:
+    import scripts.analyze_joint_access_routing_k3 as k3
+
+    source = Path(k3.__file__).read_text(encoding="utf-8")
+    assert "build_public_inputs" not in source
+    assert "load_frozen_existing_networks" in source
+    assert "--existing-network-archive-dir" in source
