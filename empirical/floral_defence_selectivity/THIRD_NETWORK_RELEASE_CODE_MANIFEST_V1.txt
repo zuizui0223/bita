@@ -1,0 +1,13 @@
+scripts/analyze_joint_access_routing.py
+scripts/analyze_joint_access_routing_k3.py
+scripts/analyze_sakhalkar2023_network.py
+scripts/audit_sakhalkar2023_zenodo.py
+scripts/analyze_aubert2026_zenodo_extension.py
+scripts/analyze_third_access_routing_network.py
+scripts/build_third_access_routing_units.py
+scripts/verify_third_network_confirmatory_bundle.py
+scripts/plan_third_network_claim_transition.py
+scripts/reproduce_third_network_confirmatory_release.py
+scripts/package_third_network_confirmatory_release.py
+trait_architecture/__init__.py
+trait_architecture/numerics.py

@@ -107,6 +107,10 @@ The active lane is now one prospective **non-flying-mammal × Protea** network:
 - `scripts/run_third_network_synthetic_e2e.py`
 - `scripts/run_third_network_release_rehearsal.py`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_RELEASE_REHEARSAL_V1.md`
+- `scripts/package_third_network_confirmatory_release.py`
+- `scripts/reproduce_third_network_confirmatory_release.py`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_RELEASE_CODE_MANIFEST_V1.txt`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_CONFIRMATORY_RELEASE_PACKAGE_V1.md`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_SYNTHETIC_E2E_V1.md`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_CAPE_COLLABORATION_ROUTE_V1.md`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_CAPE_CONTACT_VERIFICATION_V1.md`
@@ -155,6 +159,7 @@ CONFIRMATORY_INPUT_FREEZE = IMPLEMENTED_MANIFEST_REQUIRED
 ROUTE_RELIABILITY_GATE = IMPLEMENTED_KAPPA_LBAN_GE_0_80
 SYNTHETIC_E2E = IMPLEMENTED_DEVELOPMENT_ONLY
 RELEASE_REHEARSAL = IMPLEMENTED_BUNDLE_VERIFY_CLAIM_PLAN_MATRIX
+CONFIRMATORY_RELEASE_PACKAGE = IMPLEMENTED_DETERMINISTIC_OFFLINE_REPLAY
 CONFIRMATORY_RUNNER = IMPLEMENTED_ONE_COMMAND_TRANSACTIONAL_COMMIT_BOUND
 CONFIRMATORY_BUNDLE_VERIFIER = IMPLEMENTED_READ_ONLY_SHA256
 EXISTING_NETWORK_K3_INPUTS = BUNDLED_EXACT_ROWS_AND_REVERIFIED

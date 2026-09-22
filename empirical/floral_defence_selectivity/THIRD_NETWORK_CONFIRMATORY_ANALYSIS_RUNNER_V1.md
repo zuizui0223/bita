@@ -182,3 +182,33 @@ CONFIRMATORY_BUNDLE_INVALID
 ~~~
 
 Verification is read-only and cannot promote or alter a manuscript claim.
+
+
+## Archival release package
+
+After bundle verification and claim-transition planning, freeze the complete
+confirmatory state into the deterministic release package:
+
+~~~bash
+python scripts/package_third_network_confirmatory_release.py \
+  confirmatory_analysis_v1 \
+  --source-dir frozen_confirmatory_inputs \
+  --output-dir third_network_confirmatory_release_v1
+~~~
+
+The package stores the complete confirmatory bundle, all six frozen third-network
+source inputs, exact Sakhalkar/Aubert rows entering k=3, retained-result claim
+plan, frozen protocol documents and the minimal replay code.
+
+Offline replay requires no public-data download:
+
+~~~bash
+PYTHONPATH=code python \
+  code/scripts/reproduce_third_network_confirmatory_release.py . \
+  --output reproduction.json
+~~~
+
+The required replay status is `REPRODUCTION_MATCH`.
+
+Archive construction does not itself permit a manuscript claim or automatic
+manuscript edit; the claim-transition plan remains authoritative.

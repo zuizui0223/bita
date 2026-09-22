@@ -1,0 +1,146 @@
+# Third-network confirmatory release package v1
+
+## Purpose
+
+After a real third-network confirmatory run and retained-result claim transition,
+the final analysis state must be archivable without depending on mutable working
+directories or future downloads of the two existing public networks.
+
+The package therefore contains the **exact inputs and code actually used** for
+the three-network analysis.
+
+## Production entry point
+
+~~~bash
+python scripts/package_third_network_confirmatory_release.py \
+  confirmatory_analysis_v1 \
+  --source-dir frozen_confirmatory_inputs \
+  --output-dir third_network_confirmatory_release_v1
+~~~
+
+Production is the default and fails unless:
+
+- the confirmatory bundle passes full SHA256 verification;
+- the six frozen third-network source inputs are rechecked;
+- the existing-network input mode is
+  `PUBLIC_EXISTING_NETWORKS_FIXED_DOI_REBUILD`;
+- the analysis receipt contains an exact 40-character repository commit;
+- the current checkout is that exact repository commit;
+- the retained-result claim-transition plan passes the production gate.
+
+Synthetic/development rehearsal bundles require the explicit
+`--development-only` switch.
+
+## Archive contents
+
+~~~text
+confirmatory_bundle/
+  exact third-network results
+  exact Sakhalkar analysis rows entering k=3
+  exact Aubert/EPHI analysis rows entering k=3
+  input-freeze manifest
+  analysis receipt
+  BUNDLE_SHA256SUMS.txt
+
+frozen_inputs/
+  confirmatory event table
+  plant morphology table
+  mammal morphology table
+  camera deployment table
+  pre-video confirmatory freeze receipt
+  field-readiness receipt
+
+claim_transition_plan.json
+
+protocol/
+  preregistration
+  prospective design
+  route coding manual
+  pilot split
+  seed receipt
+  production runner contract
+  claim-transition contract
+  release rehearsal contract
+  frozen code manifest
+
+code/
+  minimal offline replay code
+
+release_manifest.json
+FILE_SHA256SUMS.txt
+README.md
+~~~
+
+Raw camera video is not required for numerical replay of the confirmatory
+analysis. Its long-term archival policy remains separate from the exact
+analysis-input archive.
+
+## Offline replay
+
+After extraction:
+
+~~~bash
+PYTHONPATH=code python code/scripts/reproduce_third_network_confirmatory_release.py . \
+  --output reproduction.json
+~~~
+
+The replay:
+
+1. verifies the complete confirmatory bundle;
+2. rechecks all six frozen third-network inputs;
+3. rebuilds mammal × plant × site analysis units;
+4. recomputes the frozen third-network effect with its recorded seed and
+   permutation count;
+5. reloads the exact bundled Sakhalkar and Aubert/EPHI rows;
+6. recomputes the equal-network k=3 statistic;
+7. compares the recomputed scientific outputs with the archived outputs.
+
+Success requires:
+
+~~~text
+REPRODUCTION_MATCH
+~~~
+
+No public-data network access is required.
+
+## Deterministic ZIP
+
+The packager writes:
+
+~~~text
+<third_network_release>.zip
+<third_network_release>.zip.sha256
+~~~
+
+ZIP members are sorted and receive fixed metadata/time. Therefore the same
+frozen inputs and repository code produce the same ZIP bytes even when the
+output directory has a different name or parent path.
+
+This makes the ZIP SHA256 an immutable submission/archive receipt.
+
+## Development rehearsal
+
+For synthetic fixtures only:
+
+~~~bash
+python scripts/package_third_network_confirmatory_release.py \
+  synthetic_confirmatory_bundle \
+  --source-dir synthetic_fixture \
+  --output-dir development_release \
+  --development-only
+~~~
+
+A development archive is permanently labelled synthetic and cannot by itself
+license a scientific claim or manuscript edit.
+
+## Claim boundary
+
+The archive is a reproducibility object. Even for a real production package:
+
+~~~text
+scientific_claim_allowed_by_archive_alone = false
+automatic_manuscript_edit_permitted = false
+~~~
+
+The separate retained-result claim-transition plan remains authoritative for
+what can be written in the manuscript.
