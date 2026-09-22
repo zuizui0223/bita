@@ -42,6 +42,8 @@ def test_bundle_verifier_accepts_untampered_completed_run(tmp_path) -> None:
     assert result["status"] == VERIFIED_STATUS
     assert result["failures"] == []
     assert result["source_recheck_mode"] == "SOURCE_INPUTS_NOT_RECHECKED"
+    assert (output / "BUNDLE_SHA256SUMS.txt").is_file()
+    assert all(entry["match"] for entry in result["bundle_checksum_checks"].values())
 
 
 def test_bundle_verifier_can_recheck_original_source_inputs(tmp_path) -> None:
@@ -93,3 +95,16 @@ def test_bundle_verifier_reports_malformed_receipt_instead_of_crashing(tmp_path)
     result = verify(output)
     assert result["status"] == "CONFIRMATORY_BUNDLE_INVALID"
     assert "joint_network_count_mismatch" in result["failures"]
+
+
+
+def test_bundle_verifier_detects_tampered_analysis_receipt_via_bundle_checksum(tmp_path) -> None:
+    _fixture, output = _run_bundle(tmp_path)
+    receipt_path = output / "confirmatory_analysis_receipt.json"
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    receipt["repository_commit"] = "tampered"
+    receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+
+    result = verify(output)
+    assert result["status"] == "CONFIRMATORY_BUNDLE_INVALID"
+    assert "bundle_checksum_mismatch:confirmatory_analysis_receipt.json" in result["failures"]
