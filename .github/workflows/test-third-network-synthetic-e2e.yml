@@ -23,6 +23,7 @@ on:
       - "tests/test_third_network_claim_transition.py"
       - "tests/test_third_network_synthetic_e2e.py"
       - "tests/test_third_network_release_rehearsal.py"
+      - "tests/test_third_network_scope_registration.py"
       - "tests/test_third_network_route_reliability.py"
       - "tests/test_third_network_input_freeze.py"
       - "empirical/floral_defence_selectivity/THIRD_NETWORK_*"
@@ -47,6 +48,7 @@ on:
       - "tests/test_third_network_claim_transition.py"
       - "tests/test_third_network_synthetic_e2e.py"
       - "tests/test_third_network_release_rehearsal.py"
+      - "tests/test_third_network_scope_registration.py"
       - "tests/test_third_network_route_reliability.py"
       - "tests/test_third_network_input_freeze.py"
       - "empirical/floral_defence_selectivity/THIRD_NETWORK_*"
@@ -84,13 +86,15 @@ jobs:
             tests/test_third_network_confirmatory_pipeline.py \
             tests/test_third_network_confirmatory_bundle_verifier.py \
             tests/test_third_network_claim_transition.py \
-            tests/test_third_network_release_rehearsal.py
+            tests/test_third_network_release_rehearsal.py \
+            tests/test_third_network_scope_registration.py
 
       - name: Verify production CLI entry points
         run: |
           python scripts/run_third_network_confirmatory_pipeline.py --help >/dev/null
           python scripts/verify_third_network_confirmatory_bundle.py --help >/dev/null
           python scripts/plan_third_network_claim_transition.py --help >/dev/null
+          python scripts/run_third_network_release_rehearsal.py --help >/dev/null
 
       - name: Run synthetic E2E scenario matrix
         run: |
