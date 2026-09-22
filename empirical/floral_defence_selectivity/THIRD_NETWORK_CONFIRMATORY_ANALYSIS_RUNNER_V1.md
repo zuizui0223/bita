@@ -20,6 +20,38 @@ python scripts/run_third_network_confirmatory_pipeline.py \
 The default confirmatory run uses 9,999 permutations and the already frozen
 third-network / k=3 seeds.
 
+## Canonical k=2 anchor
+
+The production runner treats the existing insect and bird network results as a
+frozen base, not as tunable inputs.
+
+Before a k=3 result can be completed, the recomputed public-data inputs must
+match:
+
+`empirical/floral_defence_selectivity/results/joint_access_routing.json`
+
+on all of:
+
+~~~text
+Sakhalkar n_units
+Aubert/EPHI n_units
+Sakhalkar rho
+Aubert/EPHI site-adjusted rho
+equal-network k=2 Fisher-z rho
+~~~
+
+The canonical receipt itself is identified in the confirmatory receipt by its
+SHA256.
+
+Any mismatch returns:
+
+~~~text
+CANONICAL_K2_ANCHOR_MISMATCH
+~~~
+
+and no completed k=3 receipt is issued. This ensures that the only new scientific
+component in the prospective run is the third network.
+
 ## One-way execution chain
 
 ~~~text
@@ -67,6 +99,7 @@ It records:
 
 - exact repository commit;
 - existing-network input mode;
+- canonical k=2 receipt SHA256 and all anchor checks;
 - input-freeze status;
 - route reliability status and kappa;
 - number of third-network analysis units;
