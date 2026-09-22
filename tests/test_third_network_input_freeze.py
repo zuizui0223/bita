@@ -11,6 +11,7 @@ from scripts.freeze_third_network_confirmatory_inputs import (
     freeze_inputs,
     write_manifest,
 )
+from scripts.evaluate_third_network_route_reliability import expected_double_code_ids
 
 
 def _sha(path) -> str:
@@ -107,6 +108,12 @@ def _fixture(tmp_path):
                     "clip_quality": "PASS",
                 }
             )
+    selected = expected_double_code_ids(event_rows)
+    for row in event_rows:
+        row["coder_id"] = "PRIMARY"
+        row["double_coded"] = "true" if row["event_id"] in selected else "false"
+        row["second_route_code"] = row["route_code"] if row["event_id"] in selected else ""
+
     _write_csv(
         events,
         [
@@ -120,6 +127,9 @@ def _fixture(tmp_path):
             "route_code",
             "visitor_id_confidence",
             "clip_quality",
+            "coder_id",
+            "double_coded",
+            "second_route_code",
         ],
         event_rows,
     )
@@ -352,4 +362,37 @@ def test_camera_deployment_must_cover_every_frozen_plant(tmp_path) -> None:
     _write_csv(paths["cameras"], list(rows[0]), rows)
 
     with pytest.raises(ValueError, match="does not cover every frozen plant species"):
+        _freeze(paths)
+
+
+
+def test_double_code_subset_cannot_be_selected_posthoc(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["events"].open(encoding="utf-8")))
+    selected = [row for row in rows if row["double_coded"] == "true"]
+    unselected = [row for row in rows if row["double_coded"] == "false"]
+    assert selected and unselected
+
+    selected[0]["double_coded"] = "false"
+    selected[0]["second_route_code"] = ""
+    unselected[0]["double_coded"] = "true"
+    unselected[0]["second_route_code"] = unselected[0]["route_code"]
+    _write_csv(paths["events"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="DOUBLE_CODE_SUBSET_MISMATCH"):
+        _freeze(paths)
+
+
+def test_low_route_coder_reliability_blocks_input_freeze(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["events"].open(encoding="utf-8")))
+    flipped = 0
+    for row in rows:
+        if row["double_coded"] == "true":
+            row["second_route_code"] = "B" if row["route_code"] != "B" else "L"
+            flipped += 1
+    assert flipped > 0
+    _write_csv(paths["events"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="ROUTE_RELIABILITY_NOT_READY"):
         _freeze(paths)

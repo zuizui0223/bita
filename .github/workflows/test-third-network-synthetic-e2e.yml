@@ -9,11 +9,13 @@ on:
       - "scripts/evaluate_third_network_route_blind_presurvey.py"
       - "scripts/evaluate_third_network_field_readiness.py"
       - "scripts/validate_third_network_confirmatory_freeze.py"
+      - "scripts/evaluate_third_network_route_reliability.py"
       - "scripts/freeze_third_network_confirmatory_inputs.py"
       - "scripts/build_third_access_routing_units.py"
       - "scripts/analyze_third_access_routing_network.py"
       - "scripts/analyze_joint_access_routing_k3.py"
       - "tests/test_third_network_synthetic_e2e.py"
+      - "tests/test_third_network_route_reliability.py"
       - "tests/test_third_network_input_freeze.py"
       - "empirical/floral_defence_selectivity/THIRD_NETWORK_*"
       - ".github/workflows/test-third-network-synthetic-e2e.yml"
@@ -23,11 +25,13 @@ on:
       - "scripts/evaluate_third_network_route_blind_presurvey.py"
       - "scripts/evaluate_third_network_field_readiness.py"
       - "scripts/validate_third_network_confirmatory_freeze.py"
+      - "scripts/evaluate_third_network_route_reliability.py"
       - "scripts/freeze_third_network_confirmatory_inputs.py"
       - "scripts/build_third_access_routing_units.py"
       - "scripts/analyze_third_access_routing_network.py"
       - "scripts/analyze_joint_access_routing_k3.py"
       - "tests/test_third_network_synthetic_e2e.py"
+      - "tests/test_third_network_route_reliability.py"
       - "tests/test_third_network_input_freeze.py"
       - "empirical/floral_defence_selectivity/THIRD_NETWORK_*"
       - ".github/workflows/test-third-network-synthetic-e2e.yml"
@@ -52,28 +56,57 @@ jobs:
 
       - name: Run focused contracts
         run: |
-          pytest -q             tests/test_third_network_confirmatory_freeze.py             tests/test_third_network_route_blind_presurvey.py             tests/test_third_network_field_readiness.py             tests/test_third_network_input_freeze.py             tests/test_third_access_routing_unit_builder.py             tests/test_prospective_third_access_routing_network.py             tests/test_third_network_synthetic_e2e.py
+          pytest -q \
+            tests/test_third_network_confirmatory_freeze.py \
+            tests/test_third_network_route_blind_presurvey.py \
+            tests/test_third_network_field_readiness.py \
+            tests/test_third_network_route_reliability.py \
+            tests/test_third_network_input_freeze.py \
+            tests/test_third_access_routing_unit_builder.py \
+            tests/test_prospective_third_access_routing_network.py \
+            tests/test_third_network_synthetic_e2e.py
 
-      - name: Run synthetic E2E
+      - name: Run synthetic E2E scenario matrix
         run: |
-          python scripts/run_third_network_synthetic_e2e.py             --output-dir artifacts/third_network_synthetic_e2e             --permutations 199
+          for scenario in positive null opposite; do
+            python scripts/run_third_network_synthetic_e2e.py \
+              --output-dir "artifacts/third_network_synthetic_e2e/$scenario" \
+              --permutations 99 \
+              --scenario "$scenario"
+          done
 
-      - name: Verify development-only receipt
+      - name: Verify development-only scenario receipts
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
 
-          path = Path("artifacts/third_network_synthetic_e2e/synthetic_e2e_receipt.json")
-          receipt = json.loads(path.read_text(encoding="utf-8"))
+          receipts = {}
+          for scenario in ("positive", "null", "opposite"):
+              path = Path(
+                  f"artifacts/third_network_synthetic_e2e/{scenario}/synthetic_e2e_receipt.json"
+              )
+              receipt = json.loads(path.read_text(encoding="utf-8"))
+              assert receipt["receipt"] == "BITA_THIRD_NETWORK_SYNTHETIC_E2E_V1"
+              assert receipt["status"] == "PASS"
+              assert receipt["mode"] == "DEVELOPMENT_ONLY_SYNTHETIC"
+              assert receipt["scientific_claim_allowed"] is False
+              assert receipt["scenario"] == scenario
+              assert receipt["route_reliability_status"] == "ROUTE_RELIABILITY_PASS"
+              assert receipt["route_reliability_kappa"] >= 0.8
+              assert receipt["analysis_units"] == 72
+              assert receipt["third_network_status"] == "CONFIRMATORY_GATE_PASS"
+              assert receipt["k3_network_count"] == 3
+              receipts[scenario] = receipt
 
-          assert receipt["receipt"] == "BITA_THIRD_NETWORK_SYNTHETIC_E2E_V1"
-          assert receipt["status"] == "PASS"
-          assert receipt["mode"] == "DEVELOPMENT_ONLY_SYNTHETIC"
-          assert receipt["scientific_claim_allowed"] is False
-          assert receipt["analysis_units"] == 72
-          assert receipt["k3_network_count"] == 3
-          print("Synthetic E2E development receipt verified")
+          assert receipts["positive"]["third_network_rho"] > 0
+          assert abs(receipts["null"]["third_network_rho"]) < 0.1
+          assert receipts["opposite"]["third_network_rho"] < 0
+          assert (
+              receipts["opposite"]["k3_direction_concordance"]
+              == "not_3_of_3_positive"
+          )
+          print("Synthetic E2E positive/null/opposite matrix + coder reliability verified")
           PY
 
       - uses: actions/upload-artifact@v4

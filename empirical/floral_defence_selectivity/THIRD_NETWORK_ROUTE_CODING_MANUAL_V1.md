@@ -141,11 +141,19 @@ Before confirmatory collection, either:
 
 ## Double coding
 
-At least 20% of confirmatory feeding events are independently coded by a second
-coder.
+At least 20% of reliability-eligible confirmatory events are independently
+coded by a second coder. The reliability-eligible frame is fixed as
+`dataset_role=CONFIRMATORY`, `clip_quality=PASS`, and visitor identity
+confidence HIGH or MEDIUM.
 
-The double-coded subset is chosen by a deterministic hash or a random seed
-frozen before outcome coding.
+The double-coded subset is outcome-blind and deterministic. Using frozen seed
+`20260922`, score every eligible event by SHA256(`seed:event_id`), sort by
+that score, and select the lowest `ceil(0.20 * n_eligible)` event IDs. Route
+code, plant identity, mammal identity, P, V and M are not used to choose the
+subset.
+
+The event table's `double_coded` flags must match this exact subset. A selected
+event must contain an independent `second_route_code`.
 
 Report:
 

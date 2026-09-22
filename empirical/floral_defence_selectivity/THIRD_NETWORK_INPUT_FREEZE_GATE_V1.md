@@ -84,6 +84,25 @@ Pilot rows are rejected rather than silently dropped.
 
 Every event site and plant must belong to the pre-video frozen site/plant list.
 
+Before the input manifest can be issued, the event table must also pass:
+
+~~~text
+scripts/evaluate_third_network_route_reliability.py
+~~~
+
+The reliability gate requires:
+
+~~~text
+double-code subset = deterministic SHA256(seed:event_id) sample
+minimum fraction = 0.20
+seed = 20260922
+kappa_LBAN >= 0.80
+~~~
+
+A post-hoc double-code subset, missing second code, non-estimable kappa, or
+`ROUTE_RELIABILITY_RECODE_REQUIRED` blocks the manifest. Route/morphology
+integration does not proceed.
+
 ## Plant morphology
 
 Plant morphology remains separate from route coding until the manifest is
@@ -131,7 +150,7 @@ The script returns only:
 INPUTS_FROZEN_READY_FOR_JOIN
 ~~~
 
-when all contracts pass.
+when all contracts pass, including `ROUTE_RELIABILITY_PASS`.
 
 ## Join gate
 

@@ -17,6 +17,7 @@ import math
 from pathlib import Path
 
 from scripts.validate_third_network_confirmatory_freeze import validate as validate_confirmatory_freeze
+from scripts.evaluate_third_network_route_reliability import evaluate_rows as evaluate_route_reliability
 
 RECEIPT = "BITA_THIRD_NETWORK_INPUT_FREEZE_V1"
 READY_STATUS = "INPUTS_FROZEN_READY_FOR_JOIN"
@@ -55,6 +56,9 @@ EVENT_REQUIRED = {
     "route_code",
     "visitor_id_confidence",
     "clip_quality",
+    "coder_id",
+    "double_coded",
+    "second_route_code",
 }
 PLANT_REQUIRED = {
     "site_id",
@@ -406,6 +410,13 @@ def freeze_inputs(
         raise ValueError("FIELD_READINESS_SYSTEM_MISMATCH")
 
     events = _read_csv(events_csv, EVENT_REQUIRED, "events")
+    route_reliability = evaluate_route_reliability(events)
+    if route_reliability["status"] != "ROUTE_RELIABILITY_PASS":
+        raise ValueError(
+            "ROUTE_RELIABILITY_NOT_READY: "
+            + str(route_reliability["status"])
+        )
+
     plant_traits = _read_csv(plant_traits_csv, PLANT_REQUIRED, "plant_traits")
     mammal_traits = _read_csv(mammal_traits_csv, MAMMAL_REQUIRED, "mammal_traits")
     camera = _read_csv(camera_deployment_csv, CAMERA_REQUIRED, "camera_deployment")
@@ -450,6 +461,7 @@ def freeze_inputs(
             for key, path in paths.items()
         },
         "validation": validation,
+        "route_reliability": route_reliability,
         "field_readiness_validation": field_validation,
         "final_sites": sorted(final_sites),
         "final_plant_species": sorted(final_plants),

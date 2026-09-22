@@ -93,7 +93,7 @@ The active lane is now one prospective **non-flying-mammal × Protea** network:
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_SEED_RECEIPT_V1.json`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_CONFIRMATORY_FREEZE_RECEIPT_TEMPLATE_V1.json`
 - `scripts/validate_third_network_confirmatory_freeze.py`
-- `empirical/floral_defence_selectivity/THIRD_NETWORK_ROUTE_BLIND_PRESURVEY_SCHEMA_V1.csv`
+- `scripts/evaluate_third_network_route_reliability.py`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_ROUTE_BLIND_PRESURVEY_SCHEMA_V1.csv`
 - `scripts/evaluate_third_network_route_blind_presurvey.py`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_FIELD_READINESS_TEMPLATE_V1.json`
 - `scripts/evaluate_third_network_field_readiness.py`
@@ -124,6 +124,9 @@ Prospective safeguards:
 - morphology and route coding are frozen separately;
 - a fail-closed pre-video freeze receipt must pass before confirmatory route videos are opened;
 - route coders do not receive P, V, or M values;
+- the reliability subset is the frozen SHA256(seed:event_id) lowest 20% sample
+  with seed 20260922;
+- route/morphology integration requires Cohen's kappa for L/B/A/N >=0.80;
 - the confirmatory planning target is >=70 realized mammal × plant × site units;
 - the frozen eligibility minimum remains >=30 units, >=5 mammal species and
   >=5 plant species;
@@ -138,6 +141,7 @@ PLANNING_TARGET_UNITS = 70
 FIELD_EXECUTION_GATE = IMPLEMENTED_FAIL_CLOSED
 FIELD_EXECUTION_STATUS = BLOCKED_PENDING_REAL_SITE_AND_AUTHORIZATION_RECEIPTS
 CONFIRMATORY_INPUT_FREEZE = IMPLEMENTED_MANIFEST_REQUIRED
+ROUTE_RELIABILITY_GATE = IMPLEMENTED_KAPPA_LBAN_GE_0_80
 SYNTHETIC_E2E = IMPLEMENTED_DEVELOPMENT_ONLY
 REAL_THIRD_NETWORK_DATA = NOT_COLLECTED
 NEXT_EXTERNAL_ACTION = OUTCOME_BLIND_CAPE_COLLABORATION_INQUIRY

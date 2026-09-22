@@ -37,6 +37,7 @@ from scripts.freeze_third_network_confirmatory_inputs import (
     freeze_inputs,
     write_manifest,
 )
+from scripts.evaluate_third_network_route_reliability import expected_double_code_ids
 
 RECEIPT = "BITA_THIRD_NETWORK_SYNTHETIC_E2E_V1"
 SCENARIOS = {"positive", "null", "opposite"}
@@ -243,6 +244,12 @@ def _event_rows(scenario: str) -> list[dict[str, object]]:
                             "clip_quality": "PASS",
                         }
                     )
+    selected = expected_double_code_ids(rows)
+    for row in rows:
+        event_id = str(row["event_id"])
+        row["coder_id"] = "PRIMARY_SYNTHETIC"
+        row["double_coded"] = "true" if event_id in selected else "false"
+        row["second_route_code"] = row["route_code"] if event_id in selected else ""
     return rows
 
 
@@ -385,6 +392,9 @@ def run(
             "route_code",
             "visitor_id_confidence",
             "clip_quality",
+            "coder_id",
+            "double_coded",
+            "second_route_code",
         ],
         _event_rows(scenario),
     )
@@ -474,6 +484,8 @@ def run(
         "presurvey_status": presurvey["status"],
         "field_readiness_status": field_result["status"],
         "input_freeze_status": manifest["status"],
+        "route_reliability_status": manifest["route_reliability"]["status"],
+        "route_reliability_kappa": manifest["route_reliability"]["kappa_LBAN"],
         "analysis_units": build_audit["analysis_units"],
         "third_network_status": third_result["status"],
         "third_network_rho": third_result["effect"]["rho_site_adjusted_rank"],
