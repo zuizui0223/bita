@@ -68,6 +68,7 @@ The receipt must report:
 status = PASS
 bundle_verification_status = CONFIRMATORY_BUNDLE_VERIFIED
 source_recheck_mode = SOURCE_INPUTS_RECHECKED
+existing_network_inputs_verified = true
 third_network_must_be_retained = true
 scientific_claim_allowed = false
 automatic_manuscript_edit_permitted = false
@@ -83,9 +84,10 @@ chain** works:
 
 1. transactional production-style bundle assembly;
 2. complete bundle checksums;
-3. independent source-input recheck;
-4. bundle verification;
-5. retained-result claim mapping.
+3. exact Sakhalkar + Aubert/EPHI analysis-input rows saved and rehashed;
+4. independent third-network source-input recheck;
+5. bundle verification;
+6. retained-result claim mapping.
 
 A future real dataset should therefore require no new analysis architecture—only
 replacement of the synthetic frozen inputs with the real frozen inputs.
