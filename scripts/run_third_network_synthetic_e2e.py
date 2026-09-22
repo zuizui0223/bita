@@ -39,6 +39,7 @@ from scripts.freeze_third_network_confirmatory_inputs import (
 )
 
 RECEIPT = "BITA_THIRD_NETWORK_SYNTHETIC_E2E_V1"
+SCENARIOS = {"positive", "null", "opposite"}
 
 
 def _sha256(path: Path) -> str:
@@ -203,7 +204,9 @@ def _mammal_trait_rows() -> list[dict[str, object]]:
     return rows
 
 
-def _event_rows() -> list[dict[str, object]]:
+def _event_rows(scenario: str) -> list[dict[str, object]]:
+    if scenario not in SCENARIOS:
+        raise ValueError(f"unknown synthetic scenario: {scenario!r}")
     rows: list[dict[str, object]] = []
     event = 0
     for s_idx, site in enumerate(("S1", "S2")):
@@ -212,8 +215,17 @@ def _event_rows() -> list[dict[str, object]]:
             for m in range(6):
                 reach = 11.0 + 1.6 * m + 0.15
                 mismatch = math.log(depth / reach)
-                bypass_prop = 1.0 / (1.0 + math.exp(-3.0 * mismatch))
-                b_count = max(1, min(9, round(10 * bypass_prop)))
+                if scenario == "positive":
+                    bypass_prop = 1.0 / (1.0 + math.exp(-3.0 * mismatch))
+                    b_count = max(1, min(9, round(10 * bypass_prop)))
+                elif scenario == "opposite":
+                    bypass_prop = 1.0 / (1.0 + math.exp(3.0 * mismatch))
+                    b_count = max(1, min(9, round(10 * bypass_prop)))
+                else:
+                    # Structured route variation that is approximately orthogonal
+                    # to the frozen mismatch ranks.  It keeps B and L present
+                    # without encoding the predicted direction.
+                    b_count = 1 + ((2 * m + 3 * p) % 9)
                 for visit in range(10):
                     event += 1
                     route = "B" if visit < b_count else "L"
@@ -280,7 +292,14 @@ def _synthetic_aubert() -> list[dict[str, object]]:
     return rows
 
 
-def run(output_dir: str | Path, *, permutations: int = 199) -> dict[str, object]:
+def run(
+    output_dir: str | Path,
+    *,
+    permutations: int = 199,
+    scenario: str = "positive",
+) -> dict[str, object]:
+    if scenario not in SCENARIOS:
+        raise ValueError(f"scenario must be one of {sorted(SCENARIOS)}")
     root = Path(output_dir)
     root.mkdir(parents=True, exist_ok=True)
 
@@ -367,7 +386,7 @@ def run(output_dir: str | Path, *, permutations: int = 199) -> dict[str, object]
             "visitor_id_confidence",
             "clip_quality",
         ],
-        _event_rows(),
+        _event_rows(scenario),
     )
     _write_csv(
         plants_csv,
@@ -451,6 +470,7 @@ def run(output_dir: str | Path, *, permutations: int = 199) -> dict[str, object]
         "status": "PASS",
         "mode": "DEVELOPMENT_ONLY_SYNTHETIC",
         "scientific_claim_allowed": False,
+        "scenario": scenario,
         "presurvey_status": presurvey["status"],
         "field_readiness_status": field_result["status"],
         "input_freeze_status": manifest["status"],
@@ -459,6 +479,7 @@ def run(output_dir: str | Path, *, permutations: int = 199) -> dict[str, object]
         "third_network_rho": third_result["effect"]["rho_site_adjusted_rank"],
         "k3_network_count": joint_result["network_count"],
         "k3_joint_rho": joint_result["joint_equal_network_fisher_z_rho"],
+        "k3_direction_concordance": joint_result["network_direction_concordance"],
         "files": {
             path.name: _sha256(path)
             for path in (
@@ -488,5 +509,16 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--permutations", type=int, default=199)
+    parser.add_argument("--scenario", choices=sorted(SCENARIOS), default="positive")
     args = parser.parse_args()
-    print(json.dumps(run(args.output_dir, permutations=args.permutations), indent=2, sort_keys=True))
+    print(
+        json.dumps(
+            run(
+                args.output_dir,
+                permutations=args.permutations,
+                scenario=args.scenario,
+            ),
+            indent=2,
+            sort_keys=True,
+        )
+    )

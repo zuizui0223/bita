@@ -28,3 +28,25 @@ def test_synthetic_e2e_receipt_never_licenses_scientific_claim(tmp_path) -> None
     receipt = run(tmp_path, permutations=19)
     assert receipt["scientific_claim_allowed"] is False
     assert "not ecological observations" in receipt["claim_boundary"]
+
+
+
+def test_null_synthetic_third_network_is_retained_not_replaced(tmp_path) -> None:
+    receipt = run(tmp_path, permutations=29, scenario="null")
+    assert receipt["status"] == "PASS"
+    assert receipt["scenario"] == "null"
+    assert receipt["third_network_status"] == "CONFIRMATORY_GATE_PASS"
+    assert abs(receipt["third_network_rho"]) < 0.1
+    assert receipt["k3_network_count"] == 3
+    assert receipt["scientific_claim_allowed"] is False
+
+
+def test_opposite_synthetic_third_network_is_retained_in_k3(tmp_path) -> None:
+    receipt = run(tmp_path, permutations=29, scenario="opposite")
+    assert receipt["status"] == "PASS"
+    assert receipt["scenario"] == "opposite"
+    assert receipt["third_network_status"] == "CONFIRMATORY_GATE_PASS"
+    assert receipt["third_network_rho"] < 0
+    assert receipt["k3_network_count"] == 3
+    assert receipt["k3_direction_concordance"] == "not_3_of_3_positive"
+    assert receipt["scientific_claim_allowed"] is False
