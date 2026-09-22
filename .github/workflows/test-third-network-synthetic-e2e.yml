@@ -14,6 +14,8 @@ on:
       - "scripts/build_third_access_routing_units.py"
       - "scripts/analyze_third_access_routing_network.py"
       - "scripts/analyze_joint_access_routing_k3.py"
+      - "scripts/run_third_network_confirmatory_pipeline.py"
+      - "tests/test_third_network_confirmatory_pipeline.py"
       - "tests/test_third_network_synthetic_e2e.py"
       - "tests/test_third_network_route_reliability.py"
       - "tests/test_third_network_input_freeze.py"
@@ -30,6 +32,8 @@ on:
       - "scripts/build_third_access_routing_units.py"
       - "scripts/analyze_third_access_routing_network.py"
       - "scripts/analyze_joint_access_routing_k3.py"
+      - "scripts/run_third_network_confirmatory_pipeline.py"
+      - "tests/test_third_network_confirmatory_pipeline.py"
       - "tests/test_third_network_synthetic_e2e.py"
       - "tests/test_third_network_route_reliability.py"
       - "tests/test_third_network_input_freeze.py"
@@ -64,7 +68,12 @@ jobs:
             tests/test_third_network_input_freeze.py \
             tests/test_third_access_routing_unit_builder.py \
             tests/test_prospective_third_access_routing_network.py \
-            tests/test_third_network_synthetic_e2e.py
+            tests/test_third_network_synthetic_e2e.py \
+            tests/test_third_network_confirmatory_pipeline.py
+
+      - name: Verify production runner CLI entry point
+        run: |
+          python scripts/run_third_network_confirmatory_pipeline.py --help >/dev/null
 
       - name: Run synthetic E2E scenario matrix
         run: |
