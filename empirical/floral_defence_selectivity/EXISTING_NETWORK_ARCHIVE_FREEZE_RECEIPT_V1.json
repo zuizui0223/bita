@@ -1,0 +1,36 @@
+{
+  "receipt": "BITA_EXISTING_NETWORK_ARCHIVE_FREEZE_V1",
+  "status": "FROZEN_FOR_FUTURE_K3",
+  "frozen_date": "2026-09-20",
+  "letter_archive_source": {
+    "repository_commit": "3a608ce7093cf079685c045d706a315b1a840f78",
+    "workflow_run": 35495204953,
+    "artifact_id": 10599544421,
+    "artifact_name": "access-routing-letter-package",
+    "artifact_digest": "sha256:716c038433c79a307d4c23430643645d6c68a6eb80a97b25fba9305ccf0b9819",
+    "deposit_zip": "access-routing-letter-data-code-v1.zip",
+    "deposit_zip_sha256": "e795b8ddf54a7446d465bd0ab2c9cee9d378c32d063712fa948405b8bb72543b"
+  },
+  "analysis_archive": {
+    "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V1",
+    "sakhalkar_species_analysis.csv": {
+      "rows": 57,
+      "sha256": "810ad672bf552e7fab0ad09193ef2502304511f741051b6edbab9c9d94a9074d"
+    },
+    "aubert_ephi_pair_site_analysis.csv": {
+      "rows": 1378,
+      "sites": 18,
+      "sha256": "3a873bb82b43b00df1e72c36c27d3740ff728b9d2a751f4fece6fdbbc20a40af"
+    },
+    "archive_manifest.json": {
+      "sha256": "875ea2f77674034e20d18a7ac56f9d4d4240bfe9b22b90bf28f53f44028557c7"
+    }
+  },
+  "source_dois": {
+    "sakhalkar": "10.5281/zenodo.8398202",
+    "aubert_ephi": "10.5281/zenodo.14185547"
+  },
+  "canonical_k2_result": "empirical/floral_defence_selectivity/results/joint_access_routing.json",
+  "production_input_mode": "FROZEN_LETTER_ANALYSIS_ARCHIVE_V1",
+  "rule": "Future real k=3 analysis must consume these exact analysis-table bytes and must validate their observed k=2 effects against the canonical repository result before adding the retained third network."
+}
