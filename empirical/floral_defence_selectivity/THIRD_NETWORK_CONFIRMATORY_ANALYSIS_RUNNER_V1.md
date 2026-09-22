@@ -50,9 +50,19 @@ equal-network k=3 analysis
 confirmatory_analysis_receipt.json
 ~~~
 
-The output directory must be empty. Reusing a populated directory fails with
+The final output directory must be absent or empty. The runner writes first to
+a sibling `.inprogress` staging directory and atomically renames that directory
+to the requested output path only after the full third-network and k=3 chain
+succeeds.
+
+A handled analysis failure removes the staging directory and leaves no partial
+final result. A pre-existing staging directory is treated as evidence of an
+interrupted prior process and fails closed with
+`CONFIRMATORY_STAGING_DIR_EXISTS`; it is never silently reused or deleted.
+
+Reusing a populated final directory fails with
 `CONFIRMATORY_OUTPUT_DIR_NOT_EMPTY`, preventing accidental overwrite of the
-first confirmatory run.
+first completed confirmatory run.
 
 ## Receipt
 
@@ -65,8 +75,11 @@ CONFIRMATORY_ANALYSIS_COMPLETE
 
 It records:
 
-- exact repository commit;
+- exact 40-character repository commit, checked against the current checkout
+  when Git metadata are available;
 - existing-network input mode;
+- stable JSON SHA256 digests and source DOIs for the Sakhalkar and Aubert/EPHI
+  analysis inputs actually entering the k=3 calculation;
 - input-freeze status;
 - route reliability status and kappa;
 - number of third-network analysis units;
@@ -103,3 +116,20 @@ REAL_THIRD_NETWORK_DATA = NOT_COLLECTED
 REAL_JOINT_NETWORK_K = 2
 CONFIRMATORY_RUNNER = IMPLEMENTED_NOT_EXECUTED_ON_REAL_DATA
 ~~~
+
+
+## Transaction boundary
+
+The final result directory is a success object, not a scratch workspace.
+
+~~~text
+<output>.inprogress
+        |
+        | all gates + r_T + k=3 + receipt succeed
+        v
+<output>
+~~~
+
+No final directory is exposed after a handled partial failure. This prevents a
+half-built input manifest or third-network result from being mistaken for a
+completed confirmatory analysis.
