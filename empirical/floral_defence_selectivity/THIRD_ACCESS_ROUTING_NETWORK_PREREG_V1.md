@@ -271,6 +271,8 @@ Implemented before real confirmatory data:
 - `scripts/freeze_third_network_confirmatory_inputs.py`;
 - `scripts/build_third_access_routing_units.py`;
 - `scripts/run_third_network_confirmatory_pipeline.py`;
+- `scripts/verify_third_network_confirmatory_bundle.py`;
+- `scripts/plan_third_network_claim_transition.py`;
 - SHA256-bound confirmatory input and output receipts;
 - synthetic positive / null / opposite end-to-end validation.
 
@@ -278,4 +280,5 @@ The production runner creates the dedicated frozen third-network and k=3 result
 JSONs plus `confirmatory_analysis_receipt.json` in one non-overwriting run.
 
 Manuscript claim update remains separate and may occur only after a real
-confirmatory receipt exists.
+confirmatory bundle passes independent SHA256/source-input verification and the
+frozen claim-transition planner has produced a reporting contract.
