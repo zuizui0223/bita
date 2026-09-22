@@ -78,8 +78,10 @@ It records:
 - exact 40-character repository commit, checked against the current checkout
   when Git metadata are available;
 - existing-network input mode;
-- stable JSON SHA256 digests and source DOIs for the Sakhalkar and Aubert/EPHI
-  analysis inputs actually entering the k=3 calculation;
+- the exact Sakhalkar and Aubert/EPHI analysis-input rows actually entering the
+  k=3 calculation, saved as bundle JSON files;
+- stable-content SHA256, file SHA256, row count and source DOI for each existing
+  network input;
 - input-freeze status;
 - route reliability status and kappa;
 - number of third-network analysis units;
@@ -168,8 +170,10 @@ python scripts/verify_third_network_confirmatory_bundle.py \
 The verifier first checks `BUNDLE_SHA256SUMS.txt` against the complete file
 inventory, including the analysis receipt itself. It then checks the nested
 generated-output SHA256 receipts, manifest/receipt consistency, third-network
-and k=3 headline values, existing-network input digests/source DOIs, and
-optionally the original source-input hashes.
+and k=3 headline values, and the exact bundled existing-network analysis inputs.
+For Sakhalkar and Aubert/EPHI it reloads the saved rows, recomputes row count,
+stable-content SHA256 and file SHA256, and checks the source DOI. It can also
+optionally recheck the original frozen third-network source-input hashes.
 
 Any mismatch returns:
 
