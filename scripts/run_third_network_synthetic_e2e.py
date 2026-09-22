@@ -18,7 +18,11 @@ import csv
 import hashlib
 import json
 import math
+import sys
 from pathlib import Path
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.analyze_joint_access_routing_k3 import summarize_joint_k3
 from scripts.analyze_third_access_routing_network import summarize_third_network
