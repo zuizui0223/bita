@@ -18,6 +18,7 @@ from pathlib import Path
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from scripts.load_frozen_access_routing_archive import load_frozen_existing_networks
 from scripts.verify_third_network_confirmatory_bundle import (
     VERIFIED_STATUS,
     verify as verify_bundle,
@@ -26,6 +27,14 @@ from scripts.verify_third_network_confirmatory_bundle import (
 PLAN_RECEIPT = "BITA_THIRD_NETWORK_CLAIM_TRANSITION_V1"
 PRODUCTION_INPUT_MODE = "FROZEN_LETTER_ANALYSIS_ARCHIVE_V1"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
+REPO_ROOT = Path(__file__).resolve().parents[1]
+CANONICAL_K2_RESULT = (
+    REPO_ROOT
+    / "empirical"
+    / "floral_defence_selectivity"
+    / "results"
+    / "joint_access_routing.json"
+)
 
 PREREGISTERED_COMMON_CLAIM = (
     "The same standardized access-routing association has now been tested in "
@@ -105,6 +114,7 @@ def plan_claim_transition(
     *,
     bundle_verification_status: str,
     source_recheck_mode: str,
+    existing_network_archive_recheck_status: str = "NOT_RECHECKED",
     production_required: bool = True,
 ) -> dict[str, object]:
     if bundle_verification_status != VERIFIED_STATUS:
@@ -121,6 +131,8 @@ def plan_claim_transition(
     if production_required:
         if source_recheck_mode != "SOURCE_INPUTS_RECHECKED":
             raise ValueError("SOURCE_INPUTS_MUST_BE_RECHECKED_BEFORE_CLAIM_TRANSITION")
+        if existing_network_archive_recheck_status != "PASS":
+            raise ValueError("EXISTING_NETWORK_ARCHIVE_MUST_BE_RECHECKED_BEFORE_CLAIM_TRANSITION")
         if mode != PRODUCTION_INPUT_MODE:
             raise ValueError("NONPRODUCTION_CONFIRMATORY_BUNDLE")
         if not HEX40.fullmatch(repository_commit):
@@ -217,6 +229,7 @@ def plan_claim_transition(
         "repository_commit": repository_commit,
         "bundle_verification_status": bundle_verification_status,
         "source_recheck_mode": source_recheck_mode,
+        "existing_network_archive_recheck_status": existing_network_archive_recheck_status,
         "network_count": 3,
         "third_network_direction": direction,
         "third_network_rho": rho_t,
@@ -247,6 +260,7 @@ def plan_from_bundle(
     bundle_dir: str | Path,
     *,
     source_dir: str | Path,
+    existing_network_archive_dir: str | Path,
 ) -> dict[str, object]:
     verification = verify_bundle(bundle_dir, source_dir=source_dir)
     if verification["status"] != VERIFIED_STATUS:
@@ -258,10 +272,33 @@ def plan_from_bundle(
     receipt_path = Path(bundle_dir) / "confirmatory_analysis_receipt.json"
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
 
+    _sakh, _aubert, archive_receipt = load_frozen_existing_networks(
+        existing_network_archive_dir,
+        CANONICAL_K2_RESULT,
+    )
+    recorded_archive = receipt.get("existing_network_archive_provenance")
+    if not isinstance(recorded_archive, dict):
+        raise ValueError("CONFIRMATORY_RECEIPT_EXISTING_NETWORK_ARCHIVE_PROVENANCE_MISSING")
+
+    comparable_keys = (
+        "status",
+        "input_mode",
+        "archive_schema",
+        "source_dois",
+        "files",
+        "observed_k2_effects",
+        "frozen_k2_validation",
+        "canonical_archive_hash_validation",
+    )
+    for key in comparable_keys:
+        if recorded_archive.get(key) != archive_receipt.get(key):
+            raise ValueError(f"EXISTING_NETWORK_ARCHIVE_RECEIPT_MISMATCH:{key}")
+
     return plan_claim_transition(
         receipt,
         bundle_verification_status=str(verification["status"]),
         source_recheck_mode=str(verification["source_recheck_mode"]),
+        existing_network_archive_recheck_status="PASS",
         production_required=True,
     )
 
@@ -270,10 +307,15 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("bundle_dir")
     parser.add_argument("--source-dir", required=True)
+    parser.add_argument("--existing-network-archive-dir", required=True)
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
 
-    result = plan_from_bundle(args.bundle_dir, source_dir=args.source_dir)
+    result = plan_from_bundle(
+        args.bundle_dir,
+        source_dir=args.source_dir,
+        existing_network_archive_dir=args.existing_network_archive_dir,
+    )
     path = Path(args.output)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
