@@ -14,13 +14,17 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import sys
 from pathlib import Path
 
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from scripts.analyze_joint_access_routing import build_public_inputs
+from scripts.analyze_joint_access_routing import (
+    build_public_inputs,
+    combine_rhos_equal_network,
+)
 from scripts.analyze_joint_access_routing_k3 import (
     SEED as K3_SEED,
     summarize_joint_k3,
@@ -38,6 +42,14 @@ from scripts.freeze_third_network_confirmatory_inputs import (
 
 RECEIPT = "BITA_THIRD_NETWORK_CONFIRMATORY_ANALYSIS_V1"
 COMPLETE_STATUS = "CONFIRMATORY_ANALYSIS_COMPLETE"
+ROOT = Path(__file__).resolve().parents[1]
+CANONICAL_K2_PATH = (
+    ROOT
+    / "empirical"
+    / "floral_defence_selectivity"
+    / "results"
+    / "joint_access_routing.json"
+)
 
 
 def _sha256(path: str | Path) -> str:
@@ -72,6 +84,78 @@ def _direction(value: float) -> str:
     return "zero"
 
 
+def _validate_canonical_k2_anchor(
+    *,
+    canonical: dict[str, object],
+    canonical_id: str,
+    sakhalkar_points: list[dict[str, float | str]],
+    aubert_rows: list[dict[str, float | str | bool | int]],
+    joint_k3_result: dict[str, object],
+) -> dict[str, object]:
+    if not str(canonical_id).strip():
+        raise ValueError("canonical_k2_receipt_id is required")
+    if canonical.get("network_count") != 2:
+        raise ValueError("CANONICAL_K2_RECEIPT_NETWORK_COUNT_INVALID")
+
+    effects = canonical.get("network_effects")
+    if not isinstance(effects, dict):
+        raise ValueError("CANONICAL_K2_RECEIPT_EFFECTS_MISSING")
+    s_expected = effects.get("sakhalkar")
+    a_expected = effects.get("aubert_ephi")
+    if not isinstance(s_expected, dict) or not isinstance(a_expected, dict):
+        raise ValueError("CANONICAL_K2_RECEIPT_NETWORKS_MISSING")
+
+    network_effects = joint_k3_result.get("network_effects")
+    if not isinstance(network_effects, dict):
+        raise ValueError("K3_NETWORK_EFFECTS_MISSING")
+    s_actual = float(network_effects["sakhalkar_insects"])
+    a_actual = float(network_effects["aubert_ephi_birds"])
+
+    checks = {
+        "sakhalkar_n_units": len(sakhalkar_points) == int(s_expected["n_units"]),
+        "aubert_n_units": len(aubert_rows) == int(a_expected["n_units"]),
+        "sakhalkar_rho": math.isclose(
+            s_actual,
+            float(s_expected["rho"]),
+            rel_tol=0.0,
+            abs_tol=1e-15,
+        ),
+        "aubert_rho": math.isclose(
+            a_actual,
+            float(a_expected["rho"]),
+            rel_tol=0.0,
+            abs_tol=1e-15,
+        ),
+    }
+
+    actual_k2 = combine_rhos_equal_network([s_actual, a_actual])
+    checks["joint_k2_rho"] = math.isclose(
+        actual_k2,
+        float(canonical["joint_equal_network_fisher_z_rho"]),
+        rel_tol=0.0,
+        abs_tol=1e-15,
+    )
+
+    failed = sorted(name for name, passed in checks.items() if not passed)
+    if failed:
+        raise ValueError("CANONICAL_K2_ANCHOR_MISMATCH: " + ",".join(failed))
+
+    return {
+        "status": "CANONICAL_K2_ANCHOR_MATCH",
+        "canonical_receipt_id": str(canonical_id).strip(),
+        "checks": checks,
+        "sakhalkar": {
+            "n_units": len(sakhalkar_points),
+            "rho": s_actual,
+        },
+        "aubert_ephi": {
+            "n_units": len(aubert_rows),
+            "rho": a_actual,
+        },
+        "joint_equal_network_fisher_z_rho": actual_k2,
+    }
+
+
 def run_with_network_inputs(
     *,
     events_csv: str | Path,
@@ -85,6 +169,8 @@ def run_with_network_inputs(
     output_dir: str | Path,
     repository_commit: str,
     existing_network_input_mode: str,
+    canonical_k2_receipt: dict[str, object],
+    canonical_k2_receipt_id: str,
     permutations: int = 9999,
     third_seed: int = THIRD_SEED,
     k3_seed: int = K3_SEED,
@@ -138,6 +224,13 @@ def run_with_network_inputs(
         permutations=permutations,
         seed=k3_seed,
     )
+    canonical_k2_anchor = _validate_canonical_k2_anchor(
+        canonical=canonical_k2_receipt,
+        canonical_id=canonical_k2_receipt_id,
+        sakhalkar_points=sakhalkar_points,
+        aubert_rows=aubert_rows,
+        joint_k3_result=joint_result,
+    )
     _write_json(joint_json, joint_result)
 
     third_rho = float(third_result["effect"]["rho_site_adjusted_rank"])
@@ -146,6 +239,7 @@ def run_with_network_inputs(
         "status": COMPLETE_STATUS,
         "repository_commit": str(repository_commit).strip(),
         "existing_network_input_mode": str(existing_network_input_mode).strip(),
+        "canonical_k2_anchor": canonical_k2_anchor,
         "third_network_retention_rule": (
             "retain_confirmatory_third_network_regardless_of_positive_null_or_opposite_direction"
         ),
@@ -207,6 +301,8 @@ def run(
     permutations: int = 9999,
 ) -> dict[str, object]:
     sakhalkar_points, aubert_rows = build_public_inputs()
+    canonical_k2_receipt = json.loads(CANONICAL_K2_PATH.read_text(encoding="utf-8"))
+    canonical_k2_receipt_id = "sha256:" + _sha256(CANONICAL_K2_PATH)
     return run_with_network_inputs(
         events_csv=events_csv,
         plant_traits_csv=plant_traits_csv,
@@ -219,6 +315,8 @@ def run(
         output_dir=output_dir,
         repository_commit=repository_commit,
         existing_network_input_mode="PUBLIC_EXISTING_NETWORKS",
+        canonical_k2_receipt=canonical_k2_receipt,
+        canonical_k2_receipt_id=canonical_k2_receipt_id,
         permutations=permutations,
     )
 
