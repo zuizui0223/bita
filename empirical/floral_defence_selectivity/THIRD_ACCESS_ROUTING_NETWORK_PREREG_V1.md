@@ -263,10 +263,19 @@ or future sensitivity analyses only.
 
 ## Reproducibility target
 
-Future implementation:
+Implemented before real confirmatory data:
 
-- `scripts/analyze_third_access_routing_network.py`
-- `scripts/analyze_joint_access_routing_k3.py`
-- dedicated frozen result JSON;
-- exact-reproduction workflow;
-- manuscript claim update only after the confirmatory receipt exists.
+- `scripts/analyze_third_access_routing_network.py`;
+- `scripts/analyze_joint_access_routing_k3.py`;
+- `scripts/evaluate_third_network_route_reliability.py`;
+- `scripts/freeze_third_network_confirmatory_inputs.py`;
+- `scripts/build_third_access_routing_units.py`;
+- `scripts/run_third_network_confirmatory_pipeline.py`;
+- SHA256-bound confirmatory input and output receipts;
+- synthetic positive / null / opposite end-to-end validation.
+
+The production runner creates the dedicated frozen third-network and k=3 result
+JSONs plus `confirmatory_analysis_receipt.json` in one non-overwriting run.
+
+Manuscript claim update remains separate and may occur only after a real
+confirmatory receipt exists.
