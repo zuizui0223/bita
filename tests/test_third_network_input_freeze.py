@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 
 import pytest
@@ -10,6 +11,10 @@ from scripts.freeze_third_network_confirmatory_inputs import (
     freeze_inputs,
     write_manifest,
 )
+
+
+def _sha(path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def _write_csv(path, fields, rows):
@@ -201,8 +206,40 @@ def _fixture(tmp_path):
     )
 
     freeze.write_text(json.dumps(_freeze_receipt()), encoding="utf-8")
+    freeze_sha = _sha(freeze)
     field.write_text(
-        json.dumps({"status": "THIRD_NETWORK_FIELD_EXECUTION_READY"}),
+        json.dumps(
+            {
+                "receipt_schema_version": "BITA_THIRD_NETWORK_FIELD_READINESS_V1",
+                "system": "CAPE_SMALL_MAMMAL_X_PROTEA",
+                "status": "THIRD_NETWORK_FIELD_EXECUTION_READY",
+                "gates": {
+                "site_locations_verified_privately": True,
+                "route_blind_presurvey_checksum_matches": True,
+                "route_blind_presurvey_ready": True,
+                "route_and_morphology_fields_absent_from_presurvey": True,
+                "final_sites_supported_by_route_blind_presurvey": True,
+                "confirmatory_freeze_receipt_checksum_matches": True,
+                "confirmatory_freeze_receipt_ready": True,
+                "land_site_access_resolved": True,
+                "camera_deployment_resolved": True,
+                "plant_morphology_measurement_resolved": True,
+                "plant_tissue_collection_resolved_or_not_planned": True,
+                "mammal_capture_or_handling_resolved_or_not_planned": True,
+                "animal_ethics_or_institutional_review_resolved": True,
+                "mammal_morphology_mode_predeclared": True,
+                "mammal_morphology_same_regional_assemblage_supported": True,
+                "other_required_authorizations_checked": True,
+            },
+                "confirmatory_freeze_receipt": {
+                    "expected_sha256": freeze_sha,
+                    "actual_sha256": freeze_sha,
+                    "validator_status": "READY_FOR_CONFIRMATORY_VIDEO_OPEN",
+                    "validator_failures": [],
+                    "final_sites": ["S1"],
+                },
+            }
+        ),
         encoding="utf-8",
     )
 
@@ -279,12 +316,32 @@ def test_outcome_adaptive_camera_effort_is_rejected_before_freeze(tmp_path) -> N
 
 def test_field_readiness_must_be_ready_before_input_freeze(tmp_path) -> None:
     paths = _fixture(tmp_path)
+    field = json.loads(paths["field"].read_text(encoding="utf-8"))
+    field["status"] = "THIRD_NETWORK_FIELD_EXECUTION_BLOCKED"
+    paths["field"].write_text(json.dumps(field), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="FIELD_READINESS_NOT_READY"):
+        _freeze(paths)
+
+
+def test_status_only_field_readiness_receipt_is_rejected(tmp_path) -> None:
+    paths = _fixture(tmp_path)
     paths["field"].write_text(
-        json.dumps({"status": "THIRD_NETWORK_FIELD_EXECUTION_BLOCKED"}),
+        json.dumps({"status": "THIRD_NETWORK_FIELD_EXECUTION_READY"}),
         encoding="utf-8",
     )
 
-    with pytest.raises(ValueError, match="FIELD_READINESS_NOT_READY"):
+    with pytest.raises(ValueError, match="INVALID_THIRD_NETWORK_FIELD_READINESS_RECEIPT"):
+        _freeze(paths)
+
+
+def test_field_readiness_must_bind_exact_confirmatory_freeze(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    field = json.loads(paths["field"].read_text(encoding="utf-8"))
+    field["confirmatory_freeze_receipt"]["actual_sha256"] = "0" * 64
+    paths["field"].write_text(json.dumps(field), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="FIELD_READINESS_FREEZE_HASH_MISMATCH"):
         _freeze(paths)
 
 

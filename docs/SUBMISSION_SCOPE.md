@@ -101,7 +101,7 @@ The active lane is now one prospective **non-flying-mammal × Protea** network:
 - `scripts/build_third_access_routing_units.py`
 - `scripts/analyze_third_access_routing_network.py`
 - `scripts/analyze_joint_access_routing_k3.py`
-- `empirical/floral_defence_selectivity/THIRD_NETWORK_CAPE_COLLABORATION_ROUTE_V1.md`
+- `scripts/run_third_network_synthetic_e2e.py`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_SYNTHETIC_E2E_V1.md`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_CAPE_COLLABORATION_ROUTE_V1.md`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_CAPE_CONTACT_VERIFICATION_V1.md`
 - `submission/THIRD_NETWORK_CAPE_COLLABORATION_EMAIL_V1.md`
 - `submission/THIRD_NETWORK_CAPE_FIRST_CONTACT_PACKET_V1.md`
@@ -138,6 +138,8 @@ PLANNING_TARGET_UNITS = 70
 FIELD_EXECUTION_GATE = IMPLEMENTED_FAIL_CLOSED
 FIELD_EXECUTION_STATUS = BLOCKED_PENDING_REAL_SITE_AND_AUTHORIZATION_RECEIPTS
 CONFIRMATORY_INPUT_FREEZE = IMPLEMENTED_MANIFEST_REQUIRED
+SYNTHETIC_E2E = IMPLEMENTED_DEVELOPMENT_ONLY
+REAL_THIRD_NETWORK_DATA = NOT_COLLECTED
 NEXT_EXTERNAL_ACTION = OUTCOME_BLIND_CAPE_COLLABORATION_INQUIRY
 COLLABORATION_EMAIL = SEND_READY_AUTHOR_SEND_APPROVAL_REQUIRED
 COLLABORATION_FEASIBILITY_FORM = READY
