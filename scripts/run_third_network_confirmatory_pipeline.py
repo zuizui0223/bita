@@ -61,6 +61,17 @@ def _write_json(path: Path, payload: dict[str, object]) -> None:
     )
 
 
+def _write_bundle_checksums(root: Path) -> Path:
+    path = root / "BUNDLE_SHA256SUMS.txt"
+    lines = []
+    for candidate in sorted(root.iterdir(), key=lambda item: item.name):
+        if not candidate.is_file() or candidate.name == path.name:
+            continue
+        lines.append(f"{_sha256(candidate)}  {candidate.name}")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return path
+
+
 def _stable_json_sha256(payload: object) -> str:
     encoded = json.dumps(
         payload,
@@ -262,6 +273,7 @@ def run_with_network_inputs(
             ),
         }
         _write_json(receipt_json, receipt)
+        _write_bundle_checksums(root)
         root.replace(final_root)
         return receipt
 
