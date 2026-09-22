@@ -25,7 +25,8 @@ The command requires:
 2. a passing full-bundle SHA256 verification;
 3. a recheck of the original frozen source inputs;
 4. production existing-network mode:
-   `PUBLIC_EXISTING_NETWORKS_FIXED_DOI_REBUILD`;
+   `FROZEN_LETTER_ANALYSIS_ARCHIVE_V1`, validated against the exact frozen
+   Letter analysis archive bytes and the canonical k=2 result;
 5. an exact 40-character repository commit;
 6. third-network confirmatory gate pass;
 7. joint network count exactly 3.
