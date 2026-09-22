@@ -53,7 +53,7 @@ def _sha256(path: str | Path) -> str:
     return digest.hexdigest()
 
 
-def _write_json(path: Path, payload: dict[str, object]) -> None:
+def _write_json(path: Path, payload: object) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
         json.dumps(payload, indent=2, sort_keys=True) + "\n",
@@ -171,6 +171,8 @@ def run_with_network_inputs(
     build_audit_json = root / "unit_build_audit.json"
     third_json = root / "third_network_result.json"
     joint_json = root / "joint_access_routing_k3_result.json"
+    sakhalkar_input_json = root / "existing_network_sakhalkar_input.json"
+    aubert_input_json = root / "existing_network_aubert_ephi_input.json"
     receipt_json = root / "confirmatory_analysis_receipt.json"
 
     try:
@@ -200,6 +202,9 @@ def run_with_network_inputs(
             seed=third_seed,
         )
         _write_json(third_json, third_result)
+
+        _write_json(sakhalkar_input_json, sakhalkar_points)
+        _write_json(aubert_input_json, aubert_rows)
 
         joint_result = summarize_joint_k3(
             sakhalkar_points,
@@ -246,23 +251,29 @@ def run_with_network_inputs(
                 "seed": k3_seed,
             },
             "existing_network_inputs": {
-            "sakhalkar": {
-                "analysis_units": len(sakhalkar_points),
-                "stable_json_sha256": _stable_json_sha256(sakhalkar_points),
-                "source_doi": "10.5281/zenodo.8398202",
+                "sakhalkar": {
+                    "filename": sakhalkar_input_json.name,
+                    "analysis_units": len(sakhalkar_points),
+                    "stable_json_sha256": _stable_json_sha256(sakhalkar_points),
+                    "file_sha256": _sha256(sakhalkar_input_json),
+                    "source_doi": "10.5281/zenodo.8398202",
+                },
+                "aubert_ephi": {
+                    "filename": aubert_input_json.name,
+                    "analysis_units": len(aubert_rows),
+                    "stable_json_sha256": _stable_json_sha256(aubert_rows),
+                    "file_sha256": _sha256(aubert_input_json),
+                    "source_doi": "10.5281/zenodo.14185547",
+                },
             },
-            "aubert_ephi": {
-                "analysis_units": len(aubert_rows),
-                "stable_json_sha256": _stable_json_sha256(aubert_rows),
-                "source_doi": "10.5281/zenodo.14185547",
-            },
-        },
-        "output_sha256": {
+            "output_sha256": {
                 "input_freeze_manifest.json": _sha256(manifest_json),
                 "analysis_units.csv": _sha256(units_csv),
                 "unit_build_audit.json": _sha256(build_audit_json),
                 "third_network_result.json": _sha256(third_json),
                 "joint_access_routing_k3_result.json": _sha256(joint_json),
+                sakhalkar_input_json.name: _sha256(sakhalkar_input_json),
+                aubert_input_json.name: _sha256(aubert_input_json),
             },
             "source_input_sha256": manifest["files"],
             "claim_boundary": (

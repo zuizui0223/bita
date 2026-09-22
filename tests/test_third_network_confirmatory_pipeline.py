@@ -226,3 +226,33 @@ def test_production_repository_commit_must_match_checkout_when_resolvable(monkey
     with pytest.raises(ValueError, match="REPOSITORY_COMMIT_MISMATCH"):
         _validate_production_repository_commit("a" * 40)
     assert _validate_production_repository_commit(current) == current
+
+
+
+def test_confirmatory_bundle_contains_exact_existing_network_inputs(tmp_path) -> None:
+    _fixture_dir, output, receipt = _run_production_fixture(tmp_path, scenario="positive")
+
+    expected = {
+        "sakhalkar": ("existing_network_sakhalkar_input.json", 20),
+        "aubert_ephi": ("existing_network_aubert_ephi_input.json", 60),
+    }
+    for key, (filename, expected_n) in expected.items():
+        entry = receipt["existing_network_inputs"][key]
+        path = output / filename
+        payload = json.loads(path.read_text(encoding="utf-8"))
+
+        assert entry["filename"] == filename
+        assert entry["analysis_units"] == expected_n
+        assert len(payload) == expected_n
+        assert entry["file_sha256"] == _sha(path)
+        assert receipt["output_sha256"][filename] == _sha(path)
+        assert len(entry["stable_json_sha256"]) == 64
+        int(entry["stable_json_sha256"], 16)
+
+
+def test_existing_network_input_files_are_in_bundle_checksum_inventory(tmp_path) -> None:
+    _fixture_dir, output, _receipt = _run_production_fixture(tmp_path, scenario="null")
+    text = (output / "BUNDLE_SHA256SUMS.txt").read_text(encoding="utf-8")
+
+    assert "existing_network_sakhalkar_input.json" in text
+    assert "existing_network_aubert_ephi_input.json" in text

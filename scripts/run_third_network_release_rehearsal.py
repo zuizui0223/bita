@@ -105,6 +105,22 @@ def run(
         production_required=False,
     )
 
+    existing_checks = verification.get("existing_network_checks", {})
+    existing_inputs_verified = (
+        isinstance(existing_checks, dict)
+        and set(existing_checks) == {"sakhalkar", "aubert_ephi"}
+        and all(
+            isinstance(entry, dict)
+            and entry.get("analysis_units_match") is True
+            and entry.get("stable_json_match") is True
+            and entry.get("file_sha256_match") is True
+            and entry.get("source_doi_match") is True
+            for entry in existing_checks.values()
+        )
+    )
+    if not existing_inputs_verified:
+        raise RuntimeError("bundled existing-network inputs failed independent verification")
+
     receipt = {
         "receipt": RECEIPT,
         "status": "PASS",
@@ -117,6 +133,7 @@ def run(
         "confirmatory_bundle_status": production_receipt["status"],
         "bundle_verification_status": verification["status"],
         "source_recheck_mode": verification["source_recheck_mode"],
+        "existing_network_inputs_verified": existing_inputs_verified,
         "third_network_rho": production_receipt["third_network"][
             "rho_site_adjusted_rank"
         ],

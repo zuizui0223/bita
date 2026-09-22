@@ -22,6 +22,7 @@ def test_release_rehearsal_runs_complete_chain(
     assert receipt["confirmatory_bundle_status"] == "CONFIRMATORY_ANALYSIS_COMPLETE"
     assert receipt["bundle_verification_status"] == "CONFIRMATORY_BUNDLE_VERIFIED"
     assert receipt["source_recheck_mode"] == "SOURCE_INPUTS_RECHECKED"
+    assert receipt["existing_network_inputs_verified"] is True
     assert receipt["claim_transition_state"] in {
         "THREE_NETWORK_DIRECTIONAL_CONCORDANCE",
         "THREE_NETWORK_DIRECTIONAL_NONCONCORDANCE",
@@ -70,6 +71,7 @@ def test_rehearsal_plan_is_development_only_even_if_bundle_is_verified(tmp_path)
     plan = json.loads((root / "claim_transition_plan.json").read_text(encoding="utf-8"))
 
     assert receipt["bundle_verification_status"] == "CONFIRMATORY_BUNDLE_VERIFIED"
+    assert receipt["existing_network_inputs_verified"] is True
     assert receipt["scientific_claim_allowed"] is False
     assert plan["automatic_manuscript_edit_permitted"] is False
     assert plan["production_required"] is False
