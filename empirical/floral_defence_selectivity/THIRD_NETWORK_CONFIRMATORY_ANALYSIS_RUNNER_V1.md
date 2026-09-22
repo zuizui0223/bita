@@ -133,3 +133,35 @@ The final result directory is a success object, not a scratch workspace.
 No final directory is exposed after a handled partial failure. This prevents a
 half-built input manifest or third-network result from being mistaken for a
 completed confirmatory analysis.
+
+
+## Independent bundle verification
+
+After a completed run is moved, copied or archived, verify it without rerunning
+the science:
+
+~~~bash
+python scripts/verify_third_network_confirmatory_bundle.py \
+  confirmatory_analysis_v1
+~~~
+
+If the original frozen input files are available in one directory, recheck them
+as well:
+
+~~~bash
+python scripts/verify_third_network_confirmatory_bundle.py \
+  confirmatory_analysis_v1 \
+  --source-dir frozen_confirmatory_inputs
+~~~
+
+The verifier checks all generated-output SHA256 receipts, manifest/receipt
+consistency, third-network and k=3 headline values, existing-network input
+digests/source DOIs, and optionally the original source-input hashes.
+
+Any mismatch returns:
+
+~~~text
+CONFIRMATORY_BUNDLE_INVALID
+~~~
+
+Verification is read-only and cannot promote or alter a manuscript claim.
