@@ -32,6 +32,15 @@ EXPECTED_AUBERT_UNITS = 1378
 EXPECTED_AUBERT_SITES = 18
 SAKHALKAR_DOI = "10.5281/zenodo.8398202"
 AUBERT_EPHI_DOI = "10.5281/zenodo.14185547"
+CANONICAL_SAKHALKAR_CSV_SHA256 = (
+    "810ad672bf552e7fab0ad09193ef2502304511f741051b6edbab9c9d94a9074d"
+)
+CANONICAL_AUBERT_CSV_SHA256 = (
+    "3a873bb82b43b00df1e72c36c27d3740ff728b9d2a751f4fece6fdbbc20a40af"
+)
+CANONICAL_MANIFEST_SHA256 = (
+    "875ea2f77674034e20d18a7ac56f9d4d4240bfe9b22b90bf28f53f44028557c7"
+)
 
 
 def _sha256(path: str | Path) -> str:
@@ -168,6 +177,7 @@ def load_frozen_existing_networks(
     expected_sakhalkar_units: int = EXPECTED_SAKHALKAR_UNITS,
     expected_aubert_units: int = EXPECTED_AUBERT_UNITS,
     expected_aubert_sites: int = EXPECTED_AUBERT_SITES,
+    enforce_canonical_hashes: bool = True,
 ) -> tuple[
     list[dict[str, float | str]],
     list[dict[str, float | str | bool | int]],
@@ -187,6 +197,24 @@ def load_frozen_existing_networks(
     ):
         if not path.is_file():
             raise ValueError(f"FROZEN_EXISTING_NETWORK_INPUT_MISSING:{label}:{path}")
+
+    archive_hashes = {
+        "sakhalkar_species_analysis.csv": _sha256(sakh_path),
+        "aubert_ephi_pair_site_analysis.csv": _sha256(aubert_path),
+        "archive_manifest.json": _sha256(manifest_path),
+    }
+    if enforce_canonical_hashes:
+        expected_hashes = {
+            "sakhalkar_species_analysis.csv": CANONICAL_SAKHALKAR_CSV_SHA256,
+            "aubert_ephi_pair_site_analysis.csv": CANONICAL_AUBERT_CSV_SHA256,
+            "archive_manifest.json": CANONICAL_MANIFEST_SHA256,
+        }
+        for filename, expected in expected_hashes.items():
+            if archive_hashes[filename] != expected:
+                raise ValueError(
+                    "FROZEN_EXISTING_NETWORK_CANONICAL_HASH_MISMATCH:"
+                    f"{filename}: actual={archive_hashes[filename]} expected={expected}"
+                )
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     if manifest.get("archive_schema") != EXPECTED_ARCHIVE_SCHEMA:
@@ -256,15 +284,18 @@ def load_frozen_existing_networks(
         },
         "files": {
             "sakhalkar_species_analysis.csv": {
-                "sha256": _sha256(sakh_path),
+                "sha256": archive_hashes["sakhalkar_species_analysis.csv"],
+                "canonical_hash_enforced": enforce_canonical_hashes,
                 "rows": len(sakhalkar_points),
             },
             "aubert_ephi_pair_site_analysis.csv": {
-                "sha256": _sha256(aubert_path),
+                "sha256": archive_hashes["aubert_ephi_pair_site_analysis.csv"],
+                "canonical_hash_enforced": enforce_canonical_hashes,
                 "rows": len(aubert_rows),
             },
             "archive_manifest.json": {
-                "sha256": _sha256(manifest_path),
+                "sha256": archive_hashes["archive_manifest.json"],
+                "canonical_hash_enforced": enforce_canonical_hashes,
             },
             "frozen_k2_result.json": {
                 "filename": frozen_path.name,
@@ -273,6 +304,9 @@ def load_frozen_existing_networks(
         },
         "observed_k2_effects": observed,
         "frozen_k2_validation": "PASS",
+        "canonical_archive_hash_validation": (
+            "PASS" if enforce_canonical_hashes else "TEST_OVERRIDE"
+        ),
         "claim_boundary": (
             "The two pre-existing networks are loaded from the exact Letter analysis-ready "
             "archive and checked against the committed frozen k=2 effect receipt. No public "
