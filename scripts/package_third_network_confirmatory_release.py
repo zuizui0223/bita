@@ -236,13 +236,29 @@ This archive is self-contained for replay of the frozen third-network and equal-
 - `release_manifest.json` — package provenance.
 - `FILE_SHA256SUMS.txt` — SHA256 for every other package file.
 
+## Read-only release verification
+
+Before replay, verify the extracted package without modifying it:
+
+~~~bash
+PYTHONPATH=code python code/scripts/verify_third_network_confirmatory_release.py .
+~~~
+
+If the external ZIP and SHA receipt are available, verify those too:
+
+~~~bash
+PYTHONPATH=code python code/scripts/verify_third_network_confirmatory_release.py . \
+  --zip ../third-network-confirmatory-release-v1.zip \
+  --zip-sha256-receipt ../third-network-confirmatory-release-v1.zip.sha256
+~~~
+
 ## Offline replay
 
-From the extracted archive root:
+Keep replay output outside the immutable archive root:
 
 ~~~bash
 PYTHONPATH=code python code/scripts/reproduce_third_network_confirmatory_release.py . \
-  --output reproduction.json
+  --output ../reproduction.json
 ~~~
 
 A valid replay exits successfully with:
