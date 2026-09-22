@@ -6,8 +6,13 @@ from pathlib import Path
 
 import pytest
 
+ROOT = Path(__file__).resolve().parents[1]
+
 from scripts.load_frozen_access_routing_archive import (
     AUBERT_EPHI_DOI,
+    CANONICAL_AUBERT_CSV_SHA256,
+    CANONICAL_MANIFEST_SHA256,
+    CANONICAL_SAKHALKAR_CSV_SHA256,
     EXPECTED_ARCHIVE_SCHEMA,
     MODE,
     SAKHALKAR_DOI,
@@ -260,3 +265,30 @@ def test_production_default_rejects_noncanonical_archive_bytes(tmp_path) -> None
             expected_aubert_units=12,
             expected_aubert_sites=2,
         )
+
+
+
+def test_canonical_archive_hash_constants_match_frozen_provenance_receipt() -> None:
+    path = (
+        ROOT
+        / "empirical"
+        / "floral_defence_selectivity"
+        / "EXISTING_NETWORK_ARCHIVE_FREEZE_RECEIPT_V1.json"
+    )
+    receipt = json.loads(path.read_text(encoding="utf-8"))
+    archive = receipt["analysis_archive"]
+
+    assert receipt["status"] == "FROZEN_FOR_FUTURE_K3"
+    assert receipt["production_input_mode"] == MODE
+    assert archive["archive_schema"] == EXPECTED_ARCHIVE_SCHEMA
+    assert (
+        archive["sakhalkar_species_analysis.csv"]["sha256"]
+        == CANONICAL_SAKHALKAR_CSV_SHA256
+    )
+    assert (
+        archive["aubert_ephi_pair_site_analysis.csv"]["sha256"]
+        == CANONICAL_AUBERT_CSV_SHA256
+    )
+    assert archive["archive_manifest.json"]["sha256"] == CANONICAL_MANIFEST_SHA256
+    assert receipt["source_dois"]["sakhalkar"] == SAKHALKAR_DOI
+    assert receipt["source_dois"]["aubert_ephi"] == AUBERT_EPHI_DOI
