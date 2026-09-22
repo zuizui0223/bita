@@ -7,6 +7,8 @@ on:
     paths:
       - "scripts/run_third_network_synthetic_e2e.py"
       - "scripts/run_third_network_release_rehearsal.py"
+      - "scripts/reproduce_third_network_confirmatory_release.py"
+      - "scripts/package_third_network_confirmatory_release.py"
       - "scripts/evaluate_third_network_route_blind_presurvey.py"
       - "scripts/evaluate_third_network_field_readiness.py"
       - "scripts/validate_third_network_confirmatory_freeze.py"
@@ -23,15 +25,20 @@ on:
       - "tests/test_third_network_claim_transition.py"
       - "tests/test_third_network_synthetic_e2e.py"
       - "tests/test_third_network_release_rehearsal.py"
+      - "tests/test_third_network_release_package.py"
       - "tests/test_third_network_scope_registration.py"
       - "tests/test_third_network_route_reliability.py"
       - "tests/test_third_network_input_freeze.py"
       - "empirical/floral_defence_selectivity/THIRD_NETWORK_*"
+      - "empirical/floral_defence_selectivity/THIRD_NETWORK_CONFIRMATORY_RELEASE_PACKAGE_V1.md"
+      - "empirical/floral_defence_selectivity/THIRD_NETWORK_RELEASE_CODE_MANIFEST_V1.txt"
       - ".github/workflows/test-third-network-synthetic-e2e.yml"
   pull_request:
     paths:
       - "scripts/run_third_network_synthetic_e2e.py"
       - "scripts/run_third_network_release_rehearsal.py"
+      - "scripts/reproduce_third_network_confirmatory_release.py"
+      - "scripts/package_third_network_confirmatory_release.py"
       - "scripts/evaluate_third_network_route_blind_presurvey.py"
       - "scripts/evaluate_third_network_field_readiness.py"
       - "scripts/validate_third_network_confirmatory_freeze.py"
@@ -48,10 +55,13 @@ on:
       - "tests/test_third_network_claim_transition.py"
       - "tests/test_third_network_synthetic_e2e.py"
       - "tests/test_third_network_release_rehearsal.py"
+      - "tests/test_third_network_release_package.py"
       - "tests/test_third_network_scope_registration.py"
       - "tests/test_third_network_route_reliability.py"
       - "tests/test_third_network_input_freeze.py"
       - "empirical/floral_defence_selectivity/THIRD_NETWORK_*"
+      - "empirical/floral_defence_selectivity/THIRD_NETWORK_CONFIRMATORY_RELEASE_PACKAGE_V1.md"
+      - "empirical/floral_defence_selectivity/THIRD_NETWORK_RELEASE_CODE_MANIFEST_V1.txt"
       - ".github/workflows/test-third-network-synthetic-e2e.yml"
   workflow_dispatch:
 
@@ -87,6 +97,7 @@ jobs:
             tests/test_third_network_confirmatory_bundle_verifier.py \
             tests/test_third_network_claim_transition.py \
             tests/test_third_network_release_rehearsal.py \
+            tests/test_third_network_release_package.py \
             tests/test_third_network_scope_registration.py
 
       - name: Verify production CLI entry points
@@ -95,6 +106,8 @@ jobs:
           python scripts/verify_third_network_confirmatory_bundle.py --help >/dev/null
           python scripts/plan_third_network_claim_transition.py --help >/dev/null
           python scripts/run_third_network_release_rehearsal.py --help >/dev/null
+          python scripts/package_third_network_confirmatory_release.py --help >/dev/null
+          python scripts/reproduce_third_network_confirmatory_release.py --help >/dev/null
 
       - name: Run synthetic E2E scenario matrix
         run: |
@@ -183,6 +196,63 @@ jobs:
           )
           print("Release rehearsal matrix verified")
           PY
+
+      - name: Run deterministic release-package + offline replay matrix
+        run: |
+          for scenario in positive null opposite; do
+            python scripts/package_third_network_confirmatory_release.py \
+              "artifacts/third_network_release_rehearsal/$scenario/confirmatory_bundle" \
+              --source-dir "artifacts/third_network_release_rehearsal/$scenario/synthetic_fixture" \
+              --output-dir "artifacts/third_network_release_package/$scenario" \
+              --development-only
+
+            PYTHONPATH=. python scripts/reproduce_third_network_confirmatory_release.py \
+              "artifacts/third_network_release_package/$scenario" \
+              --output "artifacts/third_network_release_package/$scenario/reproduction.json"
+          done
+
+      - name: Verify release-package replay receipts
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          for scenario in ("positive", "null", "opposite"):
+              root = Path(f"artifacts/third_network_release_package/{scenario}")
+              manifest = json.loads((root / "release_manifest.json").read_text(encoding="utf-8"))
+              replay = json.loads((root / "reproduction.json").read_text(encoding="utf-8"))
+              zip_path = Path(str(root) + ".zip")
+              sha_path = Path(str(zip_path) + ".sha256")
+
+              assert manifest["receipt"] == "BITA_THIRD_NETWORK_CONFIRMATORY_RELEASE_PACKAGE_V1"
+              assert manifest["status"] == "RELEASE_PACKAGE_READY"
+              assert manifest["mode"] == "DEVELOPMENT_ONLY_SYNTHETIC"
+              assert manifest["scientific_claim_allowed_by_archive_alone"] is False
+              assert manifest["claim_transition_plan_ready"] is True
+              assert manifest["automatic_manuscript_edit_permitted"] is False
+              assert manifest["existing_network_inputs_verified"] is True
+
+              assert replay["receipt"] == "BITA_THIRD_NETWORK_RELEASE_REPRODUCTION_V1"
+              assert replay["status"] == "REPRODUCTION_MATCH"
+              assert replay["bundle_verification_status"] == "CONFIRMATORY_BUNDLE_VERIFIED"
+              assert replay["source_recheck_mode"] == "SOURCE_INPUTS_RECHECKED"
+              assert all(replay["third_network_matches"].values())
+              assert all(replay["joint_k3_matches"].values())
+
+              assert zip_path.is_file() and zip_path.stat().st_size > 0
+              assert sha_path.is_file() and sha_path.stat().st_size > 0
+
+          print("Deterministic package + offline replay matrix verified")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: third-network-confirmatory-release-package
+          path: |
+            artifacts/third_network_release_package
+            artifacts/third_network_release_package/*.zip
+            artifacts/third_network_release_package/*.zip.sha256
+          if-no-files-found: error
 
       - uses: actions/upload-artifact@v4
         with:
