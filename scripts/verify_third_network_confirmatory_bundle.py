@@ -210,6 +210,8 @@ def verify(
                 failures.append("existing_network_archive_not_validated")
             if archive_provenance.get("frozen_k2_validation") != "PASS":
                 failures.append("existing_network_frozen_k2_validation_missing")
+            if archive_provenance.get("canonical_archive_hash_validation") != "PASS":
+                failures.append("existing_network_canonical_hash_validation_missing")
             if archive_provenance.get("input_mode") != mode:
                 failures.append("existing_network_archive_mode_mismatch")
             archive_files = archive_provenance.get("files", {})
