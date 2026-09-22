@@ -93,7 +93,8 @@ The active lane is now one prospective **non-flying-mammal × Protea** network:
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_SEED_RECEIPT_V1.json`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_CONFIRMATORY_FREEZE_RECEIPT_TEMPLATE_V1.json`
 - `scripts/validate_third_network_confirmatory_freeze.py`
-- `scripts/evaluate_third_network_route_reliability.py`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_ROUTE_BLIND_PRESURVEY_SCHEMA_V1.csv`
+- `scripts/evaluate_third_network_route_reliability.py`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_ROUTE_BLIND_PRESURVEY_SCHEMA_V1.csv`
 - `scripts/evaluate_third_network_route_blind_presurvey.py`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_FIELD_READINESS_TEMPLATE_V1.json`
 - `scripts/evaluate_third_network_field_readiness.py`
@@ -101,14 +102,23 @@ The active lane is now one prospective **non-flying-mammal × Protea** network:
 - `scripts/build_third_access_routing_units.py`
 - `scripts/analyze_third_access_routing_network.py`
 - `scripts/analyze_joint_access_routing_k3.py`
-- `scripts/run_third_network_confirmatory_pipeline.py`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_CONFIRMATORY_ANALYSIS_RUNNER_V1.md`\n- `scripts/run_third_network_synthetic_e2e.py`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_SYNTHETIC_E2E_V1.md`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_CAPE_COLLABORATION_ROUTE_V1.md`
+- `scripts/run_third_network_confirmatory_pipeline.py`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_CONFIRMATORY_ANALYSIS_RUNNER_V1.md`
+- `scripts/run_third_network_synthetic_e2e.py`
+- `scripts/run_third_network_release_rehearsal.py`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_RELEASE_REHEARSAL_V1.md`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_SYNTHETIC_E2E_V1.md`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_CAPE_COLLABORATION_ROUTE_V1.md`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_CAPE_CONTACT_VERIFICATION_V1.md`
 - `submission/THIRD_NETWORK_CAPE_COLLABORATION_EMAIL_V1.md`
 - `submission/THIRD_NETWORK_CAPE_FIRST_CONTACT_PACKET_V1.md`
 - `submission/THIRD_NETWORK_CAPE_FEASIBILITY_FORM_V1.md`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_RESPONSE_SCHEMA_V1.csv`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_RESPONSE_QUARANTINE_V1.md`
-- `scripts/evaluate_third_network_collaboration_response.py`\n- `scripts/verify_third_network_confirmatory_bundle.py`\n- `scripts/plan_third_network_claim_transition.py`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_CLAIM_TRANSITION_GATE_V1.md`\n
+- `scripts/evaluate_third_network_collaboration_response.py`
+- `scripts/verify_third_network_confirmatory_bundle.py`
+- `scripts/plan_third_network_claim_transition.py`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_CLAIM_TRANSITION_GATE_V1.md`\n
 The same predeclared estimand remains:
 
 ~~~text
@@ -143,6 +153,7 @@ FIELD_EXECUTION_STATUS = BLOCKED_PENDING_REAL_SITE_AND_AUTHORIZATION_RECEIPTS
 CONFIRMATORY_INPUT_FREEZE = IMPLEMENTED_MANIFEST_REQUIRED
 ROUTE_RELIABILITY_GATE = IMPLEMENTED_KAPPA_LBAN_GE_0_80
 SYNTHETIC_E2E = IMPLEMENTED_DEVELOPMENT_ONLY
+RELEASE_REHEARSAL = IMPLEMENTED_BUNDLE_VERIFY_CLAIM_PLAN_MATRIX
 CONFIRMATORY_RUNNER = IMPLEMENTED_ONE_COMMAND_TRANSACTIONAL_COMMIT_BOUND
 CONFIRMATORY_BUNDLE_VERIFIER = IMPLEMENTED_READ_ONLY_SHA256
 CLAIM_TRANSITION_GATE = IMPLEMENTED_RETAINED_RESULT_NO_PVALUE_SELECTION
