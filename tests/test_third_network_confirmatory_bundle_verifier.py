@@ -80,3 +80,16 @@ def test_bundle_verifier_detects_source_input_tampering_when_rechecked(tmp_path)
     result = verify(output, source_dir=fixture)
     assert result["status"] == "CONFIRMATORY_BUNDLE_INVALID"
     assert "source_hash_mismatch:plant_traits" in result["failures"]
+
+
+
+def test_bundle_verifier_reports_malformed_receipt_instead_of_crashing(tmp_path) -> None:
+    _fixture, output = _run_bundle(tmp_path)
+    receipt_path = output / "confirmatory_analysis_receipt.json"
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    receipt["joint_k3"]["network_count"] = "not-an-integer"
+    receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+
+    result = verify(output)
+    assert result["status"] == "CONFIRMATORY_BUNDLE_INVALID"
+    assert "joint_network_count_mismatch" in result["failures"]
