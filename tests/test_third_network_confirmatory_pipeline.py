@@ -201,7 +201,7 @@ def test_confirmatory_runner_refuses_stale_staging_directory(tmp_path) -> None:
 
 def test_confirmatory_receipt_hashes_existing_network_analysis_inputs(tmp_path) -> None:
     _fixture_dir, _output, receipt = _run_production_fixture(tmp_path, scenario="null")
-    for name, expected_n in (("sakhalkar", 6), ("aubert_ephi", 12)):
+    for name, expected_n in (("sakhalkar", 20), ("aubert_ephi", 60)):
         entry = receipt["existing_network_inputs"][name]
         assert entry["analysis_units"] == expected_n
         assert len(entry["stable_json_sha256"]) == 64
