@@ -380,7 +380,8 @@ def package_release(
                 if development_only
                 else "PRODUCTION_CONFIRMATORY"
             ),
-            "scientific_claim_allowed": not development_only,
+            "scientific_claim_allowed_by_archive_alone": False,
+            "claim_transition_plan_ready": True,
             "automatic_manuscript_edit_permitted": False,
             "repository_commit": repository_commit,
             "existing_network_input_mode": mode,
