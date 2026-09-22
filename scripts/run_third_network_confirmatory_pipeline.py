@@ -24,7 +24,10 @@ from pathlib import Path
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from scripts.analyze_joint_access_routing import build_public_inputs
+from scripts.load_frozen_access_routing_archive import (
+    MODE as FROZEN_EXISTING_NETWORK_MODE,
+    load_frozen_existing_networks,
+)
 from scripts.analyze_joint_access_routing_k3 import (
     SEED as K3_SEED,
     summarize_joint_k3,
@@ -154,6 +157,7 @@ def run_with_network_inputs(
     output_dir: str | Path,
     repository_commit: str,
     existing_network_input_mode: str,
+    existing_network_provenance: dict[str, object] | None = None,
     permutations: int = 9999,
     third_seed: int = THIRD_SEED,
     k3_seed: int = K3_SEED,
@@ -246,17 +250,18 @@ def run_with_network_inputs(
                 "seed": k3_seed,
             },
             "existing_network_inputs": {
-            "sakhalkar": {
-                "analysis_units": len(sakhalkar_points),
-                "stable_json_sha256": _stable_json_sha256(sakhalkar_points),
-                "source_doi": "10.5281/zenodo.8398202",
+                "sakhalkar": {
+                    "analysis_units": len(sakhalkar_points),
+                    "stable_json_sha256": _stable_json_sha256(sakhalkar_points),
+                    "source_doi": "10.5281/zenodo.8398202",
+                },
+                "aubert_ephi": {
+                    "analysis_units": len(aubert_rows),
+                    "stable_json_sha256": _stable_json_sha256(aubert_rows),
+                    "source_doi": "10.5281/zenodo.14185547",
+                },
             },
-            "aubert_ephi": {
-                "analysis_units": len(aubert_rows),
-                "stable_json_sha256": _stable_json_sha256(aubert_rows),
-                "source_doi": "10.5281/zenodo.14185547",
-            },
-        },
+            "existing_network_archive_provenance": existing_network_provenance,
         "output_sha256": {
                 "input_freeze_manifest.json": _sha256(manifest_json),
                 "analysis_units.csv": _sha256(units_csv),
@@ -293,10 +298,15 @@ def run(
     field_readiness_json: str | Path,
     output_dir: str | Path,
     repository_commit: str,
+    existing_network_archive_dir: str | Path,
+    frozen_k2_result_json: str | Path,
     permutations: int = 9999,
 ) -> dict[str, object]:
     commit = _validate_production_repository_commit(repository_commit)
-    sakhalkar_points, aubert_rows = build_public_inputs()
+    sakhalkar_points, aubert_rows, archive_receipt = load_frozen_existing_networks(
+        existing_network_archive_dir,
+        frozen_k2_result_json,
+    )
     return run_with_network_inputs(
         events_csv=events_csv,
         plant_traits_csv=plant_traits_csv,
@@ -308,7 +318,8 @@ def run(
         aubert_rows=aubert_rows,
         output_dir=output_dir,
         repository_commit=commit,
-        existing_network_input_mode="PUBLIC_EXISTING_NETWORKS_FIXED_DOI_REBUILD",
+        existing_network_input_mode=FROZEN_EXISTING_NETWORK_MODE,
+        existing_network_provenance=archive_receipt,
         permutations=permutations,
     )
 
@@ -323,6 +334,11 @@ if __name__ == "__main__":
     parser.add_argument("field_readiness_json")
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--repository-commit", required=True)
+    parser.add_argument("--existing-network-archive-dir", required=True)
+    parser.add_argument(
+        "--frozen-k2-result",
+        default="empirical/floral_defence_selectivity/results/joint_access_routing.json",
+    )
     parser.add_argument("--permutations", type=int, default=9999)
     args = parser.parse_args()
 
@@ -337,6 +353,8 @@ if __name__ == "__main__":
                 field_readiness_json=args.field_readiness_json,
                 output_dir=args.output_dir,
                 repository_commit=args.repository_commit,
+                existing_network_archive_dir=args.existing_network_archive_dir,
+                frozen_k2_result_json=args.frozen_k2_result,
                 permutations=args.permutations,
             ),
             indent=2,
