@@ -26,6 +26,7 @@ on:
       - "tests/test_third_network_route_reliability.py"
       - "tests/test_third_network_input_freeze.py"
       - "empirical/floral_defence_selectivity/THIRD_NETWORK_*"
+      - "empirical/floral_defence_selectivity/EXISTING_NETWORK_ARCHIVE_FREEZE_RECEIPT_V1.json"
       - ".github/workflows/test-third-network-synthetic-e2e.yml"
   pull_request:
     paths:
@@ -50,6 +51,7 @@ on:
       - "tests/test_third_network_route_reliability.py"
       - "tests/test_third_network_input_freeze.py"
       - "empirical/floral_defence_selectivity/THIRD_NETWORK_*"
+      - "empirical/floral_defence_selectivity/EXISTING_NETWORK_ARCHIVE_FREEZE_RECEIPT_V1.json"
       - ".github/workflows/test-third-network-synthetic-e2e.yml"
   workflow_dispatch:
 
@@ -89,6 +91,7 @@ jobs:
       - name: Verify production CLI entry points
         run: |
           python scripts/load_frozen_access_routing_archive.py --help >/dev/null
+          python scripts/analyze_joint_access_routing_k3.py --help >/dev/null
           python scripts/run_third_network_confirmatory_pipeline.py --help >/dev/null
           python scripts/verify_third_network_confirmatory_bundle.py --help >/dev/null
           python scripts/plan_third_network_claim_transition.py --help >/dev/null
