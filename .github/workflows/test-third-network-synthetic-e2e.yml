@@ -167,6 +167,7 @@ jobs:
               assert receipt["automatic_manuscript_edit_permitted"] is False
               assert receipt["bundle_verification_status"] == "CONFIRMATORY_BUNDLE_VERIFIED"
               assert receipt["source_recheck_mode"] == "SOURCE_INPUTS_RECHECKED"
+              assert receipt["existing_network_inputs_verified"] is True
               assert receipt["third_network_must_be_retained"] is True
               assert (root / "confirmatory_bundle" / "BUNDLE_SHA256SUMS.txt").is_file()
               receipts[scenario] = receipt
