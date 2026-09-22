@@ -50,9 +50,19 @@ equal-network k=3 analysis
 confirmatory_analysis_receipt.json
 ~~~
 
-The output directory must be empty. Reusing a populated directory fails with
+The final output directory must be absent or empty. The runner writes first to
+a sibling `.inprogress` staging directory and atomically renames that directory
+to the requested output path only after the full third-network and k=3 chain
+succeeds.
+
+A handled analysis failure removes the staging directory and leaves no partial
+final result. A pre-existing staging directory is treated as evidence of an
+interrupted prior process and fails closed with
+`CONFIRMATORY_STAGING_DIR_EXISTS`; it is never silently reused or deleted.
+
+Reusing a populated final directory fails with
 `CONFIRMATORY_OUTPUT_DIR_NOT_EMPTY`, preventing accidental overwrite of the
-first confirmatory run.
+first completed confirmatory run.
 
 ## Receipt
 
@@ -65,15 +75,20 @@ CONFIRMATORY_ANALYSIS_COMPLETE
 
 It records:
 
-- exact repository commit;
+- exact 40-character repository commit, checked against the current checkout
+  when Git metadata are available;
 - existing-network input mode;
+- stable JSON SHA256 digests and source DOIs for the Sakhalkar and Aubert/EPHI
+  analysis inputs actually entering the k=3 calculation;
 - input-freeze status;
 - route reliability status and kappa;
 - number of third-network analysis units;
 - third-network rho, two-sided p-value, sign and seed;
 - k=3 equal-network rho, p-value, concordance and seed;
 - SHA256 for every generated scientific output;
-- SHA256 receipts for source confirmatory inputs.
+- SHA256 receipts for source confirmatory inputs;
+- `BUNDLE_SHA256SUMS.txt`, which hashes the completed receipt itself plus every
+  other file in the final analysis directory.
 
 ## Result-direction rule
 
@@ -103,3 +118,54 @@ REAL_THIRD_NETWORK_DATA = NOT_COLLECTED
 REAL_JOINT_NETWORK_K = 2
 CONFIRMATORY_RUNNER = IMPLEMENTED_NOT_EXECUTED_ON_REAL_DATA
 ~~~
+
+
+## Transaction boundary
+
+The final result directory is a success object, not a scratch workspace.
+
+~~~text
+<output>.inprogress
+        |
+        | all gates + r_T + k=3 + receipt succeed
+        v
+<output>
+~~~
+
+No final directory is exposed after a handled partial failure. This prevents a
+half-built input manifest or third-network result from being mistaken for a
+completed confirmatory analysis.
+
+
+## Independent bundle verification
+
+After a completed run is moved, copied or archived, verify it without rerunning
+the science:
+
+~~~bash
+python scripts/verify_third_network_confirmatory_bundle.py \
+  confirmatory_analysis_v1
+~~~
+
+If the original frozen input files are available in one directory, recheck them
+as well:
+
+~~~bash
+python scripts/verify_third_network_confirmatory_bundle.py \
+  confirmatory_analysis_v1 \
+  --source-dir frozen_confirmatory_inputs
+~~~
+
+The verifier first checks `BUNDLE_SHA256SUMS.txt` against the complete file
+inventory, including the analysis receipt itself. It then checks the nested
+generated-output SHA256 receipts, manifest/receipt consistency, third-network
+and k=3 headline values, existing-network input digests/source DOIs, and
+optionally the original source-input hashes.
+
+Any mismatch returns:
+
+~~~text
+CONFIRMATORY_BUNDLE_INVALID
+~~~
+
+Verification is read-only and cannot promote or alter a manuscript claim.
