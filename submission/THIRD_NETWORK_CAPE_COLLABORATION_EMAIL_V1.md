@@ -1,6 +1,6 @@
 # Prospective Cape third-network collaboration inquiry v1
 
-**Status:** send-ready draft; explicit author send approval still required.
+**Status:** send-ready draft; explicit author send approval still required; do not send automatically.
 
 **Suggested recipients:** Prof Sandy-Lynn Steenhuisen; Emeritus Prof Jeremy Midgley
 
