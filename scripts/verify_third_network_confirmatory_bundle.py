@@ -65,6 +65,48 @@ def verify(
     receipt = _load_json(receipt_path)
     failures: list[str] = []
 
+    bundle_checksum_path = root / "BUNDLE_SHA256SUMS.txt"
+    bundle_checksum_checks: dict[str, dict[str, object]] = {}
+    if not bundle_checksum_path.is_file():
+        failures.append("bundle_checksum_manifest_missing")
+    else:
+        expected_bundle_hashes: dict[str, str] = {}
+        for line in bundle_checksum_path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            parts = line.split("  ", 1)
+            if len(parts) != 2:
+                failures.append("bundle_checksum_manifest_malformed")
+                continue
+            digest, filename = parts[0].strip(), parts[1].strip()
+            if not filename or filename in expected_bundle_hashes:
+                failures.append("bundle_checksum_manifest_malformed")
+                continue
+            expected_bundle_hashes[filename] = digest
+
+        actual_files = {
+            path.name
+            for path in root.iterdir()
+            if path.is_file() and path.name != bundle_checksum_path.name
+        }
+        if set(expected_bundle_hashes) != actual_files:
+            failures.append("bundle_checksum_inventory_mismatch")
+
+        for filename in sorted(actual_files | set(expected_bundle_hashes)):
+            path = root / filename
+            exists = path.is_file()
+            expected = expected_bundle_hashes.get(filename)
+            actual = _sha256(path) if exists else None
+            match = exists and expected is not None and actual == expected
+            bundle_checksum_checks[filename] = {
+                "exists": exists,
+                "expected_sha256": expected,
+                "actual_sha256": actual,
+                "match": match,
+            }
+            if not match:
+                failures.append(f"bundle_checksum_mismatch:{filename}")
+
     if receipt.get("receipt") != RECEIPT_TYPE:
         failures.append("wrong_receipt_type")
     if receipt.get("status") != COMPLETE_STATUS:
@@ -214,6 +256,10 @@ def verify(
         "status": VERIFIED_STATUS if not failures else "CONFIRMATORY_BUNDLE_INVALID",
         "bundle_dir": str(root),
         "analysis_receipt_sha256": _sha256(receipt_path),
+        "bundle_checksum_manifest_sha256": (
+            _sha256(bundle_checksum_path) if bundle_checksum_path.is_file() else None
+        ),
+        "bundle_checksum_checks": bundle_checksum_checks,
         "repository_commit": receipt.get("repository_commit"),
         "output_checks": output_checks,
         "source_recheck_mode": source_mode,
