@@ -63,12 +63,16 @@ def _assert_close(actual: float, expected: object, label: str) -> None:
 def observed_k2_effects(
     sakhalkar_points: list[dict[str, float | str]],
     aubert_rows: list[dict[str, float | str | bool | int]],
+    *,
+    expected_sakhalkar_units: int = EXPECTED_SAKHALKAR_UNITS,
+    expected_aubert_units: int = EXPECTED_AUBERT_UNITS,
+    expected_aubert_sites: int = EXPECTED_AUBERT_SITES,
 ) -> dict[str, object]:
-    if len(sakhalkar_points) != EXPECTED_SAKHALKAR_UNITS:
+    if len(sakhalkar_points) != expected_sakhalkar_units:
         raise ValueError(
             f"FROZEN_SAKHALKAR_UNIT_COUNT_MISMATCH:{len(sakhalkar_points)}"
         )
-    if len(aubert_rows) != EXPECTED_AUBERT_UNITS:
+    if len(aubert_rows) != expected_aubert_units:
         raise ValueError(
             f"FROZEN_AUBERT_UNIT_COUNT_MISMATCH:{len(aubert_rows)}"
         )
@@ -79,7 +83,7 @@ def observed_k2_effects(
     ay = [float(row["robbery_rate"]) for row in aubert_rows]
     sites = [str(row["site"]) for row in aubert_rows]
 
-    if len(set(sites)) != EXPECTED_AUBERT_SITES:
+    if len(set(sites)) != expected_aubert_sites:
         raise ValueError(
             f"FROZEN_AUBERT_SITE_COUNT_MISMATCH:{len(set(sites))}"
         )
@@ -160,6 +164,10 @@ def validate_against_frozen_result(
 def load_frozen_existing_networks(
     archive_dir: str | Path,
     frozen_result_json: str | Path,
+    *,
+    expected_sakhalkar_units: int = EXPECTED_SAKHALKAR_UNITS,
+    expected_aubert_units: int = EXPECTED_AUBERT_UNITS,
+    expected_aubert_sites: int = EXPECTED_AUBERT_SITES,
 ) -> tuple[
     list[dict[str, float | str]],
     list[dict[str, float | str | bool | int]],
@@ -187,9 +195,9 @@ def load_frozen_existing_networks(
     tables = manifest.get("analysis_tables", {})
     if not isinstance(tables, dict):
         raise ValueError("FROZEN_EXISTING_NETWORK_ARCHIVE_TABLE_RECEIPT_MISSING")
-    if int(tables.get(sakh_path.name, -1)) != EXPECTED_SAKHALKAR_UNITS:
+    if int(tables.get(sakh_path.name, -1)) != expected_sakhalkar_units:
         raise ValueError("FROZEN_EXISTING_NETWORK_MANIFEST_SAKHALKAR_COUNT_MISMATCH")
-    if int(tables.get(aubert_path.name, -1)) != EXPECTED_AUBERT_UNITS:
+    if int(tables.get(aubert_path.name, -1)) != expected_aubert_units:
         raise ValueError("FROZEN_EXISTING_NETWORK_MANIFEST_AUBERT_COUNT_MISMATCH")
 
     source_data = manifest.get("source_data", {})
@@ -227,7 +235,13 @@ def load_frozen_existing_networks(
         for row in aubert_loaded
     ]
 
-    observed = observed_k2_effects(sakhalkar_points, aubert_rows)
+    observed = observed_k2_effects(
+        sakhalkar_points,
+        aubert_rows,
+        expected_sakhalkar_units=expected_sakhalkar_units,
+        expected_aubert_units=expected_aubert_units,
+        expected_aubert_sites=expected_aubert_sites,
+    )
     frozen = json.loads(frozen_path.read_text(encoding="utf-8"))
     validate_against_frozen_result(observed, frozen)
 
