@@ -12,7 +12,11 @@ import argparse
 import json
 import math
 import re
+import sys
 from pathlib import Path
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.verify_third_network_confirmatory_bundle import (
     VERIFIED_STATUS,
