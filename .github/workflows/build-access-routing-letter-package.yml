@@ -36,6 +36,7 @@ on:
       - "empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json"
       - "empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json"
       - "empirical/floral_defence_selectivity/results/sakhalkar2023_trait_routing.json"
+      - "empirical/floral_defence_selectivity/EXISTING_NETWORK_ARCHIVE_FREEZE_RECEIPT_V1.json"
       - ".github/workflows/build-access-routing-letter-package.yml"
   workflow_dispatch:
 
@@ -95,6 +96,40 @@ jobs:
         run: |
           python scripts/export_access_routing_archive.py \
             --output-dir artifacts/letter/data_archive
+
+      - name: Verify archive bytes against frozen future-k3 receipt
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          root = Path("artifacts/letter/data_archive")
+          receipt = json.loads(
+              Path(
+                  "empirical/floral_defence_selectivity/"
+                  "EXISTING_NETWORK_ARCHIVE_FREEZE_RECEIPT_V1.json"
+              ).read_text(encoding="utf-8")
+          )
+          frozen = receipt["analysis_archive"]
+
+          expected = {
+              "sakhalkar_species_analysis.csv": frozen[
+                  "sakhalkar_species_analysis.csv"
+              ]["sha256"],
+              "aubert_ephi_pair_site_analysis.csv": frozen[
+                  "aubert_ephi_pair_site_analysis.csv"
+              ]["sha256"],
+              "archive_manifest.json": frozen["archive_manifest.json"]["sha256"],
+          }
+
+          for filename, digest in expected.items():
+              actual = hashlib.sha256((root / filename).read_bytes()).hexdigest()
+              assert actual == digest, (filename, actual, digest)
+
+          assert receipt["production_input_mode"] == "FROZEN_LETTER_ANALYSIS_ARCHIVE_V1"
+          print("Letter analysis archive bytes match frozen future-k3 receipt")
+          PY
 
       - name: Reproduce headline analyses from archive tables only
         run: |
