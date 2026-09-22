@@ -20,7 +20,6 @@ from scripts.analyze_joint_access_routing import (
     _pearson,
     _permute_within_site,
     _rankdata,
-    build_public_inputs,
     combine_rhos_equal_network,
 )
 from scripts.analyze_third_access_routing_network import (
@@ -28,8 +27,17 @@ from scripts.analyze_third_access_routing_network import (
     load_analysis_units,
     validate_confirmatory_gate,
 )
+from scripts.load_frozen_access_routing_archive import load_frozen_existing_networks
 
 SEED = 20260921
+REPO_ROOT = Path(__file__).resolve().parents[1]
+CANONICAL_K2_RESULT = (
+    REPO_ROOT
+    / "empirical"
+    / "floral_defence_selectivity"
+    / "results"
+    / "joint_access_routing.json"
+)
 
 
 def summarize_joint_k3(
@@ -129,10 +137,14 @@ def run(
     third_csv: str | Path,
     output_json: str | Path,
     *,
+    existing_network_archive_dir: str | Path,
     permutations: int = 9999,
     seed: int = SEED,
 ) -> dict[str, object]:
-    sakhalkar_points, aubert_rows = build_public_inputs()
+    sakhalkar_points, aubert_rows, _archive_receipt = load_frozen_existing_networks(
+        existing_network_archive_dir,
+        CANONICAL_K2_RESULT,
+    )
     third_rows = load_analysis_units(third_csv)
     result = summarize_joint_k3(
         sakhalkar_points,
@@ -151,6 +163,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("third_csv")
     parser.add_argument("output_json")
+    parser.add_argument("--existing-network-archive-dir", required=True)
     parser.add_argument("--permutations", type=int, default=9999)
     parser.add_argument("--seed", type=int, default=SEED)
     args = parser.parse_args()
