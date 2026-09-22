@@ -75,13 +75,39 @@ Raw camera video is not required for numerical replay of the confirmatory
 analysis. Its long-term archival policy remains separate from the exact
 analysis-input archive.
 
+## Read-only release verification
+
+After extraction, first verify the entire immutable release:
+
+~~~bash
+PYTHONPATH=code python code/scripts/verify_third_network_confirmatory_release.py .
+~~~
+
+With the external ZIP and SHA receipt:
+
+~~~bash
+PYTHONPATH=code python code/scripts/verify_third_network_confirmatory_release.py . \
+  --zip ../third_network_confirmatory_release_v1.zip \
+  --zip-sha256-receipt ../third_network_confirmatory_release_v1.zip.sha256
+~~~
+
+The verifier checks the full package inventory, protocol/code/frozen-input
+hashes, claim-plan consistency, nested confirmatory bundle, exact existing-network
+rows and deterministic ZIP contents.
+
+Required status:
+
+~~~text
+CONFIRMATORY_RELEASE_VERIFIED
+~~~
+
 ## Offline replay
 
-After extraction:
+Keep the reproduction output outside the immutable release root:
 
 ~~~bash
 PYTHONPATH=code python code/scripts/reproduce_third_network_confirmatory_release.py . \
-  --output reproduction.json
+  --output ../reproduction.json
 ~~~
 
 The replay:
