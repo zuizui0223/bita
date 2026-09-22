@@ -200,6 +200,42 @@ def verify(
     ):
         failures.append("joint_direction_concordance_mismatch")
 
+    mode = str(receipt.get("existing_network_input_mode", "")).strip()
+    archive_provenance = receipt.get("existing_network_archive_provenance")
+    if mode == "FROZEN_LETTER_ANALYSIS_ARCHIVE_V1":
+        if not isinstance(archive_provenance, dict):
+            failures.append("existing_network_archive_provenance_missing")
+        else:
+            if archive_provenance.get("status") != "FROZEN_EXISTING_NETWORKS_VALIDATED":
+                failures.append("existing_network_archive_not_validated")
+            if archive_provenance.get("frozen_k2_validation") != "PASS":
+                failures.append("existing_network_frozen_k2_validation_missing")
+            if archive_provenance.get("input_mode") != mode:
+                failures.append("existing_network_archive_mode_mismatch")
+            archive_files = archive_provenance.get("files", {})
+            if not isinstance(archive_files, dict):
+                failures.append("existing_network_archive_file_receipts_missing")
+            else:
+                for filename in (
+                    "sakhalkar_species_analysis.csv",
+                    "aubert_ephi_pair_site_analysis.csv",
+                    "archive_manifest.json",
+                    "frozen_k2_result.json",
+                ):
+                    entry = archive_files.get(filename, {})
+                    digest = str(entry.get("sha256", "")) if isinstance(entry, dict) else ""
+                    if len(digest) != 64:
+                        failures.append(
+                            f"existing_network_archive_digest_invalid:{filename}"
+                        )
+                    else:
+                        try:
+                            int(digest, 16)
+                        except ValueError:
+                            failures.append(
+                                f"existing_network_archive_digest_invalid:{filename}"
+                            )
+
     existing = receipt.get("existing_network_inputs", {})
     if not isinstance(existing, dict):
         existing = {}
