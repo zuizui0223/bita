@@ -69,3 +69,33 @@ Once a DOI is minted, update all of:
 5. issue #227
 
 Do not mark the external submission gate ready until the DOI resolves for editors/reviewers.
+
+
+## Future k=3 use
+
+The two analysis-ready CSVs are also the **only permitted production inputs for
+the existing insect and bird networks** when a real third visitor network is
+analysed.
+
+The future k=3 production pipeline does not redownload or reconstruct Sakhalkar
+or Aubert/EPHI. It requires these exact frozen bytes:
+
+~~~text
+sakhalkar_species_analysis.csv
+  sha256 = 810ad672bf552e7fab0ad09193ef2502304511f741051b6edbab9c9d94a9074d
+
+aubert_ephi_pair_site_analysis.csv
+  sha256 = 3a873bb82b43b00df1e72c36c27d3740ff728b9d2a751f4fece6fdbbc20a40af
+
+archive_manifest.json
+  sha256 = 875ea2f77674034e20d18a7ac56f9d4d4240bfe9b22b90bf28f53f44028557c7
+~~~
+
+Their provenance is frozen in:
+
+`empirical/floral_defence_selectivity/EXISTING_NETWORK_ARCHIVE_FREEZE_RECEIPT_V1.json`
+
+Before any third network enters the equal-network k=3 statistic, the loader also
+recomputes the observed Sakhalkar rho, Aubert site-adjusted/global rhos, unit/site
+counts and the two-network Fisher-z rho and requires agreement with the canonical
+repository `joint_access_routing.json`.
