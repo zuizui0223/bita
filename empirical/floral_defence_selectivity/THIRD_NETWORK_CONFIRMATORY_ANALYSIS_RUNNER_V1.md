@@ -108,8 +108,17 @@ system.
 ## Manuscript boundary
 
 A completed runner receipt does **not** automatically edit or promote manuscript
-claims. A separate claim-update step must read the frozen receipt and apply the
-predeclared claim ceiling.
+claims. The next mandatory step is the read-only claim-transition planner:
+
+~~~bash
+python scripts/plan_third_network_claim_transition.py \
+  confirmatory_analysis_v1 \
+  --source-dir frozen_confirmatory_inputs \
+  --output third_network_claim_transition.json
+~~~
+
+The planner requires a verified bundle plus rechecked frozen source inputs and
+applies the predeclared claim ceiling without selecting on sign or p-value.
 
 Until real data exist:
 

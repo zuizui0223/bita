@@ -108,7 +108,7 @@ The active lane is now one prospective **non-flying-mammal × Protea** network:
 - `submission/THIRD_NETWORK_CAPE_FEASIBILITY_FORM_V1.md`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_RESPONSE_SCHEMA_V1.csv`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_COLLABORATION_RESPONSE_QUARANTINE_V1.md`
-- `scripts/evaluate_third_network_collaboration_response.py`\n
+- `scripts/evaluate_third_network_collaboration_response.py`\n- `scripts/verify_third_network_confirmatory_bundle.py`\n- `scripts/plan_third_network_claim_transition.py`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_CLAIM_TRANSITION_GATE_V1.md`\n
 The same predeclared estimand remains:
 
 ~~~text
@@ -145,6 +145,7 @@ ROUTE_RELIABILITY_GATE = IMPLEMENTED_KAPPA_LBAN_GE_0_80
 SYNTHETIC_E2E = IMPLEMENTED_DEVELOPMENT_ONLY
 CONFIRMATORY_RUNNER = IMPLEMENTED_ONE_COMMAND_TRANSACTIONAL_COMMIT_BOUND
 CONFIRMATORY_BUNDLE_VERIFIER = IMPLEMENTED_READ_ONLY_SHA256
+CLAIM_TRANSITION_GATE = IMPLEMENTED_RETAINED_RESULT_NO_PVALUE_SELECTION
 REAL_THIRD_NETWORK_DATA = NOT_COLLECTED
 NEXT_EXTERNAL_ACTION = OUTCOME_BLIND_CAPE_COLLABORATION_INQUIRY
 COLLABORATION_EMAIL = SEND_READY_AUTHOR_SEND_APPROVAL_REQUIRED
