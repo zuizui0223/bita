@@ -35,7 +35,21 @@ def _load_json(path: Path) -> dict[str, object]:
 
 
 def _same_float(a: object, b: object) -> bool:
-    return math.isclose(float(a), float(b), rel_tol=0.0, abs_tol=1e-15)
+    try:
+        left = float(a)
+        right = float(b)
+    except (TypeError, ValueError):
+        return False
+    if not math.isfinite(left) or not math.isfinite(right):
+        return False
+    return math.isclose(left, right, rel_tol=0.0, abs_tol=1e-15)
+
+
+def _same_int(a: object, b: object) -> bool:
+    try:
+        return int(a) == int(b)
+    except (TypeError, ValueError):
+        return False
 
 
 def verify(
@@ -127,7 +141,7 @@ def verify(
     receipt_joint = receipt.get("joint_k3", {})
     if not isinstance(receipt_joint, dict):
         receipt_joint = {}
-    if int(receipt_joint.get("network_count", -1)) != int(joint.get("network_count", -2)):
+    if not _same_int(receipt_joint.get("network_count"), joint.get("network_count")):
         failures.append("joint_network_count_mismatch")
     if not _same_float(
         receipt_joint.get("joint_equal_network_fisher_z_rho", float("nan")),
