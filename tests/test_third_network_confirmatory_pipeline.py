@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import hashlib
+import inspect
 import json
+from pathlib import Path
 
 import pytest
 import scripts.run_third_network_confirmatory_pipeline as runner
@@ -226,3 +228,68 @@ def test_production_repository_commit_must_match_checkout_when_resolvable(monkey
     with pytest.raises(ValueError, match="REPOSITORY_COMMIT_MISMATCH"):
         _validate_production_repository_commit("a" * 40)
     assert _validate_production_repository_commit(current) == current
+
+
+
+def test_production_runner_has_no_live_existing_network_download_path() -> None:
+    source = Path(runner.__file__).read_text(encoding="utf-8")
+    assert "build_public_inputs" not in source
+    assert "--existing-network-archive-dir" in source
+    assert "CANONICAL_K2_RESULT" in source
+
+
+def test_production_run_binds_archive_loader_and_provenance(monkeypatch, tmp_path) -> None:
+    expected_commit = "c" * 40
+    archive_receipt = {
+        "status": "FROZEN_EXISTING_NETWORKS_VALIDATED",
+        "input_mode": "FROZEN_LETTER_ANALYSIS_ARCHIVE_V1",
+        "frozen_k2_validation": "PASS",
+        "canonical_archive_hash_validation": "PASS",
+        "files": {},
+    }
+    captured = {}
+
+    monkeypatch.setattr(
+        runner,
+        "_validate_production_repository_commit",
+        lambda value: expected_commit,
+    )
+
+    def _load(archive_dir, frozen_result):
+        captured["archive_dir"] = archive_dir
+        captured["frozen_result"] = frozen_result
+        return _synthetic_sakhalkar(), _synthetic_aubert(), archive_receipt
+
+    def _run_with_network_inputs(**kwargs):
+        captured["runner_kwargs"] = kwargs
+        return {"status": "captured"}
+
+    monkeypatch.setattr(runner, "load_frozen_existing_networks", _load)
+    monkeypatch.setattr(runner, "run_with_network_inputs", _run_with_network_inputs)
+
+    result = runner.run(
+        events_csv="events.csv",
+        plant_traits_csv="plants.csv",
+        mammal_traits_csv="mammals.csv",
+        camera_deployment_csv="camera.csv",
+        confirmatory_freeze_json="freeze.json",
+        field_readiness_json="field.json",
+        output_dir=tmp_path / "output",
+        repository_commit="ignored-by-test-patch",
+        existing_network_archive_dir=tmp_path / "letter_archive",
+        permutations=19,
+    )
+
+    assert result == {"status": "captured"}
+    assert captured["archive_dir"] == tmp_path / "letter_archive"
+    assert captured["frozen_result"] == runner.CANONICAL_K2_RESULT
+    kwargs = captured["runner_kwargs"]
+    assert kwargs["repository_commit"] == expected_commit
+    assert kwargs["existing_network_input_mode"] == "FROZEN_LETTER_ANALYSIS_ARCHIVE_V1"
+    assert kwargs["existing_network_provenance"] == archive_receipt
+
+
+def test_production_run_exposes_no_frozen_k2_receipt_override() -> None:
+    signature = inspect.signature(runner.run)
+    assert "existing_network_archive_dir" in signature.parameters
+    assert "frozen_k2_result_json" not in signature.parameters
