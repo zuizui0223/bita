@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "scripts/run_third_network_synthetic_e2e.py"
+      - "scripts/run_third_network_release_rehearsal.py"
       - "scripts/evaluate_third_network_route_blind_presurvey.py"
       - "scripts/evaluate_third_network_field_readiness.py"
       - "scripts/validate_third_network_confirmatory_freeze.py"
@@ -21,6 +22,8 @@ on:
       - "tests/test_third_network_confirmatory_bundle_verifier.py"
       - "tests/test_third_network_claim_transition.py"
       - "tests/test_third_network_synthetic_e2e.py"
+      - "tests/test_third_network_release_rehearsal.py"
+      - "tests/test_third_network_scope_registration.py"
       - "tests/test_third_network_route_reliability.py"
       - "tests/test_third_network_input_freeze.py"
       - "empirical/floral_defence_selectivity/THIRD_NETWORK_*"
@@ -28,6 +31,7 @@ on:
   pull_request:
     paths:
       - "scripts/run_third_network_synthetic_e2e.py"
+      - "scripts/run_third_network_release_rehearsal.py"
       - "scripts/evaluate_third_network_route_blind_presurvey.py"
       - "scripts/evaluate_third_network_field_readiness.py"
       - "scripts/validate_third_network_confirmatory_freeze.py"
@@ -43,6 +47,8 @@ on:
       - "tests/test_third_network_confirmatory_bundle_verifier.py"
       - "tests/test_third_network_claim_transition.py"
       - "tests/test_third_network_synthetic_e2e.py"
+      - "tests/test_third_network_release_rehearsal.py"
+      - "tests/test_third_network_scope_registration.py"
       - "tests/test_third_network_route_reliability.py"
       - "tests/test_third_network_input_freeze.py"
       - "empirical/floral_defence_selectivity/THIRD_NETWORK_*"
@@ -79,13 +85,16 @@ jobs:
             tests/test_third_network_synthetic_e2e.py \
             tests/test_third_network_confirmatory_pipeline.py \
             tests/test_third_network_confirmatory_bundle_verifier.py \
-            tests/test_third_network_claim_transition.py
+            tests/test_third_network_claim_transition.py \
+            tests/test_third_network_release_rehearsal.py \
+            tests/test_third_network_scope_registration.py
 
       - name: Verify production CLI entry points
         run: |
           python scripts/run_third_network_confirmatory_pipeline.py --help >/dev/null
           python scripts/verify_third_network_confirmatory_bundle.py --help >/dev/null
           python scripts/plan_third_network_claim_transition.py --help >/dev/null
+          python scripts/run_third_network_release_rehearsal.py --help >/dev/null
 
       - name: Run synthetic E2E scenario matrix
         run: |
@@ -129,6 +138,56 @@ jobs:
           )
           print("Synthetic E2E positive/null/opposite matrix + coder reliability verified")
           PY
+
+      - name: Run release-chain rehearsal matrix
+        run: |
+          for scenario in positive null opposite; do
+            python scripts/run_third_network_release_rehearsal.py \
+              --output-dir "artifacts/third_network_release_rehearsal/$scenario" \
+              --permutations 49 \
+              --scenario "$scenario"
+          done
+
+      - name: Verify release-chain rehearsal receipts
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          receipts = {}
+          for scenario in ("positive", "null", "opposite"):
+              root = Path(f"artifacts/third_network_release_rehearsal/{scenario}")
+              receipt = json.loads(
+                  (root / "release_rehearsal_receipt.json").read_text(encoding="utf-8")
+              )
+              assert receipt["receipt"] == "BITA_THIRD_NETWORK_RELEASE_REHEARSAL_V1"
+              assert receipt["status"] == "PASS"
+              assert receipt["mode"] == "DEVELOPMENT_ONLY_SYNTHETIC_RELEASE_REHEARSAL"
+              assert receipt["scientific_claim_allowed"] is False
+              assert receipt["automatic_manuscript_edit_permitted"] is False
+              assert receipt["bundle_verification_status"] == "CONFIRMATORY_BUNDLE_VERIFIED"
+              assert receipt["source_recheck_mode"] == "SOURCE_INPUTS_RECHECKED"
+              assert receipt["third_network_must_be_retained"] is True
+              assert (root / "confirmatory_bundle" / "BUNDLE_SHA256SUMS.txt").is_file()
+              receipts[scenario] = receipt
+
+          assert receipts["positive"]["third_network_rho"] > 0
+          assert receipts["positive"]["claim_transition_state"] == (
+              "THREE_NETWORK_DIRECTIONAL_CONCORDANCE"
+          )
+          assert abs(receipts["null"]["third_network_rho"]) < 0.1
+          assert receipts["opposite"]["third_network_rho"] < 0
+          assert receipts["opposite"]["claim_transition_state"] == (
+              "THREE_NETWORK_DIRECTIONAL_NONCONCORDANCE"
+          )
+          print("Release rehearsal matrix verified")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: third-network-release-rehearsal
+          path: artifacts/third_network_release_rehearsal
+          if-no-files-found: error
 
       - uses: actions/upload-artifact@v4
         with:
