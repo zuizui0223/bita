@@ -54,6 +54,7 @@ def _plan(receipt: dict[str, object]) -> dict[str, object]:
         receipt,
         bundle_verification_status=VERIFIED_STATUS,
         source_recheck_mode="SOURCE_INPUTS_RECHECKED",
+        existing_network_archive_recheck_status="PASS",
         production_required=True,
     )
 
@@ -111,6 +112,7 @@ def test_claim_transition_requires_verified_bundle() -> None:
             _receipt(rho_t=0.2, p_t=0.2, concordance="3_of_3_positive"),
             bundle_verification_status="CONFIRMATORY_BUNDLE_INVALID",
             source_recheck_mode="SOURCE_INPUTS_RECHECKED",
+            existing_network_archive_recheck_status="PASS",
             production_required=True,
         )
 
@@ -121,6 +123,7 @@ def test_claim_transition_requires_source_recheck_in_production() -> None:
             _receipt(rho_t=0.2, p_t=0.2, concordance="3_of_3_positive"),
             bundle_verification_status=VERIFIED_STATUS,
             source_recheck_mode="SOURCE_INPUTS_NOT_RECHECKED",
+            existing_network_archive_recheck_status="PASS",
             production_required=True,
         )
 
@@ -180,3 +183,15 @@ def test_claim_transition_preserves_k3_claim_ceiling() -> None:
     assert "between-network heterogeneity" in prohibited
     assert "population-level mean" in prohibited
     assert len(plan["required_update_targets"]) >= 5
+
+
+
+def test_claim_transition_requires_existing_network_archive_recheck() -> None:
+    with pytest.raises(ValueError, match="EXISTING_NETWORK_ARCHIVE_MUST_BE_RECHECKED"):
+        plan_claim_transition(
+            _receipt(rho_t=0.2, p_t=0.2, concordance="3_of_3_positive"),
+            bundle_verification_status=VERIFIED_STATUS,
+            source_recheck_mode="SOURCE_INPUTS_RECHECKED",
+            existing_network_archive_recheck_status="NOT_RECHECKED",
+            production_required=True,
+        )
