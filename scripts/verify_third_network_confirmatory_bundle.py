@@ -30,8 +30,19 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _load_json(path: Path) -> dict[str, object]:
+def _load_json(path: Path) -> object:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _stable_json_sha256(payload: object) -> str:
+    encoded = json.dumps(
+        payload,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+        allow_nan=False,
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
 
 
 def _same_float(a: object, b: object) -> bool:
@@ -203,23 +214,75 @@ def verify(
     existing = receipt.get("existing_network_inputs", {})
     if not isinstance(existing, dict):
         existing = {}
-    for key, doi in (
-        ("sakhalkar", "10.5281/zenodo.8398202"),
-        ("aubert_ephi", "10.5281/zenodo.14185547"),
-    ):
+
+    existing_network_checks: dict[str, dict[str, object]] = {}
+    expected_existing = {
+        "sakhalkar": (
+            "existing_network_sakhalkar_input.json",
+            "10.5281/zenodo.8398202",
+        ),
+        "aubert_ephi": (
+            "existing_network_aubert_ephi_input.json",
+            "10.5281/zenodo.14185547",
+        ),
+    }
+
+    for key, (expected_filename, doi) in expected_existing.items():
         entry = existing.get(key, {})
         if not isinstance(entry, dict):
             failures.append(f"existing_network_input_missing:{key}")
             continue
-        digest = str(entry.get("stable_json_sha256", ""))
-        if len(digest) != 64:
-            failures.append(f"existing_network_digest_invalid:{key}")
-        else:
-            try:
-                int(digest, 16)
-            except ValueError:
-                failures.append(f"existing_network_digest_invalid:{key}")
-        if entry.get("source_doi") != doi:
+
+        filename = str(entry.get("filename", "")).strip()
+        if filename != expected_filename:
+            failures.append(f"existing_network_filename_mismatch:{key}")
+
+        path = root / expected_filename
+        exists = path.is_file()
+        payload = _load_json(path) if exists else None
+        is_list = isinstance(payload, list)
+        analysis_units = len(payload) if is_list else None
+        stable_digest = _stable_json_sha256(payload) if is_list else None
+        file_digest = _sha256(path) if exists else None
+
+        expected_units = entry.get("analysis_units")
+        expected_stable = str(entry.get("stable_json_sha256", ""))
+        expected_file = str(entry.get("file_sha256", ""))
+
+        units_match = is_list and _same_int(expected_units, analysis_units)
+        stable_match = is_list and stable_digest == expected_stable
+        file_match = exists and file_digest == expected_file
+        doi_match = entry.get("source_doi") == doi
+
+        existing_network_checks[key] = {
+            "filename": expected_filename,
+            "exists": exists,
+            "is_list": is_list,
+            "analysis_units": analysis_units,
+            "expected_analysis_units": expected_units,
+            "analysis_units_match": units_match,
+            "stable_json_sha256": stable_digest,
+            "expected_stable_json_sha256": expected_stable,
+            "stable_json_match": stable_match,
+            "file_sha256": file_digest,
+            "expected_file_sha256": expected_file,
+            "file_sha256_match": file_match,
+            "source_doi": entry.get("source_doi"),
+            "expected_source_doi": doi,
+            "source_doi_match": doi_match,
+        }
+
+        if not exists:
+            failures.append(f"existing_network_file_missing:{key}")
+        elif not is_list:
+            failures.append(f"existing_network_payload_not_list:{key}")
+        if not units_match:
+            failures.append(f"existing_network_analysis_units_mismatch:{key}")
+        if not stable_match:
+            failures.append(f"existing_network_stable_digest_mismatch:{key}")
+        if not file_match:
+            failures.append(f"existing_network_file_digest_mismatch:{key}")
+        if not doi_match:
             failures.append(f"existing_network_source_doi_mismatch:{key}")
 
     source_checks: dict[str, dict[str, object]] = {}
@@ -262,6 +325,7 @@ def verify(
         "bundle_checksum_checks": bundle_checksum_checks,
         "repository_commit": receipt.get("repository_commit"),
         "output_checks": output_checks,
+        "existing_network_checks": existing_network_checks,
         "source_recheck_mode": source_mode,
         "source_checks": source_checks,
         "failures": failures,
