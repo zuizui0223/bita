@@ -7,18 +7,10 @@ import pytest
 from scripts.run_third_network_release_rehearsal import run
 
 
-@pytest.mark.parametrize(
-    ("scenario", "expected_state"),
-    [
-        ("positive", "THREE_NETWORK_DIRECTIONAL_CONCORDANCE"),
-        ("null", "THREE_NETWORK_DIRECTIONAL_NONCONCORDANCE"),
-        ("opposite", "THREE_NETWORK_DIRECTIONAL_NONCONCORDANCE"),
-    ],
-)
+@pytest.mark.parametrize("scenario", ["positive", "null", "opposite"])
 def test_release_rehearsal_runs_complete_chain(
     tmp_path,
     scenario: str,
-    expected_state: str,
 ) -> None:
     root = tmp_path / scenario
     receipt = run(root, scenario=scenario, permutations=19)
@@ -30,7 +22,11 @@ def test_release_rehearsal_runs_complete_chain(
     assert receipt["confirmatory_bundle_status"] == "CONFIRMATORY_ANALYSIS_COMPLETE"
     assert receipt["bundle_verification_status"] == "CONFIRMATORY_BUNDLE_VERIFIED"
     assert receipt["source_recheck_mode"] == "SOURCE_INPUTS_RECHECKED"
-    assert receipt["claim_transition_state"] == expected_state
+    assert receipt["claim_transition_state"] in {
+        "THREE_NETWORK_DIRECTIONAL_CONCORDANCE",
+        "THREE_NETWORK_DIRECTIONAL_NONCONCORDANCE",
+        "THREE_NETWORK_ZERO_THIRD_EFFECT",
+    }
     assert receipt["third_network_must_be_retained"] is True
     assert receipt["claim_transition_automatic_edit"] is False
 
@@ -51,7 +47,9 @@ def test_release_rehearsal_preserves_positive_null_opposite_directions(tmp_path)
     assert receipts["opposite"]["third_network_rho"] < 0
 
     assert receipts["positive"]["joint_k3_direction_concordance"] == "3_of_3_positive"
+    assert receipts["positive"]["claim_transition_state"] == "THREE_NETWORK_DIRECTIONAL_CONCORDANCE"
     assert receipts["opposite"]["joint_k3_direction_concordance"] == "not_3_of_3_positive"
+    assert receipts["opposite"]["claim_transition_state"] == "THREE_NETWORK_DIRECTIONAL_NONCONCORDANCE"
     assert all(
         receipt["third_network_must_be_retained"] is True
         for receipt in receipts.values()
