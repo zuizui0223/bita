@@ -66,3 +66,31 @@ REAL_THIRD_NETWORK_DATA = NOT_COLLECTED
 REAL_JOINT_NETWORK_K = 2
 SYNTHETIC_E2E = DEVELOPMENT_VALIDATION_ONLY
 ~~~
+
+
+## Outcome-direction scenario matrix
+
+The development runner supports three synthetic route generators:
+
+~~~text
+positive  -> r_T expected > 0
+null      -> structured route variation approximately orthogonal to M
+opposite  -> r_T expected < 0
+~~~
+
+All three must pass the **same** presurvey, readiness, freeze, join and
+confirmatory sample gates.
+
+The null and opposite scenarios are deliberately not rejected or replaced.
+Their receipts must still report:
+
+~~~text
+third_network_status = CONFIRMATORY_GATE_PASS
+k3_network_count = 3
+scientific_claim_allowed = false
+~~~
+
+For the opposite scenario, k3 direction concordance must be
+`not_3_of_3_positive`. This is a software contract enforcing the preregistered
+rule that an unfavorable real third-network result remains the third
+confirmatory network.
