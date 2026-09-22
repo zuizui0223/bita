@@ -46,6 +46,14 @@ from scripts.freeze_third_network_confirmatory_inputs import (
 RECEIPT = "BITA_THIRD_NETWORK_CONFIRMATORY_ANALYSIS_V1"
 COMPLETE_STATUS = "CONFIRMATORY_ANALYSIS_COMPLETE"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
+REPO_ROOT = Path(__file__).resolve().parents[1]
+CANONICAL_K2_RESULT = (
+    REPO_ROOT
+    / "empirical"
+    / "floral_defence_selectivity"
+    / "results"
+    / "joint_access_routing.json"
+)
 
 
 def _sha256(path: str | Path) -> str:
@@ -299,13 +307,12 @@ def run(
     output_dir: str | Path,
     repository_commit: str,
     existing_network_archive_dir: str | Path,
-    frozen_k2_result_json: str | Path,
     permutations: int = 9999,
 ) -> dict[str, object]:
     commit = _validate_production_repository_commit(repository_commit)
     sakhalkar_points, aubert_rows, archive_receipt = load_frozen_existing_networks(
         existing_network_archive_dir,
-        frozen_k2_result_json,
+        CANONICAL_K2_RESULT,
     )
     return run_with_network_inputs(
         events_csv=events_csv,
@@ -335,10 +342,6 @@ if __name__ == "__main__":
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--repository-commit", required=True)
     parser.add_argument("--existing-network-archive-dir", required=True)
-    parser.add_argument(
-        "--frozen-k2-result",
-        default="empirical/floral_defence_selectivity/results/joint_access_routing.json",
-    )
     parser.add_argument("--permutations", type=int, default=9999)
     args = parser.parse_args()
 
@@ -354,7 +357,6 @@ if __name__ == "__main__":
                 output_dir=args.output_dir,
                 repository_commit=args.repository_commit,
                 existing_network_archive_dir=args.existing_network_archive_dir,
-                frozen_k2_result_json=args.frozen_k2_result,
                 permutations=args.permutations,
             ),
             indent=2,
