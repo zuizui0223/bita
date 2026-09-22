@@ -86,7 +86,9 @@ It records:
 - third-network rho, two-sided p-value, sign and seed;
 - k=3 equal-network rho, p-value, concordance and seed;
 - SHA256 for every generated scientific output;
-- SHA256 receipts for source confirmatory inputs.
+- SHA256 receipts for source confirmatory inputs;
+- `BUNDLE_SHA256SUMS.txt`, which hashes the completed receipt itself plus every
+  other file in the final analysis directory.
 
 ## Result-direction rule
 
@@ -154,9 +156,11 @@ python scripts/verify_third_network_confirmatory_bundle.py \
   --source-dir frozen_confirmatory_inputs
 ~~~
 
-The verifier checks all generated-output SHA256 receipts, manifest/receipt
-consistency, third-network and k=3 headline values, existing-network input
-digests/source DOIs, and optionally the original source-input hashes.
+The verifier first checks `BUNDLE_SHA256SUMS.txt` against the complete file
+inventory, including the analysis receipt itself. It then checks the nested
+generated-output SHA256 receipts, manifest/receipt consistency, third-network
+and k=3 headline values, existing-network input digests/source DOIs, and
+optionally the original source-input hashes.
 
 Any mismatch returns:
 
