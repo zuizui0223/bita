@@ -13,12 +13,21 @@ python scripts/run_third_network_confirmatory_pipeline.py \
   camera_deployment.csv \
   confirmatory_freeze_receipt.json \
   field_readiness_receipt.json \
+  --existing-network-archive-dir access-routing-letter-data-code-v1/data_archive \
   --output-dir confirmatory_analysis_v1 \
   --repository-commit <exact-git-sha>
 ~~~
 
 The default confirmatory run uses 9,999 permutations and the already frozen
 third-network / k=3 seeds.
+
+The existing insect and bird networks are **not redownloaded** during this run.
+They must come from the exact Ecology Letters analysis-ready archive containing
+`sakhalkar_species_analysis.csv`, `aubert_ephi_pair_site_analysis.csv`, and
+`archive_manifest.json`. Before the third-network analysis starts, those tables
+must reproduce the committed frozen k=2 values for the Sakhalkar rho, Aubert
+site-adjusted rho, Aubert global descriptive rho, unit/site counts, and the
+equal-network Fisher-z joint rho.
 
 ## One-way execution chain
 
@@ -77,7 +86,10 @@ It records:
 
 - exact 40-character repository commit, checked against the current checkout
   when Git metadata are available;
-- existing-network input mode;
+- existing-network input mode = `FROZEN_LETTER_ANALYSIS_ARCHIVE_V1`;
+- SHA256 for both exact Letter analysis tables, their archive manifest, and the
+  canonical repository k=2 receipt;
+- PASS receipt that the archive reproduces the committed k=2 observed effects;
 - stable JSON SHA256 digests and source DOIs for the Sakhalkar and Aubert/EPHI
   analysis inputs actually entering the k=3 calculation;
 - input-freeze status;
@@ -178,3 +190,29 @@ CONFIRMATORY_BUNDLE_INVALID
 ~~~
 
 Verification is read-only and cannot promote or alter a manuscript claim.
+
+
+## Existing-network immutability
+
+The real k=3 run is intentionally offline with respect to the two existing
+networks.
+
+~~~text
+Letter analysis-ready archive
+        |
+        v
+57 Sakhalkar species + 1,378 Aubert/EPHI pair-site units
+        |
+        v
+recompute observed r_S, r_A and r_J2
+        |
+        v
+must equal committed joint_access_routing.json
+        |
+        v
+only then add the retained third network
+~~~
+
+The production CLI does not accept an alternate k=2 result receipt. The
+canonical comparison target is fixed by the repository checkout used for the
+recorded production commit.
