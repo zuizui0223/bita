@@ -149,6 +149,7 @@ def test_frozen_existing_network_archive_loads_without_network_access(tmp_path) 
         expected_sakhalkar_units=5,
         expected_aubert_units=12,
         expected_aubert_sites=2,
+        enforce_canonical_hashes=False,
     )
     assert len(sakh) == 5
     assert len(aubert) == 12
@@ -180,6 +181,7 @@ def test_changed_archive_value_fails_frozen_k2_validation(tmp_path) -> None:
             expected_sakhalkar_units=5,
             expected_aubert_units=12,
             expected_aubert_sites=2,
+            enforce_canonical_hashes=False,
         )
 
 
@@ -208,6 +210,7 @@ def test_wrong_archive_unit_count_fails_before_k3(tmp_path) -> None:
             expected_sakhalkar_units=5,
             expected_aubert_units=12,
             expected_aubert_sites=2,
+            enforce_canonical_hashes=False,
         )
 
 
@@ -225,6 +228,7 @@ def test_wrong_source_doi_fails_archive_gate(tmp_path) -> None:
             expected_sakhalkar_units=5,
             expected_aubert_units=12,
             expected_aubert_sites=2,
+            enforce_canonical_hashes=False,
         )
 
 
@@ -235,6 +239,20 @@ def test_wrong_frozen_joint_effect_fails_archive_gate(tmp_path) -> None:
     frozen.write_text(json.dumps(payload), encoding="utf-8")
 
     with pytest.raises(ValueError, match="joint_equal_network_fisher_z_rho"):
+        load_frozen_existing_networks(
+            root,
+            frozen,
+            expected_sakhalkar_units=5,
+            expected_aubert_units=12,
+            expected_aubert_sites=2,
+            enforce_canonical_hashes=False,
+        )
+
+
+
+def test_production_default_rejects_noncanonical_archive_bytes(tmp_path) -> None:
+    root, frozen, _expected = _archive(tmp_path)
+    with pytest.raises(ValueError, match="FROZEN_EXISTING_NETWORK_CANONICAL_HASH_MISMATCH"):
         load_frozen_existing_networks(
             root,
             frozen,
