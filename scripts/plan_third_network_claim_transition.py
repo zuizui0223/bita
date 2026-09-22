@@ -122,6 +122,12 @@ def plan_claim_transition(
         if not HEX40.fullmatch(repository_commit):
             raise ValueError("PRODUCTION_RECEIPT_REPOSITORY_COMMIT_INVALID")
 
+    retention_rule = str(receipt.get("third_network_retention_rule", "")).strip()
+    if retention_rule != (
+        "retain_confirmatory_third_network_regardless_of_positive_null_or_opposite_direction"
+    ):
+        raise ValueError("THIRD_NETWORK_RETENTION_RULE_MISSING_OR_CHANGED")
+
     third = receipt.get("third_network", {})
     joint = receipt.get("joint_k3", {})
     if not isinstance(third, dict) or not isinstance(joint, dict):
@@ -129,7 +135,11 @@ def plan_claim_transition(
 
     if third.get("status") != "CONFIRMATORY_GATE_PASS":
         raise ValueError("THIRD_NETWORK_CONFIRMATORY_GATE_NOT_PASS")
-    if int(joint.get("network_count", -1)) != 3:
+    try:
+        network_count = int(joint.get("network_count", -1))
+    except (TypeError, ValueError) as exc:
+        raise ValueError("JOINT_NETWORK_COUNT_NOT_THREE") from exc
+    if network_count != 3:
         raise ValueError("JOINT_NETWORK_COUNT_NOT_THREE")
 
     rho_t = _finite(third.get("rho_site_adjusted_rank"), "third rho")
@@ -150,13 +160,13 @@ def plan_claim_transition(
 
     concordance = str(joint.get("network_direction_concordance", "")).strip()
     all_three_positive = concordance == "3_of_3_positive"
+    if direction == "positive" and not all_three_positive:
+        raise ValueError("JOINT_DIRECTION_CONCORDANCE_INCONSISTENT")
+    if direction != "positive" and all_three_positive:
+        raise ValueError("JOINT_DIRECTION_CONCORDANCE_INCONSISTENT")
 
     if direction == "positive":
-        claim_state = (
-            "THREE_NETWORK_DIRECTIONAL_CONCORDANCE"
-            if all_three_positive
-            else "THREE_NETWORK_POSITIVE_THIRD_BUT_CONCORDANCE_RECEIPT_INCONSISTENT"
-        )
+        claim_state = "THREE_NETWORK_DIRECTIONAL_CONCORDANCE"
         directional_statement = (
             "All three observed network effects are positive. "
             f"The retained third-network estimate is rho_T={_fmt(rho_t)} "
