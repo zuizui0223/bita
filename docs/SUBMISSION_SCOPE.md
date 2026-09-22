@@ -131,7 +131,9 @@ Prospective safeguards:
 - the frozen eligibility minimum remains >=30 units, >=5 mammal species and
   >=5 plant species;
 - if the third effect is null-compatible or opposite in sign, it remains the
-  confirmatory third network.
+  confirmatory third network;
+- the existing insect and bird effects must exactly reproduce the canonical
+  frozen k=2 receipt before any k=3 receipt can be completed.
 
 ~~~text
 JOINT_NETWORK_K = 2
@@ -144,6 +146,7 @@ CONFIRMATORY_INPUT_FREEZE = IMPLEMENTED_MANIFEST_REQUIRED
 ROUTE_RELIABILITY_GATE = IMPLEMENTED_KAPPA_LBAN_GE_0_80
 SYNTHETIC_E2E = IMPLEMENTED_DEVELOPMENT_ONLY
 CONFIRMATORY_RUNNER = IMPLEMENTED_ONE_COMMAND_NONOVERWRITING
+CANONICAL_K2_ANCHOR = REQUIRED_BEFORE_K3_RECEIPT
 REAL_THIRD_NETWORK_DATA = NOT_COLLECTED
 NEXT_EXTERNAL_ACTION = OUTCOME_BLIND_CAPE_COLLABORATION_INQUIRY
 COLLABORATION_EMAIL = SEND_READY_AUTHOR_SEND_APPROVAL_REQUIRED
