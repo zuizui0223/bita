@@ -126,11 +126,14 @@ claims. The next mandatory step is the read-only claim-transition planner:
 python scripts/plan_third_network_claim_transition.py \
   confirmatory_analysis_v1 \
   --source-dir frozen_confirmatory_inputs \
+  --existing-network-archive-dir access-routing-letter-data-code-v1/data_archive \
   --output third_network_claim_transition.json
 ~~~
 
-The planner requires a verified bundle plus rechecked frozen source inputs and
-applies the predeclared claim ceiling without selecting on sign or p-value.
+The planner requires a verified bundle, rechecked frozen third-network source
+inputs, and a second recheck of the exact frozen Letter archive for the first
+two networks. It then applies the predeclared claim ceiling without selecting on
+sign or p-value.
 
 Until real data exist:
 
