@@ -16,6 +16,7 @@ manuscript-update plan without editing the manuscript automatically.
 python scripts/plan_third_network_claim_transition.py \
   confirmatory_analysis_v1 \
   --source-dir frozen_confirmatory_inputs \
+  --existing-network-archive-dir access-routing-letter-data-code-v1/data_archive \
   --output third_network_claim_transition.json
 ~~~
 
@@ -23,13 +24,15 @@ The command requires:
 
 1. a completed confirmatory bundle;
 2. a passing full-bundle SHA256 verification;
-3. a recheck of the original frozen source inputs;
-4. production existing-network mode:
+3. a recheck of the original frozen third-network source inputs;
+4. a second recheck of the exact frozen Letter archive for the existing two networks,
+   requiring equality with the archive provenance recorded in the confirmatory receipt;
+5. production existing-network mode:
    `FROZEN_LETTER_ANALYSIS_ARCHIVE_V1`, validated against the exact frozen
    Letter analysis archive bytes and the canonical k=2 result;
-5. an exact 40-character repository commit;
-6. third-network confirmatory gate pass;
-7. joint network count exactly 3.
+6. an exact 40-character repository commit;
+7. third-network confirmatory gate pass;
+8. joint network count exactly 3.
 
 Synthetic/development bundles cannot enter the production claim lane.
 
