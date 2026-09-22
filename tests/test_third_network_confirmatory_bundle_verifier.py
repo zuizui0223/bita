@@ -108,3 +108,54 @@ def test_bundle_verifier_detects_tampered_analysis_receipt_via_bundle_checksum(t
     result = verify(output)
     assert result["status"] == "CONFIRMATORY_BUNDLE_INVALID"
     assert "bundle_checksum_mismatch:confirmatory_analysis_receipt.json" in result["failures"]
+
+
+
+def test_bundle_verifier_recomputes_existing_network_digests(tmp_path) -> None:
+    _fixture, output = _run_bundle(tmp_path)
+    result = verify(output)
+
+    assert result["status"] == VERIFIED_STATUS
+    checks = result["existing_network_checks"]
+    assert set(checks) == {"sakhalkar", "aubert_ephi"}
+    for entry in checks.values():
+        assert entry["exists"] is True
+        assert entry["is_list"] is True
+        assert entry["analysis_units_match"] is True
+        assert entry["stable_json_match"] is True
+        assert entry["file_sha256_match"] is True
+        assert entry["source_doi_match"] is True
+
+
+def test_bundle_verifier_detects_tampered_existing_network_input(tmp_path) -> None:
+    _fixture, output = _run_bundle(tmp_path)
+    path = output / "existing_network_sakhalkar_input.json"
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload[0]["tube_length"] = float(payload[0]["tube_length"]) + 1.0
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    result = verify(output)
+    assert result["status"] == "CONFIRMATORY_BUNDLE_INVALID"
+    assert "existing_network_stable_digest_mismatch:sakhalkar" in result["failures"]
+    assert "existing_network_file_digest_mismatch:sakhalkar" in result["failures"]
+
+
+def test_bundle_verifier_detects_missing_existing_network_input(tmp_path) -> None:
+    _fixture, output = _run_bundle(tmp_path)
+    (output / "existing_network_aubert_ephi_input.json").unlink()
+
+    result = verify(output)
+    assert result["status"] == "CONFIRMATORY_BUNDLE_INVALID"
+    assert "existing_network_file_missing:aubert_ephi" in result["failures"]
+
+
+def test_bundle_verifier_detects_existing_network_receipt_count_tampering(tmp_path) -> None:
+    _fixture, output = _run_bundle(tmp_path)
+    receipt_path = output / "confirmatory_analysis_receipt.json"
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    receipt["existing_network_inputs"]["aubert_ephi"]["analysis_units"] += 1
+    receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+
+    result = verify(output)
+    assert result["status"] == "CONFIRMATORY_BUNDLE_INVALID"
+    assert "existing_network_analysis_units_mismatch:aubert_ephi" in result["failures"]
