@@ -68,6 +68,7 @@ PROTOCOL_FILES = (
     "empirical/floral_defence_selectivity/THIRD_NETWORK_CONFIRMATORY_ANALYSIS_RUNNER_V1.md",
     "empirical/floral_defence_selectivity/THIRD_NETWORK_CLAIM_TRANSITION_GATE_V1.md",
     "empirical/floral_defence_selectivity/THIRD_NETWORK_RELEASE_REHEARSAL_V1.md",
+    "empirical/floral_defence_selectivity/EXISTING_K3_INPUT_FINGERPRINTS_V1.json",
     CODE_MANIFEST,
 )
 
