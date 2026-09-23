@@ -267,8 +267,53 @@ jobs:
           if-no-files-found: error
 
 
+  cross-version-fixture:
+    name: Freeze one cross-version synthetic input fixture
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package
+        run: python -m pip install -e '.[dev]'
+
+      - name: Generate one route-frozen input fixture
+        run: |
+          python scripts/run_third_network_synthetic_e2e.py \
+            --output-dir artifacts/fixture_source \
+            --permutations 19 \
+            --scenario positive
+
+          mkdir -p artifacts/frozen_fixture
+          for name in \
+            confirmatory_events.csv \
+            plant_traits.csv \
+            mammal_traits.csv \
+            camera_deployment.csv \
+            confirmatory_freeze.json \
+            field_readiness_receipt.json
+          do
+            cp "artifacts/fixture_source/$name" "artifacts/frozen_fixture/$name"
+          done
+
+          (
+            cd artifacts/frozen_fixture
+            sha256sum * | sort > FIXTURE_SHA256SUMS.txt
+          )
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: third-network-frozen-cross-version-fixture
+          path: artifacts/frozen_fixture
+          if-no-files-found: error
+
   cross-version-archive:
     name: Cross-version archive Python ${{ matrix.python-version }}
+    needs: cross-version-fixture
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -285,16 +330,46 @@ jobs:
       - name: Install package
         run: python -m pip install -e '.[dev]'
 
-      - name: Build one deterministic development archive
+      - uses: actions/download-artifact@v4
+        with:
+          name: third-network-frozen-cross-version-fixture
+          path: artifacts/frozen_fixture
+
+      - name: Recompute bundle from identical frozen input bytes
         run: |
-          python scripts/run_third_network_release_rehearsal.py \
-            --output-dir artifacts/cross_version_rehearsal \
-            --permutations 19 \
-            --scenario positive
+          python - <<'PY'
+          from pathlib import Path
+
+          from scripts.run_third_network_confirmatory_pipeline import run_with_network_inputs
+          from scripts.run_third_network_release_rehearsal import (
+              TEST_COMMIT,
+              TEST_INPUT_MODE,
+          )
+          from scripts.run_third_network_synthetic_e2e import (
+              _synthetic_aubert,
+              _synthetic_sakhalkar,
+          )
+
+          fixture = Path("artifacts/frozen_fixture")
+          run_with_network_inputs(
+              events_csv=fixture / "confirmatory_events.csv",
+              plant_traits_csv=fixture / "plant_traits.csv",
+              mammal_traits_csv=fixture / "mammal_traits.csv",
+              camera_deployment_csv=fixture / "camera_deployment.csv",
+              confirmatory_freeze_json=fixture / "confirmatory_freeze.json",
+              field_readiness_json=fixture / "field_readiness_receipt.json",
+              sakhalkar_points=_synthetic_sakhalkar(),
+              aubert_rows=_synthetic_aubert(),
+              output_dir=Path("artifacts/cross_version_bundle"),
+              repository_commit=TEST_COMMIT,
+              existing_network_input_mode=TEST_INPUT_MODE,
+              permutations=19,
+          )
+          PY
 
           python scripts/package_third_network_confirmatory_release.py \
-            artifacts/cross_version_rehearsal/confirmatory_bundle \
-            --source-dir artifacts/cross_version_rehearsal/synthetic_fixture \
+            artifacts/cross_version_bundle \
+            --source-dir artifacts/frozen_fixture \
             --output-dir artifacts/cross_version_release \
             --development-only \
             > artifacts/package_receipt.json
