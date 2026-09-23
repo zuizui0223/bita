@@ -449,10 +449,18 @@ def freeze_inputs(
         "field_readiness": Path(field_readiness_json),
     }
 
+    freeze_time_utc = str(freeze.get("freeze_time_utc", "")).strip()
+    if not freeze_time_utc:
+        raise ValueError("CONFIRMATORY_FREEZE_TIME_MISSING")
+    # Validate once, but preserve the exact preregistered timestamp bytes.
+    _parse_iso(freeze_time_utc, "confirmatory_freeze.freeze_time_utc")
+
     return {
         "receipt": RECEIPT,
         "status": READY_STATUS,
-        "frozen_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "frozen_at_utc": freeze_time_utc,
+        "freeze_time_source": "confirmatory_freeze_receipt",
+
         "files": {
             key: {
                 "filename": path.name,
