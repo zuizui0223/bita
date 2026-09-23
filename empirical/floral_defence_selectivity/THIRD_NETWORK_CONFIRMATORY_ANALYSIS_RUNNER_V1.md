@@ -92,6 +92,14 @@ It records:
 - `BUNDLE_SHA256SUMS.txt`, which hashes the completed receipt itself plus every
   other file in the final analysis directory.
 
+## Existing-network canonical fingerprint gate
+
+Production k=3 analysis does not trust the existing-network mode string or bundle self-consistency alone. Before any third-network result is computed, the exact Sakhalkar and Aubert/EPHI analysis rows are checked against:
+
+`empirical/floral_defence_selectivity/EXISTING_K3_INPUT_FINGERPRINTS_V1.json`
+
+The receipt freezes row count, source DOI and stable-content SHA256 for each existing network from a public-source rebuild. Production fails closed if either payload differs. Development/synthetic modes remain explicitly separate and cannot enter the production claim lane.
+
 ## Result-direction rule
 
 The runner contains no success gate on the sign or p-value of the third
