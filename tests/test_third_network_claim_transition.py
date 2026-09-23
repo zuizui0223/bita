@@ -8,6 +8,7 @@ from scripts.plan_third_network_claim_transition import (
     plan_claim_transition,
 )
 from scripts.verify_third_network_confirmatory_bundle import VERIFIED_STATUS
+from trait_architecture.existing_k3_inputs import MATCH_STATUS
 
 
 RETENTION = (
@@ -31,6 +32,15 @@ def _receipt(
         "status": "CONFIRMATORY_ANALYSIS_COMPLETE",
         "repository_commit": commit,
         "existing_network_input_mode": mode,
+        "canonical_existing_network_inputs": {
+            "status": (
+                MATCH_STATUS
+                if mode == PRODUCTION_INPUT_MODE
+                else "NOT_APPLICABLE_DEVELOPMENT_INPUT_MODE"
+            ),
+            "checks": {},
+            "failures": [],
+        },
         "third_network_retention_rule": RETENTION,
         "third_network": {
             "status": "CONFIRMATORY_GATE_PASS",
@@ -180,3 +190,17 @@ def test_claim_transition_preserves_k3_claim_ceiling() -> None:
     assert "between-network heterogeneity" in prohibited
     assert "population-level mean" in prohibited
     assert len(plan["required_update_targets"]) >= 5
+
+
+
+def test_claim_transition_requires_canonical_existing_network_match() -> None:
+    receipt = _receipt(
+        rho_t=0.2,
+        p_t=0.2,
+        concordance="3_of_3_positive",
+    )
+    receipt["canonical_existing_network_inputs"]["status"] = (
+        "CANONICAL_EXISTING_K3_INPUTS_MISMATCH"
+    )
+    with pytest.raises(ValueError, match="CANONICAL_EXISTING_K3_INPUTS_NOT_VERIFIED"):
+        _plan(receipt)
