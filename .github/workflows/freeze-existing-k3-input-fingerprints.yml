@@ -29,6 +29,7 @@ jobs:
 
       - name: Compute canonical fingerprints from frozen public sources
         run: |
+          mkdir -p artifacts
           python scripts/fingerprint_existing_k3_inputs.py \
             --output artifacts/existing_k3_input_fingerprints.json \
             | tee artifacts/existing_k3_input_fingerprints.log
