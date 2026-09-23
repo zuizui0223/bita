@@ -5,8 +5,8 @@ import pytest
 from scripts.fingerprint_existing_k3_inputs import fingerprint_rows
 from trait_architecture.existing_k3_inputs import (
     MATCH_STATUS,
+    canonical_stable_json_sha256,
     load_canonical_fingerprints,
-    stable_json_sha256,
     validate_existing_network_payloads,
 )
 
@@ -28,8 +28,8 @@ def test_existing_network_fingerprint_contract_is_content_sensitive() -> None:
     assert first["networks"]["sakhalkar"]["analysis_units"] == 1
     assert first["networks"]["aubert_ephi"]["analysis_units"] == 1
     assert (
-        first["networks"]["sakhalkar"]["stable_json_sha256"]
-        != second["networks"]["sakhalkar"]["stable_json_sha256"]
+        first["networks"]["sakhalkar"]["canonical_stable_json_sha256"]
+        != second["networks"]["sakhalkar"]["canonical_stable_json_sha256"]
     )
     assert first["networks"]["sakhalkar"]["source_doi"] == "10.5281/zenodo.8398202"
     assert first["networks"]["aubert_ephi"]["source_doi"] == "10.5281/zenodo.14185547"
@@ -43,12 +43,12 @@ def _ready_receipt(sakh, aubert):
         "networks": {
             "sakhalkar": {
                 "analysis_units": len(sakh),
-                "stable_json_sha256": stable_json_sha256(sakh),
+                "canonical_stable_json_sha256": canonical_stable_json_sha256("sakhalkar", sakh),
                 "source_doi": "10.5281/zenodo.8398202",
             },
             "aubert_ephi": {
                 "analysis_units": len(aubert),
-                "stable_json_sha256": stable_json_sha256(aubert),
+                "canonical_stable_json_sha256": canonical_stable_json_sha256("aubert_ephi", aubert),
                 "source_doi": "10.5281/zenodo.14185547",
             },
         },
@@ -86,6 +86,8 @@ def test_canonical_validator_accepts_only_exact_frozen_payloads(tmp_path) -> Non
     assert "canonical_stable_digest_mismatch:sakhalkar" in result["failures"]
 
 
-def test_placeholder_canonical_receipt_is_fail_closed() -> None:
-    with pytest.raises(ValueError, match="EXISTING_K3_FINGERPRINTS_NOT_FROZEN"):
-        load_canonical_fingerprints()
+def test_committed_canonical_receipt_is_frozen_and_well_formed() -> None:
+    receipt = load_canonical_fingerprints()
+    assert receipt["status"] == "CANONICAL_PUBLIC_INPUTS_FROZEN"
+    assert receipt["networks"]["sakhalkar"]["analysis_units"] == 57
+    assert receipt["networks"]["aubert_ephi"]["analysis_units"] == 1378
