@@ -91,6 +91,18 @@ def test_committed_canonical_receipt_is_frozen_and_well_formed() -> None:
     assert receipt["status"] == "CANONICAL_PUBLIC_INPUTS_FROZEN"
     assert receipt["networks"]["sakhalkar"]["analysis_units"] == 57
     assert receipt["networks"]["aubert_ephi"]["analysis_units"] == 1378
+    assert (
+        receipt["source_file_integrity"]["sakhalkar"][
+            "SaileeSakhalkar/cheaters-among-pollinators-ecosphere-v1.0.0.zip"
+        ]["md5"]
+        == "c2f722804372c2011a5f60f3afcf8084"
+    )
+    assert (
+        receipt["source_file_integrity"]["aubert_ephi"][
+            "Interactions_data_Ecuador.txt"
+        ]["md5"]
+        == "19cf81367979dd8676fc35713859d638"
+    )
 
 
 
