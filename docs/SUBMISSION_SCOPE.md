@@ -102,6 +102,8 @@ The active lane is now one prospective **non-flying-mammal × Protea** network:
 - `scripts/build_third_access_routing_units.py`
 - `scripts/analyze_third_access_routing_network.py`
 - `scripts/analyze_joint_access_routing_k3.py`
+- `empirical/floral_defence_selectivity/EXISTING_K3_INPUT_FINGERPRINTS_V1.json`
+- `trait_architecture/existing_k3_inputs.py`
 - `scripts/run_third_network_confirmatory_pipeline.py`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_CONFIRMATORY_ANALYSIS_RUNNER_V1.md`
 - `scripts/run_third_network_synthetic_e2e.py`
@@ -163,7 +165,7 @@ CONFIRMATORY_RELEASE_PACKAGE = IMPLEMENTED_DETERMINISTIC_OFFLINE_REPLAY
 CROSS_PYTHON_ARCHIVE_DETERMINISM = VERIFIED_BYTE_IDENTICAL_3_10_3_11_3_12
 CONFIRMATORY_RUNNER = IMPLEMENTED_ONE_COMMAND_TRANSACTIONAL_COMMIT_BOUND
 CONFIRMATORY_BUNDLE_VERIFIER = IMPLEMENTED_READ_ONLY_SHA256
-EXISTING_NETWORK_K3_INPUTS = BUNDLED_EXACT_ROWS_AND_REVERIFIED
+EXISTING_NETWORK_K3_INPUTS = BUNDLED_EXACT_ROWS_REVERIFIED_AND_CANONICAL_FINGERPRINT_LOCKED
 CLAIM_TRANSITION_GATE = IMPLEMENTED_RETAINED_RESULT_NO_PVALUE_SELECTION
 REAL_THIRD_NETWORK_DATA = NOT_COLLECTED
 NEXT_EXTERNAL_ACTION = OUTCOME_BLIND_CAPE_COLLABORATION_INQUIRY
