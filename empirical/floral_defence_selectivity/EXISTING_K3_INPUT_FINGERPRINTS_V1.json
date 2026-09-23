@@ -30,5 +30,26 @@
       "aubert_ephi_pair_site_analysis.csv"
     ]
   },
-  "claim": "These fingerprints identify the exact existing-network scientific inputs used for future k=3 integration. They are provenance only and do not change the current k=2 biological result."
+  "claim": "These fingerprints identify the exact existing-network scientific inputs used for future k=3 integration. The source-file MD5 values are Zenodo-published integrity receipts, not security hashes. This provenance does not change the current k=2 biological result.",
+  "source_file_integrity": {
+    "sakhalkar": {
+      "SaileeSakhalkar/cheaters-among-pollinators-ecosphere-v1.0.0.zip": {
+        "md5": "c2f722804372c2011a5f60f3afcf8084"
+      }
+    },
+    "aubert_ephi": {
+      "Interactions_data_Ecuador.txt": {
+        "md5": "19cf81367979dd8676fc35713859d638"
+      },
+      "Cameras_data_Ecuador.txt": {
+        "md5": "671a82aaafd4db2d31a632d9c3b9e376"
+      },
+      "Plant_traits.txt": {
+        "md5": "97b6407b092fc113c90203b96c422d69"
+      },
+      "Hummingbird_traits.txt": {
+        "md5": "f559e8ef21d6bd68a0ca0e11ff882f46"
+      }
+    }
+  }
 }
