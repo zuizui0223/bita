@@ -1,0 +1,23 @@
+{
+  "receipt": "BITA_EXISTING_K3_INPUT_FINGERPRINTS_V1",
+  "status": "CANONICAL_PUBLIC_INPUTS_PENDING_FREEZE",
+  "networks": {
+    "sakhalkar": {
+      "analysis_units": 57,
+      "stable_json_sha256": "REQUIRED_BEFORE_MERGE",
+      "source_doi": "10.5281/zenodo.8398202"
+    },
+    "aubert_ephi": {
+      "analysis_units": 1378,
+      "stable_json_sha256": "REQUIRED_BEFORE_MERGE",
+      "source_doi": "10.5281/zenodo.14185547"
+    }
+  },
+  "serialization": {
+    "json_sort_keys": true,
+    "json_separators": [",", ":"],
+    "ensure_ascii": false,
+    "allow_nan": false
+  },
+  "claim": "Exact canonical fingerprints must be inserted from the public-source rebuild workflow before this branch can merge."
+}
