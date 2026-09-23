@@ -14,6 +14,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 import re
 import shutil
@@ -53,10 +54,41 @@ def _sha256(path: str | Path) -> str:
     return digest.hexdigest()
 
 
-def _write_json(path: Path, payload: object) -> None:
+def _canonicalize_generated_floats(value: object) -> object:
+    """Remove runtime-only final-bit float differences from generated receipts.
+
+    Source/analysis input rows are deliberately not passed through this helper.
+    Fifteen significant digits preserve far more precision than any manuscript
+    claim while making generated scientific JSON stable across supported Python
+    runtimes.
+    """
+    if isinstance(value, float):
+        if not math.isfinite(value):
+            raise ValueError("generated JSON contains non-finite float")
+        return float(format(value, ".15g"))
+    if isinstance(value, dict):
+        return {key: _canonicalize_generated_floats(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_canonicalize_generated_floats(item) for item in value]
+    if isinstance(value, tuple):
+        return [_canonicalize_generated_floats(item) for item in value]
+    return value
+
+
+def _write_json(
+    path: Path,
+    payload: object,
+    *,
+    canonical_generated_floats: bool = False,
+) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
+    serializable = (
+        _canonicalize_generated_floats(payload)
+        if canonical_generated_floats
+        else payload
+    )
     path.write_text(
-        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        json.dumps(serializable, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
 
@@ -201,8 +233,14 @@ def run_with_network_inputs(
             permutations=permutations,
             seed=third_seed,
         )
-        _write_json(third_json, third_result)
+        third_result = _canonicalize_generated_floats(third_result)
+        _write_json(
+            third_json,
+            third_result,
+            canonical_generated_floats=True,
+        )
 
+        # Exact existing-network analysis rows remain unrounded inputs.
         _write_json(sakhalkar_input_json, sakhalkar_points)
         _write_json(aubert_input_json, aubert_rows)
 
@@ -213,7 +251,12 @@ def run_with_network_inputs(
             permutations=permutations,
             seed=k3_seed,
         )
-        _write_json(joint_json, joint_result)
+        joint_result = _canonicalize_generated_floats(joint_result)
+        _write_json(
+            joint_json,
+            joint_result,
+            canonical_generated_floats=True,
+        )
 
         third_rho = float(third_result["effect"]["rho_site_adjusted_rank"])
         receipt = {
@@ -283,7 +326,12 @@ def run_with_network_inputs(
                 "unfavorable third-network result."
             ),
         }
-        _write_json(receipt_json, receipt)
+        receipt = _canonicalize_generated_floats(receipt)
+        _write_json(
+            receipt_json,
+            receipt,
+            canonical_generated_floats=True,
+        )
         _write_bundle_checksums(root)
         root.replace(final_root)
         return receipt
