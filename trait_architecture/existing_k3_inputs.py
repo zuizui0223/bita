@@ -12,6 +12,9 @@ RECEIPT_PATH = (
     / "EXISTING_K3_INPUT_FINGERPRINTS_V1.json"
 )
 READY_STATUS = "CANONICAL_PUBLIC_INPUTS_FROZEN"
+MATCH_STATUS = "CANONICAL_EXISTING_K3_INPUTS_MATCH"
+MISMATCH_STATUS = "CANONICAL_EXISTING_K3_INPUTS_MISMATCH"
+PRODUCTION_INPUT_MODE = "PUBLIC_EXISTING_NETWORKS_FIXED_DOI_REBUILD"
 PLACEHOLDER = "REQUIRED_BEFORE_MERGE"
 
 
@@ -93,7 +96,7 @@ def validate_existing_network_payloads(
             failures.append(f"canonical_stable_digest_mismatch:{key}")
 
     return {
-        "status": "CANONICAL_EXISTING_K3_INPUTS_MATCH" if not failures else "CANONICAL_EXISTING_K3_INPUTS_MISMATCH",
+        "status": MATCH_STATUS if not failures else MISMATCH_STATUS,
         "checks": checks,
         "failures": failures,
     }
