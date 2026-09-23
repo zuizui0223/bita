@@ -85,6 +85,7 @@ jobs:
       - name: Run focused contracts
         run: |
           pytest -q \
+            tests/test_generated_output_serialization.py \
             tests/test_third_network_confirmatory_freeze.py \
             tests/test_third_network_route_blind_presurvey.py \
             tests/test_third_network_field_readiness.py \
