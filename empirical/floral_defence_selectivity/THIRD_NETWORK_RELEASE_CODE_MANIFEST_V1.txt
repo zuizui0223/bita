@@ -11,3 +11,4 @@ scripts/reproduce_third_network_confirmatory_release.py
 scripts/package_third_network_confirmatory_release.py
 trait_architecture/__init__.py
 trait_architecture/numerics.py
+trait_architecture/serialization.py
