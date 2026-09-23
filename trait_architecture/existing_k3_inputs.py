@@ -1,4 +1,12 @@
-"""Canonical fingerprints for the two existing networks entering k=3."""
+"""Canonical fingerprints for the two existing networks entering k=3.
+
+The fingerprint deliberately removes representation-only degrees of freedom:
+- Sakhalkar rows are sorted by their scientific fields;
+- Aubert/EPHI site labels are deterministically relabelled while preserving the
+  exact site partition, then rows are sorted by all scientific fields.
+
+No numerical value used by the k=3 calculation is rounded or quantized.
+"""
 from __future__ import annotations
 
 import hashlib
@@ -15,10 +23,9 @@ READY_STATUS = "CANONICAL_PUBLIC_INPUTS_FROZEN"
 MATCH_STATUS = "CANONICAL_EXISTING_K3_INPUTS_MATCH"
 MISMATCH_STATUS = "CANONICAL_EXISTING_K3_INPUTS_MISMATCH"
 PRODUCTION_INPUT_MODE = "PUBLIC_EXISTING_NETWORKS_FIXED_DOI_REBUILD"
-PLACEHOLDER = "REQUIRED_BEFORE_MERGE"
 
 
-def stable_json_sha256(payload: object) -> str:
+def _stable_json_sha256(payload: object) -> str:
     encoded = json.dumps(
         payload,
         sort_keys=True,
@@ -27,6 +34,103 @@ def stable_json_sha256(payload: object) -> str:
         allow_nan=False,
     ).encode("utf-8")
     return hashlib.sha256(encoded).hexdigest()
+
+
+def _finite_float(value: object, label: str) -> float:
+    number = float(value)
+    if number != number or number in {float("inf"), float("-inf")}:
+        raise ValueError(f"{label} must be finite")
+    return number
+
+
+def canonicalize_sakhalkar(
+    rows: list[dict[str, object]],
+) -> list[dict[str, object]]:
+    out: list[dict[str, object]] = []
+    for row in rows:
+        tube = _finite_float(row["tube_length"], "tube_length")
+        balance = _finite_float(row["balance"], "balance")
+        route_class = str(row.get("route_class", "")).strip()
+        if route_class not in {"robber_only", "thief_only", "mixed"}:
+            raise ValueError("invalid Sakhalkar route_class")
+        out.append(
+            {
+                "tube_length": tube,
+                "balance": balance,
+                "route_class": route_class,
+            }
+        )
+    return sorted(
+        out,
+        key=lambda row: (
+            float(row["tube_length"]),
+            float(row["balance"]),
+            str(row["route_class"]),
+        ),
+    )
+
+
+def canonicalize_aubert(
+    rows: list[dict[str, object]],
+) -> list[dict[str, object]]:
+    sites = sorted({str(row["site"]).strip() for row in rows})
+    if not sites or any(not site for site in sites):
+        raise ValueError("Aubert site labels must be nonblank")
+    site_map = {
+        site: f"site_{index:02d}"
+        for index, site in enumerate(sites, start=1)
+    }
+
+    out: list[dict[str, object]] = []
+    for row in rows:
+        site = str(row["site"]).strip()
+        bird_group = str(row["bird_group"]).strip()
+        n_interactions = int(row["n_interactions"])
+        robbery_rate = _finite_float(row["robbery_rate"], "robbery_rate")
+        mismatch = _finite_float(
+            row["mismatch_log_t_over_b"],
+            "mismatch_log_t_over_b",
+        )
+        barrier = bool(row["trait_barrier"])
+        if n_interactions <= 0:
+            raise ValueError("n_interactions must be positive")
+        if not bird_group:
+            raise ValueError("bird_group must be nonblank")
+        out.append(
+            {
+                "site": site_map[site],
+                "bird_group": bird_group,
+                "n_interactions": n_interactions,
+                "robbery_rate": robbery_rate,
+                "mismatch_log_t_over_b": mismatch,
+                "trait_barrier": barrier,
+            }
+        )
+
+    return sorted(
+        out,
+        key=lambda row: (
+            str(row["site"]),
+            str(row["bird_group"]),
+            int(row["n_interactions"]),
+            float(row["robbery_rate"]),
+            float(row["mismatch_log_t_over_b"]),
+            bool(row["trait_barrier"]),
+        ),
+    )
+
+
+def canonical_stable_json_sha256(
+    network: str,
+    rows: list[dict[str, object]],
+) -> str:
+    if network == "sakhalkar":
+        payload = canonicalize_sakhalkar(rows)
+    elif network == "aubert_ephi":
+        payload = canonicalize_aubert(rows)
+    else:
+        raise ValueError(f"unknown existing network: {network}")
+    return _stable_json_sha256(payload)
 
 
 def load_canonical_fingerprints(path: str | Path = RECEIPT_PATH) -> dict[str, object]:
@@ -44,8 +148,8 @@ def load_canonical_fingerprints(path: str | Path = RECEIPT_PATH) -> dict[str, ob
         entry = networks.get(key)
         if not isinstance(entry, dict):
             raise ValueError(f"EXISTING_K3_FINGERPRINT_ENTRY_MISSING:{key}")
-        digest = str(entry.get("stable_json_sha256", "")).strip().lower()
-        if digest == PLACEHOLDER or len(digest) != 64:
+        digest = str(entry.get("canonical_stable_json_sha256", "")).strip().lower()
+        if len(digest) != 64:
             raise ValueError(f"EXISTING_K3_FINGERPRINT_INVALID:{key}")
         try:
             int(digest, 16)
@@ -77,17 +181,19 @@ def validate_existing_network_payloads(
 
     for key, payload in payloads.items():
         expected = receipt["networks"][key]
-        digest = stable_json_sha256(payload)
+        digest = canonical_stable_json_sha256(key, payload)
         units = len(payload)
-        digest_match = digest == expected["stable_json_sha256"]
+        digest_match = digest == expected["canonical_stable_json_sha256"]
         units_match = units == expected["analysis_units"]
         checks[key] = {
             "analysis_units": units,
             "expected_analysis_units": expected["analysis_units"],
             "analysis_units_match": units_match,
-            "stable_json_sha256": digest,
-            "expected_stable_json_sha256": expected["stable_json_sha256"],
-            "stable_json_match": digest_match,
+            "canonical_stable_json_sha256": digest,
+            "expected_canonical_stable_json_sha256": expected[
+                "canonical_stable_json_sha256"
+            ],
+            "canonical_stable_json_match": digest_match,
             "source_doi": expected["source_doi"],
         }
         if not units_match:
