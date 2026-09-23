@@ -43,12 +43,23 @@ jobs:
           p = Path("artifacts/existing_k3_input_fingerprints.json")
           receipt = json.loads(p.read_text())
           assert receipt["receipt"] == "BITA_EXISTING_K3_INPUT_FINGERPRINTS_V1"
+          frozen = json.loads(
+              Path(
+                  "empirical/floral_defence_selectivity/"
+                  "EXISTING_K3_INPUT_FINGERPRINTS_V1.json"
+              ).read_text()
+          )
           for key in ("sakhalkar", "aubert_ephi"):
               entry = receipt["networks"][key]
-              assert entry["analysis_units"] > 0
-              assert len(entry["stable_json_sha256"]) == 64
-              int(entry["stable_json_sha256"], 16)
+              expected = frozen["networks"][key]
+              assert entry["analysis_units"] == expected["analysis_units"]
+              assert (
+                  entry["canonical_stable_json_sha256"]
+                  == expected["canonical_stable_json_sha256"]
+              )
+              assert entry["source_doi"] == expected["source_doi"]
           print(json.dumps(receipt, indent=2, sort_keys=True))
+          print("Canonical existing-network fingerprints match frozen receipt")
           PY
 
       - uses: actions/upload-artifact@v4
