@@ -77,6 +77,7 @@ def verify(
     bundle_dir: str | Path,
     *,
     source_dir: str | Path | None = None,
+    canonical_fingerprint_path: str | Path | None = None,
 ) -> dict[str, object]:
     root = Path(bundle_dir)
     receipt_path = root / "confirmatory_analysis_receipt.json"
@@ -310,6 +311,11 @@ def verify(
                 canonical = validate_existing_network_payloads(
                     sakh_payload,
                     aubert_payload,
+                    **(
+                        {"receipt_path": canonical_fingerprint_path}
+                        if canonical_fingerprint_path is not None
+                        else {}
+                    ),
                 )
                 canonical_existing_status = str(canonical["status"])
                 canonical_existing_checks = dict(canonical["checks"])
@@ -397,10 +403,15 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("bundle_dir")
     parser.add_argument("--source-dir")
+    parser.add_argument("--canonical-fingerprint-path")
     parser.add_argument("--output")
     args = parser.parse_args()
 
-    result = verify(args.bundle_dir, source_dir=args.source_dir)
+    result = verify(
+        args.bundle_dir,
+        source_dir=args.source_dir,
+        canonical_fingerprint_path=args.canonical_fingerprint_path,
+    )
     payload = json.dumps(result, indent=2, sort_keys=True) + "\n"
     if args.output:
         path = Path(args.output)
