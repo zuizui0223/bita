@@ -15,7 +15,17 @@ import argparse
 import hashlib
 import json
 import math
+import sys
 from pathlib import Path
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from trait_architecture.existing_k3_inputs import (
+    MATCH_STATUS as CANONICAL_EXISTING_INPUTS_MATCH,
+    PRODUCTION_INPUT_MODE,
+    validate_existing_network_payloads,
+)
 
 RECEIPT_TYPE = "BITA_THIRD_NETWORK_CONFIRMATORY_ANALYSIS_V1"
 COMPLETE_STATUS = "CONFIRMATORY_ANALYSIS_COMPLETE"
@@ -285,6 +295,51 @@ def verify(
         if not doi_match:
             failures.append(f"existing_network_source_doi_mismatch:{key}")
 
+    mode = str(receipt.get("existing_network_input_mode", "")).strip()
+    receipt_canonical = receipt.get("canonical_existing_network_inputs", {})
+    canonical_existing_status = "NOT_APPLICABLE_DEVELOPMENT_INPUT_MODE"
+    canonical_existing_checks: dict[str, object] = {}
+
+    if mode == PRODUCTION_INPUT_MODE:
+        sakh_path = root / "existing_network_sakhalkar_input.json"
+        aubert_path = root / "existing_network_aubert_ephi_input.json"
+        if sakh_path.is_file() and aubert_path.is_file():
+            sakh_payload = _load_json(sakh_path)
+            aubert_payload = _load_json(aubert_path)
+            if isinstance(sakh_payload, list) and isinstance(aubert_payload, list):
+                canonical = validate_existing_network_payloads(
+                    sakh_payload,
+                    aubert_payload,
+                )
+                canonical_existing_status = str(canonical["status"])
+                canonical_existing_checks = dict(canonical["checks"])
+                if canonical_existing_status != CANONICAL_EXISTING_INPUTS_MATCH:
+                    failures.extend(
+                        f"canonical_existing_input:{failure}"
+                        for failure in canonical.get("failures", [])
+                    )
+            else:
+                canonical_existing_status = "CANONICAL_EXISTING_K3_INPUTS_MISMATCH"
+                failures.append("canonical_existing_input_payload_invalid")
+        else:
+            canonical_existing_status = "CANONICAL_EXISTING_K3_INPUTS_MISMATCH"
+            failures.append("canonical_existing_input_file_missing")
+
+        if not isinstance(receipt_canonical, dict):
+            failures.append("canonical_existing_input_receipt_missing")
+        elif receipt_canonical.get("status") != CANONICAL_EXISTING_INPUTS_MATCH:
+            failures.append("canonical_existing_input_receipt_not_match")
+        elif receipt_canonical.get("checks") != canonical_existing_checks:
+            failures.append("canonical_existing_input_receipt_checks_mismatch")
+    else:
+        if isinstance(receipt_canonical, dict):
+            receipt_status = str(receipt_canonical.get("status", ""))
+            if receipt_status not in {
+                "",
+                "NOT_APPLICABLE_DEVELOPMENT_INPUT_MODE",
+            }:
+                failures.append("development_bundle_claims_canonical_existing_inputs")
+
     source_checks: dict[str, dict[str, object]] = {}
     source_mode = "SOURCE_INPUTS_NOT_RECHECKED"
     if source_dir is not None:
@@ -326,6 +381,8 @@ def verify(
         "repository_commit": receipt.get("repository_commit"),
         "output_checks": output_checks,
         "existing_network_checks": existing_network_checks,
+        "canonical_existing_inputs_status": canonical_existing_status,
+        "canonical_existing_inputs_checks": canonical_existing_checks,
         "source_recheck_mode": source_mode,
         "source_checks": source_checks,
         "failures": failures,
