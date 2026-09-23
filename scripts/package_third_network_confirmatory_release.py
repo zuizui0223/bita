@@ -11,8 +11,9 @@ The resulting directory and ZIP contain:
 - the minimal code needed for offline scientific replay;
 - complete per-file SHA256 receipts.
 
-The ZIP uses sorted paths and fixed member metadata so identical frozen inputs
-and repository code produce identical ZIP bytes regardless of output directory.
+The ZIP uses sorted paths, fixed member metadata and ZIP_STORED members so
+identical frozen inputs and repository code produce identical ZIP bytes without
+depending on zlib compression behavior.
 """
 from __future__ import annotations
 
@@ -272,12 +273,12 @@ def _write_checksums(root: Path) -> Path:
 
 
 def _deterministic_zip(root: Path, output_zip: Path) -> None:
+    """Write a byte-stable ZIP without compression-library dependence."""
     fixed_time = (1980, 1, 1, 0, 0, 0)
     with zipfile.ZipFile(
         output_zip,
         "w",
-        compression=zipfile.ZIP_DEFLATED,
-        compresslevel=9,
+        compression=zipfile.ZIP_STORED,
     ) as archive:
         for path in sorted(root.rglob("*"), key=lambda p: p.relative_to(root).as_posix()):
             if not path.is_file():
@@ -286,8 +287,8 @@ def _deterministic_zip(root: Path, output_zip: Path) -> None:
             info = zipfile.ZipInfo(rel, date_time=fixed_time)
             info.create_system = 3
             info.external_attr = (0o100644 & 0xFFFF) << 16
-            info.compress_type = zipfile.ZIP_DEFLATED
-            archive.writestr(info, path.read_bytes(), compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
+            info.compress_type = zipfile.ZIP_STORED
+            archive.writestr(info, path.read_bytes(), compress_type=zipfile.ZIP_STORED)
 
 
 def package_release(
@@ -386,6 +387,12 @@ def package_release(
             "repository_commit": repository_commit,
             "existing_network_input_mode": mode,
             "network_count": 3,
+            "archive_zip_method": "ZIP_STORED",
+            "archive_member_order": "LEXICOGRAPHIC_RELATIVE_PATH",
+            "archive_member_timestamp": "1980-01-01T00:00:00",
+            "archive_byte_determinism_contract": (
+                "Identical package files produce identical ZIP bytes without zlib compression."
+            ),
             "third_network_direction": claim_plan["third_network_direction"],
             "claim_state": claim_plan["claim_state"],
             "third_network_must_be_retained": claim_plan[
