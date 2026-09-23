@@ -41,6 +41,9 @@ from scripts.verify_third_network_confirmatory_bundle import (
     VERIFIED_STATUS,
     verify,
 )
+from trait_architecture.existing_k3_inputs import (
+    MATCH_STATUS as CANONICAL_EXISTING_INPUTS_MATCH,
+)
 
 RECEIPT = "BITA_THIRD_NETWORK_CONFIRMATORY_RELEASE_PACKAGE_V1"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
@@ -330,6 +333,8 @@ def package_release(
             raise ValueError(
                 f"PRODUCTION_RELEASE_COMMIT_MISMATCH: receipt={repository_commit} current={current}"
             )
+        if verification.get("canonical_existing_inputs_status") != CANONICAL_EXISTING_INPUTS_MATCH:
+            raise ValueError("CANONICAL_EXISTING_K3_INPUTS_NOT_VERIFIED")
 
     claim_plan = plan_claim_transition(
         receipt,
@@ -407,6 +412,12 @@ def package_release(
                 "bundle_checksum_manifest_sha256"
             ],
             "existing_network_inputs_verified": existing_verified,
+            "canonical_existing_inputs_status": verification.get(
+                "canonical_existing_inputs_status"
+            ),
+            "canonical_existing_inputs_checks": verification.get(
+                "canonical_existing_inputs_checks"
+            ),
             "frozen_inputs": frozen_inputs,
             "code_files": code_hashes,
             "protocol_files": protocol_hashes,
