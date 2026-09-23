@@ -386,6 +386,32 @@ jobs:
           )
           PY
 
+      - name: Replay the exact packaged ZIP using only archived code
+        run: |
+          python -m zipfile -e \
+            artifacts/cross_version_release.zip \
+            artifacts/cross_version_extracted
+
+          PYTHONPATH=artifacts/cross_version_extracted/code \
+            python artifacts/cross_version_extracted/code/scripts/reproduce_third_network_confirmatory_release.py \
+              artifacts/cross_version_extracted \
+              --output artifacts/cross_version_replay.json
+
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          path = Path("artifacts/cross_version_replay.json")
+          replay = json.loads(path.read_text(encoding="utf-8"))
+          assert replay["status"] == "REPRODUCTION_MATCH"
+          digest = hashlib.sha256(path.read_bytes()).hexdigest()
+          Path("artifacts/replay-digest-${{ matrix.python-version }}.txt").write_text(
+              digest + "\n",
+              encoding="utf-8",
+          )
+          PY
+
       - name: Export cross-version diagnostics
         run: |
           mkdir -p "artifacts/cross_version_diagnostics/${{ matrix.python-version }}"
@@ -401,6 +427,10 @@ jobs:
             "artifacts/cross_version_diagnostics/${{ matrix.python-version }}/"
           cp artifacts/cross_version_release/confirmatory_bundle/confirmatory_analysis_receipt.json \
             "artifacts/cross_version_diagnostics/${{ matrix.python-version }}/"
+          cp artifacts/cross_version_replay.json \
+            "artifacts/cross_version_diagnostics/${{ matrix.python-version }}/"
+          cp "artifacts/replay-digest-${{ matrix.python-version }}.txt" \
+            "artifacts/cross_version_diagnostics/${{ matrix.python-version }}/"
 
       - uses: actions/upload-artifact@v4
         with:
@@ -409,7 +439,7 @@ jobs:
           if-no-files-found: error
 
   compare-cross-version-archive:
-    name: Compare cross-version archive digests
+    name: Compare cross-version archive and replay digests
     needs: cross-version-archive
     runs-on: ubuntu-latest
     steps:
@@ -419,7 +449,7 @@ jobs:
           path: artifacts/digests
           merge-multiple: false
 
-      - name: Require byte-identical ZIP across Python 3.10-3.12
+      - name: Require byte-identical ZIP and replay across Python 3.10-3.12
         run: |
           python - <<'PY'
           import json
@@ -437,6 +467,20 @@ jobs:
               for version, root in roots.items()
           }
           assert all(len(value) == 64 for value in digests.values()), digests
+
+          replay_digests = {
+              version: (root / f"replay-digest-{version}.txt").read_text(encoding="utf-8").strip()
+              for version, root in roots.items()
+          }
+          assert all(len(value) == 64 for value in replay_digests.values()), replay_digests
+
+          replay_status = {
+              version: json.loads(
+                  (root / "cross_version_replay.json").read_text(encoding="utf-8")
+              )["status"]
+              for version, root in roots.items()
+          }
+          assert set(replay_status.values()) == {"REPRODUCTION_MATCH"}, replay_status
 
           checksum_maps = {}
           for version, root in roots.items():
@@ -496,11 +540,18 @@ jobs:
                   json_diffs[relpath] = json_leaf_diffs(relpath)
 
           byte_identical = len(set(digests.values())) == 1
+          replay_byte_identical = len(set(replay_digests.values())) == 1
           receipt = {
               "receipt": "BITA_THIRD_NETWORK_CROSS_VERSION_ARCHIVE_V1",
-              "status": "BYTE_IDENTICAL" if byte_identical else "CONTENT_DIFF_DETECTED",
+              "status": (
+                  "BYTE_IDENTICAL_AND_REPLAY_MATCH"
+                  if byte_identical and replay_byte_identical
+                  else "CONTENT_OR_REPLAY_DIFF_DETECTED"
+              ),
               "python_versions": ["3.10", "3.11", "3.12"],
               "zip_sha256_by_python": digests,
+              "offline_replay_status_by_python": replay_status,
+              "offline_replay_sha256_by_python": replay_digests,
               "changed_files": changed_files,
               "json_leaf_differences": json_diffs,
               "archive_zip_method": "ZIP_STORED",
@@ -512,7 +563,7 @@ jobs:
               encoding="utf-8",
           )
           print(json.dumps(receipt, indent=2, sort_keys=True))
-          if not byte_identical:
+          if not byte_identical or not replay_byte_identical:
               raise SystemExit(2)
           PY
 
