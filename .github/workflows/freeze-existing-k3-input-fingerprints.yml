@@ -58,6 +58,7 @@ jobs:
                   == expected["canonical_stable_json_sha256"]
               )
               assert entry["source_doi"] == expected["source_doi"]
+          assert receipt["source_file_integrity"] == frozen["source_file_integrity"]
           print(json.dumps(receipt, indent=2, sort_keys=True))
           print("Canonical existing-network fingerprints match frozen receipt")
           PY
