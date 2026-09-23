@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import zipfile
 
 import pytest
 
@@ -46,6 +47,29 @@ def test_development_release_package_replays_offline(tmp_path) -> None:
     assert (output / "claim_transition_plan.json").is_file()
     assert (output / "code" / "scripts" / "reproduce_third_network_confirmatory_release.py").is_file()
     assert (output / "frozen_inputs" / "confirmatory_events.csv").is_file()
+
+
+def test_release_zip_uses_stored_members_for_cross_environment_stability(tmp_path) -> None:
+    rehearsal = _rehearsal(tmp_path, "positive")
+    output = tmp_path / "stored_release"
+
+    receipt = package_release(
+        bundle_dir=rehearsal / "confirmatory_bundle",
+        source_dir=rehearsal / "synthetic_fixture",
+        output_dir=output,
+        development_only=True,
+    )
+
+    manifest = json.loads((output / "release_manifest.json").read_text(encoding="utf-8"))
+    assert manifest["archive_zip_method"] == "ZIP_STORED"
+    assert "without zlib compression" in manifest["archive_byte_determinism_contract"]
+    assert receipt["archive_zip_method"] == "ZIP_STORED"
+
+    with zipfile.ZipFile(tmp_path / "stored_release.zip") as archive:
+        infos = archive.infolist()
+        assert infos
+        assert all(info.compress_type == zipfile.ZIP_STORED for info in infos)
+        assert all(info.date_time == (1980, 1, 1, 0, 0, 0) for info in infos)
 
 
 def test_release_zip_is_deterministic_across_output_locations(tmp_path) -> None:

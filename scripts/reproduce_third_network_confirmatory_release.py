@@ -29,6 +29,7 @@ from scripts.verify_third_network_confirmatory_bundle import (
     VERIFIED_STATUS,
     verify,
 )
+from trait_architecture.serialization import canonicalize_generated_floats
 
 RECEIPT = "BITA_THIRD_NETWORK_RELEASE_REPRODUCTION_V1"
 
@@ -108,10 +109,12 @@ def reproduce(release_dir: str | Path) -> dict[str, object]:
         )
 
         third_rows = load_analysis_units(units_csv)
-        replay_third = summarize_third_network(
-            third_rows,
-            permutations=third_permutations,
-            seed=third_seed,
+        replay_third = canonicalize_generated_floats(
+            summarize_third_network(
+                third_rows,
+                permutations=third_permutations,
+                seed=third_seed,
+            )
         )
 
         sakhalkar = _load(bundle / "existing_network_sakhalkar_input.json")
@@ -119,12 +122,14 @@ def reproduce(release_dir: str | Path) -> dict[str, object]:
         if not isinstance(sakhalkar, list) or not isinstance(aubert, list):
             raise ValueError("PACKAGED_EXISTING_NETWORK_INPUT_INVALID")
 
-        replay_joint = summarize_joint_k3(
-            sakhalkar,
-            aubert,
-            third_rows,
-            permutations=joint_permutations,
-            seed=joint_seed,
+        replay_joint = canonicalize_generated_floats(
+            summarize_joint_k3(
+                sakhalkar,
+                aubert,
+                third_rows,
+                permutations=joint_permutations,
+                seed=joint_seed,
+            )
         )
 
     original_third_effect = original_third.get("effect", {})

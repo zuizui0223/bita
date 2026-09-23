@@ -85,6 +85,7 @@ jobs:
       - name: Run focused contracts
         run: |
           pytest -q \
+            tests/test_generated_output_serialization.py \
             tests/test_third_network_confirmatory_freeze.py \
             tests/test_third_network_route_blind_presurvey.py \
             tests/test_third_network_field_readiness.py \
@@ -264,4 +265,260 @@ jobs:
         with:
           name: third-network-synthetic-e2e
           path: artifacts/third_network_synthetic_e2e
+          if-no-files-found: error
+
+
+  cross-version-fixture:
+    name: Freeze one cross-version synthetic input fixture
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package
+        run: python -m pip install -e '.[dev]'
+
+      - name: Generate one route-frozen input fixture
+        run: |
+          python scripts/run_third_network_synthetic_e2e.py \
+            --output-dir artifacts/fixture_source \
+            --permutations 19 \
+            --scenario positive
+
+          mkdir -p artifacts/frozen_fixture
+          for name in \
+            confirmatory_events.csv \
+            plant_traits.csv \
+            mammal_traits.csv \
+            camera_deployment.csv \
+            confirmatory_freeze.json \
+            field_readiness_receipt.json
+          do
+            cp "artifacts/fixture_source/$name" "artifacts/frozen_fixture/$name"
+          done
+
+          (
+            cd artifacts/frozen_fixture
+            sha256sum * | sort > FIXTURE_SHA256SUMS.txt
+          )
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: third-network-frozen-cross-version-fixture
+          path: artifacts/frozen_fixture
+          if-no-files-found: error
+
+  cross-version-archive:
+    name: Cross-version archive Python ${{ matrix.python-version }}
+    needs: cross-version-fixture
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "${{ matrix.python-version }}"
+
+      - name: Install package
+        run: python -m pip install -e '.[dev]'
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: third-network-frozen-cross-version-fixture
+          path: artifacts/frozen_fixture
+
+      - name: Recompute bundle from identical frozen input bytes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          from scripts.run_third_network_confirmatory_pipeline import run_with_network_inputs
+          from scripts.run_third_network_release_rehearsal import (
+              TEST_COMMIT,
+              TEST_INPUT_MODE,
+          )
+          from scripts.run_third_network_synthetic_e2e import (
+              _synthetic_aubert,
+              _synthetic_sakhalkar,
+          )
+
+          fixture = Path("artifacts/frozen_fixture")
+          run_with_network_inputs(
+              events_csv=fixture / "confirmatory_events.csv",
+              plant_traits_csv=fixture / "plant_traits.csv",
+              mammal_traits_csv=fixture / "mammal_traits.csv",
+              camera_deployment_csv=fixture / "camera_deployment.csv",
+              confirmatory_freeze_json=fixture / "confirmatory_freeze.json",
+              field_readiness_json=fixture / "field_readiness_receipt.json",
+              sakhalkar_points=_synthetic_sakhalkar(),
+              aubert_rows=_synthetic_aubert(),
+              output_dir=Path("artifacts/cross_version_bundle"),
+              repository_commit=TEST_COMMIT,
+              existing_network_input_mode=TEST_INPUT_MODE,
+              permutations=19,
+          )
+          PY
+
+          python scripts/package_third_network_confirmatory_release.py \
+            artifacts/cross_version_bundle \
+            --source-dir artifacts/frozen_fixture \
+            --output-dir artifacts/cross_version_release \
+            --development-only \
+            > artifacts/package_receipt.json
+
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          receipt = json.loads(Path("artifacts/package_receipt.json").read_text())
+          assert receipt["archive_zip_method"] == "ZIP_STORED"
+          Path("artifacts/digest-${{ matrix.python-version }}.txt").write_text(
+              receipt["zip_sha256"] + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+      - name: Export cross-version diagnostics
+        run: |
+          mkdir -p "artifacts/cross_version_diagnostics/${{ matrix.python-version }}"
+          cp "artifacts/digest-${{ matrix.python-version }}.txt" \
+            "artifacts/cross_version_diagnostics/${{ matrix.python-version }}/"
+          cp artifacts/cross_version_release/FILE_SHA256SUMS.txt \
+            "artifacts/cross_version_diagnostics/${{ matrix.python-version }}/"
+          cp artifacts/cross_version_release/release_manifest.json \
+            "artifacts/cross_version_diagnostics/${{ matrix.python-version }}/"
+          cp artifacts/cross_version_release/confirmatory_bundle/third_network_result.json \
+            "artifacts/cross_version_diagnostics/${{ matrix.python-version }}/"
+          cp artifacts/cross_version_release/confirmatory_bundle/joint_access_routing_k3_result.json \
+            "artifacts/cross_version_diagnostics/${{ matrix.python-version }}/"
+          cp artifacts/cross_version_release/confirmatory_bundle/confirmatory_analysis_receipt.json \
+            "artifacts/cross_version_diagnostics/${{ matrix.python-version }}/"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: third-network-cross-version-${{ matrix.python-version }}
+          path: artifacts/cross_version_diagnostics/${{ matrix.python-version }}
+          if-no-files-found: error
+
+  compare-cross-version-archive:
+    name: Compare cross-version archive digests
+    needs: cross-version-archive
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: third-network-cross-version-*
+          path: artifacts/digests
+          merge-multiple: false
+
+      - name: Require byte-identical ZIP across Python 3.10-3.12
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          roots = {
+              version: Path("artifacts/digests") / f"third-network-cross-version-{version}"
+              for version in ("3.10", "3.11", "3.12")
+          }
+          for version, root in roots.items():
+              assert root.is_dir(), (version, root)
+
+          digests = {
+              version: (root / f"digest-{version}.txt").read_text(encoding="utf-8").strip()
+              for version, root in roots.items()
+          }
+          assert all(len(value) == 64 for value in digests.values()), digests
+
+          checksum_maps = {}
+          for version, root in roots.items():
+              mapping = {}
+              for line in (root / "FILE_SHA256SUMS.txt").read_text(encoding="utf-8").splitlines():
+                  digest, rel = line.split("  ", 1)
+                  mapping[rel] = digest
+              checksum_maps[version] = mapping
+
+          common = set.intersection(*(set(mapping) for mapping in checksum_maps.values()))
+          changed_files = {
+              rel: {version: checksum_maps[version][rel] for version in roots}
+              for rel in sorted(common)
+              if len({checksum_maps[version][rel] for version in roots}) > 1
+          }
+
+          def json_leaf_diffs(relpath):
+              payloads = {
+                  version: json.loads((root / relpath).read_text(encoding="utf-8"))
+                  for version, root in roots.items()
+              }
+              out = {}
+
+              def walk(path, values):
+                  first = values["3.10"]
+                  if all(values[v] == first for v in values):
+                      return
+                  if all(isinstance(values[v], dict) for v in values):
+                      keys = set().union(*(values[v].keys() for v in values))
+                      for key in sorted(keys):
+                          walk(
+                              path + [str(key)],
+                              {v: values[v].get(key, "<MISSING>") for v in values},
+                          )
+                      return
+                  if all(isinstance(values[v], list) for v in values):
+                      if all(len(values[v]) == len(first) for v in values):
+                          for index in range(len(first)):
+                              walk(
+                                  path + [str(index)],
+                                  {v: values[v][index] for v in values},
+                              )
+                          return
+                  out[".".join(path) or "<root>"] = values
+
+              walk([], payloads)
+              return out
+
+          json_diffs = {}
+          for relpath in (
+              "release_manifest.json",
+              "confirmatory_analysis_receipt.json",
+              "third_network_result.json",
+              "joint_access_routing_k3_result.json",
+          ):
+              if all((root / relpath).is_file() for root in roots.values()):
+                  json_diffs[relpath] = json_leaf_diffs(relpath)
+
+          byte_identical = len(set(digests.values())) == 1
+          receipt = {
+              "receipt": "BITA_THIRD_NETWORK_CROSS_VERSION_ARCHIVE_V1",
+              "status": "BYTE_IDENTICAL" if byte_identical else "CONTENT_DIFF_DETECTED",
+              "python_versions": ["3.10", "3.11", "3.12"],
+              "zip_sha256_by_python": digests,
+              "changed_files": changed_files,
+              "json_leaf_differences": json_diffs,
+              "archive_zip_method": "ZIP_STORED",
+          }
+          receipt_path = Path("artifacts/cross_version_archive_receipt.json")
+          receipt_path.parent.mkdir(parents=True, exist_ok=True)
+          receipt_path.write_text(
+              json.dumps(receipt, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          print(json.dumps(receipt, indent=2, sort_keys=True))
+          if not byte_identical:
+              raise SystemExit(2)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: third-network-cross-version-archive-receipt
+          path: artifacts/cross_version_archive_receipt.json
           if-no-files-found: error
