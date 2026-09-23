@@ -377,6 +377,48 @@ jobs:
               if len({checksum_maps[version][rel] for version in roots}) > 1
           }
 
+          def json_leaf_diffs(relpath):
+              payloads = {
+                  version: json.loads((root / relpath).read_text(encoding="utf-8"))
+                  for version, root in roots.items()
+              }
+              out = {}
+
+              def walk(path, values):
+                  first = values["3.10"]
+                  if all(values[v] == first for v in values):
+                      return
+                  if all(isinstance(values[v], dict) for v in values):
+                      keys = set().union(*(values[v].keys() for v in values))
+                      for key in sorted(keys):
+                          walk(
+                              path + [str(key)],
+                              {v: values[v].get(key, "<MISSING>") for v in values},
+                          )
+                      return
+                  if all(isinstance(values[v], list) for v in values):
+                      if all(len(values[v]) == len(first) for v in values):
+                          for index in range(len(first)):
+                              walk(
+                                  path + [str(index)],
+                                  {v: values[v][index] for v in values},
+                              )
+                          return
+                  out[".".join(path) or "<root>"] = values
+
+              walk([], payloads)
+              return out
+
+          json_diffs = {}
+          for relpath in (
+              "release_manifest.json",
+              "confirmatory_analysis_receipt.json",
+              "third_network_result.json",
+              "joint_access_routing_k3_result.json",
+          ):
+              if all((root / relpath).is_file() for root in roots.values()):
+                  json_diffs[relpath] = json_leaf_diffs(relpath)
+
           byte_identical = len(set(digests.values())) == 1
           receipt = {
               "receipt": "BITA_THIRD_NETWORK_CROSS_VERSION_ARCHIVE_V1",
@@ -384,6 +426,7 @@ jobs:
               "python_versions": ["3.10", "3.11", "3.12"],
               "zip_sha256_by_python": digests,
               "changed_files": changed_files,
+              "json_leaf_differences": json_diffs,
               "archive_zip_method": "ZIP_STORED",
           }
           receipt_path = Path("artifacts/cross_version_archive_receipt.json")
