@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import io
 import zipfile
 from urllib.error import HTTPError
@@ -105,6 +106,31 @@ def test_download_retries_transient_5xx(monkeypatch) -> None:
     monkeypatch.setattr(audit, "urlopen", fake_urlopen)
     monkeypatch.setattr(audit.time, "sleep", lambda _seconds: None)
     monkeypatch.setattr(audit, "MAX_BYTES", 10)
+    monkeypatch.setattr(audit, "ARCHIVE_MD5", hashlib.md5(b"abc").hexdigest())
 
     assert audit._download() == b"abc"
     assert calls["n"] == 3
+
+
+
+def test_download_rejects_checksum_mismatch(monkeypatch) -> None:
+    class FakeResponse:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self, _limit):
+            return b"abc"
+
+    monkeypatch.setattr(audit, "urlopen", lambda *args, **kwargs: FakeResponse())
+    monkeypatch.setattr(audit, "MAX_BYTES", 10)
+    monkeypatch.setattr(audit, "ARCHIVE_MD5", "0" * 32)
+
+    try:
+        audit._download()
+    except RuntimeError as error:
+        assert "checksum mismatch" in str(error)
+    else:
+        raise AssertionError("checksum mismatch must fail closed")
