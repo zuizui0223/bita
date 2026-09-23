@@ -12,7 +12,7 @@ from trait_architecture.existing_k3_inputs import (
 
 
 def test_existing_network_fingerprint_contract_is_content_sensitive() -> None:
-    sakh = [{"tube_length": 1.0, "balance": 0.5}]
+    sakh = [{"tube_length": 1.0, "balance": 0.5, "route_class": "mixed"}]
     aubert = [{
         "site": "S1",
         "mismatch_log_t_over_b": 0.2,
