@@ -396,3 +396,19 @@ def test_low_route_coder_reliability_blocks_input_freeze(tmp_path) -> None:
 
     with pytest.raises(ValueError, match="ROUTE_RELIABILITY_NOT_READY"):
         _freeze(paths)
+
+
+
+def test_input_freeze_timestamp_is_inherited_from_prevideo_receipt(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    manifest_a = _freeze(paths)
+    first_text = paths["manifest"].read_text(encoding="utf-8")
+
+    paths["manifest"].unlink()
+    manifest_b = _freeze(paths)
+    second_text = paths["manifest"].read_text(encoding="utf-8")
+
+    assert manifest_a["frozen_at_utc"] == "2027-01-01T00:00:00Z"
+    assert manifest_a["freeze_time_source"] == "confirmatory_freeze_receipt"
+    assert manifest_b["frozen_at_utc"] == manifest_a["frozen_at_utc"]
+    assert first_text == second_text
