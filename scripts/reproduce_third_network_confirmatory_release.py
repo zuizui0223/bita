@@ -56,7 +56,14 @@ def reproduce(release_dir: str | Path) -> dict[str, object]:
     bundle = root / "confirmatory_bundle"
     source = root / "frozen_inputs"
 
-    verification = verify(bundle, source_dir=source)
+    canonical_path = root / "protocol" / "EXISTING_K3_INPUT_FINGERPRINTS_V1.json"
+    verification = verify(
+        bundle,
+        source_dir=source,
+        canonical_fingerprint_path=(
+            canonical_path if canonical_path.is_file() else None
+        ),
+    )
     if verification["status"] != VERIFIED_STATUS:
         raise ValueError(
             "PACKAGED_CONFIRMATORY_BUNDLE_INVALID: "
@@ -166,6 +173,9 @@ def reproduce(release_dir: str | Path) -> dict[str, object]:
         "status": "REPRODUCTION_MATCH" if all_match else "REPRODUCTION_MISMATCH",
         "bundle_verification_status": verification["status"],
         "source_recheck_mode": verification["source_recheck_mode"],
+        "canonical_existing_inputs_status": verification[
+            "canonical_existing_inputs_status"
+        ],
         "third_network_matches": third_matches,
         "joint_k3_matches": joint_matches,
         "third_network_recomputed": replay_third,
