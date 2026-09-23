@@ -16,6 +16,8 @@ if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.analyze_joint_access_routing import build_public_inputs
+from scripts.audit_sakhalkar2023_zenodo import ARCHIVE_MD5 as SAKHALKAR_ARCHIVE_MD5
+from scripts.analyze_aubert2026_zenodo_extension import FILE_MD5 as AUBERT_FILE_MD5
 from trait_architecture.existing_k3_inputs import canonical_stable_json_sha256
 
 RECEIPT = "BITA_EXISTING_K3_INPUT_FINGERPRINTS_V1"
@@ -47,6 +49,17 @@ def fingerprint_rows(
                     aubert_rows,
                 ),
                 "source_doi": SOURCES["aubert_ephi"],
+            },
+        },
+        "source_file_integrity": {
+            "sakhalkar": {
+                "SaileeSakhalkar/cheaters-among-pollinators-ecosphere-v1.0.0.zip": {
+                    "md5": SAKHALKAR_ARCHIVE_MD5,
+                }
+            },
+            "aubert_ephi": {
+                name: {"md5": digest}
+                for name, digest in sorted(AUBERT_FILE_MD5.items())
             },
         },
         "canonicalization": {
