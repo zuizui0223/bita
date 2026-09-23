@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import io
 import json
 import posixpath
@@ -19,6 +20,7 @@ DOWNLOAD_URL = (
 )
 USER_AGENT = "bita-sakhalkar2023-zenodo-audit/1.0"
 MAX_BYTES = 8 * 1024 * 1024
+ARCHIVE_MD5 = "c2f722804372c2011a5f60f3afcf8084"
 
 _MAIN_NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 _DOC_REL_NS = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
@@ -202,6 +204,12 @@ def _download() -> bytes:
                 data = response.read(MAX_BYTES + 1)
             if len(data) > MAX_BYTES:
                 raise ValueError("Zenodo archive exceeds configured size limit")
+            observed_md5 = hashlib.md5(data).hexdigest()  # nosec B324: Zenodo integrity receipt, not cryptographic security
+            if observed_md5 != ARCHIVE_MD5:
+                raise RuntimeError(
+                    "Sakhalkar Zenodo archive checksum mismatch: "
+                    f"expected md5:{ARCHIVE_MD5}, observed md5:{observed_md5}"
+                )
             return data
         except HTTPError as error:
             last_error = error
