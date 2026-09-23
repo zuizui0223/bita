@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import io
 import json
 import math
@@ -33,6 +34,12 @@ FILES = {
     "plants": "Plant_traits.txt",
     "birds": "Hummingbird_traits.txt",
 }
+FILE_MD5 = {
+    "Interactions_data_Ecuador.txt": "19cf81367979dd8676fc35713859d638",
+    "Cameras_data_Ecuador.txt": "671a82aaafd4db2d31a632d9c3b9e376",
+    "Plant_traits.txt": "97b6407b092fc113c90203b96c422d69",
+    "Hummingbird_traits.txt": "f559e8ef21d6bd68a0ca0e11ff882f46",
+}
 SEED = 20260919
 USER_AGENT = "bita-aubert-zenodo-extension/1.0"
 
@@ -42,7 +49,17 @@ def _download(name: str) -> bytes:
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     try:
         with urllib.request.urlopen(req, timeout=90) as response:  # nosec B310 fixed Zenodo URL
-            return response.read()
+            data = response.read()
+        expected_md5 = FILE_MD5.get(name)
+        if expected_md5 is None:
+            raise ValueError(f"no frozen Zenodo checksum for file: {name}")
+        observed_md5 = hashlib.md5(data).hexdigest()  # nosec B324: Zenodo integrity receipt, not cryptographic security
+        if observed_md5 != expected_md5:
+            raise RuntimeError(
+                "EPHI Zenodo file checksum mismatch: "
+                f"{name}: expected md5:{expected_md5}, observed md5:{observed_md5}"
+            )
+        return data
     except (HTTPError, URLError, TimeoutError) as error:
         raise RuntimeError(
             "Unable to retrieve the frozen EPHI Ecuador mirror file from Zenodo. "
