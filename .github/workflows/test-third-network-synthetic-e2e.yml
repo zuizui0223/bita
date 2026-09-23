@@ -310,10 +310,26 @@ jobs:
           )
           PY
 
+      - name: Export cross-version diagnostics
+        run: |
+          mkdir -p "artifacts/cross_version_diagnostics/${{ matrix.python-version }}"
+          cp "artifacts/digest-${{ matrix.python-version }}.txt" \
+            "artifacts/cross_version_diagnostics/${{ matrix.python-version }}/"
+          cp artifacts/cross_version_release/FILE_SHA256SUMS.txt \
+            "artifacts/cross_version_diagnostics/${{ matrix.python-version }}/"
+          cp artifacts/cross_version_release/release_manifest.json \
+            "artifacts/cross_version_diagnostics/${{ matrix.python-version }}/"
+          cp artifacts/cross_version_release/confirmatory_bundle/third_network_result.json \
+            "artifacts/cross_version_diagnostics/${{ matrix.python-version }}/"
+          cp artifacts/cross_version_release/confirmatory_bundle/joint_access_routing_k3_result.json \
+            "artifacts/cross_version_diagnostics/${{ matrix.python-version }}/"
+          cp artifacts/cross_version_release/confirmatory_bundle/confirmatory_analysis_receipt.json \
+            "artifacts/cross_version_diagnostics/${{ matrix.python-version }}/"
+
       - uses: actions/upload-artifact@v4
         with:
           name: third-network-cross-version-${{ matrix.python-version }}
-          path: artifacts/digest-${{ matrix.python-version }}.txt
+          path: artifacts/cross_version_diagnostics/${{ matrix.python-version }}
           if-no-files-found: error
 
   compare-cross-version-archive:
@@ -333,18 +349,41 @@ jobs:
           import json
           from pathlib import Path
 
-          files = sorted(Path("artifacts/digests").glob("digest-*.txt"))
-          assert len(files) == 3, [str(path) for path in files]
-          digests = {path.name: path.read_text(encoding="utf-8").strip() for path in files}
-          assert all(len(value) == 64 for value in digests.values()), digests
-          assert len(set(digests.values())) == 1, digests
+          roots = {
+              version: Path("artifacts/digests") / version
+              for version in ("3.10", "3.11", "3.12")
+          }
+          for version, root in roots.items():
+              assert root.is_dir(), (version, root)
 
+          digests = {
+              version: (root / f"digest-{version}.txt").read_text(encoding="utf-8").strip()
+              for version, root in roots.items()
+          }
+          assert all(len(value) == 64 for value in digests.values()), digests
+
+          checksum_maps = {}
+          for version, root in roots.items():
+              mapping = {}
+              for line in (root / "FILE_SHA256SUMS.txt").read_text(encoding="utf-8").splitlines():
+                  digest, rel = line.split("  ", 1)
+                  mapping[rel] = digest
+              checksum_maps[version] = mapping
+
+          common = set.intersection(*(set(mapping) for mapping in checksum_maps.values()))
+          changed_files = {
+              rel: {version: checksum_maps[version][rel] for version in roots}
+              for rel in sorted(common)
+              if len({checksum_maps[version][rel] for version in roots}) > 1
+          }
+
+          byte_identical = len(set(digests.values())) == 1
           receipt = {
               "receipt": "BITA_THIRD_NETWORK_CROSS_VERSION_ARCHIVE_V1",
-              "status": "BYTE_IDENTICAL",
+              "status": "BYTE_IDENTICAL" if byte_identical else "CONTENT_DIFF_DETECTED",
               "python_versions": ["3.10", "3.11", "3.12"],
-              "zip_sha256": next(iter(digests.values())),
-              "digests": digests,
+              "zip_sha256_by_python": digests,
+              "changed_files": changed_files,
               "archive_zip_method": "ZIP_STORED",
           }
           Path("artifacts/cross_version_archive_receipt.json").write_text(
@@ -352,9 +391,12 @@ jobs:
               encoding="utf-8",
           )
           print(json.dumps(receipt, indent=2, sort_keys=True))
+          if not byte_identical:
+              raise SystemExit(2)
           PY
 
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: third-network-cross-version-archive-receipt
           path: artifacts/cross_version_archive_receipt.json
