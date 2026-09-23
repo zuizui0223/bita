@@ -39,6 +39,11 @@ from scripts.freeze_third_network_confirmatory_inputs import (
     freeze_inputs,
     write_manifest,
 )
+from trait_architecture.existing_k3_inputs import (
+    MATCH_STATUS as CANONICAL_EXISTING_INPUTS_MATCH,
+    PRODUCTION_INPUT_MODE,
+    validate_existing_network_payloads,
+)
 from trait_architecture.serialization import (
     canonicalize_generated_floats,
     write_generated_json,
@@ -170,6 +175,23 @@ def run_with_network_inputs(
     if permutations <= 0:
         raise ValueError("permutations must be positive")
 
+    if existing_network_input_mode == PRODUCTION_INPUT_MODE:
+        canonical_existing = validate_existing_network_payloads(
+            sakhalkar_points,
+            aubert_rows,
+        )
+        if canonical_existing["status"] != CANONICAL_EXISTING_INPUTS_MATCH:
+            raise ValueError(
+                "CANONICAL_EXISTING_K3_INPUTS_MISMATCH: "
+                + ",".join(str(x) for x in canonical_existing.get("failures", []))
+            )
+    else:
+        canonical_existing = {
+            "status": "NOT_APPLICABLE_DEVELOPMENT_INPUT_MODE",
+            "checks": {},
+            "failures": [],
+        }
+
     final_root, root = _prepare_output_dirs(output_dir)
     manifest_json = root / "input_freeze_manifest.json"
     units_csv = root / "analysis_units.csv"
@@ -229,6 +251,7 @@ def run_with_network_inputs(
             "status": COMPLETE_STATUS,
             "repository_commit": str(repository_commit).strip(),
             "existing_network_input_mode": str(existing_network_input_mode).strip(),
+            "canonical_existing_network_inputs": canonical_existing,
             "third_network_retention_rule": (
                 "retain_confirmatory_third_network_regardless_of_positive_null_or_opposite_direction"
             ),
@@ -328,7 +351,7 @@ def run(
         aubert_rows=aubert_rows,
         output_dir=output_dir,
         repository_commit=commit,
-        existing_network_input_mode="PUBLIC_EXISTING_NETWORKS_FIXED_DOI_REBUILD",
+        existing_network_input_mode=PRODUCTION_INPUT_MODE,
         permutations=permutations,
     )
 
