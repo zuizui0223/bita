@@ -1,5 +1,11 @@
 from __future__ import annotations
 
+import hashlib
+from contextlib import contextmanager
+
+import pytest
+
+from scripts import analyze_aubert2026_zenodo_extension as aubert
 from scripts.analyze_aubert2026_zenodo_extension import build_pair_site_rows, summarize_pair_sites
 
 
@@ -61,3 +67,52 @@ def test_summary_reports_min_interaction_sensitivity() -> None:
     assert sensitivity["min_5"]["n_pair_sites"] == 6
     assert sensitivity["min_5"]["barrier_minus_accessible_mean_rate"] > 0
     assert sensitivity["min_5"]["mismatch_spearman_rho"] > 0
+
+
+
+def test_download_accepts_only_frozen_zenodo_file_checksum(monkeypatch) -> None:
+    payload = b"frozen-ephi"
+    filename = "Interactions_data_Ecuador.txt"
+
+    class FakeResponse:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self):
+            return payload
+
+    monkeypatch.setattr(
+        aubert.urllib.request,
+        "urlopen",
+        lambda *args, **kwargs: FakeResponse(),
+    )
+    monkeypatch.setitem(aubert.FILE_MD5, filename, hashlib.md5(payload).hexdigest())
+    assert aubert._download(filename) == payload
+
+
+def test_download_rejects_ephi_checksum_mismatch(monkeypatch) -> None:
+    payload = b"changed-ephi"
+    filename = "Interactions_data_Ecuador.txt"
+
+    class FakeResponse:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self):
+            return payload
+
+    monkeypatch.setattr(
+        aubert.urllib.request,
+        "urlopen",
+        lambda *args, **kwargs: FakeResponse(),
+    )
+    monkeypatch.setitem(aubert.FILE_MD5, filename, "0" * 32)
+
+    with pytest.raises(RuntimeError, match="checksum mismatch"):
+        aubert._download(filename)
