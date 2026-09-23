@@ -1,23 +1,34 @@
 {
   "receipt": "BITA_EXISTING_K3_INPUT_FINGERPRINTS_V1",
-  "status": "CANONICAL_PUBLIC_INPUTS_PENDING_FREEZE",
+  "status": "CANONICAL_PUBLIC_INPUTS_FROZEN",
+  "frozen_date": "2026-09-23",
   "networks": {
     "sakhalkar": {
       "analysis_units": 57,
-      "stable_json_sha256": "REQUIRED_BEFORE_MERGE",
+      "canonical_stable_json_sha256": "a7fdf3a0e60d7ba9f34d706c591e36fa7ad5cb9a2876284b0c8ac1aa7f2dfb76",
       "source_doi": "10.5281/zenodo.8398202"
     },
     "aubert_ephi": {
       "analysis_units": 1378,
-      "stable_json_sha256": "REQUIRED_BEFORE_MERGE",
+      "canonical_stable_json_sha256": "3d10a744ca94f02742fdf8f8e5d057339ad01ffa885465100fe4bdb2dec2c374",
       "source_doi": "10.5281/zenodo.14185547"
     }
   },
-  "serialization": {
-    "json_sort_keys": true,
-    "json_separators": [",", ":"],
-    "ensure_ascii": false,
-    "allow_nan": false
+  "canonicalization": {
+    "sakhalkar": "sort exact tube_length/balance/route_class rows",
+    "aubert_ephi": "deterministically relabel sites while preserving the site partition, then sort exact scientific fields",
+    "numeric_quantization": "none"
   },
-  "claim": "Exact canonical fingerprints must be inserted from the public-source rebuild workflow before this branch can merge."
+  "freeze_basis": {
+    "repository_commit": "3a608ce7093cf079685c045d706a315b1a840f78",
+    "workflow_run": 35495204953,
+    "workflow_artifact_id": 10599544421,
+    "workflow_artifact_sha256": "716c038433c79a307d4c23430643645d6c68a6eb80a97b25fba9305ccf0b9819",
+    "deposit_zip_sha256": "e795b8ddf54a7446d465bd0ab2c9cee9d378c32d063712fa948405b8bb72543b",
+    "analysis_tables": [
+      "sakhalkar_species_analysis.csv",
+      "aubert_ephi_pair_site_analysis.csv"
+    ]
+  },
+  "claim": "These fingerprints identify the exact existing-network scientific inputs used for future k=3 integration. They are provenance only and do not change the current k=2 biological result."
 }
