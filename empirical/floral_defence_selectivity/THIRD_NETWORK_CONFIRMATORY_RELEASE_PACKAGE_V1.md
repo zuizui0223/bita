@@ -112,11 +112,17 @@ The packager writes:
 <third_network_release>.zip.sha256
 ~~~
 
-ZIP members are sorted and receive fixed metadata/time. Therefore the same
-frozen inputs and repository code produce the same ZIP bytes even when the
-output directory has a different name or parent path.
+ZIP members are sorted, receive fixed metadata/time, and are stored with
+`ZIP_STORED` rather than DEFLATE. Avoiding compression removes zlib-version
+behavior from the byte stream.
 
-This makes the ZIP SHA256 an immutable submission/archive receipt.
+The CI contract rebuilds the same synthetic archive independently under Python
+3.10, 3.11 and 3.12 and requires one identical ZIP SHA256 across all three
+environments. The same frozen inputs and repository code must also remain
+path-independent.
+
+This makes the ZIP SHA256 an immutable submission/archive receipt rather than an
+environment-specific compression artifact.
 
 ## Development rehearsal
 
