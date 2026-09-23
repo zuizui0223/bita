@@ -22,9 +22,12 @@ from scripts.verify_third_network_confirmatory_bundle import (
     VERIFIED_STATUS,
     verify as verify_bundle,
 )
+from trait_architecture.existing_k3_inputs import (
+    MATCH_STATUS as CANONICAL_EXISTING_INPUTS_MATCH,
+    PRODUCTION_INPUT_MODE,
+)
 
 PLAN_RECEIPT = "BITA_THIRD_NETWORK_CLAIM_TRANSITION_V1"
-PRODUCTION_INPUT_MODE = "PUBLIC_EXISTING_NETWORKS_FIXED_DOI_REBUILD"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 
 PREREGISTERED_COMMON_CLAIM = (
@@ -125,6 +128,11 @@ def plan_claim_transition(
             raise ValueError("NONPRODUCTION_CONFIRMATORY_BUNDLE")
         if not HEX40.fullmatch(repository_commit):
             raise ValueError("PRODUCTION_RECEIPT_REPOSITORY_COMMIT_INVALID")
+        canonical = receipt.get("canonical_existing_network_inputs", {})
+        if not isinstance(canonical, dict):
+            raise ValueError("CANONICAL_EXISTING_K3_INPUT_RECEIPT_MISSING")
+        if canonical.get("status") != CANONICAL_EXISTING_INPUTS_MATCH:
+            raise ValueError("CANONICAL_EXISTING_K3_INPUTS_NOT_VERIFIED")
 
     retention_rule = str(receipt.get("third_network_retention_rule", "")).strip()
     if retention_rule != (
