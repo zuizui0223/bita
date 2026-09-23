@@ -51,8 +51,21 @@ def canonicalize_sakhalkar(
         tube = _finite_float(row["tube_length"], "tube_length")
         balance = _finite_float(row["balance"], "balance")
         route_class = str(row.get("route_class", "")).strip()
+        if tube <= 0:
+            raise ValueError("Sakhalkar tube_length must be positive")
+        if not (-1.0 <= balance <= 1.0):
+            raise ValueError("Sakhalkar balance must be within [-1,1]")
         if route_class not in {"robber_only", "thief_only", "mixed"}:
             raise ValueError("invalid Sakhalkar route_class")
+        expected_class = (
+            "robber_only"
+            if balance == 1.0
+            else "thief_only"
+            if balance == -1.0
+            else "mixed"
+        )
+        if route_class != expected_class:
+            raise ValueError("Sakhalkar route_class is inconsistent with balance")
         out.append(
             {
                 "tube_length": tube,
@@ -85,15 +98,25 @@ def canonicalize_aubert(
     for row in rows:
         site = str(row["site"]).strip()
         bird_group = str(row["bird_group"]).strip()
-        n_interactions = int(row["n_interactions"])
+        raw_n = row["n_interactions"]
+        if isinstance(raw_n, bool) or not isinstance(raw_n, int):
+            raise ValueError("n_interactions must be an integer")
+        n_interactions = raw_n
         robbery_rate = _finite_float(row["robbery_rate"], "robbery_rate")
         mismatch = _finite_float(
             row["mismatch_log_t_over_b"],
             "mismatch_log_t_over_b",
         )
-        barrier = bool(row["trait_barrier"])
+        raw_barrier = row["trait_barrier"]
+        if not isinstance(raw_barrier, bool):
+            raise ValueError("trait_barrier must be boolean")
+        barrier = raw_barrier
         if n_interactions <= 0:
             raise ValueError("n_interactions must be positive")
+        if not (0.0 <= robbery_rate <= 1.0):
+            raise ValueError("robbery_rate must be within [0,1]")
+        if barrier != (mismatch > 0.0):
+            raise ValueError("trait_barrier is inconsistent with mismatch sign")
         if not bird_group:
             raise ValueError("bird_group must be nonblank")
         out.append(
