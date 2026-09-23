@@ -341,7 +341,7 @@ jobs:
         with:
           pattern: third-network-cross-version-*
           path: artifacts/digests
-          merge-multiple: true
+          merge-multiple: false
 
       - name: Require byte-identical ZIP across Python 3.10-3.12
         run: |
@@ -350,7 +350,7 @@ jobs:
           from pathlib import Path
 
           roots = {
-              version: Path("artifacts/digests") / version
+              version: Path("artifacts/digests") / f"third-network-cross-version-{version}"
               for version in ("3.10", "3.11", "3.12")
           }
           for version, root in roots.items():
@@ -386,7 +386,9 @@ jobs:
               "changed_files": changed_files,
               "archive_zip_method": "ZIP_STORED",
           }
-          Path("artifacts/cross_version_archive_receipt.json").write_text(
+          receipt_path = Path("artifacts/cross_version_archive_receipt.json")
+          receipt_path.parent.mkdir(parents=True, exist_ok=True)
+          receipt_path.write_text(
               json.dumps(receipt, indent=2, sort_keys=True) + "\n",
               encoding="utf-8",
           )
