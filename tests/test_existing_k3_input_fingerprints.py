@@ -91,3 +91,34 @@ def test_committed_canonical_receipt_is_frozen_and_well_formed() -> None:
     assert receipt["status"] == "CANONICAL_PUBLIC_INPUTS_FROZEN"
     assert receipt["networks"]["sakhalkar"]["analysis_units"] == 57
     assert receipt["networks"]["aubert_ephi"]["analysis_units"] == 1378
+
+
+
+def test_canonicalization_rejects_type_coercion_and_inconsistent_rows(tmp_path) -> None:
+    sakh = [{"tube_length": 1.0, "balance": 1.0, "route_class": "robber_only"}]
+    aubert = [{
+        "site": "S1",
+        "mismatch_log_t_over_b": 0.2,
+        "robbery_rate": 0.3,
+        "trait_barrier": True,
+        "n_interactions": 2,
+        "bird_group": "hummingbird",
+    }]
+    path = tmp_path / "fingerprints.json"
+    path.write_text(json.dumps(_ready_receipt(sakh, aubert)), encoding="utf-8")
+
+    bad_barrier = [{**aubert[0], "trait_barrier": "false"}]
+    with pytest.raises(ValueError, match="trait_barrier must be boolean"):
+        validate_existing_network_payloads(sakh, bad_barrier, receipt_path=path)
+
+    bad_n = [{**aubert[0], "n_interactions": "2"}]
+    with pytest.raises(ValueError, match="n_interactions must be an integer"):
+        validate_existing_network_payloads(sakh, bad_n, receipt_path=path)
+
+    bad_sign = [{**aubert[0], "mismatch_log_t_over_b": -0.2}]
+    with pytest.raises(ValueError, match="trait_barrier is inconsistent"):
+        validate_existing_network_payloads(sakh, bad_sign, receipt_path=path)
+
+    bad_route = [{**sakh[0], "route_class": "mixed"}]
+    with pytest.raises(ValueError, match="route_class is inconsistent"):
+        validate_existing_network_payloads(bad_route, aubert, receipt_path=path)
