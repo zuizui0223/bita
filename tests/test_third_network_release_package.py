@@ -34,11 +34,13 @@ def test_development_release_package_replays_offline(tmp_path) -> None:
     assert receipt["claim_transition_plan_ready"] is True
     assert receipt["automatic_manuscript_edit_permitted"] is False
     assert receipt["existing_network_inputs_verified"] is True
+    assert receipt["canonical_existing_inputs_status"] == "NOT_APPLICABLE_DEVELOPMENT_INPUT_MODE"
 
     replay = reproduce(output)
     assert replay["status"] == "REPRODUCTION_MATCH"
     assert replay["bundle_verification_status"] == "CONFIRMATORY_BUNDLE_VERIFIED"
     assert replay["source_recheck_mode"] == "SOURCE_INPUTS_RECHECKED"
+    assert replay["canonical_existing_inputs_status"] == "NOT_APPLICABLE_DEVELOPMENT_INPUT_MODE"
     assert all(replay["third_network_matches"].values())
     assert all(replay["joint_k3_matches"].values())
 
@@ -46,6 +48,8 @@ def test_development_release_package_replays_offline(tmp_path) -> None:
     assert (output / "release_manifest.json").is_file()
     assert (output / "claim_transition_plan.json").is_file()
     assert (output / "code" / "scripts" / "reproduce_third_network_confirmatory_release.py").is_file()
+    assert (output / "code" / "trait_architecture" / "existing_k3_inputs.py").is_file()
+    assert (output / "protocol" / "EXISTING_K3_INPUT_FINGERPRINTS_V1.json").is_file()
     assert (output / "frozen_inputs" / "confirmatory_events.csv").is_file()
 
 
