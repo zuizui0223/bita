@@ -58,6 +58,7 @@ def test_confirmatory_runner_keeps_opposite_third_network_and_finishes_k3(tmp_pa
     assert receipt["receipt"] == RECEIPT
     assert receipt["status"] == COMPLETE_STATUS
     assert receipt["repository_commit"] == "TEST-COMMIT"
+    assert receipt["canonical_existing_network_inputs"]["status"] == "NOT_APPLICABLE_DEVELOPMENT_INPUT_MODE"
     assert receipt["input_freeze_status"] == "INPUTS_FROZEN_READY_FOR_JOIN"
     assert receipt["route_reliability_status"] == "ROUTE_RELIABILITY_PASS"
     assert receipt["route_reliability_kappa"] >= 0.8
@@ -256,3 +257,34 @@ def test_existing_network_input_files_are_in_bundle_checksum_inventory(tmp_path)
 
     assert "existing_network_sakhalkar_input.json" in text
     assert "existing_network_aubert_ephi_input.json" in text
+
+
+
+def test_production_mode_rejects_noncanonical_existing_network_inputs(tmp_path, monkeypatch) -> None:
+    fixture = _fixture(tmp_path, scenario="positive")
+
+    monkeypatch.setattr(
+        runner,
+        "validate_existing_network_payloads",
+        lambda *args, **kwargs: {
+            "status": "CANONICAL_EXISTING_K3_INPUTS_MISMATCH",
+            "checks": {},
+            "failures": ["canonical_stable_digest_mismatch:sakhalkar"],
+        },
+    )
+
+    with pytest.raises(ValueError, match="CANONICAL_EXISTING_K3_INPUTS_MISMATCH"):
+        run_with_network_inputs(
+            events_csv=fixture / "confirmatory_events.csv",
+            plant_traits_csv=fixture / "plant_traits.csv",
+            mammal_traits_csv=fixture / "mammal_traits.csv",
+            camera_deployment_csv=fixture / "camera_deployment.csv",
+            confirmatory_freeze_json=fixture / "confirmatory_freeze.json",
+            field_readiness_json=fixture / "field_readiness_receipt.json",
+            sakhalkar_points=_synthetic_sakhalkar(),
+            aubert_rows=_synthetic_aubert(),
+            output_dir=tmp_path / "production_forbidden",
+            repository_commit="a" * 40,
+            existing_network_input_mode=runner.PRODUCTION_INPUT_MODE,
+            permutations=19,
+        )
