@@ -126,6 +126,11 @@ frozen inputs and repository code must also remain path-independent.
 This cross-Python byte-identity comparison is a blocking release-package gate,
 not an informational diagnostic.
 
+The same matrix also extracts that exact ZIP and runs the archived reproduction
+script with only the code shipped inside the archive. Python 3.10, 3.11 and
+3.12 must each return `REPRODUCTION_MATCH`, and the complete reproduction
+receipt must itself be byte-identical across the three environments.
+
 This makes the ZIP SHA256 an immutable submission/archive receipt rather than an
 environment-specific compression artifact.
 
