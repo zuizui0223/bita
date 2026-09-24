@@ -8,6 +8,9 @@ from scripts.plan_third_network_claim_transition import (
     plan_claim_transition,
 )
 from scripts.verify_third_network_confirmatory_bundle import VERIFIED_STATUS
+from trait_architecture.existing_k3_inputs import (
+    MATCH_STATUS as EXISTING_K3_MATCH_STATUS,
+)
 
 
 RETENTION = (
@@ -31,6 +34,7 @@ def _receipt(
         "status": "CONFIRMATORY_ANALYSIS_COMPLETE",
         "repository_commit": commit,
         "existing_network_input_mode": mode,
+        "existing_network_canonical_status": EXISTING_K3_MATCH_STATUS,
         "third_network_retention_rule": RETENTION,
         "third_network": {
             "status": "CONFIRMATORY_GATE_PASS",
@@ -147,6 +151,13 @@ def test_claim_transition_requires_exact_repository_sha() -> None:
                 commit="TEST-COMMIT",
             )
         )
+
+
+def test_claim_transition_requires_canonical_existing_network_lock() -> None:
+    receipt = _receipt(rho_t=0.2, p_t=0.2, concordance="3_of_3_positive")
+    receipt["existing_network_canonical_status"] = "CANONICAL_EXISTING_K3_INPUTS_MISMATCH"
+    with pytest.raises(ValueError, match="CANONICAL_EXISTING_K3_INPUTS_NOT_VERIFIED"):
+        _plan(receipt)
 
 
 def test_claim_transition_requires_frozen_retention_rule() -> None:
