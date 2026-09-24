@@ -23,6 +23,21 @@ bypass / robbing propensity increases
 
 The prediction is ordinal and does not require one common mechanistic coefficient across taxa.
 
+The stronger mechanistic boundary is **relative route cost**, not absolute geometry:
+
+~~~text
+D(x) = C_legitimate(x) - C_bypass(x)
+
+dD/dx > 0  -> bypass propensity increases
+dD/dx ≈ 0  -> weak / null routing response
+dD/dx < 0  -> bypass propensity can decrease
+~~~
+
+Thus the Letter must not collapse the claim to “longer flowers always receive more
+robbery.” Null, mixed and opposite direct studies are compatible boundary cases when
+the same trait also constrains the bypass route or when other route utilities dominate.
+See `theory/RELATIVE_ROUTE_COST_BOUNDARY_V1.md`.
+
 ## 2. Primary empirical test — Ecuador birds
 
 ```text
@@ -272,7 +287,8 @@ Do not claim:
 - `k=2` demonstrates network-wide generality;
 - source-audited domain coding is independently validated;
 - matched-domain alignment estimates prevalence or a confirmatory success rate;
-- the access-routing result identifies evolutionary origin of floral barriers.
+- the access-routing result identifies evolutionary origin of floral barriers;
+- absolute flower length or size is a universal monotone predictor of robbery independent of bypass-route cost.
 
 ## 8. Ecology Letters initial-submission archive gate
 
