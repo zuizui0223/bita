@@ -1,0 +1,132 @@
+# Formal recurrence frame for access geometry → nectar robbery v1
+
+## Status
+
+~~~text
+FRAME_FREEZE_DATE = 2026-09-24
+HISTORICAL_FRAME = LEAL_2025_ROBBER_STUDIES
+HISTORICAL_STUDIES = 56
+DIRECT_DISCOVERY_PROGRAMS = 13
+DIRECT_DISCOVERY_OVERLAP_WITH_HISTORICAL_FRAME = 3
+FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
+~~~
+
+## Purpose
+
+The current direct access-geometry corpus contains 13 study programs, but it was
+assembled by bounded discovery and therefore cannot support a prevalence estimate,
+sign test, or pooled recurrence statistic.
+
+This file freezes the next, stricter lane: build an outcome-independent sampling
+frame first, then screen every record for the same geometry → robbery eligibility
+contract.
+
+## Stage H — historical sampling frame
+
+The historical frame is the complete set of **56 unique nectar-robber studies**
+present in the public dataset accompanying:
+
+> Leal LC, Koski MH, Irwin RE, Bronstein JL (2025). Costs of floral larceny:
+> a meta-analytical evaluation of nectar robbing and nectar theft on
+> animal-pollinated plants. *Ecology* 106:e70036.
+> DOI: 10.1002/ecy.70036.
+> Public data: 10.5281/zenodo.14773082.
+
+The exact 56 study labels are frozen in:
+
+- `LEAL2025_ROBBER_STUDY_FRAME_V1.csv`
+
+The source meta-analysis was designed around consequences of floral larceny, not
+around floral geometry. Therefore this frame is useful as an outcome-independent
+historical anchor but is **not assumed to contain every direct geometry study**.
+
+## Stage U — systematic update / gap fill
+
+To avoid treating the Leal frame as complete, a separate update frame must cover
+studies missed by that fitness-cost review and all later publications.
+
+The update search is frozen to the period:
+
+~~~text
+START_DATE = 2000-01-01
+END_DATE   = 2026-09-24
+~~~
+
+The early overlap is deliberate. It allows the update search to detect direct
+geometry studies that the fitness-cost frame omitted, rather than assuming the two
+review questions have identical coverage.
+
+Minimum query families:
+
+~~~text
+("nectar robbing" OR "nectar robbery" OR "floral larceny")
+AND
+("corolla length" OR "tube length" OR "flower length" OR "flower size"
+ OR "floral morphology" OR "accessibility" OR "trait mismatch")
+
+("nectar robbing" OR "nectar robbery")
+AND
+("bill length" OR "tongue length" OR "proboscis" OR "rostrum"
+ OR "flowerpiercer" OR "hummingbird" OR "sunbird" OR "bumblebee")
+~~~
+
+A record enters the screening frame from bibliographic match alone. Outcome
+direction must not determine whether it is retained for full-text eligibility
+screening.
+
+## Eligibility screening
+
+Every frame record is screened against
+`DIRECT_ACCESS_GEOMETRY_ROBBERY_CONTRACT_V1.md`.
+
+For each study program, freeze before effect-direction coding:
+
+1. independent biological study identity;
+2. floral or visitor–flower access predictor;
+3. direct route-resolved robbery outcome;
+4. analysis scale;
+5. independence from any duplicate report.
+
+Only after those fields are frozen may direction be coded as
+`POSITIVE / NULL / OPPOSITE / MIXED`.
+
+## Current overlap audit
+
+The 13-study discovery corpus is cross-walked against the 56-study historical
+frame in:
+
+- `DIRECT_ACCESS_GEOMETRY_LEAL2025_CROSSWALK_V1.csv`
+
+Current overlap is 3/13 discovery programs:
+
+- Lara & Ornelas 2001;
+- Castro, Silveira & Navarro 2009 (source label `Castroetal_2008`);
+- Rojas-Nossa, Sánchez & Navarro 2016.
+
+This confirms that the historical fitness-cost frame alone is insufficient for the
+geometry question and that Stage U is necessary.
+
+## Formal analysis gate
+
+Do not calculate a recurrence p-value from the 13-study discovery corpus.
+
+A formal directional recurrence analysis opens only after:
+
+~~~text
+HISTORICAL_FRAME_SCREENED = COMPLETE
+UPDATE_FRAME_SEARCH = COMPLETE
+DUPLICATES_RESOLVED = COMPLETE
+ELIGIBILITY_FROZEN_BEFORE_DIRECTION_CODING = COMPLETE
+~~~
+
+At that point, report at minimum:
+
+- number of unique eligible study programs;
+- counts of positive / null / opposite / mixed;
+- study-scale and fauna composition;
+- sensitivity excluding discovery-exposed records;
+- sensitivity treating mixed studies conservatively;
+- no pooled effect size unless a genuinely commensurate effect scale exists.
+
+The primary Letter network statistic remains `k = 2` regardless of this
+supporting literature synthesis.
