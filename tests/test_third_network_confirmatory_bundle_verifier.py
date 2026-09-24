@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 
 from scripts.run_third_network_confirmatory_pipeline import run_with_network_inputs
@@ -12,6 +13,21 @@ from scripts.verify_third_network_confirmatory_bundle import (
     VERIFIED_STATUS,
     verify,
 )
+
+
+def _sha(path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _rewrite_bundle_checksums(root) -> None:
+    lines = []
+    for path in sorted(root.iterdir(), key=lambda item: item.name):
+        if path.is_file() and path.name != "BUNDLE_SHA256SUMS.txt":
+            lines.append(f"{_sha(path)}  {path.name}")
+    (root / "BUNDLE_SHA256SUMS.txt").write_text(
+        "\n".join(lines) + "\n",
+        encoding="utf-8",
+    )
 
 
 def _run_bundle(tmp_path):
@@ -159,3 +175,32 @@ def test_bundle_verifier_detects_existing_network_receipt_count_tampering(tmp_pa
     result = verify(output)
     assert result["status"] == "CONFIRMATORY_BUNDLE_INVALID"
     assert "existing_network_analysis_units_mismatch:aubert_ephi" in result["failures"]
+
+
+
+def test_bundle_verifier_rejects_coherently_rehashed_resource_limit_drift(tmp_path) -> None:
+    _fixture, output = _run_bundle(tmp_path)
+
+    manifest_path = output / "input_freeze_manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["semantic_resource_limits"]["limits"]["max_event_rows"] += 1
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+    receipt_path = output / "confirmatory_analysis_receipt.json"
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    receipt["output_sha256"]["input_freeze_manifest.json"] = _sha(manifest_path)
+    receipt_path.write_text(
+        json.dumps(receipt, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    _rewrite_bundle_checksums(output)
+
+    result = verify(output)
+    assert result["status"] == "CONFIRMATORY_BUNDLE_INVALID"
+    assert (
+        "semantic_resource_limit_mismatch:max_event_rows"
+        in result["failures"]
+    )

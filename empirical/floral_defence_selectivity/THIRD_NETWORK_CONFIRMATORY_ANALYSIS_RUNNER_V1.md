@@ -17,8 +17,10 @@ python scripts/run_third_network_confirmatory_pipeline.py \
   --repository-commit <exact-git-sha>
 ~~~
 
-The default confirmatory run uses 9,999 permutations and the already frozen
-third-network / k=3 seeds.
+The production confirmatory run uses **exactly 9,999 permutations** and the
+already frozen third-network / k=3 seeds. The production entry point rejects any
+other permutation count. Development-only synthetic runners may use smaller
+counts for test speed, but those outputs cannot license scientific claims.
 
 ## One-way execution chain
 
@@ -63,6 +65,30 @@ interrupted prior process and fails closed with
 Reusing a populated final directory fails with
 `CONFIRMATORY_OUTPUT_DIR_NOT_EMPTY`, preventing accidental overwrite of the
 first completed confirmatory run.
+
+## Semantic resource envelope
+
+Before any confirmatory CSV is loaded into memory, the input-freeze step enforces
+an operational resource envelope on:
+
+- event-table rows and bytes;
+- plant-morphology rows and bytes;
+- mammal-morphology rows and bytes;
+- camera-deployment rows and bytes;
+- confirmatory-freeze and field-readiness JSON bytes.
+
+These are **not biological sample-size gates**. They are deliberately generous
+execution limits that prevent malformed inputs from exhausting memory or compute
+before the frozen scientific contract can be evaluated.
+
+The exact observed sizes and active limits are written into
+`input_freeze_manifest.json` as `semantic_resource_limits`. Independent bundle
+verification requires that receipt and rejects limit drift even if the modified
+manifest and outer checksums are made internally consistent.
+
+A real study that genuinely requires a larger operational envelope must revise
+the envelope prospectively, before confirmatory route outcomes are opened. It
+must not be expanded after seeing an analysis result.
 
 ## Receipt
 
