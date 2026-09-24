@@ -56,11 +56,21 @@ The ZIP contains the complete `data_archive/` directory. Internal file checksums
 
 ## DOI gate
 
+Use a **reserved Zenodo DOI before the final package build**. This avoids a
+self-referential archive cycle in which minting the DOI changes the repository
+commit recorded inside the deposited ZIP.
+
 ~~~text
-ACCESS_ROUTING_ARCHIVE_DOI = REQUIRED_BEFORE_SUBMISSION
+1. create and save the Zenodo draft
+2. reserve the DOI in the draft
+3. insert that reserved DOI into the manuscript/title page/cover/status
+4. commit those DOI insertions
+5. build the final package from that exact commit
+6. upload access-routing-letter-data-code-v1.zip to the same Zenodo draft
+7. verify the ZIP SHA256 and publish the record
 ~~~
 
-Once a DOI is minted, update all of:
+Before step 5, update all of:
 
 1. `submission/ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md`
 2. `manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md`
@@ -68,4 +78,10 @@ Once a DOI is minted, update all of:
 4. `docs/PUBLICATION_STATUS.md`
 5. issue #227
 
-Do not mark the external submission gate ready until the DOI resolves for editors/reviewers.
+~~~text
+ACCESS_ROUTING_ARCHIVE_DOI = RESERVED_DOI_REQUIRED_BEFORE_FINAL_PACKAGE_BUILD
+~~~
+
+The reserved DOI is not registered until the Zenodo record is published. Do not
+delete the draft after reserving the DOI. Do not mark the external submission
+gate ready until the published DOI resolves for editors/reviewers.
