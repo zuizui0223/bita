@@ -29,6 +29,7 @@ on:
       - "scripts/audit_sakhalkar2023_zenodo.py"
       - "scripts/build_access_routing_letter_figures_svg.py"
       - "scripts/format_ecology_submission_docx.py"
+      - "scripts/apply_reserved_archive_doi.py"
       - "scripts/build_sakhalkar2023_route_figure_svg.py"
       - "trait_architecture/numerics.py"
       - "tests/test_access_routing_letter.py"
@@ -327,6 +328,16 @@ jobs:
 
           assert rows(root / "data_archive/sakhalkar_species_analysis.csv") == 57
           assert rows(root / "data_archive/aubert_ephi_pair_site_analysis.csv") == 1378
+
+          reserved = Path("submission/access_routing_archive/RESERVED_DOI_RECEIPT.json")
+          archived_reserved = root / "data_archive/RESERVED_DOI_RECEIPT.json"
+          if reserved.is_file():
+              if not archived_reserved.is_file():
+                  raise SystemExit("reserved DOI receipt missing from final data archive")
+              if archived_reserved.read_bytes() != reserved.read_bytes():
+                  raise SystemExit("reserved DOI receipt changed during archive assembly")
+          elif archived_reserved.exists():
+              raise SystemExit("unexpected reserved DOI receipt in pre-reservation archive")
 
           f3 = (root / "FIGURE_3_JOINT_ACCESS_ROUTING.svg").read_text()
           for token in ["0.347", "0.351", "0.349", "p = 0.0001"]:
