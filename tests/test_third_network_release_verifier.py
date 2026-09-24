@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import shutil
+import stat
 import zipfile
 from pathlib import Path
 
@@ -46,6 +47,29 @@ def _zip_paths(output: Path) -> tuple[Path, Path]:
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
+
+
+def _rewrite_zip_with_mode(zip_path: Path, target_name: str, target_mode: int) -> None:
+    with zipfile.ZipFile(zip_path, "r") as source:
+        members = [(info.filename, source.read(info)) for info in source.infolist()]
+
+    tmp = zip_path.with_suffix(zip_path.suffix + ".tmp")
+    with zipfile.ZipFile(tmp, "w", compression=zipfile.ZIP_STORED) as archive:
+        for name, data in members:
+            info = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+            info.create_system = 3
+            mode = target_mode if name == target_name else (stat.S_IFREG | 0o644)
+            info.external_attr = (mode & 0xFFFF) << 16
+            info.compress_type = zipfile.ZIP_STORED
+            archive.writestr(info, data, compress_type=zipfile.ZIP_STORED)
+    tmp.replace(zip_path)
+
+
+def _refresh_zip_receipt(zip_path: Path, sha_path: Path) -> None:
+    sha_path.write_text(
+        f"{_sha256(zip_path)}  {zip_path.name}\\n",
+        encoding="utf-8",
+    )
 
 def test_release_verifier_accepts_complete_directory_zip_and_receipt(tmp_path) -> None:
     output = _package(tmp_path, "positive")
@@ -122,6 +146,51 @@ def test_release_verifier_detects_zip_tampering_even_with_updated_sha_receipt(tm
     assert result["status"] == INVALID_STATUS
     assert "release_zip_duplicate_member" in result["failures"]
 
+
+
+def test_release_verifier_rejects_symlink_member_metadata_even_when_bytes_match(tmp_path) -> None:
+    output = _package(tmp_path, "positive")
+    zip_path, sha_path = _zip_paths(output)
+
+    _rewrite_zip_with_mode(zip_path, "README.md", stat.S_IFLNK | 0o777)
+    _refresh_zip_receipt(zip_path, sha_path)
+
+    result = verify_release_package(output, require_archive=True)
+    assert result["status"] == INVALID_STATUS
+    assert "release_zip_member_metadata_mismatch:README.md" in result["failures"]
+    check = result["archive_verification"]["member_checks"]["README.md"]
+    assert check["bytes_match"] is True
+    assert check["regular_file"] is False
+
+
+def test_release_verifier_rejects_executable_permission_drift(tmp_path) -> None:
+    output = _package(tmp_path, "positive")
+    zip_path, sha_path = _zip_paths(output)
+
+    _rewrite_zip_with_mode(zip_path, "README.md", stat.S_IFREG | 0o755)
+    _refresh_zip_receipt(zip_path, sha_path)
+
+    result = verify_release_package(output, require_archive=True)
+    assert result["status"] == INVALID_STATUS
+    assert "release_zip_member_metadata_mismatch:README.md" in result["failures"]
+    check = result["archive_verification"]["member_checks"]["README.md"]
+    assert check["bytes_match"] is True
+    assert check["regular_file"] is True
+    assert check["permission_match"] is False
+
+
+def test_release_verifier_rejects_archive_comment_even_with_refreshed_digest(tmp_path) -> None:
+    output = _package(tmp_path, "positive")
+    zip_path, sha_path = _zip_paths(output)
+
+    with zipfile.ZipFile(zip_path, "a") as archive:
+        archive.comment = b"tampered archival annotation"
+    _refresh_zip_receipt(zip_path, sha_path)
+
+    result = verify_release_package(output, require_archive=True)
+    assert result["status"] == INVALID_STATUS
+    assert "release_zip_archive_comment_forbidden" in result["failures"]
+    assert result["archive_verification"]["archive_comment_empty"] is False
 
 def test_release_verifier_detects_unsafe_checksum_member(tmp_path) -> None:
     output = _package(tmp_path, "positive")
