@@ -61,9 +61,10 @@ A stricter formal-recurrence lane uses the **56 distinct Leal et al. (2025)
 assumed to be 56 independent studies: source audit found two labels that combine
 rows from different source programs. Current label-level screening is 50
 geometry-ineligible, 4 eligible, and 2 provenance-conflicted. Only 4 of the 15
-direct programs overlap the Leal frame. Source-level repair plus a
-geometry-specific systematic update/gap-fill search are required before any formal
-recurrence statistic is opened.
+direct programs overlap the Leal frame. The two source conflicts do not affect geometry eligibility: all verified/plausible
+source components are geometry-ineligible, so the historical direct-eligible set is
+stable at four. The remaining gate before any formal recurrence statistic is a
+finite, exportable, deduplicated geometry-specific bibliographic update frame.
 
 The floral-defence corpus and effective-access / exposure framework are retained as
 mechanistic context for why route switching is biologically plausible. They are not
@@ -125,6 +126,7 @@ DIRECT_EVIDENCE_DIRECTIONS = 16_POSITIVE_5_NULL_1_OPPOSITE_2_MIXED
 FORMAL_HISTORICAL_FRAME = LEAL2025_56_STUDY_FIELD_LABELS
 FORMAL_HISTORICAL_SOURCE_PROGRAMS = NOT_YET_FINAL
 FORMAL_HISTORICAL_PROVENANCE_CONFLICTS = 2
+HISTORICAL_DIRECT_ELIGIBLE_SET = RESOLVED_AT_4_INVARIANT_TO_CONFLICT_SPLIT
 STAGE_U_BATCHES_1_2 = 23_CANDIDATES_9_ELIGIBLE_1_DUPLICATE_13_INELIGIBLE
 STAGE_U_SEARCH = FINAL_SYNONYM_PASS_COMPLETE_BOUNDED_SEARCH_STILL_NOT_FORMAL
 FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED

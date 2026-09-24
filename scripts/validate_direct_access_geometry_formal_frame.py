@@ -12,6 +12,7 @@ LEAL = BASE / "LEAL2025_ROBBER_STUDY_FRAME_V1.csv"
 DIRECT = BASE / "DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv"
 CROSSWALK = BASE / "DIRECT_ACCESS_GEOMETRY_LEAL2025_CROSSWALK_V1.csv"
 PROVENANCE = BASE / "LEAL2025_STUDY_LABEL_PROVENANCE_AUDIT_V1.csv"
+PROVENANCE_ELIGIBILITY = BASE / "LEAL2025_PROVENANCE_ELIGIBILITY_INVARIANCE_V1.md"
 
 
 def _read(path: Path) -> list[dict[str, str]]:
@@ -24,6 +25,7 @@ def validate() -> dict[str, object]:
     direct = _read(DIRECT)
     cross = _read(CROSSWALK)
     provenance = _read(PROVENANCE)
+    provenance_eligibility = PROVENANCE_ELIGIBILITY.read_text(encoding="utf-8")
 
     leal_ids = [row["study_id"].strip() for row in leal]
     direct_ids = [row["study_id"].strip() for row in direct]
@@ -79,17 +81,28 @@ def validate() -> dict[str, object]:
     }:
         raise ValueError("PROVENANCE_INVALID_CLASSIFICATION")
 
+    for token in (
+        "PROVENANCE_CONFLICT_CAN_ADD_DIRECT_GEOMETRY_ELIGIBLE_PROGRAM = NO",
+        "HISTORICAL_DIRECT_ELIGIBLE_SET = RESOLVED_INVARIANT_TO_SOURCE_SPLIT",
+        "HISTORICAL_DIRECT_GEOMETRY_ELIGIBLE_LABELS = 4",
+    ):
+        if token not in provenance_eligibility:
+            raise ValueError(f"PROVENANCE_ELIGIBILITY_INVARIANCE_MISSING:{token}")
+
     return {
         "schema": "BITA_DIRECT_ACCESS_GEOMETRY_FORMAL_FRAME_V1",
         "historical_frame_study_labels": len(leal_ids),
         "historical_source_resolved_programs": None,
         "provenance_conflict_labels": len(conflicts),
+        "historical_direct_eligible_set_resolved": True,
+        "provenance_conflicts_can_add_direct_eligible_program": False,
+        "historical_direct_geometry_eligible_programs": 4,
         "direct_discovery_programs": len(direct_ids),
         "discovery_overlap_with_historical_frame": len(in_frame),
         "discovery_not_in_historical_frame": len(direct_ids) - len(in_frame),
         "formal_recurrence_result_open": False,
         "primary_standardized_network_k": 2,
-        "status": "FRAME_FROZEN_PROVENANCE_REPAIR_AND_STAGE_U_REQUIRED",
+        "status": "FRAME_FROZEN_FORMAL_BIBLIOGRAPHIC_UPDATE_REQUIRED",
     }
 
 

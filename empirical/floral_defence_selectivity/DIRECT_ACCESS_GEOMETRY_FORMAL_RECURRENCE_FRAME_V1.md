@@ -8,6 +8,9 @@ HISTORICAL_FRAME = LEAL_2025_ROBBER_STUDIES
 HISTORICAL_STUDY_FIELD_LABELS = 56
 HISTORICAL_SOURCE_RESOLVED_PROGRAMS = NOT_YET_FINAL
 PROVENANCE_CONFLICT_LABELS = 2
+HISTORICAL_DIRECT_ELIGIBLE_SET = RESOLVED_INVARIANT_TO_SOURCE_SPLIT
+HISTORICAL_DIRECT_GEOMETRY_ELIGIBLE_PROGRAMS = 4
+PROVENANCE_CONFLICT_CAN_ADD_DIRECT_GEOMETRY_ELIGIBLE_PROGRAM = NO
 DIRECT_DISCOVERY_PROGRAMS = 24
 DIRECT_DISCOVERY_OVERLAP_WITH_HISTORICAL_FRAME = 4
 FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
@@ -47,6 +50,14 @@ multi-species programs but two labels (`Varma&Sinu2019` and
 `Zhangetal2009a`) combine rows that cannot all originate from the named source.
 The 56 values must therefore not be treated as 56 verified independent programs.
 See `LEAL2025_STUDY_LABEL_PROVENANCE_AUDIT_V1.md`.
+
+The conflict components were then audited independently for the direct geometry
+question. The verified Sesamum, Embothrium and Corydalis sources, and every
+currently plausible Glechoma source component, all fail the frozen
+geometry→robbery eligibility contract. Thus source splitting can change the count
+of all historical programs but **cannot add another historical direct-geometry
+eligible program**. The historical eligible set is stable at four. See
+`LEAL2025_PROVENANCE_ELIGIBILITY_INVARIANCE_V1.md`.
 
 ## Stage U — systematic update / gap fill
 
@@ -131,12 +142,18 @@ Do not calculate a recurrence p-value from the 24-study direct corpus.
 A formal directional recurrence analysis opens only after:
 
 ~~~text
-HISTORICAL_LABEL_PROVENANCE = SOURCE_RESOLVED
+HISTORICAL_DIRECT_ELIGIBLE_SET = RESOLVED
 HISTORICAL_FRAME_SCREENED = COMPLETE
-UPDATE_FRAME_SEARCH = COMPLETE
+FORMAL_BIBLIOGRAPHIC_UPDATE_FRAME = COMPLETE
 DUPLICATES_RESOLVED = COMPLETE
 ELIGIBILITY_FROZEN_BEFORE_DIRECTION_CODING = COMPLETE
 ~~~
+
+The unresolved row-level provenance still blocks a claim about the exact total
+number of historical biological programs, but it no longer blocks the historical
+direct-geometry eligible set. Formal recurrence therefore now hinges on one
+remaining inferential gate: a finite, exportable, deduplicated bibliographic
+update frame beyond the Leal anchor.
 
 At that point, report at minimum:
 
