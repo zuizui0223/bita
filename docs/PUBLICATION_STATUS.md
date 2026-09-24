@@ -33,6 +33,23 @@ k = 2 independent networks
 
 The joint statistic tests recurrence across these two networks only. It does not estimate between-network heterogeneity, a network-population mean, or generality beyond the two systems.
 
+## Mechanistic boundary
+
+The current routing claim is now expressed as a **relative-route-cost** condition.
+
+~~~text
+D(x) = C_legitimate(x) - C_bypass(x)
+
+dD/dx > 0  -> bypass propensity increases
+dD/dx ≈ 0  -> weak / null routing response
+dD/dx < 0  -> bypass propensity can decrease
+~~~
+
+Thus the paper no longer implies a universal “longer flower = more robbery” rule.
+Access constraints promote rerouting when they penalize legitimate access more than
+the bypass route. Null, mixed and opposite direct studies define boundary conditions
+for this mechanism.
+
 ## Direct empirical and mechanistic context
 
 The standardized joint network statistic remains **k = 2**.
@@ -121,6 +138,8 @@ The archive contract contains the exact 57-species and 1,378-pair-site analysis 
 ```text
 STATUS = SCIENTIFIC_PACKAGE_READY
 ACTIVE_PAPER = ACCESS_ROUTING_LETTER
+ROUTING_MECHANISM = RELATIVE_ROUTE_COST
+ROUTE_COST_BOUNDARY = dC_LEGITIMATE_MINUS_dC_BYPASS
 DIRECT_ACCESS_GEOMETRY_PROGRAMS = 24
 DIRECT_EVIDENCE_DIRECTIONS = 16_POSITIVE_5_NULL_1_OPPOSITE_2_MIXED
 FORMAL_HISTORICAL_FRAME = LEAL2025_56_STUDY_FIELD_LABELS
