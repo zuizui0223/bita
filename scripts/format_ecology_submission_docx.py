@@ -7,7 +7,7 @@ from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-from docx.shared import Inches, Pt
+from docx.shared import Inches, Pt, RGBColor
 
 
 TITLE_BREAK = "[[ECOLOGY_SECTION_BREAK_AFTER_TITLE]]"
@@ -152,7 +152,7 @@ def _configure_sections(doc: Document) -> None:
     _suppress_line_numbers(p)
 
 
-def _format_document(doc: Document, *, appendix: bool) -> None:
+def _format_document(doc: Document, *, appendix: bool, black_headings: bool = False) -> None:
     region = "appendix" if appendix else "title"
 
     for paragraph in doc.paragraphs:
@@ -197,11 +197,14 @@ def _format_document(doc: Document, *, appendix: bool) -> None:
     normal.paragraph_format.line_spacing = 2
     normal.paragraph_format.space_after = Pt(0)
 
-    for style_name in ("Title", "Heading 1", "Heading 2", "Heading 3", "Heading 4"):
+    heading_styles = ("Title", "Heading 1", "Heading 2", "Heading 3", "Heading 4")
+    for style_name in heading_styles:
         if style_name in doc.styles:
             style = doc.styles[style_name]
             style.font.name = "Times New Roman"
             style.font.size = Pt(12)
+            if black_headings:
+                style.font.color.rgb = RGBColor(0, 0, 0)
             style.paragraph_format.line_spacing = 2
 
     for paragraph in doc.paragraphs:
@@ -210,6 +213,8 @@ def _format_document(doc: Document, *, appendix: bool) -> None:
         paragraph.paragraph_format.space_after = Pt(0)
         for run in paragraph.runs:
             _set_run_font(run, Pt(12))
+            if black_headings and paragraph.style.name in heading_styles:
+                run.font.color.rgb = RGBColor(0, 0, 0)
 
     for table in doc.tables:
         table.autofit = True
@@ -227,10 +232,15 @@ def main() -> None:
     parser.add_argument("input_docx", type=Path)
     parser.add_argument("output_docx", type=Path)
     parser.add_argument("--appendix", action="store_true")
+    parser.add_argument("--black-headings", action="store_true")
     args = parser.parse_args()
 
     doc = Document(args.input_docx)
-    _format_document(doc, appendix=args.appendix)
+    _format_document(
+        doc,
+        appendix=args.appendix,
+        black_headings=args.black_headings,
+    )
     args.output_docx.parent.mkdir(parents=True, exist_ok=True)
     doc.save(args.output_docx)
 
