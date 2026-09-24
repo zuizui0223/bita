@@ -25,4 +25,8 @@ Analysis-ready data tables, metadata, code and frozen derived outputs supporting
 
 **Version:** v1.0 submission archive
 
-**DOI:** REQUIRED AFTER DEPOSIT
+**DOI:** RESERVE IN ZENODO DRAFT BEFORE THE FINAL DOI-BEARING SUBMISSION COMMIT
+
+Use the reserved DOI in the manuscript/title page/cover before building the final
+deposit ZIP. Publish this same draft only after the final ZIP from that exact
+commit has been uploaded and verified.
