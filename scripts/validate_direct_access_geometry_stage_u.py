@@ -69,10 +69,11 @@ def validate(path: Path = REGISTRY) -> dict[str, object]:
             key: directions.get(key, 0)
             for key in ("POSITIVE", "NULL", "OPPOSITE", "MIXED")
         },
-        "stage_u_search_complete": False,
+        "stage_u_bounded_web_search_complete": True,
+        "formal_systematic_update_frame_complete": False,
         "formal_recurrence_result_open": False,
         "primary_standardized_network_k": 2,
-        "status": "STAGE_U_BATCH_2_SCREENED_SEARCH_CONTINUES",
+        "status": "STAGE_U_BOUNDED_WEB_SEARCH_COMPLETE_FORMAL_FRAME_REQUIRED",
     }
 
 
