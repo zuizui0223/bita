@@ -13,6 +13,10 @@ from scripts.verify_third_network_confirmatory_bundle import (
     VERIFIED_STATUS,
     verify,
 )
+from trait_architecture.existing_k3_inputs import (
+    MATCH_STATUS as EXISTING_K3_MATCH_STATUS,
+    PRODUCTION_INPUT_MODE,
+)
 
 
 def _sha(path) -> str:
@@ -204,3 +208,24 @@ def test_bundle_verifier_rejects_coherently_rehashed_resource_limit_drift(tmp_pa
         "semantic_resource_limit_mismatch:max_event_rows"
         in result["failures"]
     )
+
+def test_bundle_verifier_rejects_coherently_rehashed_noncanonical_production_inputs(tmp_path) -> None:
+    _fixture, output = _run_bundle(tmp_path)
+
+    receipt_path = output / "confirmatory_analysis_receipt.json"
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    receipt["existing_network_input_mode"] = PRODUCTION_INPUT_MODE
+    receipt["existing_network_canonical_status"] = EXISTING_K3_MATCH_STATUS
+    receipt_path.write_text(
+        json.dumps(receipt, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    _rewrite_bundle_checksums(output)
+
+    result = verify(output)
+    assert result["status"] == "CONFIRMATORY_BUNDLE_INVALID"
+    assert any(
+        item.startswith("existing_network_canonical_")
+        for item in result["failures"]
+    )
+
