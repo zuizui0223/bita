@@ -10,6 +10,8 @@ on:
       - "scripts/export_access_routing_archive.py"
       - "scripts/reproduce_access_routing_archive.py"
       - "scripts/format_ecology_submission_docx.py"
+      - "scripts/apply_reserved_archive_doi.py"
+      - "tests/test_reserved_archive_doi.py"
       - ".github/workflows/build-access-routing-letter-package.yml"
   pull_request:
     paths:
@@ -32,6 +34,7 @@ on:
       - "tests/test_access_routing_letter.py"
       - "tests/test_access_routing_letter_figures.py"
       - "tests/test_ecology_letters_letter_submission.py"
+      - "tests/test_reserved_archive_doi.py"
       - "empirical/floral_defence_selectivity/results/joint_access_routing.json"
       - "empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json"
       - "empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json"
@@ -66,7 +69,8 @@ jobs:
           pytest -q \
             tests/test_access_routing_letter.py \
             tests/test_access_routing_letter_figures.py \
-            tests/test_ecology_letters_letter_submission.py
+            tests/test_ecology_letters_letter_submission.py \
+            tests/test_reserved_archive_doi.py
 
       - name: Build Letter Figures 1 and 3
         run: |
@@ -176,6 +180,9 @@ jobs:
           cp submission/access_routing_archive/README.md artifacts/letter/data_archive/
           cp submission/access_routing_archive/ZENODO_METADATA_TEMPLATE.md artifacts/letter/data_archive/
           cp submission/access_routing_archive/DEPOSIT_CHECKLIST_V1.md artifacts/letter/data_archive/
+          if [ -f submission/access_routing_archive/RESERVED_DOI_RECEIPT.json ]; then
+            cp submission/access_routing_archive/RESERVED_DOI_RECEIPT.json artifacts/letter/data_archive/
+          fi
 
           mkdir -p artifacts/letter/data_archive/code/scripts
           mkdir -p artifacts/letter/data_archive/code/trait_architecture
@@ -247,6 +254,7 @@ jobs:
 
           PDF=artifacts/letter/rendered/ECOLOGY_LETTERS_LETTER_SUBMISSION.pdf
           TXT="$RUNNER_TEMP/access-routing-letter.txt"
+          export TXT
           test -s "$PDF"
           pdfinfo "$PDF" | tee "$RUNNER_TEMP/access-routing-letter-pdfinfo.txt"
           pdftotext -layout "$PDF" "$TXT"
@@ -255,7 +263,23 @@ jobs:
           grep -q 'Article type:' "$TXT"
           grep -q 'Abstract' "$TXT"
           grep -q 'Data accessibility and reproducibility' "$TXT"
-          grep -q 'ACCESS-ROUTING ARCHIVE DOI' "$TXT"
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          text = Path(os.environ["TXT"]).read_text(encoding="utf-8", errors="replace")
+          receipt = Path("submission/access_routing_archive/RESERVED_DOI_RECEIPT.json")
+          if receipt.is_file():
+              doi = json.loads(receipt.read_text(encoding="utf-8"))["doi"]
+              if doi not in text:
+                  raise SystemExit(f"reserved archive DOI missing from rendered submission: {doi}")
+              if "ACCESS-ROUTING ARCHIVE DOI" in text:
+                  raise SystemExit("archive DOI placeholder remains after DOI reservation")
+          else:
+              if "ACCESS-ROUTING ARCHIVE DOI" not in text:
+                  raise SystemExit("pre-reservation archive DOI placeholder missing unexpectedly")
+          PY
           grep -q 'References' "$TXT"
 
           pdftoppm -png -r 110 "$PDF" artifacts/letter/rendered/page_pngs/page >/dev/null 2>&1
