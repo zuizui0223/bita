@@ -1,0 +1,462 @@
+"""Read-only verifier for a packaged third-network confirmatory release.
+
+This verifier checks the archival shell before any scientific replay:
+- exact FILE_SHA256SUMS inventory and per-file hashes;
+- release-manifest identity and retained-result guardrails;
+- frozen-input/code/protocol hash maps against packaged files;
+- nested confirmatory-bundle verification with frozen source recheck;
+- optional adjacent deterministic ZIP and .sha256 receipt, including member
+  inventory, bytes, timestamps, compression mode, and path safety.
+
+It never mutates the release and never changes scientific claims.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import re
+import zipfile
+from pathlib import Path, PurePosixPath
+
+if __package__ in {None, ""}:
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from scripts.verify_third_network_confirmatory_bundle import (
+    VERIFIED_STATUS as BUNDLE_VERIFIED_STATUS,
+    verify as verify_bundle,
+)
+
+RECEIPT_TYPE = "BITA_THIRD_NETWORK_CONFIRMATORY_RELEASE_PACKAGE_V1"
+VERIFIED_STATUS = "RELEASE_PACKAGE_VERIFIED"
+INVALID_STATUS = "RELEASE_PACKAGE_INVALID"
+HEX64 = re.compile(r"^[0-9a-f]{64}$")
+FIXED_ZIP_TIME = (1980, 1, 1, 0, 0, 0)
+
+
+def _sha256_bytes(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _safe_rel(value: str) -> bool:
+    text = str(value).strip().replace("\\", "/")
+    if not text:
+        return False
+    path = PurePosixPath(text)
+    return (
+        not path.is_absolute()
+        and "." not in path.parts
+        and ".." not in path.parts
+        and all(part not in {"", ".", ".."} for part in path.parts)
+    )
+
+
+def _load_json(path: Path) -> object:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _parse_checksum_manifest(
+    path: Path,
+    failures: list[str],
+) -> dict[str, str]:
+    expected: dict[str, str] = {}
+    if not path.is_file():
+        failures.append("file_checksum_manifest_missing")
+        return expected
+
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        if not raw.strip():
+            continue
+        parts = raw.split("  ", 1)
+        if len(parts) != 2:
+            failures.append("file_checksum_manifest_malformed")
+            continue
+        digest = parts[0].strip().lower()
+        rel = parts[1].strip().replace("\\", "/")
+        if not HEX64.fullmatch(digest) or not _safe_rel(rel) or rel in expected:
+            failures.append("file_checksum_manifest_malformed")
+            continue
+        expected[rel] = digest
+    return expected
+
+
+def _actual_inventory(root: Path, failures: list[str]) -> dict[str, Path]:
+    actual: dict[str, Path] = {}
+    if not root.is_dir():
+        failures.append("release_directory_missing")
+        return actual
+
+    for path in root.rglob("*"):
+        if path.is_symlink():
+            failures.append(
+                f"release_symlink_forbidden:{path.relative_to(root).as_posix()}"
+            )
+            continue
+        if not path.is_file():
+            continue
+        rel = path.relative_to(root).as_posix()
+        if rel == "FILE_SHA256SUMS.txt":
+            continue
+        actual[rel] = path
+    return actual
+
+
+def _verify_declared_maps(
+    root: Path,
+    manifest: dict[str, object],
+    failures: list[str],
+) -> dict[str, dict[str, object]]:
+    checks: dict[str, dict[str, object]] = {}
+
+    frozen = manifest.get("frozen_inputs", {})
+    if not isinstance(frozen, dict) or not frozen:
+        failures.append("release_manifest_frozen_inputs_missing")
+    else:
+        for key, entry in frozen.items():
+            if not isinstance(entry, dict):
+                failures.append(f"release_manifest_frozen_input_invalid:{key}")
+                continue
+            filename = str(entry.get("filename", "")).strip()
+            expected = str(entry.get("sha256", "")).strip().lower()
+            rel = f"frozen_inputs/{filename}"
+            path = root / rel
+            actual = _sha256(path) if path.is_file() else None
+            match = (
+                _safe_rel(filename)
+                and "/" not in filename
+                and HEX64.fullmatch(expected) is not None
+                and actual == expected
+            )
+            checks[f"frozen:{key}"] = {
+                "path": rel,
+                "expected_sha256": expected,
+                "actual_sha256": actual,
+                "match": match,
+            }
+            if not match:
+                failures.append(f"release_manifest_frozen_input_mismatch:{key}")
+
+    code = manifest.get("code_files", {})
+    if not isinstance(code, dict) or not code:
+        failures.append("release_manifest_code_files_missing")
+    else:
+        for rel_raw, expected_raw in code.items():
+            rel_code = str(rel_raw).strip().replace("\\", "/")
+            expected = str(expected_raw).strip().lower()
+            rel = f"code/{rel_code}"
+            path = root / rel
+            actual = _sha256(path) if path.is_file() else None
+            match = (
+                _safe_rel(rel_code)
+                and HEX64.fullmatch(expected) is not None
+                and actual == expected
+            )
+            checks[f"code:{rel_code}"] = {
+                "path": rel,
+                "expected_sha256": expected,
+                "actual_sha256": actual,
+                "match": match,
+            }
+            if not match:
+                failures.append(f"release_manifest_code_file_mismatch:{rel_code}")
+
+    protocol = manifest.get("protocol_files", {})
+    if not isinstance(protocol, dict) or not protocol:
+        failures.append("release_manifest_protocol_files_missing")
+    else:
+        for filename_raw, expected_raw in protocol.items():
+            filename = str(filename_raw).strip()
+            expected = str(expected_raw).strip().lower()
+            rel = f"protocol/{filename}"
+            path = root / rel
+            actual = _sha256(path) if path.is_file() else None
+            match = (
+                _safe_rel(filename)
+                and "/" not in filename
+                and HEX64.fullmatch(expected) is not None
+                and actual == expected
+            )
+            checks[f"protocol:{filename}"] = {
+                "path": rel,
+                "expected_sha256": expected,
+                "actual_sha256": actual,
+                "match": match,
+            }
+            if not match:
+                failures.append(
+                    f"release_manifest_protocol_file_mismatch:{filename}"
+                )
+
+    return checks
+
+
+def _verify_zip(
+    root: Path,
+    *,
+    zip_path: Path,
+    sha_path: Path,
+    failures: list[str],
+) -> dict[str, object]:
+    result: dict[str, object] = {
+        "zip_path": str(zip_path),
+        "sha256_receipt_path": str(sha_path),
+        "zip_exists": zip_path.is_file(),
+        "sha256_receipt_exists": sha_path.is_file(),
+    }
+    if not zip_path.is_file():
+        failures.append("release_zip_missing")
+        return result
+    if not sha_path.is_file():
+        failures.append("release_zip_sha256_receipt_missing")
+        return result
+
+    zip_sha = _sha256(zip_path)
+    result["actual_zip_sha256"] = zip_sha
+
+    lines = [line for line in sha_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    receipt_ok = False
+    expected_zip_sha: str | None = None
+    if len(lines) != 1:
+        failures.append("release_zip_sha256_receipt_malformed")
+    else:
+        parts = lines[0].split("  ", 1)
+        if len(parts) == 2:
+            expected_zip_sha = parts[0].strip().lower()
+            expected_name = parts[1].strip()
+            receipt_ok = (
+                HEX64.fullmatch(expected_zip_sha) is not None
+                and expected_name == zip_path.name
+                and expected_zip_sha == zip_sha
+            )
+        if not receipt_ok:
+            failures.append("release_zip_sha256_receipt_mismatch")
+
+    result["expected_zip_sha256"] = expected_zip_sha
+    result["sha256_receipt_match"] = receipt_ok
+
+    directory_files = {
+        path.relative_to(root).as_posix(): path
+        for path in root.rglob("*")
+        if path.is_file() and not path.is_symlink()
+    }
+
+    try:
+        with zipfile.ZipFile(zip_path) as archive:
+            infos = archive.infolist()
+            names = [info.filename for info in infos]
+            if len(names) != len(set(names)):
+                failures.append("release_zip_duplicate_member")
+            if any(not _safe_rel(name) for name in names):
+                failures.append("release_zip_unsafe_member")
+            if set(names) != set(directory_files):
+                failures.append("release_zip_inventory_mismatch")
+
+            member_checks: dict[str, dict[str, object]] = {}
+            for info in infos:
+                name = info.filename
+                safe = _safe_rel(name)
+                directory_path = directory_files.get(name)
+                member_bytes = archive.read(info) if safe else b""
+                directory_sha = (
+                    _sha256(directory_path)
+                    if directory_path is not None and directory_path.is_file()
+                    else None
+                )
+                member_sha = _sha256_bytes(member_bytes) if safe else None
+                bytes_match = (
+                    directory_sha is not None
+                    and member_sha is not None
+                    and directory_sha == member_sha
+                )
+                metadata_match = (
+                    info.compress_type == zipfile.ZIP_STORED
+                    and info.date_time == FIXED_ZIP_TIME
+                )
+                member_checks[name] = {
+                    "safe_path": safe,
+                    "directory_sha256": directory_sha,
+                    "zip_member_sha256": member_sha,
+                    "bytes_match": bytes_match,
+                    "metadata_match": metadata_match,
+                }
+                if not bytes_match:
+                    failures.append(f"release_zip_member_bytes_mismatch:{name}")
+                if not metadata_match:
+                    failures.append(f"release_zip_member_metadata_mismatch:{name}")
+            result["member_checks"] = member_checks
+    except (OSError, zipfile.BadZipFile, RuntimeError, KeyError) as exc:
+        failures.append(f"release_zip_unreadable:{type(exc).__name__}")
+
+    return result
+
+
+def verify_release_package(
+    release_dir: str | Path,
+    *,
+    zip_path: str | Path | None = None,
+    sha256_receipt_path: str | Path | None = None,
+    require_archive: bool = False,
+) -> dict[str, object]:
+    root = Path(release_dir)
+    failures: list[str] = []
+
+    checksum_path = root / "FILE_SHA256SUMS.txt"
+    expected = _parse_checksum_manifest(checksum_path, failures)
+    actual = _actual_inventory(root, failures)
+
+    expected_names = set(expected)
+    actual_names = set(actual)
+    if expected_names != actual_names:
+        failures.append("file_checksum_inventory_mismatch")
+
+    file_checks: dict[str, dict[str, object]] = {}
+    for rel in sorted(expected_names | actual_names):
+        path = actual.get(rel)
+        actual_sha = _sha256(path) if path is not None and path.is_file() else None
+        expected_sha = expected.get(rel)
+        match = (
+            path is not None
+            and expected_sha is not None
+            and actual_sha == expected_sha
+        )
+        file_checks[rel] = {
+            "expected_sha256": expected_sha,
+            "actual_sha256": actual_sha,
+            "match": match,
+        }
+        if not match:
+            failures.append(f"file_checksum_mismatch:{rel}")
+
+    manifest_path = root / "release_manifest.json"
+    manifest = _load_json(manifest_path) if manifest_path.is_file() else {}
+    if not isinstance(manifest, dict):
+        manifest = {}
+        failures.append("release_manifest_invalid")
+    if manifest.get("receipt") != RECEIPT_TYPE:
+        failures.append("release_manifest_wrong_receipt")
+    if manifest.get("status") != "RELEASE_PACKAGE_READY":
+        failures.append("release_manifest_not_ready")
+    if manifest.get("network_count") != 3:
+        failures.append("release_manifest_network_count_mismatch")
+    if manifest.get("scientific_claim_allowed_by_archive_alone") is not False:
+        failures.append("release_manifest_claim_guard_missing")
+    if manifest.get("automatic_manuscript_edit_permitted") is not False:
+        failures.append("release_manifest_auto_edit_guard_missing")
+    if manifest.get("third_network_must_be_retained") is not True:
+        failures.append("release_manifest_retention_guard_missing")
+    if manifest.get("existing_network_inputs_verified") is not True:
+        failures.append("release_manifest_existing_network_guard_missing")
+
+    declared_checks = _verify_declared_maps(root, manifest, failures)
+
+    plan_path = root / "claim_transition_plan.json"
+    plan = _load_json(plan_path) if plan_path.is_file() else {}
+    if not isinstance(plan, dict):
+        plan = {}
+        failures.append("claim_transition_plan_invalid")
+    if plan.get("automatic_manuscript_edit_permitted") is not False:
+        failures.append("claim_transition_auto_edit_guard_missing")
+    if plan.get("third_network_must_be_retained") is not True:
+        failures.append("claim_transition_retention_guard_missing")
+    if (
+        manifest.get("claim_state") is not None
+        and plan.get("claim_state") != manifest.get("claim_state")
+    ):
+        failures.append("claim_state_manifest_plan_mismatch")
+
+    bundle_dir = root / "confirmatory_bundle"
+    source_dir = root / "frozen_inputs"
+    try:
+        bundle_verification = verify_bundle(bundle_dir, source_dir=source_dir)
+    except Exception as exc:  # read-only verifier must report rather than mask.
+        bundle_verification = {
+            "status": "CONFIRMATORY_BUNDLE_INVALID",
+            "failures": [f"exception:{type(exc).__name__}"],
+        }
+        failures.append("nested_confirmatory_bundle_verifier_exception")
+    if bundle_verification.get("status") != BUNDLE_VERIFIED_STATUS:
+        failures.append("nested_confirmatory_bundle_invalid")
+
+    inferred_zip = Path(str(root) + ".zip")
+    inferred_sha = Path(str(inferred_zip) + ".sha256")
+    archive_requested = (
+        require_archive
+        or zip_path is not None
+        or sha256_receipt_path is not None
+        or inferred_zip.exists()
+        or inferred_sha.exists()
+    )
+    archive_verification: dict[str, object] | None = None
+    archive_mode = "ZIP_NOT_RECHECKED"
+    if archive_requested:
+        archive_verification = _verify_zip(
+            root,
+            zip_path=Path(zip_path) if zip_path is not None else inferred_zip,
+            sha_path=(
+                Path(sha256_receipt_path)
+                if sha256_receipt_path is not None
+                else inferred_sha
+            ),
+            failures=failures,
+        )
+        archive_mode = "ZIP_RECHECKED"
+
+    status = VERIFIED_STATUS if not failures else INVALID_STATUS
+    return {
+        "receipt": "BITA_THIRD_NETWORK_RELEASE_PACKAGE_VERIFICATION_V1",
+        "status": status,
+        "failures": sorted(set(failures)),
+        "archive_recheck_mode": archive_mode,
+        "file_checksum_manifest_sha256": (
+            _sha256(checksum_path) if checksum_path.is_file() else None
+        ),
+        "file_checks": file_checks,
+        "declared_manifest_checks": declared_checks,
+        "nested_confirmatory_bundle_status": bundle_verification.get("status"),
+        "nested_confirmatory_bundle_failures": bundle_verification.get("failures", []),
+        "archive_verification": archive_verification,
+        "claim_boundary": (
+            "This read-only gate verifies release integrity and frozen claim guards. "
+            "It does not recompute the scientific estimand or alter manuscript claims."
+        ),
+    }
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("release_dir")
+    parser.add_argument("--zip")
+    parser.add_argument("--sha256-receipt")
+    parser.add_argument("--require-archive", action="store_true")
+    parser.add_argument("--output")
+    args = parser.parse_args()
+
+    result = verify_release_package(
+        args.release_dir,
+        zip_path=args.zip,
+        sha256_receipt_path=args.sha256_receipt,
+        require_archive=args.require_archive,
+    )
+    payload = json.dumps(result, indent=2, sort_keys=True) + "\n"
+    if args.output:
+        path = Path(args.output)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(payload, encoding="utf-8")
+    else:
+        print(payload, end="")
+
+    if result["status"] != VERIFIED_STATUS:
+        raise SystemExit(2)
+
+
+if __name__ == "__main__":
+    main()
