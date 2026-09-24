@@ -21,6 +21,13 @@ from pathlib import Path
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from trait_architecture.existing_k3_inputs import (
+    MATCH_STATUS as EXISTING_K3_MATCH_STATUS,
+    PRODUCTION_INPUT_MODE,
+    canonical_stable_json_sha256,
+    load_canonical_fingerprints,
+)
+
 from scripts.freeze_third_network_confirmatory_inputs import (
     MAX_CAMERA_DEPLOYMENT_CSV_BYTES,
     MAX_CAMERA_DEPLOYMENT_ROWS,
@@ -289,6 +296,14 @@ def verify(
     if not isinstance(existing, dict):
         existing = {}
 
+    existing_mode = str(receipt.get("existing_network_input_mode", "")).strip()
+    canonical_receipt = (
+        load_canonical_fingerprints()
+        if existing_mode == PRODUCTION_INPUT_MODE
+        else None
+    )
+    canonical_failures: list[str] = []
+
     existing_network_checks: dict[str, dict[str, object]] = {}
     expected_existing = {
         "sakhalkar": (
@@ -317,6 +332,9 @@ def verify(
         is_list = isinstance(payload, list)
         analysis_units = len(payload) if is_list else None
         stable_digest = _stable_json_sha256(payload) if is_list else None
+        canonical_digest = (
+            canonical_stable_json_sha256(key, payload) if is_list else None
+        )
         file_digest = _sha256(path) if exists else None
 
         expected_units = entry.get("analysis_units")
@@ -328,6 +346,26 @@ def verify(
         file_match = exists and file_digest == expected_file
         doi_match = entry.get("source_doi") == doi
 
+        canonical_expected = (
+            canonical_receipt["networks"][key] if canonical_receipt is not None else None
+        )
+        canonical_units_match = (
+            None
+            if canonical_expected is None
+            else is_list and analysis_units == canonical_expected["analysis_units"]
+        )
+        canonical_digest_match = (
+            None
+            if canonical_expected is None
+            else is_list
+            and canonical_digest == canonical_expected["canonical_stable_json_sha256"]
+        )
+        canonical_doi_match = (
+            None
+            if canonical_expected is None
+            else entry.get("source_doi") == canonical_expected["source_doi"]
+        )
+
         existing_network_checks[key] = {
             "filename": expected_filename,
             "exists": exists,
@@ -338,6 +376,15 @@ def verify(
             "stable_json_sha256": stable_digest,
             "expected_stable_json_sha256": expected_stable,
             "stable_json_match": stable_match,
+            "canonical_stable_json_sha256": canonical_digest,
+            "expected_canonical_stable_json_sha256": (
+                canonical_expected["canonical_stable_json_sha256"]
+                if canonical_expected is not None
+                else None
+            ),
+            "canonical_stable_json_match": canonical_digest_match,
+            "canonical_analysis_units_match": canonical_units_match,
+            "canonical_source_doi_match": canonical_doi_match,
             "file_sha256": file_digest,
             "expected_file_sha256": expected_file,
             "file_sha256_match": file_match,
@@ -358,6 +405,30 @@ def verify(
             failures.append(f"existing_network_file_digest_mismatch:{key}")
         if not doi_match:
             failures.append(f"existing_network_source_doi_mismatch:{key}")
+        if canonical_expected is not None:
+            if canonical_units_match is not True:
+                failure = f"existing_network_canonical_analysis_units_mismatch:{key}"
+                failures.append(failure)
+                canonical_failures.append(failure)
+            if canonical_digest_match is not True:
+                failure = f"existing_network_canonical_digest_mismatch:{key}"
+                failures.append(failure)
+                canonical_failures.append(failure)
+            if canonical_doi_match is not True:
+                failure = f"existing_network_canonical_source_doi_mismatch:{key}"
+                failures.append(failure)
+                canonical_failures.append(failure)
+
+    if canonical_receipt is None:
+        existing_network_canonical_status = (
+            "CANONICAL_EXISTING_K3_INPUTS_NOT_REQUIRED_NONPRODUCTION"
+        )
+    else:
+        existing_network_canonical_status = (
+            EXISTING_K3_MATCH_STATUS
+            if not canonical_failures
+            else "CANONICAL_EXISTING_K3_INPUTS_MISMATCH"
+        )
 
     source_checks: dict[str, dict[str, object]] = {}
     source_mode = "SOURCE_INPUTS_NOT_RECHECKED"
@@ -401,6 +472,7 @@ def verify(
         "output_checks": output_checks,
         "semantic_resource_checks": semantic_checks if "semantic_checks" in locals() else {},
         "existing_network_checks": existing_network_checks,
+        "existing_network_canonical_status": existing_network_canonical_status,
         "source_recheck_mode": source_mode,
         "source_checks": source_checks,
         "failures": failures,
