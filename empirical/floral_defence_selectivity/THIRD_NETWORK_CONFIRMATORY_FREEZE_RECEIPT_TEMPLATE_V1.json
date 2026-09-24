@@ -34,7 +34,10 @@
     "qualifying_fraction": "REQUIRED_BEFORE_USE",
     "planner_target_success_probability": "REQUIRED_BEFORE_USE",
     "planner_achieved_success_probability": "REQUIRED_BEFORE_USE",
-    "may_extend_based_on_route_outcomes": false
+    "may_extend_based_on_route_outcomes": false,
+    "planned_plant_site_deployments": "REQUIRED_BEFORE_USE",
+    "planned_plant_site_deployment_set_sha256": "REQUIRED_BEFORE_USE",
+    "effort_rule_version": "REQUIRED_BEFORE_USE"
   },
   "analysis": {
     "third_network_seed": 20260921,
