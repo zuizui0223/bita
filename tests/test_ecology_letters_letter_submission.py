@@ -105,9 +105,20 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
         "scripts/reproduce_access_routing_archive.py",
         "10.5281/zenodo.8398202",
         "10.5281/zenodo.14185547",
-        "ACCESS_ROUTING_ARCHIVE_DOI = RESERVED_DOI_REQUIRED_BEFORE_FINAL_PACKAGE_BUILD",
     ):
         assert token in text
+
+    if RESERVED_DOI_RECEIPT.is_file():
+        import json
+
+        receipt = json.loads(RESERVED_DOI_RECEIPT.read_text(encoding="utf-8"))
+        assert "ACCESS_ROUTING_ARCHIVE_DOI = RESERVED_PENDING_ZENODO_PUBLICATION" in text
+        assert f"RESERVED_ARCHIVE_DOI = {receipt['doi']}" in text
+    else:
+        assert (
+            "ACCESS_ROUTING_ARCHIVE_DOI = RESERVED_DOI_REQUIRED_BEFORE_FINAL_PACKAGE_BUILD"
+            in text
+        )
 
     assert (ROOT / "scripts" / "export_access_routing_archive.py").exists()
     assert (ROOT / "scripts" / "reproduce_access_routing_archive.py").exists()
