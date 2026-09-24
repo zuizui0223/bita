@@ -184,7 +184,7 @@ COLLABORATION_RESPONSE_QUARANTINE = IMPLEMENTED
 K3_GENERALITY_TEST = PROSPECTIVE_MAMMAL_DESIGN_FROZEN_PENDING_DATA
 ~~~
 
-## 6. Mechanistic context only
+## 6. Mechanistic and direct empirical context only
 
 The broader floral-defence evidence package remains useful for interpretation:
 
@@ -193,6 +193,56 @@ The broader floral-defence evidence package remains useful for interpretation:
 10 same-defence pollinator follow-ups
 8 independent within-D state-switch systems
 ```
+
+A separate bounded discovery corpus now records direct empirical tests of
+access geometry -> nectar robbery outside the two standardized network datasets:
+
+```text
+DIRECT_ACCESS_GEOMETRY_STUDY_PROGRAMS = 13
+POSITIVE = 10
+NULL = 1
+OPPOSITE = 1
+MIXED = 1
+NETWORK_K_CONTRIBUTION = 0
+PRIMARY_STANDARDIZED_NETWORK_K = 2
+```
+
+This direct corpus includes experimental, population-level and community-level
+studies, including an 88-species four-community study, a 13-species Cape sunbird
+guild, a 16-species Andean flowerpiercer community, a retained 2025 null test,
+a three-population mixed result, and a 2026 `Erica` boundary-condition study in
+which longer corollas predicted lower robbery in the primary model.
+It is a discovery corpus, not a systematic-review denominator: no prevalence,
+sign-test, pooled effect or extra network replicate is licensed from these counts.
+
+Contract and ledger:
+
+- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_ROBBERY_CONTRACT_V1.md`
+- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv`
+- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_ROBBERY_SEARCH_V1.md`
+- `scripts/summarize_direct_access_geometry_corpus.py`
+
+Formal-recurrence scaffolding is now frozen but **not yet opened for inference**:
+
+```text
+HISTORICAL_FRAME = LEAL_2025_ROBBER_STUDIES
+HISTORICAL_FRAME_STUDIES = 56
+DIRECT_DISCOVERY_PROGRAMS = 13
+DISCOVERY_OVERLAP_WITH_HISTORICAL_FRAME = 3
+DISCOVERY_NOT_IN_HISTORICAL_FRAME = 10
+FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
+```
+
+Assets:
+
+- `empirical/floral_defence_selectivity/LEAL2025_ROBBER_STUDY_FRAME_V1.csv`
+- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_LEAL2025_CROSSWALK_V1.csv`
+- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_FRAME_V1.md`
+- `scripts/validate_direct_access_geometry_formal_frame.py`
+
+The historical frame alone is insufficient for geometry because only 3 of the 13
+direct-discovery programs occur in it. A separate systematic geometry-specific
+update/gap-fill search must be completed before any directional recurrence test.
 
 Matched effective-domain classifications are author-coded and have not yet undergone outcome-blind independent recoding. They are therefore not treated as independent validation in the Letter, and the 11/11 state alignment is not a headline or confirmatory result.
 
