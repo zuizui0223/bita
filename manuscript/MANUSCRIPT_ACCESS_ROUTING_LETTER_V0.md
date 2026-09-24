@@ -45,6 +45,27 @@ M \uparrow
 \text{bypass propensity} \uparrow.
 \]
 
+More precisely, the relevant quantity is the **relative route cost**, not absolute
+flower size. Let \(C_L(x)\) and \(C_B(x)\) denote the costs of legitimate and
+bypass access under trait state \(x\). A simple route-choice model gives
+
+\[
+\operatorname{logit} P(B\mid x)
+=
+\alpha+\beta\{C_L(x)-C_B(x)\},
+\qquad \beta>0.
+\]
+
+Hence the sign of a geometry–robbery association is determined by
+
+\[
+\frac{dC_L}{dx}-\frac{dC_B}{dx}.
+\]
+
+Geometry should increase robbery when it penalizes legitimate access more strongly
+than bypass, have little routing effect when both routes are similarly constrained,
+and reduce robbery when bypass itself is disproportionately hardened.
+
 This prediction is compatible with the broader effective-exposure framework developed for floral defence selectivity. There, a selective window exists when the antagonist experiences a focal trait strongly enough to be suppressed before the legitimate visitor crosses its own interference threshold. Bypass is a boundary condition: if the antagonist does not traverse the defended domain, effective exposure to the focal defence falls even as exploitation persists.
 
 The network test focuses only on the route-switching consequence. It does not require the access constraint itself to have evolved as a defence, nor does it assume a shared physiological mechanism across insects and birds.
@@ -210,6 +231,8 @@ The central result is a cross-fauna recurrence of the same routing prediction. I
 This changes the interpretation of floral barriers. A structure that makes the normal route difficult does not necessarily terminate exploitation. If an alternative route remains profitable, the ecological response can be behavioral rerouting. Nectar robbing is therefore not merely residual exploitation that survives a failed barrier; it can be the expected interaction mode when access through the legitimate floral opening becomes mismatched.
 
 The same logic should apply beyond nectar robbing. Any ecological system with a constrained legitimate route and an available bypass can generate route switching: consumers can attack another tissue, enter from another side, change handling mode or exploit another stage. The general object is not a particular flower structure but the relation between consumer morphology or behavior and the accessible domain of the resource.
+
+This relative-cost view also clarifies why direct floral studies need not all have the same sign. A longer or tighter structure should promote robbery only when it raises the cost of legitimate entry more than the cost of bypass. If both routes become harder together, the routing response can be weak; if the same structure disproportionately hardens lateral or destructive access, robbery can decline. Null, mixed and opposite geometry–robbery results therefore define mechanistic boundary conditions rather than requiring a universal “longer flower = more robbery” rule.
 
 ### A relational view clarifies floral defence selectivity
 
