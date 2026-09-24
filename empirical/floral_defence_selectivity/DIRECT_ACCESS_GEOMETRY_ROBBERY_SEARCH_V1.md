@@ -44,7 +44,7 @@ must satisfy the independent inclusion contract in
 
 ## Included discovery programs
 
-The current bounded inventory contains 18 study programs spanning 2001–2026:
+The current bounded inventory contains 24 study programs spanning 2000–2026:
 
 - Lara & Ornelas 2001 — experimental/natural hummingbird route switching;
 - Urcelay, Morales & Chalcoff 2006 — bumblebee robbery across two
@@ -67,7 +67,13 @@ The current bounded inventory contains 18 study programs spanning 2001–2026:
 - Irwin & Adler 2006 — five-population `Gelsemium sempervirens` morphology null;
 - Irwin, Warren, Carper & Adler 2014 — replicated suburban/wild `Gelsemium`
   field study with longer corollas receiving more robbery;
-- Adler, Leege & Irwin 2016 — reciprocal-common-garden `Gelsemium` floral-size null.
+- Adler, Leege & Irwin 2016 — reciprocal-common-garden `Gelsemium` floral-size null;
+- Rodríguez-Peña & Wolfe 2023 — five-species `Penstemon` flower-size null;
+- Bhandari, Das & Karmakar 2024 — experimental `Sesamum indicum` corolla shortening;
+- Riveros, Hernández & Nates-Parra 2006 — Andean bumblebee glossa × `Digitalis` access mismatch;
+- Wang et al. 2023 — `Tirpitzia sinensis` morph-stratified tube-depth mixed result;
+- Stout, Allen & Goulson 2000 — tongue-length constrained `Linaria vulgaris` robbery;
+- Cha et al. 2025 — `Primula florindae` accessibility-mediated switch from legitimate visits to robbery.
 
 ## Important negative / non-promoted findings
 
@@ -97,11 +103,11 @@ statistic:
 ## Current descriptive inventory
 
 ~~~text
-study programs = 18
-positive        = 12
-null            = 4
+study programs = 24
+positive        = 16
+null            = 5
 opposite        = 1
-mixed           = 1
+mixed           = 2
 
 network-k contribution from this corpus = 0
 primary standardized joint network k    = 2
@@ -111,7 +117,10 @@ These counts describe the current bounded inventory only. Three additional progr
 were recovered in Stage-U batch 1 under the unchanged geometry contract. They are not
 a success rate, prevalence estimate, sign test, or meta-analytic result.
 
-Stage-U batch 1 also retains non-promoted records, including a duplicate 38-species
+Stage-U batch 2 recovered five additional programs under the unchanged contract
+(Penstemon, experimental Sesamum, Andean Bombus–Digitalis mismatch, Tirpitzia,
+and Linaria); a final synonym pass then recovered Primula florindae as a sixth
+eligible update. Stage-U batches 1–2 also retain non-promoted records, including a duplicate 38-species
 Andean precursor to the later Rojas-Nossa four-community program, studies of visual
 nectar guides or nectar chemistry rather than access geometry, studies measuring
 geometry without testing it in the robbery model, and comparative robber datasets
