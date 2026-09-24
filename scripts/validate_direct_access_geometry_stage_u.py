@@ -72,7 +72,7 @@ def validate(path: Path = REGISTRY) -> dict[str, object]:
         "stage_u_search_complete": False,
         "formal_recurrence_result_open": False,
         "primary_standardized_network_k": 2,
-        "status": "STAGE_U_BATCH_1_SCREENED_SEARCH_CONTINUES",
+        "status": "STAGE_U_BATCH_2_SCREENED_SEARCH_CONTINUES",
     }
 
 
