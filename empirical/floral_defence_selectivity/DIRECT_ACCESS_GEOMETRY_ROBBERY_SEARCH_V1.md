@@ -44,7 +44,7 @@ must satisfy the independent inclusion contract in
 
 ## Included discovery programs
 
-The first frozen discovery inventory contains 15 study programs spanning 2001–2026:
+The current bounded inventory contains 18 study programs spanning 2001–2026:
 
 - Lara & Ornelas 2001 — experimental/natural hummingbird route switching;
 - Urcelay, Morales & Chalcoff 2006 — bumblebee robbery across two
@@ -63,7 +63,11 @@ The first frozen discovery inventory contains 15 study programs spanning 2001–
 - Tie et al. 2023 — individual-level `Caryopteris divaricata` variation;
 - Valdivia, Orellana & Gantz 2025 — Chilean `Campsidium` direct null test;
 - Coetzee et al. 2026 — 12 bird-pollinated `Erica` species across 27 populations;
-- Navarro & Gómez 2026 — Galápagos `Kalanchoe pinnata`.
+- Navarro & Gómez 2026 — Galápagos `Kalanchoe pinnata`;
+- Irwin & Adler 2006 — five-population `Gelsemium sempervirens` morphology null;
+- Irwin, Warren, Carper & Adler 2014 — replicated suburban/wild `Gelsemium`
+  field study with longer corollas receiving more robbery;
+- Adler, Leege & Irwin 2016 — reciprocal-common-garden `Gelsemium` floral-size null.
 
 ## Important negative / non-promoted findings
 
@@ -93,9 +97,9 @@ statistic:
 ## Current descriptive inventory
 
 ~~~text
-study programs = 15
-positive        = 11
-null            = 2
+study programs = 18
+positive        = 12
+null            = 4
 opposite        = 1
 mixed           = 1
 
@@ -103,8 +107,16 @@ network-k contribution from this corpus = 0
 primary standardized joint network k    = 2
 ~~~
 
-These counts describe the current discovery inventory only. They are not a success
-rate, prevalence estimate, sign test, or meta-analytic result.
+These counts describe the current bounded inventory only. Three additional programs
+were recovered in Stage-U batch 1 under the unchanged geometry contract. They are not
+a success rate, prevalence estimate, sign test, or meta-analytic result.
+
+Stage-U batch 1 also retains non-promoted records, including a duplicate 38-species
+Andean precursor to the later Rojas-Nossa four-community program, studies of visual
+nectar guides or nectar chemistry rather than access geometry, studies measuring
+geometry without testing it in the robbery model, and comparative robber datasets
+without flower-specific access mismatch. See
+`DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv`.
 
 ## Next escalation gate
 
