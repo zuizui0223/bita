@@ -16,6 +16,7 @@ import argparse
 import hashlib
 import json
 import re
+import stat
 import zipfile
 from pathlib import Path, PurePosixPath
 
@@ -33,6 +34,7 @@ VERIFIED_STATUS = "RELEASE_PACKAGE_VERIFIED"
 INVALID_STATUS = "RELEASE_PACKAGE_INVALID"
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 FIXED_ZIP_TIME = (1980, 1, 1, 0, 0, 0)
+FIXED_ZIP_MODE = stat.S_IFREG | 0o644
 
 
 def _sha256_bytes(data: bytes) -> str:
@@ -253,6 +255,10 @@ def _verify_zip(
         with zipfile.ZipFile(zip_path) as archive:
             infos = archive.infolist()
             names = [info.filename for info in infos]
+            archive_comment_empty = archive.comment == b""
+            result["archive_comment_empty"] = archive_comment_empty
+            if not archive_comment_empty:
+                failures.append("release_zip_archive_comment_forbidden")
             if len(names) != len(set(names)):
                 failures.append("release_zip_duplicate_member")
             if any(not _safe_rel(name) for name in names):
@@ -277,9 +283,26 @@ def _verify_zip(
                     and member_sha is not None
                     and directory_sha == member_sha
                 )
+
+                unix_mode = (info.external_attr >> 16) & 0xFFFF
+                regular_file = stat.S_IFMT(unix_mode) == stat.S_IFREG
+                permission_match = unix_mode == FIXED_ZIP_MODE
+                create_system_match = info.create_system == 3
+                unencrypted = (info.flag_bits & 0x1) == 0
+                no_member_extra = info.extra == b""
+                no_member_comment = info.comment == b""
+                not_directory = not info.is_dir()
+
                 metadata_match = (
                     info.compress_type == zipfile.ZIP_STORED
                     and info.date_time == FIXED_ZIP_TIME
+                    and create_system_match
+                    and regular_file
+                    and permission_match
+                    and unencrypted
+                    and no_member_extra
+                    and no_member_comment
+                    and not_directory
                 )
                 member_checks[name] = {
                     "safe_path": safe,
@@ -287,6 +310,14 @@ def _verify_zip(
                     "zip_member_sha256": member_sha,
                     "bytes_match": bytes_match,
                     "metadata_match": metadata_match,
+                    "create_system": info.create_system,
+                    "unix_mode_octal": oct(unix_mode),
+                    "regular_file": regular_file,
+                    "permission_match": permission_match,
+                    "unencrypted": unencrypted,
+                    "no_member_extra": no_member_extra,
+                    "no_member_comment": no_member_comment,
+                    "not_directory": not_directory,
                 }
                 if not bytes_match:
                     failures.append(f"release_zip_member_bytes_mismatch:{name}")
