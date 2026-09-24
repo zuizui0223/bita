@@ -1,0 +1,26 @@
+{
+  "receipt": "BITA_EXISTING_K3_INPUT_FINGERPRINTS_V1",
+  "status": "CANONICAL_PUBLIC_INPUTS_FROZEN",
+  "frozen_from_workflow_run": 35946427294,
+  "frozen_from_workflow_job": 107465280926,
+  "source_branch": "hardening/k3-canonical-input-lock-v2",
+  "canonicalization_version": "V2",
+  "networks": {
+    "sakhalkar": {
+      "analysis_units": 57,
+      "canonical_stable_json_sha256": "a7fdf3a0e60d7ba9f34d706c591e36fa7ad5cb9a2876284b0c8ac1aa7f2dfb76",
+      "source_doi": "10.5281/zenodo.8398202"
+    },
+    "aubert_ephi": {
+      "analysis_units": 1378,
+      "canonical_stable_json_sha256": "124bd21c7585b8c5c89ea78eb54d2bc2bfe3b0b64d9ea9cbcc7ae80c7d8dff84",
+      "source_doi": "10.5281/zenodo.14185547"
+    }
+  },
+  "canonicalization": {
+    "sakhalkar": "sort exact k3 scientific fields; zero tube length retained",
+    "aubert_ephi": "discard arbitrary site labels; sort sites by the complete multiset of exact scientific rows; preserve site partition",
+    "numeric_quantization": "none"
+  },
+  "claim_boundary": "These fingerprints lock the two existing public network inputs for future k=3 production runs. They do not alter the estimand or the scientific results."
+}
