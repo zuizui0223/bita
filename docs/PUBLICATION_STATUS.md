@@ -37,13 +37,13 @@ The joint statistic tests recurrence across these two networks only. It does not
 
 The standardized joint network statistic remains **k = 2**.
 
-A separate bounded discovery corpus now contains **13 independent direct
+A separate bounded discovery corpus now contains **15 independent direct
 access-geometry → nectar-robbery study programs** outside the two standardized
 network datasets:
 
 ~~~text
-POSITIVE = 10
-NULL = 1
+POSITIVE = 11
+NULL = 2
 OPPOSITE = 1
 MIXED = 1
 NETWORK_K_CONTRIBUTION = 0
@@ -56,11 +56,14 @@ boundary conditions. Because the discovery search is not a systematic-review
 denominator, these counts are not a success rate, prevalence estimate, sign test or
 pooled effect.
 
-A stricter formal-recurrence lane is now frozen around the **56 unique nectar-robber
-studies** in the Leal et al. (2025) public meta-analysis as a historical frame. Only
-3 of the 13 direct-discovery programs overlap that frame, so a geometry-specific
-systematic update/gap-fill search is still required before any formal recurrence
-statistic is opened.
+A stricter formal-recurrence lane uses the **56 distinct Leal et al. (2025)
+`study`-field labels** as an outcome-independent historical anchor. They are not
+assumed to be 56 independent studies: source audit found two labels that combine
+rows from different source programs. Current label-level screening is 50
+geometry-ineligible, 4 eligible, and 2 provenance-conflicted. Only 4 of the 15
+direct programs overlap the Leal frame. Source-level repair plus a
+geometry-specific systematic update/gap-fill search are required before any formal
+recurrence statistic is opened.
 
 The floral-defence corpus and effective-access / exposure framework are retained as
 mechanistic context for why route switching is biologically plausible. They are not
@@ -117,9 +120,11 @@ The archive contract contains the exact 57-species and 1,378-pair-site analysis 
 ```text
 STATUS = SCIENTIFIC_PACKAGE_READY
 ACTIVE_PAPER = ACCESS_ROUTING_LETTER
-DIRECT_ACCESS_GEOMETRY_PROGRAMS = 13
-DIRECT_EVIDENCE_DIRECTIONS = 10_POSITIVE_1_NULL_1_OPPOSITE_1_MIXED
-FORMAL_HISTORICAL_FRAME = LEAL2025_56_ROBBER_STUDIES
+DIRECT_ACCESS_GEOMETRY_PROGRAMS = 15
+DIRECT_EVIDENCE_DIRECTIONS = 11_POSITIVE_2_NULL_1_OPPOSITE_1_MIXED
+FORMAL_HISTORICAL_FRAME = LEAL2025_56_STUDY_FIELD_LABELS
+FORMAL_HISTORICAL_SOURCE_PROGRAMS = NOT_YET_FINAL
+FORMAL_HISTORICAL_PROVENANCE_CONFLICTS = 2
 FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
 EXTENDED_SYNTHESIS = PRESERVED_RESERVE
 LEGACY_IDENTIFICATION_PAPER = PRESERVED_SUPPORT
