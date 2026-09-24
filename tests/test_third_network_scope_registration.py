@@ -17,3 +17,15 @@ def test_scope_registers_release_rehearsal_without_promoting_real_k3() -> None:
     assert "RELEASE_REHEARSAL = IMPLEMENTED_BUNDLE_VERIFY_CLAIM_PLAN_MATRIX" in text
     assert "JOINT_NETWORK_K = 2" in text
     assert "REAL_THIRD_NETWORK_DATA = NOT_COLLECTED" in text
+
+
+
+def test_scope_registers_safe_release_archive_ingest() -> None:
+    text = SCOPE.read_text(encoding="utf-8")
+    assert "scripts/ingest_third_network_release_archive.py" in text
+    assert (
+        "RELEASE_ARCHIVE_INGEST = IMPLEMENTED_PREEXTRACTION_CHECKSUM_ATOMIC_PUBLISH"
+        in text
+    )
+    assert "JOINT_NETWORK_K = 2" in text
+    assert "REAL_THIRD_NETWORK_DATA = NOT_COLLECTED" in text
