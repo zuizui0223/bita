@@ -49,6 +49,12 @@ def _ready_freeze() -> dict:
         },
         "camera_effort": {
             "rule": "fixed 120 camera-hours per plant x site",
+            "planner_receipt_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "planner_status": "PLANNING_TARGET_EFFORT_IDENTIFIED",
+            "uniform_camera_hours_per_plant_site": 120.0,
+            "qualifying_fraction": 0.5,
+            "planner_target_success_probability": 0.8,
+            "planner_achieved_success_probability": 0.9,
             "may_extend_based_on_route_outcomes": False,
         },
         "analysis": {
