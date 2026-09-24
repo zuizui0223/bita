@@ -33,6 +33,8 @@ from scripts.evaluate_third_network_field_readiness import (
     evaluate as evaluate_field_readiness,
 )
 from scripts.evaluate_third_network_route_blind_presurvey import run as run_presurvey
+from scripts.plan_third_network_camera_effort import run as run_camera_effort_plan
+from scripts.extract_third_network_camera_effort_freeze import extract_camera_effort
 from scripts.freeze_third_network_confirmatory_inputs import (
     freeze_inputs,
     write_manifest,
@@ -60,7 +62,9 @@ def _write_json(path: Path, payload: dict[str, object]) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def _confirmatory_freeze() -> dict[str, object]:
+def _confirmatory_freeze(
+    camera_effort: dict[str, object],
+) -> dict[str, object]:
     return {
         "receipt": "BITA_THIRD_NETWORK_CONFIRMATORY_FREEZE_V1",
         "status": "REQUIRED_BEFORE_CONFIRMATORY_VIDEO_OPEN",
@@ -89,16 +93,7 @@ def _confirmatory_freeze() -> dict[str, object]:
             "double_code_fraction_minimum": 0.2,
             "target_kappa_LBAN": 0.8,
         },
-        "camera_effort": {
-            "rule": "SYNTHETIC_FIXED_120H_PER_PLANT_SITE",
-            "planner_receipt_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-            "planner_status": "PLANNING_TARGET_EFFORT_IDENTIFIED",
-            "uniform_camera_hours_per_plant_site": 120.0,
-            "qualifying_fraction": 0.5,
-            "planner_target_success_probability": 0.8,
-            "planner_achieved_success_probability": 0.9,
-            "may_extend_based_on_route_outcomes": False,
-        },
+        "camera_effort": camera_effort,
         "analysis": {
             "third_network_seed": 20260921,
             "k3_joint_seed": 20260921,
@@ -259,7 +254,29 @@ def _event_rows(scenario: str) -> list[dict[str, object]]:
     return rows
 
 
-def _camera_rows() -> list[dict[str, object]]:
+def _camera_effort_rate_rows() -> list[dict[str, object]]:
+    rows: list[dict[str, object]] = []
+    for s_idx, site in enumerate(("S1", "S2")):
+        for p in range(6):
+            for m in range(6):
+                rows.append(
+                    {
+                        "site_id": site,
+                        "plant_species": f"P{p}",
+                        "mammal_species": f"M{m}",
+                        "route_blind_detection_rate_per_camera_hour": (
+                            0.09 + 0.005 * ((s_idx + p + m) % 3)
+                        ),
+                    }
+                )
+    return rows
+
+
+def _camera_rows(
+    *,
+    camera_hours: float,
+    effort_rule_version: str,
+) -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []
     deployment = 0
     for site in ("S1", "S2"):
@@ -272,11 +289,11 @@ def _camera_rows() -> list[dict[str, object]]:
                     "plant_species": f"P{p}",
                     "camera_id": f"C_{site}_P{p}",
                     "planned_start_utc": "2027-03-01T00:00:00Z",
-                    "planned_end_utc": "2027-03-06T00:00:00Z",
-                    "planned_camera_hours": 120,
+                    "planned_end_utc": "2027-03-15T00:00:00Z",
+                    "planned_camera_hours": camera_hours,
                     "camera_angle": "PRIMARY",
                     "dataset_role": "CONFIRMATORY",
-                    "effort_rule_version": "SYNTHETIC_EFFORT_V1",
+                    "effort_rule_version": effort_rule_version,
                     "route_outcome_adaptive": "false",
                 }
             )
@@ -318,6 +335,8 @@ def run(
 
     presurvey_csv = root / "route_blind_presurvey.csv"
     presurvey_receipt = root / "route_blind_presurvey_receipt.json"
+    camera_effort_rates_csv = root / "route_blind_camera_effort_rates.csv"
+    camera_effort_plan_json = root / "camera_effort_plan.json"
     freeze_json = root / "confirmatory_freeze.json"
     field_config = root / "field_readiness_config.json"
     field_receipt = root / "field_readiness_receipt.json"
@@ -348,7 +367,29 @@ def run(
     )
     presurvey = run_presurvey(presurvey_csv, presurvey_receipt)
 
-    freeze = _confirmatory_freeze()
+    _write_csv(
+        camera_effort_rates_csv,
+        [
+            "site_id",
+            "plant_species",
+            "mammal_species",
+            "route_blind_detection_rate_per_camera_hour",
+        ],
+        _camera_effort_rate_rows(),
+    )
+    camera_effort_plan = run_camera_effort_plan(
+        camera_effort_rates_csv,
+        camera_effort_plan_json,
+        hours_grid=[24, 48, 72, 96, 120, 168],
+        qualifying_fraction=0.5,
+        simulations=500,
+        seed=20260924,
+        target_success_probability=0.80,
+        camera_count=12,
+    )
+    camera_effort = extract_camera_effort(camera_effort_plan_json)
+
+    freeze = _confirmatory_freeze(camera_effort)
     _write_json(freeze_json, freeze)
 
     field = {
@@ -440,7 +481,12 @@ def run(
             "effort_rule_version",
             "route_outcome_adaptive",
         ],
-        _camera_rows(),
+        _camera_rows(
+            camera_hours=float(
+                camera_effort["uniform_camera_hours_per_plant_site"]
+            ),
+            effort_rule_version=str(camera_effort["effort_rule_version"]),
+        ),
     )
 
     manifest = freeze_inputs(
@@ -488,6 +534,13 @@ def run(
         "scientific_claim_allowed": False,
         "scenario": scenario,
         "presurvey_status": presurvey["status"],
+        "camera_effort_plan_status": camera_effort_plan["status"],
+        "camera_effort_uniform_hours": camera_effort[
+            "uniform_camera_hours_per_plant_site"
+        ],
+        "camera_effort_plan_sha256": camera_effort[
+            "planner_receipt_sha256"
+        ],
         "field_readiness_status": field_result["status"],
         "input_freeze_status": manifest["status"],
         "route_reliability_status": manifest["route_reliability"]["status"],
