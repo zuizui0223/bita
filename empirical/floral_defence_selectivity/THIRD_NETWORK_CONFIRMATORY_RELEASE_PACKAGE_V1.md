@@ -141,6 +141,30 @@ Ingest success does not itself license a scientific claim:
 scientific_claim_allowed_by_ingest_alone = false
 ~~~
 
+## Archive resource envelope
+
+The release ZIP is an analysis/code archive, **not a raw-video archive**. To keep
+verification and ingest bounded before extraction, both the read-only verifier
+and transactional ingest enforce:
+
+~~~text
+maximum ZIP bytes                 = 1 GiB
+maximum ZIP members               = 4096
+maximum single member             = 256 MiB
+maximum total uncompressed bytes  = 1 GiB
+maximum FILE_SHA256SUMS.txt       = 8 MiB
+maximum adjacent SHA256 receipt   = 4096 bytes
+maximum member-name UTF-8 bytes   = 1024
+~~~
+
+All ordinary ZIP members are hashed and extracted by streaming I/O. A resource
+limit failure occurs before publication of an extracted release and cannot be
+overridden by refreshing the adjacent ZIP digest.
+
+Raw camera/video material, if retained for provenance, belongs in a separate
+data archive and is referenced from the confirmatory receipt; it is not bundled
+into this deterministic analysis release.
+
 ## Offline replay
 
 After extraction:

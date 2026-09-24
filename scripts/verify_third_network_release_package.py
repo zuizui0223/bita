@@ -36,6 +36,17 @@ HEX64 = re.compile(r"^[0-9a-f]{64}$")
 FIXED_ZIP_TIME = (1980, 1, 1, 0, 0, 0)
 FIXED_ZIP_MODE = stat.S_IFREG | 0o644
 
+# Transport/resource envelope for the analysis/code release. This archive never
+# contains raw video, so these limits are deliberately generous relative to the
+# expected CSV/JSON/code package while still bounding hostile input costs.
+MAX_RELEASE_ZIP_BYTES = 1024 * 1024 * 1024
+MAX_RELEASE_MEMBER_COUNT = 4096
+MAX_RELEASE_MEMBER_BYTES = 256 * 1024 * 1024
+MAX_RELEASE_TOTAL_UNCOMPRESSED_BYTES = 1024 * 1024 * 1024
+MAX_CHECKSUM_MANIFEST_BYTES = 8 * 1024 * 1024
+MAX_SHA256_RECEIPT_BYTES = 4096
+MAX_MEMBER_NAME_BYTES = 1024
+
 
 def _sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
@@ -47,6 +58,68 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _sha256_zip_member(
+    archive: zipfile.ZipFile,
+    info: zipfile.ZipInfo,
+) -> tuple[str, int]:
+    digest = hashlib.sha256()
+    bytes_read = 0
+    with archive.open(info, "r") as handle:
+        while True:
+            chunk = handle.read(1024 * 1024)
+            if not chunk:
+                break
+            bytes_read += len(chunk)
+            if bytes_read > MAX_RELEASE_MEMBER_BYTES:
+                raise ValueError("release_zip_member_stream_exceeded_limit")
+            digest.update(chunk)
+    return digest.hexdigest(), bytes_read
+
+
+def _zip_resource_report(
+    infos: list[zipfile.ZipInfo],
+    *,
+    archive_size_bytes: int,
+) -> dict[str, object]:
+    failures: list[str] = []
+    total_uncompressed = sum(int(info.file_size) for info in infos)
+    max_member = max((int(info.file_size) for info in infos), default=0)
+    max_name_bytes = max(
+        (len(info.filename.encode("utf-8", errors="surrogatepass")) for info in infos),
+        default=0,
+    )
+
+    if archive_size_bytes > MAX_RELEASE_ZIP_BYTES:
+        failures.append("release_zip_size_limit_exceeded")
+    if len(infos) > MAX_RELEASE_MEMBER_COUNT:
+        failures.append("release_zip_member_count_limit_exceeded")
+    if max_member > MAX_RELEASE_MEMBER_BYTES:
+        failures.append("release_zip_member_size_limit_exceeded")
+    if total_uncompressed > MAX_RELEASE_TOTAL_UNCOMPRESSED_BYTES:
+        failures.append("release_zip_total_uncompressed_limit_exceeded")
+    if max_name_bytes > MAX_MEMBER_NAME_BYTES:
+        failures.append("release_zip_member_name_limit_exceeded")
+
+    return {
+        "status": "RESOURCE_LIMITS_PASS" if not failures else "RESOURCE_LIMITS_FAIL",
+        "failures": failures,
+        "archive_size_bytes": archive_size_bytes,
+        "member_count": len(infos),
+        "total_uncompressed_bytes": total_uncompressed,
+        "max_member_bytes": max_member,
+        "max_member_name_bytes": max_name_bytes,
+        "limits": {
+            "max_release_zip_bytes": MAX_RELEASE_ZIP_BYTES,
+            "max_release_member_count": MAX_RELEASE_MEMBER_COUNT,
+            "max_release_member_bytes": MAX_RELEASE_MEMBER_BYTES,
+            "max_release_total_uncompressed_bytes": MAX_RELEASE_TOTAL_UNCOMPRESSED_BYTES,
+            "max_checksum_manifest_bytes": MAX_CHECKSUM_MANIFEST_BYTES,
+            "max_sha256_receipt_bytes": MAX_SHA256_RECEIPT_BYTES,
+            "max_member_name_bytes": MAX_MEMBER_NAME_BYTES,
+        },
+    }
 
 
 def _safe_rel(value: str) -> bool:
@@ -221,6 +294,26 @@ def _verify_zip(
         failures.append("release_zip_sha256_receipt_missing")
         return result
 
+    zip_size = zip_path.stat().st_size
+    result["zip_size_bytes"] = zip_size
+    if zip_size > MAX_RELEASE_ZIP_BYTES:
+        failures.append("release_zip_size_limit_exceeded")
+        result["resource_limits"] = {
+            "status": "RESOURCE_LIMITS_FAIL",
+            "failures": ["release_zip_size_limit_exceeded"],
+            "archive_size_bytes": zip_size,
+            "limits": {
+                "max_release_zip_bytes": MAX_RELEASE_ZIP_BYTES,
+            },
+        }
+        return result
+
+    sha_receipt_size = sha_path.stat().st_size
+    result["sha256_receipt_size_bytes"] = sha_receipt_size
+    if sha_receipt_size > MAX_SHA256_RECEIPT_BYTES:
+        failures.append("release_zip_sha256_receipt_size_limit_exceeded")
+        return result
+
     zip_sha = _sha256(zip_path)
     result["actual_zip_sha256"] = zip_sha
 
@@ -255,6 +348,13 @@ def _verify_zip(
         with zipfile.ZipFile(zip_path) as archive:
             infos = archive.infolist()
             names = [info.filename for info in infos]
+            resource_limits = _zip_resource_report(
+                infos,
+                archive_size_bytes=zip_size,
+            )
+            result["resource_limits"] = resource_limits
+            failures.extend(str(item) for item in resource_limits["failures"])
+
             archive_comment_empty = archive.comment == b""
             result["archive_comment_empty"] = archive_comment_empty
             if not archive_comment_empty:
@@ -271,13 +371,26 @@ def _verify_zip(
                 name = info.filename
                 safe = _safe_rel(name)
                 directory_path = directory_files.get(name)
-                member_bytes = archive.read(info) if safe else b""
+                member_resource_ok = (
+                    safe
+                    and info.file_size <= MAX_RELEASE_MEMBER_BYTES
+                    and len(name.encode("utf-8", errors="surrogatepass")) <= MAX_MEMBER_NAME_BYTES
+                )
                 directory_sha = (
                     _sha256(directory_path)
-                    if directory_path is not None and directory_path.is_file()
+                    if directory_path is not None
+                    and directory_path.is_file()
+                    and directory_path.stat().st_size <= MAX_RELEASE_MEMBER_BYTES
                     else None
                 )
-                member_sha = _sha256_bytes(member_bytes) if safe else None
+                if member_resource_ok:
+                    try:
+                        member_sha, member_bytes_read = _sha256_zip_member(archive, info)
+                    except (OSError, RuntimeError, zipfile.BadZipFile, ValueError):
+                        member_sha, member_bytes_read = None, None
+                        failures.append(f"release_zip_member_stream_unreadable:{name}")
+                else:
+                    member_sha, member_bytes_read = None, None
                 bytes_match = (
                     directory_sha is not None
                     and member_sha is not None
@@ -310,6 +423,10 @@ def _verify_zip(
                     "zip_member_sha256": member_sha,
                     "bytes_match": bytes_match,
                     "metadata_match": metadata_match,
+                    "resource_ok": member_resource_ok,
+                    "declared_file_size": info.file_size,
+                    "declared_compress_size": info.compress_size,
+                    "streamed_bytes": member_bytes_read,
                     "create_system": info.create_system,
                     "unix_mode_octal": oct(unix_mode),
                     "regular_file": regular_file,
@@ -319,6 +436,8 @@ def _verify_zip(
                     "no_member_comment": no_member_comment,
                     "not_directory": not_directory,
                 }
+                if not member_resource_ok:
+                    failures.append(f"release_zip_member_resource_limit:{name}")
                 if not bytes_match:
                     failures.append(f"release_zip_member_bytes_mismatch:{name}")
                 if not metadata_match:
