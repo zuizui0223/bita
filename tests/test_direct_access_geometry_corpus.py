@@ -15,9 +15,9 @@ from scripts.summarize_direct_access_geometry_corpus import (
 def test_committed_direct_corpus_is_support_only_and_does_not_change_k() -> None:
     result = summarize(DEFAULT_CORPUS)
     assert result["status"] == "DISCOVERY_SUPPORT_ONLY_NOT_NETWORK_K"
-    assert result["study_programs"] == 23
+    assert result["study_programs"] == 24
     assert result["direction_counts"] == {
-        "POSITIVE": 15,
+        "POSITIVE": 16,
         "NULL": 5,
         "OPPOSITE": 1,
         "MIXED": 2,
