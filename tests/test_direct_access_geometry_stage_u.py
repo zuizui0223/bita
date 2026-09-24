@@ -1,7 +1,7 @@
 from scripts.validate_direct_access_geometry_stage_u import validate
 
 
-def test_stage_u_batch_2_is_screened_but_search_remains_open() -> None:
+def test_stage_u_bounded_web_search_is_complete_but_formal_frame_remains_closed() -> None:
     result = validate()
     assert result == {
         "schema": "BITA_DIRECT_ACCESS_GEOMETRY_STAGE_U_V1",
@@ -15,8 +15,9 @@ def test_stage_u_batch_2_is_screened_but_search_remains_open() -> None:
             "OPPOSITE": 0,
             "MIXED": 1,
         },
-        "stage_u_search_complete": False,
+        "stage_u_bounded_web_search_complete": True,
+        "formal_systematic_update_frame_complete": False,
         "formal_recurrence_result_open": False,
         "primary_standardized_network_k": 2,
-        "status": "STAGE_U_BATCH_2_SCREENED_SEARCH_CONTINUES",
+        "status": "STAGE_U_BOUNDED_WEB_SEARCH_COMPLETE_FORMAL_FRAME_REQUIRED",
     }
