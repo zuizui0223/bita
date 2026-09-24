@@ -261,6 +261,27 @@ def test_existing_network_input_files_are_in_bundle_checksum_inventory(tmp_path)
 
 
 
+def test_production_mode_rejects_noncanonical_existing_network_inputs(tmp_path) -> None:
+    output = tmp_path / "canonical_mismatch"
+    with pytest.raises(ValueError, match="CANONICAL_EXISTING_K3_INPUTS_MISMATCH"):
+        run_with_network_inputs(
+            events_csv=tmp_path / "unused-events.csv",
+            plant_traits_csv=tmp_path / "unused-plants.csv",
+            mammal_traits_csv=tmp_path / "unused-mammals.csv",
+            camera_deployment_csv=tmp_path / "unused-camera.csv",
+            confirmatory_freeze_json=tmp_path / "unused-freeze.json",
+            field_readiness_json=tmp_path / "unused-field.json",
+            sakhalkar_points=_synthetic_sakhalkar(),
+            aubert_rows=_synthetic_aubert(),
+            output_dir=output,
+            repository_commit="a" * 40,
+            existing_network_input_mode=runner.PRODUCTION_INPUT_MODE,
+            permutations=19,
+        )
+    assert not output.exists()
+    assert not output.with_name(output.name + ".inprogress").exists()
+
+
 def test_production_runner_rejects_nonfrozen_permutation_count(tmp_path, monkeypatch) -> None:
     monkeypatch.setattr(
         runner,
