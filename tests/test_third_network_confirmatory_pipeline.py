@@ -8,8 +8,10 @@ import scripts.run_third_network_confirmatory_pipeline as runner
 
 from scripts.run_third_network_confirmatory_pipeline import (
     COMPLETE_STATUS,
+    PRODUCTION_PERMUTATIONS,
     RECEIPT,
     _validate_production_repository_commit,
+    run,
     run_with_network_inputs,
 )
 from scripts.run_third_network_synthetic_e2e import (
@@ -256,3 +258,27 @@ def test_existing_network_input_files_are_in_bundle_checksum_inventory(tmp_path)
 
     assert "existing_network_sakhalkar_input.json" in text
     assert "existing_network_aubert_ephi_input.json" in text
+
+
+
+def test_production_runner_rejects_nonfrozen_permutation_count(tmp_path, monkeypatch) -> None:
+    monkeypatch.setattr(
+        runner,
+        "_validate_production_repository_commit",
+        lambda value: "a" * 40,
+    )
+    with pytest.raises(
+        ValueError,
+        match=f"PRODUCTION_PERMUTATIONS_MUST_EQUAL_{PRODUCTION_PERMUTATIONS}",
+    ):
+        run(
+            events_csv=tmp_path / "events.csv",
+            plant_traits_csv=tmp_path / "plants.csv",
+            mammal_traits_csv=tmp_path / "mammals.csv",
+            camera_deployment_csv=tmp_path / "camera.csv",
+            confirmatory_freeze_json=tmp_path / "freeze.json",
+            field_readiness_json=tmp_path / "field.json",
+            output_dir=tmp_path / "output",
+            repository_commit="a" * 40,
+            permutations=PRODUCTION_PERMUTATIONS - 1,
+        )
