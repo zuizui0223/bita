@@ -233,7 +233,8 @@ jobs:
 
           python scripts/format_ecology_submission_docx.py \
             artifacts/letter/ECOLOGY_LETTERS_LETTER_RAW.docx \
-            artifacts/letter/ECOLOGY_LETTERS_LETTER_SUBMISSION.docx
+            artifacts/letter/ECOLOGY_LETTERS_LETTER_SUBMISSION.docx \
+            --black-headings
 
           rm artifacts/letter/ECOLOGY_LETTERS_LETTER_RAW.docx
 
