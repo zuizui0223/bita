@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pytest
 
+import scripts.verify_third_network_release_package as release_verify
 from scripts.ingest_third_network_release_archive import (
     INGEST_READY,
     ingest_release_archive,
@@ -146,3 +147,77 @@ def test_ingest_refuses_to_overwrite_existing_destination(tmp_path) -> None:
         ingest_release_archive(zip_path, sha_path, ingested)
 
     assert sentinel.read_text(encoding="utf-8") == "keep"
+
+
+
+def test_ingest_rejects_member_count_resource_exhaustion_before_extraction(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    release = _package(tmp_path, "positive")
+    zip_path, sha_path = _zip_paths(release)
+    ingested = tmp_path / "ingested"
+
+    monkeypatch.setattr(release_verify, "MAX_RELEASE_MEMBER_COUNT", 1)
+
+    with pytest.raises(ValueError, match="ARCHIVE_SHELL_INVALID"):
+        ingest_release_archive(zip_path, sha_path, ingested)
+
+    assert not ingested.exists()
+    assert not Path(str(ingested) + ".staging").exists()
+
+
+def test_ingest_rejects_member_size_resource_exhaustion_before_extraction(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    release = _package(tmp_path, "positive")
+    zip_path, sha_path = _zip_paths(release)
+    ingested = tmp_path / "ingested"
+
+    monkeypatch.setattr(release_verify, "MAX_RELEASE_MEMBER_BYTES", 32)
+
+    with pytest.raises(ValueError, match="ARCHIVE_SHELL_INVALID"):
+        ingest_release_archive(zip_path, sha_path, ingested)
+
+    assert not ingested.exists()
+    assert not Path(str(ingested) + ".staging").exists()
+
+
+def test_ingest_rejects_oversized_sha256_receipt_before_reading_archive(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    release = _package(tmp_path, "positive")
+    zip_path, sha_path = _zip_paths(release)
+    ingested = tmp_path / "ingested"
+
+    monkeypatch.setattr(release_verify, "MAX_SHA256_RECEIPT_BYTES", 16)
+
+    with pytest.raises(ValueError, match="ARCHIVE_SHELL_INVALID"):
+        ingest_release_archive(zip_path, sha_path, ingested)
+
+    assert not ingested.exists()
+
+
+def test_ingest_streams_regular_members_instead_of_zipfile_read(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    release = _package(tmp_path, "positive")
+    zip_path, sha_path = _zip_paths(release)
+    ingested = tmp_path / "ingested"
+
+    original_read = zipfile.ZipFile.read
+
+    def guarded_read(self, name, *args, **kwargs):
+        member_name = name.filename if isinstance(name, zipfile.ZipInfo) else str(name)
+        if member_name != "FILE_SHA256SUMS.txt":
+            raise AssertionError(f"whole-member read forbidden: {member_name}")
+        return original_read(self, name, *args, **kwargs)
+
+    monkeypatch.setattr(zipfile.ZipFile, "read", guarded_read)
+
+    receipt = ingest_release_archive(zip_path, sha_path, ingested)
+    assert receipt["status"] == INGEST_READY
+    assert ingested.is_dir()
