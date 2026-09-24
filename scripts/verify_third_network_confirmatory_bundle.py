@@ -17,6 +17,18 @@ import json
 import math
 from pathlib import Path
 
+from scripts.freeze_third_network_confirmatory_inputs import (
+    MAX_CAMERA_DEPLOYMENT_CSV_BYTES,
+    MAX_CAMERA_DEPLOYMENT_ROWS,
+    MAX_CONTROL_JSON_BYTES,
+    MAX_EVENT_CSV_BYTES,
+    MAX_EVENT_ROWS,
+    MAX_MAMMAL_TRAIT_CSV_BYTES,
+    MAX_MAMMAL_TRAIT_ROWS,
+    MAX_PLANT_TRAIT_CSV_BYTES,
+    MAX_PLANT_TRAIT_ROWS,
+)
+
 RECEIPT_TYPE = "BITA_THIRD_NETWORK_CONFIRMATORY_ANALYSIS_V1"
 COMPLETE_STATUS = "CONFIRMATORY_ANALYSIS_COMPLETE"
 VERIFIED_STATUS = "CONFIRMATORY_BUNDLE_VERIFIED"
@@ -160,6 +172,64 @@ def verify(
 
     if receipt.get("input_freeze_status") != manifest.get("status"):
         failures.append("input_freeze_status_mismatch")
+
+    semantic = manifest.get("semantic_resource_limits", {})
+    semantic_checks: dict[str, object] = {}
+    expected_limits = {
+        "max_event_rows": MAX_EVENT_ROWS,
+        "max_event_csv_bytes": MAX_EVENT_CSV_BYTES,
+        "max_plant_trait_rows": MAX_PLANT_TRAIT_ROWS,
+        "max_plant_trait_csv_bytes": MAX_PLANT_TRAIT_CSV_BYTES,
+        "max_mammal_trait_rows": MAX_MAMMAL_TRAIT_ROWS,
+        "max_mammal_trait_csv_bytes": MAX_MAMMAL_TRAIT_CSV_BYTES,
+        "max_camera_deployment_rows": MAX_CAMERA_DEPLOYMENT_ROWS,
+        "max_camera_deployment_csv_bytes": MAX_CAMERA_DEPLOYMENT_CSV_BYTES,
+        "max_control_json_bytes": MAX_CONTROL_JSON_BYTES,
+    }
+    if not isinstance(semantic, dict):
+        failures.append("semantic_resource_limits_missing")
+        semantic = {}
+    if semantic.get("status") != "SEMANTIC_RESOURCE_LIMITS_PASS":
+        failures.append("semantic_resource_limits_not_pass")
+    limits = semantic.get("limits", {})
+    observed = semantic.get("observed", {})
+    if not isinstance(limits, dict):
+        failures.append("semantic_resource_limits_invalid")
+        limits = {}
+    if not isinstance(observed, dict):
+        failures.append("semantic_resource_observed_invalid")
+        observed = {}
+
+    for key, expected in expected_limits.items():
+        actual = limits.get(key)
+        semantic_checks[key] = {
+            "expected": expected,
+            "actual": actual,
+            "match": _same_int(actual, expected),
+        }
+        if not _same_int(actual, expected):
+            failures.append(f"semantic_resource_limit_mismatch:{key}")
+
+    observed_pairs = {
+        "events_rows": MAX_EVENT_ROWS,
+        "events_bytes": MAX_EVENT_CSV_BYTES,
+        "plant_trait_rows": MAX_PLANT_TRAIT_ROWS,
+        "plant_trait_bytes": MAX_PLANT_TRAIT_CSV_BYTES,
+        "mammal_trait_rows": MAX_MAMMAL_TRAIT_ROWS,
+        "mammal_trait_bytes": MAX_MAMMAL_TRAIT_CSV_BYTES,
+        "camera_deployment_rows": MAX_CAMERA_DEPLOYMENT_ROWS,
+        "camera_deployment_bytes": MAX_CAMERA_DEPLOYMENT_CSV_BYTES,
+        "confirmatory_freeze_bytes": MAX_CONTROL_JSON_BYTES,
+        "field_readiness_bytes": MAX_CONTROL_JSON_BYTES,
+    }
+    for key, maximum in observed_pairs.items():
+        try:
+            value = int(observed.get(key))
+        except (TypeError, ValueError):
+            failures.append(f"semantic_resource_observed_invalid:{key}")
+            continue
+        if value < 0 or value > maximum:
+            failures.append(f"semantic_resource_observed_exceeds_limit:{key}")
 
     manifest_rel = manifest.get("route_reliability", {})
     if not isinstance(manifest_rel, dict):
@@ -325,6 +395,7 @@ def verify(
         "bundle_checksum_checks": bundle_checksum_checks,
         "repository_commit": receipt.get("repository_commit"),
         "output_checks": output_checks,
+        "semantic_resource_checks": semantic_checks if "semantic_checks" in locals() else {},
         "existing_network_checks": existing_network_checks,
         "source_recheck_mode": source_mode,
         "source_checks": source_checks,
