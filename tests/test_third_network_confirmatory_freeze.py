@@ -30,6 +30,9 @@ def _ready_receipt() -> dict[str, object]:
             "qualifying_fraction": 0.5,
             "planner_target_success_probability": 0.8,
             "planner_achieved_success_probability": 0.9,
+            "planned_plant_site_deployments": 10,
+            "planned_plant_site_deployment_set_sha256": "b" * 64,
+            "effort_rule_version": "CAMERA_EFFORT_PLAN:" + "a" * 64,
             "may_extend_based_on_route_outcomes": False,
         }
     )
@@ -93,3 +96,20 @@ def test_camera_effort_recommendation_must_meet_declared_target() -> None:
     result = validate(receipt)
     assert result["status"] == "BLOCKED"
     assert "camera_effort_achieved_success_probability_invalid" in result["failures"]
+
+
+
+def test_camera_effort_rule_version_must_match_planner_digest() -> None:
+    receipt = _ready_receipt()
+    receipt["camera_effort"]["effort_rule_version"] = "CAMERA_EFFORT_PLAN:" + "b" * 64
+    result = validate(receipt)
+    assert result["status"] == "BLOCKED"
+    assert "camera_effort_rule_version_mismatch" in result["failures"]
+
+
+def test_camera_effort_requires_deployment_set_digest() -> None:
+    receipt = _ready_receipt()
+    receipt["camera_effort"]["planned_plant_site_deployment_set_sha256"] = "bad"
+    result = validate(receipt)
+    assert result["status"] == "BLOCKED"
+    assert "camera_effort_deployment_set_sha256_invalid" in result["failures"]
