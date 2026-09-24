@@ -73,6 +73,9 @@ jobs:
             tests/test_ecology_letters_letter_submission.py \
             tests/test_reserved_archive_doi.py
 
+      - name: Verify reserved DOI state if present
+        run: python scripts/apply_reserved_archive_doi.py --check-only
+
       - name: Build Letter Figures 1 and 3
         run: |
           python scripts/build_access_routing_letter_figures_svg.py \
