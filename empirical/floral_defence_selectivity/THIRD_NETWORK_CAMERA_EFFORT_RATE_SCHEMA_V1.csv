@@ -1,0 +1,5 @@
+table,column,type,allowed_or_unit,required,notes
+effort_rates,site_id,string,identifier,true,Frozen confirmatory candidate site
+effort_rates,plant_species,string,taxon,true,Frozen confirmatory candidate plant
+effort_rates,mammal_species,string,taxon,true,Mammal species detected without using access route
+effort_rates,route_blind_detection_rate_per_camera_hour,float,events per camera-hour,true,Non-negative route-blind detection rate; no L/B or morphology information
