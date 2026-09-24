@@ -28,6 +28,12 @@
   },
   "camera_effort": {
     "rule": "REQUIRED_BEFORE_USE",
+    "planner_receipt_sha256": "REQUIRED_BEFORE_USE",
+    "planner_status": "REQUIRED_BEFORE_USE",
+    "uniform_camera_hours_per_plant_site": "REQUIRED_BEFORE_USE",
+    "qualifying_fraction": "REQUIRED_BEFORE_USE",
+    "planner_target_success_probability": "REQUIRED_BEFORE_USE",
+    "planner_achieved_success_probability": "REQUIRED_BEFORE_USE",
     "may_extend_based_on_route_outcomes": false
   },
   "analysis": {
