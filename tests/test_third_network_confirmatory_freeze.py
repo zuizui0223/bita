@@ -21,7 +21,18 @@ def _ready_receipt() -> dict[str, object]:
     receipt["visitor_identification"]["protocol_version"] = "ID_V1"
     receipt["morphology"]["plant_protocol_version"] = "PLANT_MORPH_V1"
     receipt["morphology"]["mammal_protocol_version"] = "MAMMAL_MORPH_V1"
-    receipt["camera_effort"]["rule"] = "fixed camera-hours per plant x site"
+    receipt["camera_effort"].update(
+        {
+            "rule": "fixed 120 camera-hours per plant x site",
+            "planner_receipt_sha256": "a" * 64,
+            "planner_status": "PLANNING_TARGET_EFFORT_IDENTIFIED",
+            "uniform_camera_hours_per_plant_site": 120.0,
+            "qualifying_fraction": 0.5,
+            "planner_target_success_probability": 0.8,
+            "planner_achieved_success_probability": 0.9,
+            "may_extend_based_on_route_outcomes": False,
+        }
+    )
     receipt["permissions"]["land_access"] = "RESOLVED"
     receipt["permissions"]["animal_capture_or_handling"] = "RESOLVED"
     receipt["permissions"]["plant_measurement_or_collection"] = "RESOLVED"
@@ -57,3 +68,28 @@ def test_camera_effort_cannot_adapt_to_route_outcome() -> None:
     result = validate(receipt)
     assert result["status"] == "BLOCKED"
     assert "outcome_adaptive_camera_effort_forbidden" in result["failures"]
+
+
+
+def test_camera_effort_requires_valid_planner_digest() -> None:
+    receipt = _ready_receipt()
+    receipt["camera_effort"]["planner_receipt_sha256"] = "not-a-digest"
+    result = validate(receipt)
+    assert result["status"] == "BLOCKED"
+    assert "camera_effort_planner_receipt_sha256_invalid" in result["failures"]
+
+
+def test_camera_effort_planning_target_cannot_drop_below_80_percent() -> None:
+    receipt = _ready_receipt()
+    receipt["camera_effort"]["planner_target_success_probability"] = 0.79
+    result = validate(receipt)
+    assert result["status"] == "BLOCKED"
+    assert "camera_effort_target_success_probability_invalid" in result["failures"]
+
+
+def test_camera_effort_recommendation_must_meet_declared_target() -> None:
+    receipt = _ready_receipt()
+    receipt["camera_effort"]["planner_achieved_success_probability"] = 0.70
+    result = validate(receipt)
+    assert result["status"] == "BLOCKED"
+    assert "camera_effort_achieved_success_probability_invalid" in result["failures"]
