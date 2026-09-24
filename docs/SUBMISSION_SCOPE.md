@@ -198,18 +198,20 @@ A separate bounded discovery corpus now records direct empirical tests of
 access geometry -> nectar robbery outside the two standardized network datasets:
 
 ```text
-DIRECT_ACCESS_GEOMETRY_STUDY_PROGRAMS = 10
-POSITIVE = 9
+DIRECT_ACCESS_GEOMETRY_STUDY_PROGRAMS = 13
+POSITIVE = 10
 NULL = 1
-OPPOSITE = 0
-MIXED = 0
+OPPOSITE = 1
+MIXED = 1
 NETWORK_K_CONTRIBUTION = 0
 PRIMARY_STANDARDIZED_NETWORK_K = 2
 ```
 
 This direct corpus includes experimental, population-level and community-level
 studies, including an 88-species four-community study, a 13-species Cape sunbird
-guild, a 16-species Andean flowerpiercer community, and a retained 2025 null test.
+guild, a 16-species Andean flowerpiercer community, a retained 2025 null test,
+a three-population mixed result, and a 2026 `Erica` boundary-condition study in
+which longer corollas predicted lower robbery in the primary model.
 It is a discovery corpus, not a systematic-review denominator: no prevalence,
 sign-test, pooled effect or extra network replicate is licensed from these counts.
 
