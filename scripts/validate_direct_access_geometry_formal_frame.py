@@ -11,6 +11,7 @@ BASE = ROOT / "empirical" / "floral_defence_selectivity"
 LEAL = BASE / "LEAL2025_ROBBER_STUDY_FRAME_V1.csv"
 DIRECT = BASE / "DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv"
 CROSSWALK = BASE / "DIRECT_ACCESS_GEOMETRY_LEAL2025_CROSSWALK_V1.csv"
+PROVENANCE = BASE / "LEAL2025_STUDY_LABEL_PROVENANCE_AUDIT_V1.csv"
 
 
 def _read(path: Path) -> list[dict[str, str]]:
@@ -22,6 +23,7 @@ def validate() -> dict[str, object]:
     leal = _read(LEAL)
     direct = _read(DIRECT)
     cross = _read(CROSSWALK)
+    provenance = _read(PROVENANCE)
 
     leal_ids = [row["study_id"].strip() for row in leal]
     direct_ids = [row["study_id"].strip() for row in direct]
@@ -44,8 +46,8 @@ def validate() -> dict[str, object]:
         raise ValueError("CROSSWALK_INVALID_STATUS:" + ",".join(bad))
 
     in_frame = [row for row in cross if row["leal2025_frame_status"] == "IN_FRAME"]
-    if len(in_frame) != 3:
-        raise ValueError(f"CROSSWALK_EXPECTED_THREE_OVERLAPS:{len(in_frame)}")
+    if len(in_frame) != 4:
+        raise ValueError(f"CROSSWALK_EXPECTED_FOUR_OVERLAPS:{len(in_frame)}")
 
     for row in in_frame:
         mapped = row["leal2025_study_id"].strip()
@@ -60,15 +62,34 @@ def validate() -> dict[str, object]:
         if row["leal2025_frame_status"] == "NOT_IN_FRAME" and row["leal2025_study_id"].strip():
             raise ValueError(f"CROSSWALK_NONFRAME_HAS_LEAL_ID:{row['direct_study_id']}")
 
+    provenance_classes = {
+        row["classification"].strip() for row in provenance
+    }
+    conflicts = [
+        row for row in provenance
+        if row["classification"].strip() == "PROVENANCE_CONFLICT_SPLIT_REQUIRED"
+    ]
+    if len(provenance) != 6:
+        raise ValueError(f"PROVENANCE_MULTI_PLANT_AUDIT_COUNT_MISMATCH:{len(provenance)}")
+    if len(conflicts) != 2:
+        raise ValueError(f"PROVENANCE_EXPECTED_TWO_CONFLICTS:{len(conflicts)}")
+    if provenance_classes - {
+        "LEGITIMATE_MULTI_SPECIES_PROGRAM",
+        "PROVENANCE_CONFLICT_SPLIT_REQUIRED",
+    }:
+        raise ValueError("PROVENANCE_INVALID_CLASSIFICATION")
+
     return {
         "schema": "BITA_DIRECT_ACCESS_GEOMETRY_FORMAL_FRAME_V1",
-        "historical_frame_studies": len(leal_ids),
+        "historical_frame_study_labels": len(leal_ids),
+        "historical_source_resolved_programs": None,
+        "provenance_conflict_labels": len(conflicts),
         "direct_discovery_programs": len(direct_ids),
         "discovery_overlap_with_historical_frame": len(in_frame),
         "discovery_not_in_historical_frame": len(direct_ids) - len(in_frame),
         "formal_recurrence_result_open": False,
         "primary_standardized_network_k": 2,
-        "status": "FRAME_FROZEN_SCREENING_REQUIRED",
+        "status": "FRAME_FROZEN_PROVENANCE_REPAIR_AND_SCREENING_REQUIRED",
     }
 
 
