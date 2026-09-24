@@ -29,6 +29,10 @@ from scripts.verify_third_network_confirmatory_bundle import (
     VERIFIED_STATUS,
     verify,
 )
+from scripts.verify_third_network_release_package import (
+    VERIFIED_STATUS as RELEASE_VERIFIED_STATUS,
+    verify_release_package,
+)
 from trait_architecture.serialization import canonicalize_generated_floats
 
 RECEIPT = "BITA_THIRD_NETWORK_RELEASE_REPRODUCTION_V1"
@@ -53,6 +57,16 @@ def _finite_close(a: object, b: object, *, tol: float = 1e-15) -> bool:
 
 def reproduce(release_dir: str | Path) -> dict[str, object]:
     root = Path(release_dir)
+
+    release_verification = verify_release_package(root)
+    if release_verification["status"] != RELEASE_VERIFIED_STATUS:
+        raise ValueError(
+            "PACKAGED_RELEASE_INVALID: "
+            + ",".join(
+                str(x) for x in release_verification.get("failures", [])
+            )
+        )
+
     bundle = root / "confirmatory_bundle"
     source = root / "frozen_inputs"
 
@@ -164,6 +178,10 @@ def reproduce(release_dir: str | Path) -> dict[str, object]:
     return {
         "receipt": RECEIPT,
         "status": "REPRODUCTION_MATCH" if all_match else "REPRODUCTION_MISMATCH",
+        "release_package_verification_status": release_verification["status"],
+        "release_archive_recheck_mode": release_verification[
+            "archive_recheck_mode"
+        ],
         "bundle_verification_status": verification["status"],
         "source_recheck_mode": verification["source_recheck_mode"],
         "third_network_matches": third_matches,
@@ -171,8 +189,9 @@ def reproduce(release_dir: str | Path) -> dict[str, object]:
         "third_network_recomputed": replay_third,
         "joint_k3_recomputed": replay_joint,
         "claim_boundary": (
-            "This replay verifies scientific-output reproducibility from the packaged "
-            "frozen inputs and exact existing-network rows. It does not alter claims."
+            "This replay first verifies release-package integrity, then verifies "
+            "scientific-output reproducibility from the packaged frozen inputs and "
+            "exact existing-network rows. It does not alter claims."
         ),
     }
 
