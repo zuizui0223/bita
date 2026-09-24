@@ -15,12 +15,12 @@ from scripts.summarize_direct_access_geometry_corpus import (
 def test_committed_direct_corpus_is_support_only_and_does_not_change_k() -> None:
     result = summarize(DEFAULT_CORPUS)
     assert result["status"] == "DISCOVERY_SUPPORT_ONLY_NOT_NETWORK_K"
-    assert result["study_programs"] == 10
+    assert result["study_programs"] == 13
     assert result["direction_counts"] == {
-        "POSITIVE": 9,
+        "POSITIVE": 10,
         "NULL": 1,
-        "OPPOSITE": 0,
-        "MIXED": 0,
+        "OPPOSITE": 1,
+        "MIXED": 1,
     }
     assert result["network_k_contribution"] == 0
     assert result["primary_joint_network_k_remains"] == 2
