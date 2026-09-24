@@ -45,7 +45,12 @@ def extract_camera_effort(plan_path: str | Path) -> dict[str, object]:
 
     model = plan.get("model", {})
     recommended = plan.get("recommended_uniform_effort")
-    if not isinstance(model, dict) or not isinstance(recommended, dict):
+    structure = plan.get("candidate_structure", {})
+    if (
+        not isinstance(model, dict)
+        or not isinstance(recommended, dict)
+        or not isinstance(structure, dict)
+    ):
         raise ValueError("CAMERA_EFFORT_PLAN_FIELDS_MISSING")
 
     q = _number(model.get("qualifying_fraction"), "qualifying_fraction")
@@ -61,6 +66,19 @@ def extract_camera_effort(plan_path: str | Path) -> dict[str, object]:
         recommended.get("planning_target_success_probability"),
         "planning_target_success_probability",
     )
+    deployment_count = int(structure.get("distinct_plant_site_deployments", 0))
+    deployment_sha = str(
+        structure.get("plant_site_deployment_set_sha256", "")
+    ).strip().lower()
+
+    if deployment_count <= 0:
+        raise ValueError("CAMERA_EFFORT_DEPLOYMENT_COUNT_INVALID")
+    if len(deployment_sha) != 64:
+        raise ValueError("CAMERA_EFFORT_DEPLOYMENT_DIGEST_INVALID")
+    try:
+        int(deployment_sha, 16)
+    except ValueError as exc:
+        raise ValueError("CAMERA_EFFORT_DEPLOYMENT_DIGEST_INVALID") from exc
 
     if not (0 < q <= 1):
         raise ValueError("CAMERA_EFFORT_QUALIFYING_FRACTION_INVALID")
@@ -82,6 +100,9 @@ def extract_camera_effort(plan_path: str | Path) -> dict[str, object]:
         "qualifying_fraction": q,
         "planner_target_success_probability": target,
         "planner_achieved_success_probability": achieved,
+        "planned_plant_site_deployments": deployment_count,
+        "planned_plant_site_deployment_set_sha256": deployment_sha,
+        "effort_rule_version": f"CAMERA_EFFORT_PLAN:{_sha256(path)}",
         "may_extend_based_on_route_outcomes": False,
     }
 
