@@ -8,10 +8,10 @@ def test_formal_frame_is_frozen_but_not_open_for_inference() -> None:
         "historical_frame_study_labels": 56,
         "historical_source_resolved_programs": None,
         "provenance_conflict_labels": 2,
-        "direct_discovery_programs": 15,
+        "direct_discovery_programs": 18,
         "discovery_overlap_with_historical_frame": 4,
-        "discovery_not_in_historical_frame": 11,
+        "discovery_not_in_historical_frame": 14,
         "formal_recurrence_result_open": False,
         "primary_standardized_network_k": 2,
-        "status": "FRAME_FROZEN_PROVENANCE_REPAIR_AND_SCREENING_REQUIRED",
+        "status": "FRAME_FROZEN_PROVENANCE_REPAIR_AND_STAGE_U_REQUIRED",
     }
