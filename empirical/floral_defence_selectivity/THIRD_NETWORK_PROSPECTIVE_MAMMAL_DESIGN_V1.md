@@ -94,7 +94,8 @@ Purpose:
   without viewing morphology values;
 - confirm from independent presurvey / trapping records that >=5 mammal species
   and >=5 plant species can plausibly be sampled;
-- estimate camera uptime, storage and field effort needed for the frozen design.
+- estimate route-blind mammal detection rates and camera uptime needed for the
+  frozen design without using L/B outcomes or access morphology.
 
 Pilot restrictions:
 
@@ -122,8 +123,11 @@ Confirmatory cameras start only after:
 1. site/plant list is frozen;
 2. morphology protocol is frozen;
 3. route-coding manual is frozen;
-4. camera effort per plant/site is frozen;
-5. analysis seed is frozen.
+4. the route-blind camera-effort planner has identified a uniform effort with
+   >=0.80 planning probability of reaching the 70-unit target;
+5. planner SHA256, uniform hours, qualifying fraction, target probability and
+   route-blind plant x site deployment-set digest are frozen;
+6. analysis seed is frozen.
 
 ## 4. Inferential unit
 
@@ -225,6 +229,39 @@ Minimum operational specification:
 
 Sampling effort should be balanced prospectively by plant x site rather than
 extended after seeing species-specific route outcomes.
+
+### Route-blind camera-effort freeze
+
+Use:
+
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_CAMERA_EFFORT_RATE_SCHEMA_V1.csv`;
+- `scripts/plan_third_network_camera_effort.py`;
+- `scripts/extract_third_network_camera_effort_freeze.py`.
+
+The planner accepts only site, plant, mammal and route-blind mammal detection
+rate. It cannot ingest L/B route outcomes, (M), plant access depth or mammal
+reach.
+
+For every retained plant x site, the selected effort is uniform. A predeclared
+`qualifying_fraction` converts route-blind detections into a planning
+approximation for classifiable feeding events. This parameter is a sensitivity
+assumption and is never estimated from confirmatory route direction.
+
+The camera rule can be frozen only when:
+
+~~~text
+planner status = PLANNING_TARGET_EFFORT_IDENTIFIED
+target success probability >= 0.80
+achieved planning-target probability >= target
+~~~
+
+The freeze receipt stores the exact planner SHA256, selected hours,
+`qualifying_fraction`, success probabilities, effort-rule version, number of
+plant x site deployments and SHA256 of the route-blind deployment key set.
+
+At confirmatory input freeze, the actual PRIMARY camera table must reproduce the
+same plant x site key-set digest and the same uniform camera-hours. Any mismatch
+blocks the analysis rather than being repaired after route outcomes are known.
 
 ## 9. Frozen route coding
 
