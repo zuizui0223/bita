@@ -74,6 +74,11 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _keyset_sha256(keys: set[tuple[str, ...]]) -> str:
+    payload = "\n".join("\t".join(key) for key in sorted(keys)) + "\n"
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
 def _rate(value: str) -> float:
     number = float(str(value).strip())
     if not math.isfinite(number) or number < 0:
@@ -198,6 +203,9 @@ def plan_effort(
     candidate_visitors = {row[2] for row in positive}
     candidate_plants = {row[1] for row in positive}
     deployments = {(row[0], row[1]) for row in normalized}
+    candidate_units = {(row[0], row[1], row[2]) for row in normalized}
+    deployment_set_sha256 = _keyset_sha256(deployments)
+    candidate_unit_set_sha256 = _keyset_sha256(candidate_units)
 
     structural_minimum_possible = (
         len(positive) >= MIN_UNITS
@@ -329,6 +337,8 @@ def plan_effort(
             "candidate_visitor_species": len(candidate_visitors),
             "candidate_plant_species": len(candidate_plants),
             "distinct_plant_site_deployments": len(deployments),
+            "plant_site_deployment_set_sha256": deployment_set_sha256,
+            "candidate_unit_set_sha256": candidate_unit_set_sha256,
             "minimum_gate_structurally_possible": structural_minimum_possible,
             "planning_target_structurally_possible": structural_target_possible,
         },
