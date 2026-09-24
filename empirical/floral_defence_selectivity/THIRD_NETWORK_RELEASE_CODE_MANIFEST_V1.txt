@@ -8,6 +8,7 @@ scripts/build_third_access_routing_units.py
 scripts/verify_third_network_confirmatory_bundle.py
 scripts/plan_third_network_claim_transition.py
 scripts/reproduce_third_network_confirmatory_release.py
+scripts/verify_third_network_release_package.py
 scripts/package_third_network_confirmatory_release.py
 trait_architecture/__init__.py
 trait_architecture/numerics.py

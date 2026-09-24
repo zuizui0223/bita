@@ -8,6 +8,7 @@ on:
       - "scripts/run_third_network_synthetic_e2e.py"
       - "scripts/run_third_network_release_rehearsal.py"
       - "scripts/reproduce_third_network_confirmatory_release.py"
+      - "scripts/verify_third_network_release_package.py"
       - "scripts/package_third_network_confirmatory_release.py"
       - "scripts/evaluate_third_network_route_blind_presurvey.py"
       - "scripts/evaluate_third_network_field_readiness.py"
@@ -26,6 +27,7 @@ on:
       - "tests/test_third_network_synthetic_e2e.py"
       - "tests/test_third_network_release_rehearsal.py"
       - "tests/test_third_network_release_package.py"
+      - "tests/test_third_network_release_verifier.py"
       - "tests/test_third_network_scope_registration.py"
       - "tests/test_third_network_route_reliability.py"
       - "tests/test_third_network_input_freeze.py"
@@ -38,6 +40,7 @@ on:
       - "scripts/run_third_network_synthetic_e2e.py"
       - "scripts/run_third_network_release_rehearsal.py"
       - "scripts/reproduce_third_network_confirmatory_release.py"
+      - "scripts/verify_third_network_release_package.py"
       - "scripts/package_third_network_confirmatory_release.py"
       - "scripts/evaluate_third_network_route_blind_presurvey.py"
       - "scripts/evaluate_third_network_field_readiness.py"
@@ -56,6 +59,7 @@ on:
       - "tests/test_third_network_synthetic_e2e.py"
       - "tests/test_third_network_release_rehearsal.py"
       - "tests/test_third_network_release_package.py"
+      - "tests/test_third_network_release_verifier.py"
       - "tests/test_third_network_scope_registration.py"
       - "tests/test_third_network_route_reliability.py"
       - "tests/test_third_network_input_freeze.py"
@@ -99,6 +103,7 @@ jobs:
             tests/test_third_network_claim_transition.py \
             tests/test_third_network_release_rehearsal.py \
             tests/test_third_network_release_package.py \
+            tests/test_third_network_release_verifier.py \
             tests/test_third_network_scope_registration.py
 
       - name: Verify production CLI entry points
@@ -109,6 +114,7 @@ jobs:
           python scripts/run_third_network_release_rehearsal.py --help >/dev/null
           python scripts/package_third_network_confirmatory_release.py --help >/dev/null
           python scripts/reproduce_third_network_confirmatory_release.py --help >/dev/null
+          python scripts/verify_third_network_release_package.py --help >/dev/null
 
       - name: Run synthetic E2E scenario matrix
         run: |
