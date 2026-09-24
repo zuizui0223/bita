@@ -10,6 +10,7 @@ TITLE_PAGE = ROOT / "submission" / "ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md"
 COVER = ROOT / "submission" / "ECOLOGY_LETTERS_LETTER_COVER_V0.md"
 ARCHIVE_README = ROOT / "submission" / "access_routing_archive" / "README.md"
 DEPOSIT_CHECKLIST = ROOT / "submission" / "access_routing_archive" / "DEPOSIT_CHECKLIST_V1.md"
+RESERVED_DOI_RECEIPT = ROOT / "submission" / "access_routing_archive" / "RESERVED_DOI_RECEIPT.json"
 
 
 def _words(text: str) -> list[str]:
@@ -69,10 +70,23 @@ def test_letter_submission_remains_fail_closed_until_archive_doi_and_author_meta
     cover = COVER.read_text(encoding="utf-8")
     letter = LETTER.read_text(encoding="utf-8")
 
-    assert "ARCHIVE DOI REQUIRED BEFORE SUBMISSION" in title
-    assert "[ACCESS-ROUTING ARCHIVE DOI]" in title
-    assert "[ACCESS-ROUTING ARCHIVE DOI]" in letter
-    assert "ACCESS-ROUTING ARCHIVE DOI — REQUIRED BEFORE SUBMISSION" in cover
+    if RESERVED_DOI_RECEIPT.is_file():
+        import json
+
+        receipt = json.loads(RESERVED_DOI_RECEIPT.read_text(encoding="utf-8"))
+        doi = receipt["doi"]
+        assert doi in title
+        assert doi in letter
+        assert doi in cover
+        assert "[ACCESS-ROUTING ARCHIVE DOI" not in title
+        assert "[ACCESS-ROUTING ARCHIVE DOI" not in letter
+        assert "[ACCESS-ROUTING ARCHIVE DOI" not in cover
+        assert "ZENODO RECORD MUST BE PUBLISHED AND DOI RESOLVING BEFORE SUBMISSION" in title
+    else:
+        assert "ARCHIVE DOI REQUIRED BEFORE SUBMISSION" in title
+        assert "[ACCESS-ROUTING ARCHIVE DOI]" in title
+        assert "[ACCESS-ROUTING ARCHIVE DOI]" in letter
+        assert "ACCESS-ROUTING ARCHIVE DOI — REQUIRED BEFORE SUBMISSION" in cover
 
     assert "AUTHOR-CONTROLLED — REQUIRED BEFORE SUBMISSION" in title
     assert "Author-relative novelty statement — AUTHOR-CONTROLLED BEFORE SUBMISSION" in cover
@@ -91,7 +105,7 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
         "scripts/reproduce_access_routing_archive.py",
         "10.5281/zenodo.8398202",
         "10.5281/zenodo.14185547",
-        "ACCESS_ROUTING_ARCHIVE_DOI = REQUIRED_BEFORE_SUBMISSION",
+        "ACCESS_ROUTING_ARCHIVE_DOI = RESERVED_DOI_REQUIRED_BEFORE_FINAL_PACKAGE_BUILD",
     ):
         assert token in text
 
