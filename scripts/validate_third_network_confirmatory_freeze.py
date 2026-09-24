@@ -105,6 +105,26 @@ def validate(receipt: dict[str, object]) -> dict[str, object]:
     ):
         failures.append("camera_effort_achieved_success_probability_invalid")
 
+    try:
+        deployment_count = int(camera.get("planned_plant_site_deployments"))
+    except (TypeError, ValueError):
+        deployment_count = 0
+    if deployment_count <= 0:
+        failures.append("camera_effort_deployment_count_invalid")
+
+    deployment_sha = str(
+        camera.get("planned_plant_site_deployment_set_sha256", "")
+    ).strip().lower()
+    if HEX64.fullmatch(deployment_sha) is None:
+        failures.append("camera_effort_deployment_set_sha256_invalid")
+
+    effort_rule_version = str(camera.get("effort_rule_version", "")).strip()
+    if (
+        not effort_rule_version.startswith("CAMERA_EFFORT_PLAN:")
+        or effort_rule_version.split(":", 1)[1] != planner_sha
+    ):
+        failures.append("camera_effort_rule_version_mismatch")
+
     if camera.get("may_extend_based_on_route_outcomes") is not False:
         failures.append("outcome_adaptive_camera_effort_forbidden")
 
