@@ -24,6 +24,7 @@ from pathlib import Path
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+import scripts.verify_third_network_release_package as release_verify
 from scripts.verify_third_network_release_package import (
     FIXED_ZIP_MODE,
     FIXED_ZIP_TIME,
@@ -93,6 +94,36 @@ def inspect_archive_shell(
             "failures": failures,
         }
 
+    zip_size = archive_path.stat().st_size
+    if zip_size > release_verify.MAX_RELEASE_ZIP_BYTES:
+        failures.append("release_zip_size_limit_exceeded")
+        return {
+            "receipt": INGEST_RECEIPT,
+            "status": INGEST_INVALID,
+            "failures": failures,
+            "zip_path": str(archive_path),
+            "sha256_receipt_path": str(sha_path),
+            "resource_limits": {
+                "archive_size_bytes": zip_size,
+                "max_release_zip_bytes": release_verify.MAX_RELEASE_ZIP_BYTES,
+            },
+        }
+
+    sha_receipt_size = sha_path.stat().st_size
+    if sha_receipt_size > release_verify.MAX_SHA256_RECEIPT_BYTES:
+        failures.append("release_zip_sha256_receipt_size_limit_exceeded")
+        return {
+            "receipt": INGEST_RECEIPT,
+            "status": INGEST_INVALID,
+            "failures": failures,
+            "zip_path": str(archive_path),
+            "sha256_receipt_path": str(sha_path),
+            "resource_limits": {
+                "sha256_receipt_size_bytes": sha_receipt_size,
+                "max_sha256_receipt_bytes": release_verify.MAX_SHA256_RECEIPT_BYTES,
+            },
+        }
+
     zip_sha = _sha256(archive_path)
     lines = [line for line in sha_path.read_text(encoding="utf-8").splitlines() if line.strip()]
     receipt_match = False
@@ -121,6 +152,12 @@ def inspect_archive_shell(
 
             infos = archive.infolist()
             names = [info.filename for info in infos]
+            resource_limits = release_verify._zip_resource_report(
+                infos,
+                archive_size_bytes=zip_size,
+            )
+            failures.extend(str(item) for item in resource_limits["failures"])
+            resource_limits_ok = resource_limits["status"] == "RESOURCE_LIMITS_PASS"
             if len(names) != len(set(names)):
                 failures.append("release_zip_duplicate_member")
             if any(not _safe_rel(name) for name in names):
@@ -130,10 +167,12 @@ def inspect_archive_shell(
             checksum_info = info_by_name.get(CHECKSUM_NAME)
             if checksum_info is None:
                 failures.append("archive_checksum_manifest_missing")
+            elif checksum_info.file_size > release_verify.MAX_CHECKSUM_MANIFEST_BYTES:
+                failures.append("archive_checksum_manifest_size_limit_exceeded")
             else:
                 try:
                     checksum_text = archive.read(checksum_info).decode("utf-8")
-                except (UnicodeDecodeError, RuntimeError, KeyError):
+                except (UnicodeDecodeError, RuntimeError, KeyError, zipfile.BadZipFile):
                     failures.append("archive_checksum_manifest_unreadable")
                     checksum_text = ""
                 internal_checksums = _parse_checksum_text(checksum_text, failures)
@@ -160,15 +199,30 @@ def inspect_archive_shell(
                     and not info.is_dir()
                 )
 
-                try:
-                    payload = archive.read(info) if safe else b""
-                    readable = safe
-                except (RuntimeError, KeyError, zipfile.BadZipFile):
-                    payload = b""
+                member_resource_ok = (
+                    resource_limits_ok
+                    and safe
+                    and info.file_size <= release_verify.MAX_RELEASE_MEMBER_BYTES
+                    and len(name.encode("utf-8", errors="surrogatepass"))
+                    <= release_verify.MAX_MEMBER_NAME_BYTES
+                )
+                if member_resource_ok:
+                    try:
+                        actual_sha, streamed_bytes = release_verify._sha256_zip_member(
+                            archive,
+                            info,
+                        )
+                        readable = streamed_bytes == info.file_size
+                    except (OSError, RuntimeError, KeyError, zipfile.BadZipFile, ValueError):
+                        actual_sha = None
+                        streamed_bytes = None
+                        readable = False
+                else:
+                    actual_sha = None
+                    streamed_bytes = None
                     readable = False
 
                 expected_sha = internal_checksums.get(name)
-                actual_sha = _sha256_bytes(payload) if readable else None
                 checksum_match = (
                     name == CHECKSUM_NAME
                     or (
@@ -183,7 +237,12 @@ def inspect_archive_shell(
                     "expected_sha256": expected_sha,
                     "actual_sha256": actual_sha,
                     "checksum_match": checksum_match,
+                    "resource_ok": member_resource_ok,
+                    "declared_file_size": info.file_size,
+                    "streamed_bytes": streamed_bytes,
                 }
+                if not member_resource_ok:
+                    failures.append(f"release_zip_member_resource_limit:{name}")
                 if not metadata_match:
                     failures.append(f"release_zip_member_metadata_mismatch:{name}")
                 if not checksum_match:
@@ -202,6 +261,7 @@ def inspect_archive_shell(
         "expected_zip_sha256": expected_zip_sha,
         "sha256_receipt_match": receipt_match,
         "internal_checksum_entries": len(internal_checksums),
+        "resource_limits": resource_limits if "resource_limits" in locals() else None,
         "member_checks": member_checks,
         "claim_boundary": (
             "This pre-extraction gate verifies archive transport and internal file integrity only. "
@@ -243,7 +303,20 @@ def ingest_release_archive(
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 if destination.exists():
                     raise ValueError(f"DUPLICATE_EXTRACTION_TARGET: {rel}")
-                destination.write_bytes(archive.read(info))
+                copied = 0
+                with archive.open(info, "r") as source, destination.open("wb") as sink:
+                    while True:
+                        chunk = source.read(1024 * 1024)
+                        if not chunk:
+                            break
+                        copied += len(chunk)
+                        if copied > release_verify.MAX_RELEASE_MEMBER_BYTES:
+                            raise ValueError(f"EXTRACTION_MEMBER_LIMIT_EXCEEDED: {rel}")
+                        sink.write(chunk)
+                if copied != info.file_size:
+                    raise ValueError(
+                        f"EXTRACTION_SIZE_MISMATCH:{rel}:{copied}!={info.file_size}"
+                    )
                 destination.chmod(0o644)
 
         full = verify_release_package(
