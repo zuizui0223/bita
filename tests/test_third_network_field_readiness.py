@@ -55,6 +55,9 @@ def _ready_freeze() -> dict:
             "qualifying_fraction": 0.5,
             "planner_target_success_probability": 0.8,
             "planner_achieved_success_probability": 0.9,
+            "planned_plant_site_deployments": 5,
+            "planned_plant_site_deployment_set_sha256": "b" * 64,
+            "effort_rule_version": "CAMERA_EFFORT_PLAN:" + "a" * 64,
             "may_extend_based_on_route_outcomes": False,
         },
         "analysis": {
