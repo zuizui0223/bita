@@ -18,6 +18,11 @@ def _sha(path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _keyset_sha(keys: set[tuple[str, str]]) -> str:
+    payload = "\n".join("\t".join(key) for key in sorted(keys)) + "\n"
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
 def _write_csv(path, fields, rows):
     with path.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields)
@@ -62,6 +67,11 @@ def _freeze_receipt() -> dict:
             "qualifying_fraction": 0.5,
             "planner_target_success_probability": 0.8,
             "planner_achieved_success_probability": 0.9,
+            "planned_plant_site_deployments": 5,
+            "planned_plant_site_deployment_set_sha256": _keyset_sha(
+                {("S1", f"P{p}") for p in range(5)}
+            ),
+            "effort_rule_version": "CAMERA_EFFORT_PLAN:" + "a" * 64,
             "may_extend_based_on_route_outcomes": False,
         },
         "analysis": {
@@ -199,7 +209,7 @@ def _fixture(tmp_path):
                 "planned_camera_hours": "120",
                 "camera_angle": "PRIMARY",
                 "dataset_role": "CONFIRMATORY",
-                "effort_rule_version": "EFFORT_V1",
+                "effort_rule_version": "CAMERA_EFFORT_PLAN:" + "a" * 64,
                 "route_outcome_adaptive": "false",
             }
         )
@@ -418,3 +428,37 @@ def test_input_freeze_timestamp_is_inherited_from_prevideo_receipt(tmp_path) -> 
     assert manifest_a["freeze_time_source"] == "confirmatory_freeze_receipt"
     assert manifest_b["frozen_at_utc"] == manifest_a["frozen_at_utc"]
     assert first_text == second_text
+
+
+
+def test_camera_hours_must_match_frozen_planner(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["cameras"].open(encoding="utf-8")))
+    rows[0]["planned_camera_hours"] = "119"
+    _write_csv(paths["cameras"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="CAMERA_PRIMARY_UNIFORM_HOURS_MISMATCH"):
+        _freeze(paths)
+
+
+def test_camera_deployment_set_must_match_frozen_planner(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["cameras"].open(encoding="utf-8")))
+    rows.pop()
+    _write_csv(paths["cameras"], list(rows[0]), rows)
+
+    with pytest.raises(
+        ValueError,
+        match="CAMERA_DEPLOYMENT_(COUNT_MISMATCH|SET_HASH_MISMATCH)",
+    ):
+        _freeze(paths)
+
+
+def test_camera_effort_rule_version_must_match_planner(tmp_path) -> None:
+    paths = _fixture(tmp_path)
+    rows = list(csv.DictReader(paths["cameras"].open(encoding="utf-8")))
+    rows[0]["effort_rule_version"] = "OTHER_PLAN"
+    _write_csv(paths["cameras"], list(rows[0]), rows)
+
+    with pytest.raises(ValueError, match="CAMERA_EFFORT_RULE_VERSION_MISMATCH"):
+        _freeze(paths)
