@@ -1,0 +1,67 @@
+name: Rebuild candidate existing k3 input fingerprints
+
+on:
+  pull_request:
+    paths:
+      - "trait_architecture/existing_k3_inputs.py"
+      - "scripts/fingerprint_existing_k3_inputs.py"
+      - "scripts/analyze_joint_access_routing.py"
+      - "scripts/analyze_sakhalkar2023_network.py"
+      - "scripts/audit_sakhalkar2023_zenodo.py"
+      - "scripts/analyze_aubert2026_zenodo_extension.py"
+      - "tests/test_existing_k3_input_fingerprints.py"
+      - ".github/workflows/rebuild-existing-k3-input-fingerprints.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package
+        run: python -m pip install -e '.[dev]'
+
+      - name: Run canonicalization contracts
+        run: pytest -q tests/test_existing_k3_input_fingerprints.py
+
+      - name: Rebuild exact candidate fingerprints from fixed public DOIs
+        run: |
+          mkdir -p artifacts
+          python scripts/fingerprint_existing_k3_inputs.py \
+            --output artifacts/existing_k3_input_fingerprint_candidate.json \
+            | tee artifacts/existing_k3_input_fingerprint_candidate.log
+
+      - name: Validate public rebuild shape
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          receipt = json.loads(
+              Path("artifacts/existing_k3_input_fingerprint_candidate.json").read_text()
+          )
+          assert receipt["receipt"] == "BITA_EXISTING_K3_INPUT_FINGERPRINT_CANDIDATE_V2"
+          assert receipt["status"] == "CANDIDATE_REBUILT_FROM_FIXED_PUBLIC_SOURCES"
+          assert receipt["networks"]["sakhalkar"]["analysis_units"] == 57
+          assert receipt["networks"]["aubert_ephi"]["analysis_units"] == 1378
+          for key in ("sakhalkar", "aubert_ephi"):
+              digest = receipt["networks"][key]["canonical_stable_json_sha256"]
+              assert len(digest) == 64
+              int(digest, 16)
+          print(json.dumps(receipt, indent=2, sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: existing-k3-input-fingerprint-candidate
+          path: artifacts/existing_k3_input_fingerprint_candidate.json
+          if-no-files-found: error

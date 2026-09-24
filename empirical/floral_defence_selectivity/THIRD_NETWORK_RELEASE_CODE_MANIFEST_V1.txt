@@ -13,3 +13,5 @@ scripts/package_third_network_confirmatory_release.py
 trait_architecture/__init__.py
 trait_architecture/numerics.py
 trait_architecture/serialization.py
+trait_architecture/existing_k3_inputs.py
+empirical/floral_defence_selectivity/EXISTING_K3_INPUT_FINGERPRINTS_V1.json

@@ -28,6 +28,10 @@ from scripts.verify_third_network_confirmatory_bundle import (
     VERIFIED_STATUS as BUNDLE_VERIFIED_STATUS,
     verify as verify_bundle,
 )
+from trait_architecture.existing_k3_inputs import (
+    MATCH_STATUS as EXISTING_K3_MATCH_STATUS,
+    PRODUCTION_INPUT_MODE,
+)
 
 RECEIPT_TYPE = "BITA_THIRD_NETWORK_CONFIRMATORY_RELEASE_PACKAGE_V1"
 VERIFIED_STATUS = "RELEASE_PACKAGE_VERIFIED"
@@ -505,6 +509,12 @@ def verify_release_package(
         failures.append("release_manifest_retention_guard_missing")
     if manifest.get("existing_network_inputs_verified") is not True:
         failures.append("release_manifest_existing_network_guard_missing")
+    if (
+        manifest.get("existing_network_input_mode") == PRODUCTION_INPUT_MODE
+        and manifest.get("existing_network_canonical_status")
+        != EXISTING_K3_MATCH_STATUS
+    ):
+        failures.append("release_manifest_canonical_existing_network_guard_missing")
 
     declared_checks = _verify_declared_maps(root, manifest, failures)
 

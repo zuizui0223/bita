@@ -23,8 +23,12 @@ from scripts.verify_third_network_confirmatory_bundle import (
     verify as verify_bundle,
 )
 
+from trait_architecture.existing_k3_inputs import (
+    MATCH_STATUS as EXISTING_K3_MATCH_STATUS,
+    PRODUCTION_INPUT_MODE,
+)
+
 PLAN_RECEIPT = "BITA_THIRD_NETWORK_CLAIM_TRANSITION_V1"
-PRODUCTION_INPUT_MODE = "PUBLIC_EXISTING_NETWORKS_FIXED_DOI_REBUILD"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 
 PREREGISTERED_COMMON_CLAIM = (
@@ -125,6 +129,8 @@ def plan_claim_transition(
             raise ValueError("NONPRODUCTION_CONFIRMATORY_BUNDLE")
         if not HEX40.fullmatch(repository_commit):
             raise ValueError("PRODUCTION_RECEIPT_REPOSITORY_COMMIT_INVALID")
+        if receipt.get("existing_network_canonical_status") != EXISTING_K3_MATCH_STATUS:
+            raise ValueError("CANONICAL_EXISTING_K3_INPUTS_NOT_VERIFIED")
 
     retention_rule = str(receipt.get("third_network_retention_rule", "")).strip()
     if retention_rule != (
@@ -214,6 +220,9 @@ def plan_claim_transition(
         "status": "CLAIM_TRANSITION_PLAN_READY",
         "production_required": production_required,
         "existing_network_input_mode": mode,
+        "existing_network_canonical_status": receipt.get(
+            "existing_network_canonical_status"
+        ),
         "repository_commit": repository_commit,
         "bundle_verification_status": bundle_verification_status,
         "source_recheck_mode": source_recheck_mode,

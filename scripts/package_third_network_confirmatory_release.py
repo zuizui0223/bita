@@ -41,6 +41,9 @@ from scripts.verify_third_network_confirmatory_bundle import (
     VERIFIED_STATUS,
     verify,
 )
+from trait_architecture.existing_k3_inputs import (
+    MATCH_STATUS as EXISTING_K3_MATCH_STATUS,
+)
 
 RECEIPT = "BITA_THIRD_NETWORK_CONFIRMATORY_RELEASE_PACKAGE_V1"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
@@ -422,6 +425,21 @@ def package_release(
                 for entry in existing_checks.values()
             )
         )
+        canonical_existing_status = verification.get(
+            "existing_network_canonical_status"
+        )
+        if not development_only:
+            existing_verified = (
+                existing_verified
+                and canonical_existing_status == EXISTING_K3_MATCH_STATUS
+                and all(
+                    isinstance(entry, dict)
+                    and entry.get("canonical_stable_json_match") is True
+                    and entry.get("canonical_analysis_units_match") is True
+                    and entry.get("canonical_source_doi_match") is True
+                    for entry in existing_checks.values()
+                )
+            )
         if not existing_verified:
             raise ValueError("EXISTING_NETWORK_INPUTS_NOT_VERIFIED")
 
@@ -459,6 +477,7 @@ def package_release(
                 "bundle_checksum_manifest_sha256"
             ],
             "existing_network_inputs_verified": existing_verified,
+            "existing_network_canonical_status": canonical_existing_status,
             "frozen_inputs": frozen_inputs,
             "code_files": code_hashes,
             "protocol_files": protocol_hashes,
