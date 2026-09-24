@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import zipfile
+from pathlib import Path
 
 import pytest
 
@@ -160,3 +161,70 @@ def test_release_manifest_is_path_independent(tmp_path) -> None:
     first = json.loads((first_dir / "release_manifest.json").read_text(encoding="utf-8"))
     second = json.loads((second_dir / "release_manifest.json").read_text(encoding="utf-8"))
     assert first == second
+
+
+def _release_paths(output: Path) -> tuple[Path, ...]:
+    zip_path = Path(str(output) + ".zip")
+    sha_path = Path(str(zip_path) + ".sha256")
+    return (
+        output,
+        output.with_name(output.name + ".inprogress"),
+        zip_path,
+        Path(str(zip_path) + ".inprogress"),
+        sha_path,
+        Path(str(sha_path) + ".inprogress"),
+    )
+
+
+def test_release_transaction_rolls_back_if_zip_publish_fails(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    rehearsal = _rehearsal(tmp_path, "positive")
+    output = tmp_path / "atomic_zip_failure"
+    zip_tmp = Path(str(output) + ".zip.inprogress")
+    original_replace = Path.replace
+
+    def injected_replace(self: Path, target: Path):
+        if self == zip_tmp:
+            raise OSError("INJECTED_ZIP_PUBLISH_FAILURE")
+        return original_replace(self, target)
+
+    monkeypatch.setattr(Path, "replace", injected_replace)
+
+    with pytest.raises(OSError, match="INJECTED_ZIP_PUBLISH_FAILURE"):
+        package_release(
+            bundle_dir=rehearsal / "confirmatory_bundle",
+            source_dir=rehearsal / "synthetic_fixture",
+            output_dir=output,
+            development_only=True,
+        )
+
+    assert all(not path.exists() for path in _release_paths(output))
+
+
+def test_release_transaction_rolls_back_if_sha_publish_fails(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    rehearsal = _rehearsal(tmp_path, "opposite")
+    output = tmp_path / "atomic_sha_failure"
+    sha_tmp = Path(str(output) + ".zip.sha256.inprogress")
+    original_replace = Path.replace
+
+    def injected_replace(self: Path, target: Path):
+        if self == sha_tmp:
+            raise OSError("INJECTED_SHA_PUBLISH_FAILURE")
+        return original_replace(self, target)
+
+    monkeypatch.setattr(Path, "replace", injected_replace)
+
+    with pytest.raises(OSError, match="INJECTED_SHA_PUBLISH_FAILURE"):
+        package_release(
+            bundle_dir=rehearsal / "confirmatory_bundle",
+            source_dir=rehearsal / "synthetic_fixture",
+            output_dir=output,
+            development_only=True,
+        )
+
+    assert all(not path.exists() for path in _release_paths(output))
