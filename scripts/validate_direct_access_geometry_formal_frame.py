@@ -89,7 +89,7 @@ def validate() -> dict[str, object]:
         "discovery_not_in_historical_frame": len(direct_ids) - len(in_frame),
         "formal_recurrence_result_open": False,
         "primary_standardized_network_k": 2,
-        "status": "FRAME_FROZEN_PROVENANCE_REPAIR_AND_SCREENING_REQUIRED",
+        "status": "FRAME_FROZEN_PROVENANCE_REPAIR_AND_STAGE_U_REQUIRED",
     }
 
 
