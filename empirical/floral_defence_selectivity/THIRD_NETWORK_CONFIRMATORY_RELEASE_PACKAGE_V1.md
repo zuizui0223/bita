@@ -75,6 +75,37 @@ Raw camera video is not required for numerical replay of the confirmatory
 analysis. Its long-term archival policy remains separate from the exact
 analysis-input archive.
 
+## Read-only release integrity verification
+
+Before scientific replay, verify the package shell itself:
+
+~~~bash
+PYTHONPATH=code python code/scripts/verify_third_network_release_package.py .
+~~~
+
+When the adjacent deterministic ZIP and SHA256 receipt are available, require
+their recheck explicitly:
+
+~~~bash
+PYTHONPATH=code python code/scripts/verify_third_network_release_package.py . \
+  --zip ../third_network_confirmatory_release_v1.zip \
+  --sha256-receipt ../third_network_confirmatory_release_v1.zip.sha256 \
+  --require-archive
+~~~
+
+The verifier checks:
+
+- exact `FILE_SHA256SUMS.txt` inventory;
+- every package-file digest;
+- release-manifest claim guardrails;
+- frozen-input / code / protocol digest maps;
+- nested confirmatory bundle verification;
+- ZIP member inventory and bytes;
+- fixed ZIP timestamps and `ZIP_STORED` method;
+- adjacent ZIP SHA256 receipt.
+
+The verifier is read-only and does not recompute or change the scientific result.
+
 ## Offline replay
 
 After extraction:
