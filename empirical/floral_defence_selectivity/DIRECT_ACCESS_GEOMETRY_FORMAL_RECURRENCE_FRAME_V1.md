@@ -5,15 +5,17 @@
 ~~~text
 FRAME_FREEZE_DATE = 2026-09-24
 HISTORICAL_FRAME = LEAL_2025_ROBBER_STUDIES
-HISTORICAL_STUDIES = 56
-DIRECT_DISCOVERY_PROGRAMS = 13
-DIRECT_DISCOVERY_OVERLAP_WITH_HISTORICAL_FRAME = 3
+HISTORICAL_STUDY_FIELD_LABELS = 56
+HISTORICAL_SOURCE_RESOLVED_PROGRAMS = NOT_YET_FINAL
+PROVENANCE_CONFLICT_LABELS = 2
+DIRECT_DISCOVERY_PROGRAMS = 15
+DIRECT_DISCOVERY_OVERLAP_WITH_HISTORICAL_FRAME = 4
 FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
 ~~~
 
 ## Purpose
 
-The current direct access-geometry corpus contains 13 study programs, but it was
+The current direct access-geometry corpus contains 15 study programs, but it was
 assembled by bounded discovery and therefore cannot support a prevalence estimate,
 sign test, or pooled recurrence statistic.
 
@@ -23,8 +25,8 @@ contract.
 
 ## Stage H — historical sampling frame
 
-The historical frame is the complete set of **56 unique nectar-robber studies**
-present in the public dataset accompanying:
+The historical frame begins from the complete set of **56 distinct values of the
+`study` field** among nectar-robber rows in the public dataset accompanying:
 
 > Leal LC, Koski MH, Irwin RE, Bronstein JL (2025). Costs of floral larceny:
 > a meta-analytical evaluation of nectar robbing and nectar theft on
@@ -32,13 +34,19 @@ present in the public dataset accompanying:
 > DOI: 10.1002/ecy.70036.
 > Public data: 10.5281/zenodo.14773082.
 
-The exact 56 study labels are frozen in:
+The exact 56 source labels are frozen in:
 
 - `LEAL2025_ROBBER_STUDY_FRAME_V1.csv`
 
 The source meta-analysis was designed around consequences of floral larceny, not
 around floral geometry. Therefore this frame is useful as an outcome-independent
 historical anchor but is **not assumed to contain every direct geometry study**.
+
+A source-provenance audit found that four multi-plant labels are legitimate
+multi-species programs but two labels (`Varma&Sinu2019` and
+`Zhangetal2009a`) combine rows that cannot all originate from the named source.
+The 56 values must therefore not be treated as 56 verified independent programs.
+See `LEAL2025_STUDY_LABEL_PROVENANCE_AUDIT_V1.md`.
 
 ## Stage U — systematic update / gap fill
 
@@ -92,15 +100,16 @@ Only after those fields are frozen may direction be coded as
 
 ## Current overlap audit
 
-The 13-study discovery corpus is cross-walked against the 56-study historical
+The 15-study discovery corpus is cross-walked against the 56-label historical
 frame in:
 
 - `DIRECT_ACCESS_GEOMETRY_LEAL2025_CROSSWALK_V1.csv`
 
-Current overlap is 3/13 discovery programs:
+Current overlap is 4/15 discovery programs:
 
 - Lara & Ornelas 2001;
 - Castro, Silveira & Navarro 2009 (source label `Castroetal_2008`);
+- Carrió & Güemes 2019;
 - Rojas-Nossa, Sánchez & Navarro 2016.
 
 This confirms that the historical fitness-cost frame alone is insufficient for the
@@ -108,11 +117,12 @@ geometry question and that Stage U is necessary.
 
 ## Formal analysis gate
 
-Do not calculate a recurrence p-value from the 13-study discovery corpus.
+Do not calculate a recurrence p-value from the 15-study discovery corpus.
 
 A formal directional recurrence analysis opens only after:
 
 ~~~text
+HISTORICAL_LABEL_PROVENANCE = SOURCE_RESOLVED
 HISTORICAL_FRAME_SCREENED = COMPLETE
 UPDATE_FRAME_SEARCH = COMPLETE
 DUPLICATES_RESOLVED = COMPLETE
