@@ -1,0 +1,21 @@
+{
+  "schema": "BITA_ECOLOGY_LETTERS_LETTER_AUTHOR_METADATA_V1",
+  "status": "AUTHOR_CONTROLLED_INCOMPLETE",
+  "authors": [],
+  "affiliations": {},
+  "correspondence": {
+    "postal_address": null,
+    "telephone": null,
+    "email": null
+  },
+  "authorship_statement": null,
+  "funding_statement": null,
+  "acknowledgments": null,
+  "conflict_of_interest_statement": null,
+  "ai_assisted_workflow_disclosure": null,
+  "author_relative_novelty_statement": null,
+  "archive_license": null,
+  "all_authors_approved_submitted_version": false,
+  "not_under_consideration_elsewhere": false,
+  "notes": "Fill only with author-approved values. Do not infer missing authors, affiliations, funding, conflicts, ORCIDs, contact details, or declarations."
+}
