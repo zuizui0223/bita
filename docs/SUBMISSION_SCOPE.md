@@ -96,7 +96,7 @@ The active lane is now one prospective **non-flying-mammal × Protea** network:
 - `scripts/evaluate_third_network_route_reliability.py`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_ROUTE_BLIND_PRESURVEY_SCHEMA_V1.csv`
 - `scripts/evaluate_third_network_route_blind_presurvey.py`
-- `empirical/floral_defence_selectivity/THIRD_NETWORK_FIELD_READINESS_TEMPLATE_V1.json`
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_CAMERA_EFFORT_RATE_SCHEMA_V1.csv`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_CAMERA_EFFORT_PLANNER_V1.md`\n- `scripts/plan_third_network_camera_effort.py`\n- `scripts/extract_third_network_camera_effort_freeze.py`\n- `empirical/floral_defence_selectivity/THIRD_NETWORK_FIELD_READINESS_TEMPLATE_V1.json`
 - `scripts/evaluate_third_network_field_readiness.py`
 - `empirical/floral_defence_selectivity/THIRD_NETWORK_FIELD_EXECUTION_GATE_V1.md`
 - `scripts/build_third_access_routing_units.py`
@@ -154,7 +154,7 @@ JOINT_NETWORK_K = 2
 PUBLIC_THIRD_NETWORK = NOT_AVAILABLE_UNDER_FROZEN_GATES
 ACTIVE_K3_LANE = CAPE_SMALL_MAMMAL_X_PROTEA_PROSPECTIVE
 PLANNING_TARGET_UNITS = 70
-FIELD_EXECUTION_GATE = IMPLEMENTED_FAIL_CLOSED
+CAMERA_EFFORT_PLANNER = IMPLEMENTED_ROUTE_BLIND_UNIFORM_COVERAGE\nCAMERA_EFFORT_FREEZE = PLANNER_SHA256_TARGET_GE_0_80_DEPLOYMENT_SET_BOUND\nFIELD_EXECUTION_GATE = IMPLEMENTED_FAIL_CLOSED
 FIELD_EXECUTION_STATUS = BLOCKED_PENDING_REAL_SITE_AND_AUTHORIZATION_RECEIPTS
 CONFIRMATORY_INPUT_FREEZE = IMPLEMENTED_MANIFEST_REQUIRED
 ROUTE_RELIABILITY_GATE = IMPLEMENTED_KAPPA_LBAN_GE_0_80
