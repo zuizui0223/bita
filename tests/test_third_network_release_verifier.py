@@ -9,6 +9,7 @@ from pathlib import Path
 
 import pytest
 
+import scripts.verify_third_network_release_package as release_verify
 from scripts.package_third_network_confirmatory_release import package_release
 from scripts.reproduce_third_network_confirmatory_release import reproduce
 from scripts.run_third_network_release_rehearsal import run as run_release_rehearsal
@@ -228,3 +229,57 @@ def test_offline_replay_refuses_tampered_release_before_scientific_recompute(tmp
 
     with pytest.raises(ValueError, match="PACKAGED_RELEASE_INVALID"):
         reproduce(output)
+
+
+
+def test_release_verifier_rejects_member_count_resource_exhaustion(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    output = _package(tmp_path, "positive")
+    monkeypatch.setattr(release_verify, "MAX_RELEASE_MEMBER_COUNT", 1)
+
+    result = verify_release_package(output, require_archive=True)
+    assert result["status"] == INVALID_STATUS
+    assert "release_zip_member_count_limit_exceeded" in result["failures"]
+    assert result["archive_verification"]["resource_limits"]["status"] == "RESOURCE_LIMITS_FAIL"
+
+
+def test_release_verifier_rejects_member_size_resource_exhaustion(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    output = _package(tmp_path, "positive")
+    monkeypatch.setattr(release_verify, "MAX_RELEASE_MEMBER_BYTES", 32)
+
+    result = verify_release_package(output, require_archive=True)
+    assert result["status"] == INVALID_STATUS
+    assert "release_zip_member_size_limit_exceeded" in result["failures"]
+
+
+def test_release_verifier_rejects_overlong_member_names_without_reading_payloads(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    output = _package(tmp_path, "positive")
+    monkeypatch.setattr(release_verify, "MAX_MEMBER_NAME_BYTES", 8)
+
+    result = verify_release_package(output, require_archive=True)
+    assert result["status"] == INVALID_STATUS
+    assert "release_zip_member_name_limit_exceeded" in result["failures"]
+
+
+def test_release_verifier_hashes_zip_members_by_stream_not_zipfile_read(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    output = _package(tmp_path, "positive")
+
+    def forbidden_read(*args, **kwargs):
+        raise AssertionError("verify_release_package must stream ZIP members")
+
+    monkeypatch.setattr(zipfile.ZipFile, "read", forbidden_read)
+
+    result = verify_release_package(output, require_archive=True)
+    assert result["status"] == VERIFIED_STATUS
+    assert result["failures"] == []
