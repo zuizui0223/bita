@@ -61,7 +61,7 @@ Current blockers:
 
 ~~~text
 ACCESS_ROUTING_ARCHIVE = STAGING_READY
-ACCESS_ROUTING_ARCHIVE_DOI = REQUIRED
+ACCESS_ROUTING_ARCHIVE_DOI = RESERVE_IN_ZENODO_DRAFT_BEFORE_FINAL_PACKAGE_BUILD
 FINAL_AUTHOR_LIST_AND_AFFILIATIONS = REQUIRED
 AUTHORSHIP_STATEMENT = REQUIRED
 CONFLICT_OF_INTEREST = REQUIRED
@@ -70,7 +70,7 @@ AUTHOR_RELATIVE_NOVELTY_STATEMENT = REQUIRED
 EXTERNAL_SUBMISSION = BLOCKED_UNTIL_THESE_ARE_COMPLETE
 ~~~
 
-The CI-built archive staging contains the exact 57-species and 1,378-pair-site analysis tables, metadata, reproduction code and frozen outputs. The remaining data step is DOI-bearing external deposit.
+The archive contract contains the exact 57-species and 1,378-pair-site analysis tables, metadata, reproduction code and frozen outputs. The remaining data sequence is: reserve the Zenodo DOI first, insert it into the submission files, freeze that DOI-bearing commit, build the exact final ZIP from that commit, upload it to the same draft, and publish the DOI record.
 
 ## Journal route
 
@@ -86,7 +86,7 @@ STATUS = SCIENTIFIC_PACKAGE_READY
 ACTIVE_PAPER = ACCESS_ROUTING_LETTER
 EXTENDED_SYNTHESIS = PRESERVED_RESERVE
 LEGACY_IDENTIFICATION_PAPER = PRESERVED_SUPPORT
-DATA_CODE_ARCHIVE = STAGING_READY_DOI_REQUIRED
+DATA_CODE_ARCHIVE = STAGING_READY_RESERVED_DOI_THEN_FINAL_BUILD
 AUTHOR_METADATA = REQUIRED
 EXTERNAL_SUBMISSION = BLOCKED_PENDING_DOI_AND_AUTHOR_CONTROLLED_FIELDS
 ```
