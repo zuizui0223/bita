@@ -198,9 +198,9 @@ A separate bounded discovery corpus now records direct empirical tests of
 access geometry -> nectar robbery outside the two standardized network datasets:
 
 ```text
-DIRECT_ACCESS_GEOMETRY_STUDY_PROGRAMS = 15
-POSITIVE = 11
-NULL = 2
+DIRECT_ACCESS_GEOMETRY_STUDY_PROGRAMS = 18
+POSITIVE = 12
+NULL = 4
 OPPOSITE = 1
 MIXED = 1
 NETWORK_K_CONTRIBUTION = 0
@@ -229,10 +229,12 @@ HISTORICAL_FRAME = LEAL_2025_ROBBER_STUDY_FIELD
 HISTORICAL_STUDY_FIELD_LABELS = 56
 HISTORICAL_SOURCE_RESOLVED_PROGRAMS = NOT_YET_FINAL
 PROVENANCE_CONFLICT_LABELS = 2
-DIRECT_DISCOVERY_PROGRAMS = 15
+DIRECT_DISCOVERY_PROGRAMS = 18
 DISCOVERY_OVERLAP_WITH_HISTORICAL_FRAME = 4
-DISCOVERY_NOT_IN_HISTORICAL_FRAME = 11
+DISCOVERY_NOT_IN_HISTORICAL_FRAME = 14
 HISTORICAL_SCREEN = 50_INELIGIBLE_4_ELIGIBLE_2_PROVENANCE_CONFLICT
+STAGE_U_BATCH_1 = 12_CANDIDATES_3_ELIGIBLE_1_DUPLICATE_8_INELIGIBLE
+STAGE_U_SEARCH = CONTINUES
 FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
 ```
 
@@ -244,12 +246,14 @@ Assets:
 - `scripts/validate_direct_access_geometry_formal_frame.py`
 - `empirical/floral_defence_selectivity/LEAL2025_STUDY_LABEL_PROVENANCE_AUDIT_V1.md`
 - `empirical/floral_defence_selectivity/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv`
+- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv`
+- `scripts/validate_direct_access_geometry_stage_u.py`
 
 The Leal `study` field is an outcome-independent historical anchor, but its 56
 distinct labels are not automatically 56 independent biological programs. A
 provenance audit identified two split-required labels. Of the 56 labels, current
 screening has 50 ineligible geometry labels, 4 eligible direct tests, and 2
-provenance conflicts. Only 4 of the 15 current direct programs overlap the frame.
+provenance conflicts. Only 4 of the 18 current direct programs overlap the frame.
 Both source-level repair and a separate systematic geometry-specific update/gap-fill
 search must be completed before any directional recurrence test.
 
