@@ -106,6 +106,8 @@ The verifier checks:
 
 The verifier is read-only and does not recompute or change the scientific result.
 
+Archive-shell verification is also strict. Every ZIP member must be a regular Unix file with mode `0644`, `create_system=3`, fixed timestamp `1980-01-01 00:00:00`, `ZIP_STORED` compression, no encryption, no per-member extra/comment payload, and no directory/symlink/special-file metadata. The ZIP-level comment must be empty. Thus changing only archive metadata while preserving file bytes is still treated as release tampering.
+
 ## Offline replay
 
 After extraction:
