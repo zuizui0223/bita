@@ -11,6 +11,8 @@ on:
       - "scripts/verify_third_network_release_package.py"
       - "scripts/package_third_network_confirmatory_release.py"
       - "scripts/evaluate_third_network_route_blind_presurvey.py"
+      - "scripts/plan_third_network_camera_effort.py"
+      - "scripts/extract_third_network_camera_effort_freeze.py"
       - "scripts/evaluate_third_network_field_readiness.py"
       - "scripts/validate_third_network_confirmatory_freeze.py"
       - "scripts/evaluate_third_network_route_reliability.py"
@@ -43,6 +45,8 @@ on:
       - "scripts/verify_third_network_release_package.py"
       - "scripts/package_third_network_confirmatory_release.py"
       - "scripts/evaluate_third_network_route_blind_presurvey.py"
+      - "scripts/plan_third_network_camera_effort.py"
+      - "scripts/extract_third_network_camera_effort_freeze.py"
       - "scripts/evaluate_third_network_field_readiness.py"
       - "scripts/validate_third_network_confirmatory_freeze.py"
       - "scripts/evaluate_third_network_route_reliability.py"
@@ -92,6 +96,8 @@ jobs:
             tests/test_generated_output_serialization.py \
             tests/test_third_network_confirmatory_freeze.py \
             tests/test_third_network_route_blind_presurvey.py \
+            tests/test_third_network_camera_effort_planner.py \
+            tests/test_third_network_camera_effort_freeze.py \
             tests/test_third_network_field_readiness.py \
             tests/test_third_network_route_reliability.py \
             tests/test_third_network_input_freeze.py \
@@ -108,6 +114,8 @@ jobs:
 
       - name: Verify production CLI entry points
         run: |
+          python scripts/plan_third_network_camera_effort.py --help >/dev/null
+          python scripts/extract_third_network_camera_effort_freeze.py --help >/dev/null
           python scripts/run_third_network_confirmatory_pipeline.py --help >/dev/null
           python scripts/verify_third_network_confirmatory_bundle.py --help >/dev/null
           python scripts/plan_third_network_claim_transition.py --help >/dev/null
