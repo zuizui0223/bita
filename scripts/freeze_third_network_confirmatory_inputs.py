@@ -45,6 +45,20 @@ ALLOWED_ROUTE_CODES = {"L", "B", "A", "N"}
 ALLOWED_ID_CONFIDENCE = {"HIGH", "MEDIUM", "LOW"}
 ALLOWED_CLIP_QUALITY = {"PASS", "FAIL"}
 
+# Operational resource envelope. These are deliberately far above the expected
+# field scale and are not biological inclusion thresholds. They exist to prevent
+# a malformed or hostile production input from exhausting memory before the
+# frozen scientific gates can be evaluated.
+MAX_EVENT_ROWS = 250_000
+MAX_PLANT_TRAIT_ROWS = 100_000
+MAX_MAMMAL_TRAIT_ROWS = 100_000
+MAX_CAMERA_DEPLOYMENT_ROWS = 100_000
+MAX_EVENT_CSV_BYTES = 128 * 1024 * 1024
+MAX_PLANT_TRAIT_CSV_BYTES = 64 * 1024 * 1024
+MAX_MAMMAL_TRAIT_CSV_BYTES = 64 * 1024 * 1024
+MAX_CAMERA_DEPLOYMENT_CSV_BYTES = 64 * 1024 * 1024
+MAX_CONTROL_JSON_BYTES = 4 * 1024 * 1024
+
 EVENT_REQUIRED = {
     "event_id",
     "dataset_role",
@@ -96,17 +110,50 @@ def _sha256(path: str | Path) -> str:
     return digest.hexdigest()
 
 
-def _read_csv(path: str | Path, required: set[str], label: str) -> list[dict[str, str]]:
-    with Path(path).open(encoding="utf-8", newline="") as handle:
+def _read_csv(
+    path: str | Path,
+    required: set[str],
+    label: str,
+    *,
+    max_rows: int,
+    max_bytes: int,
+) -> list[dict[str, str]]:
+    input_path = Path(path)
+    size = input_path.stat().st_size
+    if size > max_bytes:
+        raise ValueError(
+            f"SEMANTIC_RESOURCE_LIMIT_EXCEEDED:{label}:bytes={size}>{max_bytes}"
+        )
+
+    rows: list[dict[str, str]] = []
+    with input_path.open(encoding="utf-8", newline="") as handle:
         reader = csv.DictReader(handle)
         fields = set(reader.fieldnames or [])
         missing = required.difference(fields)
         if missing:
             raise ValueError(f"{label} missing required columns: {sorted(missing)}")
-        rows = list(reader)
+        for row in reader:
+            rows.append(row)
+            if len(rows) > max_rows:
+                raise ValueError(
+                    f"SEMANTIC_RESOURCE_LIMIT_EXCEEDED:{label}:rows={len(rows)}>{max_rows}"
+                )
     if not rows:
         raise ValueError(f"{label} table is empty")
     return rows
+
+
+def _read_control_json(path: str | Path, label: str) -> dict[str, object]:
+    input_path = Path(path)
+    size = input_path.stat().st_size
+    if size > MAX_CONTROL_JSON_BYTES:
+        raise ValueError(
+            f"SEMANTIC_RESOURCE_LIMIT_EXCEEDED:{label}:bytes={size}>{MAX_CONTROL_JSON_BYTES}"
+        )
+    payload = json.loads(input_path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"{label} must contain a JSON object")
+    return payload
 
 
 def _positive_float(value: object, label: str) -> float:
@@ -383,14 +430,14 @@ def freeze_inputs(
     field_readiness_json: str | Path,
 ) -> dict[str, object]:
     field_path = Path(field_readiness_json)
-    field = json.loads(field_path.read_text(encoding="utf-8"))
+    field = _read_control_json(field_path, "field_readiness")
     field_validation = _validate_field_readiness_receipt(
         field,
         confirmatory_freeze_json=confirmatory_freeze_json,
     )
     field_validation["field_readiness_sha256"] = _sha256(field_path)
 
-    freeze = json.loads(Path(confirmatory_freeze_json).read_text(encoding="utf-8"))
+    freeze = _read_control_json(confirmatory_freeze_json, "confirmatory_freeze")
     freeze_result = validate_confirmatory_freeze(freeze)
     if freeze_result["status"] != "READY_FOR_CONFIRMATORY_VIDEO_OPEN":
         raise ValueError("CONFIRMATORY_FREEZE_NOT_READY")
@@ -409,7 +456,13 @@ def freeze_inputs(
     if str(field.get("system", "")).strip() != str(freeze.get("design_system", "")).strip():
         raise ValueError("FIELD_READINESS_SYSTEM_MISMATCH")
 
-    events = _read_csv(events_csv, EVENT_REQUIRED, "events")
+    events = _read_csv(
+        events_csv,
+        EVENT_REQUIRED,
+        "events",
+        max_rows=MAX_EVENT_ROWS,
+        max_bytes=MAX_EVENT_CSV_BYTES,
+    )
     route_reliability = evaluate_route_reliability(events)
     if route_reliability["status"] != "ROUTE_RELIABILITY_PASS":
         raise ValueError(
@@ -417,9 +470,27 @@ def freeze_inputs(
             + str(route_reliability["status"])
         )
 
-    plant_traits = _read_csv(plant_traits_csv, PLANT_REQUIRED, "plant_traits")
-    mammal_traits = _read_csv(mammal_traits_csv, MAMMAL_REQUIRED, "mammal_traits")
-    camera = _read_csv(camera_deployment_csv, CAMERA_REQUIRED, "camera_deployment")
+    plant_traits = _read_csv(
+        plant_traits_csv,
+        PLANT_REQUIRED,
+        "plant_traits",
+        max_rows=MAX_PLANT_TRAIT_ROWS,
+        max_bytes=MAX_PLANT_TRAIT_CSV_BYTES,
+    )
+    mammal_traits = _read_csv(
+        mammal_traits_csv,
+        MAMMAL_REQUIRED,
+        "mammal_traits",
+        max_rows=MAX_MAMMAL_TRAIT_ROWS,
+        max_bytes=MAX_MAMMAL_TRAIT_CSV_BYTES,
+    )
+    camera = _read_csv(
+        camera_deployment_csv,
+        CAMERA_REQUIRED,
+        "camera_deployment",
+        max_rows=MAX_CAMERA_DEPLOYMENT_ROWS,
+        max_bytes=MAX_CAMERA_DEPLOYMENT_CSV_BYTES,
+    )
 
     validation = {
         "events": _validate_events(
@@ -465,10 +536,41 @@ def freeze_inputs(
             key: {
                 "filename": path.name,
                 "sha256": _sha256(path),
+                "bytes": path.stat().st_size,
             }
             for key, path in paths.items()
         },
         "validation": validation,
+        "semantic_resource_limits": {
+            "status": "SEMANTIC_RESOURCE_LIMITS_PASS",
+            "observed": {
+                "events_rows": len(events),
+                "events_bytes": Path(events_csv).stat().st_size,
+                "plant_trait_rows": len(plant_traits),
+                "plant_trait_bytes": Path(plant_traits_csv).stat().st_size,
+                "mammal_trait_rows": len(mammal_traits),
+                "mammal_trait_bytes": Path(mammal_traits_csv).stat().st_size,
+                "camera_deployment_rows": len(camera),
+                "camera_deployment_bytes": Path(camera_deployment_csv).stat().st_size,
+                "confirmatory_freeze_bytes": Path(confirmatory_freeze_json).stat().st_size,
+                "field_readiness_bytes": field_path.stat().st_size,
+            },
+            "limits": {
+                "max_event_rows": MAX_EVENT_ROWS,
+                "max_event_csv_bytes": MAX_EVENT_CSV_BYTES,
+                "max_plant_trait_rows": MAX_PLANT_TRAIT_ROWS,
+                "max_plant_trait_csv_bytes": MAX_PLANT_TRAIT_CSV_BYTES,
+                "max_mammal_trait_rows": MAX_MAMMAL_TRAIT_ROWS,
+                "max_mammal_trait_csv_bytes": MAX_MAMMAL_TRAIT_CSV_BYTES,
+                "max_camera_deployment_rows": MAX_CAMERA_DEPLOYMENT_ROWS,
+                "max_camera_deployment_csv_bytes": MAX_CAMERA_DEPLOYMENT_CSV_BYTES,
+                "max_control_json_bytes": MAX_CONTROL_JSON_BYTES,
+            },
+            "claim": (
+                "Operational resource limits only; they are not biological inclusion gates "
+                "and may be revised prospectively only before confirmatory outcome opening."
+            ),
+        },
         "route_reliability": route_reliability,
         "field_readiness_validation": field_validation,
         "final_sites": sorted(final_sites),
