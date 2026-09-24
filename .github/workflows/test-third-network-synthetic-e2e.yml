@@ -9,6 +9,7 @@ on:
       - "scripts/run_third_network_release_rehearsal.py"
       - "scripts/reproduce_third_network_confirmatory_release.py"
       - "scripts/verify_third_network_release_package.py"
+      - "scripts/ingest_third_network_release_archive.py"
       - "scripts/package_third_network_confirmatory_release.py"
       - "scripts/evaluate_third_network_route_blind_presurvey.py"
       - "scripts/evaluate_third_network_field_readiness.py"
@@ -28,6 +29,7 @@ on:
       - "tests/test_third_network_release_rehearsal.py"
       - "tests/test_third_network_release_package.py"
       - "tests/test_third_network_release_verifier.py"
+      - "tests/test_third_network_release_ingest.py"
       - "tests/test_third_network_scope_registration.py"
       - "tests/test_third_network_route_reliability.py"
       - "tests/test_third_network_input_freeze.py"
@@ -41,6 +43,7 @@ on:
       - "scripts/run_third_network_release_rehearsal.py"
       - "scripts/reproduce_third_network_confirmatory_release.py"
       - "scripts/verify_third_network_release_package.py"
+      - "scripts/ingest_third_network_release_archive.py"
       - "scripts/package_third_network_confirmatory_release.py"
       - "scripts/evaluate_third_network_route_blind_presurvey.py"
       - "scripts/evaluate_third_network_field_readiness.py"
@@ -60,6 +63,7 @@ on:
       - "tests/test_third_network_release_rehearsal.py"
       - "tests/test_third_network_release_package.py"
       - "tests/test_third_network_release_verifier.py"
+      - "tests/test_third_network_release_ingest.py"
       - "tests/test_third_network_scope_registration.py"
       - "tests/test_third_network_route_reliability.py"
       - "tests/test_third_network_input_freeze.py"
@@ -104,6 +108,7 @@ jobs:
             tests/test_third_network_release_rehearsal.py \
             tests/test_third_network_release_package.py \
             tests/test_third_network_release_verifier.py \
+            tests/test_third_network_release_ingest.py \
             tests/test_third_network_scope_registration.py
 
       - name: Verify production CLI entry points
@@ -115,6 +120,7 @@ jobs:
           python scripts/package_third_network_confirmatory_release.py --help >/dev/null
           python scripts/reproduce_third_network_confirmatory_release.py --help >/dev/null
           python scripts/verify_third_network_release_package.py --help >/dev/null
+          python scripts/ingest_third_network_release_archive.py --help >/dev/null
 
       - name: Run synthetic E2E scenario matrix
         run: |
@@ -213,9 +219,15 @@ jobs:
               --output-dir "artifacts/third_network_release_package/$scenario" \
               --development-only
 
+            python scripts/ingest_third_network_release_archive.py \
+              "artifacts/third_network_release_package/$scenario.zip" \
+              "artifacts/third_network_release_package/$scenario.zip.sha256" \
+              "artifacts/third_network_release_ingested/$scenario" \
+              --receipt "artifacts/third_network_release_ingested/$scenario-ingest.json"
+
             PYTHONPATH=. python scripts/reproduce_third_network_confirmatory_release.py \
-              "artifacts/third_network_release_package/$scenario" \
-              --output "artifacts/third_network_release_package/$scenario/reproduction.json"
+              "artifacts/third_network_release_ingested/$scenario" \
+              --output "artifacts/third_network_release_ingested/$scenario/reproduction.json"
           done
 
       - name: Verify release-package replay receipts
@@ -226,8 +238,13 @@ jobs:
 
           for scenario in ("positive", "null", "opposite"):
               root = Path(f"artifacts/third_network_release_package/{scenario}")
+              ingested = Path(f"artifacts/third_network_release_ingested/{scenario}")
               manifest = json.loads((root / "release_manifest.json").read_text(encoding="utf-8"))
-              replay = json.loads((root / "reproduction.json").read_text(encoding="utf-8"))
+              ingest = json.loads(
+                  Path(f"artifacts/third_network_release_ingested/{scenario}-ingest.json")
+                  .read_text(encoding="utf-8")
+              )
+              replay = json.loads((ingested / "reproduction.json").read_text(encoding="utf-8"))
               zip_path = Path(str(root) + ".zip")
               sha_path = Path(str(zip_path) + ".sha256")
 
@@ -239,6 +256,10 @@ jobs:
               assert manifest["automatic_manuscript_edit_permitted"] is False
               assert manifest["existing_network_inputs_verified"] is True
 
+              assert ingest["receipt"] == "BITA_THIRD_NETWORK_RELEASE_ARCHIVE_INGEST_V1"
+              assert ingest["status"] == "RELEASE_ARCHIVE_INGESTED_VERIFIED"
+              assert ingest["scientific_claim_allowed_by_ingest_alone"] is False
+
               assert replay["receipt"] == "BITA_THIRD_NETWORK_RELEASE_REPRODUCTION_V1"
               assert replay["status"] == "REPRODUCTION_MATCH"
               assert replay["bundle_verification_status"] == "CONFIRMATORY_BUNDLE_VERIFIED"
@@ -249,7 +270,7 @@ jobs:
               assert zip_path.is_file() and zip_path.stat().st_size > 0
               assert sha_path.is_file() and sha_path.stat().st_size > 0
 
-          print("Deterministic package + offline replay matrix verified")
+          print("Deterministic package + safe ingest + offline replay matrix verified")
           PY
 
       - uses: actions/upload-artifact@v4
@@ -259,6 +280,7 @@ jobs:
             artifacts/third_network_release_package
             artifacts/third_network_release_package/*.zip
             artifacts/third_network_release_package/*.zip.sha256
+            artifacts/third_network_release_ingested
           if-no-files-found: error
 
       - uses: actions/upload-artifact@v4
