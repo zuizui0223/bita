@@ -28,6 +28,12 @@ eligible site pool from flowering plants + mammal presence + camera operability
 final site / plant list frozen without B/L information
         |
         v
+route-blind mammal detection-rate table
+        |
+        v
+uniform camera-effort planner receipt (target probability >= 0.80)
+        |
+        v
 pre-video confirmatory freeze receipt checksum-frozen
         |
         v
@@ -75,6 +81,25 @@ The presurvey evaluator rejects columns that would expose:
 Thus a final site cannot be selected because it already shows the desired route
 pattern.
 
+## Route-blind camera-effort planning
+
+Use:
+
+- `empirical/floral_defence_selectivity/THIRD_NETWORK_CAMERA_EFFORT_RATE_SCHEMA_V1.csv`
+- `scripts/plan_third_network_camera_effort.py`
+- `scripts/extract_third_network_camera_effort_freeze.py`
+
+The effort-rate table may contain only route-blind mammal detections by
+site x plant x mammal. It rejects route outcome and access-morphology fields.
+
+The frozen camera rule is uniform by plant x site and must reach a predeclared
+planning-target probability of at least 0.80. The planner receipt SHA256 and
+plant x site deployment-set SHA256 are copied into the pre-video freeze receipt.
+
+Later, `freeze_third_network_confirmatory_inputs.py` verifies that the actual
+PRIMARY camera deployment has exactly the frozen deployment-set digest, uniform
+camera-hours and effort-rule version. A mismatch blocks integration.
+
 ## Pre-video confirmatory freeze
 
 Use:
@@ -91,7 +116,9 @@ The receipt freezes before confirmatory route videos are opened:
 - plant morphology protocol;
 - mammal morphology protocol;
 - route-coding manual version;
-- fixed camera effort rule;
+- route-blind camera-effort planner SHA256;
+- frozen uniform camera-hours and qualifying fraction;
+- route-blind plant x site deployment-set SHA256;
 - analysis seeds;
 - administrative-resolution fields.
 
