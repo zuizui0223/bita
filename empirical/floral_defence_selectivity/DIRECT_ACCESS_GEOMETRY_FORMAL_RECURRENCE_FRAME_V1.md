@@ -8,14 +8,14 @@ HISTORICAL_FRAME = LEAL_2025_ROBBER_STUDIES
 HISTORICAL_STUDY_FIELD_LABELS = 56
 HISTORICAL_SOURCE_RESOLVED_PROGRAMS = NOT_YET_FINAL
 PROVENANCE_CONFLICT_LABELS = 2
-DIRECT_DISCOVERY_PROGRAMS = 15
+DIRECT_DISCOVERY_PROGRAMS = 24
 DIRECT_DISCOVERY_OVERLAP_WITH_HISTORICAL_FRAME = 4
 FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
 ~~~
 
 ## Purpose
 
-The current direct access-geometry corpus contains 15 study programs, but it was
+The current direct access-geometry corpus contains 24 study programs, but it was
 assembled by bounded discovery and therefore cannot support a prevalence estimate,
 sign test, or pooled recurrence statistic.
 
@@ -82,6 +82,15 @@ A record enters the screening frame from bibliographic match alone. Outcome
 direction must not determine whether it is retained for full-text eligibility
 screening.
 
+Stage-U batches 1–2 are frozen in
+`DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv`. Batch 1 recovered three new
+Gelsemium programs. Batch 2 plus the final fixed-synonym pass recovered six further
+eligible programs spanning Penstemon, experimental Sesamum, an Andean
+Bombus–Digitalis mismatch, Tirpitzia, Linaria, and Primula florindae. Duplicate,
+secondary-synthesis, non-geometric, and otherwise ineligible candidates remain in
+the registry with explicit reasons. This is progress toward, not completion of,
+the systematic update frame.
+
 ## Eligibility screening
 
 Every frame record is screened against
@@ -100,12 +109,12 @@ Only after those fields are frozen may direction be coded as
 
 ## Current overlap audit
 
-The 15-study discovery corpus is cross-walked against the 56-label historical
+The 24-study direct corpus is cross-walked against the 56-label historical
 frame in:
 
 - `DIRECT_ACCESS_GEOMETRY_LEAL2025_CROSSWALK_V1.csv`
 
-Current overlap is 4/15 discovery programs:
+Current overlap is 4/24 direct programs:
 
 - Lara & Ornelas 2001;
 - Castro, Silveira & Navarro 2009 (source label `Castroetal_2008`);
@@ -117,7 +126,7 @@ geometry question and that Stage U is necessary.
 
 ## Formal analysis gate
 
-Do not calculate a recurrence p-value from the 15-study discovery corpus.
+Do not calculate a recurrence p-value from the 24-study direct corpus.
 
 A formal directional recurrence analysis opens only after:
 
