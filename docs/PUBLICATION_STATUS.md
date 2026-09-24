@@ -37,13 +37,13 @@ The joint statistic tests recurrence across these two networks only. It does not
 
 The standardized joint network statistic remains **k = 2**.
 
-A separate bounded discovery corpus now contains **15 independent direct
+A separate bounded discovery corpus now contains **18 independent direct
 access-geometry → nectar-robbery study programs** outside the two standardized
 network datasets:
 
 ~~~text
-POSITIVE = 11
-NULL = 2
+POSITIVE = 12
+NULL = 4
 OPPOSITE = 1
 MIXED = 1
 NETWORK_K_CONTRIBUTION = 0
@@ -120,11 +120,13 @@ The archive contract contains the exact 57-species and 1,378-pair-site analysis 
 ```text
 STATUS = SCIENTIFIC_PACKAGE_READY
 ACTIVE_PAPER = ACCESS_ROUTING_LETTER
-DIRECT_ACCESS_GEOMETRY_PROGRAMS = 15
-DIRECT_EVIDENCE_DIRECTIONS = 11_POSITIVE_2_NULL_1_OPPOSITE_1_MIXED
+DIRECT_ACCESS_GEOMETRY_PROGRAMS = 18
+DIRECT_EVIDENCE_DIRECTIONS = 12_POSITIVE_4_NULL_1_OPPOSITE_1_MIXED
 FORMAL_HISTORICAL_FRAME = LEAL2025_56_STUDY_FIELD_LABELS
 FORMAL_HISTORICAL_SOURCE_PROGRAMS = NOT_YET_FINAL
 FORMAL_HISTORICAL_PROVENANCE_CONFLICTS = 2
+STAGE_U_BATCH_1 = 12_CANDIDATES_3_ELIGIBLE_1_DUPLICATE_8_INELIGIBLE
+STAGE_U_SEARCH = CONTINUES
 FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
 EXTENDED_SYNTHESIS = PRESERVED_RESERVE
 LEGACY_IDENTIFICATION_PAPER = PRESERVED_SUPPORT
