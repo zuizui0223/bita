@@ -96,6 +96,11 @@ def _sha256(path: str | Path) -> str:
     return digest.hexdigest()
 
 
+def _keyset_sha256(keys: set[tuple[str, str]]) -> str:
+    payload = "\n".join("\t".join(key) for key in sorted(keys)) + "\n"
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
 def _read_csv(path: str | Path, required: set[str], label: str) -> list[dict[str, str]]:
     with Path(path).open(encoding="utf-8", newline="") as handle:
         reader = csv.DictReader(handle)
@@ -256,11 +261,29 @@ def _validate_camera_deployment(
     *,
     final_sites: set[str],
     final_plants: set[str],
+    camera_effort: dict[str, object],
 ) -> dict[str, object]:
     ids: list[str] = []
     sites: set[str] = set()
     plants: set[str] = set()
     total_hours = 0.0
+    primary_hours: dict[tuple[str, str], float] = {}
+    rule_versions: set[str] = set()
+
+    expected_hours = _positive_float(
+        camera_effort.get("uniform_camera_hours_per_plant_site"),
+        "confirmatory_freeze.camera_effort.uniform_camera_hours_per_plant_site",
+    )
+    expected_rule = str(camera_effort.get("effort_rule_version", "")).strip()
+    if not expected_rule:
+        raise ValueError("CONFIRMATORY_CAMERA_EFFORT_RULE_VERSION_MISSING")
+    expected_deployment_sha = str(
+        camera_effort.get("planned_plant_site_deployment_set_sha256", "")
+    ).strip().lower()
+    expected_deployment_count = _positive_int(
+        camera_effort.get("planned_plant_site_deployments"),
+        "confirmatory_freeze.camera_effort.planned_plant_site_deployments",
+    )
 
     for row in rows:
         deployment_id = str(row["deployment_id"]).strip()
@@ -285,6 +308,7 @@ def _validate_camera_deployment(
             raise ValueError(f"camera plant outside frozen plant list: {plant}")
         if not camera or not rule:
             raise ValueError("camera_id and effort_rule_version must not be blank")
+        rule_versions.add(rule)
         if angle not in {"PRIMARY", "SECONDARY_VALIDATION"}:
             raise ValueError(f"invalid camera_angle: {angle!r}")
 
@@ -295,6 +319,9 @@ def _validate_camera_deployment(
 
         hours = _positive_float(row["planned_camera_hours"], "planned_camera_hours")
         total_hours += hours
+        if angle == "PRIMARY":
+            key = (site, plant)
+            primary_hours[key] = primary_hours.get(key, 0.0) + hours
         sites.add(site)
         plants.add(plant)
 
@@ -305,11 +332,48 @@ def _validate_camera_deployment(
     if plants != final_plants:
         raise ValueError("camera deployment does not cover every frozen plant species")
 
+    primary_keys = set(primary_hours)
+    actual_deployment_sha = _keyset_sha256(primary_keys)
+    if len(primary_keys) != expected_deployment_count:
+        raise ValueError(
+            "CAMERA_DEPLOYMENT_COUNT_MISMATCH: "
+            f"expected={expected_deployment_count} actual={len(primary_keys)}"
+        )
+    if actual_deployment_sha != expected_deployment_sha:
+        raise ValueError(
+            "CAMERA_DEPLOYMENT_SET_HASH_MISMATCH: "
+            f"expected={expected_deployment_sha} actual={actual_deployment_sha}"
+        )
+    mismatched_hours = sorted(
+        f"{site}|{plant}:{hours}"
+        for (site, plant), hours in primary_hours.items()
+        if not math.isclose(
+            hours,
+            expected_hours,
+            rel_tol=0.0,
+            abs_tol=1e-9,
+        )
+    )
+    if mismatched_hours:
+        raise ValueError(
+            "CAMERA_PRIMARY_UNIFORM_HOURS_MISMATCH: "
+            + ",".join(mismatched_hours)
+        )
+    if rule_versions != {expected_rule}:
+        raise ValueError(
+            "CAMERA_EFFORT_RULE_VERSION_MISMATCH: "
+            f"expected={expected_rule} actual={sorted(rule_versions)}"
+        )
+
     return {
         "rows": len(rows),
         "sites": len(sites),
         "plants": len(plants),
         "planned_camera_hours_total": total_hours,
+        "primary_plant_site_deployments": len(primary_keys),
+        "primary_plant_site_deployment_set_sha256": actual_deployment_sha,
+        "uniform_primary_camera_hours_per_plant_site": expected_hours,
+        "effort_rule_version": expected_rule,
     }
 
 
@@ -437,6 +501,7 @@ def freeze_inputs(
             camera,
             final_sites=final_sites,
             final_plants=final_plants,
+            camera_effort=freeze["camera_effort"],
         ),
     }
 
