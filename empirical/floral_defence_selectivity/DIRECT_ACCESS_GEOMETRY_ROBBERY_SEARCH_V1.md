@@ -44,7 +44,7 @@ must satisfy the independent inclusion contract in
 
 ## Included discovery programs
 
-The first frozen discovery inventory contains 10 study programs spanning 2001–2026:
+The first frozen discovery inventory contains 13 study programs spanning 2001–2026:
 
 - Lara & Ornelas 2001 — experimental/natural hummingbird route switching;
 - Urcelay, Morales & Chalcoff 2006 — bumblebee robbery across two
@@ -53,10 +53,13 @@ The first frozen discovery inventory contains 10 study programs spanning 2001–
 - Geerts & Pauw 2009 — 13-species Cape sunbird guild;
 - Lázaro, Vignolo & Santamaría 2015 — three `Lonicera implexa` populations;
 - Rojas-Nossa, Sánchez & Navarro 2016 — 88 species across four communities;
+- Castro, Silveira & Navarro 2009 — three `Polygala vayredae` populations;
 - Cuta-Pineda, Arias-Sosa & Pelayo 2021 — 16 Andean ornithophilic plants and
   four flowerpiercers;
+- Stanley & Cosnett 2021 — flower-level `Fuchsia magellanica` robbery in Ireland;
 - Tie et al. 2023 — individual-level `Caryopteris divaricata` variation;
 - Valdivia, Orellana & Gantz 2025 — Chilean `Campsidium` direct null test;
+- Coetzee et al. 2026 — 12 bird-pollinated `Erica` species across 27 populations;
 - Navarro & Gómez 2026 — Galápagos `Kalanchoe pinnata`.
 
 ## Important negative / non-promoted findings
@@ -64,6 +67,15 @@ The first frozen discovery inventory contains 10 study programs spanning 2001–
 The 2025 Chilean `Campsidium` study directly tested the predicted geometry effect
 and found no significant association of corolla length with either small or large
 robbery perforations. It is retained as `NULL`.
+
+The 2009 `Polygala vayredae` study found a positive flower-size/robbery relation
+in only one of three populations and is retained as `MIXED`.
+
+The 2026 South African `Erica` study provides a genuine boundary-condition result:
+in its primary population-level LMM, robbery was significantly **lower** in
+longer-corolla populations (t = -2, p = 0.04), while a sensitivity model replacing
+conspicuousness with discriminability rendered predictors non-significant. It is
+retained as `OPPOSITE`, with the model-sensitivity caveat explicit.
 
 Several potentially useful datasets were **not** promoted to the frozen network
 statistic:
@@ -78,11 +90,11 @@ statistic:
 ## Current descriptive inventory
 
 ~~~text
-study programs = 10
-positive        = 9
+study programs = 13
+positive        = 10
 null            = 1
-opposite        = 0
-mixed           = 0
+opposite        = 1
+mixed           = 1
 
 network-k contribution from this corpus = 0
 primary standardized joint network k    = 2
