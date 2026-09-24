@@ -178,10 +178,16 @@ def run_with_network_inputs(
 
     existing_mode = str(existing_network_input_mode).strip()
     if existing_mode == PRODUCTION_INPUT_MODE:
-        existing_validation = validate_existing_network_payloads(
-            sakhalkar_points,
-            aubert_rows,
-        )
+        try:
+            existing_validation = validate_existing_network_payloads(
+                sakhalkar_points,
+                aubert_rows,
+            )
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError(
+                "CANONICAL_EXISTING_K3_INPUTS_MISMATCH:"
+                f"invalid_payload:{type(exc).__name__}"
+            ) from exc
         if existing_validation["status"] != EXISTING_K3_MATCH_STATUS:
             failures = ",".join(str(item) for item in existing_validation["failures"])
             raise ValueError(f"CANONICAL_EXISTING_K3_INPUTS_MISMATCH:{failures}")
