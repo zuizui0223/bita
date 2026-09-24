@@ -27,6 +27,10 @@ def _plan() -> dict[str, object]:
             "uniform_camera_hours_per_plant_site": 168.0,
             "planning_target_success_probability": 0.87,
         },
+        "candidate_structure": {
+            "distinct_plant_site_deployments": 12,
+            "plant_site_deployment_set_sha256": "b" * 64,
+        },
     }
 
 
@@ -48,6 +52,9 @@ def test_extract_camera_effort_freezes_exact_planner_values(tmp_path) -> None:
     assert block["qualifying_fraction"] == 0.5
     assert block["planner_target_success_probability"] == 0.8
     assert block["planner_achieved_success_probability"] == 0.87
+    assert block["planned_plant_site_deployments"] == 12
+    assert block["planned_plant_site_deployment_set_sha256"] == "b" * 64
+    assert block["effort_rule_version"].startswith("CAMERA_EFFORT_PLAN:")
     assert block["may_extend_based_on_route_outcomes"] is False
     assert len(block["planner_receipt_sha256"]) == 64
 
@@ -91,4 +98,17 @@ def test_extract_camera_effort_rejects_structurally_unready_plan(tmp_path) -> No
     path = _write(tmp_path, plan)
 
     with pytest.raises(ValueError, match="CAMERA_EFFORT_PLAN_NOT_READY"):
+        extract_camera_effort(path)
+
+
+
+def test_extract_camera_effort_rejects_invalid_deployment_digest(tmp_path) -> None:
+    plan = _plan()
+    plan["candidate_structure"]["plant_site_deployment_set_sha256"] = "bad"
+    path = _write(tmp_path, plan)
+
+    with pytest.raises(
+        ValueError,
+        match="CAMERA_EFFORT_DEPLOYMENT_DIGEST_INVALID",
+    ):
         extract_camera_effort(path)
