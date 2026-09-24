@@ -47,6 +47,7 @@ from trait_architecture.serialization import (
 RECEIPT = "BITA_THIRD_NETWORK_CONFIRMATORY_ANALYSIS_V1"
 COMPLETE_STATUS = "CONFIRMATORY_ANALYSIS_COMPLETE"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
+PRODUCTION_PERMUTATIONS = 9999
 
 
 def _sha256(path: str | Path) -> str:
@@ -316,6 +317,10 @@ def run(
     permutations: int = 9999,
 ) -> dict[str, object]:
     commit = _validate_production_repository_commit(repository_commit)
+    if permutations != PRODUCTION_PERMUTATIONS:
+        raise ValueError(
+            f"PRODUCTION_PERMUTATIONS_MUST_EQUAL_{PRODUCTION_PERMUTATIONS}: {permutations}"
+        )
     sakhalkar_points, aubert_rows = build_public_inputs()
     return run_with_network_inputs(
         events_csv=events_csv,
