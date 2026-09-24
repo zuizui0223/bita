@@ -3,9 +3,21 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
+import re
 from pathlib import Path
 
 REQUIRED = "REQUIRED_BEFORE_USE"
+HEX64 = re.compile(r"^[0-9a-f]{64}$")
+MIN_PLANNING_SUCCESS_PROBABILITY = 0.80
+
+
+def _finite_number(value: object) -> float | None:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    return number if math.isfinite(number) else None
 
 
 def validate(receipt: dict[str, object]) -> dict[str, object]:
@@ -51,6 +63,48 @@ def validate(receipt: dict[str, object]) -> dict[str, object]:
         camera = {}
     if camera.get("rule") in {None, "", REQUIRED}:
         failures.append("camera_effort_rule_not_frozen")
+
+    planner_sha = str(camera.get("planner_receipt_sha256", "")).strip().lower()
+    if HEX64.fullmatch(planner_sha) is None:
+        failures.append("camera_effort_planner_receipt_sha256_invalid")
+    if camera.get("planner_status") != "PLANNING_TARGET_EFFORT_IDENTIFIED":
+        failures.append("camera_effort_planner_status_not_ready")
+
+    uniform_hours = _finite_number(
+        camera.get("uniform_camera_hours_per_plant_site")
+    )
+    if uniform_hours is None or uniform_hours <= 0:
+        failures.append("camera_effort_uniform_hours_invalid")
+
+    qualifying_fraction = _finite_number(camera.get("qualifying_fraction"))
+    if (
+        qualifying_fraction is None
+        or qualifying_fraction <= 0
+        or qualifying_fraction > 1
+    ):
+        failures.append("camera_effort_qualifying_fraction_invalid")
+
+    target_probability = _finite_number(
+        camera.get("planner_target_success_probability")
+    )
+    achieved_probability = _finite_number(
+        camera.get("planner_achieved_success_probability")
+    )
+    if (
+        target_probability is None
+        or target_probability < MIN_PLANNING_SUCCESS_PROBABILITY
+        or target_probability > 1
+    ):
+        failures.append("camera_effort_target_success_probability_invalid")
+    if (
+        achieved_probability is None
+        or achieved_probability < 0
+        or achieved_probability > 1
+        or target_probability is None
+        or achieved_probability < target_probability
+    ):
+        failures.append("camera_effort_achieved_success_probability_invalid")
+
     if camera.get("may_extend_based_on_route_outcomes") is not False:
         failures.append("outcome_adaptive_camera_effort_forbidden")
 
