@@ -332,9 +332,13 @@ def verify(
         is_list = isinstance(payload, list)
         analysis_units = len(payload) if is_list else None
         stable_digest = _stable_json_sha256(payload) if is_list else None
-        canonical_digest = (
-            canonical_stable_json_sha256(key, payload) if is_list else None
-        )
+        canonical_digest = None
+        canonicalization_error = None
+        if canonical_receipt is not None and is_list:
+            try:
+                canonical_digest = canonical_stable_json_sha256(key, payload)
+            except (KeyError, TypeError, ValueError) as exc:
+                canonicalization_error = type(exc).__name__
         file_digest = _sha256(path) if exists else None
 
         expected_units = entry.get("analysis_units")
@@ -377,6 +381,7 @@ def verify(
             "expected_stable_json_sha256": expected_stable,
             "stable_json_match": stable_match,
             "canonical_stable_json_sha256": canonical_digest,
+            "canonicalization_error": canonicalization_error,
             "expected_canonical_stable_json_sha256": (
                 canonical_expected["canonical_stable_json_sha256"]
                 if canonical_expected is not None
