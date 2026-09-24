@@ -108,6 +108,39 @@ The verifier is read-only and does not recompute or change the scientific result
 
 Archive-shell verification is also strict. Every ZIP member must be a regular Unix file with mode `0644`, `create_system=3`, fixed timestamp `1980-01-01 00:00:00`, `ZIP_STORED` compression, no encryption, no per-member extra/comment payload, and no directory/symlink/special-file metadata. The ZIP-level comment must be empty. Thus changing only archive metadata while preserving file bytes is still treated as release tampering.
 
+## Safe archive ingestion
+
+When starting from the deterministic ZIP rather than an already verified
+directory, do not use a generic `unzip` step as the trust boundary. From a
+BITA checkout containing the ingest tool, run:
+
+~~~bash
+python scripts/ingest_third_network_release_archive.py \
+  third_network_confirmatory_release_v1.zip \
+  third_network_confirmatory_release_v1.zip.sha256 \
+  verified_third_network_release_v1 \
+  --receipt ingest_receipt.json
+~~~
+
+The ingest pipeline verifies **before extraction**:
+
+- the adjacent ZIP SHA256 receipt;
+- duplicate and unsafe member paths;
+- the strict regular-file ZIP metadata contract;
+- the internal `FILE_SHA256SUMS.txt` inventory;
+- every archived file digest.
+
+Only then are members written to a private staging directory. The full
+release-package verifier runs against staging and the original ZIP; the staging
+directory is atomically promoted only after that verification succeeds. Any
+failure removes staging and leaves no partial final release.
+
+Ingest success does not itself license a scientific claim:
+
+~~~text
+scientific_claim_allowed_by_ingest_alone = false
+~~~
+
 ## Offline replay
 
 After extraction:
