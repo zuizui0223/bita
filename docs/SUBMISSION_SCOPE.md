@@ -198,9 +198,9 @@ A separate bounded discovery corpus now records direct empirical tests of
 access geometry -> nectar robbery outside the two standardized network datasets:
 
 ```text
-DIRECT_ACCESS_GEOMETRY_STUDY_PROGRAMS = 13
-POSITIVE = 10
-NULL = 1
+DIRECT_ACCESS_GEOMETRY_STUDY_PROGRAMS = 15
+POSITIVE = 11
+NULL = 2
 OPPOSITE = 1
 MIXED = 1
 NETWORK_K_CONTRIBUTION = 0
@@ -225,11 +225,14 @@ Contract and ledger:
 Formal-recurrence scaffolding is now frozen but **not yet opened for inference**:
 
 ```text
-HISTORICAL_FRAME = LEAL_2025_ROBBER_STUDIES
-HISTORICAL_FRAME_STUDIES = 56
-DIRECT_DISCOVERY_PROGRAMS = 13
-DISCOVERY_OVERLAP_WITH_HISTORICAL_FRAME = 3
-DISCOVERY_NOT_IN_HISTORICAL_FRAME = 10
+HISTORICAL_FRAME = LEAL_2025_ROBBER_STUDY_FIELD
+HISTORICAL_STUDY_FIELD_LABELS = 56
+HISTORICAL_SOURCE_RESOLVED_PROGRAMS = NOT_YET_FINAL
+PROVENANCE_CONFLICT_LABELS = 2
+DIRECT_DISCOVERY_PROGRAMS = 15
+DISCOVERY_OVERLAP_WITH_HISTORICAL_FRAME = 4
+DISCOVERY_NOT_IN_HISTORICAL_FRAME = 11
+HISTORICAL_SCREEN = 50_INELIGIBLE_4_ELIGIBLE_2_PROVENANCE_CONFLICT
 FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
 ```
 
@@ -239,10 +242,16 @@ Assets:
 - `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_LEAL2025_CROSSWALK_V1.csv`
 - `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_FRAME_V1.md`
 - `scripts/validate_direct_access_geometry_formal_frame.py`
+- `empirical/floral_defence_selectivity/LEAL2025_STUDY_LABEL_PROVENANCE_AUDIT_V1.md`
+- `empirical/floral_defence_selectivity/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv`
 
-The historical frame alone is insufficient for geometry because only 3 of the 13
-direct-discovery programs occur in it. A separate systematic geometry-specific
-update/gap-fill search must be completed before any directional recurrence test.
+The Leal `study` field is an outcome-independent historical anchor, but its 56
+distinct labels are not automatically 56 independent biological programs. A
+provenance audit identified two split-required labels. Of the 56 labels, current
+screening has 50 ineligible geometry labels, 4 eligible direct tests, and 2
+provenance conflicts. Only 4 of the 15 current direct programs overlap the frame.
+Both source-level repair and a separate systematic geometry-specific update/gap-fill
+search must be completed before any directional recurrence test.
 
 Matched effective-domain classifications are author-coded and have not yet undergone outcome-blind independent recoding. They are therefore not treated as independent validation in the Letter, and the 11/11 state alignment is not a headline or confirmatory result.
 

@@ -44,7 +44,7 @@ must satisfy the independent inclusion contract in
 
 ## Included discovery programs
 
-The first frozen discovery inventory contains 13 study programs spanning 2001–2026:
+The first frozen discovery inventory contains 15 study programs spanning 2001–2026:
 
 - Lara & Ornelas 2001 — experimental/natural hummingbird route switching;
 - Urcelay, Morales & Chalcoff 2006 — bumblebee robbery across two
@@ -54,8 +54,11 @@ The first frozen discovery inventory contains 13 study programs spanning 2001–
 - Lázaro, Vignolo & Santamaría 2015 — three `Lonicera implexa` populations;
 - Rojas-Nossa, Sánchez & Navarro 2016 — 88 species across four communities;
 - Castro, Silveira & Navarro 2009 — three `Polygala vayredae` populations;
+- Carrió & Güemes 2019 — population flower-size test in `Antirrhinum valentinum`;
 - Cuta-Pineda, Arias-Sosa & Pelayo 2021 — 16 Andean ornithophilic plants and
   four flowerpiercers;
+- Valdivia, Carroza & Orellana 2016 — geographic trait-mediated `Fuchsia magellanica`
+  robbery by `Bombus terrestris`;
 - Stanley & Cosnett 2021 — flower-level `Fuchsia magellanica` robbery in Ireland;
 - Tie et al. 2023 — individual-level `Caryopteris divaricata` variation;
 - Valdivia, Orellana & Gantz 2025 — Chilean `Campsidium` direct null test;
@@ -90,9 +93,9 @@ statistic:
 ## Current descriptive inventory
 
 ~~~text
-study programs = 13
-positive        = 10
-null            = 1
+study programs = 15
+positive        = 11
+null            = 2
 opposite        = 1
 mixed           = 1
 
