@@ -198,11 +198,11 @@ A separate bounded discovery corpus now records direct empirical tests of
 access geometry -> nectar robbery outside the two standardized network datasets:
 
 ```text
-DIRECT_ACCESS_GEOMETRY_STUDY_PROGRAMS = 18
-POSITIVE = 12
-NULL = 4
+DIRECT_ACCESS_GEOMETRY_STUDY_PROGRAMS = 24
+POSITIVE = 16
+NULL = 5
 OPPOSITE = 1
-MIXED = 1
+MIXED = 2
 NETWORK_K_CONTRIBUTION = 0
 PRIMARY_STANDARDIZED_NETWORK_K = 2
 ```
@@ -229,12 +229,12 @@ HISTORICAL_FRAME = LEAL_2025_ROBBER_STUDY_FIELD
 HISTORICAL_STUDY_FIELD_LABELS = 56
 HISTORICAL_SOURCE_RESOLVED_PROGRAMS = NOT_YET_FINAL
 PROVENANCE_CONFLICT_LABELS = 2
-DIRECT_DISCOVERY_PROGRAMS = 18
+DIRECT_DISCOVERY_PROGRAMS = 24
 DISCOVERY_OVERLAP_WITH_HISTORICAL_FRAME = 4
-DISCOVERY_NOT_IN_HISTORICAL_FRAME = 14
+DISCOVERY_NOT_IN_HISTORICAL_FRAME = 20
 HISTORICAL_SCREEN = 50_INELIGIBLE_4_ELIGIBLE_2_PROVENANCE_CONFLICT
-STAGE_U_BATCH_1 = 12_CANDIDATES_3_ELIGIBLE_1_DUPLICATE_8_INELIGIBLE
-STAGE_U_SEARCH = CONTINUES
+STAGE_U_BATCHES_1_2 = 23_CANDIDATES_9_ELIGIBLE_1_DUPLICATE_13_INELIGIBLE
+STAGE_U_SEARCH = FINAL_SYNONYM_PASS_COMPLETE_BOUNDED_SEARCH_STILL_NOT_FORMAL
 FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
 ```
 
@@ -253,7 +253,7 @@ The Leal `study` field is an outcome-independent historical anchor, but its 56
 distinct labels are not automatically 56 independent biological programs. A
 provenance audit identified two split-required labels. Of the 56 labels, current
 screening has 50 ineligible geometry labels, 4 eligible direct tests, and 2
-provenance conflicts. Only 4 of the 18 current direct programs overlap the frame.
+provenance conflicts. Only 4 of the 24 current direct programs overlap the frame.
 Both source-level repair and a separate systematic geometry-specific update/gap-fill
 search must be completed before any directional recurrence test.
 
