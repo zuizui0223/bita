@@ -222,6 +222,28 @@ Contract and ledger:
 - `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_ROBBERY_SEARCH_V1.md`
 - `scripts/summarize_direct_access_geometry_corpus.py`
 
+Formal-recurrence scaffolding is now frozen but **not yet opened for inference**:
+
+```text
+HISTORICAL_FRAME = LEAL_2025_ROBBER_STUDIES
+HISTORICAL_FRAME_STUDIES = 56
+DIRECT_DISCOVERY_PROGRAMS = 13
+DISCOVERY_OVERLAP_WITH_HISTORICAL_FRAME = 3
+DISCOVERY_NOT_IN_HISTORICAL_FRAME = 10
+FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
+```
+
+Assets:
+
+- `empirical/floral_defence_selectivity/LEAL2025_ROBBER_STUDY_FRAME_V1.csv`
+- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_LEAL2025_CROSSWALK_V1.csv`
+- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_FRAME_V1.md`
+- `scripts/validate_direct_access_geometry_formal_frame.py`
+
+The historical frame alone is insufficient for geometry because only 3 of the 13
+direct-discovery programs occur in it. A separate systematic geometry-specific
+update/gap-fill search must be completed before any directional recurrence test.
+
 Matched effective-domain classifications are author-coded and have not yet undergone outcome-blind independent recoding. They are therefore not treated as independent validation in the Letter, and the 11/11 state alignment is not a headline or confirmatory result.
 
 These counts describe evidence structure, not natural prevalence, and they are not pooled into one grand meta-analytic effect.
