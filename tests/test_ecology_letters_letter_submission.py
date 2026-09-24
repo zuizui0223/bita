@@ -66,6 +66,9 @@ def test_letter_submission_source_excludes_internal_workflow_language() -> None:
     assert "88 species from four communities" in lower
     assert "provide biological context rather than additional standardized network replicates" in lower
     assert "coetzee et al. 2026" in lower
+    assert "relative route cost" in lower
+    assert "cost of legitimate entry more than the cost of bypass" in lower
+    assert "longer flower = more robbery" in lower
 
 
 def test_letter_submission_remains_fail_closed_until_archive_doi_and_author_metadata() -> None:
