@@ -99,29 +99,82 @@ def _safe_relative_file(value: str, *, label: str) -> Path:
     return path
 
 
-def _prepare_output(output_dir: str | Path) -> tuple[Path, Path, Path, Path]:
+def _prepare_output(
+    output_dir: str | Path,
+) -> tuple[Path, Path, Path, Path, Path, Path]:
     final = Path(output_dir)
     final.parent.mkdir(parents=True, exist_ok=True)
     staging = final.with_name(final.name + ".inprogress")
-    zip_path = final.with_suffix(final.suffix + ".zip") if final.suffix else Path(str(final) + ".zip")
+    zip_path = (
+        final.with_suffix(final.suffix + ".zip")
+        if final.suffix
+        else Path(str(final) + ".zip")
+    )
     sha_path = Path(str(zip_path) + ".sha256")
     zip_tmp = Path(str(zip_path) + ".inprogress")
+    sha_tmp = Path(str(sha_path) + ".inprogress")
 
-    for path, label in (
+    for candidate, label in (
         (final, "RELEASE_OUTPUT"),
         (staging, "RELEASE_STAGING"),
         (zip_path, "RELEASE_ZIP"),
         (sha_path, "RELEASE_ZIP_SHA"),
         (zip_tmp, "RELEASE_ZIP_STAGING"),
+        (sha_tmp, "RELEASE_ZIP_SHA_STAGING"),
     ):
-        if path.exists():
-            if path == final and path.is_dir() and not any(path.iterdir()):
-                path.rmdir()
+        if candidate.exists():
+            if candidate == final and candidate.is_dir() and not any(candidate.iterdir()):
+                candidate.rmdir()
             else:
-                raise ValueError(f"{label}_EXISTS: {path}")
+                raise ValueError(f"{label}_EXISTS: {candidate}")
 
     staging.mkdir(parents=False, exist_ok=False)
-    return final, staging, zip_path, zip_tmp
+    return final, staging, zip_path, zip_tmp, sha_path, sha_tmp
+
+
+def _remove_if_exists(path: Path) -> None:
+    if not path.exists():
+        return
+    if path.is_dir():
+        shutil.rmtree(path)
+    else:
+        path.unlink()
+
+
+def _publish_release_transaction(
+    *,
+    staging: Path,
+    final: Path,
+    zip_tmp: Path,
+    zip_path: Path,
+    sha_tmp: Path,
+    sha_path: Path,
+) -> None:
+    """Publish the three release products as one rollback-safe transaction.
+
+    Filesystems do not provide an atomic multi-path rename. We therefore stage
+    every product first, publish only after all bytes are complete, and roll back
+    every already-published path if any later rename fails. Because _prepare_output
+    refuses pre-existing targets, rollback cannot delete a prior valid release.
+    """
+
+    try:
+        staging.replace(final)
+        zip_tmp.replace(zip_path)
+        sha_tmp.replace(sha_path)
+    except Exception:
+        # Remove both unpublished staging paths and any products that were
+        # already promoted before the injected/real failure occurred.
+        for candidate in (
+            sha_tmp,
+            zip_tmp,
+            sha_path,
+            zip_path,
+            final,
+            staging,
+        ):
+            _remove_if_exists(candidate)
+        raise
 
 
 def _copy_file(source: Path, destination: Path) -> None:
@@ -338,8 +391,7 @@ def package_release(
         production_required=not development_only,
     )
 
-    final, staging, zip_path, zip_tmp = _prepare_output(output_dir)
-    sha_path = Path(str(zip_path) + ".sha256")
+    final, staging, zip_path, zip_tmp, sha_path, sha_tmp = _prepare_output(output_dir)
 
     try:
         _copy_bundle(bundle, staging / "confirmatory_bundle")
@@ -420,12 +472,18 @@ def package_release(
 
         _deterministic_zip(staging, zip_tmp)
         zip_sha = _sha256(zip_tmp)
-
-        staging.replace(final)
-        zip_tmp.replace(zip_path)
-        sha_path.write_text(
+        sha_tmp.write_text(
             f"{zip_sha}  {zip_path.name}\n",
             encoding="utf-8",
+        )
+
+        _publish_release_transaction(
+            staging=staging,
+            final=final,
+            zip_tmp=zip_tmp,
+            zip_path=zip_path,
+            sha_tmp=sha_tmp,
+            sha_path=sha_path,
         )
 
         return {
@@ -440,10 +498,17 @@ def package_release(
         }
 
     except Exception:
-        if staging.exists():
-            shutil.rmtree(staging)
-        if zip_tmp.exists():
-            zip_tmp.unlink()
+        # This cleanup is idempotent with _publish_release_transaction and also
+        # covers failures that occur before publication begins.
+        for candidate in (
+            sha_tmp,
+            zip_tmp,
+            sha_path,
+            zip_path,
+            final,
+            staging,
+        ):
+            _remove_if_exists(candidate)
         raise
 
 
