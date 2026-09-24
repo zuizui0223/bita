@@ -139,7 +139,8 @@ def test_archive_has_one_file_deposit_contract() -> None:
     ):
         assert token in readme
 
-    assert "exact submission commit" in checklist
+    assert "DOI-bearing submission commit" in checklist
+    assert "same draft that owns the reserved DOI" in checklist
     assert "10.5281/zenodo.8398202" in checklist
     assert "10.5281/zenodo.14185547" in checklist
     assert "Do not submit while any of these remain" in checklist
