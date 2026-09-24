@@ -17,8 +17,12 @@ import hashlib
 import json
 import shutil
 import stat
+import sys
 import zipfile
 from pathlib import Path
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.verify_third_network_release_package import (
     FIXED_ZIP_MODE,
