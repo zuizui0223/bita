@@ -1,0 +1,13 @@
+{
+  "effect_direction_inspected": false,
+  "excluded_no_route_signal": 664,
+  "exclusion_rule": "exclude only when an available OpenAlex abstract plus title contains no frozen robbery/bypass-route signal; missing abstracts are retained",
+  "fulltext_required": 170,
+  "missing_abstract_retained_for_fulltext": 44,
+  "pending_records_fetched": 834,
+  "provider": "OpenAlex",
+  "provider_work_fetches": 835,
+  "schema": "BITA_DIRECT_ACCESS_GEOMETRY_TITLE_ABSTRACT_SCREEN_V1",
+  "status": "DIRECTION_BLIND_TITLE_ABSTRACT_SCREEN_COMPLETE",
+  "unique_provider_work_ids": 835
+}
