@@ -153,7 +153,7 @@ The intake stops if:
 - an export file row count differs from the database-reported query total;
 - more than one file is supplied for one query;
 - source databases are mixed;
-- a record lacks title, year or record ID;
+- a record lacks year or record ID; non-OpenAlex missing titles still fail, while OpenAlex null titles are retained with the frozen deterministic provider-ID placeholder;
 - a publication year lies outside the frozen window;
 - a provider export contains duplicate native record IDs within one query;
 - a query yields zero rows under the current v1 contract.
