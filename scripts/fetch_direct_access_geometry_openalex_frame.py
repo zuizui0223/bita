@@ -23,14 +23,14 @@ THROUGH_DATE = "2026-09-24"
 PER_PAGE = 100
 
 QUERIES = {
-    "Q1": '"nectar robbing" AND "corolla length"',
+    "Q1": '("nectar robbing" OR "floral larceny") AND "corolla length"',
     "Q2": '"nectar robbery" AND "corolla length"',
-    "Q3": '("nectar robbing" OR "nectar robbery") AND ("tube length" OR "tube depth")',
-    "Q4": '("nectar robbing" OR "nectar robbery") AND ("flower size" OR "flower width")',
+    "Q3": '("nectar robbing" OR "nectar robbery" OR "floral larceny") AND ("tube length" OR "tube depth")',
+    "Q4": '("nectar robbing" OR "nectar robbery" OR "floral larceny") AND ("flower size" OR "flower width")',
     "Q5": '("nectar robbing" OR "nectar robbery" OR "floral larceny") AND ("floral morphology" OR "nectar accessibility" OR "trait mismatch")',
-    "Q6": '("nectar robbing" OR "nectar robbery") AND ("tongue length" OR proboscis OR glossa OR "bill length")',
-    "Q7": '("nectar robbing" OR "nectar robbery") AND ("morphological constraint" OR "morphological constraints" OR "short-tongued")',
-    "Q8": '("nectar robbing" OR "nectar robbery") AND ("switch to robbing" OR "switching to robbing" OR "shortened corolla")',
+    "Q6": '("nectar robbing" OR "nectar robbery" OR "floral larceny") AND ("tongue length" OR proboscis OR glossa OR "bill length")',
+    "Q7": '("nectar robbing" OR "nectar robbery" OR "floral larceny") AND ("morphological constraint" OR "morphological constraints" OR "short-tongued")',
+    "Q8": '("nectar robbing" OR "nectar robbery" OR "floral larceny") AND ("switch to robbing" OR "switching to robbing" OR "shortened corolla")',
 }
 
 SELECT = "id,doi,title,display_name,publication_year,authorships,primary_location"
