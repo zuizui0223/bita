@@ -9,6 +9,17 @@ screening**.
 
 This contract defines that frame import. It does not query a database itself.
 
+Implemented import tools:
+
+- `scripts/normalize_direct_access_geometry_bibliographic_export.py` converts
+  Scopus CSV, Web of Science TSV, Crossref JSON, OpenAlex JSON, or a compatible
+  generic CSV into the frozen raw schema without relevance filtering;
+- `scripts/prepare_direct_access_geometry_bibliographic_frame.py` requires exactly
+  one Q1–Q8 export file from one source database, normalizes all eight, then runs
+  deterministic deduplication and receipt generation;
+- `DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_EXPORT_PACKET_V1.md` is the execution
+  packet for the remaining external export step.
+
 ## Frozen date window
 
 ~~~text
