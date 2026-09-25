@@ -92,28 +92,28 @@
     },
     {
       "query_id": "S01",
-      "text": "sunbird pollination long billed",
-      "query_role": "SENTINEL_CALIBRATION"
+      "text": "nectar robbing corolla length",
+      "query_role": "GEOMETRY_LARCENY_SENTINEL"
     },
     {
       "query_id": "S02",
-      "text": "flowerpiercer interactions",
-      "query_role": "SENTINEL_CALIBRATION"
+      "text": "nectar robbing flower size",
+      "query_role": "GEOMETRY_LARCENY_SENTINEL"
     },
     {
       "query_id": "S03",
-      "text": "illegitimate flower visitors morphology",
-      "query_role": "SENTINEL_CALIBRATION"
+      "text": "nectar robbing floral morphology",
+      "query_role": "GEOMETRY_LARCENY_SENTINEL"
     },
     {
       "query_id": "S04",
-      "text": "long corollas nectar barriers",
-      "query_role": "SENTINEL_CALIBRATION"
+      "text": "nectar robbing tongue length",
+      "query_role": "GEOMETRY_LARCENY_SENTINEL"
     },
     {
       "query_id": "S05",
-      "text": "plant animal interactions suburban floral evolution",
-      "query_role": "SENTINEL_CALIBRATION"
+      "text": "nectar robbing trait mismatch",
+      "query_role": "GEOMETRY_LARCENY_SENTINEL"
     }
   ],
   "screening_priority_terms": {
@@ -145,11 +145,11 @@
       "spur length"
     ]
   },
-  "retention_rule": "Retain a deduplicated Crossref record if either (a) title/abstract contains a frozen nectar-larceny text stem after retrieval by a CORE_LARCENY query, or (b) it was retrieved by one of five frozen SENTINEL_CALIBRATION queries derived from title concepts of known eligible studies spanning bird, flowerpiercer, illegitimate-visitor, nectar-barrier and suburban plant-animal systems. Sentinel queries are calibrated on study identity only, never effect direction. Geometry flags remain priority annotations and do not exclude records.",
+  "retention_rule": "Retain a deduplicated Crossref record if either (a) title/abstract contains a frozen nectar-larceny text stem after retrieval by a CORE_LARCENY query, or (b) it was retrieved by one of five frozen geometry×larceny sentinel queries. Sentinel queries are defined from the preregistered mechanical-access construct and known-study identity only, never effect direction. Geometry flags remain priority annotations and do not exclude records.",
   "deduplication_rule": [
     "normalized DOI when present",
     "otherwise normalized title plus publication year"
   ],
   "max_records_per_provider_query": 25000,
-  "formal_inference_gate": "No recurrence statistic may open unless the frozen core-plus-sentinel frame passes the known-direct DOI recall gate, every retained candidate is screened under the pre-existing geometry contract, duplicates are resolved, and exclusions are recorded."
+  "formal_inference_gate": "No recurrence statistic may open unless the frozen core-plus-geometry-sentinel frame remains below the per-query cap, passes the known-direct DOI recall gate, every retained candidate is screened under the pre-existing geometry contract, duplicates are resolved, and exclusions are recorded."
 }
