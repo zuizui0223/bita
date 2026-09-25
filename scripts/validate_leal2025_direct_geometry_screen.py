@@ -14,7 +14,7 @@ SCREEN = BASE / "LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv"
 ALLOWED = {
     "INELIGIBLE_NO_GEOMETRY_TEST",
     "ELIGIBLE_DIRECTION_EXPOSED",
-    "PROVENANCE_CONFLICT_SPLIT_REQUIRED",
+    "PROVENANCE_CONFLICT_ELIGIBILITY_STABLE_INELIGIBLE",
 }
 
 
@@ -41,13 +41,13 @@ def validate(path: Path = SCREEN) -> dict[str, object]:
         raise ValueError("LEAL_GEOMETRY_SCREEN_EXPECTED_50_INELIGIBLE")
     if statuses["ELIGIBLE_DIRECTION_EXPOSED"] != 4:
         raise ValueError("LEAL_GEOMETRY_SCREEN_EXPECTED_4_ELIGIBLE")
-    if statuses["PROVENANCE_CONFLICT_SPLIT_REQUIRED"] != 2:
+    if statuses["PROVENANCE_CONFLICT_ELIGIBILITY_STABLE_INELIGIBLE"] != 2:
         raise ValueError("LEAL_GEOMETRY_SCREEN_EXPECTED_2_PROVENANCE_CONFLICTS")
 
     conflicts = sorted(
         row["study_id"].strip()
         for row in rows
-        if row["screen_status"].strip() == "PROVENANCE_CONFLICT_SPLIT_REQUIRED"
+        if row["screen_status"].strip() == "PROVENANCE_CONFLICT_ELIGIBILITY_STABLE_INELIGIBLE"
     )
     if conflicts != ["Varma&Sinu2019", "Zhangetal2009a"]:
         raise ValueError("LEAL_GEOMETRY_SCREEN_UNEXPECTED_CONFLICT_SET")
@@ -79,14 +79,20 @@ def validate(path: Path = SCREEN) -> dict[str, object]:
             if row["direction"].strip() not in {"POSITIVE", "NULL", "OPPOSITE", "MIXED"}:
                 raise ValueError(f"ELIGIBLE_ROW_INVALID_DIRECTION:{row['study_id']}")
         else:
-            if any(row[key].strip() for key in ("eligible", "direction")):
-                raise ValueError(f"CONFLICT_ROW_PREMATURELY_ADJUDICATED:{row['study_id']}")
+            if row["eligible"].strip() != "NO":
+                raise ValueError(f"CONFLICT_ROW_ELIGIBILITY_NOT_STABLE_NO:{row['study_id']}")
+            if row["direction"].strip():
+                raise ValueError(f"CONFLICT_ROW_HAS_DIRECTION:{row['study_id']}")
+            if not row["notes"].strip():
+                raise ValueError(f"CONFLICT_ROW_MISSING_REASON:{row['study_id']}")
 
     return {
         "schema": "BITA_LEAL2025_DIRECT_GEOMETRY_SCREEN_V1",
         "historical_study_field_labels": 56,
         "screened_unambiguous_labels": 54,
+        "geometry_ineligible_labels_total": 52,
         "ineligible_no_geometry_test": 50,
+        "provenance_conflict_geometry_ineligible": 2,
         "eligible_direct_geometry_test": 4,
         "eligible_directions": {
             "POSITIVE": 2,
@@ -97,7 +103,7 @@ def validate(path: Path = SCREEN) -> dict[str, object]:
         "provenance_conflict_labels": conflicts,
         "source_resolved_program_denominator_ready": False,
         "formal_recurrence_result_open": False,
-        "status": "LABEL_SCREEN_COMPLETE_SOURCE_REPAIR_REQUIRED",
+        "status": "LABEL_SCREEN_GEOMETRY_ELIGIBILITY_COMPLETE_SOURCE_IDENTITY_PARTIAL",
     }
 
 
