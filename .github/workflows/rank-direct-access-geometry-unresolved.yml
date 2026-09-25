@@ -1,0 +1,48 @@
+name: Rank unresolved formal candidates
+
+on:
+  push:
+    branches:
+      - analysis/formal-biblio-openalex-fetch-v1
+    paths:
+      - .github/workflows/rank-direct-access-geometry-unresolved.yml
+      - scripts/rank_direct_access_geometry_unresolved_candidates.py
+      - empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V3.csv
+      - empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_OA_FULLTEXT_SIGNAL_AUDIT_V1.csv
+
+permissions:
+  contents: write
+
+jobs:
+  rank:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build direction-blind review priority queue
+        run: |
+          python scripts/rank_direct_access_geometry_unresolved_candidates.py \
+            --decisions empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V3.csv \
+            --fulltext-audit empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_OA_FULLTEXT_SIGNAL_AUDIT_V1.csv \
+            --output empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_UNRESOLVED_PRIORITY_QUEUE_V1.csv \
+            --receipt empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_UNRESOLVED_PRIORITY_RECEIPT_V1.json
+
+      - name: Commit priority queue
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_UNRESOLVED_PRIORITY_QUEUE_V1.csv \
+            empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_UNRESOLVED_PRIORITY_RECEIPT_V1.json
+          if git diff --cached --quiet; then
+            echo "No ranking changes."
+          else
+            git pull --rebase origin analysis/formal-biblio-openalex-fetch-v1
+            git push origin HEAD:analysis/formal-biblio-openalex-fetch-v1
+          fi
