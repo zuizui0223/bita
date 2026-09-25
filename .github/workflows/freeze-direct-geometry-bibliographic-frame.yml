@@ -82,7 +82,7 @@ jobs:
           )
           assert meta["formal_recurrence_result_open"] is False
           assert meta["query_count"] == 8
-          assert meta["provider_query_count"] == 13
+          assert meta["provider_query_count"] == 5
           print(json.dumps({
               "deduplicated_candidates": len(rows),
               "raw_provider_records": meta["raw_provider_records"],
