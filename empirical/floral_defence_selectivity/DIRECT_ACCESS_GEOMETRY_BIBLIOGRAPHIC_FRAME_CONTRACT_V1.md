@@ -73,7 +73,7 @@ search_date
 - `query_id`: one of Q1–Q8.
 - `record_id`: database-native identifier; may differ across sources.
 - `doi`: blank if absent.
-- `title`: required.
+- `title`: required in the normalized frame. If an OpenAlex result has both provider-native `title` and `display_name` null, retain the record outcome-blind using the deterministic label `[OpenAlex untitled work <record_id>]`; do not drop it or enrich it from another database.
 - `year`: required four-digit publication year.
 - `search_date`: date on which the export was generated.
 
@@ -100,7 +100,7 @@ A formal frame is complete only if:
 
 - every Q1–Q8 has at least one exported row;
 - every row falls within 2000–2026-09-24;
-- no title/year is missing;
+- no normalized title/year is missing; provider-native null OpenAlex titles are retained with the frozen deterministic placeholder rather than excluded;
 - query IDs are valid;
 - all raw exports used are SHA256-recorded in the receipt.
 
