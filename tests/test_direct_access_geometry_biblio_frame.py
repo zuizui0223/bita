@@ -94,6 +94,14 @@ def test_build_frame_deduplicates_providers_without_filtering_non_geometry_recor
             query_id="Q01",
             rank=4,
         ),
+        _record(
+            key="doi:10.1000/no-larceny",
+            doi="10.1000/no-larceny",
+            title="Nectar chemistry across habitats",
+            provider="crossref",
+            query_id="Q01",
+            rank=5,
+        ),
     ]
     openalex_records = [
         _record(
@@ -115,7 +123,7 @@ def test_build_frame_deduplicates_providers_without_filtering_non_geometry_recor
             {
                 "provider": "crossref",
                 "query_id": "Q01",
-                "retrieved_records": 2,
+                "retrieved_records": 3,
             },
         ),
     )
@@ -143,13 +151,18 @@ def test_build_frame_deduplicates_providers_without_filtering_non_geometry_recor
     assert shared["geometry_text_match"] == "true"
     assert shared["screen_status"] == "UNSCREENED"
 
-    # Priority flags cannot remove records.
+    # Geometry priority cannot remove larceny records.
     assert no_geometry["geometry_text_match"] == "false"
     assert no_geometry["screen_status"] == "UNSCREENED"
+    assert not any(row["doi"] == "10.1000/no-larceny" for row in frame)
 
-    assert receipt["raw_provider_records"] == 3
+    assert receipt["raw_provider_records"] == 4
+    assert receipt["deduplicated_provider_candidates_before_text_gate"] == 3
+    assert receipt["excluded_no_larceny_text_match"] == 1
     assert receipt["deduplicated_candidates"] == 2
-    assert receipt["all_records_retained_before_screening"] is True
+    assert receipt["larceny_text_match_candidates"] == 2
+    assert receipt["larceny_text_gate_is_outcome_blind"] is True
+    assert receipt["all_records_retained_before_screening"] is False
     assert receipt["formal_recurrence_result_open"] is False
 
 
