@@ -12,6 +12,12 @@ on:
       - "scripts/format_ecology_submission_docx.py"
       - "scripts/apply_reserved_archive_doi.py"
       - "tests/test_reserved_archive_doi.py"
+      - "tests/test_direct_access_geometry_corpus.py"
+      - "tests/test_direct_access_geometry_stage_u.py"
+      - "tests/test_direct_access_geometry_formal_frame.py"
+      - "tests/test_leal2025_direct_geometry_screen.py"
+      - "empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_*"
+      - "empirical/floral_defence_selectivity/LEAL2025_*"
       - ".github/workflows/build-access-routing-letter-package.yml"
   pull_request:
     paths:
@@ -36,6 +42,16 @@ on:
       - "tests/test_access_routing_letter_figures.py"
       - "tests/test_ecology_letters_letter_submission.py"
       - "tests/test_reserved_archive_doi.py"
+      - "tests/test_direct_access_geometry_corpus.py"
+      - "tests/test_direct_access_geometry_stage_u.py"
+      - "tests/test_direct_access_geometry_formal_frame.py"
+      - "tests/test_leal2025_direct_geometry_screen.py"
+      - "scripts/summarize_direct_access_geometry_corpus.py"
+      - "scripts/validate_direct_access_geometry_stage_u.py"
+      - "scripts/validate_direct_access_geometry_formal_frame.py"
+      - "scripts/validate_leal2025_direct_geometry_screen.py"
+      - "empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_*"
+      - "empirical/floral_defence_selectivity/LEAL2025_*"
       - "empirical/floral_defence_selectivity/results/joint_access_routing.json"
       - "empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json"
       - "empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json"
@@ -71,7 +87,11 @@ jobs:
             tests/test_access_routing_letter.py \
             tests/test_access_routing_letter_figures.py \
             tests/test_ecology_letters_letter_submission.py \
-            tests/test_reserved_archive_doi.py
+            tests/test_reserved_archive_doi.py \
+            tests/test_direct_access_geometry_corpus.py \
+            tests/test_direct_access_geometry_stage_u.py \
+            tests/test_direct_access_geometry_formal_frame.py \
+            tests/test_leal2025_direct_geometry_screen.py
 
       - name: Verify reserved DOI state if present
         run: python scripts/apply_reserved_archive_doi.py --check-only
@@ -191,6 +211,20 @@ jobs:
           mkdir -p artifacts/letter/data_archive/code/scripts
           mkdir -p artifacts/letter/data_archive/code/trait_architecture
           mkdir -p artifacts/letter/data_archive/frozen_outputs
+          mkdir -p artifacts/letter/data_archive/supporting_literature
+
+          cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_ROBBERY_CONTRACT_V1.md artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_ROBBERY_SEARCH_V1.md artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_STAGE_U_BOUNDED_SEARCH_V1.md artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_FRAME_V1.md artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_LEAL2025_CROSSWALK_V1.csv artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/LEAL2025_ROBBER_STUDY_FRAME_V1.csv artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/LEAL2025_STUDY_LABEL_PROVENANCE_AUDIT_V1.csv artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/LEAL2025_STUDY_LABEL_PROVENANCE_AUDIT_V1.md artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/LEAL2025_PROVENANCE_ELIGIBILITY_INVARIANCE_V1.md artifacts/letter/data_archive/supporting_literature/
 
           cp scripts/export_access_routing_archive.py artifacts/letter/data_archive/code/scripts/
           cp scripts/reproduce_access_routing_archive.py artifacts/letter/data_archive/code/scripts/
@@ -199,6 +233,10 @@ jobs:
           cp scripts/analyze_sakhalkar2023_network.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_sakhalkar2023_trait_routing.py artifacts/letter/data_archive/code/scripts/
           cp scripts/audit_sakhalkar2023_zenodo.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/summarize_direct_access_geometry_corpus.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/validate_direct_access_geometry_stage_u.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/validate_direct_access_geometry_formal_frame.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/validate_leal2025_direct_geometry_screen.py artifacts/letter/data_archive/code/scripts/
           cp trait_architecture/numerics.py artifacts/letter/data_archive/code/trait_architecture/
 
           cp empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json artifacts/letter/data_archive/frozen_outputs/
@@ -316,6 +354,12 @@ jobs:
               "data_archive/README.md",
               "data_archive/ZENODO_METADATA_TEMPLATE.md",
               "data_archive/DEPOSIT_CHECKLIST_V1.md",
+              "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv",
+              "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CONTRACT_V1.md",
+              "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv",
+              "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_BOUNDED_SEARCH_V1.md",
+              "data_archive/supporting_literature/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv",
+              "data_archive/supporting_literature/LEAL2025_PROVENANCE_ELIGIBILITY_INVARIANCE_V1.md",
               "data_archive/REPOSITORY_COMMIT.txt",
               "data_archive/FILE_SHA256SUMS.txt",
               "access-routing-letter-data-code-v1.zip",
@@ -331,6 +375,9 @@ jobs:
 
           assert rows(root / "data_archive/sakhalkar_species_analysis.csv") == 57
           assert rows(root / "data_archive/aubert_ephi_pair_site_analysis.csv") == 1378
+          assert rows(root / "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv") == 24
+          assert rows(root / "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv") == 23
+          assert rows(root / "data_archive/supporting_literature/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv") == 56
 
           reserved = Path("submission/access_routing_archive/RESERVED_DOI_RECEIPT.json")
           archived_reserved = root / "data_archive/RESERVED_DOI_RECEIPT.json"

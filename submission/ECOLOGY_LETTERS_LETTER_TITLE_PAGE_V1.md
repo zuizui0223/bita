@@ -16,7 +16,7 @@
 
 **Statement of authorship:** **[AUTHOR-CONTROLLED — REQUIRED BEFORE SUBMISSION]**
 
-**Data accessibility statement:** The analysis-ready data tables, metadata, analysis code and frozen derived outputs supporting this Letter are archived at **[ACCESS-ROUTING ARCHIVE DOI]**. Underlying public source datasets are archived by their original authors at Zenodo DOI **10.5281/zenodo.8398202** and Zenodo DOI **10.5281/zenodo.14185547**. **ARCHIVE DOI REQUIRED BEFORE SUBMISSION.**
+**Data accessibility statement:** The analysis-ready data tables, metadata, analysis code, frozen derived outputs and bounded direct-evidence audit supporting this Letter are archived at **[ACCESS-ROUTING ARCHIVE DOI]**. Underlying public source datasets are archived by their original authors at Zenodo DOI **10.5281/zenodo.8398202** and Zenodo DOI **10.5281/zenodo.14185547**. **ARCHIVE DOI REQUIRED BEFORE SUBMISSION.**
 
 **Conflict of interest:** **[AUTHOR-CONTROLLED — REQUIRED BEFORE SUBMISSION]**
 
@@ -30,8 +30,8 @@
 
 ~~~text
 abstract words: 140
-main-text words: 3,375
-references: 15
+main-text words: 3,860
+references: 16
 figures: 3
 tables: 0
 text boxes: 0

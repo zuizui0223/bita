@@ -10,15 +10,38 @@ The build workflow generates an `artifacts/letter/data_archive/` directory conta
 - `aubert_ephi_pair_site_analysis.csv` — 1,378 anonymous bird × plant × site analysis units used for the Ecuadorian routing analyses;
 - `metadata.csv` — file/column descriptions and units;
 - `archive_manifest.json` — source DOIs, row counts and identifier policy;
-- `archive_reproduction.json` — statistics regenerated using only the archived analysis tables.
+- `archive_reproduction.json` — statistics regenerated using only the archived analysis tables;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv` — the 24-program bounded direct geometry → robbery supporting corpus;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv` — included, duplicate and excluded Stage-U update candidates with explicit reasons;
+- `supporting_literature/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv` — complete 56-label historical geometry screen;
+- the direct-evidence eligibility contract, bounded-search receipts, Leal crosswalk and provenance receipts needed to audit the supporting-corpus counts.
 
 The submission archive must also include the exact code used to export and reproduce the tables:
 
 - `scripts/export_access_routing_archive.py`
 - `scripts/reproduce_access_routing_archive.py`
+- `scripts/summarize_direct_access_geometry_corpus.py`
+- `scripts/validate_direct_access_geometry_stage_u.py`
+- `scripts/validate_direct_access_geometry_formal_frame.py`
+- `scripts/validate_leal2025_direct_geometry_screen.py`
 - the imported BITA analysis modules required by those scripts;
 - frozen aggregate JSON outputs used in the manuscript;
 - this README.
+
+## Supporting direct-evidence boundary
+
+The literature files reproduce the manuscript's bounded supporting-audit statement:
+
+~~~text
+24 direct study programs
+16 positive
+5 null
+2 mixed
+1 opposite
+network-k contribution = 0
+~~~
+
+These counts are descriptive and are not a prevalence estimate, sign test or pooled effect. The standardized joint analysis remains based on two independent networks only. The supporting archive also records why the formal recurrence statistic remains closed: the bounded web update is not a finite exportable bibliographic denominator.
 
 ## Public source data
 

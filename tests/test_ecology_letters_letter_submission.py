@@ -69,6 +69,13 @@ def test_letter_submission_source_excludes_internal_workflow_language() -> None:
     assert "relative route cost" in lower
     assert "cost of legitimate entry more than the cost of bypass" in lower
     assert "longer flower = more robbery" in lower
+    assert "bounded direct-evidence corpus contained 24 study programs" in lower
+    assert "sixteen showed the predicted direction" in lower
+    assert "five were null" in lower
+    assert "two were mixed" in lower
+    assert "one showed the opposite direction" in lower
+    assert "do not estimate prevalence" in lower
+    assert "standardized replication count is therefore still only two networks" in lower
 
 
 def test_letter_submission_remains_fail_closed_until_archive_doi_and_author_metadata() -> None:
