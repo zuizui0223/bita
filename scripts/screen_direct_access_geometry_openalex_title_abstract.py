@@ -107,10 +107,14 @@ def _get_json(url: str, attempts: int = 6) -> dict[str, Any]:
     raise last_error
 
 
-def _fetch_works_batch(work_ids: list[str], batch_size: int = 50) -> dict[str, dict[str, Any]]:
+def _fetch_works_batch(
+    work_ids: list[str],
+    batch_size: int = 50,
+) -> tuple[dict[str, dict[str, Any]], list[str]]:
     import urllib.parse
 
     output: dict[str, dict[str, Any]] = {}
+    missing_ids: list[str] = []
     unique_ids = sorted(set(work_ids))
     for start in range(0, len(unique_ids), batch_size):
         chunk = unique_ids[start:start + batch_size]
@@ -131,12 +135,9 @@ def _fetch_works_batch(work_ids: list[str], batch_size: int = 50) -> dict[str, d
             if oid:
                 output[oid] = row
         missing = sorted(set(chunk) - set(output))
-        if missing:
-            raise RuntimeError(
-                "TA_SCREEN_OPENALEX_BATCH_MISSING_IDS:" + ",".join(missing)
-            )
+        missing_ids.extend(missing)
         time.sleep(0.12)
-    return output
+    return output, sorted(set(missing_ids))
 
 
 def run(
@@ -173,7 +174,8 @@ def run(
         pending_work_ids[fid] = ids
         all_work_ids.extend(ids)
 
-    work_map = _fetch_works_batch(all_work_ids)
+    work_map, provider_missing_ids = _fetch_works_batch(all_work_ids)
+    provider_missing_set = set(provider_missing_ids)
 
     for decision in decisions:
         if decision["decision_status"].strip() != "PENDING_FULLTEXT":
@@ -183,8 +185,14 @@ def run(
         titles = []
         abstracts = []
         any_missing_abstract = False
+        any_missing_provider_record = False
         for work_id in work_ids:
-            work = work_map[work_id]
+            work = work_map.get(work_id)
+            if work is None:
+                any_missing_provider_record = True
+                titles.append(decision["title"].strip())
+                abstracts.append("")
+                continue
             titles.append(
                 str(
                     work.get("title")
@@ -201,11 +209,11 @@ def run(
         combined_abstract = " ".join(value for value in abstracts if value)
         state = (
             "FULLTEXT_REQUIRED"
-            if any_missing_abstract
+            if any_missing_provider_record or any_missing_abstract
             else classify_title_abstract(combined_title, combined_abstract)
         )
 
-        if any_missing_abstract:
+        if any_missing_abstract or any_missing_provider_record:
             missing_abstract += 1
 
         source_identifier = "|".join(
@@ -247,7 +255,9 @@ def run(
         ),
         "provider": "OpenAlex",
         "provider_work_fetches": len(work_map),
-        "unique_provider_work_ids": len(work_map),
+        "unique_provider_work_ids_requested": len(set(all_work_ids)),
+        "provider_work_ids_missing_at_screen_time": provider_missing_ids,
+        "provider_work_ids_missing_retained_for_fulltext": len(provider_missing_ids),
     }
     receipt_path.write_text(
         json.dumps(receipt, indent=2, sort_keys=True) + "\n",
