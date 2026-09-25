@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import csv
 from pathlib import Path
 
 import pytest
@@ -21,17 +22,21 @@ def test_prepares_q1_q8_frame_from_one_source(tmp_path: Path) -> None:
     input_dir.mkdir()
     for q in range(1, 9):
         _write_scopus(input_dir / f"Q{q}.csv", q)
+    counts = tmp_path / "counts.csv"
+    _write_counts(counts)
 
     result = prepare(
         input_dir,
         output_dir,
         search_date="2026-09-25",
+        count_manifest=counts,
     )
     assert result["status"] == "OUTCOME_BLIND_Q1_Q8_FRAME_PREPARED"
     assert result["source_db"] == "Scopus"
     assert result["input_rows"] == 8
     assert result["unique_bibliographic_records"] == 8
     assert result["duplicate_rows_collapsed"] == 0
+    assert result["all_query_export_counts_verified"] is True
     assert result["formal_recurrence_result_open"] is False
     assert result["primary_standardized_network_k"] == 2
 
@@ -50,9 +55,16 @@ def test_rejects_missing_query_file(tmp_path: Path) -> None:
     input_dir.mkdir()
     for q in range(1, 8):
         _write_scopus(input_dir / f"Q{q}.csv", q)
+    counts = tmp_path / "counts.csv"
+    _write_counts(counts)
 
     with pytest.raises(ValueError, match="BIB_INTAKE_MISSING_QUERY_FILE:Q8"):
-        prepare(input_dir, tmp_path / "out", search_date="2026-09-25")
+        prepare(
+            input_dir,
+            tmp_path / "out",
+            search_date="2026-09-25",
+            count_manifest=counts,
+        )
 
 
 def test_rejects_multiple_files_for_same_query(tmp_path: Path) -> None:
@@ -66,5 +78,33 @@ def test_rejects_multiple_files_for_same_query(tmp_path: Path) -> None:
         encoding="utf-8",
     )
 
+    counts = tmp_path / "counts.csv"
+    _write_counts(counts)
+
     with pytest.raises(ValueError, match="BIB_INTAKE_MULTIPLE_QUERY_FILES:Q1"):
-        prepare(input_dir, tmp_path / "out", search_date="2026-09-25")
+        prepare(
+            input_dir,
+            tmp_path / "out",
+            search_date="2026-09-25",
+            count_manifest=counts,
+        )
+
+
+def test_rejects_export_when_file_rows_do_not_match_reported_total(tmp_path: Path) -> None:
+    input_dir = tmp_path / "exports"
+    input_dir.mkdir()
+    for q in range(1, 9):
+        _write_scopus(input_dir / f"Q{q}.csv", q)
+    counts = tmp_path / "counts.csv"
+    _write_counts(counts, override={"Q3": 2})
+
+    with pytest.raises(
+        ValueError,
+        match=r"BIB_INTAKE_INCOMPLETE_EXPORT:Q3:reported=2:rows=1",
+    ):
+        prepare(
+            input_dir,
+            tmp_path / "out",
+            search_date="2026-09-25",
+            count_manifest=counts,
+        )
