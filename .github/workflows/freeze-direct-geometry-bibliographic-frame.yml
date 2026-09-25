@@ -16,6 +16,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: direct-geometry-biblio-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   freeze:
     runs-on: ubuntu-latest
