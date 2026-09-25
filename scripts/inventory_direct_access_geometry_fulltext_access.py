@@ -66,8 +66,12 @@ def _get_json(url: str, attempts: int = 6) -> dict[str, Any]:
     raise last_error
 
 
-def _fetch_works(work_ids: list[str], batch_size: int = 50) -> dict[str, dict[str, Any]]:
+def _fetch_works(
+    work_ids: list[str],
+    batch_size: int = 50,
+) -> tuple[dict[str, dict[str, Any]], list[str]]:
     output: dict[str, dict[str, Any]] = {}
+    missing_ids: list[str] = []
     ids = sorted(set(work_ids))
     for start in range(0, len(ids), batch_size):
         chunk = ids[start:start + batch_size]
@@ -92,12 +96,9 @@ def _fetch_works(work_ids: list[str], batch_size: int = 50) -> dict[str, dict[st
             if oid:
                 output[oid] = row
         missing = sorted(set(chunk) - set(output))
-        if missing:
-            raise RuntimeError(
-                "FT_ACCESS_OPENALEX_MISSING_IDS:" + ",".join(missing)
-            )
+        missing_ids.extend(missing)
         time.sleep(0.12)
-    return output
+    return output, sorted(set(missing_ids))
 
 
 def _location_urls(work: dict[str, Any]) -> tuple[set[str], set[str]]:
@@ -153,7 +154,8 @@ def run(
         pending_ids[fid] = ids
         all_ids.extend(ids)
 
-    work_map = _fetch_works(all_ids)
+    work_map, missing_provider_ids = _fetch_works(all_ids)
+    missing_provider_set = set(missing_provider_ids)
     output: list[dict[str, str]] = []
     priorities: Counter[str] = Counter()
     oa_status_counter: Counter[str] = Counter()
@@ -165,8 +167,13 @@ def run(
         landings: set[str] = set()
         oa_statuses: set[str] = set()
 
+        missing_here = [
+            oid for oid in pending_ids[fid] if oid in missing_provider_set
+        ]
         for oid in pending_ids[fid]:
-            work = work_map[oid]
+            work = work_map.get(oid)
+            if work is None:
+                continue
             work_pdfs, work_landings = _location_urls(work)
             pdfs |= work_pdfs
             landings |= work_landings
@@ -176,7 +183,9 @@ def run(
                 if status:
                     oa_statuses.add(status)
 
-        if pdfs:
+        if missing_here:
+            priority = "PROVIDER_RECORD_MISSING"
+        elif pdfs:
             priority = "OA_PDF_AVAILABLE"
         elif landings:
             priority = "LANDING_OR_DOI_ONLY"
@@ -216,7 +225,9 @@ def run(
         "schema": "BITA_DIRECT_ACCESS_GEOMETRY_FULLTEXT_ACCESS_INVENTORY_V1",
         "status": "FULLTEXT_ACCESS_INVENTORY_COMPLETE",
         "pending_fulltext_candidates": len(pending),
-        "unique_openalex_work_ids": len(work_map),
+        "unique_openalex_work_ids_requested": len(set(all_ids)),
+        "unique_openalex_work_ids_retrieved": len(work_map),
+        "provider_work_ids_missing": missing_provider_ids,
         "retrieval_priority_counts": dict(sorted(priorities.items())),
         "oa_status_record_counts": dict(sorted(oa_status_counter.items())),
         "effect_direction_inspected": False,
