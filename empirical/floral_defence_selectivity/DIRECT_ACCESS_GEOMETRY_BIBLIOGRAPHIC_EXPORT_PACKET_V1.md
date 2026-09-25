@@ -166,3 +166,50 @@ query returns zero results.
 Therefore the remaining external input is one complete Q1–Q8 export set from one
 bibliographic system. Once those files exist, all subsequent normalization,
 deduplication, hashing and frame freezing are repository-automated.
+
+
+## Single-ZIP intake
+
+The entire external handoff can be one ZIP file containing exactly:
+
+~~~text
+Q1.csv
+Q2.csv
+Q3.csv
+Q4.csv
+Q5.csv
+Q6.csv
+Q7.csv
+Q8.csv
+QUERY_COUNTS.csv
+~~~
+
+Each query file may instead use `.tsv`, `.txt`, or `.json` when appropriate
+for the chosen database/export format. Keep all files at the ZIP root; nested
+directories are rejected.
+
+Run:
+
+~~~bash
+python scripts/ingest_direct_access_geometry_bibliographic_export_zip.py \
+  --zip PATH_TO_Q1_Q8_EXPORT_PACKET.zip \
+  --output-dir empirical/floral_defence_selectivity/formal_bibliographic_frame_v1 \
+  --search-date YYYY-MM-DD
+~~~
+
+The ZIP intake rejects:
+
+- path traversal;
+- nested paths;
+- symlinks;
+- extra/missing files;
+- unsupported query file formats;
+- oversized files/archive payloads;
+- extreme compression ratios;
+- missing or inconsistent query-count manifests.
+
+After safe extraction it runs the same count verification, provider normalization,
+Q1–Q8 completeness checks, deterministic deduplication and SHA-bound frame receipt.
+
+This is now the preferred external handoff because it reduces the remaining input
+to one file.
