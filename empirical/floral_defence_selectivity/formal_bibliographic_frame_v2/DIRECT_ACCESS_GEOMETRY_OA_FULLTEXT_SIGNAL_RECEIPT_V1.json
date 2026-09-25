@@ -1,0 +1,18 @@
+{
+  "auto_excluded_verified_no_route_signal": 1,
+  "candidate_records": 174,
+  "effect_direction_inspected": false,
+  "fulltext_text_persisted": false,
+  "high_priority_direct_test_adjudication": 42,
+  "pdf_bytes_persisted": false,
+  "schema": "BITA_DIRECT_ACCESS_GEOMETRY_OA_FULLTEXT_SIGNAL_SCREEN_V1",
+  "status": "DIRECTION_BLIND_OA_FULLTEXT_SIGNAL_SCREEN_COMPLETE",
+  "triage_lane_counts": {
+    "ACCESS_ROUTE_PRESENT_QUANT_UNRESOLVED": 2,
+    "AUTO_EXCLUDED_NO_ROUTE_SIGNAL_IN_VERIFIED_FULLTEXT": 1,
+    "HIGH_PRIORITY_DIRECT_TEST_ADJUDICATION": 42,
+    "NON_OA_RETAINED": 43,
+    "OA_PDF_EXTRACTION_UNVERIFIED_RETAINED": 81,
+    "ROUTE_PRESENT_ACCESS_UNRESOLVED": 5
+  }
+}
