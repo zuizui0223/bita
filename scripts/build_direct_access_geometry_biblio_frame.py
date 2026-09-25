@@ -38,6 +38,12 @@ DEFAULT_RECEIPT = (
     / "floral_defence_selectivity"
     / "DIRECT_ACCESS_GEOMETRY_BIBLIO_FRAME_RECEIPT_V1.json"
 )
+DEFAULT_DIRECT = (
+    ROOT
+    / "empirical"
+    / "floral_defence_selectivity"
+    / "DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv"
+)
 
 USER_AGENT = "bita-bibliographic-frame/1.0 (+https://github.com/zuizui0223/bita)"
 RETRYABLE = {429, 500, 502, 503, 504}
@@ -446,7 +452,30 @@ def _flag(text: str, terms: list[str]) -> bool:
     return any(term.lower() in lowered for term in terms)
 
 
-def build_frame(config: dict[str, Any]) -> tuple[list[dict[str, str]], dict[str, Any]]:
+def _known_direct_diagnostics(path: Path) -> list[dict[str, str]]:
+    if not path.is_file():
+        return []
+    with path.open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    out: list[dict[str, str]] = []
+    for row in rows:
+        doi = _norm_doi(row.get("doi"))
+        if not doi:
+            continue
+        out.append(
+            {
+                "study_id": str(row.get("study_id") or "").strip(),
+                "doi": doi,
+                "direction": str(row.get("direction") or "").strip(),
+            }
+        )
+    return out
+
+
+def build_frame(
+    config: dict[str, Any],
+    known_direct: list[dict[str, str]] | None = None,
+) -> tuple[list[dict[str, str]], dict[str, Any]]:
     queries = config.get("queries")
     if not isinstance(queries, list) or not queries:
         raise ValueError("BIBLIO_QUERY_REGISTRY_HAS_NO_QUERIES")
@@ -540,6 +569,25 @@ def build_frame(config: dict[str, Any]) -> tuple[list[dict[str, str]], dict[str,
         "formal_recurrence_result_open": False,
         "query_receipts": query_receipts,
     }
+
+    known_direct = known_direct or []
+    if known_direct:
+        pre_gate_dois = {
+            str(record.get("doi") or "")
+            for record in merged.values()
+            if str(record.get("doi") or "")
+        }
+        post_gate_dois = {row["doi"] for row in frame if row["doi"]}
+        pre_missing = [row for row in known_direct if row["doi"] not in pre_gate_dois]
+        post_missing = [row for row in known_direct if row["doi"] not in post_gate_dois]
+        receipt["known_direct_doi_diagnostic"] = {
+            "known_with_doi": len(known_direct),
+            "pre_gate_covered": len(known_direct) - len(pre_missing),
+            "pre_gate_missing": pre_missing,
+            "post_gate_covered": len(known_direct) - len(post_missing),
+            "post_gate_missing": post_missing,
+            "diagnostic_only_not_used_for_selection": True,
+        }
     return frame, receipt
 
 
@@ -556,11 +604,13 @@ def main() -> int:
     parser.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
     parser.add_argument("--frame", type=Path, default=DEFAULT_FRAME)
     parser.add_argument("--receipt", type=Path, default=DEFAULT_RECEIPT)
+    parser.add_argument("--direct-diagnostic", type=Path, default=DEFAULT_DIRECT)
     args = parser.parse_args()
 
     registry_bytes = args.registry.read_bytes()
     config = json.loads(registry_bytes.decode("utf-8"))
-    frame, receipt = build_frame(config)
+    known_direct = _known_direct_diagnostics(args.direct_diagnostic)
+    frame, receipt = build_frame(config, known_direct=known_direct)
     write_frame(args.frame, frame)
 
     frame_bytes = args.frame.read_bytes()
