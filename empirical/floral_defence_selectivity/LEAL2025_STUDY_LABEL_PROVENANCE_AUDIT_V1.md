@@ -6,7 +6,9 @@ The 56 distinct values in the Leal et al. (2025) `study` column are frozen as
 **56 historical source labels**, not as 56 verified independent study programs.
 
 Do not use the phrase `56 unique studies` for the formal geometry-recurrence
-frame until the two split-required labels below are source-resolved.
+frame until the two split-required labels below are source-resolved. However,
+the direct-geometry **eligibility** of those two labels is now resolved as stably
+ineligible under every verified/credible source component.
 
 ## Audit trigger
 
@@ -48,7 +50,10 @@ A biologically and temporally plausible source is:
 > DOI 10.5735/085.055.0403.
 
 That candidate is **not yet accepted as the row-level source** merely from topic
-matching. Exact numeric/provenance confirmation is required before reassignment.
+matching. Exact numeric/provenance confirmation is still required before
+reassignment. This source uncertainty no longer affects the geometry screen:
+Varma & Sinu 2019 and the credible Embothrium source both test consequences of
+robbery rather than access geometry as the predictor of robbery.
 
 ## Conflict 2 — Zhangetal2009a
 
@@ -78,6 +83,9 @@ Several Zhang-group *Glechoma* programs occur in the same time window, including
 - Zhang et al. 2011, DOI 10.1111/j.1438-8677.2009.00279.x.
 
 The two *Glechoma* rows are not reassigned until their exact source is resolved.
+For the geometry screen, however, the verified Corydalis paper and every currently
+plausible Glechoma source program are geometry-ineligible, so source resolution
+cannot add an eligible direct-geometry program.
 
 ## Consequence for the formal recurrence frame
 
@@ -88,13 +96,17 @@ LEAL_STUDY_FIELD_LABELS = 56
 MULTI_PLANT_LABELS = 6
 LEGITIMATE_MULTI_SPECIES_LABELS = 4
 PROVENANCE_CONFLICT_LABELS = 2
+PROVENANCE_CONFLICT_GEOMETRY_ELIGIBILITY = STABLE_INELIGIBLE
+HISTORICAL_DIRECT_GEOMETRY_ELIGIBLE_SET = RESOLVED_AT_4
 SOURCE_RESOLVED_INDEPENDENT_PROGRAM_COUNT = NOT_YET_FINAL
 FORMAL_RECURRENCE_RESULT = CLOSED
 ~~~
 
-The geometry-recurrence screen may continue for labels whose provenance is
-unambiguous, but no final denominator, recurrence proportion, sign test, or
-directional p-value may be reported until the source-level frame is repaired.
+The historical geometry-eligibility screen is now complete: 52 labels are
+geometry-ineligible (including the two provenance conflicts) and four are eligible.
+The all-study source-resolved denominator is still unavailable, and the formal
+recurrence statistic also remains blocked by the lack of a finite, exportable,
+deduplicated geometry-specific bibliographic update frame.
 
 This audit is about source identity only; it does not change the standardized
 Letter network result (`k = 2`).
