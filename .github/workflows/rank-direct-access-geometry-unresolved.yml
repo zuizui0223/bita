@@ -43,6 +43,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No ranking changes."
           else
+            git commit -m "Rank unresolved formal candidates direction-blind"
             git pull --rebase origin analysis/formal-biblio-openalex-fetch-v1
             git push origin HEAD:analysis/formal-biblio-openalex-fetch-v1
           fi
