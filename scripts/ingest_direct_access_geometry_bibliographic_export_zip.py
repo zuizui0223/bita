@@ -14,6 +14,10 @@ from scripts.bootstrap_direct_access_geometry_bibliographic_screen import (
     bootstrap as bootstrap_screen,
     write as write_screen,
 )
+from scripts.build_direct_access_geometry_fulltext_decision_template import (
+    build as build_fulltext_template,
+    write as write_fulltext_template,
+)
 
 ALLOWED_QUERY_SUFFIXES = {".csv", ".tsv", ".txt", ".json"}
 COUNT_NAME = "QUERY_COUNTS.csv"
@@ -135,6 +139,12 @@ def ingest(
         encoding="utf-8",
     )
 
+    fulltext_template_path = (
+        output_dir / "DIRECT_ACCESS_GEOMETRY_FULLTEXT_DECISIONS_V1.csv"
+    )
+    fulltext_rows = build_fulltext_template(screen_path)
+    write_fulltext_template(fulltext_rows, fulltext_template_path)
+
     receipt = {
         "schema": "BITA_DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_ZIP_INTAKE_V1",
         "status": "Q1_Q8_ZIP_INGESTED_FRAME_FROZEN_SCREEN_BOOTSTRAPPED",
@@ -151,6 +161,8 @@ def ingest(
         "screen_bootstrap_status": screen_receipt["status"],
         "screen_file": screen_path.name,
         "screen_bootstrap_receipt_file": screen_receipt_path.name,
+        "fulltext_decision_template_file": fulltext_template_path.name,
+        "fulltext_decision_template_rows": len(fulltext_rows),
         "known_direct_corpus_programs": screen_receipt["known_direct_corpus_programs"],
         "known_programs_matched": screen_receipt["known_programs_matched"],
         "known_programs_unmatched": screen_receipt["known_programs_unmatched"],
