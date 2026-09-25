@@ -83,8 +83,7 @@ def _openalex_ids(source_record_ids: str) -> list[str]:
     return ids
 
 
-def _fetch_work(work_id: str, attempts: int = 6) -> dict[str, Any]:
-    url = f"https://api.openalex.org/works/{work_id}"
+def _get_json(url: str, attempts: int = 6) -> dict[str, Any]:
     request = urllib.request.Request(
         url,
         headers={
@@ -108,6 +107,38 @@ def _fetch_work(work_id: str, attempts: int = 6) -> dict[str, Any]:
     raise last_error
 
 
+def _fetch_works_batch(work_ids: list[str], batch_size: int = 50) -> dict[str, dict[str, Any]]:
+    import urllib.parse
+
+    output: dict[str, dict[str, Any]] = {}
+    unique_ids = sorted(set(work_ids))
+    for start in range(0, len(unique_ids), batch_size):
+        chunk = unique_ids[start:start + batch_size]
+        params = {
+            "filter": "openalex_id:" + "|".join(chunk),
+            "per-page": "100",
+            "select": "id,title,display_name,abstract_inverted_index",
+        }
+        url = "https://api.openalex.org/works?" + urllib.parse.urlencode(params)
+        payload = _get_json(url)
+        rows = payload.get("results")
+        if not isinstance(rows, list):
+            raise RuntimeError("TA_SCREEN_OPENALEX_BATCH_RESULTS_MALFORMED")
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            oid = str(row.get("id") or "").removeprefix("https://openalex.org/")
+            if oid:
+                output[oid] = row
+        missing = sorted(set(chunk) - set(output))
+        if missing:
+            raise RuntimeError(
+                "TA_SCREEN_OPENALEX_BATCH_MISSING_IDS:" + ",".join(missing)
+            )
+        time.sleep(0.12)
+    return output
+
+
 def run(
     frame_path: Path,
     decisions_path: Path,
@@ -128,9 +159,9 @@ def run(
     excluded = 0
     fulltext_required = 0
     missing_abstract = 0
-    fetched = 0
-    provider_ids: list[str] = []
 
+    pending_work_ids: dict[str, list[str]] = {}
+    all_work_ids: list[str] = []
     for decision in decisions:
         if decision["decision_status"].strip() != "PENDING_FULLTEXT":
             continue
@@ -138,15 +169,22 @@ def run(
         frame = frame_by_id[fid]
         if frame["source_dbs"].strip() != "OpenAlex":
             raise ValueError(f"TA_SCREEN_NON_OPENALEX_PENDING_RECORD:{fid}")
+        ids = _openalex_ids(frame["source_record_ids"])
+        pending_work_ids[fid] = ids
+        all_work_ids.extend(ids)
 
-        work_ids = _openalex_ids(frame["source_record_ids"])
+    work_map = _fetch_works_batch(all_work_ids)
+
+    for decision in decisions:
+        if decision["decision_status"].strip() != "PENDING_FULLTEXT":
+            continue
+        fid = decision["frame_id"].strip()
+        work_ids = pending_work_ids[fid]
         titles = []
         abstracts = []
         any_missing_abstract = False
         for work_id in work_ids:
-            work = _fetch_work(work_id)
-            fetched += 1
-            provider_ids.append(work_id)
+            work = work_map[work_id]
             titles.append(
                 str(
                     work.get("title")
@@ -158,7 +196,6 @@ def run(
             abstracts.append(abstract)
             if not abstract:
                 any_missing_abstract = True
-            time.sleep(0.11)
 
         combined_title = " ".join(value for value in titles if value)
         combined_abstract = " ".join(value for value in abstracts if value)
@@ -199,7 +236,7 @@ def run(
     receipt = {
         "schema": "BITA_DIRECT_ACCESS_GEOMETRY_TITLE_ABSTRACT_SCREEN_V1",
         "status": "DIRECTION_BLIND_TITLE_ABSTRACT_SCREEN_COMPLETE",
-        "pending_records_fetched": fetched,
+        "pending_records_fetched": len(pending_work_ids),
         "excluded_no_route_signal": excluded,
         "fulltext_required": fulltext_required,
         "missing_abstract_retained_for_fulltext": missing_abstract,
@@ -209,8 +246,8 @@ def run(
             "no frozen robbery/bypass-route signal; missing abstracts are retained"
         ),
         "provider": "OpenAlex",
-        "provider_work_fetches": len(provider_ids),
-        "unique_provider_work_ids": len(set(provider_ids)),
+        "provider_work_fetches": len(work_map),
+        "unique_provider_work_ids": len(work_map),
     }
     receipt_path.write_text(
         json.dumps(receipt, indent=2, sort_keys=True) + "\n",
