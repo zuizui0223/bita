@@ -329,6 +329,7 @@ def harvest_crossref(config: dict[str, Any], query: dict[str, str]) -> tuple[lis
         params = {
             provider["query_field"]: query["text"],
             "filter": f"from-pub-date:{start},until-pub-date:{end},type:{provider['work_type']}",
+            "select": "DOI,title,author,published,container-title,URL,type",
             "rows": str(rows),
             "cursor": cursor,
         }
@@ -458,12 +459,14 @@ def build_frame(config: dict[str, Any]) -> tuple[list[dict[str, str]], dict[str,
             records, receipt = harvest_crossref(config, query)
             raw_records.extend(records)
             query_receipts.append(receipt)
+            print(json.dumps(receipt, sort_keys=True), flush=True)
 
     if config["providers"]["openalex"].get("enabled"):
         for query in queries:
             records, receipt = harvest_openalex(config, query)
             raw_records.extend(records)
             query_receipts.append(receipt)
+            print(json.dumps(receipt, sort_keys=True), flush=True)
 
     merged: dict[str, dict[str, Any]] = {}
     for record in raw_records:
