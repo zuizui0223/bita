@@ -288,13 +288,13 @@ The ecological implication is simple: **barriers do not only filter interactions
 
 ## Data accessibility and reproducibility
 
-**A permanent analysis-data/code archive DOI is required before submission.** The submission archive will contain the exact analysis-ready tables used for inference, column metadata, reproduction code and frozen derived outputs. The archive tables omit source species identifiers not required to reproduce the reported statistics and deterministically relabel EPHI site identifiers while preserving the within-site permutation structure.
+**A permanent analysis-data/code archive DOI is required before submission.** The submission archive will contain the exact analysis-ready tables used for inference, column metadata, reproduction code, frozen derived outputs, and the bounded direct-evidence corpus with its eligibility/search/provenance receipts. The archive tables omit source species identifiers not required to reproduce the reported statistics and deterministically relabel EPHI site identifiers while preserving the within-site permutation structure.
 
 Underlying public source data are Sakhalkar et al. (2023), Zenodo DOI 10.5281/zenodo.8398202, and the EPHI Ecuador mirror, Zenodo DOI 10.5281/zenodo.14185547, associated with Aubert et al. (2026).
 
 Final submission wording after deposit:
 
-> The analysis-ready data tables, metadata, analysis code and frozen derived outputs supporting this Letter are archived at **[ACCESS-ROUTING ARCHIVE DOI]**. Underlying public source datasets are archived by their original authors at Zenodo DOI 10.5281/zenodo.8398202 and Zenodo DOI 10.5281/zenodo.14185547.
+> The analysis-ready data tables, metadata, analysis code, frozen derived outputs and bounded direct-evidence audit supporting this Letter are archived at **[ACCESS-ROUTING ARCHIVE DOI]**. Underlying public source datasets are archived by their original authors at Zenodo DOI 10.5281/zenodo.8398202 and Zenodo DOI 10.5281/zenodo.14185547.
 
 ## Acknowledgments, funding and conflict of interest
 
