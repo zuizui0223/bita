@@ -22,14 +22,38 @@
     }
   },
   "queries": [
-    {"query_id": "Q01", "text": "nectar robbing"},
-    {"query_id": "Q02", "text": "nectar robbery"},
-    {"query_id": "Q03", "text": "nectar robber"},
-    {"query_id": "Q04", "text": "nectar robbers"},
-    {"query_id": "Q05", "text": "nectar thieving"},
-    {"query_id": "Q06", "text": "nectar theft"},
-    {"query_id": "Q07", "text": "nectar thief"},
-    {"query_id": "Q08", "text": "floral larceny"}
+    {
+      "query_id": "Q01",
+      "text": "nectar robbing"
+    },
+    {
+      "query_id": "Q02",
+      "text": "nectar robbery"
+    },
+    {
+      "query_id": "Q03",
+      "text": "nectar robber"
+    },
+    {
+      "query_id": "Q04",
+      "text": "nectar robbers"
+    },
+    {
+      "query_id": "Q05",
+      "text": "nectar thieving"
+    },
+    {
+      "query_id": "Q06",
+      "text": "nectar theft"
+    },
+    {
+      "query_id": "Q07",
+      "text": "nectar thief"
+    },
+    {
+      "query_id": "Q08",
+      "text": "floral larceny"
+    }
   ],
   "screening_priority_terms": {
     "larceny": [
@@ -60,11 +84,11 @@
       "spur length"
     ]
   },
-  "retention_rule": "Retain every provider result returned by every frozen larceny query. Priority flags never exclude a record.",
+  "retention_rule": "Retrieve the complete provider result set for each frozen query up to the fail-closed provider cap, deduplicate, then retain only records whose title or indexed abstract contains a frozen nectar-larceny text stem. This text gate is outcome-blind and does not use geometry or effect direction.",
   "deduplication_rule": [
     "normalized DOI when present",
     "otherwise normalized title plus publication year"
   ],
-  "max_records_per_provider_query": 5000,
-  "formal_inference_gate": "No recurrence statistic may open until this finite frame is frozen, all candidates are screened under the pre-existing geometry contract, duplicates are resolved, and the historical provenance gate remains satisfied."
+  "max_records_per_provider_query": 25000,
+  "formal_inference_gate": "No recurrence statistic may open until this finite larceny-text-gated frame is frozen, all candidates are screened under the pre-existing geometry contract, duplicates are resolved, and the historical provenance gate remains satisfied."
 }
