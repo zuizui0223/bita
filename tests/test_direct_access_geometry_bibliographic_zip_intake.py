@@ -39,15 +39,32 @@ def test_ingests_one_complete_q1_q8_zip(tmp_path: Path) -> None:
         out,
         search_date="2026-09-25",
     )
-    assert result["status"] == "Q1_Q8_ZIP_INGESTED_OUTCOME_BLIND"
+    assert result["status"] == "Q1_Q8_ZIP_INGESTED_FRAME_FROZEN_SCREEN_BOOTSTRAPPED"
     assert result["source_db"] == "Scopus"
     assert result["all_query_export_counts_verified"] is True
     assert result["input_rows"] == 8
     assert result["unique_bibliographic_records"] == 8
+    assert result["outcome_blind_frame_frozen"] is True
+    assert (
+        result["screen_bootstrap_status"]
+        == "FRAME_SCREEN_BOOTSTRAPPED_KNOWN_CORPUS_RECALL_INCOMPLETE"
+    )
+    assert result["known_direct_corpus_programs"] == 24
+    assert result["known_programs_matched"] == 0
+    assert len(result["known_programs_unmatched"]) == 24
+    assert result["pending_fulltext_records"] == 8
+    assert result["unknown_record_direction_coded"] is False
     assert result["formal_recurrence_result_open"] is False
     assert result["primary_standardized_network_k"] == 2
     assert (
         out / "DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_ZIP_INTAKE_RECEIPT_V1.json"
+    ).exists()
+    assert (
+        out / "DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_V1.csv"
+    ).exists()
+    assert (
+        out
+        / "DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_BOOTSTRAP_RECEIPT_V1.json"
     ).exists()
 
 

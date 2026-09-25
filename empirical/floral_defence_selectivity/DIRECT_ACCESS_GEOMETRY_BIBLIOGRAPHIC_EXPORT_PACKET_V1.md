@@ -212,14 +212,21 @@ The ZIP intake rejects:
 
 After safe extraction it runs the same count verification, provider normalization,
 Q1–Q8 completeness checks, deterministic deduplication and SHA-bound frame receipt.
+It then automatically runs the post-freeze known-program bootstrap, writes the
+pending full-text screening ledger, and records known-corpus recall without coding
+direction for any new record.
 
 This is now the preferred external handoff because it reduces the remaining input
-to one file.
+to one file **and the remaining repository command to one invocation**.
 
 
 ## Post-freeze screening bootstrap
 
-After the ZIP intake has created:
+**The preferred single-ZIP intake runs this step automatically.** The standalone
+command below is retained for directory-based intake, repair, or explicit reruns
+against an already frozen frame.
+
+After the frame intake has created:
 
 ~~~text
 DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_FRAME_V1.csv
