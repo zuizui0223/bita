@@ -13,6 +13,7 @@ POST_FREEZE_SCREEN_BOOTSTRAP = IMPLEMENTED
 KNOWN_DIRECT_PROGRAM_MATCH = DOI_THEN_TITLE_YEAR_ALIAS
 FULLTEXT_DECISION_TEMPLATE = IMPLEMENTED_KNOWN_PREFILL_UNKNOWN_PENDING
 FULLTEXT_DECISION_GATE = IMPLEMENTED_FAIL_CLOSED
+FORMAL_RECURRENCE_SUMMARY_GATE = IMPLEMENTED_DESCRIPTIVE_NO_PVALUE
 FORMAL_UPDATE_FRAME = AWAITING_COMPLETE_Q1_Q8_EXPORT
 FORMAL_RECURRENCE_RESULT = CLOSED
 ~~~
@@ -321,3 +322,46 @@ python scripts/validate_direct_access_geometry_fulltext_decisions.py \
 Even a complete full-text screen keeps
 `formal_recurrence_result_open = false`; it only advances the next gate to
 `FORMAL_RECURRENCE_SUMMARY`.
+
+
+## Formal finite-frame recurrence summary
+
+After `--require-complete` passes for the full-text decision file, run:
+
+~~~bash
+python scripts/summarize_direct_access_geometry_formal_recurrence.py \
+  --screen empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_V1.csv \
+  --decisions empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/DIRECT_ACCESS_GEOMETRY_FULLTEXT_DECISIONS_V1.csv \
+  --bootstrap-receipt empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_BOOTSTRAP_RECEIPT_V1.json \
+  --output empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json
+~~~
+
+This final gate requires:
+
+- complete recall of all 24 pre-existing direct programs by the frozen Q1–Q8 frame;
+- a complete full-text decision for every frame record;
+- unique biological-program IDs;
+- valid duplicate targets;
+- the resolved four-program historical direct-eligible anchor;
+- one source database for the entire Q1–Q8 frame.
+
+Its formal output is **descriptive program-level direction counts**:
+
+~~~text
+eligible programs
+positive
+null
+opposite
+mixed
+new eligible programs found by the formal frame
+duplicate records
+ineligible records
+~~~
+
+Version 1 deliberately does **not** calculate a direction p-value, pooled effect,
+natural prevalence, or any replacement for the standardized network statistic
+`k = 2`.
+
+Contract:
+
+- `DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_CONTRACT_V1.md`.
