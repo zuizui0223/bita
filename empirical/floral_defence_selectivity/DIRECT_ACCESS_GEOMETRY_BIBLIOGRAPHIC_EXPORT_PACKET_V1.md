@@ -9,6 +9,8 @@ Q1_Q8_QUERY_CONTRACT = FROZEN
 BIBLIOGRAPHIC_FRAME_BUILDER = IMPLEMENTED
 PROVIDER_EXPORT_NORMALIZER = IMPLEMENTED
 ONE_COMMAND_INTAKE = IMPLEMENTED
+POST_FREEZE_SCREEN_BOOTSTRAP = IMPLEMENTED
+KNOWN_DIRECT_PROGRAM_MATCH = DOI_THEN_TITLE_YEAR_ALIAS
 FORMAL_UPDATE_FRAME = AWAITING_COMPLETE_Q1_Q8_EXPORT
 FORMAL_RECURRENCE_RESULT = CLOSED
 ~~~
@@ -213,3 +215,48 @@ Q1–Q8 completeness checks, deterministic deduplication and SHA-bound frame rec
 
 This is now the preferred external handoff because it reduces the remaining input
 to one file.
+
+
+## Post-freeze screening bootstrap
+
+After the ZIP intake has created:
+
+~~~text
+DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_FRAME_V1.csv
+DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_FRAME_RECEIPT_V1.json
+~~~
+
+run:
+
+~~~bash
+python scripts/bootstrap_direct_access_geometry_bibliographic_screen.py \
+  --frame empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_FRAME_V1.csv \
+  --frame-receipt empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_FRAME_RECEIPT_V1.json \
+  --output empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_V1.csv \
+  --receipt empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_BOOTSTRAP_RECEIPT_V1.json
+~~~
+
+This step runs **only after** the outcome-blind frame is frozen. It:
+
+1. matches DOI-bearing records to the current 24-program direct corpus;
+2. matches the two DOI-less known programs by frozen normalized title + year;
+3. copies direction only for records already known before the formal frame;
+4. leaves every new bibliographic record as
+   `PENDING_FULLTEXT_ELIGIBILITY` with a blank direction;
+5. reports any of the 24 known direct programs that the frozen Q1–Q8 frame failed
+   to recover;
+6. keeps `formal_recurrence_result_open = false`.
+
+Title aliases for the two DOI-less direct programs are frozen in:
+
+- `DIRECT_ACCESS_GEOMETRY_KNOWN_TITLE_ALIASES_V1.csv`.
+
+Generated post-freeze files:
+
+~~~text
+DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_V1.csv
+DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_BOOTSTRAP_RECEIPT_V1.json
+~~~
+
+This removes known-study rediscovery work while preserving the outcome-blind
+boundary for all new records.

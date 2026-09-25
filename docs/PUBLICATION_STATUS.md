@@ -77,10 +77,10 @@ A stricter formal-recurrence lane uses the **56 distinct Leal et al. (2025)
 `study`-field labels** as an outcome-independent historical anchor. They are not
 assumed to be 56 independent studies: source audit found two labels that combine
 rows from different source programs. Current label-level screening is 50
-geometry-ineligible, 4 eligible, and 2 provenance-conflicted. Only 4 of the 15
+geometry-ineligible, 4 eligible, and 2 provenance-conflicted. Only 4 of the 24
 direct programs overlap the Leal frame. The two source conflicts do not affect geometry eligibility: all verified/plausible
 source components are geometry-ineligible, so the historical direct-eligible set is
-stable at four. The deterministic bibliographic-frame builder, frozen Q1–Q8 query contract, provider-export normalizer and one-command Q1–Q8 intake are implemented. The remaining gate before any formal recurrence statistic is one complete Q1–Q8 export from a single bibliographic database; normalization, deterministic deduplication and frame freezing are then automated.
+stable at four. The deterministic bibliographic-frame builder, frozen Q1–Q8 query contract, provider-export normalizer, one-command Q1–Q8 intake, and post-freeze 24-program screening bootstrap are implemented. The remaining gate before any formal recurrence statistic is one complete Q1–Q8 export from a single bibliographic database; normalization, deterministic deduplication and frame freezing are then automated.
 
 The floral-defence corpus and effective-access / exposure framework are retained as
 mechanistic context for why route switching is biologically plausible. They are not
@@ -151,6 +151,8 @@ FORMAL_BIBLIOGRAPHIC_FRAME_BUILDER = IMPLEMENTED
 BIBLIOGRAPHIC_EXPORT_NORMALIZER = IMPLEMENTED_SCOPUS_WOS_CROSSREF_OPENALEX
 BIBLIOGRAPHIC_Q1_Q8_ONE_COMMAND_INTAKE = IMPLEMENTED
 BIBLIOGRAPHIC_SINGLE_ZIP_INTAKE = IMPLEMENTED_SAFE_ROOT_ONLY_COUNT_VERIFIED
+BIBLIOGRAPHIC_POST_FREEZE_SCREEN_BOOTSTRAP = IMPLEMENTED_DOI_AND_TITLE_YEAR_ALIAS
+BIBLIOGRAPHIC_KNOWN_CORPUS_RECALL_AUDIT = IMPLEMENTED_24_PROGRAMS
 FORMAL_BIBLIOGRAPHIC_FRAME = AWAITING_ONE_COMPLETE_SINGLE_DB_Q1_Q8_EXPORT_ZIP
 FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
 EXTENDED_SYNTHESIS = PRESERVED_RESERVE
