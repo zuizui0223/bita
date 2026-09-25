@@ -258,10 +258,12 @@ def _validate_source_rows(
         record_id = row.get("record_id", "").strip()
         year_text = row.get("year", "").strip()
 
-        if not title:
-            raise ValueError(f"BIB_EXPORT_MISSING_TITLE:row={index}")
         if not record_id:
             raise ValueError(f"BIB_EXPORT_MISSING_RECORD_ID:row={index}")
+        if not title and source_db.strip().casefold() == "openalex":
+            title = f"[OpenAlex untitled work {record_id}]"
+        if not title:
+            raise ValueError(f"BIB_EXPORT_MISSING_TITLE:row={index}")
         if record_id in seen_record_ids:
             raise ValueError(f"BIB_EXPORT_DUPLICATE_RECORD_ID_WITHIN_QUERY:{record_id}")
         seen_record_ids.add(record_id)
