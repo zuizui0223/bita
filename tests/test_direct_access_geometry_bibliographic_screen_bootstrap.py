@@ -248,3 +248,105 @@ def test_bootstrap_rejects_nonfrozen_frame_receipt(tmp_path: Path) -> None:
             corpus_path=corpus,
             alias_path=aliases,
         )
+
+
+def test_bootstrap_accounts_for_verified_provider_absence(tmp_path: Path) -> None:
+    frame, receipt, corpus, aliases = _fixture(tmp_path)
+    rows = list(csv.DictReader(frame.open(encoding="utf-8")))
+    rows = [row for row in rows if row["frame_id"] != "bib_alias"]
+    _write_csv(frame, FRAME_FIELDS, rows)
+    receipt.write_text(
+        json.dumps(
+            {
+                "schema": "BITA_DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_FRAME_V1",
+                "status": "OUTCOME_BLIND_FRAME_FROZEN",
+                "unique_bibliographic_records": 2,
+                "formal_recurrence_result_open": False,
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    exceptions = tmp_path / "provider_exceptions.csv"
+    _write_csv(
+        exceptions,
+        [
+            "study_id",
+            "source_db",
+            "provider_check",
+            "provider_result_count",
+            "external_verification",
+            "adjudication",
+            "notes",
+        ],
+        [
+            {
+                "study_id": "Known_Alias",
+                "source_db": "OpenAlex",
+                "provider_check": "exact_title_search",
+                "provider_result_count": "0",
+                "external_verification": "publisher",
+                "adjudication": "VERIFIED_PROVIDER_ABSENCE",
+                "notes": "fixture",
+            }
+        ],
+    )
+
+    _, result = bootstrap(
+        frame,
+        receipt,
+        corpus_path=corpus,
+        alias_path=aliases,
+        provider_coverage_exceptions_path=exceptions,
+    )
+
+    assert result["known_programs_matched"] == 1
+    assert result["known_programs_unmatched"] == ["Known_Alias"]
+    assert result["known_programs_provider_absent"] == ["Known_Alias"]
+    assert result["known_programs_unresolved"] == []
+    assert result["provider_coverage_exceptions_applied"] is True
+    assert result["provider_coverage_exception_sha256"]
+    assert (
+        result["status"]
+        == "FRAME_SCREEN_BOOTSTRAPPED_KNOWN_CORPUS_RECALL_ACCOUNTED_PROVIDER_ABSENCE"
+    )
+
+
+def test_bootstrap_rejects_stale_provider_absence_if_study_is_recovered(tmp_path: Path) -> None:
+    frame, receipt, corpus, aliases = _fixture(tmp_path)
+    exceptions = tmp_path / "provider_exceptions.csv"
+    _write_csv(
+        exceptions,
+        [
+            "study_id",
+            "source_db",
+            "provider_check",
+            "provider_result_count",
+            "external_verification",
+            "adjudication",
+            "notes",
+        ],
+        [
+            {
+                "study_id": "Known_Alias",
+                "source_db": "OpenAlex",
+                "provider_check": "exact_title_search",
+                "provider_result_count": "0",
+                "external_verification": "publisher",
+                "adjudication": "VERIFIED_PROVIDER_ABSENCE",
+                "notes": "fixture",
+            }
+        ],
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="BIB_SCREEN_PROVIDER_EXCEPTION_STUDY_WAS_RECOVERED",
+    ):
+        bootstrap(
+            frame,
+            receipt,
+            corpus_path=corpus,
+            alias_path=aliases,
+            provider_coverage_exceptions_path=exceptions,
+        )
