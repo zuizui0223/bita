@@ -27,6 +27,7 @@ FRAME_FIELDS = [
     "best_provider_rank",
     "larceny_text_match",
     "geometry_text_match",
+    "sentinel_query_match",
     "screen_status",
     "screen_reason",
 ]
@@ -71,6 +72,7 @@ def _frame_row(doi: str) -> dict[str, str]:
             "best_provider_rank": "1",
             "larceny_text_match": "true",
             "geometry_text_match": "true",
+            "sentinel_query_match": "false",
             "screen_status": "UNSCREENED",
         }
     )
