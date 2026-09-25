@@ -1,0 +1,99 @@
+name: freeze-direct-geometry-bibliographic-frame
+
+on:
+  push:
+    branches:
+      - analysis/direct-geometry-biblio-frame-v1
+    paths:
+      - "empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIO_QUERY_V1.json"
+      - "scripts/build_direct_access_geometry_biblio_frame.py"
+      - "tests/test_direct_access_geometry_biblio_frame.py"
+      - ".github/workflows/freeze-direct-geometry-bibliographic-frame.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  freeze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install test dependencies
+        run: python -m pip install -e '.[dev]'
+
+      - name: Test bibliographic frame contract
+        run: pytest -q tests/test_direct_access_geometry_biblio_frame.py
+
+      - name: Harvest frozen Crossref and OpenAlex frame
+        run: |
+          python scripts/build_direct_access_geometry_biblio_frame.py \
+            --registry empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIO_QUERY_V1.json \
+            --frame empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIO_FRAME_V1.csv \
+            --receipt empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIO_FRAME_RECEIPT_V1.json
+
+      - name: Validate generated files
+        run: |
+          test -s empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIO_FRAME_V1.csv
+          test -s empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIO_FRAME_RECEIPT_V1.json
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+
+          base = Path("empirical/floral_defence_selectivity")
+          frame = base / "DIRECT_ACCESS_GEOMETRY_BIBLIO_FRAME_V1.csv"
+          receipt = base / "DIRECT_ACCESS_GEOMETRY_BIBLIO_FRAME_RECEIPT_V1.json"
+
+          with frame.open(encoding="utf-8", newline="") as handle:
+              rows = list(csv.DictReader(handle))
+          meta = json.loads(receipt.read_text(encoding="utf-8"))
+
+          assert rows
+          assert len(rows) == meta["deduplicated_candidates"]
+          assert all(row["screen_status"] == "UNSCREENED" for row in rows)
+          assert meta["all_records_retained_before_screening"] is True
+          assert meta["formal_recurrence_result_open"] is False
+          assert meta["query_count"] == 8
+          assert meta["provider_query_count"] == 16
+          print(json.dumps({
+              "deduplicated_candidates": len(rows),
+              "raw_provider_records": meta["raw_provider_records"],
+              "larceny_text_match_candidates": meta["larceny_text_match_candidates"],
+              "geometry_text_match_candidates": meta["geometry_text_match_candidates"],
+          }, indent=2))
+          PY
+          git diff --check
+
+      - name: Freeze generated frame on branch
+        run: |
+          if git diff --quiet --             empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIO_FRAME_V1.csv             empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIO_FRAME_RECEIPT_V1.json; then
+            echo "Bibliographic frame is unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add             empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIO_FRAME_V1.csv             empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIO_FRAME_RECEIPT_V1.json
+          git commit -m "Freeze direct geometry bibliographic update frame"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Upload frozen frame artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: direct-geometry-bibliographic-frame
+          path: |
+            empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIO_QUERY_V1.json
+            empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIO_FRAME_V1.csv
+            empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIO_FRAME_RECEIPT_V1.json
