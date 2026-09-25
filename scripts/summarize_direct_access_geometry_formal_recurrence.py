@@ -69,6 +69,15 @@ def summarize(
             f"provider_absent={provider_absent}:unresolved={unresolved}:"
             f"unmatched={unmatched}"
         )
+    if provider_absent:
+        if bootstrap.get("provider_coverage_exceptions_applied") is not True:
+            raise ValueError(
+                "FORMAL_SUMMARY_PROVIDER_ABSENCE_NOT_BACKED_BY_EXCEPTION_AUDIT"
+            )
+        if not bootstrap.get("provider_coverage_exception_sha256"):
+            raise ValueError(
+                "FORMAL_SUMMARY_PROVIDER_ABSENCE_EXCEPTION_HASH_MISSING"
+            )
     if bootstrap.get("unknown_record_direction_coded") is not False:
         raise ValueError("FORMAL_SUMMARY_BOOTSTRAP_DIRECTION_LEAK")
     if bootstrap.get("formal_recurrence_result_open") is not False:
