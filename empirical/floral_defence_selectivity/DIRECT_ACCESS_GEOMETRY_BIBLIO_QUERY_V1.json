@@ -10,7 +10,7 @@
       "enabled": true,
       "endpoint": "https://api.crossref.org/works",
       "work_type": "journal-article",
-      "query_field": "query.title",
+      "query_field": "query",
       "rows_per_page": 1000,
       "query_ids": [
         "Q01",
@@ -102,7 +102,7 @@
       "spur length"
     ]
   },
-  "retention_rule": "Crossref retrieves the complete result sets for the five frozen nectar-robbing/robbery/robber(s)/floral-larceny title queries within 2000-01-01 through 2026-09-24. Results are deduplicated, then retained only when title or Crossref abstract contains a frozen nectar-larceny text stem. This text gate is outcome-blind and does not use geometry or effect direction. Known-direct DOI recall is a blocking validation.",
+  "retention_rule": "Crossref retrieves the complete result sets for the five frozen nectar-robbing/robbery/robber(s)/floral-larceny general metadata queries within 2000-01-01 through 2026-09-24. General query is used because direct studies may describe larceny in abstracts rather than titles. Results are deduplicated, then retained only when title or Crossref abstract contains a frozen nectar-larceny text stem. This text gate is outcome-blind and does not use geometry or effect direction. Known-direct DOI recall is a blocking validation.",
   "deduplication_rule": [
     "normalized DOI when present",
     "otherwise normalized title plus publication year"
