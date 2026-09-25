@@ -455,14 +455,20 @@ def build_frame(config: dict[str, Any]) -> tuple[list[dict[str, str]], dict[str,
     query_receipts: list[dict[str, Any]] = []
 
     if config["providers"]["crossref"].get("enabled"):
+        allowed = set(config["providers"]["crossref"].get("query_ids") or [q["query_id"] for q in queries])
         for query in queries:
+            if query["query_id"] not in allowed:
+                continue
             records, receipt = harvest_crossref(config, query)
             raw_records.extend(records)
             query_receipts.append(receipt)
             print(json.dumps(receipt, sort_keys=True), flush=True)
 
     if config["providers"]["openalex"].get("enabled"):
+        allowed = set(config["providers"]["openalex"].get("query_ids") or [q["query_id"] for q in queries])
         for query in queries:
+            if query["query_id"] not in allowed:
+                continue
             records, receipt = harvest_openalex(config, query)
             raw_records.extend(records)
             query_receipts.append(receipt)
