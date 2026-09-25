@@ -16,6 +16,50 @@ from scripts.normalize_direct_access_geometry_bibliographic_export import (
 
 QUERY_IDS = tuple(f"Q{i}" for i in range(1, 9))
 SUPPORTED_SUFFIXES = {".csv", ".tsv", ".txt", ".json"}
+COUNT_FIELDS = ("query_id", "source_db", "reported_total_rows", "search_date")
+
+
+def _read_count_manifest(path: Path) -> dict[str, dict[str, str]]:
+    import csv
+
+    with path.open(encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        observed = tuple(reader.fieldnames or ())
+        if observed != COUNT_FIELDS:
+            raise ValueError(
+                f"BIB_INTAKE_COUNT_MANIFEST_SCHEMA_MISMATCH:"
+                f"expected={COUNT_FIELDS}:observed={observed}"
+            )
+        rows = list(reader)
+
+    if len(rows) != 8:
+        raise ValueError(f"BIB_INTAKE_COUNT_MANIFEST_EXPECTED_8_ROWS:{len(rows)}")
+    mapped: dict[str, dict[str, str]] = {}
+    for row in rows:
+        qid = row["query_id"].strip()
+        if qid not in QUERY_IDS:
+            raise ValueError(f"BIB_INTAKE_COUNT_MANIFEST_INVALID_QUERY:{qid}")
+        if qid in mapped:
+            raise ValueError(f"BIB_INTAKE_COUNT_MANIFEST_DUPLICATE_QUERY:{qid}")
+        try:
+            total = int(row["reported_total_rows"].strip())
+        except ValueError as exc:
+            raise ValueError(
+                f"BIB_INTAKE_COUNT_MANIFEST_INVALID_TOTAL:{qid}:"
+                f"{row['reported_total_rows']}"
+            ) from exc
+        if total <= 0:
+            raise ValueError(f"BIB_INTAKE_COUNT_MANIFEST_NONPOSITIVE_TOTAL:{qid}:{total}")
+        mapped[qid] = {
+            "query_id": qid,
+            "source_db": row["source_db"].strip(),
+            "reported_total_rows": str(total),
+            "search_date": row["search_date"].strip(),
+        }
+    missing = [qid for qid in QUERY_IDS if qid not in mapped]
+    if missing:
+        raise ValueError("BIB_INTAKE_COUNT_MANIFEST_MISSING_QUERY:" + ",".join(missing))
+    return mapped
 
 
 def _find_query_file(input_dir: Path, query_id: str) -> Path:
@@ -40,11 +84,13 @@ def prepare(
     output_dir: Path,
     *,
     search_date: str,
+    count_manifest: Path,
     source_db: str | None = None,
 ) -> dict[str, object]:
     if not input_dir.is_dir():
         raise ValueError(f"BIB_INTAKE_INPUT_DIR_NOT_FOUND:{input_dir}")
 
+    counts = _read_count_manifest(count_manifest)
     normalized_dir = output_dir / "normalized_raw"
     normalized_paths: list[Path] = []
     source_dbs: set[str] = set()
@@ -64,6 +110,24 @@ def prepare(
             raise ValueError(f"BIB_INTAKE_MULTIPLE_PROVIDERS_WITHIN_QUERY:{query_id}")
         provider = next(iter(providers))
         source_dbs.add(provider)
+
+        expected = counts[query_id]
+        if expected["source_db"] != provider:
+            raise ValueError(
+                f"BIB_INTAKE_COUNT_SOURCE_MISMATCH:{query_id}:"
+                f"manifest={expected['source_db']}:export={provider}"
+            )
+        if expected["search_date"] != search_date:
+            raise ValueError(
+                f"BIB_INTAKE_COUNT_SEARCH_DATE_MISMATCH:{query_id}:"
+                f"manifest={expected['search_date']}:requested={search_date}"
+            )
+        expected_rows = int(expected["reported_total_rows"])
+        if expected_rows != len(rows):
+            raise ValueError(
+                f"BIB_INTAKE_INCOMPLETE_EXPORT:{query_id}:"
+                f"reported={expected_rows}:rows={len(rows)}"
+            )
 
         out_path = normalized_dir / f"{query_id}.csv"
         write(rows, out_path)
@@ -95,6 +159,8 @@ def prepare(
         "source_db": next(iter(source_dbs)),
         "search_date": search_date,
         "queries": per_query,
+        "count_manifest": count_manifest.name,
+        "all_query_export_counts_verified": True,
         "input_rows": receipt["input_rows"],
         "unique_bibliographic_records": receipt["unique_bibliographic_records"],
         "duplicate_rows_collapsed": receipt["duplicate_rows_collapsed"],
@@ -115,6 +181,7 @@ def main() -> int:
     parser.add_argument("--input-dir", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--search-date", required=True)
+    parser.add_argument("--count-manifest", type=Path, required=True)
     parser.add_argument("--source-db")
     args = parser.parse_args()
 
@@ -122,6 +189,7 @@ def main() -> int:
         args.input_dir,
         args.output_dir,
         search_date=args.search_date,
+        count_manifest=args.count_manifest,
         source_db=args.source_db,
     )
     print(json.dumps(result, indent=2, sort_keys=True))
