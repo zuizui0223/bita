@@ -86,6 +86,7 @@ def ingest(
     *,
     search_date: str,
     source_db: str | None = None,
+    provider_coverage_exceptions: Path | None = None,
 ) -> dict[str, object]:
     if not archive.is_file():
         raise ValueError(f"BIB_ZIP_NOT_FOUND:{archive}")
@@ -127,6 +128,7 @@ def ingest(
     screen_rows, screen_receipt = bootstrap_screen(
         frame_path,
         frame_receipt_path,
+        provider_coverage_exceptions_path=provider_coverage_exceptions,
     )
     screen_path = output_dir / "DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_V1.csv"
     screen_receipt_path = (
@@ -166,6 +168,15 @@ def ingest(
         "known_direct_corpus_programs": screen_receipt["known_direct_corpus_programs"],
         "known_programs_matched": screen_receipt["known_programs_matched"],
         "known_programs_unmatched": screen_receipt["known_programs_unmatched"],
+        "known_programs_provider_absent": screen_receipt.get(
+            "known_programs_provider_absent", []
+        ),
+        "known_programs_unresolved": screen_receipt.get(
+            "known_programs_unresolved", screen_receipt["known_programs_unmatched"]
+        ),
+        "provider_coverage_exceptions_applied": screen_receipt.get(
+            "provider_coverage_exceptions_applied", False
+        ),
         "pending_fulltext_records": screen_receipt["pending_fulltext_records"],
         "unknown_record_direction_coded": False,
         "formal_recurrence_result_open": False,
@@ -185,6 +196,7 @@ def main() -> int:
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--search-date", required=True)
     parser.add_argument("--source-db")
+    parser.add_argument("--provider-coverage-exceptions", type=Path)
     args = parser.parse_args()
     print(json.dumps(
         ingest(
@@ -192,6 +204,7 @@ def main() -> int:
             args.output_dir,
             search_date=args.search_date,
             source_db=args.source_db,
+            provider_coverage_exceptions=args.provider_coverage_exceptions,
         ),
         indent=2,
         sort_keys=True,
