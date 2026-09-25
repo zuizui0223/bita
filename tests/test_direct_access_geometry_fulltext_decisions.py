@@ -184,3 +184,30 @@ def test_ineligible_record_cannot_carry_direction(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="FULLTEXT_VALIDATE_INELIGIBLE_HAS_EFFECT_DATA"):
         validate(screen, decision_path)
+
+
+def test_duplicate_target_must_be_an_eligible_program(tmp_path: Path) -> None:
+    screen = _screen(tmp_path)
+    decision_path = tmp_path / "decisions.csv"
+    rows = build(screen)
+    target = next(row for row in rows if row["frame_id"] == "new1")
+    target.update(
+        {
+            "decision_status": "DUPLICATE_BIOLOGICAL_PROGRAM",
+            "duplicate_of_program_id": "Missing_Program",
+            "decision_basis": "PRIMARY_FULLTEXT_DUPLICATE_REPORT",
+            "source_identifier": "10.1/new1",
+        }
+    )
+    other = next(row for row in rows if row["frame_id"] == "new2")
+    other.update(
+        {
+            "decision_status": "INELIGIBLE_NO_ROUTE_OUTCOME",
+            "decision_basis": "PRIMARY_FULLTEXT_NO_ROUTE_OUTCOME",
+            "source_identifier": "title-year:New two|2021",
+        }
+    )
+    write(rows, decision_path)
+
+    with pytest.raises(ValueError, match="FULLTEXT_VALIDATE_DUPLICATE_TARGET_NOT_ELIGIBLE"):
+        validate(screen, decision_path, require_complete=True)

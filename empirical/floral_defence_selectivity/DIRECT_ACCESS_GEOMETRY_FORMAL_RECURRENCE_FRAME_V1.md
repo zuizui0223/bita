@@ -164,5 +164,10 @@ At that point, report at minimum:
 - sensitivity treating mixed studies conservatively;
 - no pooled effect size unless a genuinely commensurate effect scale exists.
 
+The v1 formal literature result is a finite-frame **descriptive
+program-level direction distribution**. It does not calculate a sign-test p-value,
+pooled effect, or natural prevalence. The reporting contract is frozen in
+`DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_CONTRACT_V1.md`.
+
 The primary Letter network statistic remains `k = 2` regardless of this
 supporting literature synthesis.
