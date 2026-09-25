@@ -77,7 +77,7 @@ A stricter formal-recurrence lane uses the **56 distinct Leal et al. (2025)
 `study`-field labels** as an outcome-independent historical anchor. They are not
 assumed to be 56 independent studies: source audit found two labels that combine
 rows from different source programs. Current label-level screening is 50
-geometry-ineligible, 4 eligible, and 2 provenance-conflicted. Only 4 of the 15
+geometry-ineligible, 4 eligible, and 2 provenance-conflicted. Only 4 of the 24
 direct programs overlap the Leal frame. The two source conflicts do not affect geometry eligibility: all verified/plausible
 source components are geometry-ineligible, so the historical direct-eligible set is
 stable at four. The deterministic bibliographic-frame builder, frozen Q1–Q8 query contract, provider-export normalizer, one-command Q1–Q8 intake, and post-freeze 24-program screening bootstrap are implemented. The remaining gate before any formal recurrence statistic is one complete Q1–Q8 export from a single bibliographic database; normalization, deterministic deduplication and frame freezing are then automated.
