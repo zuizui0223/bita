@@ -37,7 +37,7 @@ def _config():
             "crossref": {"enabled": True},
             "openalex": {"enabled": True},
         },
-        "queries": [{"query_id": "Q01", "text": "nectar robbing"}],
+        "queries": [{"query_id": "Q01", "text": "nectar robbing", "query_role": "CORE_LARCENY"}],
         "screening_priority_terms": {
             "larceny": ["nectar rob"],
             "geometry": ["corolla", "tongue length"],
@@ -158,10 +158,12 @@ def test_build_frame_deduplicates_providers_without_filtering_non_geometry_recor
 
     assert receipt["raw_provider_records"] == 4
     assert receipt["deduplicated_provider_candidates_before_text_gate"] == 3
-    assert receipt["excluded_no_larceny_text_match"] == 1
+    assert receipt["excluded_no_retention_match"] == 1
     assert receipt["deduplicated_candidates"] == 2
     assert receipt["larceny_text_match_candidates"] == 2
-    assert receipt["larceny_text_gate_is_outcome_blind"] is True
+    assert receipt["sentinel_query_match_candidates"] == 0
+    assert receipt["retention_gate_is_direction_blind"] is True
+    assert receipt["sentinel_calibration_uses_effect_direction"] is False
     assert receipt["all_records_retained_before_screening"] is False
     assert receipt["formal_recurrence_result_open"] is False
 
@@ -185,3 +187,42 @@ def test_provider_id_fallback_preserves_unidentified_openalex_record() -> None:
     parsed = mod.parse_openalex_item(item, "Q01", 1)
     assert parsed["identity_key"] == "provider:openalex:https://openalex.org/W123"
     assert parsed["provider_ids"] == {"openalex:https://openalex.org/W123"}
+
+
+def test_sentinel_query_retains_record_without_larceny_text(monkeypatch) -> None:
+    config = _config()
+    config["providers"]["openalex"]["enabled"] = False
+    config["queries"] = [
+        {
+            "query_id": "S01",
+            "text": "sunbird pollination long billed",
+            "query_role": "SENTINEL_CALIBRATION",
+        }
+    ]
+    record = _record(
+        key="doi:10.1000/sentinel",
+        doi="10.1000/sentinel",
+        title="Hyper-specialization for long-billed bird pollination",
+        provider="crossref",
+        query_id="S01",
+        rank=1,
+    )
+    monkeypatch.setattr(
+        mod,
+        "harvest_crossref",
+        lambda config, query: (
+            [record],
+            {
+                "provider": "crossref",
+                "query_id": "S01",
+                "retrieved_records": 1,
+            },
+        ),
+    )
+
+    frame, receipt = mod.build_frame(config)
+    assert len(frame) == 1
+    assert frame[0]["larceny_text_match"] == "false"
+    assert frame[0]["sentinel_query_match"] == "true"
+    assert receipt["sentinel_query_match_candidates"] == 1
+    assert receipt["excluded_no_retention_match"] == 0
