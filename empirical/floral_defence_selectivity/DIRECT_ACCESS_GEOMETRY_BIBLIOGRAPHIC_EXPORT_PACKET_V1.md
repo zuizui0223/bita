@@ -11,6 +11,8 @@ PROVIDER_EXPORT_NORMALIZER = IMPLEMENTED
 ONE_COMMAND_INTAKE = IMPLEMENTED
 POST_FREEZE_SCREEN_BOOTSTRAP = IMPLEMENTED
 KNOWN_DIRECT_PROGRAM_MATCH = DOI_THEN_TITLE_YEAR_ALIAS
+FULLTEXT_DECISION_TEMPLATE = IMPLEMENTED_KNOWN_PREFILL_UNKNOWN_PENDING
+FULLTEXT_DECISION_GATE = IMPLEMENTED_FAIL_CLOSED
 FORMAL_UPDATE_FRAME = AWAITING_COMPLETE_Q1_Q8_EXPORT
 FORMAL_RECURRENCE_RESULT = CLOSED
 ~~~
@@ -267,3 +269,55 @@ DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_BOOTSTRAP_RECEIPT_V1.json
 
 This removes known-study rediscovery work while preserving the outcome-blind
 boundary for all new records.
+
+
+## Full-text eligibility decision gate
+
+The single-ZIP intake also creates:
+
+~~~text
+DIRECT_ACCESS_GEOMETRY_FULLTEXT_DECISIONS_V1.csv
+~~~
+
+Known direct-corpus matches are prefilled and must remain unchanged. Every new
+bibliographic record starts as:
+
+~~~text
+decision_status = PENDING_FULLTEXT
+direction = <blank>
+~~~
+
+After full-text adjudication, use one of:
+
+~~~text
+ELIGIBLE_DIRECT
+DUPLICATE_BIOLOGICAL_PROGRAM
+INELIGIBLE_<REASON>
+~~~
+
+For `ELIGIBLE_DIRECT`, provide a unique biological-program ID, one of
+`POSITIVE / NULL / OPPOSITE / MIXED`, a decision basis, and a source identifier.
+For duplicates, provide the target biological-program ID. Ineligible rows must not
+carry a direction.
+
+Validate while screening:
+
+~~~bash
+python scripts/validate_direct_access_geometry_fulltext_decisions.py \
+  --screen empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_V1.csv \
+  --decisions empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/DIRECT_ACCESS_GEOMETRY_FULLTEXT_DECISIONS_V1.csv
+~~~
+
+Open the completion gate only after every pending record is adjudicated:
+
+~~~bash
+python scripts/validate_direct_access_geometry_fulltext_decisions.py \
+  --screen empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_V1.csv \
+  --decisions empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/DIRECT_ACCESS_GEOMETRY_FULLTEXT_DECISIONS_V1.csv \
+  --require-complete \
+  --output empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/DIRECT_ACCESS_GEOMETRY_FULLTEXT_DECISION_RECEIPT_V1.json
+~~~
+
+Even a complete full-text screen keeps
+`formal_recurrence_result_open = false`; it only advances the next gate to
+`FORMAL_RECURRENCE_SUMMARY`.
