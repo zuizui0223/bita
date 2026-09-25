@@ -21,7 +21,7 @@
       ]
     },
     "openalex": {
-      "enabled": true,
+      "enabled": false,
       "endpoint": "https://api.openalex.org/works",
       "work_type": "article",
       "rows_per_page": 200,
@@ -35,7 +35,8 @@
         "Q06",
         "Q07",
         "Q08"
-      ]
+      ],
+      "disabled_reason": "OpenAlex API requires an API key under the current 2026 access model; the production freeze is Crossref-only unless an explicit authenticated provider contract is added before screening."
     }
   },
   "queries": [
@@ -101,11 +102,11 @@
       "spur length"
     ]
   },
-  "retention_rule": "Crossref retrieves the complete result sets for frozen robbing/robbery/robber(s)/floral-larceny title queries; OpenAlex retrieves exact-phrase result sets for all eight frozen larceny queries, including theft/thief/thieving variants. Results are deduplicated, then retained only when title or indexed abstract contains a frozen nectar-larceny text stem. This text gate is outcome-blind and does not use geometry or effect direction.",
+  "retention_rule": "Crossref retrieves the complete result sets for the five frozen nectar-robbing/robbery/robber(s)/floral-larceny title queries within 2000-01-01 through 2026-09-24. Results are deduplicated, then retained only when title or Crossref abstract contains a frozen nectar-larceny text stem. This text gate is outcome-blind and does not use geometry or effect direction. Known-direct DOI recall is a blocking validation.",
   "deduplication_rule": [
     "normalized DOI when present",
     "otherwise normalized title plus publication year"
   ],
   "max_records_per_provider_query": 25000,
-  "formal_inference_gate": "No recurrence statistic may open until this finite larceny-text-gated frame is frozen, all candidates are screened under the pre-existing geometry contract, duplicates are resolved, and the historical provenance gate remains satisfied."
+  "formal_inference_gate": "No recurrence statistic may open unless the frozen Crossref frame passes the known-direct DOI recall gate, every retained candidate is screened under the pre-existing geometry contract, duplicates are resolved, and all exclusions are recorded."
 }
