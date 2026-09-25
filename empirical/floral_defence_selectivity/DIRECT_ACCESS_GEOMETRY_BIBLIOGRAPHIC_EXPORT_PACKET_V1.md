@@ -52,6 +52,24 @@ For Crossref or OpenAlex JSON export, `.json` is accepted.
 
 There must be exactly one supported file for every Q1–Q8.
 
+Also record the database's displayed/exported **total result count** for each query
+in:
+
+`DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_QUERY_COUNT_TEMPLATE_V1.csv`
+
+Fill all eight rows with:
+
+~~~text
+query_id
+source_db
+reported_total_rows
+search_date
+~~~
+
+The intake requires the exported row count to equal the recorded database total for
+every query. A truncated export therefore fails closed instead of silently becoming
+the formal frame.
+
 ## Supported provider formats
 
 The repository normalizer accepts:
@@ -88,7 +106,8 @@ After placing Q1–Q8 in one directory:
 python scripts/prepare_direct_access_geometry_bibliographic_frame.py \
   --input-dir PATH_TO_Q1_Q8_EXPORTS \
   --output-dir empirical/floral_defence_selectivity/formal_bibliographic_frame_v1 \
-  --search-date YYYY-MM-DD
+  --search-date YYYY-MM-DD \
+  --count-manifest PATH_TO_FILLED_QUERY_COUNT_CSV
 ~~~
 
 If provider detection is ambiguous, add one explicit source:
@@ -100,14 +119,16 @@ If provider detection is ambiguous, add one explicit source:
 The intake will:
 
 1. require exactly one file for every Q1–Q8;
-2. normalize all records without relevance filtering;
-3. require title, year and database-native record ID;
-4. reject records outside the frozen year window;
-5. require all eight query IDs;
-6. deduplicate by DOI, then normalized title + year;
-7. write the frozen bibliographic frame;
-8. write SHA256-bound receipts;
-9. keep `formal_recurrence_result_open = false`.
+2. require a Q1–Q8 count manifest from the same database/search date;
+3. verify every export row count against the database-reported query total;
+4. normalize all records without relevance filtering;
+5. require title, year and database-native record ID;
+6. reject records outside the frozen year window;
+7. require all eight query IDs;
+8. deduplicate by DOI, then normalized title + year;
+9. write the frozen bibliographic frame;
+10. write SHA256-bound receipts;
+11. keep `formal_recurrence_result_open = false`.
 
 ## Generated files
 
@@ -123,6 +144,8 @@ DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_INTAKE_RECEIPT_V1.json
 The intake stops if:
 
 - any Q1–Q8 file is missing;
+- the Q1–Q8 count manifest is incomplete or malformed;
+- an export file row count differs from the database-reported query total;
 - more than one file is supplied for one query;
 - source databases are mixed;
 - a record lacks title, year or record ID;
