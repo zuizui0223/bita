@@ -329,7 +329,7 @@ def harvest_crossref(config: dict[str, Any], query: dict[str, str]) -> tuple[lis
         params = {
             provider["query_field"]: query["text"],
             "filter": f"from-pub-date:{start},until-pub-date:{end},type:{provider['work_type']}",
-            "select": "DOI,title,author,published,container-title,URL,type",
+            "select": "DOI,title,author,abstract,published,container-title,URL,type",
             "rows": str(rows),
             "cursor": cursor,
         }
