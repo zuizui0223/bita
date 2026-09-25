@@ -1,0 +1,9 @@
+query_id,source_db,reported_total_rows,search_date
+Q1,OpenAlex,137,2026-09-25
+Q2,OpenAlex,35,2026-09-25
+Q3,OpenAlex,195,2026-09-25
+Q4,OpenAlex,231,2026-09-25
+Q5,OpenAlex,386,2026-09-25
+Q6,OpenAlex,390,2026-09-25
+Q7,OpenAlex,216,2026-09-25
+Q8,OpenAlex,8,2026-09-25

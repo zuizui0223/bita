@@ -1,0 +1,65 @@
+{
+  "all_query_export_counts_verified": true,
+  "count_manifest": "QUERY_COUNTS.csv",
+  "duplicate_rows_collapsed": 787,
+  "formal_recurrence_result_open": false,
+  "frame_file": "DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_FRAME_V1.csv",
+  "frame_receipt_file": "DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_FRAME_RECEIPT_V1.json",
+  "input_rows": 1598,
+  "primary_standardized_network_k": 2,
+  "queries": {
+    "Q1": {
+      "normalized_file": "normalized_raw/Q1.csv",
+      "rows": 137,
+      "source_db": "OpenAlex",
+      "source_file": "Q1.json"
+    },
+    "Q2": {
+      "normalized_file": "normalized_raw/Q2.csv",
+      "rows": 35,
+      "source_db": "OpenAlex",
+      "source_file": "Q2.json"
+    },
+    "Q3": {
+      "normalized_file": "normalized_raw/Q3.csv",
+      "rows": 195,
+      "source_db": "OpenAlex",
+      "source_file": "Q3.json"
+    },
+    "Q4": {
+      "normalized_file": "normalized_raw/Q4.csv",
+      "rows": 231,
+      "source_db": "OpenAlex",
+      "source_file": "Q4.json"
+    },
+    "Q5": {
+      "normalized_file": "normalized_raw/Q5.csv",
+      "rows": 386,
+      "source_db": "OpenAlex",
+      "source_file": "Q5.json"
+    },
+    "Q6": {
+      "normalized_file": "normalized_raw/Q6.csv",
+      "rows": 390,
+      "source_db": "OpenAlex",
+      "source_file": "Q6.json"
+    },
+    "Q7": {
+      "normalized_file": "normalized_raw/Q7.csv",
+      "rows": 216,
+      "source_db": "OpenAlex",
+      "source_file": "Q7.json"
+    },
+    "Q8": {
+      "normalized_file": "normalized_raw/Q8.csv",
+      "rows": 8,
+      "source_db": "OpenAlex",
+      "source_file": "Q8.json"
+    }
+  },
+  "schema": "BITA_DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_INTAKE_V1",
+  "search_date": "2026-09-25",
+  "source_db": "OpenAlex",
+  "status": "OUTCOME_BLIND_Q1_Q8_FRAME_PREPARED",
+  "unique_bibliographic_records": 811
+}

@@ -1,0 +1,88 @@
+{
+  "count_manifest_sha256": "17b9bad1d5ef48861c42ac2307536e7cb176c3f73a0a3eb010ff2fc87a7be5df",
+  "outcome_direction_inspected": false,
+  "publication_window": [
+    "2000-01-01",
+    "2026-09-24"
+  ],
+  "queries": [
+    {
+      "fetched_rows": 137,
+      "pages": 2,
+      "query": "\"nectar robbing\" AND \"corolla length\"",
+      "query_id": "Q1",
+      "reported_total_rows": 137,
+      "sha256": "6aa61f8a29f522ddf4f5f6170bb79df68661e9a7f6fb725b9b26bd1f339a37bf"
+    },
+    {
+      "fetched_rows": 35,
+      "pages": 1,
+      "query": "\"nectar robbery\" AND \"corolla length\"",
+      "query_id": "Q2",
+      "reported_total_rows": 35,
+      "sha256": "afc412b7a7fcf3f428deee305952641a9b607cfcd6b7e50f50a73b670f4b43fd"
+    },
+    {
+      "fetched_rows": 195,
+      "pages": 2,
+      "query": "(\"nectar robbing\" OR \"nectar robbery\") AND (\"tube length\" OR \"tube depth\")",
+      "query_id": "Q3",
+      "reported_total_rows": 195,
+      "sha256": "cffa94b399fffa02a5576b210962c4b03786a47a37b3df0df09924b0219944a2"
+    },
+    {
+      "fetched_rows": 231,
+      "pages": 3,
+      "query": "(\"nectar robbing\" OR \"nectar robbery\") AND (\"flower size\" OR \"flower width\")",
+      "query_id": "Q4",
+      "reported_total_rows": 231,
+      "sha256": "9df016ad6fd3af64793d363f6324564c0f28629d5aac5c58618b1dd0997c478c"
+    },
+    {
+      "fetched_rows": 386,
+      "pages": 4,
+      "query": "(\"nectar robbing\" OR \"nectar robbery\" OR \"floral larceny\") AND (\"floral morphology\" OR \"nectar accessibility\" OR \"trait mismatch\")",
+      "query_id": "Q5",
+      "reported_total_rows": 386,
+      "sha256": "450414efe1c258d8a47015b9841b83746da565e16ae9f01a022e8e78d9db717e"
+    },
+    {
+      "fetched_rows": 390,
+      "pages": 4,
+      "query": "(\"nectar robbing\" OR \"nectar robbery\") AND (\"tongue length\" OR proboscis OR glossa OR \"bill length\")",
+      "query_id": "Q6",
+      "reported_total_rows": 390,
+      "sha256": "822acd7b5332028cc439836303270725c2f4dcd63a27f067ed9619584346c08b"
+    },
+    {
+      "fetched_rows": 216,
+      "pages": 3,
+      "query": "(\"nectar robbing\" OR \"nectar robbery\") AND (\"morphological constraint\" OR \"morphological constraints\" OR \"short-tongued\")",
+      "query_id": "Q7",
+      "reported_total_rows": 216,
+      "sha256": "b28ffd99a1cd46388c6e7d3e26b4f3e53d6ef46121d3d0e5fdb7ad3111ca0817"
+    },
+    {
+      "fetched_rows": 8,
+      "pages": 1,
+      "query": "(\"nectar robbing\" OR \"nectar robbery\") AND (\"switch to robbing\" OR \"switching to robbing\" OR \"shortened corolla\")",
+      "query_id": "Q8",
+      "reported_total_rows": 8,
+      "sha256": "831b799fe26ca374e07bde60774f380f80c48d2be6830ae9de75b6c836b806b7"
+    }
+  ],
+  "query_contract": {
+    "Q1": "\"nectar robbing\" AND \"corolla length\"",
+    "Q2": "\"nectar robbery\" AND \"corolla length\"",
+    "Q3": "(\"nectar robbing\" OR \"nectar robbery\") AND (\"tube length\" OR \"tube depth\")",
+    "Q4": "(\"nectar robbing\" OR \"nectar robbery\") AND (\"flower size\" OR \"flower width\")",
+    "Q5": "(\"nectar robbing\" OR \"nectar robbery\" OR \"floral larceny\") AND (\"floral morphology\" OR \"nectar accessibility\" OR \"trait mismatch\")",
+    "Q6": "(\"nectar robbing\" OR \"nectar robbery\") AND (\"tongue length\" OR proboscis OR glossa OR \"bill length\")",
+    "Q7": "(\"nectar robbing\" OR \"nectar robbery\") AND (\"morphological constraint\" OR \"morphological constraints\" OR \"short-tongued\")",
+    "Q8": "(\"nectar robbing\" OR \"nectar robbery\") AND (\"switch to robbing\" OR \"switching to robbing\" OR \"shortened corolla\")"
+  },
+  "schema": "BITA_DIRECT_ACCESS_GEOMETRY_OPENALEX_FETCH_V1",
+  "search_date": "2026-09-25",
+  "source_db": "OpenAlex",
+  "status": "COMPLETE_OUTCOME_BLIND_Q1_Q8_OPENALEX_EXPORT"
+}
