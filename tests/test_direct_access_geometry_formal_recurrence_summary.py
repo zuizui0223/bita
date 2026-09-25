@@ -295,11 +295,16 @@ def test_formal_summary_fails_if_historical_anchor_missing_from_frame(tmp_path: 
 
 def test_formal_summary_fails_if_source_databases_are_mixed(tmp_path: Path) -> None:
     screen, decisions, bootstrap, historical, crosswalk = _fixture(tmp_path)
-    rows = list(csv.DictReader(decisions.open(encoding="utf-8")))
-    rows[-1]["source_dbs"] = "WebOfScience"
-    write(rows, decisions)
 
-    with pytest.raises(ValueError, match="FULLTEXT_VALIDATE_IMMUTABLE_METADATA_CHANGED"):
+    screen_rows = list(csv.DictReader(screen.open(encoding="utf-8")))
+    screen_rows[-1]["source_dbs"] = "WebOfScience"
+    _write(screen, SCREEN_REQUIRED, screen_rows)
+
+    decision_rows = list(csv.DictReader(decisions.open(encoding="utf-8")))
+    decision_rows[-1]["source_dbs"] = "WebOfScience"
+    write(decision_rows, decisions)
+
+    with pytest.raises(ValueError, match="FORMAL_SUMMARY_EXPECTED_SINGLE_SOURCE_DB"):
         summarize(
             screen,
             decisions,
