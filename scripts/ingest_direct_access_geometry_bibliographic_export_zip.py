@@ -10,6 +10,10 @@ import zipfile
 from pathlib import Path, PurePosixPath
 
 from scripts.prepare_direct_access_geometry_bibliographic_frame import prepare
+from scripts.bootstrap_direct_access_geometry_bibliographic_screen import (
+    bootstrap as bootstrap_screen,
+    write as write_screen,
+)
 
 ALLOWED_QUERY_SUFFIXES = {".csv", ".tsv", ".txt", ".json"}
 COUNT_NAME = "QUERY_COUNTS.csv"
@@ -112,9 +116,28 @@ def ingest(
                 source_db=source_db,
             )
 
+    frame_path = output_dir / "DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_FRAME_V1.csv"
+    frame_receipt_path = (
+        output_dir / "DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_FRAME_RECEIPT_V1.json"
+    )
+    screen_rows, screen_receipt = bootstrap_screen(
+        frame_path,
+        frame_receipt_path,
+    )
+    screen_path = output_dir / "DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_V1.csv"
+    screen_receipt_path = (
+        output_dir
+        / "DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_BOOTSTRAP_RECEIPT_V1.json"
+    )
+    write_screen(screen_rows, screen_path)
+    screen_receipt_path.write_text(
+        json.dumps(screen_receipt, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
     receipt = {
         "schema": "BITA_DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_ZIP_INTAKE_V1",
-        "status": "Q1_Q8_ZIP_INGESTED_OUTCOME_BLIND",
+        "status": "Q1_Q8_ZIP_INGESTED_FRAME_FROZEN_SCREEN_BOOTSTRAPPED",
         "archive_name": archive.name,
         "archive_bytes": archive.stat().st_size,
         "uncompressed_bytes": total,
@@ -124,6 +147,15 @@ def ingest(
         "all_query_export_counts_verified": result["all_query_export_counts_verified"],
         "input_rows": result["input_rows"],
         "unique_bibliographic_records": result["unique_bibliographic_records"],
+        "outcome_blind_frame_frozen": True,
+        "screen_bootstrap_status": screen_receipt["status"],
+        "screen_file": screen_path.name,
+        "screen_bootstrap_receipt_file": screen_receipt_path.name,
+        "known_direct_corpus_programs": screen_receipt["known_direct_corpus_programs"],
+        "known_programs_matched": screen_receipt["known_programs_matched"],
+        "known_programs_unmatched": screen_receipt["known_programs_unmatched"],
+        "pending_fulltext_records": screen_receipt["pending_fulltext_records"],
+        "unknown_record_direction_coded": False,
         "formal_recurrence_result_open": False,
         "primary_standardized_network_k": 2,
     }
