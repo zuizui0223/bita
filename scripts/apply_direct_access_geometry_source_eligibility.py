@@ -32,7 +32,6 @@ ELIGIBLE_STATES = {
     "ELIGIBLE_DIRECT_NEW",
     "ELIGIBLE_DIRECT_NETWORK_OVERLAP",
 }
-PENDING_DUPLICATE_STATES = {"DUPLICATE_DATA_RECORD"}
 
 
 def _read(path: Path) -> tuple[tuple[str, ...], list[dict[str, str]]]:
@@ -102,7 +101,7 @@ def apply(
                 f"basis={basis};source={source}"
             )
             frozen_eligible += 1
-        elif state in PENDING_DUPLICATE_STATES:
+        elif state.startswith("DUPLICATE_"):
             if not program or not basis or not source:
                 raise ValueError(f"ELIG_APPLY_DUPLICATE_MISSING_PROVENANCE:{fid}")
             decision["notes"] = (
