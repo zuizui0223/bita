@@ -1,0 +1,20 @@
+{
+  "effect_direction_inspected": false,
+  "eligibility_decision_made": false,
+  "schema": "BITA_DIRECT_ACCESS_GEOMETRY_DIRECTION_BLIND_PRIORITY_QUEUE_V1",
+  "score_counts": {
+    "0": 27,
+    "1": 4,
+    "12": 6,
+    "13": 2,
+    "2": 38,
+    "3": 26,
+    "4": 1,
+    "6": 25,
+    "7": 15,
+    "8": 16,
+    "9": 13
+  },
+  "status": "DIRECTION_BLIND_PRIORITY_QUEUE_COMPLETE",
+  "unresolved_candidates": 173
+}
