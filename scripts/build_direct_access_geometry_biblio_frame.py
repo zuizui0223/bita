@@ -457,6 +457,7 @@ def build_frame(config: dict[str, Any]) -> tuple[list[dict[str, str]], dict[str,
     geometry_terms = list(config["screening_priority_terms"]["geometry"])
 
     frame: list[dict[str, str]] = []
+    excluded_no_larceny_text_match = 0
     for key in sorted(merged):
         record = merged[key]
         text_blob = " ".join(
@@ -465,6 +466,10 @@ def build_frame(config: dict[str, Any]) -> tuple[list[dict[str, str]], dict[str,
                 record.get("abstract", ""),
             ]
         )
+        larceny_match = _flag(text_blob, larceny_terms)
+        if not larceny_match:
+            excluded_no_larceny_text_match += 1
+            continue
         frame.append(
             {
                 "candidate_id": _candidate_id(key),
@@ -481,7 +486,7 @@ def build_frame(config: dict[str, Any]) -> tuple[list[dict[str, str]], dict[str,
                 "matched_query_ids": ";".join(sorted(record["matched_query_ids"])),
                 "source_urls": ";".join(sorted(x for x in record["source_urls"] if x)),
                 "best_provider_rank": str(record["best_provider_rank"]),
-                "larceny_text_match": "true" if _flag(text_blob, larceny_terms) else "false",
+                "larceny_text_match": "true",
                 "geometry_text_match": "true" if _flag(text_blob, geometry_terms) else "false",
                 "screen_status": "UNSCREENED",
                 "screen_reason": "",
@@ -494,14 +499,15 @@ def build_frame(config: dict[str, Any]) -> tuple[list[dict[str, str]], dict[str,
         "query_count": len(queries),
         "provider_query_count": len(query_receipts),
         "raw_provider_records": len(raw_records),
+        "deduplicated_provider_candidates_before_text_gate": len(merged),
+        "excluded_no_larceny_text_match": excluded_no_larceny_text_match,
         "deduplicated_candidates": len(frame),
-        "larceny_text_match_candidates": sum(
-            row["larceny_text_match"] == "true" for row in frame
-        ),
+        "larceny_text_match_candidates": len(frame),
         "geometry_text_match_candidates": sum(
             row["geometry_text_match"] == "true" for row in frame
         ),
-        "all_records_retained_before_screening": True,
+        "larceny_text_gate_is_outcome_blind": True,
+        "all_records_retained_before_screening": False,
         "formal_recurrence_result_open": False,
         "query_receipts": query_receipts,
     }
