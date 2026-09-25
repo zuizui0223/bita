@@ -65,7 +65,7 @@ def classify_title_abstract(title: str, abstract: str) -> str:
     return "EXCLUDE_NO_ROUTE_SIGNAL"
 
 
-def _openalex_id(source_record_ids: str) -> str:
+def _openalex_ids(source_record_ids: str) -> list[str]:
     values = [value.strip() for value in source_record_ids.split("|") if value.strip()]
     ids = []
     for value in values:
@@ -76,11 +76,11 @@ def _openalex_id(source_record_ids: str) -> str:
         elif value.startswith("OpenAlex:W"):
             ids.append(value.removeprefix("OpenAlex:"))
     ids = sorted(set(ids))
-    if len(ids) != 1:
+    if not ids:
         raise ValueError(
-            "TA_SCREEN_EXPECTED_ONE_OPENALEX_ID:" + source_record_ids
+            "TA_SCREEN_OPENALEX_ID_NOT_FOUND:" + source_record_ids
         )
-    return ids[0]
+    return ids
 
 
 def _fetch_work(work_id: str, attempts: int = 6) -> dict[str, Any]:
@@ -139,23 +139,48 @@ def run(
         if frame["source_dbs"].strip() != "OpenAlex":
             raise ValueError(f"TA_SCREEN_NON_OPENALEX_PENDING_RECORD:{fid}")
 
-        work_id = _openalex_id(frame["source_record_ids"])
-        work = _fetch_work(work_id)
-        fetched += 1
-        provider_ids.append(work_id)
-        title = str(work.get("title") or work.get("display_name") or decision["title"]).strip()
-        abstract = _abstract_text(work.get("abstract_inverted_index"))
-        state = classify_title_abstract(title, abstract)
+        work_ids = _openalex_ids(frame["source_record_ids"])
+        titles = []
+        abstracts = []
+        any_missing_abstract = False
+        for work_id in work_ids:
+            work = _fetch_work(work_id)
+            fetched += 1
+            provider_ids.append(work_id)
+            titles.append(
+                str(
+                    work.get("title")
+                    or work.get("display_name")
+                    or decision["title"]
+                ).strip()
+            )
+            abstract = _abstract_text(work.get("abstract_inverted_index"))
+            abstracts.append(abstract)
+            if not abstract:
+                any_missing_abstract = True
+            time.sleep(0.11)
 
-        if not abstract:
+        combined_title = " ".join(value for value in titles if value)
+        combined_abstract = " ".join(value for value in abstracts if value)
+        state = (
+            "FULLTEXT_REQUIRED"
+            if any_missing_abstract
+            else classify_title_abstract(combined_title, combined_abstract)
+        )
+
+        if any_missing_abstract:
             missing_abstract += 1
 
+        source_identifier = "|".join(
+            f"OpenAlex:{work_id}" for work_id in work_ids
+        )
         if state == "EXCLUDE_NO_ROUTE_SIGNAL":
             decision["decision_status"] = "INELIGIBLE_TITLE_ABSTRACT_NO_ROUTE_OUTCOME"
             decision["decision_basis"] = "DIRECTION_BLIND_TITLE_ABSTRACT_NO_ROBBERY_ROUTE_SIGNAL"
-            decision["source_identifier"] = f"OpenAlex:{work_id}"
+            decision["source_identifier"] = source_identifier
             decision["notes"] = (
-                "Available OpenAlex title+abstract contained no direct nectar-robbery/"
+                "All deduplicated OpenAlex source records had abstracts and the "
+                "combined title+abstract text contained no direct nectar-robbery/"
                 "floral-larceny/illegitimate-route signal; no effect direction inspected."
             )
             excluded += 1
@@ -164,8 +189,6 @@ def run(
                 "FULLTEXT_REQUIRED_AFTER_DIRECTION_BLIND_TITLE_ABSTRACT_SCREEN"
             )
             fulltext_required += 1
-
-        time.sleep(0.11)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", encoding="utf-8", newline="") as handle:
@@ -186,7 +209,8 @@ def run(
             "no frozen robbery/bypass-route signal; missing abstracts are retained"
         ),
         "provider": "OpenAlex",
-        "provider_work_ids_unique": len(provider_ids) == len(set(provider_ids)),
+        "provider_work_fetches": len(provider_ids),
+        "unique_provider_work_ids": len(set(provider_ids)),
     }
     receipt_path.write_text(
         json.dumps(receipt, indent=2, sort_keys=True) + "\n",
