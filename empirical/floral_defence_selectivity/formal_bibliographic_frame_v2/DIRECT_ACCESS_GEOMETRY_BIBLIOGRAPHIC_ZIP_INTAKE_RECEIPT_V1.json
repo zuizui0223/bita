@@ -1,0 +1,43 @@
+{
+  "all_query_export_counts_verified": true,
+  "archive_bytes": 1067110,
+  "archive_files": [
+    "Q1.json",
+    "Q2.json",
+    "Q3.json",
+    "Q4.json",
+    "Q5.json",
+    "Q6.json",
+    "Q7.json",
+    "Q8.json",
+    "QUERY_COUNTS.csv"
+  ],
+  "archive_name": "DIRECT_ACCESS_GEOMETRY_OPENALEX_Q1_Q8_FINAL.zip",
+  "formal_recurrence_result_open": false,
+  "fulltext_decision_template_file": "DIRECT_ACCESS_GEOMETRY_FULLTEXT_DECISIONS_V1.csv",
+  "fulltext_decision_template_rows": 857,
+  "input_rows": 1699,
+  "known_direct_corpus_programs": 24,
+  "known_programs_matched": 23,
+  "known_programs_provider_absent": [
+    "Urcelay_Morales_Chalcoff_2006"
+  ],
+  "known_programs_unmatched": [
+    "Urcelay_Morales_Chalcoff_2006"
+  ],
+  "known_programs_unresolved": [],
+  "outcome_blind_frame_frozen": true,
+  "pending_fulltext_records": 834,
+  "primary_standardized_network_k": 2,
+  "provider_coverage_exceptions_applied": true,
+  "schema": "BITA_DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_ZIP_INTAKE_V1",
+  "screen_bootstrap_receipt_file": "DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_BOOTSTRAP_RECEIPT_V1.json",
+  "screen_bootstrap_status": "FRAME_SCREEN_BOOTSTRAPPED_KNOWN_CORPUS_RECALL_ACCOUNTED_PROVIDER_ABSENCE",
+  "screen_file": "DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_V1.csv",
+  "search_date": "2026-09-25",
+  "source_db": "OpenAlex",
+  "status": "Q1_Q8_ZIP_INGESTED_FRAME_FROZEN_SCREEN_BOOTSTRAPPED",
+  "uncompressed_bytes": 9450593,
+  "unique_bibliographic_records": 857,
+  "unknown_record_direction_coded": false
+}
