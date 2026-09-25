@@ -11,14 +11,31 @@
       "endpoint": "https://api.crossref.org/works",
       "work_type": "journal-article",
       "query_field": "query.title",
-      "rows_per_page": 1000
+      "rows_per_page": 1000,
+      "query_ids": [
+        "Q01",
+        "Q02",
+        "Q03",
+        "Q04",
+        "Q08"
+      ]
     },
     "openalex": {
       "enabled": true,
       "endpoint": "https://api.openalex.org/works",
       "work_type": "article",
       "rows_per_page": 200,
-      "exact_phrase_search": true
+      "exact_phrase_search": true,
+      "query_ids": [
+        "Q01",
+        "Q02",
+        "Q03",
+        "Q04",
+        "Q05",
+        "Q06",
+        "Q07",
+        "Q08"
+      ]
     }
   },
   "queries": [
@@ -84,7 +101,7 @@
       "spur length"
     ]
   },
-  "retention_rule": "Retrieve the complete provider result set for each frozen query up to the fail-closed provider cap, deduplicate, then retain only records whose title or indexed abstract contains a frozen nectar-larceny text stem. This text gate is outcome-blind and does not use geometry or effect direction.",
+  "retention_rule": "Crossref retrieves the complete result sets for frozen robbing/robbery/robber(s)/floral-larceny title queries; OpenAlex retrieves exact-phrase result sets for all eight frozen larceny queries, including theft/thief/thieving variants. Results are deduplicated, then retained only when title or indexed abstract contains a frozen nectar-larceny text stem. This text gate is outcome-blind and does not use geometry or effect direction.",
   "deduplication_rule": [
     "normalized DOI when present",
     "otherwise normalized title plus publication year"
