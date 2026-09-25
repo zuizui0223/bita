@@ -84,6 +84,16 @@ def summarize(
         raise ValueError("FORMAL_SUMMARY_PROGRAM_IDS_NOT_UNIQUE")
 
     decisions = _read_csv(decisions_path)
+    source_dbs = sorted({
+        row["source_dbs"].strip()
+        for row in decisions
+        if row["source_dbs"].strip()
+    })
+    if len(source_dbs) != 1:
+        raise ValueError(
+            "FORMAL_SUMMARY_EXPECTED_SINGLE_SOURCE_DB:" + ",".join(source_dbs)
+        )
+
     eligible_rows = [
         row for row in decisions
         if row["decision_status"].strip() == "ELIGIBLE_DIRECT"
@@ -136,6 +146,7 @@ def summarize(
         "schema": "BITA_DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1",
         "status": "FORMAL_FINITE_FRAME_DIRECTION_SUMMARY_OPEN",
         "frame_records": fulltext["frame_records"],
+        "source_db": source_dbs[0],
         "eligible_direct_programs": len(eligible_rows),
         "direction_counts": {
             key: direction_counts.get(key, 0) for key in DIRECTIONS
