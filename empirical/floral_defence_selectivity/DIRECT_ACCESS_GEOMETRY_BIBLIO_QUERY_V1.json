@@ -17,7 +17,12 @@
         "Q02",
         "Q03",
         "Q04",
-        "Q08"
+        "Q08",
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05"
       ]
     },
     "openalex": {
@@ -34,7 +39,12 @@
         "Q05",
         "Q06",
         "Q07",
-        "Q08"
+        "Q08",
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05"
       ],
       "disabled_reason": "OpenAlex API requires an API key under the current 2026 access model; the production freeze is Crossref-only unless an explicit authenticated provider contract is added before screening."
     }
@@ -42,35 +52,68 @@
   "queries": [
     {
       "query_id": "Q01",
-      "text": "nectar robbing"
+      "text": "nectar robbing",
+      "query_role": "CORE_LARCENY"
     },
     {
       "query_id": "Q02",
-      "text": "nectar robbery"
+      "text": "nectar robbery",
+      "query_role": "CORE_LARCENY"
     },
     {
       "query_id": "Q03",
-      "text": "nectar robber"
+      "text": "nectar robber",
+      "query_role": "CORE_LARCENY"
     },
     {
       "query_id": "Q04",
-      "text": "nectar robbers"
+      "text": "nectar robbers",
+      "query_role": "CORE_LARCENY"
     },
     {
       "query_id": "Q05",
-      "text": "nectar thieving"
+      "text": "nectar thieving",
+      "query_role": "CORE_LARCENY"
     },
     {
       "query_id": "Q06",
-      "text": "nectar theft"
+      "text": "nectar theft",
+      "query_role": "CORE_LARCENY"
     },
     {
       "query_id": "Q07",
-      "text": "nectar thief"
+      "text": "nectar thief",
+      "query_role": "CORE_LARCENY"
     },
     {
       "query_id": "Q08",
-      "text": "floral larceny"
+      "text": "floral larceny",
+      "query_role": "CORE_LARCENY"
+    },
+    {
+      "query_id": "S01",
+      "text": "sunbird pollination long billed",
+      "query_role": "SENTINEL_CALIBRATION"
+    },
+    {
+      "query_id": "S02",
+      "text": "flowerpiercer interactions",
+      "query_role": "SENTINEL_CALIBRATION"
+    },
+    {
+      "query_id": "S03",
+      "text": "illegitimate flower visitors morphology",
+      "query_role": "SENTINEL_CALIBRATION"
+    },
+    {
+      "query_id": "S04",
+      "text": "long corollas nectar barriers",
+      "query_role": "SENTINEL_CALIBRATION"
+    },
+    {
+      "query_id": "S05",
+      "text": "plant animal interactions suburban floral evolution",
+      "query_role": "SENTINEL_CALIBRATION"
     }
   ],
   "screening_priority_terms": {
@@ -102,11 +145,11 @@
       "spur length"
     ]
   },
-  "retention_rule": "Crossref retrieves the complete result sets for the five frozen nectar-robbing/robbery/robber(s)/floral-larceny general metadata queries within 2000-01-01 through 2026-09-24. General query is used because direct studies may describe larceny in abstracts rather than titles. Results are deduplicated, then retained only when title or Crossref abstract contains a frozen nectar-larceny text stem. This text gate is outcome-blind and does not use geometry or effect direction. Known-direct DOI recall is a blocking validation.",
+  "retention_rule": "Retain a deduplicated Crossref record if either (a) title/abstract contains a frozen nectar-larceny text stem after retrieval by a CORE_LARCENY query, or (b) it was retrieved by one of five frozen SENTINEL_CALIBRATION queries derived from title concepts of known eligible studies spanning bird, flowerpiercer, illegitimate-visitor, nectar-barrier and suburban plant-animal systems. Sentinel queries are calibrated on study identity only, never effect direction. Geometry flags remain priority annotations and do not exclude records.",
   "deduplication_rule": [
     "normalized DOI when present",
     "otherwise normalized title plus publication year"
   ],
   "max_records_per_provider_query": 25000,
-  "formal_inference_gate": "No recurrence statistic may open unless the frozen Crossref frame passes the known-direct DOI recall gate, every retained candidate is screened under the pre-existing geometry contract, duplicates are resolved, and all exclusions are recorded."
+  "formal_inference_gate": "No recurrence statistic may open unless the frozen core-plus-sentinel frame passes the known-direct DOI recall gate, every retained candidate is screened under the pre-existing geometry contract, duplicates are resolved, and exclusions are recorded."
 }
