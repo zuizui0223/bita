@@ -16,6 +16,24 @@ def _write_scopus(path: Path, q: int, doi: str = "") -> None:
     )
 
 
+def _write_counts(path: Path, *, override: dict[str, int] | None = None) -> None:
+    override = override or {}
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=("query_id", "source_db", "reported_total_rows", "search_date"),
+        )
+        writer.writeheader()
+        for q in range(1, 9):
+            qid = f"Q{q}"
+            writer.writerow({
+                "query_id": qid,
+                "source_db": "Scopus",
+                "reported_total_rows": override.get(qid, 1),
+                "search_date": "2026-09-25",
+            })
+
+
 def test_prepares_q1_q8_frame_from_one_source(tmp_path: Path) -> None:
     input_dir = tmp_path / "exports"
     output_dir = tmp_path / "prepared"
