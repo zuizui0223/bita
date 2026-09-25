@@ -71,9 +71,10 @@ ACCESS_RE = re.compile(
     re.I,
 )
 QUANT_RE = re.compile(
-    r"\b(?:regress\w*|correlat\w*|association|associated|probability|frequency|"
-    r"generalized\s+linear|glm\b|mixed[-\s]effect|model(?:led|ed|ing)?|"
-    r"odds\s+ratio|chi[-\s]?square|anova\b|p\s*[<=>]|r\s*2\s*=|r\^2)\b",
+    r"(?:\b(?:regress\w*|correlat\w*|association|associated|probability|frequency|"
+    r"generalized\s+linear|glm|mixed[-\s]effect|model(?:led|ed|ing)?|"
+    r"odds\s+ratio|chi[-\s]?square|anova)\b|"
+    r"\bp\s*[<=>]|\br\s*2\s*=|\br\^2\b)",
     re.I,
 )
 STOP = {
