@@ -1,0 +1,2 @@
+study_id,source_db,provider_check,provider_result_count,external_verification,adjudication,notes
+Urcelay_Morales_Chalcoff_2006,OpenAlex,exact_title_search_2006,0,Annales_Botanici_Fennici_43_205_211,VERIFIED_PROVIDER_ABSENCE,"Exact-title OpenAlex works search returned zero on 2026-09-25; publisher PDF independently verifies the 2006 article. The known effect direction is not used to alter the bibliographic frame."
