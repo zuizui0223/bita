@@ -182,7 +182,7 @@ def _openalex_rows(payload: object) -> list[dict[str, str]]:
         rows.append({
             "record_id": str(item.get("id") or "").strip(),
             "doi": _norm_doi(item.get("doi")),
-            "title": str(item.get("title") or "").strip(),
+            "title": str(item.get("title") or item.get("display_name") or "").strip(),
             "year": str(item.get("publication_year") or "").strip(),
             "authors": _join_openalex_authors(item),
             "publication": publication,
