@@ -80,7 +80,7 @@ rows from different source programs. Current label-level screening is 50
 geometry-ineligible, 4 eligible, and 2 provenance-conflicted. Only 4 of the 15
 direct programs overlap the Leal frame. The two source conflicts do not affect geometry eligibility: all verified/plausible
 source components are geometry-ineligible, so the historical direct-eligible set is
-stable at four. The deterministic bibliographic-frame builder and frozen Q1–Q8 query contract are implemented. The remaining gate before any formal recurrence statistic is the complete raw Q1–Q8 bibliographic export, followed by deterministic deduplication and frame freeze.
+stable at four. The deterministic bibliographic-frame builder, frozen Q1–Q8 query contract, provider-export normalizer and one-command Q1–Q8 intake are implemented. The remaining gate before any formal recurrence statistic is one complete Q1–Q8 export from a single bibliographic database; normalization, deterministic deduplication and frame freezing are then automated.
 
 The floral-defence corpus and effective-access / exposure framework are retained as
 mechanistic context for why route switching is biologically plausible. They are not
@@ -147,7 +147,10 @@ FORMAL_HISTORICAL_PROVENANCE_CONFLICTS = 2
 HISTORICAL_DIRECT_ELIGIBLE_SET = RESOLVED_AT_4_INVARIANT_TO_CONFLICT_SPLIT
 STAGE_U_BATCHES_1_2 = 23_CANDIDATES_9_ELIGIBLE_1_DUPLICATE_13_INELIGIBLE
 STAGE_U_SEARCH = FINAL_SYNONYM_PASS_COMPLETE_BOUNDED_SEARCH_STILL_NOT_FORMAL
-FORMAL_BIBLIOGRAPHIC_FRAME_BUILDER = IMPLEMENTED_AWAITING_Q1_Q8_RAW_EXPORT
+FORMAL_BIBLIOGRAPHIC_FRAME_BUILDER = IMPLEMENTED
+BIBLIOGRAPHIC_EXPORT_NORMALIZER = IMPLEMENTED_SCOPUS_WOS_CROSSREF_OPENALEX
+BIBLIOGRAPHIC_Q1_Q8_ONE_COMMAND_INTAKE = IMPLEMENTED
+FORMAL_BIBLIOGRAPHIC_FRAME = AWAITING_COMPLETE_SINGLE_DB_Q1_Q8_EXPORT
 FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
 EXTENDED_SYNTHESIS = PRESERVED_RESERVE
 LEGACY_IDENTIFICATION_PAPER = PRESERVED_SUPPORT
