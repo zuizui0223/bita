@@ -66,6 +66,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No full-text screening changes."
           else
+            git commit -m "Screen formal OA full texts direction-blind"
             git pull --rebase origin analysis/formal-biblio-openalex-fetch-v1
             git push origin HEAD:analysis/formal-biblio-openalex-fetch-v1
           fi
