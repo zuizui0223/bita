@@ -250,7 +250,10 @@ DISCOVERY_NOT_IN_HISTORICAL_FRAME = 20
 HISTORICAL_SCREEN = 52_GEOMETRY_INELIGIBLE_4_ELIGIBLE_WITH_2_SOURCE_IDENTITY_CONFLICTS
 STAGE_U_BATCHES_1_2 = 23_CANDIDATES_9_ELIGIBLE_1_DUPLICATE_13_INELIGIBLE
 STAGE_U_SEARCH = FINAL_SYNONYM_PASS_COMPLETE_BOUNDED_SEARCH_STILL_NOT_FORMAL
-FORMAL_BIBLIOGRAPHIC_FRAME_BUILDER = IMPLEMENTED_AWAITING_Q1_Q8_RAW_EXPORT
+FORMAL_BIBLIOGRAPHIC_FRAME_BUILDER = IMPLEMENTED
+BIBLIOGRAPHIC_EXPORT_NORMALIZER = IMPLEMENTED_SCOPUS_WOS_CROSSREF_OPENALEX
+BIBLIOGRAPHIC_Q1_Q8_ONE_COMMAND_INTAKE = IMPLEMENTED
+FORMAL_BIBLIOGRAPHIC_FRAME = AWAITING_COMPLETE_SINGLE_DB_Q1_Q8_EXPORT
 FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
 ```
 
@@ -267,6 +270,9 @@ Assets:
 - `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_FRAME_CONTRACT_V1.md`
 - `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_RAW_EXPORT_TEMPLATE_V1.csv`
 - `scripts/build_direct_access_geometry_bibliographic_frame.py`
+- `scripts/normalize_direct_access_geometry_bibliographic_export.py`
+- `scripts/prepare_direct_access_geometry_bibliographic_frame.py`
+- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_EXPORT_PACKET_V1.md`
 
 The Leal `study` field is an outcome-independent historical anchor, but its 56
 distinct labels are not automatically 56 independent biological programs. A
@@ -274,9 +280,11 @@ provenance audit identified two split-required labels. Of the 56 labels, current
 screening has 50 ineligible geometry labels, 4 eligible direct tests, and 2
 provenance conflicts. Only 4 of the 24 current direct programs overlap the frame.
 The source conflicts no longer affect the direct-eligible set. The deterministic
-bibliographic-frame builder and Q1–Q8 query contract are implemented. The remaining
-gate before any directional recurrence test is the complete raw Q1–Q8 bibliographic
-export, which must be imported and frozen before full-text direction coding.
+bibliographic-frame builder, provider-export normalizer and one-command Q1–Q8 intake
+are implemented. The remaining gate before any directional recurrence test is one
+complete raw Q1–Q8 export from a single bibliographic database; after that,
+normalization, deduplication and frame freezing are automated before full-text
+direction coding.
 
 Matched effective-domain classifications are author-coded and have not yet undergone outcome-blind independent recoding. They are therefore not treated as independent validation in the Letter, and the 11/11 state alignment is not a headline or confirmatory result.
 
