@@ -131,6 +131,17 @@ def validate(
             "FULLTEXT_VALIDATE_DUPLICATE_ELIGIBLE_PROGRAM_IDS:" + ",".join(duplicates)
         )
 
+    eligible_program_set = set(eligible_programs)
+    orphan_duplicate_targets = sorted(
+        target for target in set(duplicate_targets)
+        if target not in eligible_program_set
+    )
+    if orphan_duplicate_targets:
+        raise ValueError(
+            "FULLTEXT_VALIDATE_DUPLICATE_TARGET_NOT_ELIGIBLE:"
+            + ",".join(orphan_duplicate_targets)
+        )
+
     if require_complete and pending:
         raise ValueError(
             "FULLTEXT_VALIDATE_PENDING_RECORDS:" + ",".join(sorted(pending))
