@@ -1,0 +1,70 @@
+{
+  "schema": "BITA_DIRECT_ACCESS_GEOMETRY_BIBLIO_QUERY_V1",
+  "freeze_date": "2026-09-25",
+  "publication_window": {
+    "from": "2000-01-01",
+    "until": "2026-09-24"
+  },
+  "providers": {
+    "crossref": {
+      "enabled": true,
+      "endpoint": "https://api.crossref.org/works",
+      "work_type": "journal-article",
+      "query_field": "query.title",
+      "rows_per_page": 1000
+    },
+    "openalex": {
+      "enabled": true,
+      "endpoint": "https://api.openalex.org/works",
+      "work_type": "article",
+      "rows_per_page": 200,
+      "exact_phrase_search": true
+    }
+  },
+  "queries": [
+    {"query_id": "Q01", "text": "nectar robbing"},
+    {"query_id": "Q02", "text": "nectar robbery"},
+    {"query_id": "Q03", "text": "nectar robber"},
+    {"query_id": "Q04", "text": "nectar robbers"},
+    {"query_id": "Q05", "text": "nectar thieving"},
+    {"query_id": "Q06", "text": "nectar theft"},
+    {"query_id": "Q07", "text": "nectar thief"},
+    {"query_id": "Q08", "text": "floral larceny"}
+  ],
+  "screening_priority_terms": {
+    "larceny": [
+      "nectar rob",
+      "nectar thiev",
+      "nectar theft",
+      "floral larcen"
+    ],
+    "geometry": [
+      "corolla",
+      "tube length",
+      "tube depth",
+      "flower length",
+      "flower size",
+      "flower width",
+      "floral morphology",
+      "morphological constraint",
+      "accessibility",
+      "access mismatch",
+      "trait mismatch",
+      "tongue length",
+      "short-tongued",
+      "long-tongued",
+      "proboscis",
+      "glossa",
+      "bill length",
+      "rostrum",
+      "spur length"
+    ]
+  },
+  "retention_rule": "Retain every provider result returned by every frozen larceny query. Priority flags never exclude a record.",
+  "deduplication_rule": [
+    "normalized DOI when present",
+    "otherwise normalized title plus publication year"
+  ],
+  "max_records_per_provider_query": 5000,
+  "formal_inference_gate": "No recurrence statistic may open until this finite frame is frozen, all candidates are screened under the pre-existing geometry contract, duplicates are resolved, and the historical provenance gate remains satisfied."
+}
