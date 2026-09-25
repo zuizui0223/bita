@@ -92,13 +92,22 @@ def _norm_title(value: object) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
-def _candidate_key(doi: str, title: str, year: str) -> str:
+def _candidate_key(
+    doi: str,
+    title: str,
+    year: str,
+    *,
+    fallback_provider_id: str = "",
+) -> str:
     if doi:
         return f"doi:{doi}"
     norm_title = _norm_title(title)
-    if not norm_title:
-        raise ValueError("BIBLIO_RECORD_MISSING_DOI_AND_TITLE")
-    return f"titleyear:{norm_title}|{year or 'unknown'}"
+    if norm_title:
+        return f"titleyear:{norm_title}|{year or 'unknown'}"
+    fallback = _clean_text(fallback_provider_id)
+    if fallback:
+        return f"provider:{fallback}"
+    raise ValueError("BIBLIO_RECORD_MISSING_ALL_IDENTIFIERS")
 
 
 def _candidate_id(identity_key: str) -> str:
@@ -194,7 +203,13 @@ def parse_crossref_item(item: dict[str, Any], query_id: str, rank: int) -> dict[
 
     doi = _norm_doi(item.get("DOI"))
     year = _crossref_year(item)
-    identity_key = _candidate_key(doi, title, year)
+    fallback_id = _clean_text(item.get("URL"))
+    identity_key = _candidate_key(
+        doi,
+        title,
+        year,
+        fallback_provider_id=f"crossref:{fallback_id}" if fallback_id else "",
+    )
 
     return {
         "identity_key": identity_key,
@@ -251,7 +266,12 @@ def parse_openalex_item(item: dict[str, Any], query_id: str, rank: int) -> dict[
                 authors.append(name)
 
     provider_id = _clean_text(item.get("id"))
-    identity_key = _candidate_key(doi, title, year)
+    identity_key = _candidate_key(
+        doi,
+        title,
+        year,
+        fallback_provider_id=f"openalex:{provider_id}" if provider_id else "",
+    )
     urls = set()
     if provider_id:
         urls.add(provider_id)
