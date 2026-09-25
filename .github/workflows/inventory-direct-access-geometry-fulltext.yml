@@ -6,6 +6,8 @@ on:
       - analysis/formal-biblio-openalex-fetch-v1
     paths:
       - .github/workflows/inventory-direct-access-geometry-fulltext.yml
+      - scripts/inventory_direct_access_geometry_fulltext_access.py
+      - empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V2.csv
 
 permissions:
   contents: write
