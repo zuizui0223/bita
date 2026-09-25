@@ -169,3 +169,19 @@ def test_build_frame_deduplicates_providers_without_filtering_non_geometry_recor
 def test_candidate_id_is_stable() -> None:
     assert mod._candidate_id("doi:10.1000/x") == mod._candidate_id("doi:10.1000/x")
     assert mod._candidate_id("doi:10.1000/x") != mod._candidate_id("doi:10.1000/y")
+
+
+def test_provider_id_fallback_preserves_unidentified_openalex_record() -> None:
+    item = {
+        "id": "https://openalex.org/W123",
+        "doi": None,
+        "title": None,
+        "publication_year": 2020,
+        "publication_date": "2020-01-01",
+        "authorships": [],
+        "primary_location": None,
+        "abstract_inverted_index": None,
+    }
+    parsed = mod.parse_openalex_item(item, "Q01", 1)
+    assert parsed["identity_key"] == "provider:openalex:https://openalex.org/W123"
+    assert parsed["provider_ids"] == {"openalex:https://openalex.org/W123"}
