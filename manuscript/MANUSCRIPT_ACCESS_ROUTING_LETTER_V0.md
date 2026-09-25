@@ -144,6 +144,14 @@ r_J=
 
 The permutation null preserved each dataset's sampling structure. In Sakhalkar, bypass-response values were shuffled across plant species. In Aubert/EPHI, robbery-rate ranks were shuffled within site. For every permutation, both network correlations and the equal-network joint effect were recomputed. We used 9,999 permutations and a two-sided test.
 
+### Bounded direct access-geometry literature audit
+
+To separate standardized network replication from broader direct evidence, we also assembled a bounded supporting corpus of studies that explicitly tested mechanical floral access geometry against nectar-robbing or bypass use. Eligibility required an empirical study, a floral or visitor–flower access variable measured independently of the robbery outcome, a route-resolved robbery response, and a quantitative comparison from which direction could be coded. Positive, null, mixed and opposite results were retained under the same rule.
+
+The historical anchor was the 56 distinct nectar-robber `study` labels in the public meta-analysis of Leal et al. (2025). All 56 labels were screened against the geometry contract. Fifty were ineligible because they measured consequences of robbery rather than geometry as a predictor, four contained direct geometry tests, and two labels contained mixed source provenance; separate source auditing showed that all plausible components of those two conflicted labels were geometry-ineligible, so the historical direct-eligible set remained four.
+
+We then performed a bounded geometry-specific update through 24 September 2026 using predefined combinations of nectar-robbing terms with corolla length, tube depth, flower size, accessibility, trait mismatch and visitor reach terms. Duplicate, non-geometric and consequence-only studies were retained in a screening registry with explicit exclusion reasons. Because this update was not generated from a finite exportable bibliographic database frame, its counts are descriptive supporting evidence only: we do not estimate prevalence, perform a sign test, pool effect sizes, or add these studies to the standardized network `k`.
+
 ### Floral-defence evidence as mechanistic context
 
 The network analysis tests route switching rather than the evolutionary origin of floral barriers. To evaluate whether its interpretation is biologically consistent with the floral-defence literature, we use an existing source-adjudicated corpus assembled under a frozen same-trait evidence contract.
@@ -214,6 +222,12 @@ Both observed network effects were positive. Under the joint permutation null, t
 
 Thus the strongest empirical result is not merely that each source dataset contains an access association. The primary Ecuadorian test and independent insect corroboration recover nearly the same standardized rank-effect magnitude.
 
+### Direct geometry tests extend beyond the two standardized networks
+
+The bounded direct-evidence corpus contained 24 study programs. Sixteen showed the predicted direction in which greater legitimate-route constraint was associated with more robbery or bypass use, five were null, two were mixed across morphs, populations or access dimensions, and one showed the opposite direction. The corpus included experimental manipulations of corolla access, visitor–flower morphology comparisons, population-level studies and multispecies community analyses.
+
+These counts are deliberately not treated as a success proportion. The corpus was assembled as a bounded supporting audit rather than a finite systematic-review denominator, and its studies differ in predictor construction and response scale. Its role is to establish that the routing relation has been tested directly beyond the two standardized networks while preserving observed boundary conditions.
+
 ### Floral-defence cases provide mechanistic context, not independent validation
 
 The broader defence-side corpus contains 17 unique study programs: nine chemical, seven physical and one reward/access implementation. Ten studies also measured pollinator consequences under the same focal defence, and those outcomes were heterogeneous rather than showing one fixed pollinator penalty. Eight independent systems additionally show within-trait state changes with dose, cumulative exposure, consumer identity, response stage or timing.
@@ -227,6 +241,8 @@ These cases motivate the access/exposure mechanism and its experimental predicti
 ### Access barriers reorganize interactions rather than simply suppress them
 
 The central result is a cross-fauna recurrence of the same routing prediction. Insects and birds differ radically in body size, sensory biology, handling behavior and floral interactions, and the two public datasets were assembled independently for different purposes. Yet after expressing each system as a rank association between access constraint and bypass propensity, their effects were nearly identical: \(r_S=0.347\) and \(r_A=0.351\). The equal-network joint effect was \(r_J=0.349\).
+
+The standardized replication count is therefore still only two networks, but the biological phenomenon is not represented by only two empirical examples. The bounded direct-evidence audit recovered 24 additional study programs spanning experimental, population and community designs, including null, mixed and opposite results. Those studies cannot be pooled into the network statistic, but they show that access geometry and robbery have been tested repeatedly in distinct systems and that failures or reversals occur where the bypass route is itself constrained or other route costs dominate.
 
 This changes the interpretation of floral barriers. A structure that makes the normal route difficult does not necessarily terminate exploitation. If an alternative route remains profitable, the ecological response can be behavioral rerouting. Nectar robbing is therefore not merely residual exploitation that survives a failed barrier; it can be the expected interaction mode when access through the legitimate floral opening becomes mismatched.
 
@@ -266,7 +282,7 @@ Finally, defence experiments should measure pollinator response and antagonist r
 
 ## Conclusion
 
-Across an all-Ecuador bird–flower network and an independent Afrotropical insect network, stronger constraint on the legitimate floral access route is associated with greater bypass exploitation. A joint equal-network rank test yields \(r_J=0.349\) with permutation \(p=0.0001\). Source-audited floral-defence cases provide mechanistic context for access and exposure dependence rather than an independent validation claim.
+Across an all-Ecuador bird–flower network and an independent Afrotropical insect network, stronger constraint on the legitimate floral access route is associated with greater bypass exploitation. A joint equal-network rank test yields \(r_J=0.349\) with permutation \(p=0.0001\). A bounded supporting audit additionally recovers 24 direct access-geometry study programs, including null, mixed and opposite outcomes, while only the two networks share the standardized estimand used for joint inference. Source-audited floral-defence cases provide mechanistic context for access and exposure dependence rather than an independent validation claim.
 
 The ecological implication is simple: **barriers do not only filter interactions; they can reroute them.** Treating access architecture as a determinant of interaction mode provides a general, testable way to connect floral defence, cheating behavior and mutualist–antagonist trade-offs without assuming that one trait has one fixed ecological effect.
 
@@ -303,3 +319,4 @@ Insert the final acknowledgments and funding statement here. All authors must al
 - Rojas-Nossa SV, Sánchez JM, Navarro L (2016) Nectar robbing: a common phenomenon mainly determined by accessibility constraints, nectar volume and density of energy rewards. *Oikos* 125:1044–1055. https://doi.org/10.1111/oik.02685
 - Stanley DA, Cosnett E (2021) Catching the thief: Nectar robbing behaviour by bumblebees on naturalised *Fuchsia magellanica* in Ireland. *Journal of Pollination Ecology* 29:240–248. https://doi.org/10.26786/1920-7603(2021)620
 - Coetzee A, Seymour CL, Spottiswoode CN, Pirie MD, van der Niet T (2026) Is bee-avoidance by bird-pollinated flowers driven by nectar robbing in *Erica*? *Functional Ecology* 40:1046–1060. https://doi.org/10.1111/1365-2435.70276
+- Leal LC, Koski MH, Irwin RE, Bronstein JL (2025) Costs of floral larceny: a meta-analytical evaluation of nectar robbing and nectar theft on animal-pollinated plants. *Ecology* 106:e70036. https://doi.org/10.1002/ecy.70036
