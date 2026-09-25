@@ -64,7 +64,13 @@ jobs:
           assert rows
           assert len(rows) == meta["deduplicated_candidates"]
           assert all(row["screen_status"] == "UNSCREENED" for row in rows)
-          assert meta["all_records_retained_before_screening"] is True
+          assert all(row["larceny_text_match"] == "true" for row in rows)
+          assert meta["larceny_text_gate_is_outcome_blind"] is True
+          assert meta["all_records_retained_before_screening"] is False
+          assert (
+              meta["deduplicated_provider_candidates_before_text_gate"]
+              == meta["deduplicated_candidates"] + meta["excluded_no_larceny_text_match"]
+          )
           assert meta["formal_recurrence_result_open"] is False
           assert meta["query_count"] == 8
           assert meta["provider_query_count"] == 16
