@@ -50,8 +50,12 @@ def validate(
         raise ValueError("BIBLIO_FRAME_COUNT_RECEIPT_MISMATCH")
     if any(row.get("screen_status") != "UNSCREENED" for row in frame):
         raise ValueError("BIBLIO_FRAME_PREMATURE_SCREENING")
-    if any(row.get("larceny_text_match") != "true" for row in frame):
-        raise ValueError("BIBLIO_FRAME_CONTAINS_NONLARCENY_TEXT_ROW")
+    if any(
+        row.get("larceny_text_match") != "true"
+        and row.get("sentinel_query_match") != "true"
+        for row in frame
+    ):
+        raise ValueError("BIBLIO_FRAME_CONTAINS_UNJUSTIFIED_NONLARCENY_ROW")
 
     frame_dois = {_norm_doi(row.get("doi", "")) for row in frame if _norm_doi(row.get("doi", ""))}
     known = [

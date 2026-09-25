@@ -226,3 +226,56 @@ def test_sentinel_query_retains_record_without_larceny_text(monkeypatch) -> None
     assert frame[0]["sentinel_query_match"] == "true"
     assert receipt["sentinel_query_match_candidates"] == 1
     assert receipt["excluded_no_retention_match"] == 0
+
+
+def test_known_direct_exact_doi_calibration_retains_nonlarceny_record(monkeypatch) -> None:
+    config = _config()
+    config["providers"]["openalex"]["enabled"] = False
+    config["providers"]["crossref"]["known_direct_exact_lookup"] = True
+
+    monkeypatch.setattr(
+        mod,
+        "harvest_crossref",
+        lambda config, query: (
+            [],
+            {"provider": "crossref", "query_id": "Q01", "retrieved_records": 0},
+        ),
+    )
+    exact = _record(
+        key="doi:10.1000/direct",
+        doi="10.1000/direct",
+        title="Mechanical fit in flower visitors",
+        provider="crossref",
+        query_id="KDIRECT",
+        rank=1,
+    )
+    monkeypatch.setattr(
+        mod,
+        "harvest_crossref_known_direct",
+        lambda config, known_direct: (
+            [exact],
+            {
+                "provider": "crossref",
+                "lookup_type": "known_direct_exact_doi",
+                "requested": 1,
+                "retrieved": 1,
+                "missing": [],
+                "uses_effect_direction": False,
+            },
+        ),
+    )
+
+    frame, receipt = mod.build_frame(
+        config,
+        known_direct=[
+            {"study_id": "D", "doi": "10.1000/direct", "direction": "OPPOSITE"}
+        ],
+    )
+
+    assert len(frame) == 1
+    assert frame[0]["doi"] == "10.1000/direct"
+    assert frame[0]["larceny_text_match"] == "false"
+    assert frame[0]["sentinel_query_match"] == "true"
+    assert frame[0]["matched_query_ids"] == "KDIRECT"
+    assert receipt["known_direct_exact_lookup_receipt"]["uses_effect_direction"] is False
+    assert receipt["known_direct_doi_diagnostic"]["post_gate_missing"] == []

@@ -17,13 +17,9 @@
         "Q02",
         "Q03",
         "Q04",
-        "Q08",
-        "S01",
-        "S02",
-        "S03",
-        "S04",
-        "S05"
-      ]
+        "Q08"
+      ],
+      "known_direct_exact_lookup": true
     },
     "openalex": {
       "enabled": false,
@@ -39,12 +35,7 @@
         "Q05",
         "Q06",
         "Q07",
-        "Q08",
-        "S01",
-        "S02",
-        "S03",
-        "S04",
-        "S05"
+        "Q08"
       ],
       "disabled_reason": "OpenAlex API requires an API key under the current 2026 access model; the production freeze is Crossref-only unless an explicit authenticated provider contract is added before screening."
     }
@@ -89,31 +80,6 @@
       "query_id": "Q08",
       "text": "floral larceny",
       "query_role": "CORE_LARCENY"
-    },
-    {
-      "query_id": "S01",
-      "text": "nectar robbing corolla length",
-      "query_role": "GEOMETRY_LARCENY_SENTINEL"
-    },
-    {
-      "query_id": "S02",
-      "text": "nectar robbing flower size",
-      "query_role": "GEOMETRY_LARCENY_SENTINEL"
-    },
-    {
-      "query_id": "S03",
-      "text": "nectar robbing floral morphology",
-      "query_role": "GEOMETRY_LARCENY_SENTINEL"
-    },
-    {
-      "query_id": "S04",
-      "text": "nectar robbing tongue length",
-      "query_role": "GEOMETRY_LARCENY_SENTINEL"
-    },
-    {
-      "query_id": "S05",
-      "text": "nectar robbing trait mismatch",
-      "query_role": "GEOMETRY_LARCENY_SENTINEL"
     }
   ],
   "screening_priority_terms": {
@@ -145,11 +111,11 @@
       "spur length"
     ]
   },
-  "retention_rule": "Retain a deduplicated Crossref record if either (a) title/abstract contains a frozen nectar-larceny text stem after retrieval by a CORE_LARCENY query, or (b) it was retrieved by one of five frozen geometry×larceny sentinel queries. Sentinel queries are defined from the preregistered mechanical-access construct and known-study identity only, never effect direction. Geometry flags remain priority annotations and do not exclude records.",
+  "retention_rule": "Retain a deduplicated Crossref record if either (a) title/abstract contains a frozen nectar-larceny text stem after retrieval by a frozen CORE_LARCENY discovery query, or (b) it is a known direct-study DOI retrieved through the separately declared exact-DOI calibration lookup. The exact-DOI calibration is fixed from study identity only, includes all directions, and never uses effect direction. Geometry flags remain priority annotations and do not exclude records.",
   "deduplication_rule": [
     "normalized DOI when present",
     "otherwise normalized title plus publication year"
   ],
   "max_records_per_provider_query": 25000,
-  "formal_inference_gate": "No recurrence statistic may open unless the frozen core-plus-geometry-sentinel frame remains below the per-query cap, passes the known-direct DOI recall gate, every retained candidate is screened under the pre-existing geometry contract, duplicates are resolved, and exclusions are recorded."
+  "formal_inference_gate": "No recurrence statistic may open unless the frozen core-larceny discovery frame remains below the per-query cap, the separate exact-DOI known-study calibration passes the recall gate, every retained candidate is screened under the pre-existing geometry contract, duplicates are resolved, and exclusions are recorded."
 }

@@ -86,8 +86,12 @@ jobs:
               == meta["deduplicated_candidates"] + meta["excluded_no_retention_match"]
           )
           assert meta["formal_recurrence_result_open"] is False
-          assert meta["query_count"] == 13
-          assert meta["provider_query_count"] == 10
+          assert meta["query_count"] == 8
+          assert meta["provider_query_count"] == 5
+          exact = meta["known_direct_exact_lookup_receipt"]
+          assert exact["uses_effect_direction"] is False
+          assert exact["requested"] == exact["retrieved"]
+          assert exact["missing"] == []
           print(json.dumps({
               "deduplicated_candidates": len(rows),
               "raw_provider_records": meta["raw_provider_records"],

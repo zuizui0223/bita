@@ -154,3 +154,34 @@ def test_known_doi_coverage_fails_closed_on_missing_program(tmp_path: Path) -> N
 
     with pytest.raises(ValueError, match="BIBLIO_FRAME_MISSES_KNOWN_DIRECT_PROGRAMS"):
         validate(frame, receipt, direct)
+
+
+def test_known_exact_calibration_row_may_lack_larceny_text(tmp_path: Path) -> None:
+    frame = tmp_path / "frame.csv"
+    direct = tmp_path / "direct.csv"
+    receipt = tmp_path / "receipt.json"
+
+    row = _frame_row("10.1000/direct")
+    row["title"] = "Mechanical fit in flower visitors"
+    row["matched_query_ids"] = "KDIRECT"
+    row["larceny_text_match"] = "false"
+    row["geometry_text_match"] = "true"
+    row["sentinel_query_match"] = "true"
+    _write_csv(frame, FRAME_FIELDS, [row])
+    _write_csv(
+        direct,
+        DIRECT_FIELDS,
+        [_direct_row("D", "10.1000/direct", "NULL")],
+    )
+    receipt.write_text(
+        json.dumps(
+            {
+                "frame_sha256": hashlib.sha256(frame.read_bytes()).hexdigest(),
+                "deduplicated_candidates": 1,
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    result = validate(frame, receipt, direct)
+    assert result["known_doi_missing"] == 0

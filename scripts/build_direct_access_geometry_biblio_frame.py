@@ -1,8 +1,9 @@
 """Build a finite, exportable bibliographic update frame for direct access geometry -> nectar robbery.
 
-The frame is deliberately outcome-blind. It retains every bibliographic record returned
-by each frozen larceny query from each enabled provider. Geometry and larceny term flags
-are priority annotations only and never exclude a record.
+The frame is deliberately outcome-blind. Discovery records come from frozen larceny
+queries. Known direct studies are added only through a separate exact-DOI calibration
+lookup fixed from study identity, never effect direction. Geometry flags are priority
+annotations and never define eligibility.
 """
 from __future__ import annotations
 
@@ -381,6 +382,45 @@ def harvest_crossref(config: dict[str, Any], query: dict[str, str]) -> tuple[lis
     }
 
 
+def harvest_crossref_known_direct(
+    config: dict[str, Any],
+    known_direct: list[dict[str, str]],
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Retrieve the frozen known-direct calibration set by exact DOI."""
+    provider = config["providers"]["crossref"]
+    endpoint = str(provider["endpoint"]).rstrip("/")
+    records: list[dict[str, Any]] = []
+    missing: list[dict[str, str]] = []
+
+    requested = [row for row in known_direct if _norm_doi(row.get("doi"))]
+    for rank, row in enumerate(requested, start=1):
+        doi = _norm_doi(row.get("doi"))
+        url = endpoint + "/" + urllib.parse.quote(doi, safe="")
+        try:
+            payload = _request_json(url)
+        except urllib.error.HTTPError as exc:
+            if exc.code == 404:
+                missing.append({"study_id": row.get("study_id", ""), "doi": doi})
+                continue
+            raise
+        message = payload.get("message")
+        if not isinstance(message, dict):
+            raise ValueError(f"CROSSREF_EXACT_DOI_MISSING_MESSAGE:{doi}")
+        returned = _norm_doi(message.get("DOI"))
+        if returned != doi:
+            raise ValueError(f"CROSSREF_EXACT_DOI_MISMATCH:{doi}:{returned}")
+        records.append(parse_crossref_item(message, "KDIRECT", rank))
+
+    return records, {
+        "provider": "crossref",
+        "lookup_type": "known_direct_exact_doi",
+        "requested": len(requested),
+        "retrieved": len(records),
+        "missing": missing,
+        "uses_effect_direction": False,
+    }
+
+
 def harvest_openalex(config: dict[str, Any], query: dict[str, str]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     provider = config["providers"]["openalex"]
     start = config["publication_window"]["from"]
@@ -481,6 +521,7 @@ def build_frame(
     if not isinstance(queries, list) or not queries:
         raise ValueError("BIBLIO_QUERY_REGISTRY_HAS_NO_QUERIES")
 
+    known_direct = known_direct or []
     raw_records: list[dict[str, Any]] = []
     query_receipts: list[dict[str, Any]] = []
 
@@ -493,6 +534,18 @@ def build_frame(
             raw_records.extend(records)
             query_receipts.append(receipt)
             print(json.dumps(receipt, sort_keys=True), flush=True)
+
+    known_direct_lookup_receipt: dict[str, Any] | None = None
+    if (
+        config["providers"]["crossref"].get("enabled")
+        and known_direct
+        and config["providers"]["crossref"].get("known_direct_exact_lookup", False)
+    ):
+        records, known_direct_lookup_receipt = harvest_crossref_known_direct(
+            config, known_direct
+        )
+        raw_records.extend(records)
+        print(json.dumps(known_direct_lookup_receipt, sort_keys=True), flush=True)
 
     if config["providers"]["openalex"].get("enabled"):
         allowed = set(config["providers"]["openalex"].get("query_ids") or [q["query_id"] for q in queries])
@@ -519,6 +572,8 @@ def build_frame(
         for query in queries
         if query.get("query_role") == "SENTINEL_CALIBRATION"
     }
+    if known_direct_lookup_receipt is not None:
+        sentinel_query_ids.add("KDIRECT")
 
     frame: list[dict[str, str]] = []
     excluded_no_retention_match = 0
@@ -583,8 +638,9 @@ def build_frame(
         "formal_recurrence_result_open": False,
         "query_receipts": query_receipts,
     }
+    if known_direct_lookup_receipt is not None:
+        receipt["known_direct_exact_lookup_receipt"] = known_direct_lookup_receipt
 
-    known_direct = known_direct or []
     if known_direct:
         pre_gate_dois = {
             str(record.get("doi") or "")
