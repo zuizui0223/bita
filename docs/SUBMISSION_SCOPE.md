@@ -253,7 +253,8 @@ STAGE_U_SEARCH = FINAL_SYNONYM_PASS_COMPLETE_BOUNDED_SEARCH_STILL_NOT_FORMAL
 FORMAL_BIBLIOGRAPHIC_FRAME_BUILDER = IMPLEMENTED
 BIBLIOGRAPHIC_EXPORT_NORMALIZER = IMPLEMENTED_SCOPUS_WOS_CROSSREF_OPENALEX
 BIBLIOGRAPHIC_Q1_Q8_ONE_COMMAND_INTAKE = IMPLEMENTED
-FORMAL_BIBLIOGRAPHIC_FRAME = AWAITING_COMPLETE_SINGLE_DB_Q1_Q8_EXPORT
+BIBLIOGRAPHIC_SINGLE_ZIP_INTAKE = IMPLEMENTED_SAFE_ROOT_ONLY_COUNT_VERIFIED
+FORMAL_BIBLIOGRAPHIC_FRAME = AWAITING_ONE_COMPLETE_SINGLE_DB_Q1_Q8_EXPORT_ZIP
 FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
 ```
 
@@ -272,6 +273,7 @@ Assets:
 - `scripts/build_direct_access_geometry_bibliographic_frame.py`
 - `scripts/normalize_direct_access_geometry_bibliographic_export.py`
 - `scripts/prepare_direct_access_geometry_bibliographic_frame.py`
+- `scripts/ingest_direct_access_geometry_bibliographic_export_zip.py`
 - `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_EXPORT_PACKET_V1.md`
 
 The Leal `study` field is an outcome-independent historical anchor, but its 56
