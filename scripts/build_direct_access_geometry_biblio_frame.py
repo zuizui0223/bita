@@ -65,6 +65,7 @@ FRAME_COLUMNS = (
     "best_provider_rank",
     "larceny_text_match",
     "geometry_text_match",
+    "sentinel_query_match",
     "screen_status",
     "screen_reason",
 )
@@ -513,9 +514,14 @@ def build_frame(
 
     larceny_terms = list(config["screening_priority_terms"]["larceny"])
     geometry_terms = list(config["screening_priority_terms"]["geometry"])
+    sentinel_query_ids = {
+        query["query_id"]
+        for query in queries
+        if query.get("query_role") == "SENTINEL_CALIBRATION"
+    }
 
     frame: list[dict[str, str]] = []
-    excluded_no_larceny_text_match = 0
+    excluded_no_retention_match = 0
     for key in sorted(merged):
         record = merged[key]
         text_blob = " ".join(
@@ -525,8 +531,9 @@ def build_frame(
             ]
         )
         larceny_match = _flag(text_blob, larceny_terms)
-        if not larceny_match:
-            excluded_no_larceny_text_match += 1
+        sentinel_match = bool(record["matched_query_ids"] & sentinel_query_ids)
+        if not (larceny_match or sentinel_match):
+            excluded_no_retention_match += 1
             continue
         frame.append(
             {
@@ -544,8 +551,9 @@ def build_frame(
                 "matched_query_ids": ";".join(sorted(record["matched_query_ids"])),
                 "source_urls": ";".join(sorted(x for x in record["source_urls"] if x)),
                 "best_provider_rank": str(record["best_provider_rank"]),
-                "larceny_text_match": "true",
+                "larceny_text_match": "true" if larceny_match else "false",
                 "geometry_text_match": "true" if _flag(text_blob, geometry_terms) else "false",
+                "sentinel_query_match": "true" if sentinel_match else "false",
                 "screen_status": "UNSCREENED",
                 "screen_reason": "",
             }
@@ -558,13 +566,19 @@ def build_frame(
         "provider_query_count": len(query_receipts),
         "raw_provider_records": len(raw_records),
         "deduplicated_provider_candidates_before_text_gate": len(merged),
-        "excluded_no_larceny_text_match": excluded_no_larceny_text_match,
+        "excluded_no_retention_match": excluded_no_retention_match,
         "deduplicated_candidates": len(frame),
-        "larceny_text_match_candidates": len(frame),
+        "larceny_text_match_candidates": sum(
+            row["larceny_text_match"] == "true" for row in frame
+        ),
+        "sentinel_query_match_candidates": sum(
+            row["sentinel_query_match"] == "true" for row in frame
+        ),
         "geometry_text_match_candidates": sum(
             row["geometry_text_match"] == "true" for row in frame
         ),
-        "larceny_text_gate_is_outcome_blind": True,
+        "retention_gate_is_direction_blind": True,
+        "sentinel_calibration_uses_effect_direction": False,
         "all_records_retained_before_screening": False,
         "formal_recurrence_result_open": False,
         "query_receipts": query_receipts,
