@@ -33,7 +33,7 @@ QUERIES = {
     "Q8": '("nectar robbing" OR "nectar robbery") AND ("switch to robbing" OR "switching to robbing" OR "shortened corolla")',
 }
 
-SELECT = "id,doi,title,publication_year,authorships,primary_location"
+SELECT = "id,doi,title,display_name,publication_year,authorships,primary_location"
 
 
 def _get_json(params: dict[str, str], *, attempts: int = 6) -> tuple[dict, str]:
