@@ -53,6 +53,11 @@ def test_ingests_one_complete_q1_q8_zip(tmp_path: Path) -> None:
     assert result["known_programs_matched"] == 0
     assert len(result["known_programs_unmatched"]) == 24
     assert result["pending_fulltext_records"] == 8
+    assert result["fulltext_decision_template_rows"] == 8
+    assert (
+        result["fulltext_decision_template_file"]
+        == "DIRECT_ACCESS_GEOMETRY_FULLTEXT_DECISIONS_V1.csv"
+    )
     assert result["unknown_record_direction_coded"] is False
     assert result["formal_recurrence_result_open"] is False
     assert result["primary_standardized_network_k"] == 2
@@ -65,6 +70,9 @@ def test_ingests_one_complete_q1_q8_zip(tmp_path: Path) -> None:
     assert (
         out
         / "DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_BOOTSTRAP_RECEIPT_V1.json"
+    ).exists()
+    assert (
+        out / "DIRECT_ACCESS_GEOMETRY_FULLTEXT_DECISIONS_V1.csv"
     ).exists()
 
 
