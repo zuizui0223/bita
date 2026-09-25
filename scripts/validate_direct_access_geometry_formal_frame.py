@@ -69,7 +69,7 @@ def validate() -> dict[str, object]:
     }
     conflicts = [
         row for row in provenance
-        if row["classification"].strip() == "PROVENANCE_CONFLICT_SPLIT_REQUIRED"
+        if row["classification"].strip() == "PROVENANCE_CONFLICT_SPLIT_REQUIRED_ELIGIBILITY_STABLE_INELIGIBLE"
     ]
     if len(provenance) != 6:
         raise ValueError(f"PROVENANCE_MULTI_PLANT_AUDIT_COUNT_MISMATCH:{len(provenance)}")
@@ -77,7 +77,7 @@ def validate() -> dict[str, object]:
         raise ValueError(f"PROVENANCE_EXPECTED_TWO_CONFLICTS:{len(conflicts)}")
     if provenance_classes - {
         "LEGITIMATE_MULTI_SPECIES_PROGRAM",
-        "PROVENANCE_CONFLICT_SPLIT_REQUIRED",
+        "PROVENANCE_CONFLICT_SPLIT_REQUIRED_ELIGIBILITY_STABLE_INELIGIBLE",
     }:
         raise ValueError("PROVENANCE_INVALID_CLASSIFICATION")
 
