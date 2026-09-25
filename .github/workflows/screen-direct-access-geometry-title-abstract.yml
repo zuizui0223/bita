@@ -6,6 +6,8 @@ on:
       - analysis/formal-biblio-openalex-fetch-v1
     paths:
       - .github/workflows/screen-direct-access-geometry-title-abstract.yml
+      - scripts/screen_direct_access_geometry_openalex_title_abstract.py
+      - tests/test_direct_access_geometry_title_abstract_screen.py
 
 permissions:
   contents: write
