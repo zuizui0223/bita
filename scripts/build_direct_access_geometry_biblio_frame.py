@@ -566,8 +566,9 @@ def main() -> int:
     frame_bytes = args.frame.read_bytes()
     receipt["query_registry_sha256"] = _sha256_bytes(registry_bytes)
     receipt["frame_sha256"] = _sha256_bytes(frame_bytes)
-    receipt["frame_path"] = str(args.frame.relative_to(ROOT))
-    receipt["query_registry_path"] = str(args.registry.relative_to(ROOT))
+    root_resolved = ROOT.resolve()
+    receipt["frame_path"] = str(args.frame.resolve().relative_to(root_resolved))
+    receipt["query_registry_path"] = str(args.registry.resolve().relative_to(root_resolved))
     receipt["retention_rule"] = config["retention_rule"]
     receipt["deduplication_rule"] = config["deduplication_rule"]
     args.receipt.parent.mkdir(parents=True, exist_ok=True)
