@@ -42,18 +42,32 @@ def summarize(
         != "BITA_DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_BOOTSTRAP_V1"
     ):
         raise ValueError("FORMAL_SUMMARY_WRONG_BOOTSTRAP_RECEIPT_SCHEMA")
-    if (
-        bootstrap.get("status")
-        != "FRAME_SCREEN_BOOTSTRAPPED_KNOWN_CORPUS_RECALL_COMPLETE"
-    ):
+    allowed_bootstrap_statuses = {
+        "FRAME_SCREEN_BOOTSTRAPPED_KNOWN_CORPUS_RECALL_COMPLETE",
+        "FRAME_SCREEN_BOOTSTRAPPED_KNOWN_CORPUS_RECALL_ACCOUNTED_PROVIDER_ABSENCE",
+    }
+    if bootstrap.get("status") not in allowed_bootstrap_statuses:
         raise ValueError("FORMAL_SUMMARY_KNOWN_CORPUS_RECALL_INCOMPLETE")
     known_count = int(bootstrap.get("known_direct_corpus_programs", -1))
     matched_count = int(bootstrap.get("known_programs_matched", -1))
-    unmatched = bootstrap.get("known_programs_unmatched")
-    if known_count != 24 or matched_count != 24 or unmatched != []:
+    unmatched = list(bootstrap.get("known_programs_unmatched") or [])
+    provider_absent = list(
+        bootstrap.get("known_programs_provider_absent") or []
+    )
+    unresolved = list(
+        bootstrap.get("known_programs_unresolved") or []
+    )
+    if (
+        known_count != 24
+        or matched_count + len(provider_absent) != 24
+        or unresolved != []
+        or sorted(unmatched) != sorted(provider_absent)
+    ):
         raise ValueError(
-            "FORMAL_SUMMARY_EXPECTED_COMPLETE_24_PROGRAM_RECALL:"
-            f"known={known_count}:matched={matched_count}:unmatched={unmatched}"
+            "FORMAL_SUMMARY_EXPECTED_ACCOUNTED_24_PROGRAM_RECALL:"
+            f"known={known_count}:matched={matched_count}:"
+            f"provider_absent={provider_absent}:unresolved={unresolved}:"
+            f"unmatched={unmatched}"
         )
     if bootstrap.get("unknown_record_direction_coded") is not False:
         raise ValueError("FORMAL_SUMMARY_BOOTSTRAP_DIRECTION_LEAK")
@@ -106,9 +120,21 @@ def summarize(
         row for row in eligible_rows
         if row["decision_basis"].strip().startswith("PREEXISTING_")
     ]
-    if len(preexisting_rows) != 24:
+    if len(preexisting_rows) != matched_count:
         raise ValueError(
-            f"FORMAL_SUMMARY_EXPECTED_24_PREEXISTING_ELIGIBLE:{len(preexisting_rows)}"
+            "FORMAL_SUMMARY_PREEXISTING_RECOVERY_COUNT_MISMATCH:"
+            f"expected={matched_count}:observed={len(preexisting_rows)}"
+        )
+    recovered_preexisting_ids = {
+        row["biological_program_id"].strip() for row in preexisting_rows
+    }
+    leaked_provider_absent = sorted(
+        set(provider_absent) & recovered_preexisting_ids
+    )
+    if leaked_provider_absent:
+        raise ValueError(
+            "FORMAL_SUMMARY_PROVIDER_ABSENT_PROGRAM_ENTERED_DENOMINATOR:"
+            + ",".join(leaked_provider_absent)
         )
 
     crosswalk = _read_csv(crosswalk_path)
@@ -152,6 +178,9 @@ def summarize(
             key: direction_counts.get(key, 0) for key in DIRECTIONS
         },
         "preexisting_direct_programs_recovered": len(preexisting_rows),
+        "preexisting_provider_absent_programs": len(provider_absent),
+        "preexisting_provider_absent_program_ids": sorted(provider_absent),
+        "known_corpus_programs_accounted": matched_count + len(provider_absent),
         "new_eligible_programs_from_formal_frame": len(new_rows),
         "new_eligible_direction_counts": {
             key: new_directions.get(key, 0) for key in DIRECTIONS
@@ -175,7 +204,10 @@ def summarize(
             f"{direction_counts.get('OPPOSITE', 0)} opposite and "
             f"{direction_counts.get('MIXED', 0)} mixed. "
             "This is a finite-frame evidence distribution, not natural prevalence "
-            "and not an additional network-level replication count."
+            "and not an additional network-level replication count. "
+            f"{len(provider_absent)} pre-existing direct program(s) independently "
+            "verified as absent from the selected bibliographic provider are reported "
+            "outside the formal denominator."
         ),
     }
     return result
