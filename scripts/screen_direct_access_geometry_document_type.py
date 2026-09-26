@@ -76,7 +76,6 @@ def _fetch_types(ids: list[str], batch_size: int = 50) -> tuple[dict[str,str], l
 def run(
     frame_path: Path,
     decisions_path: Path,
-    output_path: Path,
     audit_path: Path,
     receipt_path: Path,
 ) -> dict[str,Any]:
@@ -127,8 +126,8 @@ def run(
             "document_type_state":state,
         })
 
-    output_path.parent.mkdir(parents=True,exist_ok=True)
-    with output_path.open("w",encoding="utf-8",newline="") as h:
+    audit_path.parent.mkdir(parents=True,exist_ok=True)
+    with audit_path.open("w",encoding="utf-8",newline="") as h:
         w=csv.DictWriter(h,fieldnames=(
             "frame_id","title","openalex_ids","openalex_types",
             "provider_ids_missing","document_type_state",
