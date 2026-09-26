@@ -1,0 +1,55 @@
+name: Reuse preexisting direct-access adjudications
+
+on:
+  push:
+    branches:
+      - analysis/formal-biblio-openalex-fetch-v1
+    paths:
+      - .github/workflows/apply-direct-access-geometry-preexisting-adjudications.yml
+      - scripts/apply_direct_access_geometry_preexisting_adjudications.py
+      - empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_FORMAL_FIXED_EXCLUSIONS_V1.csv
+      - empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V5.csv
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Apply preexisting source adjudications
+        run: |
+          python scripts/apply_direct_access_geometry_preexisting_adjudications.py \
+            --decisions empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V5.csv \
+            --output empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V6.csv \
+            --receipt empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_PREEXISTING_ADJUDICATION_RECEIPT_V1.json
+          cat empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_PREEXISTING_ADJUDICATION_RECEIPT_V1.json
+
+      - name: Validate V6 ledger
+        run: |
+          python scripts/validate_direct_access_geometry_fulltext_decisions.py \
+            --screen empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_V1.csv \
+            --decisions empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V6.csv
+
+      - name: Commit reused adjudications
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V6.csv \
+            empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_PREEXISTING_ADJUDICATION_RECEIPT_V1.json
+          if git diff --cached --quiet; then
+            echo "No reused adjudication changes."
+          else
+            git commit -m "Reuse preexisting direct-access adjudications"
+            git pull --rebase origin analysis/formal-biblio-openalex-fetch-v1
+            git push origin HEAD:analysis/formal-biblio-openalex-fetch-v1
+          fi
