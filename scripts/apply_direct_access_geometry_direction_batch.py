@@ -8,6 +8,19 @@ from pathlib import Path
 
 from scripts.build_direct_access_geometry_fulltext_decision_template import FIELDS
 
+ELIGIBILITY_FIELDS = (
+    "frame_id",
+    "doi",
+    "title",
+    "eligibility_state",
+    "biological_program_id",
+    "independence_relation",
+    "decision_basis",
+    "source_identifier",
+    "direction_coded",
+    "notes",
+)
+
 BATCH_FIELDS = (
     "frame_id",
     "doi",
@@ -28,13 +41,30 @@ def _read(path: Path) -> tuple[tuple[str, ...], list[dict[str, str]]]:
         return tuple(reader.fieldnames or ()), list(reader)
 
 
-def apply(decisions_path: Path, batch_path: Path, output_path: Path, receipt_path: Path) -> dict[str, object]:
+def apply(
+    decisions_path: Path,
+    batch_path: Path,
+    eligibility_paths: list[Path],
+    output_path: Path,
+    receipt_path: Path,
+) -> dict[str, object]:
     decision_fields, decisions = _read(decisions_path)
     batch_fields, batch = _read(batch_path)
     if decision_fields != FIELDS:
         raise ValueError("DIR_APPLY_DECISION_SCHEMA_MISMATCH")
     if batch_fields != BATCH_FIELDS:
         raise ValueError("DIR_APPLY_BATCH_SCHEMA_MISMATCH")
+
+    eligibility: dict[str, dict[str, str]] = {}
+    for path in eligibility_paths:
+        fields, rows = _read(path)
+        if fields != ELIGIBILITY_FIELDS:
+            raise ValueError(f"DIR_APPLY_ELIGIBILITY_SCHEMA_MISMATCH:{path}")
+        for row in rows:
+            fid = row["frame_id"].strip()
+            if not fid or fid in eligibility:
+                raise ValueError(f"DIR_APPLY_DUPLICATE_ELIGIBILITY_RECORD:{fid}")
+            eligibility[fid] = row
 
     by_id = {row["frame_id"].strip(): row for row in decisions}
     seen_programs = {
@@ -68,9 +98,21 @@ def apply(decisions_path: Path, batch_path: Path, output_path: Path, receipt_pat
         if not row["source_identifier"].strip() or not row["evidence_basis"].strip():
             raise ValueError(f"DIR_APPLY_MISSING_SOURCE:{fid}")
 
-        frozen_marker = f"ELIGIBILITY_FROZEN_DIRECTION_UNCODED;state=ELIGIBLE_DIRECT_NEW;program={program};"
-        if frozen_marker not in decision["notes"]:
+        frozen = eligibility.get(fid)
+        if frozen is None:
             raise ValueError(f"DIR_APPLY_ELIGIBILITY_NOT_PRE_FROZEN:{fid}:{program}")
+        if frozen["eligibility_state"].strip() != "ELIGIBLE_DIRECT_NEW":
+            raise ValueError(
+                f"DIR_APPLY_ELIGIBILITY_NOT_NEW_DIRECT:{fid}:"
+                f"{frozen['eligibility_state'].strip()}"
+            )
+        if frozen["biological_program_id"].strip() != program:
+            raise ValueError(
+                f"DIR_APPLY_ELIGIBILITY_PROGRAM_MISMATCH:{fid}:"
+                f"batch={program}:frozen={frozen['biological_program_id'].strip()}"
+            )
+        if frozen["direction_coded"].strip() != "NO":
+            raise ValueError(f"DIR_APPLY_ELIGIBILITY_DIRECTION_ALREADY_CODED:{fid}")
 
         decision["decision_status"] = "ELIGIBLE_DIRECT"
         decision["biological_program_id"] = program
@@ -114,10 +156,22 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--decisions", type=Path, required=True)
     parser.add_argument("--batch", type=Path, required=True)
+    parser.add_argument(
+        "--eligibility-adjudication",
+        type=Path,
+        action="append",
+        required=True,
+    )
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--receipt", type=Path, required=True)
     args = parser.parse_args()
-    result = apply(args.decisions, args.batch, args.output, args.receipt)
+    result = apply(
+        args.decisions,
+        args.batch,
+        args.eligibility_adjudication,
+        args.output,
+        args.receipt,
+    )
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0
 
