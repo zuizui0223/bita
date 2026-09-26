@@ -35,6 +35,8 @@ jobs:
           python scripts/apply_direct_access_geometry_direction_batch.py \
             --decisions empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V6.csv \
             --batch empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_DIRECTION_CODING_BATCH1_V1.csv \
+            --eligibility-adjudication empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_SOURCE_ELIGIBILITY_BATCH1_V1.csv \
+            --eligibility-adjudication empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_SOURCE_ELIGIBILITY_BATCH2_V1.csv \
             --output empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V7.csv \
             --receipt empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_DIRECTION_CODING_RECEIPT_V1.json
 
