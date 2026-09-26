@@ -1,0 +1,64 @@
+name: Adjudicate high-priority direct-access full texts
+
+on:
+  push:
+    branches:
+      - analysis/formal-biblio-openalex-fetch-v1
+    paths:
+      - .github/workflows/adjudicate-direct-access-geometry-high-priority-body.yml
+      - scripts/adjudicate_direct_access_geometry_high_priority_body.py
+      - tests/test_direct_access_geometry_high_priority_body.py
+
+permissions:
+  contents: write
+
+jobs:
+  adjudicate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PDF text extractor and run tests
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils
+          python -m pip install -q pytest
+          pytest -q tests/test_direct_access_geometry_high_priority_body.py
+
+      - name: Adjudicate high-priority body signals direction-blind
+        run: |
+          python scripts/adjudicate_direct_access_geometry_high_priority_body.py \
+            --prior-audit empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_OA_FULLTEXT_SIGNAL_AUDIT_V1.csv \
+            --decisions empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V3.csv \
+            --output-decisions empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V4.csv \
+            --output-audit empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_HIGH_PRIORITY_BODY_AUDIT_V1.csv \
+            --receipt empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_HIGH_PRIORITY_BODY_RECEIPT_V1.json
+
+      - name: Validate post-adjudication ledger
+        run: |
+          python scripts/validate_direct_access_geometry_fulltext_decisions.py \
+            --screen empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_V1.csv \
+            --decisions empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V4.csv
+          cat empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_HIGH_PRIORITY_BODY_RECEIPT_V1.json
+
+      - name: Commit high-priority body adjudication
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V4.csv \
+            empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_HIGH_PRIORITY_BODY_AUDIT_V1.csv \
+            empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_HIGH_PRIORITY_BODY_RECEIPT_V1.json
+          if git diff --cached --quiet; then
+            echo "No adjudication changes."
+          else
+            git commit -m "Adjudicate high-priority direct-access full texts"
+            git pull --rebase origin analysis/formal-biblio-openalex-fetch-v1
+            git push origin HEAD:analysis/formal-biblio-openalex-fetch-v1
+          fi
