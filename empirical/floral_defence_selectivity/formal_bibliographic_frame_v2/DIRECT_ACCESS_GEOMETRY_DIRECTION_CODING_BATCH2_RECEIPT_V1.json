@@ -1,0 +1,24 @@
+{
+  "applied_records": [
+    {
+      "direction": "POSITIVE",
+      "frame_id": "bib_c33fd078b7d58985",
+      "program": "Akamatsu_Sugita_Ueda_2011_Hibiscus"
+    },
+    {
+      "direction": "OPPOSITE",
+      "frame_id": "bib_a909070feb69926e",
+      "program": "Hattori_Nagano_Itino_2015_Meehania"
+    }
+  ],
+  "direction_counts": {
+    "MIXED": 0,
+    "NULL": 0,
+    "OPPOSITE": 1,
+    "POSITIVE": 1
+  },
+  "eligible_direct_total_after_apply": 30,
+  "pending_records_after_apply": 153,
+  "schema": "BITA_DIRECT_ACCESS_GEOMETRY_DIRECTION_APPLY_V1",
+  "status": "DIRECTION_BATCH_APPLIED_AFTER_ELIGIBILITY_FREEZE"
+}
