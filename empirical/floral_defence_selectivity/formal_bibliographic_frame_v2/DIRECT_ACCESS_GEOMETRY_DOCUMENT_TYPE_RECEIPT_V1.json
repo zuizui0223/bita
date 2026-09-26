@@ -1,0 +1,14 @@
+{
+  "effect_direction_inspected": false,
+  "excluded_secondary_document_type": 2,
+  "pending_input_records": 171,
+  "provider_work_ids_missing": [
+    "W107137175",
+    "W3168184900",
+    "W7139564698",
+    "W7208429399"
+  ],
+  "retained_primary_or_unresolved_type": 169,
+  "schema": "BITA_DIRECT_ACCESS_GEOMETRY_DOCUMENT_TYPE_SCREEN_V1",
+  "status": "DIRECTION_BLIND_DOCUMENT_TYPE_SCREEN_COMPLETE"
+}
