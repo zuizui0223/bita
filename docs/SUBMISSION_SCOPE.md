@@ -199,7 +199,7 @@ COLLABORATION_RESPONSE_QUARANTINE = IMPLEMENTED
 K3_GENERALITY_TEST = PROSPECTIVE_MAMMAL_DESIGN_FROZEN_PENDING_DATA
 ~~~
 
-## 6. Mechanistic and direct empirical context only
+## 6. Mechanistic and formal direct empirical context
 
 The broader floral-defence evidence package remains useful for interpretation:
 
@@ -209,96 +209,64 @@ The broader floral-defence evidence package remains useful for interpretation:
 8 independent within-D state-switch systems
 ```
 
-A separate bounded discovery corpus now records direct empirical tests of
-access geometry -> nectar robbery outside the two standardized network datasets:
+The access-geometry literature layer is no longer only a bounded discovery corpus.
+The outcome-blind OpenAlex Q1–Q8 frame has been executed, deduplicated, screened to
+completion and opened for a finite-frame directional summary:
 
 ```text
-DIRECT_ACCESS_GEOMETRY_STUDY_PROGRAMS = 24
-POSITIVE = 16
+FORMAL_BIBLIOGRAPHIC_PROVIDER = OpenAlex
+FORMAL_BIBLIOGRAPHIC_FRAME_RECORDS = 857
+ELIGIBLE_DIRECT_STUDY_PROGRAMS = 33
+POSITIVE = 22
 NULL = 5
-OPPOSITE = 1
+OPPOSITE = 4
 MIXED = 2
+NEW_ELIGIBLE_PROGRAMS_FROM_FORMAL_FRAME = 10
+NEW_POSITIVE = 7
+NEW_OPPOSITE = 3
+DUPLICATE_BIBLIOGRAPHIC_RECORDS = 6
+INELIGIBLE_BIBLIOGRAPHIC_RECORDS = 818
+PENDING_FULLTEXT = 0
 NETWORK_K_CONTRIBUTION = 0
 PRIMARY_STANDARDIZED_NETWORK_K = 2
 ```
 
-This direct corpus includes experimental, population-level and community-level
-studies, including an 88-species four-community study, a 13-species Cape sunbird
-guild, a 16-species Andean flowerpiercer community, a retained 2025 null test,
-a three-population mixed result, and a 2026 `Erica` boundary-condition study in
-which longer corollas predicted lower robbery in the primary model.
-It is a discovery corpus, not a systematic-review denominator: no prevalence,
-sign-test, pooled effect or extra network replicate is licensed from these counts.
+The 33-program distribution is a **finite provider-defined evidence distribution**,
+not natural prevalence. No sign test or pooled effect is computed. The literature
+programs do not increase the standardized network replication count above
+`k = 2`.
 
-Contract and ledger:
+Calibration against the pre-existing 24-program direct corpus recovered 23 programs
+inside the OpenAlex frame. The remaining program,
+`Urcelay_Morales_Chalcoff_2006`, was independently verified as absent from
+OpenAlex and is reported outside the formal denominator. Among the ten newly
+eligible programs recovered by the formal frame, seven are positive and three are
+opposite. The retained reversals include systems where floral architecture blocks
+the bypass route rather than making legitimate access relatively more costly, which
+is consistent with the relative-route-cost boundary rather than a universal
+“longer flower = more robbery” rule.
 
+The historical Leal et al. (2025) frame remains an outcome-independent anchor:
+56 distinct `study` labels were screened under the same geometry contract, and
+four direct eligible programs are contained in the final formal eligible set without
+double counting.
+
+Canonical formal artifacts:
+
+- `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv`
+- `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_FULLTEXT_COMPLETE_RECEIPT_V1.json`
+- `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json`
 - `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_ROBBERY_CONTRACT_V1.md`
-- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv`
-- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_ROBBERY_SEARCH_V1.md`
-- `scripts/summarize_direct_access_geometry_corpus.py`
-
-Formal-recurrence scaffolding is now frozen but **not yet opened for inference**:
-
-```text
-HISTORICAL_FRAME = LEAL_2025_ROBBER_STUDY_FIELD
-HISTORICAL_STUDY_FIELD_LABELS = 56
-HISTORICAL_SOURCE_RESOLVED_PROGRAMS = NOT_YET_FINAL
-PROVENANCE_CONFLICT_LABELS = 2
-DIRECT_DISCOVERY_PROGRAMS = 24
-DISCOVERY_OVERLAP_WITH_HISTORICAL_FRAME = 4
-DISCOVERY_NOT_IN_HISTORICAL_FRAME = 20
-HISTORICAL_SCREEN = 52_GEOMETRY_INELIGIBLE_4_ELIGIBLE_WITH_2_SOURCE_IDENTITY_CONFLICTS
-STAGE_U_BATCHES_1_2 = 23_CANDIDATES_9_ELIGIBLE_1_DUPLICATE_13_INELIGIBLE
-STAGE_U_SEARCH = FINAL_SYNONYM_PASS_COMPLETE_BOUNDED_SEARCH_STILL_NOT_FORMAL
-FORMAL_BIBLIOGRAPHIC_FRAME_BUILDER = IMPLEMENTED
-BIBLIOGRAPHIC_EXPORT_NORMALIZER = IMPLEMENTED_SCOPUS_WOS_CROSSREF_OPENALEX
-BIBLIOGRAPHIC_Q1_Q8_ONE_COMMAND_INTAKE = IMPLEMENTED
-BIBLIOGRAPHIC_SINGLE_ZIP_INTAKE = IMPLEMENTED_SAFE_ROOT_ONLY_COUNT_VERIFIED_FRAME_FREEZE_SCREEN_BOOTSTRAP
-BIBLIOGRAPHIC_POST_FREEZE_SCREEN_BOOTSTRAP = IMPLEMENTED_DOI_AND_TITLE_YEAR_ALIAS
-BIBLIOGRAPHIC_KNOWN_CORPUS_RECALL_AUDIT = IMPLEMENTED_24_PROGRAMS
-BIBLIOGRAPHIC_SINGLE_ZIP_ONE_COMMAND = IMPLEMENTED_FRAME_FREEZE_AND_PENDING_SCREEN
-BIBLIOGRAPHIC_FULLTEXT_DECISION_TEMPLATE = IMPLEMENTED_KNOWN_PREFILL_UNKNOWN_PENDING
-BIBLIOGRAPHIC_FULLTEXT_DECISION_GATE = IMPLEMENTED_REQUIRE_COMPLETE_FAIL_CLOSED
-FORMAL_RECURRENCE_SUMMARY_GATE = IMPLEMENTED_FINITE_FRAME_DIRECTION_COUNTS
-FORMAL_RECURRENCE_PVALUE = NOT_COMPUTED_BY_V1
-FORMAL_RECURRENCE_POOLED_EFFECT = NOT_COMPUTED_BY_V1
-FORMAL_BIBLIOGRAPHIC_FRAME = AWAITING_ONE_COMPLETE_SINGLE_DB_Q1_Q8_EXPORT_ZIP
-FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
-```
-
-Assets:
-
-- `empirical/floral_defence_selectivity/LEAL2025_ROBBER_STUDY_FRAME_V1.csv`
-- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_LEAL2025_CROSSWALK_V1.csv`
-- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_FRAME_V1.md`
-- `scripts/validate_direct_access_geometry_formal_frame.py`
-- `empirical/floral_defence_selectivity/LEAL2025_STUDY_LABEL_PROVENANCE_AUDIT_V1.md`
 - `empirical/floral_defence_selectivity/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv`
-- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv`
-- `scripts/validate_direct_access_geometry_stage_u.py`
-- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_FRAME_CONTRACT_V1.md`
-- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_RAW_EXPORT_TEMPLATE_V1.csv`
-- `scripts/build_direct_access_geometry_bibliographic_frame.py`
-- `scripts/normalize_direct_access_geometry_bibliographic_export.py`
-- `scripts/prepare_direct_access_geometry_bibliographic_frame.py`
-- `scripts/ingest_direct_access_geometry_bibliographic_export_zip.py`
-- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_EXPORT_PACKET_V1.md`
+- `empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_LEAL2025_CROSSWALK_V1.csv`
 
-The Leal `study` field is an outcome-independent historical anchor, but its 56
-distinct labels are not automatically 56 independent biological programs. A
-provenance audit identified two split-required labels. Of the 56 labels, current
-screening has 50 ineligible geometry labels, 4 eligible direct tests, and 2
-provenance conflicts. Only 4 of the 24 current direct programs overlap the frame.
-The source conflicts no longer affect the direct-eligible set. The deterministic
-bibliographic-frame builder, provider-export normalizer and one-command Q1–Q8 intake
-are implemented. The remaining gate before any directional recurrence test is one
-complete raw Q1–Q8 export from a single bibliographic database; after that,
-normalization, deduplication and frame freezing are automated before full-text
-direction coding.
+Matched effective-domain classifications are still author-coded and have not yet
+undergone outcome-blind independent recoding. They therefore remain mechanistic
+context rather than independent validation, and the 11/11 state alignment is not a
+headline or confirmatory result.
 
-Matched effective-domain classifications are author-coded and have not yet undergone outcome-blind independent recoding. They are therefore not treated as independent validation in the Letter, and the 11/11 state alignment is not a headline or confirmatory result.
-
-These counts describe evidence structure, not natural prevalence, and they are not pooled into one grand meta-analytic effect.
+These counts describe evidence structure, not natural prevalence, and they are not
+pooled into one grand meta-analytic effect.
 
 ## 7. Required claim boundaries
 
