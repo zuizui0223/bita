@@ -9,7 +9,7 @@ from scripts.build_access_routing_letter_figures_svg import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "joint_access_routing.json"
+RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "joint_access_routing_species_robust.json"
 
 
 def test_letter_figure1_states_access_routing_prediction() -> None:
@@ -31,11 +31,11 @@ def test_letter_figure3_uses_frozen_joint_result() -> None:
     assert "Aubert / EPHI birds" in svg
     assert "equal-network joint" in svg
     assert "0.347" in svg
-    assert "0.351" in svg
-    assert "0.349" in svg
+    assert "0.503" in svg
+    assert "0.428" in svg
     assert "p = 0.0001" in svg
     assert "17 D-side study programs" in svg
-    assert "11 / 11" in svg
+    assert "context, not validation" in svg
     assert "8 within-D switching systems" in svg
 
 
