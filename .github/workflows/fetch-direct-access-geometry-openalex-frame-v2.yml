@@ -1,0 +1,86 @@
+name: Fetch formal OpenAlex Q1-Q8 frame v2
+
+on:
+  push:
+    branches:
+      - analysis/formal-biblio-openalex-fetch-v1
+    paths:
+      - .github/workflows/fetch-direct-access-geometry-openalex-frame-v2.yml
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-and-freeze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch complete frozen OpenAlex Q1-Q8 exports
+        run: |
+          rm -rf artifacts/openalex_q1_q8
+          python scripts/fetch_direct_access_geometry_openalex_frame.py \
+            --output-dir artifacts/openalex_q1_q8 \
+            --search-date 2026-09-25
+
+      - name: Build exact nine-file intake packet
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import zipfile
+          src = Path("artifacts/openalex_q1_q8")
+          out = Path("artifacts/DIRECT_ACCESS_GEOMETRY_OPENALEX_Q1_Q8.zip")
+          names = [f"Q{i}.json" for i in range(1, 9)] + ["QUERY_COUNTS.csv"]
+          with zipfile.ZipFile(out, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+              for name in names:
+                  zf.write(src / name, arcname=name)
+          print(out)
+          PY
+
+      - name: Freeze outcome-blind formal frame and bootstrap screening
+        run: |
+          rm -rf empirical/floral_defence_selectivity/formal_bibliographic_frame_v1
+          python scripts/ingest_direct_access_geometry_bibliographic_export_zip.py \
+            --zip artifacts/DIRECT_ACCESS_GEOMETRY_OPENALEX_Q1_Q8.zip \
+            --output-dir empirical/floral_defence_selectivity/formal_bibliographic_frame_v1 \
+            --search-date 2026-09-25 \
+            --source-db OpenAlex
+          cp artifacts/openalex_q1_q8/QUERY_COUNTS.csv \
+            empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/QUERY_COUNTS.csv
+          cp artifacts/openalex_q1_q8/OPENALEX_FETCH_RECEIPT_V1.json \
+            empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/OPENALEX_FETCH_RECEIPT_V1.json
+
+      - name: Validate generated pending full-text ledger
+        run: |
+          python scripts/validate_direct_access_geometry_fulltext_decisions.py \
+            --screen empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_V1.csv \
+            --decisions empirical/floral_defence_selectivity/formal_bibliographic_frame_v1/DIRECT_ACCESS_GEOMETRY_FULLTEXT_DECISIONS_V1.csv
+
+      - name: Commit frozen frame products
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add empirical/floral_defence_selectivity/formal_bibliographic_frame_v1
+          if git diff --cached --quiet; then
+            echo "No frame changes to commit."
+          else
+            git commit -m "Freeze formal OpenAlex Q1-Q8 bibliographic frame"
+            git push origin HEAD:analysis/formal-biblio-openalex-fetch-v1
+          fi
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: direct-access-geometry-openalex-q1-q8-v2
+          path: |
+            artifacts/openalex_q1_q8/OPENALEX_FETCH_RECEIPT_V1.json
+            artifacts/openalex_q1_q8/QUERY_COUNTS.csv
+            artifacts/DIRECT_ACCESS_GEOMETRY_OPENALEX_Q1_Q8.zip
+          if-no-files-found: warn

@@ -53,6 +53,16 @@ OUTPUT_FIELDS = (
     "screening_notes",
 )
 
+PROVIDER_EXCEPTION_FIELDS = (
+    "study_id",
+    "source_db",
+    "provider_check",
+    "provider_result_count",
+    "external_verification",
+    "adjudication",
+    "notes",
+)
+
 
 def _sha256(path: Path) -> str:
     h = hashlib.sha256()
@@ -86,6 +96,7 @@ def bootstrap(
     *,
     corpus_path: Path = DEFAULT_CORPUS,
     alias_path: Path = DEFAULT_ALIASES,
+    provider_coverage_exceptions_path: Path | None = None,
 ) -> tuple[list[dict[str, str]], dict[str, object]]:
     frame = _read(frame_path)
     corpus = _read(corpus_path)
@@ -162,6 +173,78 @@ def bootstrap(
             f"missing={missing}:extra={extra}"
         )
 
+    frame_source_dbs = sorted({row["source_dbs"].strip() for row in frame if row["source_dbs"].strip()})
+    if len(frame_source_dbs) != 1:
+        raise ValueError(
+            "BIB_SCREEN_EXPECTED_SINGLE_SOURCE_DB:" + ",".join(frame_source_dbs)
+        )
+    frame_source_db = frame_source_dbs[0]
+
+    provider_absent: set[str] = set()
+    provider_exception_sha256 = None
+    if provider_coverage_exceptions_path is not None:
+        with provider_coverage_exceptions_path.open(
+            encoding="utf-8-sig", newline=""
+        ) as handle:
+            reader = csv.DictReader(handle)
+            observed_exception_fields = tuple(reader.fieldnames or ())
+            if observed_exception_fields != PROVIDER_EXCEPTION_FIELDS:
+                raise ValueError(
+                    "BIB_SCREEN_PROVIDER_EXCEPTION_SCHEMA_MISMATCH:"
+                    f"expected={PROVIDER_EXCEPTION_FIELDS}:"
+                    f"observed={observed_exception_fields}"
+                )
+            exception_rows = list(reader)
+
+        for exception in exception_rows:
+            sid = exception["study_id"].strip()
+            if not sid or sid in provider_absent:
+                raise ValueError(
+                    f"BIB_SCREEN_PROVIDER_EXCEPTION_BAD_STUDY_ID:{sid}"
+                )
+            if sid not in corpus_by_id:
+                raise ValueError(
+                    f"BIB_SCREEN_PROVIDER_EXCEPTION_UNKNOWN_STUDY:{sid}"
+                )
+            if exception["source_db"].strip() != frame_source_db:
+                raise ValueError(
+                    f"BIB_SCREEN_PROVIDER_EXCEPTION_SOURCE_MISMATCH:{sid}:"
+                    f"frame={frame_source_db}:"
+                    f"exception={exception['source_db'].strip()}"
+                )
+            try:
+                provider_result_count = int(
+                    exception["provider_result_count"].strip()
+                )
+            except ValueError as exc:
+                raise ValueError(
+                    f"BIB_SCREEN_PROVIDER_EXCEPTION_BAD_RESULT_COUNT:{sid}"
+                ) from exc
+            if provider_result_count != 0:
+                raise ValueError(
+                    f"BIB_SCREEN_PROVIDER_EXCEPTION_NONZERO_RESULT:{sid}:"
+                    f"{provider_result_count}"
+                )
+            if (
+                exception["adjudication"].strip()
+                != "VERIFIED_PROVIDER_ABSENCE"
+            ):
+                raise ValueError(
+                    f"BIB_SCREEN_PROVIDER_EXCEPTION_NOT_VERIFIED:{sid}"
+                )
+            if not exception["provider_check"].strip():
+                raise ValueError(
+                    f"BIB_SCREEN_PROVIDER_EXCEPTION_MISSING_CHECK:{sid}"
+                )
+            if not exception["external_verification"].strip():
+                raise ValueError(
+                    f"BIB_SCREEN_PROVIDER_EXCEPTION_MISSING_VERIFICATION:{sid}"
+                )
+            provider_absent.add(sid)
+        provider_exception_sha256 = _sha256(
+            provider_coverage_exceptions_path
+        )
+
     output: list[dict[str, str]] = []
     matched_studies: set[str] = set()
     pending_ids: list[str] = []
@@ -218,11 +301,23 @@ def bootstrap(
         })
 
     unmatched_known = sorted(set(corpus_by_id) - matched_studies)
-    status = (
-        "FRAME_SCREEN_BOOTSTRAPPED_KNOWN_CORPUS_RECALL_COMPLETE"
-        if not unmatched_known
-        else "FRAME_SCREEN_BOOTSTRAPPED_KNOWN_CORPUS_RECALL_INCOMPLETE"
-    )
+    stale_provider_exceptions = sorted(provider_absent - set(unmatched_known))
+    if stale_provider_exceptions:
+        raise ValueError(
+            "BIB_SCREEN_PROVIDER_EXCEPTION_STUDY_WAS_RECOVERED:"
+            + ",".join(stale_provider_exceptions)
+        )
+    accounted_provider_absent = sorted(set(unmatched_known) & provider_absent)
+    unresolved_known = sorted(set(unmatched_known) - provider_absent)
+    if not unmatched_known:
+        status = "FRAME_SCREEN_BOOTSTRAPPED_KNOWN_CORPUS_RECALL_COMPLETE"
+    elif not unresolved_known and accounted_provider_absent:
+        status = (
+            "FRAME_SCREEN_BOOTSTRAPPED_KNOWN_CORPUS_"
+            "RECALL_ACCOUNTED_PROVIDER_ABSENCE"
+        )
+    else:
+        status = "FRAME_SCREEN_BOOTSTRAPPED_KNOWN_CORPUS_RECALL_INCOMPLETE"
     screen_receipt = {
         "schema": "BITA_DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_BOOTSTRAP_V1",
         "status": status,
@@ -234,6 +329,10 @@ def bootstrap(
         "known_direct_corpus_programs": len(corpus_by_id),
         "known_programs_matched": len(matched_studies),
         "known_programs_unmatched": unmatched_known,
+        "known_programs_provider_absent": accounted_provider_absent,
+        "known_programs_unresolved": unresolved_known,
+        "provider_coverage_exceptions_applied": bool(provider_absent),
+        "provider_coverage_exception_sha256": provider_exception_sha256,
         "pending_fulltext_records": len(pending_ids),
         "pending_frame_ids": pending_ids,
         "unknown_record_direction_coded": False,
@@ -259,6 +358,7 @@ def main() -> int:
     parser.add_argument("--receipt", type=Path, required=True)
     parser.add_argument("--corpus", type=Path, default=DEFAULT_CORPUS)
     parser.add_argument("--aliases", type=Path, default=DEFAULT_ALIASES)
+    parser.add_argument("--provider-coverage-exceptions", type=Path)
     args = parser.parse_args()
 
     rows, receipt = bootstrap(
@@ -266,6 +366,7 @@ def main() -> int:
         args.frame_receipt,
         corpus_path=args.corpus,
         alias_path=args.aliases,
+        provider_coverage_exceptions_path=args.provider_coverage_exceptions,
     )
     write(rows, args.output)
     args.receipt.parent.mkdir(parents=True, exist_ok=True)

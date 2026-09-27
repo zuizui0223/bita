@@ -153,7 +153,7 @@ The intake stops if:
 - an export file row count differs from the database-reported query total;
 - more than one file is supplied for one query;
 - source databases are mixed;
-- a record lacks title, year or record ID;
+- a record lacks year or record ID; non-OpenAlex missing titles still fail, while OpenAlex null titles are retained with the frozen deterministic provider-ID placeholder;
 - a publication year lies outside the frozen window;
 - a provider export contains duplicate native record IDs within one query;
 - a query yields zero rows under the current v1 contract.
@@ -271,6 +271,41 @@ DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_BOOTSTRAP_RECEIPT_V1.json
 This removes known-study rediscovery work while preserving the outcome-blind
 boundary for all new records.
 
+
+## Direction-blind title/abstract triage
+
+After the frame is frozen and known-corpus/provider-coverage accounting is fixed,
+new OpenAlex records may undergo one conservative title/abstract triage before
+full-text retrieval.
+
+The automated rule is frozen as:
+
+~~~text
+abstract missing                         -> RETAIN FOR FULL TEXT
+any robbery / larceny / illegitimate
+route signal in title or abstract       -> RETAIN FOR FULL TEXT
+available title + abstract with no
+robbery/bypass-route signal             -> INELIGIBLE_TITLE_ABSTRACT_NO_ROUTE_OUTCOME
+~~~
+
+This stage may inspect whether a route-resolved robbery outcome is plausibly present,
+because that is part of the predeclared eligibility contract. It must not inspect or
+code whether the geometry–robbery association is positive, null, opposite, or mixed.
+
+When a deduplicated frame record maps to multiple OpenAlex Work IDs, all provider
+records are checked. A record is auto-excluded only if every mapped Work has an
+abstract and the combined title/abstract text contains no frozen route signal.
+Any missing abstract forces retention for full text.
+
+The script is:
+
+~~~bash
+python scripts/screen_direct_access_geometry_openalex_title_abstract.py \
+  --frame .../DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_FRAME_V1.csv \
+  --decisions .../DIRECT_ACCESS_GEOMETRY_FULLTEXT_DECISIONS_V1.csv \
+  --output .../DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V2.csv \
+  --receipt .../DIRECT_ACCESS_GEOMETRY_TITLE_ABSTRACT_SCREEN_RECEIPT_V1.json
+~~~
 
 ## Full-text eligibility decision gate
 

@@ -1,0 +1,44 @@
+name: Resolve formal non-OA PDF routes
+
+on:
+  push:
+    branches:
+      - analysis/formal-biblio-openalex-fetch-v1
+    paths:
+      - .github/workflows/resolve-direct-access-geometry-nonpdf.yml
+
+permissions:
+  contents: write
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Resolve PDFs without using landing text for exclusion
+        run: |
+          python scripts/resolve_direct_access_geometry_nonpdf_pdfs.py \
+            --access-queue empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_FULLTEXT_ACCESS_QUEUE_V1.csv \
+            --output empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_NONPDF_PDF_RESOLUTION_V1.csv \
+            --receipt empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_NONPDF_PDF_RESOLUTION_RECEIPT_V1.json
+
+      - name: Commit PDF resolution inventory
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_NONPDF_PDF_RESOLUTION_V1.csv \
+            empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_NONPDF_PDF_RESOLUTION_RECEIPT_V1.json
+          if git diff --cached --quiet; then
+            echo "No PDF-resolution changes."
+          else
+            git commit -m "Resolve PDFs for non-OA formal-frame candidates"
+            git push origin HEAD:analysis/formal-biblio-openalex-fetch-v1
+          fi

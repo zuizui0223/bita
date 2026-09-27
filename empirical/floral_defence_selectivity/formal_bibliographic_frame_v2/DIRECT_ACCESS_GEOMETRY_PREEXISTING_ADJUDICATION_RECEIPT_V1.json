@@ -1,0 +1,54 @@
+{
+  "applied_records": [
+    {
+      "frame_id": "bib_590f6b0d1ab607fc",
+      "source": "STAGE_U",
+      "status": "INELIGIBLE_NO_GEOMETRY_TO_ROBBERY_TEST",
+      "target": ""
+    },
+    {
+      "frame_id": "bib_80b024b00c232493",
+      "source": "FIXED",
+      "status": "INELIGIBLE_STANDARDIZED_NETWORK_OVERLAP",
+      "target": ""
+    },
+    {
+      "frame_id": "bib_715d8d39ac447e3e",
+      "source": "FIXED",
+      "status": "INELIGIBLE_STANDARDIZED_NETWORK_OVERLAP",
+      "target": ""
+    },
+    {
+      "frame_id": "bib_60879bff3b334163",
+      "source": "STAGE_U",
+      "status": "INELIGIBLE_TRAIT_FITNESS_NOT_ROUTE_RESPONSE",
+      "target": ""
+    },
+    {
+      "frame_id": "bib_b59b9917b1b1adce",
+      "source": "STAGE_U",
+      "status": "INELIGIBLE_NON_GEOMETRIC_TRAIT",
+      "target": ""
+    },
+    {
+      "frame_id": "bib_37032fe1400e10a8",
+      "source": "STAGE_U",
+      "status": "INELIGIBLE_GEOMETRY_NOT_IN_ROBBERY_MODEL",
+      "target": ""
+    },
+    {
+      "frame_id": "bib_17f6d67a128991f6",
+      "source": "STAGE_U",
+      "status": "DUPLICATE_BIOLOGICAL_PROGRAM",
+      "target": "RojasNossa_Sanchez_Navarro_2016"
+    }
+  ],
+  "effect_direction_imported_for_new_formal_records": false,
+  "fixed_exclusion_applied": 2,
+  "remaining_pending_records": 162,
+  "schema": "BITA_DIRECT_ACCESS_GEOMETRY_PREEXISTING_ADJUDICATION_REUSE_V1",
+  "stage_u_duplicate_applied": 1,
+  "stage_u_eligible_pending_guarded": 0,
+  "stage_u_ineligible_applied": 4,
+  "status": "PREEXISTING_DIRECTION_BLIND_ADJUDICATIONS_APPLIED"
+}

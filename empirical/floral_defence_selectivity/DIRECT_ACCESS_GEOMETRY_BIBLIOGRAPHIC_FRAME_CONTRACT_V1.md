@@ -73,7 +73,7 @@ search_date
 - `query_id`: one of Q1–Q8.
 - `record_id`: database-native identifier; may differ across sources.
 - `doi`: blank if absent.
-- `title`: required.
+- `title`: required in the normalized frame. If an OpenAlex result has both provider-native `title` and `display_name` null, retain the record outcome-blind using the deterministic label `[OpenAlex untitled work <record_id>]`; do not drop it or enrich it from another database.
 - `year`: required four-digit publication year.
 - `search_date`: date on which the export was generated.
 
@@ -100,7 +100,7 @@ A formal frame is complete only if:
 
 - every Q1–Q8 has at least one exported row;
 - every row falls within 2000–2026-09-24;
-- no title/year is missing;
+- no normalized title/year is missing; provider-native null OpenAlex titles are retained with the frozen deterministic placeholder rather than excluded;
 - query IDs are valid;
 - all raw exports used are SHA256-recorded in the receipt.
 
@@ -129,3 +129,26 @@ FORMAL_BIBLIOGRAPHIC_UPDATE_FRAME = REQUIRED
 FORMAL_RECURRENCE_RESULT = CLOSED
 PRIMARY_STANDARDIZED_NETWORK_K = 2
 ~~~
+
+
+## Pre-screen recall amendment v2 — 2026-09-25
+
+The first outcome-blind OpenAlex execution of the frozen Q1–Q8 frame produced
+811 unique bibliographic records and recovered 23 of the 24 pre-existing direct
+programs. The sole missed calibration program was
+`Urcelay_Morales_Chalcoff_2006`, whose provider-independent title contains the
+combination `corolla length` + `floral larceny`.
+
+No direction was coded for any newly discovered bibliographic record before this
+recall check. Therefore the failed-recall v1 frame is retained as an audit artifact
+and a single pre-screen lexical amendment is allowed.
+
+The v2 amendment is **synonym-symmetric rather than study-specific**: wherever a
+Q1/Q3/Q4/Q6/Q7/Q8 robbery-term disjunction existed, `"floral larceny"` is added
+alongside `"nectar robbing"` / `"nectar robbery"`. Q2 is retained unchanged as
+the exact `"nectar robbery" AND "corolla length"` legacy query and Q5 already
+contained all three core synonyms.
+
+The publication window, eligibility contract, deduplication rule, source database,
+and all outcome-blind constraints are unchanged. The v2 frame must again pass the
+24-program recall audit before any new-record direction coding begins.

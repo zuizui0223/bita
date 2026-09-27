@@ -1,0 +1,48 @@
+name: Apply direct-access direction batch 4
+
+on:
+  push:
+    branches:
+      - analysis/formal-biblio-openalex-fetch-v1
+    paths:
+      - .github/workflows/apply-direct-access-geometry-direction-batch4.yml
+      - empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_DIRECTION_CODING_BATCH4_V1.csv
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Apply batch 4
+        run: |
+          python scripts/apply_direct_access_geometry_direction_batch.py \
+            --decisions empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V17.csv \
+            --batch empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_DIRECTION_CODING_BATCH4_V1.csv \
+            --eligibility-adjudication empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_SOURCE_ELIGIBILITY_BATCH9_V1.csv \
+            --output empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V18.csv \
+            --receipt empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_DIRECTION_CODING_BATCH4_RECEIPT_V1.json
+      - name: Validate V18
+        run: |
+          python scripts/validate_direct_access_geometry_fulltext_decisions.py \
+            --screen empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_V1.csv \
+            --decisions empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V18.csv
+          cat empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_DIRECTION_CODING_BATCH4_RECEIPT_V1.json
+      - name: Commit V18
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V18.csv \
+            empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_DIRECTION_CODING_BATCH4_RECEIPT_V1.json
+          git commit -m "Code Thunia bract-routing boundary direction"
+          git pull --rebase origin analysis/formal-biblio-openalex-fetch-v1
+          git push origin HEAD:analysis/formal-biblio-openalex-fetch-v1

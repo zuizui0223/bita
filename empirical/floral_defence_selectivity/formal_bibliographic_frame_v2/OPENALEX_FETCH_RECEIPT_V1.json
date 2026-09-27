@@ -1,0 +1,88 @@
+{
+  "count_manifest_sha256": "2ebaffe27c8494a0e6ed4cac053549d4c1a3a41d913ecc21ed1f2c11c2b2675a",
+  "outcome_direction_inspected": false,
+  "publication_window": [
+    "2000-01-01",
+    "2026-09-24"
+  ],
+  "queries": [
+    {
+      "fetched_rows": 142,
+      "pages": 2,
+      "query": "(\"nectar robbing\" OR \"floral larceny\") AND \"corolla length\"",
+      "query_id": "Q1",
+      "reported_total_rows": 142,
+      "sha256": "96cd0bf5a0d070924d376910a2c2268bbc3e370187e052366a678d347066fb6e"
+    },
+    {
+      "fetched_rows": 35,
+      "pages": 1,
+      "query": "\"nectar robbery\" AND \"corolla length\"",
+      "query_id": "Q2",
+      "reported_total_rows": 35,
+      "sha256": "afc412b7a7fcf3f428deee305952641a9b607cfcd6b7e50f50a73b670f4b43fd"
+    },
+    {
+      "fetched_rows": 207,
+      "pages": 3,
+      "query": "(\"nectar robbing\" OR \"nectar robbery\" OR \"floral larceny\") AND (\"tube length\" OR \"tube depth\")",
+      "query_id": "Q3",
+      "reported_total_rows": 207,
+      "sha256": "e2d0a15e693f358794ba9b78351e2abe333d3029a9eb803dd0b22062029a3295"
+    },
+    {
+      "fetched_rows": 259,
+      "pages": 3,
+      "query": "(\"nectar robbing\" OR \"nectar robbery\" OR \"floral larceny\") AND (\"flower size\" OR \"flower width\")",
+      "query_id": "Q4",
+      "reported_total_rows": 259,
+      "sha256": "14e3ad38b00f1a383a4b42c11b5d876d208fb3e806d288777ca2194029cabdd8"
+    },
+    {
+      "fetched_rows": 386,
+      "pages": 4,
+      "query": "(\"nectar robbing\" OR \"nectar robbery\" OR \"floral larceny\") AND (\"floral morphology\" OR \"nectar accessibility\" OR \"trait mismatch\")",
+      "query_id": "Q5",
+      "reported_total_rows": 386,
+      "sha256": "612ed38c99946f018ccc5872c2f09ff4ebed28ee7620e0fc183e8b30a15ddaeb"
+    },
+    {
+      "fetched_rows": 432,
+      "pages": 5,
+      "query": "(\"nectar robbing\" OR \"nectar robbery\" OR \"floral larceny\") AND (\"tongue length\" OR proboscis OR glossa OR \"bill length\")",
+      "query_id": "Q6",
+      "reported_total_rows": 432,
+      "sha256": "2d2e6e9f423d360173f9d455e2a9b4edb795a269453a2ae696f78e342180e20b"
+    },
+    {
+      "fetched_rows": 230,
+      "pages": 3,
+      "query": "(\"nectar robbing\" OR \"nectar robbery\" OR \"floral larceny\") AND (\"morphological constraint\" OR \"morphological constraints\" OR \"short-tongued\")",
+      "query_id": "Q7",
+      "reported_total_rows": 230,
+      "sha256": "b0fe94947f220e6053e6a8ab35a6e2e3e945e2fa49ea26fa2931da2dc845529b"
+    },
+    {
+      "fetched_rows": 8,
+      "pages": 1,
+      "query": "(\"nectar robbing\" OR \"nectar robbery\" OR \"floral larceny\") AND (\"switch to robbing\" OR \"switching to robbing\" OR \"shortened corolla\")",
+      "query_id": "Q8",
+      "reported_total_rows": 8,
+      "sha256": "fbf48cd0f66b79aacdd6732d728a698f443d744edd8af9e0998f78fd792213f9"
+    }
+  ],
+  "query_contract": {
+    "Q1": "(\"nectar robbing\" OR \"floral larceny\") AND \"corolla length\"",
+    "Q2": "\"nectar robbery\" AND \"corolla length\"",
+    "Q3": "(\"nectar robbing\" OR \"nectar robbery\" OR \"floral larceny\") AND (\"tube length\" OR \"tube depth\")",
+    "Q4": "(\"nectar robbing\" OR \"nectar robbery\" OR \"floral larceny\") AND (\"flower size\" OR \"flower width\")",
+    "Q5": "(\"nectar robbing\" OR \"nectar robbery\" OR \"floral larceny\") AND (\"floral morphology\" OR \"nectar accessibility\" OR \"trait mismatch\")",
+    "Q6": "(\"nectar robbing\" OR \"nectar robbery\" OR \"floral larceny\") AND (\"tongue length\" OR proboscis OR glossa OR \"bill length\")",
+    "Q7": "(\"nectar robbing\" OR \"nectar robbery\" OR \"floral larceny\") AND (\"morphological constraint\" OR \"morphological constraints\" OR \"short-tongued\")",
+    "Q8": "(\"nectar robbing\" OR \"nectar robbery\" OR \"floral larceny\") AND (\"switch to robbing\" OR \"switching to robbing\" OR \"shortened corolla\")"
+  },
+  "schema": "BITA_DIRECT_ACCESS_GEOMETRY_OPENALEX_FETCH_V1",
+  "search_date": "2026-09-25",
+  "source_db": "OpenAlex",
+  "status": "COMPLETE_OUTCOME_BLIND_Q1_Q8_OPENALEX_EXPORT"
+}

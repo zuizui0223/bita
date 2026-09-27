@@ -312,3 +312,58 @@ def test_formal_summary_fails_if_source_databases_are_mixed(tmp_path: Path) -> N
             historical_screen_path=historical,
             crosswalk_path=crosswalk,
         )
+
+
+def test_formal_summary_allows_verified_provider_absence_outside_denominator(tmp_path: Path) -> None:
+    screen, decisions, bootstrap, historical, crosswalk = _fixture(tmp_path)
+
+    screen_rows = list(csv.DictReader(screen.open(encoding="utf-8")))
+    screen_rows = [
+        row for row in screen_rows
+        if row.get("known_study_id") != "P16"
+    ]
+    _write(screen, SCREEN_REQUIRED, screen_rows)
+
+    decision_rows = list(csv.DictReader(decisions.open(encoding="utf-8")))
+    decision_rows = [
+        row for row in decision_rows
+        if row.get("biological_program_id") != "P16"
+    ]
+    write(decision_rows, decisions)
+
+    payload = json.loads(bootstrap.read_text(encoding="utf-8"))
+    payload.update(
+        {
+            "status": (
+                "FRAME_SCREEN_BOOTSTRAPPED_KNOWN_CORPUS_"
+                "RECALL_ACCOUNTED_PROVIDER_ABSENCE"
+            ),
+            "known_programs_matched": 23,
+            "known_programs_unmatched": ["P16"],
+            "known_programs_provider_absent": ["P16"],
+            "known_programs_unresolved": [],
+            "provider_coverage_exceptions_applied": True,
+            "provider_coverage_exception_sha256": "a" * 64,
+        }
+    )
+    bootstrap.write_text(json.dumps(payload), encoding="utf-8")
+
+    result = summarize(
+        screen,
+        decisions,
+        bootstrap,
+        historical_screen_path=historical,
+        crosswalk_path=crosswalk,
+    )
+
+    assert result["preexisting_direct_programs_recovered"] == 23
+    assert result["preexisting_provider_absent_programs"] == 1
+    assert result["preexisting_provider_absent_program_ids"] == ["P16"]
+    assert result["known_corpus_programs_accounted"] == 24
+    assert result["eligible_direct_programs"] == 24
+    assert result["direction_counts"] == {
+        "POSITIVE": 15,
+        "NULL": 6,
+        "OPPOSITE": 1,
+        "MIXED": 2,
+    }

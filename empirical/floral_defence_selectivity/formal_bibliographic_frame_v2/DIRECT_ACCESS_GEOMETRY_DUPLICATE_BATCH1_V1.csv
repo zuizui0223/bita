@@ -1,0 +1,4 @@
+frame_id,duplicate_of_program_id,source_identifier,decision_basis,notes
+bib_5162be4d5f2786d9,Carrio_Guemes_2019,10.6084/m9.figshare.8174591,DUPLICATE_REPOSITORY_OBJECT_OF_ELIGIBLE_PROGRAM,"Figshare record has the same study title/year as the eligible Carrio_Guemes_2019 primary article and is its repository data object; do not count twice."
+bib_b573d1273826075f,Coetzee_et_al_2026,10.1111/1365-2435.70276,DUPLICATE_BIBLIOGRAPHIC_RECORD_OF_ELIGIBLE_PROGRAM,"OpenAlex early-year/no-DOI record has the same primary article title as the DOI-bearing Coetzee_et_al_2026 record already matched in the pre-existing direct corpus."
+bib_a3eab8cb096779c6,Irwin_Adler_2006,10.3732/ajb.93.1.64,DUPLICATE_BIBLIOGRAPHIC_RECORD_OF_ELIGIBLE_PROGRAM,"Truncated/variant title record is the same 2006 Gelsemium primary article already represented by DOI 10.3732/ajb.93.1.64 as Irwin_Adler_2006."

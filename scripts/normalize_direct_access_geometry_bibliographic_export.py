@@ -182,7 +182,7 @@ def _openalex_rows(payload: object) -> list[dict[str, str]]:
         rows.append({
             "record_id": str(item.get("id") or "").strip(),
             "doi": _norm_doi(item.get("doi")),
-            "title": str(item.get("title") or "").strip(),
+            "title": str(item.get("title") or item.get("display_name") or "").strip(),
             "year": str(item.get("publication_year") or "").strip(),
             "authors": _join_openalex_authors(item),
             "publication": publication,
@@ -258,10 +258,12 @@ def _validate_source_rows(
         record_id = row.get("record_id", "").strip()
         year_text = row.get("year", "").strip()
 
-        if not title:
-            raise ValueError(f"BIB_EXPORT_MISSING_TITLE:row={index}")
         if not record_id:
             raise ValueError(f"BIB_EXPORT_MISSING_RECORD_ID:row={index}")
+        if not title and source_db.strip().casefold() == "openalex":
+            title = f"[OpenAlex untitled work {record_id}]"
+        if not title:
+            raise ValueError(f"BIB_EXPORT_MISSING_TITLE:row={index}")
         if record_id in seen_record_ids:
             raise ValueError(f"BIB_EXPORT_DUPLICATE_RECORD_ID_WITHIN_QUERY:{record_id}")
         seen_record_ids.add(record_id)

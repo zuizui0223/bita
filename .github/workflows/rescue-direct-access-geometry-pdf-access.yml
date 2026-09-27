@@ -1,0 +1,47 @@
+name: Rescue formal landing-only PDFs
+
+on:
+  push:
+    branches:
+      - analysis/formal-biblio-openalex-fetch-v1
+    paths:
+      - .github/workflows/rescue-direct-access-geometry-pdf-access.yml
+      - scripts/recover_direct_access_geometry_pdf_access.py
+
+permissions:
+  contents: write
+
+jobs:
+  rescue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Recover public PDF URLs from landing pages
+        run: |
+          python scripts/recover_direct_access_geometry_pdf_access.py \
+            --input empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_FULLTEXT_ACCESS_QUEUE_V1.csv \
+            --output empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_FULLTEXT_ACCESS_QUEUE_V2.csv \
+            --receipt empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_PDF_ACCESS_RESCUE_RECEIPT_V1.json
+          cat empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_PDF_ACCESS_RESCUE_RECEIPT_V1.json
+
+      - name: Commit rescued access queue
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_FULLTEXT_ACCESS_QUEUE_V2.csv \
+            empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_PDF_ACCESS_RESCUE_RECEIPT_V1.json
+          if git diff --cached --quiet; then
+            echo "No rescued access changes."
+          else
+            git commit -m "Recover PDF access for landing-only formal candidates"
+            git pull --rebase origin analysis/formal-biblio-openalex-fetch-v1
+            git push origin HEAD:analysis/formal-biblio-openalex-fetch-v1
+          fi

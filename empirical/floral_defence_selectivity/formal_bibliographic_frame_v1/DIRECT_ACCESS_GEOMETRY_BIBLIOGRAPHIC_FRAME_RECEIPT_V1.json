@@ -1,0 +1,77 @@
+{
+  "biological_independence_adjudicated": false,
+  "duplicate_rows_collapsed": 787,
+  "formal_recurrence_result_open": false,
+  "frozen_query_ids": [
+    "Q1",
+    "Q2",
+    "Q3",
+    "Q4",
+    "Q5",
+    "Q6",
+    "Q7",
+    "Q8"
+  ],
+  "input_rows": 1598,
+  "inputs": [
+    {
+      "path": "Q1.csv",
+      "rows": 137,
+      "sha256": "197c655e1930e07a5eb0d073a708d5d6a1fabd8b6e247f969de0ea0c693402ba"
+    },
+    {
+      "path": "Q2.csv",
+      "rows": 35,
+      "sha256": "3fc9bc7a357470cc503d976a5572af1b4ebaa60e61db06671043217f332335db"
+    },
+    {
+      "path": "Q3.csv",
+      "rows": 195,
+      "sha256": "894bfca309a3326b280b4bfd8d64396f4fa94fb36f1078a81e065ce8a871be53"
+    },
+    {
+      "path": "Q4.csv",
+      "rows": 231,
+      "sha256": "82a85f753f82bd054f8877153deebdc49293e3999c40f5e9a3809886c9d2a034"
+    },
+    {
+      "path": "Q5.csv",
+      "rows": 386,
+      "sha256": "be890ceb6c087712457822d4867503abf164f20428a818f868c2504740441e62"
+    },
+    {
+      "path": "Q6.csv",
+      "rows": 390,
+      "sha256": "a35465b5fbe93889670d656b8c872d72103f19f8b25b985892d8a008bc02e0ea"
+    },
+    {
+      "path": "Q7.csv",
+      "rows": 216,
+      "sha256": "e488f41ffccd96e16275f1b55cb9493f3e0f1dd022eb281691245a216167fc5b"
+    },
+    {
+      "path": "Q8.csv",
+      "rows": 8,
+      "sha256": "9125c60d6098eb63d9ebaae24c4ac3ef3189450300874fec167609c6d4e0d529"
+    }
+  ],
+  "outcome_direction_coded": false,
+  "primary_standardized_network_k": 2,
+  "publication_window": {
+    "from": "2000-01-01",
+    "through": "2026-09-24"
+  },
+  "query_raw_row_counts": {
+    "Q1": 137,
+    "Q2": 35,
+    "Q3": 195,
+    "Q4": 231,
+    "Q5": 386,
+    "Q6": 390,
+    "Q7": 216,
+    "Q8": 8
+  },
+  "schema": "BITA_DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_FRAME_V1",
+  "status": "OUTCOME_BLIND_FRAME_FROZEN",
+  "unique_bibliographic_records": 811
+}

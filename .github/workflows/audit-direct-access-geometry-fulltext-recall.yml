@@ -1,0 +1,29 @@
+name: Audit formal fulltext structural recall
+
+on:
+  push:
+    branches:
+      - analysis/formal-biblio-openalex-fetch-v1
+    paths:
+      - .github/workflows/audit-direct-access-geometry-fulltext-recall.yml
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -q pypdf
+      - name: Audit known direct-study structural recall
+        run: |
+          python scripts/audit_direct_access_geometry_fulltext_structural_recall.py \
+            --frame empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_FRAME_V1.csv \
+            --screen empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BIBLIOGRAPHIC_SCREEN_V1.csv \
+            --output /tmp/DIRECT_ACCESS_GEOMETRY_FULLTEXT_STRUCTURAL_RECALL_AUDIT_V1.csv \
+            --receipt /tmp/DIRECT_ACCESS_GEOMETRY_FULLTEXT_STRUCTURAL_RECALL_AUDIT_RECEIPT_V1.json
+          cat /tmp/DIRECT_ACCESS_GEOMETRY_FULLTEXT_STRUCTURAL_RECALL_AUDIT_RECEIPT_V1.json

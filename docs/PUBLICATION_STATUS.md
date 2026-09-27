@@ -50,45 +50,58 @@ Access constraints promote rerouting when they penalize legitimate access more t
 the bypass route. Null, mixed and opposite direct studies define boundary conditions
 for this mechanism.
 
-## Direct empirical and mechanistic context
+## Formal direct empirical recurrence and mechanistic context
 
-The standardized joint network statistic remains **k = 2**.
+The standardized joint network statistic remains **k = 2**. No literature study is
+added to that standardized-network replication count.
 
-A separate bounded discovery corpus now contains **24 independent direct
-access-geometry → nectar-robbery study programs** outside the two standardized
-network datasets:
+The outcome-blind OpenAlex Q1–Q8 frame is now **complete and open for finite-frame
+directional summary**:
 
 ~~~text
-POSITIVE = 16
+FORMAL_BIBLIOGRAPHIC_FRAME_RECORDS = 857
+ELIGIBLE_DIRECT_STUDY_PROGRAMS = 33
+POSITIVE = 22
 NULL = 5
-OPPOSITE = 1
+OPPOSITE = 4
 MIXED = 2
+DUPLICATE_BIBLIOGRAPHIC_RECORDS = 6
+INELIGIBLE_BIBLIOGRAPHIC_RECORDS = 818
+PENDING_FULLTEXT = 0
 NETWORK_K_CONTRIBUTION = 0
+PRIMARY_STANDARDIZED_NETWORK_K = 2
 ~~~
 
-This layer includes experiments, population studies and community studies. It is
-used to show that the biological relation has been directly tested beyond the two
-standardized networks, while the retained null, mixed and opposite systems expose
-boundary conditions. Because the discovery search is not a systematic-review
-denominator, these counts are not a success rate, prevalence estimate, sign test or
-pooled effect.
+Of the 33 eligible programs, **23 are pre-existing direct-corpus programs recovered
+inside OpenAlex** and **10 are newly eligible programs recovered by the formal
+frame**. The 10 newly eligible programs comprise **7 positive and 3 opposite**
+directions. One pre-existing program
+(`Urcelay_Morales_Chalcoff_2006`) was independently verified as absent from
+OpenAlex and is reported outside the formal denominator rather than injected into
+it.
 
-A stricter formal-recurrence lane uses the **56 distinct Leal et al. (2025)
-`study`-field labels** as an outcome-independent historical anchor. They are not
-assumed to be 56 independent studies: source audit found two labels that combine
-rows from different source programs. Current label-level screening is 50
-geometry-ineligible, 4 eligible, and 2 provenance-conflicted. Only 4 of the 24
-direct programs overlap the Leal frame. The two source conflicts do not affect geometry eligibility: all verified/plausible
-source components are geometry-ineligible, so the historical direct-eligible set is
-stable at four. The deterministic bibliographic-frame builder, frozen Q1–Q8 query contract, provider-export normalizer, one-command Q1–Q8 intake, and post-freeze 24-program screening bootstrap are implemented. The remaining gate before any formal recurrence statistic is one complete Q1–Q8 export from a single bibliographic database; normalization, deterministic deduplication and frame freezing are then automated.
+The historical Leal et al. (2025) anchor remains outcome-independent: its 56
+distinct `study` labels were screened against the same geometry contract, with
+four direct eligible programs. Those historical programs are already contained in
+the formal eligible set and are not double counted.
 
-The floral-defence corpus and effective-access / exposure framework are retained as
-mechanistic context for why route switching is biologically plausible. They are not
-the Letter's primary statistical evidence.
+The finite-frame result is descriptive. It is **not** a natural-prevalence estimate,
+sign test, pooled meta-analytic effect, or additional standardized-network
+replication count. Its role is stronger and narrower: the access-geometry →
+nectar-robbery relation formally recurs beyond the two standardized networks while
+retaining null, mixed and opposite systems as mechanism boundary conditions.
 
-Matched effective-domain coding is author-derived and has not yet undergone
-outcome-blind independent recoding. Therefore the Letter does not use the 11-system
-state alignment as independent validation.
+The complete formal artifacts are:
+
+- `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv`
+- `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_FULLTEXT_COMPLETE_RECEIPT_V1.json`
+- `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json`
+
+The floral-defence corpus and effective-access / exposure framework remain
+mechanistic context for why route switching is biologically plausible. Matched
+effective-domain coding is still author-derived and has not undergone outcome-blind
+independent recoding, so the 11-system state alignment is not treated as independent
+validation.
 
 ## Extended paper preserved
 
