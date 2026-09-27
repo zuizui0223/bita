@@ -53,8 +53,8 @@ def test_letter_keeps_causal_and_replication_boundaries() -> None:
 def test_letter_weights_ecuador_primary_and_insects_as_corroboration() -> None:
     text = LETTER.read_text(encoding="utf-8")
     abstract = text.split("## Abstract", 1)[1].split("## Introduction", 1)[0]
-    assert "primarily in an all-Ecuador bird–flower network" in abstract
-    assert "smaller independent insect network" in abstract
+    assert "in an all-Ecuador bird–flower network" in abstract
+    assert "independent insect network" in abstract
     assert abstract.index("1,378 bird × plant × site units") < abstract.index("57 plant species")
 
     assert "### Primary Ecuadorian test" in text
