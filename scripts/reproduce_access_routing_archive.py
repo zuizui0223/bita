@@ -113,7 +113,7 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
             "pair_site_descriptive": summarize_pair_sites(
                 aubert_rows,
                 permutations=permutations,
-                seed=SAKHALKAR_SEED,
+                seed=20261919,
             ),
             "plant_species_rho_check": cluster_aggregated_rho_summary(
                 aubert_rows,
