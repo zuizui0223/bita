@@ -1,0 +1,42 @@
+{
+  "schema": "BITA_DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1",
+  "status": "FORMAL_FINITE_FRAME_DIRECTION_SUMMARY_OPEN",
+  "frame_records": 857,
+  "source_db": "OpenAlex",
+  "eligible_direct_programs": 33,
+  "direction_counts": {
+    "POSITIVE": 22,
+    "NULL": 5,
+    "OPPOSITE": 4,
+    "MIXED": 2
+  },
+  "preexisting_direct_programs_recovered": 23,
+  "preexisting_provider_absent_programs": 1,
+  "preexisting_provider_absent_program_ids": [
+    "Urcelay_Morales_Chalcoff_2006"
+  ],
+  "known_corpus_programs_accounted": 24,
+  "new_eligible_programs_from_formal_frame": 10,
+  "new_eligible_direction_counts": {
+    "POSITIVE": 7,
+    "NULL": 0,
+    "OPPOSITE": 3,
+    "MIXED": 0
+  },
+  "duplicate_bibliographic_records": 6,
+  "ineligible_bibliographic_records": 818,
+  "historical_direct_eligible_programs": 4,
+  "historical_direct_directions": {
+    "POSITIVE": 2,
+    "NULL": 1,
+    "OPPOSITE": 0,
+    "MIXED": 1
+  },
+  "historical_anchor_double_counted": false,
+  "formal_recurrence_descriptive_summary_open": true,
+  "formal_direction_p_value_computed": false,
+  "pooled_effect_computed": false,
+  "natural_prevalence_estimated": false,
+  "primary_standardized_network_k": 2,
+  "claim": "Within the frozen Q1-Q8 bibliographic frame, 33 independent study programs directly tested the access-geometry to nectar-robbery relation; directions were 22 positive, 5 null, 4 opposite and 2 mixed. This is a finite-frame evidence distribution, not natural prevalence and not an additional network-level replication count. 1 pre-existing direct program(s) independently verified as absent from the selected bibliographic provider are reported outside the formal denominator."
+}
