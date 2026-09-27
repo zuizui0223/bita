@@ -11,11 +11,15 @@ Article type: **Ecology Letters Letter**.
 ```text
 PRIMARY:
 Aubert / EPHI all-Ecuador bird–flower network
-1,378 pair-site units
-barrier robbery 0.307 vs accessible 0.081
-site-adjusted rho = 0.351
-within-site permutation p = 0.0001
-15 / 17 comparable sites same direction
+missing piercing -> legitimate/no per source metadata
+2,265 pair-site aggregation units -> 259 plant-species inferential units
+plant-level mismatch rho = 0.503
+species permutation p = 0.0001
+paired barrier contrast: 130 plant species, mean difference +0.0915, p = 0.0001
+descriptive pair-site robbery: barrier 0.147 vs accessible 0.020
+18 / 18 comparable sites same direction
+complete-case yes/no sensitivity retains plant-level direction
+bird-species continuous sensitivity: rho = 0.086, p = 0.551
 
 CORROBORATION:
 Sakhalkar Afrotropical insect–flower network
@@ -25,8 +29,8 @@ permutation p = 0.0086
 multitrait sensitivity does not isolate tube length uniquely
 
 JOINT:
-equal network weight
-rho_J = 0.349
+plant-species effects, equal network weight
+rho_J = 0.428
 p = 0.0001
 k = 2 independent networks
 ```
@@ -136,7 +140,7 @@ AUTHOR_RELATIVE_NOVELTY_STATEMENT = REQUIRED
 EXTERNAL_SUBMISSION = BLOCKED_UNTIL_THESE_ARE_COMPLETE
 ~~~
 
-The archive contract contains the exact 57-species and 1,378-pair-site analysis tables, metadata, reproduction code and frozen outputs. The remaining data sequence is: reserve the Zenodo DOI first, insert it into the submission files, freeze that DOI-bearing commit, build the exact final ZIP from that commit, upload it to the same draft, and publish the DOI record.
+The archive contract contains the exact 57-species Sakhalkar table and 2,265-row Aubert/EPHI pair-site table with anonymous plant/bird cluster identifiers, allowing the 259-plant-species primary analysis and dependence sensitivities to be reproduced without source taxon names. The remaining data sequence is: reserve the Zenodo DOI first, insert it into the submission files, freeze that DOI-bearing commit, build the exact final ZIP from that commit, upload it to the same draft, and publish the DOI record.
 
 ## Journal route
 
@@ -148,14 +152,16 @@ The archive contract contains the exact 57-species and 1,378-pair-site analysis 
 ```
 
 ```text
-STATUS = SCIENTIFIC_PACKAGE_READY
+STATUS = SCIENTIFIC_PACKAGE_REBUILT_AROUND_SPECIES_LEVEL_ROBUST_INFERENCE
 ACTIVE_PAPER = ACCESS_ROUTING_LETTER
 ROUTING_MECHANISM = RELATIVE_ROUTE_COST
 ROUTE_COST_BOUNDARY = dC_LEGITIMATE_MINUS_dC_BYPASS
-DIRECT_ACCESS_GEOMETRY_PROGRAMS = 24
-DIRECT_EVIDENCE_DIRECTIONS = 16_POSITIVE_5_NULL_1_OPPOSITE_2_MIXED
+DIRECT_ACCESS_GEOMETRY_BOUNDED_CORPUS_PROGRAMS = 24
+FORMAL_DIRECT_ACCESS_GEOMETRY_PROGRAMS = 33
+BOUNDED_CORPUS_DIRECTIONS = 16_POSITIVE_5_NULL_1_OPPOSITE_2_MIXED
+FORMAL_FRAME_DIRECTIONS = 22_POSITIVE_5_NULL_4_OPPOSITE_2_MIXED
 FORMAL_HISTORICAL_FRAME = LEAL2025_56_STUDY_FIELD_LABELS
-FORMAL_HISTORICAL_SOURCE_PROGRAMS = NOT_YET_FINAL
+FORMAL_HISTORICAL_SOURCE_PROGRAMS = RESOLVED
 FORMAL_HISTORICAL_PROVENANCE_CONFLICTS = 2
 HISTORICAL_DIRECT_ELIGIBLE_SET = RESOLVED_AT_4_INVARIANT_TO_CONFLICT_SPLIT
 STAGE_U_BATCHES_1_2 = 23_CANDIDATES_9_ELIGIBLE_1_DUPLICATE_13_INELIGIBLE
@@ -172,8 +178,8 @@ BIBLIOGRAPHIC_FULLTEXT_DECISION_GATE = IMPLEMENTED_REQUIRE_COMPLETE_FAIL_CLOSED
 FORMAL_RECURRENCE_SUMMARY_GATE = IMPLEMENTED_FINITE_FRAME_DIRECTION_COUNTS
 FORMAL_RECURRENCE_PVALUE = NOT_COMPUTED_BY_V1
 FORMAL_RECURRENCE_POOLED_EFFECT = NOT_COMPUTED_BY_V1
-FORMAL_BIBLIOGRAPHIC_FRAME = AWAITING_ONE_COMPLETE_SINGLE_DB_Q1_Q8_EXPORT_ZIP
-FORMAL_RECURRENCE_RESULT = NOT_YET_OPENED
+FORMAL_BIBLIOGRAPHIC_FRAME = COMPLETE_OPENALEX_857_RECORDS
+FORMAL_RECURRENCE_RESULT = COMPLETE_33_ELIGIBLE_PROGRAMS
 EXTENDED_SYNTHESIS = PRESERVED_RESERVE
 LEGACY_IDENTIFICATION_PAPER = PRESERVED_SUPPORT
 DATA_CODE_ARCHIVE = STAGING_READY_RESERVED_DOI_THEN_FINAL_BUILD
