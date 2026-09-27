@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = ROOT / "submission" / "access_routing_letter_figures"
-RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "joint_access_routing.json"
+RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "joint_access_routing_species_robust.json"
 
 
 def _text(
@@ -121,7 +121,7 @@ def build_figure3(result: dict[str, object]) -> str:
     lo, hi = 0.0, 0.5
     rows = [
         ("Sakhalkar insects", s, "57 plant species"),
-        ("Aubert / EPHI birds", a, "1,378 pair-site units; site-adjusted"),
+        ("Aubert / EPHI birds", a, "259 plant species; missing-as-no"),
         ("equal-network joint", j, "Fisher-z mean; equal network weight"),
     ]
 
@@ -161,8 +161,8 @@ def build_figure3(result: dict[str, object]) -> str:
         _text(297, 711, "across plant species", size=15, anchor="middle"),
         '<rect x="555" y="615" width="385" height="120" rx="12" fill="#fafafa" stroke="#555"/>',
         _text(747, 650, "Aubert / EPHI", size=17, anchor="middle", weight="bold"),
-        _text(747, 684, "shuffle robbery ranks", size=15, anchor="middle"),
-        _text(747, 711, "within site", size=15, anchor="middle"),
+        _text(747, 684, "shuffle response ranks", size=15, anchor="middle"),
+        _text(747, 711, "across plant species", size=15, anchor="middle"),
         '<rect x="1005" y="615" width="385" height="120" rx="12" fill="#fafafa" stroke="#555"/>',
         _text(1197, 650, "Joint", size=17, anchor="middle", weight="bold"),
         _text(1197, 684, "Fisher-z mean", size=15, anchor="middle"),
@@ -170,7 +170,7 @@ def build_figure3(result: dict[str, object]) -> str:
         _text(60, 795, "C", size=22, weight="bold"),
         _text(100, 795, "Independent mechanistic corroboration", size=21, weight="bold"),
         _text(120, 835, "17 D-side study programs", size=16, weight="bold"),
-        _text(535, 835, "11 / 11 scorable domain states aligned", size=16, weight="bold"),
+        _text(535, 835, "matched-domain cases = context, not validation", size=15, weight="bold"),
         _text(1035, 835, "8 within-D switching systems", size=16, weight="bold"),
         _text(750, 880, "Joint network inference is primary; literature-based evidence supports interpretation and is not pooled into the network effect.", size=13, anchor="middle"),
         "</svg>",
