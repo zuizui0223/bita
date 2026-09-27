@@ -3,6 +3,8 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
+import pytest
+
 
 ROOT = Path(__file__).resolve().parents[1]
 LETTER = ROOT / "manuscript" / "MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md"
@@ -55,6 +57,7 @@ def test_letter_title_page_matches_current_manuscript_counts() -> None:
     assert len(keywords) <= 10
 
 
+@pytest.mark.prose_contract
 def test_letter_submission_source_excludes_internal_workflow_language() -> None:
     letter = LETTER.read_text(encoding="utf-8")
     lower = letter.lower()
