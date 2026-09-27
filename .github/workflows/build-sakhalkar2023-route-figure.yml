@@ -7,6 +7,7 @@ on:
       - "scripts/build_sakhalkar2023_route_figure_svg.py"
       - "tests/test_sakhalkar2023_route_figure.py"
       - "empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json"
+      - "empirical/floral_defence_selectivity/results/aubert2026_missingness_dependence_sensitivity.json"
       - ".github/workflows/build-sakhalkar2023-route-figure.yml"
   workflow_dispatch:
 
@@ -40,9 +41,12 @@ jobs:
               "rho = 0.347",
               "permutation p = 0.0086",
               "Aubert / EPHI",
-              "barrier = 0.307",
-              "accessible = 0.081",
-              "15 / 17 sites",
+              "259 plant species",
+              "plant-level mismatch rho = 0.503",
+              "paired barrier contrast: 130 plant species",
+              "barrier = 0.147",
+              "accessible = 0.020",
+              "18 / 18 sites",
           ]
           missing = [item for item in expected if item not in text]
           if missing:
