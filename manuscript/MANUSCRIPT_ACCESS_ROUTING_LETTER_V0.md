@@ -142,7 +142,7 @@ r_J=
 \right].
 \]
 
-The permutation null acted on plant-species units in both datasets. In each network, response ranks were shuffled across plant species and the network correlation was recomputed; the two permuted correlations were then combined with equal network weight. We used 9,999 permutations and a two-sided test.
+The permutation null acted on plant-species units in both datasets. In each network, response ranks were shuffled across plant species and the network correlation was recomputed; the two permuted correlations were then combined with equal network weight. We used 9,999 permutations, two-sided tests and the standard plus-one correction. Thus a reported permutation \(p=0.0001\) is the Monte Carlo resolution limit, corresponding to zero of 9,999 permuted statistics reaching the observed magnitude before the plus-one correction.
 
 ### Formal direct access-geometry literature frame
 
