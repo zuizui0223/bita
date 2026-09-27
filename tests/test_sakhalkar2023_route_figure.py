@@ -44,19 +44,27 @@ def test_figure4_svg_contains_points_and_frozen_stats_without_species_ids() -> N
         "median_tube_length_thief_only": 2.0,
     }
     aubert = {
-        "pair_site_n": 1378,
-        "mean_robbery_rate_barrier": 0.30698,
-        "mean_robbery_rate_accessible": 0.08139,
-        "barrier_minus_accessible_mean_rate": 0.22559,
-        "barrier_mean_difference_permutation_p": 0.0001,
-        "mismatch_spearman_rho": 0.41826,
-        "mismatch_spearman_permutation_p": 0.0001,
-        "site_difference": {
-            "eligible_sites": 17,
-            "positive_sites": 15,
-            "mean_within_site_difference": 0.14399,
-            "sign_test_p": 0.00235,
-            "site_stratified_permutation_p": 0.0001,
+        "missing_as_no": {
+            "native_pair_site_summary": {
+                "pair_site_n": 2265,
+                "mean_robbery_rate_barrier": 0.14664,
+                "mean_robbery_rate_accessible": 0.01995,
+                "site_difference": {
+                    "eligible_sites": 18,
+                    "positive_sites": 18,
+                    "sign_test_p": 7.62939453125e-06,
+                },
+            },
+            "plant_species_rho_check": {
+                "n_clusters": 259,
+                "rho": 0.50316,
+                "permutation_p_two_sided": 0.0001,
+            },
+            "plant_species_cluster_check": {
+                "eligible_clusters": 130,
+                "mean_cluster_difference": 0.09146,
+                "cluster_label_swap_permutation_p": 0.0001,
+            },
         },
     }
     svg = build_svg(points, result, aubert)
@@ -68,10 +76,10 @@ def test_figure4_svg_contains_points_and_frozen_stats_without_species_ids() -> N
     assert "robber-only median = 8.000" in svg
     assert "thief-only median = 2.000" in svg
     assert "Aubert / EPHI" in svg
-    assert "barrier = 0.307" in svg
-    assert "accessible = 0.081" in svg
-    assert "15 / 17 sites" in svg
-    assert "mismatch rho = 0.418" in svg
+    assert "barrier = 0.147" in svg
+    assert "accessible = 0.020" in svg
+    assert "18 / 18 sites" in svg
+    assert "plant-level mismatch rho = 0.503" in svg
     assert ">A<" not in svg
     assert ">B<" not in svg
     assert ">C<" not in svg
