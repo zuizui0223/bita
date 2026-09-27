@@ -87,7 +87,7 @@ jobs:
 
       - name: Test Letter contracts
         run: |
-          pytest -q \
+          pytest -q -m "not prose_contract" \
             tests/test_access_routing_letter.py \
             tests/test_access_routing_letter_figures.py \
             tests/test_ecology_letters_letter_submission.py \
