@@ -1,0 +1,19 @@
+{
+  "applied_records": [
+    {
+      "direction": "POSITIVE",
+      "frame_id": "bib_1c336d52469ecbc3",
+      "program": "Fischer_Costa_Woodard_2026_Linaria"
+    }
+  ],
+  "direction_counts": {
+    "MIXED": 0,
+    "NULL": 0,
+    "OPPOSITE": 0,
+    "POSITIVE": 1
+  },
+  "eligible_direct_total_after_apply": 33,
+  "pending_records_after_apply": 1,
+  "schema": "BITA_DIRECT_ACCESS_GEOMETRY_DIRECTION_APPLY_V1",
+  "status": "DIRECTION_BATCH_APPLIED_AFTER_ELIGIBILITY_FREEZE"
+}
