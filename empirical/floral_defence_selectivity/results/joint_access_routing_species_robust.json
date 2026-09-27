@@ -1,0 +1,68 @@
+{
+  "analysis_name": "joint_equal_network_access_routing_species_robust",
+  "aubert_binary_barrier_plant_species_check": {
+    "cluster_key": "plant_species",
+    "cluster_label_swap_permutation_p": 0.0001,
+    "eligible_clusters": 130,
+    "mean_cluster_difference": 0.09145729746920327,
+    "median_cluster_difference": 0.012716534503917682,
+    "nonzero_clusters": 82,
+    "permutations": 9999,
+    "positive_clusters": 75,
+    "sign_test_p": 1.7292396771428031e-15
+  },
+  "aubert_input_audit": {
+    "bird_species_clusters": 50,
+    "included_by_piercing_policy": 53882,
+    "missing_as_no": true,
+    "pair_site_rows": 2265,
+    "plant_species_clusters": 259,
+    "raw_piercing_status_counts": {
+      "<blank>": 31700,
+      "maybe": 12,
+      "no": 17509,
+      "no flower contact": 1,
+      "not_interacting": 105,
+      "there is a sylph perched in the same picture": 1,
+      "thief": 338,
+      "yes": 4673
+    },
+    "resolved_target_interactions": 50572,
+    "sites": 18,
+    "target_taxon_rows_before_piercing_filter": 54339,
+    "trait_matched_interactions": 49237
+  },
+  "aubert_permutation_scheme": "across_plant_species_after_within_species_aggregation",
+  "claim_boundary": "Each network contributes one plant-species-level rank association. Aubert/EPHI missing piercing values are treated as legitimate interactions according to the source metadata. This removes pair-site pseudo-replication from the joint test but remains observational and does not establish a causal effect of floral geometry.",
+  "guardrail": "Aggregate output only; source species identifiers are not emitted.",
+  "joint_equal_network_fisher_z_rho": 0.428174921408795,
+  "joint_permutation_p_two_sided": 0.0001,
+  "network_count": 2,
+  "network_direction_concordance": "2_of_2_positive",
+  "network_effects": {
+    "aubert_ephi": {
+      "aggregation": "unweighted mean mismatch and robbery rate across pair-site rows within plant species",
+      "missingness_policy": "explicit missing piercing codes recoded as legitimate/no",
+      "n_units": 259,
+      "permutation_p_two_sided": 0.0001,
+      "rho": 0.5031637639157795,
+      "unit": "plant_species"
+    },
+    "sakhalkar": {
+      "n_units": 57,
+      "permutation_p_two_sided": 0.0107,
+      "rho": 0.3467862681178467,
+      "unit": "plant_species"
+    }
+  },
+  "null_probability_both_positive": 0.2527,
+  "permutations": 9999,
+  "sakhalkar_permutation_scheme": "across_plant_species",
+  "seed": 20260927,
+  "provenance": {
+    "workflow_run": 36327753303,
+    "workflow_job": 108643681803,
+    "artifact_id": 10934298439,
+    "artifact_digest": "sha256:2eb3b6b732fda52516a89e9077b8d129eb84fc3a2e3e2ca92bc1478a0901b6fe"
+  }
+}
