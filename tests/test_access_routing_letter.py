@@ -3,6 +3,8 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 LETTER = ROOT / "manuscript" / "MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md"
 
@@ -39,6 +41,7 @@ def test_letter_centers_one_joint_access_routing_result() -> None:
     assert "2-network" not in text
 
 
+@pytest.mark.prose_contract
 def test_letter_keeps_causal_and_replication_boundaries() -> None:
     text = LETTER.read_text(encoding="utf-8").lower()
     assert "result remains observational" in text
@@ -50,6 +53,7 @@ def test_letter_keeps_causal_and_replication_boundaries() -> None:
     assert "generality beyond the two network systems" in text
 
 
+@pytest.mark.prose_contract
 def test_letter_weights_ecuador_primary_and_insects_as_corroboration() -> None:
     text = LETTER.read_text(encoding="utf-8")
     abstract = text.split("## Abstract", 1)[1].split("## Introduction", 1)[0]
@@ -62,6 +66,7 @@ def test_letter_weights_ecuador_primary_and_insects_as_corroboration() -> None:
     assert text.index("### Primary Ecuadorian test") < text.index("### Independent insect corroboration")
 
 
+@pytest.mark.prose_contract
 def test_letter_demotes_matched_domain_corpus_to_mechanistic_context() -> None:
     text = LETTER.read_text(encoding="utf-8").lower()
     assert "mechanistic context, not independent validation" in text
