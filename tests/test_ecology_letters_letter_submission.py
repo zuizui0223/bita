@@ -3,6 +3,8 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
+import pytest
+
 
 ROOT = Path(__file__).resolve().parents[1]
 LETTER = ROOT / "manuscript" / "MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md"
@@ -55,6 +57,7 @@ def test_letter_title_page_matches_current_manuscript_counts() -> None:
     assert len(keywords) <= 10
 
 
+@pytest.mark.prose_contract
 def test_letter_submission_source_excludes_internal_workflow_language() -> None:
     letter = LETTER.read_text(encoding="utf-8")
     lower = letter.lower()
@@ -69,12 +72,15 @@ def test_letter_submission_source_excludes_internal_workflow_language() -> None:
     assert "relative route cost" in lower
     assert "cost of legitimate entry more than the cost of bypass" in lower
     assert "longer flower = more robbery" in lower
-    assert "bounded direct-evidence corpus contained 24 study programs" in lower
-    assert "sixteen showed the predicted direction" in lower
+    assert "frozen openalex frame contained 857 unique bibliographic records" in lower
+    assert "33 independent study programs" in lower
+    assert "twenty-two showed the predicted direction" in lower
     assert "five were null" in lower
+    assert "four were opposite" in lower
     assert "two were mixed" in lower
-    assert "one showed the opposite direction" in lower
-    assert "do not estimate prevalence" in lower
+    assert "finite provider-defined frame" in lower
+    assert "not an estimate of natural prevalence" in lower
+    assert "bounded direct-evidence corpus contained 24 study programs" not in lower
     assert "standardized replication count is therefore still only two networks" in lower
 
 
