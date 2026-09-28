@@ -24,7 +24,9 @@ from pathlib import Path
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from scripts.analyze_joint_access_routing import build_public_inputs
+from scripts.analyze_joint_access_routing_species_robust import (
+    build_existing_network_species_inputs,
+)
 from scripts.analyze_joint_access_routing_k3 import (
     SEED as K3_SEED,
     summarize_joint_k3,
@@ -161,7 +163,7 @@ def run_with_network_inputs(
     confirmatory_freeze_json: str | Path,
     field_readiness_json: str | Path,
     sakhalkar_points: list[dict[str, float | str]],
-    aubert_rows: list[dict[str, float | str | bool | int]],
+    aubert_points: list[dict[str, float]],
     output_dir: str | Path,
     repository_commit: str,
     existing_network_input_mode: str,
@@ -181,7 +183,7 @@ def run_with_network_inputs(
         try:
             existing_validation = validate_existing_network_payloads(
                 sakhalkar_points,
-                aubert_rows,
+                aubert_points,
             )
         except (KeyError, TypeError, ValueError) as exc:
             raise ValueError(
@@ -239,11 +241,11 @@ def run_with_network_inputs(
 
         # Exact existing-network analysis rows remain unrounded inputs.
         _write_json(sakhalkar_input_json, sakhalkar_points)
-        _write_json(aubert_input_json, aubert_rows)
+        _write_json(aubert_input_json, aubert_points)
 
         joint_result = summarize_joint_k3(
             sakhalkar_points,
-            aubert_rows,
+            aubert_points,
             third_rows,
             permutations=permutations,
             seed=k3_seed,
@@ -298,8 +300,8 @@ def run_with_network_inputs(
                 },
                 "aubert_ephi": {
                     "filename": aubert_input_json.name,
-                    "analysis_units": len(aubert_rows),
-                    "stable_json_sha256": _stable_json_sha256(aubert_rows),
+                    "analysis_units": len(aubert_points),
+                    "stable_json_sha256": _stable_json_sha256(aubert_points),
                     "file_sha256": _sha256(aubert_input_json),
                     "source_doi": "10.5281/zenodo.14185547",
                 },
@@ -350,7 +352,7 @@ def run(
         raise ValueError(
             f"PRODUCTION_PERMUTATIONS_MUST_EQUAL_{PRODUCTION_PERMUTATIONS}: {permutations}"
         )
-    sakhalkar_points, aubert_rows = build_public_inputs()
+    sakhalkar_points, aubert_points = build_existing_network_species_inputs()
     return run_with_network_inputs(
         events_csv=events_csv,
         plant_traits_csv=plant_traits_csv,
@@ -359,7 +361,7 @@ def run(
         confirmatory_freeze_json=confirmatory_freeze_json,
         field_readiness_json=field_readiness_json,
         sakhalkar_points=sakhalkar_points,
-        aubert_rows=aubert_rows,
+        aubert_points=aubert_points,
         output_dir=output_dir,
         repository_commit=commit,
         existing_network_input_mode=PRODUCTION_INPUT_MODE,
