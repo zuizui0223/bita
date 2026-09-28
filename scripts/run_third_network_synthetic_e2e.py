@@ -286,16 +286,15 @@ def _synthetic_sakhalkar() -> list[dict[str, float]]:
 
 def _synthetic_aubert() -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []
-    for site in ("A", "B"):
-        for i in range(30):
-            mismatch = (i - 14.5) / 10.0
-            rows.append(
-                {
-                    "site": site,
-                    "mismatch_log_t_over_b": mismatch,
-                    "robbery_rate": 1.0 / (1.0 + math.exp(-mismatch)),
-                }
-            )
+    for i in range(60):
+        mismatch = (i - 29.5) / 10.0
+        rows.append(
+            {
+                "mismatch": mismatch,
+                "robbery_rate": 1.0 / (1.0 + math.exp(-mismatch)),
+                "pair_site_n": 2,
+            }
+        )
     return rows
 
 
