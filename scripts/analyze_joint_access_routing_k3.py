@@ -1,7 +1,10 @@
 """Equal-network k=3 access-routing test.
 
-This script preserves the original Sakhalkar and Aubert/EPHI permutation
-schemes and adds the frozen prospective third-network within-site permutation.
+The two existing public networks enter at the same inferential grain used by
+the repaired k=2 Letter: plant species for Sakhalkar and plant species for
+Aubert/EPHI after metadata-informed missingness handling and within-species
+aggregation. The prospective third network retains its frozen within-site
+permutation because its confirmatory units are mammal x plant x site.
 """
 from __future__ import annotations
 
@@ -20,8 +23,10 @@ from scripts.analyze_joint_access_routing import (
     _pearson,
     _permute_within_site,
     _rankdata,
-    build_public_inputs,
     combine_rhos_equal_network,
+)
+from scripts.analyze_joint_access_routing_species_robust import (
+    build_existing_network_species_inputs,
 )
 from scripts.analyze_third_access_routing_network import (
     SEED as THIRD_SEED,
@@ -34,7 +39,7 @@ SEED = 20260921
 
 def summarize_joint_k3(
     sakhalkar_points: list[dict[str, float | str]],
-    aubert_rows: list[dict[str, float | str | bool | int]],
+    aubert_points: list[dict[str, float]],
     third_rows: list[dict[str, object]],
     *,
     permutations: int = 9999,
@@ -46,9 +51,8 @@ def summarize_joint_k3(
 
     sx = [float(row["tube_length"]) for row in sakhalkar_points]
     sy = [float(row["balance"]) for row in sakhalkar_points]
-    ax = [float(row["mismatch_log_t_over_b"]) for row in aubert_rows]
-    ay = [float(row["robbery_rate"]) for row in aubert_rows]
-    asites = [str(row["site"]) for row in aubert_rows]
+    ax = [float(row["mismatch"]) for row in aubert_points]
+    ay = [float(row["robbery_rate"]) for row in aubert_points]
 
     tx = [float(row["M"]) for row in third_rows]
     ty = [float(row["Y"]) for row in third_rows]
@@ -59,9 +63,7 @@ def summarize_joint_k3(
     txr, tyr = _rankdata(tx), _rankdata(ty)
 
     r_s = _pearson(sxr, syr)
-    axc = _center_within_group(axr, asites)
-    ayc = _center_within_group(ayr, asites)
-    r_a = _pearson(axc, ayc)
+    r_a = _pearson(axr, ayr)
     txc = _center_within_group(txr, tsites)
     tyc = _center_within_group(tyr, tsites)
     r_t = _pearson(txc, tyc)
@@ -75,20 +77,20 @@ def summarize_joint_k3(
     rng_a = random.Random(seed + 1)
     rng_t = random.Random(THIRD_SEED)
     s_shuffled = list(syr)
+    a_shuffled = list(ayr)
     extreme = 0
     positive_all = 0
 
     for _ in range(permutations):
         rng_s.shuffle(s_shuffled)
 
-        a_perm = _permute_within_site(ayr, asites, rng=rng_a)
-        a_perm_c = _center_within_group(a_perm, asites)
+        rng_a.shuffle(a_shuffled)
 
         t_perm = _permute_within_site(tyr, tsites, rng=rng_t)
         t_perm_c = _center_within_group(t_perm, tsites)
 
         ps = _pearson(sxr, s_shuffled)
-        pa = _pearson(axc, a_perm_c)
+        pa = _pearson(axr, a_shuffled)
         pt = _pearson(txc, t_perm_c)
         if not all(math.isfinite(value) for value in (ps, pa, pt)):
             continue
@@ -104,7 +106,7 @@ def summarize_joint_k3(
         "network_count": 3,
         "network_effects": {
             "sakhalkar_insects": r_s,
-            "aubert_ephi_birds": r_a,
+            "aubert_ephi_birds_plant_species": r_a,
             "prospective_mammals": r_t,
         },
         "joint_equal_network_fisher_z_rho": r_j3,
@@ -119,8 +121,10 @@ def summarize_joint_k3(
         ),
         "claim_boundary": (
             "Three independent networks receive equal weight; raw observations are "
-            "not pooled. k=3 still does not estimate between-network heterogeneity, "
-            "a population-level network mean, or universal causality."
+            "not pooled. Sakhalkar and Aubert/EPHI enter as plant-species effects; "
+            "the prospective third network retains its within-site confirmatory effect. "
+            "k=3 still does not estimate between-network heterogeneity, a population-level "
+            "network mean, or universal causality."
         ),
     }
 
@@ -132,11 +136,11 @@ def run(
     permutations: int = 9999,
     seed: int = SEED,
 ) -> dict[str, object]:
-    sakhalkar_points, aubert_rows = build_public_inputs()
+    sakhalkar_points, aubert_points = build_existing_network_species_inputs()
     third_rows = load_analysis_units(third_csv)
     result = summarize_joint_k3(
         sakhalkar_points,
-        aubert_rows,
+        aubert_points,
         third_rows,
         permutations=permutations,
         seed=seed,
