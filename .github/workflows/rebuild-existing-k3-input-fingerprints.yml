@@ -52,7 +52,7 @@ jobs:
           receipt = json.loads(
               Path("artifacts/existing_k3_input_fingerprint_candidate.json").read_text()
           )
-          assert receipt["receipt"] == "BITA_EXISTING_K3_INPUT_FINGERPRINT_CANDIDATE_V2"
+          assert receipt["receipt"] == "BITA_EXISTING_K3_INPUT_FINGERPRINT_CANDIDATE_V3"
           assert receipt["status"] == "CANDIDATE_REBUILT_FROM_FIXED_PUBLIC_SOURCES"
           assert receipt["networks"]["sakhalkar"]["analysis_units"] == 57
           assert receipt["networks"]["aubert_ephi"]["analysis_units"] == 259
