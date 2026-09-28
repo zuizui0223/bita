@@ -1,4 +1,6 @@
 scripts/analyze_joint_access_routing.py
+scripts/analyze_aubert2026_missingness_dependence_sensitivity.py
+scripts/analyze_joint_access_routing_species_robust.py
 scripts/analyze_joint_access_routing_k3.py
 scripts/analyze_sakhalkar2023_network.py
 scripts/audit_sakhalkar2023_zenodo.py
