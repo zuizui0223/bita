@@ -14,7 +14,7 @@ from scripts.analyze_joint_access_routing_species_robust import (
 )
 from trait_architecture.existing_k3_inputs import canonical_stable_json_sha256
 
-RECEIPT = "BITA_EXISTING_K3_INPUT_FINGERPRINT_CANDIDATE_V2"
+RECEIPT = "BITA_EXISTING_K3_INPUT_FINGERPRINT_CANDIDATE_V3"
 SOURCES = {
     "sakhalkar": "10.5281/zenodo.8398202",
     "aubert_ephi": "10.5281/zenodo.14185547",
