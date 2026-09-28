@@ -56,10 +56,19 @@ jobs:
           assert receipt["status"] == "CANDIDATE_REBUILT_FROM_FIXED_PUBLIC_SOURCES"
           assert receipt["networks"]["sakhalkar"]["analysis_units"] == 57
           assert receipt["networks"]["aubert_ephi"]["analysis_units"] == 259
+          frozen = json.loads(
+              Path(
+                  "empirical/floral_defence_selectivity/EXISTING_K3_INPUT_FINGERPRINTS_V1.json"
+              ).read_text()
+          )
           for key in ("sakhalkar", "aubert_ephi"):
               digest = receipt["networks"][key]["canonical_stable_json_sha256"]
               assert len(digest) == 64
               int(digest, 16)
+              assert receipt["networks"][key]["analysis_units"] == frozen["networks"][key]["analysis_units"]
+              assert digest == frozen["networks"][key]["canonical_stable_json_sha256"]
+              assert receipt["networks"][key]["source_doi"] == frozen["networks"][key]["source_doi"]
+          print("Public DOI rebuild matches frozen canonical existing-network inputs")
           print(json.dumps(receipt, indent=2, sort_keys=True))
           PY
 
