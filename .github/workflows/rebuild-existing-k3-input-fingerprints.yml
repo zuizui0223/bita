@@ -6,9 +6,12 @@ on:
       - "trait_architecture/existing_k3_inputs.py"
       - "scripts/fingerprint_existing_k3_inputs.py"
       - "scripts/analyze_joint_access_routing.py"
+      - "scripts/analyze_joint_access_routing_species_robust.py"
+      - "scripts/analyze_aubert2026_missingness_dependence_sensitivity.py"
       - "scripts/analyze_sakhalkar2023_network.py"
       - "scripts/audit_sakhalkar2023_zenodo.py"
       - "scripts/analyze_aubert2026_zenodo_extension.py"
+      - "empirical/floral_defence_selectivity/results/aubert2026_missingness_dependence_sensitivity.json"
       - "tests/test_existing_k3_input_fingerprints.py"
       - ".github/workflows/rebuild-existing-k3-input-fingerprints.yml"
   workflow_dispatch:
@@ -52,7 +55,7 @@ jobs:
           assert receipt["receipt"] == "BITA_EXISTING_K3_INPUT_FINGERPRINT_CANDIDATE_V2"
           assert receipt["status"] == "CANDIDATE_REBUILT_FROM_FIXED_PUBLIC_SOURCES"
           assert receipt["networks"]["sakhalkar"]["analysis_units"] == 57
-          assert receipt["networks"]["aubert_ephi"]["analysis_units"] == 1378
+          assert receipt["networks"]["aubert_ephi"]["analysis_units"] == 259
           for key in ("sakhalkar", "aubert_ephi"):
               digest = receipt["networks"][key]["canonical_stable_json_sha256"]
               assert len(digest) == 64
