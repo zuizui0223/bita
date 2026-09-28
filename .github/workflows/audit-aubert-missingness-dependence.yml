@@ -1,0 +1,58 @@
+name: Audit Aubert EPHI missingness and species dependence
+
+on:
+  pull_request:
+    paths:
+      - "scripts/analyze_aubert2026_missingness_dependence_sensitivity.py"
+      - "tests/test_aubert2026_missingness_dependence_sensitivity.py"
+      - ".github/workflows/audit-aubert-missingness-dependence.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install tests
+        run: python -m pip install -e '.[dev]'
+      - name: Test sensitivity implementation
+        run: pytest -q tests/test_aubert2026_missingness_dependence_sensitivity.py
+      - name: Run missingness and species-dependence audit
+        run: |
+          python scripts/analyze_aubert2026_missingness_dependence_sensitivity.py             artifacts/aubert2026_missingness_dependence_sensitivity.json             --permutations 9999
+      - name: Show aggregate decision fields
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("artifacts/aubert2026_missingness_dependence_sensitivity.json")
+          r = json.loads(p.read_text())
+          for policy in ("complete_case", "missing_as_no"):
+              s = r[policy]
+              n = s["native_pair_site_summary"]
+              pc = s["plant_species_cluster_check"]
+              pr = s["plant_species_rho_check"]
+              bc = s["bird_species_cluster_check"]
+              br = s["bird_species_rho_check"]
+              print(policy)
+              print("  pair_site_n", n["pair_site_n"])
+              print("  barrier_minus_accessible", n["barrier_minus_accessible_mean_rate"])
+              print("  rho", n["mismatch_spearman_rho"])
+              print("  plant paired clusters/p", pc["eligible_clusters"], pc["cluster_label_swap_permutation_p"])
+              print("  plant aggregated rho/p", pr["rho"], pr["permutation_p_two_sided"])
+              print("  bird paired clusters/p", bc["eligible_clusters"], bc["cluster_label_swap_permutation_p"])
+              print("  bird aggregated rho/p", br["rho"], br["permutation_p_two_sided"])
+          print("direction_preserved", r["comparison"]["direction_preserved"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aubert2026-missingness-dependence-sensitivity
+          path: artifacts/aubert2026_missingness_dependence_sensitivity.json
+          if-no-files-found: error

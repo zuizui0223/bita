@@ -12,16 +12,21 @@ The mechanism-identification result `trait interaction != ecological mechanism` 
 
 > **Access constraints can reorganize ecological interactions by shifting exploitation from legitimate access toward bypass routes rather than simply eliminating use.**
 
-The primary quantitative test is the all-Ecuador bird–flower network:
+The primary quantitative test is the all-Ecuador bird–flower network. Source metadata indicates unspecified piercing values are most probably legitimate interactions, so the primary analysis recodes missing piercing as non-robbing and treats plant species as the inferential unit:
 
 ```text
-1,378 bird × plant × site units
-barrier robbery     = 0.307
-accessible robbery  = 0.081
-difference          = +0.226
-site-adjusted rho   = 0.351
-within-site permutation p = 0.0001
-15 / 17 comparable sites in the same direction
+259 plant species aggregated from 2,265 pair-site units
+plant-level mismatch rho = 0.503
+species permutation p    = 0.0001
+paired barrier species   = 130
+mean paired difference   = +0.0915
+label-swap p             = 0.0001
+
+descriptive pair-site means:
+barrier robbery     = 0.147
+accessible robbery  = 0.020
+18 / 18 comparable sites in the same direction
+complete-case yes/no sensitivity = same plant-level direction
 ```
 
 A smaller independent Afrotropical insect network provides corroboration:
@@ -37,7 +42,7 @@ multitrait tube-length block p = 0.211
 The two networks contribute one rank association each with equal network weight:
 
 ```text
-rho_J = 0.349
+rho_J = 0.428
 joint permutation p = 0.0001
 independent network contributions k = 2
 ```
@@ -65,7 +70,8 @@ Primary submission:
 - `manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md`
 - `manuscript/FIGURE_PLAN_ACCESS_ROUTING_LETTER_V0.md`
 - `submission/ECOLOGY_LETTERS_LETTER_COVER_V0.md`
-- `empirical/floral_defence_selectivity/results/joint_access_routing.json`
+- `empirical/floral_defence_selectivity/results/joint_access_routing_species_robust.json`
+- `empirical/floral_defence_selectivity/results/aubert2026_missingness_dependence_sensitivity.json`
 
 Extended Synthesis reserve:
 

@@ -7,7 +7,7 @@ This directory defines the archive that must receive a permanent DOI **before ex
 The build workflow generates an `artifacts/letter/data_archive/` directory containing:
 
 - `sakhalkar_species_analysis.csv` — 57 anonymous plant-species analysis units used for the insect routing and multitrait analyses;
-- `aubert_ephi_pair_site_analysis.csv` — 1,378 anonymous bird × plant × site analysis units used for the Ecuadorian routing analyses;
+- `aubert_ephi_pair_site_analysis.csv` — 2,265 anonymous bird × plant × site aggregation units under the metadata-informed missing-as-no rule, with anonymized plant- and bird-species cluster IDs; the primary Ecuadorian inference aggregates these rows to 259 plant species;
 - `metadata.csv` — file/column descriptions and units;
 - `archive_manifest.json` — source DOIs, row counts and identifier policy;
 - `archive_reproduction.json` — statistics regenerated using only the archived analysis tables;
@@ -50,7 +50,7 @@ Underlying public data remain attributed to their original repositories:
 - Sakhalkar et al. 2023: Zenodo DOI `10.5281/zenodo.8398202`
 - EPHI Ecuador mirror: Zenodo DOI `10.5281/zenodo.14185547`
 
-The archive does not silently republish source species identifiers. It contains the exact analysis-ready units needed to reproduce the reported statistics. EPHI site labels are deterministically relabelled while preserving within-site permutation groups.
+The archive does not silently republish source species identifiers. It contains the exact analysis-ready units needed to reproduce the reported statistics. EPHI site, plant-species and bird-species labels are deterministically relabelled so the primary plant-species analysis and bird-species dependence sensitivity can be reproduced without exposing source taxon names.
 
 ## Reproduction
 

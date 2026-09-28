@@ -41,23 +41,38 @@ See `theory/RELATIVE_ROUTE_COST_BOUNDARY_V1.md`.
 ## 2. Primary empirical test — Ecuador birds
 
 ```text
-n = 1,378 bird × plant × site units
+primary inferential unit = plant species
+n = 259 plant species
+source pair-site units = 2,265
 18 Ecuador sites
-barrier robbery     = 0.30698
-accessible robbery  = 0.08139
-difference          = +0.22560
-global mismatch rho = 0.41826
-site-adjusted rho   = 0.3505
-within-site permutation p = 0.0001
-15 / 17 comparable sites in same direction
-min >= 5 interactions:
-  n = 702
-  difference = +0.264
-  rho = 0.505
-  p = 0.0001
+missing piercing policy = unspecified/blank -> legitimate/no (per source metadata)
+
+plant-level mismatch rho = 0.50316
+species permutation p = 0.0001
+
+paired binary barrier contrast:
+  eligible plant species = 130
+  mean barrier - accessible difference = +0.09146
+  label-swap permutation p = 0.0001
+
+descriptive pair-site scale:
+  barrier robbery = 0.14664
+  accessible robbery = 0.01995
+  difference = +0.12668
+  18 / 18 comparable sites in same direction
+
+complete-case yes/no sensitivity:
+  n = 218 plant species
+  plant-level rho = 0.56964
+  permutation p = 0.0001
+
+bird-species dependence sensitivity:
+  binary barrier p = 0.0001
+  continuous rho = 0.08581
+  continuous permutation p = 0.5509
 ```
 
-This is an observational all-Ecuador extension, not an exact replication of the source three-transect GLMM.
+This is an observational all-Ecuador extension, not an exact replication of the source three-transect GLMM. The primary claim is plant-side and species-level; the continuous effect is not licensed as a bird-species-level generalization.
 
 ## 3. Independent corroboration — Sakhalkar insects
 
@@ -74,9 +89,9 @@ The licensed claim is access-geometry association, not a unique causal tube-leng
 ## 4. Joint network test
 
 ```text
-r_A = 0.3505
-r_S = 0.3468
-equal-network Fisher-z rho_J = 0.3487
+r_A = 0.5032   (259 Aubert/EPHI plant species)
+r_S = 0.3468   (57 Sakhalkar plant species)
+equal-network Fisher-z rho_J = 0.4282
 joint permutation p = 0.0001
 independent network contributions k = 2
 ```
@@ -189,7 +204,8 @@ CROSS_PYTHON_ARCHIVE_DETERMINISM = VERIFIED_BYTE_IDENTICAL_3_10_3_11_3_12
 CONFIRMATORY_RUNNER = IMPLEMENTED_ONE_COMMAND_TRANSACTIONAL_COMMIT_BOUND
 CONFIRMATORY_BUNDLE_VERIFIER = IMPLEMENTED_READ_ONLY_SHA256
 EXISTING_NETWORK_K3_INPUTS = CANONICAL_PUBLIC_ROWS_FROZEN_AND_PRODUCTION_ENFORCED
-EXISTING_NETWORK_CANONICAL_REBUILD = SAKHALKAR_57_AND_AUBERT_EPHI_1378_MATCH_FROZEN_DIGESTS
+EXISTING_NETWORK_CANONICAL_REBUILD = LEGACY_SAKHALKAR_57_AND_AUBERT_EPHI_1378_INPUTS_PRESERVED
+K3_EXISTING_NETWORK_INPUT_STATUS = REFREEZE_TO_SPECIES_LEVEL_ROBUST_AUBERT_BEFORE_REAL_K3_INFERENCE
 CLAIM_TRANSITION_GATE = IMPLEMENTED_RETAINED_RESULT_NO_PVALUE_SELECTION
 REAL_THIRD_NETWORK_DATA = NOT_COLLECTED
 NEXT_EXTERNAL_ACTION = OUTCOME_BLIND_CAPE_COLLABORATION_INQUIRY
@@ -289,7 +305,8 @@ Required archive contents:
 
 ~~~text
 57-row anonymous Sakhalkar species analysis table
-1,378-row anonymous Aubert/EPHI pair-site analysis table
+2,265-row anonymous Aubert/EPHI pair-site table with plant/bird cluster IDs
+259-plant-species primary inference reproducible from those anonymous clusters
 column metadata
 exact reproduction code
 frozen aggregate outputs

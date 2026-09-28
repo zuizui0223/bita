@@ -27,7 +27,7 @@ DEFAULT_OUTPUT = (
     / "figures_macro_candidate"
     / "FIGURE_4_TWO_NETWORK_ACCESS_ROUTING.svg"
 )
-AUBERT_RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "aubert2026_zenodo_extension.json"
+AUBERT_RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "aubert2026_missingness_dependence_sensitivity.json"
 
 
 def _text(
@@ -155,29 +155,33 @@ def build_svg(
     ])
 
     if aubert is not None:
-        site = aubert["site_difference"]
-        barrier_rate = float(aubert["mean_robbery_rate_barrier"])
-        accessible_rate = float(aubert["mean_robbery_rate_accessible"])
-        max_rate = max(0.35, barrier_rate * 1.12)
+        primary = aubert["missing_as_no"]
+        native = primary["native_pair_site_summary"]
+        site = native["site_difference"]
+        plant_rho = primary["plant_species_rho_check"]
+        plant_barrier = primary["plant_species_cluster_check"]
+        barrier_rate = float(native["mean_robbery_rate_barrier"])
+        accessible_rate = float(native["mean_robbery_rate_accessible"])
+        max_rate = max(0.18, barrier_rate * 1.12)
         bar_x0, bar_w = 1260, 440
         barrier_w = bar_w * barrier_rate / max_rate
         accessible_w = bar_w * accessible_rate / max_rate
 
         parts.extend([
-            _text(1090, 332, "B  Aubert / EPHI — bird–flower access barrier", size=20, weight="bold"),
+            _text(1090, 332, "B  Aubert / EPHI — species-level robust test", size=20, weight="bold"),
             '<rect x="1090" y="354" width="700" height="318" rx="14" fill="#fffdf7" stroke="#444" stroke-width="2"/>',
-            _text(1115, 386, f'{int(aubert["pair_site_n"]):,} bird × plant × site units | 18 Ecuador sites', size=15, weight="bold"),
-            _text(1115, 425, "mean robbery rate", size=15, weight="bold"),
-            _text(1115, 466, "tube > bill barrier", size=14),
-            f'<rect x="{bar_x0}" y="448" width="{barrier_w:.1f}" height="24" fill="#b24a4a" fill-opacity="0.75"/>',
-            _text(1715, 467, f'barrier = {barrier_rate:.3f}', size=15, anchor="end", weight="bold"),
-            _text(1115, 510, "tube ≤ bill accessible", size=14),
-            f'<rect x="{bar_x0}" y="492" width="{accessible_w:.1f}" height="24" fill="#4777a8" fill-opacity="0.75"/>',
-            _text(1715, 511, f'accessible = {accessible_rate:.3f}', size=15, anchor="end", weight="bold"),
-            _text(1115, 548, f'pair-site difference = +{float(aubert["barrier_minus_accessible_mean_rate"]):.3f}; permutation p = {float(aubert["barrier_mean_difference_permutation_p"]):.4f}', size=14),
-            _text(1115, 582, f'mismatch rho = {float(aubert["mismatch_spearman_rho"]):.3f}; permutation p = {float(aubert["mismatch_spearman_permutation_p"]):.4f}', size=14, weight="bold"),
-            _text(1115, 620, f'{int(site["positive_sites"])} / {int(site["eligible_sites"])} sites show higher robbery under barrier', size=15, weight="bold"),
-            _text(1115, 648, f'within-site mean Δ = +{float(site["mean_within_site_difference"]):.3f}; sign p = {float(site["sign_test_p"]):.5f}; stratified p = {float(site["site_stratified_permutation_p"]):.4f}', size=13),
+            _text(1115, 386, f'{int(plant_rho["n_clusters"]):,} plant species | missing piercing → legitimate/no', size=15, weight="bold"),
+            _text(1115, 421, f'plant-level mismatch rho = {float(plant_rho["rho"]):.3f}; permutation p = {float(plant_rho["permutation_p_two_sided"]):.4f}', size=14, weight="bold"),
+            _text(1115, 455, f'paired barrier contrast: {int(plant_barrier["eligible_clusters"])} plant species; Δ = +{float(plant_barrier["mean_cluster_difference"]):.3f}; p = {float(plant_barrier["cluster_label_swap_permutation_p"]):.4f}', size=13),
+            _text(1115, 490, "descriptive pair-site mean robbery rate", size=14, weight="bold"),
+            _text(1115, 530, "tube > bill barrier", size=14),
+            f'<rect x="{bar_x0}" y="512" width="{barrier_w:.1f}" height="24" fill="#b24a4a" fill-opacity="0.75"/>',
+            _text(1715, 531, f'barrier = {barrier_rate:.3f}', size=15, anchor="end", weight="bold"),
+            _text(1115, 570, "tube ≤ bill accessible", size=14),
+            f'<rect x="{bar_x0}" y="552" width="{accessible_w:.1f}" height="24" fill="#4777a8" fill-opacity="0.75"/>',
+            _text(1715, 571, f'accessible = {accessible_rate:.3f}', size=15, anchor="end", weight="bold"),
+            _text(1115, 610, f'{int(site["positive_sites"])} / {int(site["eligible_sites"])} sites positive; site sign p = {float(site["sign_test_p"]):.5g}', size=14),
+            _text(1115, 642, f'{int(native["pair_site_n"]):,} pair-site units shown descriptively; species are inferential units', size=13),
         ])
     else:
         parts.extend([
@@ -188,10 +192,10 @@ def build_svg(
         '<rect x="1090" y="700" width="700" height="180" rx="14" fill="#f7f7f7" stroke="#444" stroke-width="2"/>',
         _text(1115, 735, "Cross-network ecological readout", size=19, weight="bold"),
         _text(1115, 775, "Insects: increasing access constraint shifts cheating toward bypass/robbing.", size=15),
-        _text(1115, 810, "Birds: flower tube > bill mismatch raises robbery rate across sites.", size=15),
-        _text(1115, 850, "Same routing direction; different fauna, response scale and inferential unit.", size=15, weight="bold"),
+        _text(1115, 810, "Birds: plant-level tube–bill mismatch predicts robbery after missingness correction.", size=15),
+        _text(1115, 850, "Same plant-species inferential grain; different fauna and response construction.", size=15, weight="bold"),
         _text(120, 908, "Sakhalkar: significant univariate association; correlated morphology prevents a unique tube-length claim.", size=12, fill="#555"),
-        _text(120, 934, "Aubert/EPHI: observational all-18-site extension, not an exact replication of the published three-transect GLMM.", size=12, fill="#555"),
+        _text(120, 934, "Aubert/EPHI: observational all-site extension; missing piercing is recoded as legitimate/no from source metadata.", size=12, fill="#555"),
         _text(120, 960, "No raw species identifiers or individual interaction rows are emitted in the figure.", size=12),
         "</svg>",
     ])

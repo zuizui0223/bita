@@ -15,11 +15,13 @@ from pathlib import Path
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from scripts.analyze_aubert2026_missingness_dependence_sensitivity import (
+    build_pair_site_rows_policy,
+)
 from scripts.analyze_aubert2026_zenodo_extension import (
     FILES as AUBERT_FILES,
     _download as _download_aubert,
     _read as _read_aubert,
-    build_pair_site_rows,
 )
 from scripts.analyze_sakhalkar2023_network import _find_workbook
 from scripts.analyze_sakhalkar2023_trait_routing import build_species_trait_rows
@@ -63,22 +65,34 @@ def _aubert_rows() -> list[dict[str, object]]:
         key: _read_aubert(_download_aubert(name))
         for key, name in AUBERT_FILES.items()
     }
-    rows, _audit = build_pair_site_rows(
+    rows, _audit = build_pair_site_rows_policy(
         tables["interactions"],
         tables["cameras"],
         tables["plants"],
         tables["birds"],
+        missing_as_no=True,
     )
 
     site_map = {
         site: f"site_{index:02d}"
         for index, site in enumerate(sorted({str(row["site"]) for row in rows}), start=1)
     }
+    plant_map = {
+        species: f"plant_{index:03d}"
+        for index, species in enumerate(sorted({str(row["plant_species"]) for row in rows}), start=1)
+    }
+    bird_map = {
+        species: f"bird_{index:03d}"
+        for index, species in enumerate(sorted({str(row["bird_species"]) for row in rows}), start=1)
+    }
+
     out: list[dict[str, object]] = []
     for index, row in enumerate(rows, start=1):
         out.append({
             "analysis_unit": f"pair_site_{index:04d}",
             "site_id": site_map[str(row["site"])],
+            "plant_unit": plant_map[str(row["plant_species"])],
+            "bird_unit": bird_map[str(row["bird_species"])],
             "bird_group": row["bird_group"],
             "n_interactions": row["n_interactions"],
             "robbery_rate": row["robbery_rate"],
@@ -86,7 +100,6 @@ def _aubert_rows() -> list[dict[str, object]]:
             "trait_barrier": "true" if bool(row["trait_barrier"]) else "false",
         })
     return out
-
 
 def export_archive(output_dir: Path) -> dict[str, object]:
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -112,6 +125,8 @@ def export_archive(output_dir: Path) -> dict[str, object]:
         [
             "analysis_unit",
             "site_id",
+            "plant_unit",
+            "bird_unit",
             "bird_group",
             "n_interactions",
             "robbery_rate",
@@ -160,13 +175,25 @@ def export_archive(output_dir: Path) -> dict[str, object]:
         {
             "file": "aubert_ephi_pair_site_analysis.csv",
             "column": "analysis_unit",
-            "description": "Anonymous bird x plant x site inferential unit.",
+            "description": "Anonymous bird x plant x site aggregation unit; primary inference is clustered to plant species.",
             "unit": "identifier",
         },
         {
             "file": "aubert_ephi_pair_site_analysis.csv",
             "column": "site_id",
             "description": "Deterministically relabelled site identifier preserving within-site grouping.",
+            "unit": "identifier",
+        },
+        {
+            "file": "aubert_ephi_pair_site_analysis.csv",
+            "column": "plant_unit",
+            "description": "Anonymous plant-species cluster identifier used for primary species-level inference.",
+            "unit": "identifier",
+        },
+        {
+            "file": "aubert_ephi_pair_site_analysis.csv",
+            "column": "bird_unit",
+            "description": "Anonymous bird-species cluster identifier used for dependence sensitivity.",
             "unit": "identifier",
         },
         {
@@ -207,7 +234,7 @@ def export_archive(output_dir: Path) -> dict[str, object]:
     )
 
     manifest = {
-        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V1",
+        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V2",
         "source_data": {
             "sakhalkar_2023_zenodo_doi": SAKHALKAR_DOI,
             "aubert_ephi_zenodo_mirror_doi": AUBERT_EPHI_DOI,
@@ -217,9 +244,9 @@ def export_archive(output_dir: Path) -> dict[str, object]:
             "aubert_ephi_pair_site_analysis.csv": len(aubert),
         },
         "identifier_policy": (
-            "Analysis-unit identifiers are anonymous. EPHI site labels are deterministically "
-            "relabelled while preserving within-site permutation groups. Source species identifiers "
-            "are not required for reproduction of the reported Letter statistics."
+            "Analysis-unit identifiers are anonymous. EPHI site, plant-species and bird-species "
+            "identifiers are deterministically relabelled, preserving the clustering needed for "
+            "species-level inference without exposing source taxon labels."
         ),
     }
     (output_dir / "archive_manifest.json").write_text(

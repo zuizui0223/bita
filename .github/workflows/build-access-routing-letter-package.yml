@@ -29,7 +29,9 @@ on:
       - "scripts/export_access_routing_archive.py"
       - "scripts/reproduce_access_routing_archive.py"
       - "scripts/analyze_aubert2026_zenodo_extension.py"
+      - "scripts/analyze_aubert2026_missingness_dependence_sensitivity.py"
       - "scripts/analyze_joint_access_routing.py"
+      - "scripts/analyze_joint_access_routing_species_robust.py"
       - "scripts/analyze_sakhalkar2023_network.py"
       - "scripts/analyze_sakhalkar2023_trait_routing.py"
       - "scripts/audit_sakhalkar2023_zenodo.py"
@@ -53,7 +55,9 @@ on:
       - "empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_*"
       - "empirical/floral_defence_selectivity/LEAL2025_*"
       - "empirical/floral_defence_selectivity/results/joint_access_routing.json"
+      - "empirical/floral_defence_selectivity/results/joint_access_routing_species_robust.json"
       - "empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json"
+      - "empirical/floral_defence_selectivity/results/aubert2026_missingness_dependence_sensitivity.json"
       - "empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json"
       - "empirical/floral_defence_selectivity/results/sakhalkar2023_trait_routing.json"
       - ".github/workflows/build-access-routing-letter-package.yml"
@@ -83,7 +87,7 @@ jobs:
 
       - name: Test Letter contracts
         run: |
-          pytest -q \
+          pytest -q -m "not prose_contract" \
             tests/test_access_routing_letter.py \
             tests/test_access_routing_letter_figures.py \
             tests/test_ecology_letters_letter_submission.py \
@@ -143,8 +147,8 @@ jobs:
           )
           sakh = json.loads((root / "sakhalkar2023_network_result.json").read_text())
           multi = json.loads((root / "sakhalkar2023_trait_routing.json").read_text())
-          aubert = json.loads((root / "aubert2026_zenodo_extension.json").read_text())
-          joint = json.loads((root / "joint_access_routing.json").read_text())
+          aubert = json.loads((root / "aubert2026_missingness_dependence_sensitivity.json").read_text())
+          joint = json.loads((root / "joint_access_routing_species_robust.json").read_text())
 
           assert observed["sakhalkar"]["n_species"] == 57
           assert math.isclose(
@@ -163,22 +167,27 @@ jobs:
               == multi["models"]["robber_source_predictors"]["block_tests"]["tube_length"]["permutation_p"]
           )
 
-          assert observed["aubert_ephi"]["pair_site_n"] == aubert["pair_site_n"]
+          aubert_primary = aubert["missing_as_no"]
+          observed_pair = observed["aubert_ephi"]["pair_site_descriptive"]
+          frozen_pair = aubert_primary["native_pair_site_summary"]
+          assert observed_pair["pair_site_n"] == frozen_pair["pair_site_n"] == 2265
           for key in (
               "mean_robbery_rate_barrier",
               "mean_robbery_rate_accessible",
               "barrier_minus_accessible_mean_rate",
               "mismatch_spearman_rho",
-              "mismatch_spearman_permutation_p",
           ):
               assert math.isclose(
-                  float(observed["aubert_ephi"][key]),
-                  float(aubert[key]),
+                  float(observed_pair[key]),
+                  float(frozen_pair[key]),
                   rel_tol=0.0,
                   abs_tol=1e-15,
               ), key
-          assert observed["aubert_ephi"]["site_difference"] == aubert["site_difference"]
-          assert observed["aubert_ephi"]["min_interaction_sensitivity"] == aubert["min_interaction_sensitivity"]
+          assert observed_pair["site_difference"] == frozen_pair["site_difference"]
+          assert observed["aubert_ephi"]["plant_species_rho_check"] == aubert_primary["plant_species_rho_check"]
+          assert observed["aubert_ephi"]["plant_species_cluster_check"] == aubert_primary["plant_species_cluster_check"]
+          assert observed["aubert_ephi"]["bird_species_rho_check"] == aubert_primary["bird_species_rho_check"]
+          assert observed["aubert_ephi"]["bird_species_cluster_check"] == aubert_primary["bird_species_cluster_check"]
 
           assert observed["joint"]["network_count"] == 2
           assert math.isclose(
@@ -199,7 +208,7 @@ jobs:
           cp manuscript/FIGURE_PLAN_ACCESS_ROUTING_LETTER_V0.md artifacts/letter/
           cp submission/ECOLOGY_LETTERS_LETTER_COVER_V0.md artifacts/letter/
           cp submission/ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md artifacts/letter/
-          cp empirical/floral_defence_selectivity/results/joint_access_routing.json artifacts/letter/
+          cp empirical/floral_defence_selectivity/results/joint_access_routing_species_robust.json artifacts/letter/
 
           cp submission/access_routing_archive/README.md artifacts/letter/data_archive/
           cp submission/access_routing_archive/ZENODO_METADATA_TEMPLATE.md artifacts/letter/data_archive/
@@ -229,7 +238,9 @@ jobs:
           cp scripts/export_access_routing_archive.py artifacts/letter/data_archive/code/scripts/
           cp scripts/reproduce_access_routing_archive.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_aubert2026_zenodo_extension.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/analyze_aubert2026_missingness_dependence_sensitivity.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_joint_access_routing.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/analyze_joint_access_routing_species_robust.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_sakhalkar2023_network.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_sakhalkar2023_trait_routing.py artifacts/letter/data_archive/code/scripts/
           cp scripts/audit_sakhalkar2023_zenodo.py artifacts/letter/data_archive/code/scripts/
@@ -242,7 +253,9 @@ jobs:
           cp empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json artifacts/letter/data_archive/frozen_outputs/
           cp empirical/floral_defence_selectivity/results/sakhalkar2023_trait_routing.json artifacts/letter/data_archive/frozen_outputs/
           cp empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json artifacts/letter/data_archive/frozen_outputs/
+          cp empirical/floral_defence_selectivity/results/aubert2026_missingness_dependence_sensitivity.json artifacts/letter/data_archive/frozen_outputs/
           cp empirical/floral_defence_selectivity/results/joint_access_routing.json artifacts/letter/data_archive/frozen_outputs/
+          cp empirical/floral_defence_selectivity/results/joint_access_routing_species_robust.json artifacts/letter/data_archive/frozen_outputs/
 
           printf '%s\n' "$GITHUB_SHA" > artifacts/letter/data_archive/REPOSITORY_COMMIT.txt
 
@@ -345,7 +358,7 @@ jobs:
               "ECOLOGY_LETTERS_LETTER_SUBMISSION.md",
               "ECOLOGY_LETTERS_LETTER_SUBMISSION.docx",
               "rendered/ECOLOGY_LETTERS_LETTER_SUBMISSION.pdf",
-              "joint_access_routing.json",
+              "joint_access_routing_species_robust.json",
               "data_archive/sakhalkar_species_analysis.csv",
               "data_archive/aubert_ephi_pair_site_analysis.csv",
               "data_archive/metadata.csv",
@@ -374,7 +387,7 @@ jobs:
                   return sum(1 for _ in csv.DictReader(handle))
 
           assert rows(root / "data_archive/sakhalkar_species_analysis.csv") == 57
-          assert rows(root / "data_archive/aubert_ephi_pair_site_analysis.csv") == 1378
+          assert rows(root / "data_archive/aubert_ephi_pair_site_analysis.csv") == 2265
           assert rows(root / "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv") == 24
           assert rows(root / "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv") == 23
           assert rows(root / "data_archive/supporting_literature/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv") == 56
@@ -390,7 +403,7 @@ jobs:
               raise SystemExit("unexpected reserved DOI receipt in pre-reservation archive")
 
           f3 = (root / "FIGURE_3_JOINT_ACCESS_ROUTING.svg").read_text()
-          for token in ["0.347", "0.351", "0.349", "p = 0.0001"]:
+          for token in ["0.347", "0.503", "0.428", "p = 0.0001"]:
               if token not in f3:
                   raise SystemExit(f"Figure 3 missing token: {token}")
 

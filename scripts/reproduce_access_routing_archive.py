@@ -11,13 +11,20 @@ from pathlib import Path
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from scripts.analyze_aubert2026_missingness_dependence_sensitivity import (
+    cluster_aggregated_rho_summary,
+    cluster_label_swap_summary,
+)
 from scripts.analyze_aubert2026_zenodo_extension import summarize_pair_sites
-from scripts.analyze_joint_access_routing import summarize_joint
+from scripts.analyze_joint_access_routing_species_robust import (
+    aggregate_aubert_by_plant,
+    summarize_joint_species,
+)
 from scripts.analyze_sakhalkar2023_network import _permutation_p, _spearman
 from scripts.analyze_sakhalkar2023_trait_routing import fit_source_model_set
 
 SAKHALKAR_SEED = 20260919
-JOINT_SEED = 20260920
+JOINT_SEED = 20260927
 
 
 def _read_csv(path: Path) -> list[dict[str, str]]:
@@ -53,6 +60,8 @@ def load_aubert(path: Path) -> list[dict[str, object]]:
     for row in _read_csv(path):
         rows.append({
             "site": row["site_id"],
+            "plant_species": row["plant_unit"],
+            "bird_species": row["bird_unit"],
             "bird_group": row["bird_group"],
             "n_interactions": int(row["n_interactions"]),
             "robbery_rate": float(row["robbery_rate"]),
@@ -86,8 +95,10 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
         if row["tube_length"] is not None
     ]
 
+    aubert_plant_points = aggregate_aubert_by_plant(aubert_rows)
+
     return {
-        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V1",
+        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V2",
         "sakhalkar": {
             "n_species": len(sakh_points),
             "spearman_rho": s_rho,
@@ -98,14 +109,40 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
                 seed=SAKHALKAR_SEED,
             ),
         },
-        "aubert_ephi": summarize_pair_sites(
-            aubert_rows,
-            permutations=permutations,
-            seed=SAKHALKAR_SEED,
-        ),
-        "joint": summarize_joint(
+        "aubert_ephi": {
+            "pair_site_descriptive": summarize_pair_sites(
+                aubert_rows,
+                permutations=permutations,
+                seed=20261919,
+            ),
+            "plant_species_rho_check": cluster_aggregated_rho_summary(
+                aubert_rows,
+                cluster_key="plant_species",
+                permutations=permutations,
+                seed=20261919 + 350,
+            ),
+            "plant_species_cluster_check": cluster_label_swap_summary(
+                aubert_rows,
+                cluster_key="plant_species",
+                permutations=permutations,
+                seed=20261919 + 300,
+            ),
+            "bird_species_rho_check": cluster_aggregated_rho_summary(
+                aubert_rows,
+                cluster_key="bird_species",
+                permutations=permutations,
+                seed=20261919 + 450,
+            ),
+            "bird_species_cluster_check": cluster_label_swap_summary(
+                aubert_rows,
+                cluster_key="bird_species",
+                permutations=permutations,
+                seed=20261919 + 400,
+            ),
+        },
+        "joint": summarize_joint_species(
             sakh_points,
-            aubert_rows,
+            aubert_plant_points,
             permutations=permutations,
             seed=JOINT_SEED,
         ),

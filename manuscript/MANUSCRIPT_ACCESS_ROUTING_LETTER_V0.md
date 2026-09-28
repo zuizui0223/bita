@@ -3,7 +3,7 @@
 
 ## Abstract
 
-Access constraints may reroute exploitation rather than eliminate it. We test this prediction in an all-Ecuador bird–flower network and ask whether an independent insect network recovers the same direction. Across 1,378 bird × plant × site units, robbery was higher when flower tubes exceeded bird bills (0.307 versus 0.081); site-adjusted tube–bill mismatch correlated with robbery (\(\rho=0.351\), within-site permutation \(p=0.0001\)). In an Afrotropical insect network, tube length was associated with a shift from thieving toward robbing among 57 plant species (\(\rho=0.347\), \(p=0.0086\)), although multitrait sensitivity did not isolate tube length uniquely. An equal-network joint test gave \(\rho_J=0.349\), \(p=0.0001\). A frozen OpenAlex frame resolved 33 independent direct programs (22 positive, 5 null, 4 opposite, 2 mixed). Access constraints can reorganize interaction routes, while \(k=2\) limits claims about broader network generality.
+Access constraints may reroute exploitation rather than eliminate it. We test this prediction in an all-Ecuador bird–flower network and ask whether an independent insect network does too. EPHI metadata indicates unspecified piercing codes are probably legitimate, so we recoded them as non-robbing and used plant species as inferential units. Across 259 Ecuadorian plant species, mean tube–bill mismatch correlated with robbery (\(\rho=0.503\), species permutation \(p=0.0001\)); a paired barrier contrast across 130 species gave the same direction. In an Afrotropical insect network, tube length was associated with a shift from thieving toward robbing among 57 plant species (\(\rho=0.347\), \(p=0.0086\)). An equal-network species-level joint test gave \(\rho_J=0.428\), \(p=0.0001\). A frozen OpenAlex frame resolved 33 independent direct programs (22 positive, 5 null, 4 opposite, 2 mixed). Access constraints can reorganize interaction routes, while \(k=2\) limits claims about broader network generality.
 
 ## Introduction
 
@@ -19,7 +19,7 @@ This yields a simple prediction that is more general than any one floral defence
 
 Direct studies outside our two standardized datasets already suggest that access geometry can matter, while also revealing boundary conditions. Across 88 species from four communities, long flowers were more likely to be robbed by insects and birds (Rojas-Nossa et al. 2016), and larger naturalised *Fuchsia magellanica* flowers were more often robbed by bumblebees (Stanley & Cosnett 2021). Conversely, across 27 populations of 12 bird-pollinated *Erica* species, the primary model associated longer corollas with lower robbery, although that effect was not retained under an alternative perceptual-model specification (Coetzee et al. 2026). These studies do not share a common visitor × plant mismatch estimand and therefore provide biological context rather than additional standardized network replicates.
 
-The prediction has not been tested as a common standardized association across independently assembled visitor networks with different faunas. We therefore use the all-Ecuador EPHI bird–flower network as the primary quantitative test because it contains 1,378 trait-matched bird × plant × site units across 18 sites and supports both binary barrier and continuous mismatch contrasts (Aubert et al. 2026; EPHI public data). We then use the smaller Afrotropical insect–flower network of Sakhalkar et al. (2023) as an independent corroborative test on a different cheating contrast: robbing versus thieving among plant species.
+The prediction has not been tested as a common standardized association across independently assembled visitor networks with different faunas. We therefore use the all-Ecuador EPHI bird–flower network as the primary quantitative test. After metadata-informed treatment of unspecified piercing records and trait matching, it contains 2,265 bird × plant × site units across 18 sites, which we aggregate to 259 plant species for primary inference (Aubert et al. 2026; EPHI public data). We then use the smaller Afrotropical insect–flower network of Sakhalkar et al. (2023) as an independent corroborative test on a different cheating contrast: robbing versus thieving among plant species.
 
 Our analysis has two levels. We first test the routing prediction within the Ecuadorian network and ask whether the independent insect network recovers the same directional association on its native biological scale. We then define one standardized rank association per network and combine them with equal network weight in a predeclared permutation test. This prevents the much larger bird dataset from dominating the smaller insect dataset by observation count alone. Source-audited floral-defence cases are used only as mechanistic context for the access/exposure interpretation, not as an independent validation dataset.
 
@@ -84,7 +84,7 @@ We test three predictions.
 
 Aubert et al. (2026) analysed nectar robbing as a consequence of trait mismatch between flowers and avian visitors. We analyse the broader all-Ecuador EPHI dataset publicly archived on Zenodo and treat this analysis as an independent extension rather than an exact replication of the source three-transect mixed-effects model.
 
-The mirror contains 54,471 interaction rows, 6,198 camera records, 4,371 plant-trait records and 10,988 hummingbird-trait records across 18 Ecuador sites. Resolved interactions were joined through camera waypoints to plant species and sites and then to floral and bird traits. Plant tube length is recorded in centimetres and culmen length in millimetres; culmen length was converted to centimetres before comparison.
+The mirror contains 54,471 interaction rows, 6,198 camera records, 4,371 plant-trait records and 10,988 hummingbird-trait records across 18 Ecuador sites. The interaction metadata defines piercing=yes as piercing or use of an existing hole, no as legitimate interaction, and states that unspecified NA values are most probably no because some observers filled the field only when a bird was piercing. In the deposited table these unspecified records appear as blank values. We therefore recoded blank/NA piercing values as legitimate, non-robbing interactions in the primary analysis. Distinct non-binary states such as maybe, thief, not_interacting and no flower contact remained excluded. A complete-case analysis retaining only explicit yes/no values was kept as a sensitivity check. Resolved interactions were joined through camera waypoints to plant species and sites and then to floral and bird traits. Plant tube length is recorded in centimetres and culmen length in millimetres; culmen length was converted to centimetres before comparison.
 
 For each bird–plant pair within site, we calculated
 
@@ -94,9 +94,9 @@ M=\log(T/B),
 
 where \(T\) is flower tube length and \(B\) mean bird culmen length. Positive \(M\) indicates that the flower tube exceeds bill length. We also defined a binary access barrier as \(T>B\).
 
-Individual interactions were aggregated to bird species × plant species × site units. After trait matching, 1,378 pair-site units remained across 18 sites. We calculated robbery rate within each unit.
+Individual interactions were first aggregated to bird species × plant species × site units. Under the metadata-informed missing-as-no rule, 49,237 trait-matched interactions yielded 2,265 pair-site units across 18 sites and 259 plant species. We calculated robbery rate within each pair-site unit.
 
-The primary native-scale analyses were (i) the difference in mean robbery rate between barrier and accessible pair-sites and (ii) the Spearman association between continuous mismatch and robbery rate. Permutation tests used 9,999 iterations. We also compared barrier and accessible states within sites and repeated the analysis after requiring at least two or at least five resolved interactions per pair-site unit.
+To avoid treating repeated pair-site observations of the same plant species as independent, the primary continuous analysis then averaged mismatch and robbery rate within plant species and tested their Spearman association across the 259 species. The permutation null shuffled robbery-rate ranks across plant species. For the binary barrier contrast, each plant species represented in both barrier and accessible states contributed one within-species difference in mean pair-site robbery; 130 species were eligible, and the null flipped the two condition labels for whole species. Pair-site and within-site summaries were retained as descriptive robustness checks rather than as the primary inferential units. The complete-case yes/no sensitivity yielded 1,378 pair-site units and 218 plant species. All permutation tests used 9,999 iterations.
 
 ### Independent Afrotropical insect corroboration
 
@@ -127,9 +127,9 @@ The two datasets differ in response scale and inferential unit, so raw observati
 
 For Sakhalkar, the effect was the Spearman correlation between tube length and robbing–thieving balance.
 
-For Aubert/EPHI, global ranks of \(M\) and robbery rate were centered within site before correlation. This removes site-specific rank means so among-site composition does not define the network contribution. The unadjusted global correlation was retained only as a descriptive reference.
+For Aubert/EPHI, each plant species contributed one point: the unweighted mean mismatch and mean robbery rate across its pair-site units under the metadata-informed missing-as-no rule. Thus both networks contributed plant-species-level rank associations rather than repeated visit or pair-site observations.
 
-Because the two datasets represent two independent networks rather than 1,435 interchangeable sampling units, they received equal weight. The primary joint effect was the Fisher-z mean,
+Because the two datasets represent two independent networks rather than pooled interchangeable observations, they received equal weight. The primary joint effect was the Fisher-z mean,
 
 \[
 r_J=
@@ -142,7 +142,7 @@ r_J=
 \right].
 \]
 
-The permutation null preserved each dataset's sampling structure. In Sakhalkar, bypass-response values were shuffled across plant species. In Aubert/EPHI, robbery-rate ranks were shuffled within site. For every permutation, both network correlations and the equal-network joint effect were recomputed. We used 9,999 permutations and a two-sided test.
+The permutation null acted on plant-species units in both datasets. In each network, response ranks were shuffled across plant species and the network correlation was recomputed; the two permuted correlations were then combined with equal network weight. We used 9,999 permutations, two-sided tests and the standard plus-one correction. Thus a reported permutation \(p=0.0001\) is the Monte Carlo resolution limit, corresponding to zero of 9,999 permuted statistics reaching the observed magnitude before the plus-one correction.
 
 ### Formal direct access-geometry literature frame
 
@@ -164,19 +164,21 @@ The broad defence-side corpus contains 17 unique study programs spanning chemica
 
 ### Primary Ecuadorian test: access mismatch predicts robbery
 
-The Ecuadorian network showed the same routing direction. Mean robbery rate was 0.307 when flower tubes exceeded bird bills and 0.081 when they did not, a difference of +0.226 (\(p_{\mathrm{perm}}=0.0001\)).
-
-Continuous mismatch was also positively associated with robbery rate across all 1,378 pair-site units,
+The Ecuadorian network retained the predicted routing direction after the metadata-informed missingness correction and after moving inference to plant species. Across 259 plant species, mean tube–bill mismatch was positively associated with mean robbery rate,
 
 \[
-\rho_{\mathrm{global}}=0.4183,
+\rho=0.5032,
 \qquad
 p_{\mathrm{perm}}=0.0001.
 \]
 
-The pattern was not generated solely by among-site composition. Seventeen sites contained both barrier and accessible pair-sites; 15 showed higher robbery under the barrier state. The mean within-site difference was +0.144, the two-sided sign-test \(p=0.00235\), and the site-stratified permutation \(p=0.0001\).
+The binary barrier contrast gave the same result. Among 130 plant species observed in both barrier and accessible states, the mean within-species barrier-minus-accessible robbery difference was +0.0915; 75 of 82 nonzero species differences were positive, and the whole-species label-swap permutation gave \(p=0.0001\).
 
-The result also persisted when sparsely observed pair-site units were removed. Requiring at least five interactions left 702 units, with mean robbery rates of 0.320 under barriers and 0.0556 when accessible; mismatch and robbery remained positively associated (\(\rho=0.505\), permutation \(p=0.0001\)). At the cross-network level, the equal-network joint effect also persisted under this filter (\(r_J=0.385\), permutation \(p=0.0001\)).
+At the descriptive pair-site scale, the missing-as-no analysis yielded 2,265 units. Mean robbery was 0.147 under barriers and 0.020 when accessible, a difference of +0.127. All 18 sites containing both states showed higher mean robbery under the barrier state (two-sided sign test \(p=7.63\times10^{-6}\); site-stratified permutation \(p=0.0001\)).
+
+The result was not created by the missing-value recoding. In the explicit yes/no complete-case sensitivity, the plant-species correlation was \(\rho=0.570\) (permutation \(p=0.0001\)), and the mean paired species difference was +0.155 (label-swap \(p=0.0001\)). The correction substantially reduced absolute robbery rates and the pair-site contrast, but not its direction.
+
+Dependence checks by bird species were more mixed. The binary barrier contrast remained positive across 36 eligible bird species (label-swap \(p=0.0001\)), whereas the continuous association after aggregating to 50 bird species was weak (\(\rho=0.086\), permutation \(p=0.551\)). We therefore base the primary Ecuadorian inference and the cross-network comparison on plant-species units rather than on repeated pair-sites or a bird-species continuous effect.
 
 ### Independent insect corroboration recovers the same routing direction
 
@@ -200,18 +202,18 @@ For the joint analysis, the Sakhalkar rank effect was
 r_S=0.3468.
 \]
 
-After removing site-specific rank means, the Aubert/EPHI effect was
+Using the same plant-species inferential grain, the Aubert/EPHI effect was
 
 \[
-r_A=0.3505
+r_A=0.5032
 \]
 
-with within-site permutation \(p=0.0001\). The close agreement between independently assembled datasets was not imposed by sample-size weighting.
+with species-level permutation \(p=0.0001\). The two networks therefore agreed in direction without requiring equal raw effect magnitudes.
 
 The equal-network Fisher-z mean was
 
 \[
-\boxed{r_J=0.3487}
+\boxed{r_J=0.4282}
 \]
 
 and the two-sided joint permutation test gave
@@ -220,9 +222,9 @@ and the two-sided joint permutation test gave
 \boxed{p_{\mathrm{joint}}=0.0001}.
 \]
 
-Both observed network effects were positive. Under the joint permutation null, the probability that both permuted effects were positive was 0.2536, close to the 0.25 expectation for two approximately symmetric directional nulls.
+Both observed network effects were positive. Under the joint permutation null, the probability that both permuted effects were positive was 0.2527, close to the 0.25 expectation for two approximately symmetric directional nulls.
 
-Thus the strongest empirical result is not merely that each source dataset contains an access association. The primary Ecuadorian test and independent insect corroboration recover nearly the same standardized rank-effect magnitude.
+Thus the strongest empirical result is not merely that each source dataset contains an access association. The primary Ecuadorian test and independent insect corroboration recover the same routing direction after placing both networks on a plant-species inferential grain.
 
 ### A formal finite literature frame extends the routing test beyond two networks
 
@@ -244,7 +246,7 @@ These cases motivate the access/exposure mechanism and its experimental predicti
 
 ### Access barriers reorganize interactions rather than simply suppress them
 
-The central result is a cross-fauna recurrence of the same routing prediction. Insects and birds differ radically in body size, sensory biology, handling behavior and floral interactions, and the two public datasets were assembled independently for different purposes. Yet after expressing each system as a rank association between access constraint and bypass propensity, their effects were nearly identical: \(r_S=0.347\) and \(r_A=0.351\). The equal-network joint effect was \(r_J=0.349\).
+The central result is a cross-fauna recurrence of the same routing prediction. Insects and birds differ radically in body size, sensory biology, handling behavior and floral interactions, and the two public datasets were assembled independently for different purposes. After expressing each system as a plant-species rank association between access constraint and bypass propensity, both effects were positive: \(r_S=0.347\) and \(r_A=0.503\). The equal-network joint effect was \(r_J=0.428\).
 
 The standardized replication count is therefore still only two networks, but the biological phenomenon is not represented by only two empirical examples. The formal bibliographic frame resolved 33 independent direct programs spanning experimental, population and community designs, including five null, four opposite and two mixed outcomes. Ten programs were newly eligible relative to the pre-existing direct corpus, and three of those ten were opposite rather than supportive. Those studies cannot be pooled into the network statistic, but they show that access geometry and robbery have been tested repeatedly in distinct systems and that formal search adds boundary cases as well as supporting cases.
 
@@ -268,7 +270,7 @@ The joint analysis was designed to test recurrence without pretending that the t
 
 The joint statistic contains only \(k=2\) independent network-level contributions. Its permutation \(p\)-value tests whether these two networks jointly show a stronger standardized routing signal than their network-specific nulls; it does not estimate between-network heterogeneity, a population-level mean across ecological networks, or generality beyond the two network systems analysed here. Broader generality remains a prediction for replication across additional independent networks.
 
-The result remains observational. Floral tube length was not randomly assigned, and correlated morphology prevents a unique tube-length claim in the insect network. The Ecuador analysis is an all-site extension using the public EPHI mirror, not an exact reconstruction of Aubert et al.'s three-transect mixed model. Our claim is consequently about a recurrent rank-based routing association, not a universal causal coefficient.
+The result remains observational. Floral tube length was not randomly assigned, and correlated morphology prevents a unique tube-length claim in the insect network. The Ecuador analysis is an all-site extension using the public EPHI mirror, not an exact reconstruction of Aubert et al.'s three-transect mixed model. Its primary result uses the source metadata's missing-as-no interpretation and aggregates repeated pair-site observations to plant species. The continuous association is not reproduced when the same data are instead aggregated to bird species, although the binary barrier contrast remains positive at that grain. Our claim is consequently about a recurrent plant-side rank-based routing association, not a universal causal coefficient.
 
 The matched floral-defence material is mechanistic context rather than independent validation. Historical systems contributed to development of the effective-domain framing, the domain coding has not yet been outcome-blind independently replicated, null-compatible outcomes are not equivalence tests, and the strict direction-supported matched subset remains small. These limitations are precisely why the network analyses—not the matched-domain alignment—carry the inferential contribution of the Letter.
 
@@ -286,7 +288,7 @@ Finally, defence experiments should measure pollinator response and antagonist r
 
 ## Conclusion
 
-Across an all-Ecuador bird–flower network and an independent Afrotropical insect network, stronger constraint on the legitimate floral access route is associated with greater bypass exploitation. A joint equal-network rank test yields \(r_J=0.349\) with permutation \(p=0.0001\). A frozen finite bibliographic frame additionally resolves 33 direct access-geometry study programs—22 positive, five null, four opposite and two mixed—while only the two networks share the standardized estimand used for joint inference. Source-audited floral-defence cases provide mechanistic context for access and exposure dependence rather than an independent validation claim.
+Across an all-Ecuador bird–flower network and an independent Afrotropical insect network, stronger constraint on the legitimate floral access route is associated with greater bypass exploitation. After treating unspecified EPHI piercing records according to the source metadata and using plant species as the inferential unit in both networks, a joint equal-network rank test yields \(r_J=0.428\) with permutation \(p=0.0001\). A frozen finite bibliographic frame additionally resolves 33 direct access-geometry study programs—22 positive, five null, four opposite and two mixed—while only the two networks share the standardized estimand used for joint inference. Source-audited floral-defence cases provide mechanistic context for access and exposure dependence rather than an independent validation claim.
 
 The ecological implication is simple: **barriers do not only filter interactions; they can reroute them.** Treating access architecture as a determinant of interaction mode provides a general, testable way to connect floral defence, cheating behavior and mutualist–antagonist trade-offs without assuming that one trait has one fixed ecological effect.
 

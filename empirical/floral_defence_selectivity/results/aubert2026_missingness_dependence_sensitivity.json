@@ -1,0 +1,325 @@
+{
+  "analysis_name": "aubert_ephi_missingness_and_species_dependence_sensitivity",
+  "claim_boundary": "The species-cluster checks are sensitivity analyses that make plant or bird species the unit of label swapping. They address repeated pair-site observations but are not a crossed-random-effects model and do not establish causality.",
+  "comparison": {
+    "barrier_minus_accessible_mean_rate": {
+      "change": -0.09891212427178994,
+      "complete_case": 0.22559586103604107,
+      "missing_as_no": 0.12668373676425113
+    },
+    "direction_preserved": true,
+    "mean_robbery_rate_accessible": {
+      "change": -0.06143374853328079,
+      "complete_case": 0.08138669738180652,
+      "missing_as_no": 0.01995294884852573
+    },
+    "mean_robbery_rate_barrier": {
+      "change": -0.16034587280507076,
+      "complete_case": 0.3069825584178476,
+      "missing_as_no": 0.14663668561277685
+    },
+    "mismatch_spearman_rho": {
+      "change": -0.06463556010864263,
+      "complete_case": 0.41826245373655196,
+      "missing_as_no": 0.35362689362790933
+    },
+    "pair_site_n": {
+      "change": 887,
+      "complete_case": 1378,
+      "missing_as_no": 2265
+    }
+  },
+  "complete_case": {
+    "audit": {
+      "bird_species_clusters": 47,
+      "included_by_piercing_policy": 22182,
+      "missing_as_no": false,
+      "pair_site_rows": 1378,
+      "plant_species_clusters": 218,
+      "raw_piercing_status_counts": {
+        "<blank>": 31700,
+        "maybe": 12,
+        "no": 17509,
+        "no flower contact": 1,
+        "not_interacting": 105,
+        "there is a sylph perched in the same picture": 1,
+        "thief": 338,
+        "yes": 4673
+      },
+      "resolved_target_interactions": 21114,
+      "sites": 18,
+      "target_taxon_rows_before_piercing_filter": 54339,
+      "trait_matched_interactions": 20572
+    },
+    "bird_species_cluster_check": {
+      "cluster_key": "bird_species",
+      "cluster_label_swap_permutation_p": 0.0074,
+      "eligible_clusters": 29,
+      "mean_cluster_difference": 0.09042960840541846,
+      "median_cluster_difference": 0.07738095238095238,
+      "nonzero_clusters": 24,
+      "permutations": 9999,
+      "positive_clusters": 17,
+      "sign_test_p": 0.06391465663909912
+    },
+    "bird_species_rho_check": {
+      "aggregation": "unweighted mean across pair-site units within species",
+      "cluster_key": "bird_species",
+      "n_clusters": 47,
+      "permutation_p_two_sided": 0.0412,
+      "permutations": 9999,
+      "rho": 0.303212334647208
+    },
+    "native_pair_site_summary": {
+      "accessible_pair_sites": 490,
+      "analysis_name": "aubert_zenodo_all_ecuador_access_barrier_extension",
+      "barrier_mean_difference_permutation_p": 0.0001,
+      "barrier_minus_accessible_mean_rate": 0.22559586103604107,
+      "barrier_pair_sites": 888,
+      "bird_group_summary": {
+        "flowerpiercer": {
+          "mean_robbery_rate": 1,
+          "pair_site_n": 1
+        },
+        "hummingbird": {
+          "mean_robbery_rate": 0.22620188350917494,
+          "pair_site_n": 1377
+        }
+      },
+      "claim_boundary": "Independent all-18-site EPHI Zenodo extension, not an exact replication of Aubert et al. 2026. Pair-site robbery rates are the inferential units. Associations do not establish causal floral defence.",
+      "mean_robbery_rate_accessible": 0.08138669738180652,
+      "mean_robbery_rate_barrier": 0.3069825584178476,
+      "median_robbery_rate_accessible": 0,
+      "median_robbery_rate_barrier": 0,
+      "min_interaction_sensitivity": {
+        "min_1": {
+          "accessible_pair_sites": 490,
+          "barrier_mean_difference_permutation_p": 0.0001,
+          "barrier_minus_accessible_mean_rate": 0.22559586103604107,
+          "barrier_pair_sites": 888,
+          "mean_robbery_rate_accessible": 0.08138669738180652,
+          "mean_robbery_rate_barrier": 0.3069825584178476,
+          "mismatch_spearman_permutation_p": 0.0001,
+          "mismatch_spearman_rho": 0.41826245373655196,
+          "n_pair_sites": 1378,
+          "status": "FIT"
+        },
+        "min_2": {
+          "accessible_pair_sites": 383,
+          "barrier_mean_difference_permutation_p": 0.0001,
+          "barrier_minus_accessible_mean_rate": 0.2520604477551641,
+          "barrier_pair_sites": 676,
+          "mean_robbery_rate_accessible": 0.07279238046236346,
+          "mean_robbery_rate_barrier": 0.3248528282175276,
+          "mismatch_spearman_permutation_p": 0.0001,
+          "mismatch_spearman_rho": 0.4703268444699899,
+          "n_pair_sites": 1059,
+          "status": "FIT"
+        },
+        "min_5": {
+          "accessible_pair_sites": 266,
+          "barrier_mean_difference_permutation_p": 0.0001,
+          "barrier_minus_accessible_mean_rate": 0.2643689107813722,
+          "barrier_pair_sites": 436,
+          "mean_robbery_rate_accessible": 0.05562461798402959,
+          "mean_robbery_rate_barrier": 0.31999352876540177,
+          "mismatch_spearman_permutation_p": 0.0001,
+          "mismatch_spearman_rho": 0.5050904324740966,
+          "n_pair_sites": 702,
+          "status": "FIT"
+        }
+      },
+      "mismatch_spearman_permutation_p": 0.0001,
+      "mismatch_spearman_rho": 0.41826245373655196,
+      "pair_site_n": 1378,
+      "permutations": 9999,
+      "seed": 20260919,
+      "site_difference": {
+        "eligible_sites": 17,
+        "mean_within_site_difference": 0.1439930786270075,
+        "median_within_site_difference": 0.1313160992520706,
+        "positive_sites": 15,
+        "sign_test_p": 0.002349853515625,
+        "site_stratified_permutation_p": 0.0001
+      },
+      "trait_definition": {
+        "barrier": "mismatch > 0 (flower tube longer than bill)",
+        "bird_bill": "species mean culmen_length in mm divided by 10 to cm",
+        "flower_tube": "site-specific mean Tubelength in cm; species mean fallback",
+        "mismatch": "log(flower_tube_cm / culmen_cm)"
+      }
+    },
+    "plant_species_cluster_check": {
+      "cluster_key": "plant_species",
+      "cluster_label_swap_permutation_p": 0.0001,
+      "eligible_clusters": 97,
+      "mean_cluster_difference": 0.15547700818932325,
+      "median_cluster_difference": 0.047619047619047616,
+      "nonzero_clusters": 64,
+      "permutations": 9999,
+      "positive_clusters": 57,
+      "sign_test_p": 7.638141345540223e-11
+    },
+    "plant_species_rho_check": {
+      "aggregation": "unweighted mean across pair-site units within species",
+      "cluster_key": "plant_species",
+      "n_clusters": 218,
+      "permutation_p_two_sided": 0.0001,
+      "permutations": 9999,
+      "rho": 0.5696398474310633
+    }
+  },
+  "guardrail": "Aggregate output only; source species identifiers are not emitted.",
+  "missing_as_no": {
+    "audit": {
+      "bird_species_clusters": 50,
+      "included_by_piercing_policy": 53882,
+      "missing_as_no": true,
+      "pair_site_rows": 2265,
+      "plant_species_clusters": 259,
+      "raw_piercing_status_counts": {
+        "<blank>": 31700,
+        "maybe": 12,
+        "no": 17509,
+        "no flower contact": 1,
+        "not_interacting": 105,
+        "there is a sylph perched in the same picture": 1,
+        "thief": 338,
+        "yes": 4673
+      },
+      "resolved_target_interactions": 50572,
+      "sites": 18,
+      "target_taxon_rows_before_piercing_filter": 54339,
+      "trait_matched_interactions": 49237
+    },
+    "bird_species_cluster_check": {
+      "cluster_key": "bird_species",
+      "cluster_label_swap_permutation_p": 0.0001,
+      "eligible_clusters": 36,
+      "mean_cluster_difference": 0.09333670185869282,
+      "median_cluster_difference": 0.030171746361059112,
+      "nonzero_clusters": 27,
+      "permutations": 9999,
+      "positive_clusters": 21,
+      "sign_test_p": 0.005924612283706665
+    },
+    "bird_species_rho_check": {
+      "aggregation": "unweighted mean across pair-site units within species",
+      "cluster_key": "bird_species",
+      "n_clusters": 50,
+      "permutation_p_two_sided": 0.5509,
+      "permutations": 9999,
+      "rho": 0.0858105861375493
+    },
+    "native_pair_site_summary": {
+      "accessible_pair_sites": 908,
+      "analysis_name": "aubert_zenodo_all_ecuador_access_barrier_extension",
+      "barrier_mean_difference_permutation_p": 0.0001,
+      "barrier_minus_accessible_mean_rate": 0.12668373676425113,
+      "barrier_pair_sites": 1357,
+      "bird_group_summary": {
+        "flowerpiercer": {
+          "mean_robbery_rate": 0.5,
+          "pair_site_n": 2
+        },
+        "hummingbird": {
+          "mean_robbery_rate": 0.09549414932876689,
+          "pair_site_n": 2263
+        }
+      },
+      "claim_boundary": "Independent all-18-site EPHI Zenodo extension, not an exact replication of Aubert et al. 2026. Pair-site robbery rates are the inferential units. Associations do not establish causal floral defence.",
+      "mean_robbery_rate_accessible": 0.01995294884852573,
+      "mean_robbery_rate_barrier": 0.14663668561277685,
+      "median_robbery_rate_accessible": 0,
+      "median_robbery_rate_barrier": 0,
+      "min_interaction_sensitivity": {
+        "min_1": {
+          "accessible_pair_sites": 908,
+          "barrier_mean_difference_permutation_p": 0.0001,
+          "barrier_minus_accessible_mean_rate": 0.12668373676425113,
+          "barrier_pair_sites": 1357,
+          "mean_robbery_rate_accessible": 0.01995294884852573,
+          "mean_robbery_rate_barrier": 0.14663668561277685,
+          "mismatch_spearman_permutation_p": 0.0001,
+          "mismatch_spearman_rho": 0.35362689362790933,
+          "n_pair_sites": 2265,
+          "status": "FIT"
+        },
+        "min_2": {
+          "accessible_pair_sites": 723,
+          "barrier_mean_difference_permutation_p": 0.0001,
+          "barrier_minus_accessible_mean_rate": 0.14829400589685268,
+          "barrier_pair_sites": 1042,
+          "mean_robbery_rate_accessible": 0.016759719992339384,
+          "mean_robbery_rate_barrier": 0.16505372588919207,
+          "mismatch_spearman_permutation_p": 0.0001,
+          "mismatch_spearman_rho": 0.40911301169621306,
+          "n_pair_sites": 1765,
+          "status": "FIT"
+        },
+        "min_5": {
+          "accessible_pair_sites": 526,
+          "barrier_mean_difference_permutation_p": 0.0001,
+          "barrier_minus_accessible_mean_rate": 0.16571229534771942,
+          "barrier_pair_sites": 737,
+          "mean_robbery_rate_accessible": 0.014164659482499432,
+          "mean_robbery_rate_barrier": 0.17987695483021884,
+          "mismatch_spearman_permutation_p": 0.0001,
+          "mismatch_spearman_rho": 0.4380245677062488,
+          "n_pair_sites": 1263,
+          "status": "FIT"
+        }
+      },
+      "mismatch_spearman_permutation_p": 0.0001,
+      "mismatch_spearman_rho": 0.35362689362790933,
+      "pair_site_n": 2265,
+      "permutations": 9999,
+      "seed": 20261919,
+      "site_difference": {
+        "eligible_sites": 18,
+        "mean_within_site_difference": 0.11940097570692244,
+        "median_within_site_difference": 0.11121263140758014,
+        "positive_sites": 18,
+        "sign_test_p": 0.00000762939453125,
+        "site_stratified_permutation_p": 0.0001
+      },
+      "trait_definition": {
+        "barrier": "mismatch > 0 (flower tube longer than bill)",
+        "bird_bill": "species mean culmen_length in mm divided by 10 to cm",
+        "flower_tube": "site-specific mean Tubelength in cm; species mean fallback",
+        "mismatch": "log(flower_tube_cm / culmen_cm)"
+      }
+    },
+    "plant_species_cluster_check": {
+      "cluster_key": "plant_species",
+      "cluster_label_swap_permutation_p": 0.0001,
+      "eligible_clusters": 130,
+      "mean_cluster_difference": 0.09145729746920327,
+      "median_cluster_difference": 0.012716534503917682,
+      "nonzero_clusters": 82,
+      "permutations": 9999,
+      "positive_clusters": 75,
+      "sign_test_p": 1.7292396771428031e-15
+    },
+    "plant_species_rho_check": {
+      "aggregation": "unweighted mean across pair-site units within species",
+      "cluster_key": "plant_species",
+      "n_clusters": 259,
+      "permutation_p_two_sided": 0.0001,
+      "permutations": 9999,
+      "rho": 0.5031637639157797
+    }
+  },
+  "permutations": 9999,
+  "source_metadata_rule": "EPHI metadata states that piercing=NA means not specified and is most probably 'no' because some observers filled the field only when a bird was piercing.",
+  "status_policy": {
+    "complete_case": "include only piercing=yes/no",
+    "missing_as_no": "include piercing=yes/no and recode explicit missing codes NA/N/A/blank as no; retain exclusion of maybe, thief, not_interacting, and other non-binary states"
+  },
+  "provenance": {
+    "workflow_run": 36326048526,
+    "workflow_job": 108638897372,
+    "artifact_id": 10934318172,
+    "artifact_digest": "sha256:45a2dcb55134f0d29d9f446513b3366a3342d3eb1b041591f4a765a1692b0d75"
+  }
+}

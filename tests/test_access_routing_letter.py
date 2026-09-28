@@ -33,10 +33,10 @@ def test_letter_stays_within_ecology_letters_limits() -> None:
 
 def test_letter_centers_one_joint_access_routing_result() -> None:
     text = LETTER.read_text(encoding="utf-8")
-    assert "r_J=0.3487" in text
+    assert "r_J=0.4282" in text
     assert "p_{\\mathrm{joint}}=0.0001" in text
     assert "r_S=0.3468" in text
-    assert "r_A=0.3505" in text
+    assert "r_A=0.5032" in text
     assert "equal-network" in text
     assert "2-network" not in text
 
@@ -59,7 +59,7 @@ def test_letter_weights_ecuador_primary_and_insects_as_corroboration() -> None:
     abstract = text.split("## Abstract", 1)[1].split("## Introduction", 1)[0]
     assert "in an all-Ecuador bird–flower network" in abstract
     assert "independent insect network" in abstract
-    assert abstract.index("1,378 bird × plant × site units") < abstract.index("57 plant species")
+    assert abstract.index("259 Ecuadorian plant species") < abstract.index("57 plant species")
 
     assert "### Primary Ecuadorian test" in text
     assert "### Independent insect corroboration" in text

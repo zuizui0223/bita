@@ -9,9 +9,9 @@ def test_readme_declares_active_access_routing_letter_story() -> None:
     assert "primary submission paper" in text
     assert "Access constraints reroute floral exploitation" in text
     assert "PRIMARY:" not in text
-    assert "1,378 bird × plant × site units" in text
+    assert "259 plant species aggregated from 2,265 pair-site units" in text
     assert "57 plant species" in text
-    assert "rho_J = 0.349" in text
+    assert "rho_J = 0.428" in text
     assert "k = 2" in text
     assert "matched effective-domain classifications are author-coded" in text
     assert "Ecology Letters — Letter" in text
@@ -42,7 +42,7 @@ def test_scope_preserves_active_letter_claim_boundaries() -> None:
     text = (ROOT / "docs" / "SUBMISSION_SCOPE.md").read_text(encoding="utf-8")
     assert "BITA access-routing Letter" in text
     assert "Ecology Letters — Letter" in text
-    assert "1,378 bird × plant × site units" in text
+    assert "n = 259 plant species" in text
     assert "57 plant species" in text
     assert "JOINT_NETWORK_K = 2" in text
     assert "author-coded" in text

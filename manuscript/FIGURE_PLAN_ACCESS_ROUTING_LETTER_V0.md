@@ -66,19 +66,24 @@ Use the existing two-network public-data figure as the base.
 ### Panel A — Aubert / EPHI birds: primary test
 
 ~~~text
-n = 1,378 bird × plant × site units
-barrier robbery = 0.307
-accessible robbery = 0.081
-difference = +0.226
+primary n = 259 plant species
+plant-level mismatch rho = 0.5032
 permutation p = 0.0001
+paired barrier contrast = +0.0915 across 130 species
+label-swap p = 0.0001
+
+descriptive pair-site scale:
+n = 2,265
+barrier robbery = 0.147
+accessible robbery = 0.020
 ~~~
 
 ### Panel B — site robustness
 
 ~~~text
-17 comparable sites
-15 positive barrier effects
-sign-test p = 0.00235
+18 comparable sites
+18 positive barrier effects
+sign-test p = 7.63e-6
 site-stratified permutation p = 0.0001
 ~~~
 
@@ -98,13 +103,15 @@ Show three aligned estimates:
 
 ~~~text
 Aubert/EPHI birds — primary:
-  site-adjusted rho = 0.3505
+  plant-species rho = 0.5032
+  n = 259 plant species
 
 Sakhalkar insects — corroborative:
   rho = 0.3468
+  n = 57 plant species
 
 equal-network Fisher-z joint:
-  rho_J = 0.3487
+  rho_J = 0.4282
   permutation p = 0.0001
 ~~~
 
@@ -119,7 +126,8 @@ Sakhalkar:
   shuffle response across species
 
 Aubert:
-  shuffle response ranks within site
+  shuffle response ranks across plant species
+  after within-species aggregation
 
 joint:
   equal network weight
