@@ -9,7 +9,9 @@ from pathlib import Path
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from scripts.analyze_joint_access_routing import build_public_inputs
+from scripts.analyze_joint_access_routing_species_robust import (
+    build_existing_network_species_inputs,
+)
 from trait_architecture.existing_k3_inputs import canonical_stable_json_sha256
 
 RECEIPT = "BITA_EXISTING_K3_INPUT_FINGERPRINT_CANDIDATE_V2"
@@ -45,8 +47,8 @@ def fingerprint_rows(
         "canonicalization": {
             "sakhalkar": "sort exact k3 scientific fields; zero tube length retained",
             "aubert_ephi": (
-                "discard arbitrary site labels; sort sites by the complete multiset "
-                "of exact scientific rows; preserve site partition"
+                "sort repaired plant-species points by exact mean mismatch, "
+                "mean robbery rate, and contributing pair-site count"
             ),
             "numeric_quantization": "none",
         },
@@ -58,7 +60,7 @@ def fingerprint_rows(
 
 
 def run(output: str | Path | None = None) -> dict[str, object]:
-    sakhalkar_points, aubert_rows = build_public_inputs()
+    sakhalkar_points, aubert_rows = build_existing_network_species_inputs()
     result = fingerprint_rows(sakhalkar_points, aubert_rows)
     payload = json.dumps(result, indent=2, sort_keys=True) + "\n"
     if output is not None:
