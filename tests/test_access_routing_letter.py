@@ -10,7 +10,12 @@ LETTER = ROOT / "manuscript" / "MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md"
 
 
 def _main_words(text: str) -> list[str]:
-    body = re.sub(r"~~~[\s\S]*?~~~", " ", text)
+    # Ecology Letters defines the 5,000-word limit for main text only,
+    # excluding title page, abstract, acknowledgements, references, and legends.
+    start = text.index("## Introduction")
+    end = text.index("## Data accessibility and reproducibility")
+    body = text[start:end]
+    body = re.sub(r"~~~[\s\S]*?~~~", " ", body)
     body = re.sub(r"\\\[[\s\S]*?\\\]", " ", body)
     body = re.sub(r"^#.*$", " ", body, flags=re.MULTILINE)
     body = body.replace("**", "")

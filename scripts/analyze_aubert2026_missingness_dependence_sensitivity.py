@@ -462,6 +462,13 @@ def summarize_policy(
     seed: int,
 ) -> dict[str, object]:
     native = summarize_pair_sites(rows, permutations=permutations, seed=seed)
+    native = dict(native)
+    native["claim_boundary"] = (
+        "Descriptive pair-site summary within the all-18-site EPHI extension; "
+        "pair-site rows are not the primary inferential units in the repaired Letter. "
+        "Primary inference is clustered at plant species, with separate within-bird "
+        "behavioral sensitivities. Associations do not establish causal floral defence."
+    )
     return {
         "audit": audit,
         "native_pair_site_summary": native,
