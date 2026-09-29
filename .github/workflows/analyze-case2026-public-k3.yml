@@ -5,6 +5,7 @@ on:
     paths:
       - "scripts/analyze_case2026_hawaii_replication.py"
       - "tests/test_case2026_hawaii_replication.py"
+      - "empirical/floral_defence_selectivity/CASE2026_POSTPUBLICATION_SOURCE_RECEIPT_V1.json"
       - "empirical/floral_defence_selectivity/case2026_external/**"
       - ".github/workflows/analyze-case2026-public-k3.yml"
   workflow_dispatch:
