@@ -12,6 +12,7 @@ from scripts.analyze_case2026_hawaii_replication import (
     read_case_rows,
     replication_gate,
     summarize_case,
+    verify_case_source_bytes,
 )
 
 
@@ -86,3 +87,10 @@ def test_case_summary_is_positive_but_labeled_postpublication(tmp_path: Path) ->
     assert result["rho"] is not None
     assert float(result["rho"]) > 0
     assert "not an outcome-blind" in str(result["claim_boundary"]).lower()
+
+
+def test_wrong_case_bytes_fail_exact_source_identity(tmp_path: Path) -> None:
+    path = _fixture_zip(tmp_path / "not-the-dryad-source.zip")
+    import pytest
+    with pytest.raises(ValueError, match="do not match frozen Dryad identity"):
+        verify_case_source_bytes(path)
