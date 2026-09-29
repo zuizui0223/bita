@@ -7,9 +7,7 @@ Access constraints may reroute exploitation rather than eliminate it. We test th
 
 ## Introduction
 
-Biological structures that restrict access are often interpreted as barriers: if an exploiter cannot use the normal route, interaction frequency should decline. This logic appears throughout consumer–resource ecology, from prey defences to host barriers and floral architectures. Yet many antagonists are behaviorally flexible. They can change handling mode, attack site or route of entry, turning a barrier from a simple filter into a device that reorganizes interaction pathways.
-
-Flowers provide a particularly clear setting for this problem. The same reproductive structures must remain accessible to mutualists while limiting florivores, nectar robbers, thieves, seed predators and other exploiters. Floral chemistry, sticky surfaces, water-filled bracts, hairs, slippery tissues and geometric barriers can all reduce antagonist use, but their consequences for legitimate visitors vary widely (Johnson et al. 2015; Lucas-Barbosa 2016; Rusman et al. 2018). Nectar secondary compounds can selectively deter some consumers while being tolerated by others (Adler & Irwin 2005; Gegear et al. 2007; Barlow et al. 2017), and the same trait can change from selective to interfering as dose or exposure increases (Galen et al. 2011; Jones & Agrawal 2016). These observations suggest that a trait's ecological effect depends less on its broad category than on which consumers actually encounter it, through what route, and at what intensity.
+Access-restricting structures are usually treated as filters: if an exploiter cannot use the normal route, interaction frequency should decline. But flexible consumers can instead change handling mode, attack site or route of entry. Flowers make this distinction explicit because structures that mediate legitimate pollination also confront robbers, thieves and other antagonists. Chemical and physical floral defences can deter some consumers while sparing others, and their effects change with exposure, consumer identity and context (Adler & Irwin 2005; Johnson et al. 2015; Lucas-Barbosa 2016; Rusman et al. 2018). A barrier may therefore reorganize interaction pathways rather than simply remove interactions.
 
 We formalize this as an **effective access domain**. A legitimate visitor and an antagonist can differ in geometry, susceptibility, timing or attack route, so the same trait need not impose the same effective constraint on both. A selective defence is possible when antagonist use is restricted before legitimate visitation is impaired. But even a strong access constraint need not suppress antagonism if a bypass remains available. Instead, an exploiter can switch from using the legitimate opening to piercing, robbing or another alternative route.
 
@@ -17,7 +15,7 @@ This yields a simple prediction that is more general than any one floral defence
 
 > **As mismatch with the legitimate access route increases, exploitation should shift toward bypass routes rather than merely decline.**
 
-Direct studies outside our two standardized datasets already suggest that access geometry can matter, while also revealing boundary conditions. Across 88 species from four communities, long flowers were more likely to be robbed by insects and birds (Rojas-Nossa et al. 2016), and larger naturalised *Fuchsia magellanica* flowers were more often robbed by bumblebees (Stanley & Cosnett 2021). Conversely, across 27 populations of 12 bird-pollinated *Erica* species, the primary model associated longer corollas with lower robbery, although that effect was not retained under an alternative perceptual-model specification (Coetzee et al. 2026). These studies do not share a common visitor × plant mismatch estimand and therefore provide biological context rather than additional standardized network replicates.
+Direct studies already show both the predicted direction and boundary cases: longer flowers were more frequently robbed across four communities (Rojas-Nossa et al. 2016) and in naturalised *Fuchsia* (Stanley & Cosnett 2021), whereas longer corollas predicted lower robbery in the primary model across bird-pollinated *Erica* populations (Coetzee et al. 2026). These studies lack a common visitor × plant estimand and therefore provide context rather than additional standardized network replicates.
 
 The prediction has not been tested as a common standardized association across independently assembled visitor networks with different faunas. We therefore use the all-Ecuador EPHI bird–flower network as the primary quantitative test. After metadata-informed treatment of unspecified piercing records and trait matching, it contains 2,265 bird × plant × site units across 18 sites, which we aggregate to 259 plant species for primary inference (Aubert et al. 2026; EPHI public data). We then use the smaller Afrotropical insect–flower network of Sakhalkar et al. (2023) as an independent corroborative test on a different cheating contrast: robbing versus thieving among plant species.
 
@@ -82,9 +80,7 @@ We test three predictions.
 
 ### Primary Ecuadorian bird–flower test
 
-Aubert et al. (2026) analysed nectar robbing as a consequence of trait mismatch between flowers and avian visitors. We analyse the broader all-Ecuador EPHI dataset publicly archived on Zenodo and treat this analysis as an independent extension rather than an exact replication of the source three-transect mixed-effects model.
-
-The mirror contains 54,471 interaction rows, 6,198 camera records, 4,371 plant-trait records and 10,988 hummingbird-trait records across 18 Ecuador sites. The interaction metadata defines piercing=yes as piercing or use of an existing hole, no as legitimate interaction, and states that unspecified NA values are most probably no because some observers filled the field only when a bird was piercing. In the deposited table these unspecified records appear as blank values. We therefore recoded blank/NA piercing values as legitimate, non-robbing interactions in the primary analysis. Distinct non-binary states such as maybe, thief, not_interacting and no flower contact remained excluded. A complete-case analysis retaining only explicit yes/no values was kept as a sensitivity check. Resolved interactions were joined through camera waypoints to plant species and sites and then to floral and bird traits. Plant tube length is recorded in centimetres and culmen length in millimetres; culmen length was converted to centimetres before comparison.
+We analyse the public all-Ecuador EPHI data as an extension of Aubert et al. (2026), not an exact reconstruction of their three-transect mixed model. The mirror contains 54,471 interaction rows across 18 sites plus camera, plant-trait and bird-trait tables. Metadata state that unspecified piercing values are most probably legitimate (`no`) because some observers entered the field only for piercing events. We therefore recoded blank/NA as non-robbing in the primary analysis, excluded distinct non-binary states, and retained explicit yes/no complete cases as a sensitivity. Camera waypoints linked interactions to plant/site identities; tube length was compared with culmen length after unit conversion.
 
 For each bird–plant pair within site, we calculated
 
@@ -102,7 +98,7 @@ We separately tested the behavioral prediction within bird species. Pair-site ro
 
 ### Independent Afrotropical insect corroboration
 
-We reanalysed the public dataset of Sakhalkar et al. (2023), which records flower visitors, cheating behavior and floral traits in Afrotropical forests. The current Zenodo workbook contains 18,440 visitation rows. Following the source analysis, rows coded as generic visiting behavior were excluded, leaving 14,383 analysed rows in the deposited file. This is eight fewer than the 14,391 visits reported in the publication summary; we use the deposited data as currently available rather than forcing equality.
+We reanalysed the public Sakhalkar et al. (2023) Afrotropical visitor and floral-trait dataset. Generic visiting records were excluded following the source analysis; all calculations use the currently deposited Zenodo workbook.
 
 Visit frequencies were aggregated to plant species before inference. For each species with tube-length data and at least one robbing or thieving interaction, we calculated
 
@@ -119,17 +115,7 @@ Because tube length can covary with other floral traits, we also retained the so
 
 ### Joint cross-network test
 
-The two datasets differ in response scale and inferential unit, so raw observations were not pooled. Instead, each network contributed one standardized rank association in the same biological direction:
-
-\[
-\text{access constraint}
-\longrightarrow
-\text{bypass propensity}.
-\]
-
-For Sakhalkar, the effect was the Spearman correlation between tube length and robbing–thieving balance.
-
-For Aubert/EPHI, each plant species contributed one point: the unweighted mean mismatch and mean robbery rate across its pair-site units under the metadata-informed missing-as-no rule. Thus both networks contributed plant-species-level rank associations rather than repeated visit or pair-site observations.
+Raw observations were not pooled. Each network contributed one plant-species rank association between access constraint and bypass propensity: tube length versus robbing–thieving balance in Sakhalkar, and mean tube–bill mismatch versus mean robbery in Aubert/EPHI under the metadata-informed missing-as-no rule.
 
 Because the two datasets represent two independent networks rather than pooled interchangeable observations, they received equal weight. The primary joint effect was the Fisher-z mean,
 
@@ -148,19 +134,13 @@ The permutation null acted on plant-species units in both datasets. In each netw
 
 ### Formal direct access-geometry literature frame
 
-To separate standardized network replication from broader direct evidence, we froze a finite, outcome-blind bibliographic frame for studies explicitly testing access geometry against nectar-robbing or bypass use. Eligibility required an empirical study, a floral or visitor–flower access variable measured independently of the robbery outcome, a route-resolved robbery response, and a quantitative comparison from which direction could be coded. Positive, null, mixed and opposite results were retained under the same rule, and eligibility was adjudicated before direction coding for newly discovered records.
+We froze an outcome-blind OpenAlex frame for empirical studies that quantitatively related an independently measured access-geometry variable to route-resolved robbery/bypass. Eligibility was fixed before direction coding for new records; positive, null, mixed and opposite results used the same rule. Eight predefined query families produced 1,699 rows and 857 deduplicated records. The frame recovered 23 of 24 pre-existing direct programs; the remaining program was independently verified absent from OpenAlex and stays outside the denominator. Unknown records were direction-blind screened and then adjudicated from primary sources; no records remain pending.
 
-The historical anchor was the 56 distinct nectar-robber `study` labels in the public meta-analysis of Leal et al. (2025). All 56 labels were screened against the same geometry contract. Fifty were ineligible because they measured consequences of robbery rather than geometry as a predictor, four contained direct geometry tests, and two labels contained mixed source provenance; separate source auditing showed that all plausible components of those two conflicted labels were geometry-ineligible, so the historical direct-eligible set remained four.
-
-For the formal update, we used OpenAlex as one fixed bibliographic provider and executed eight predefined Q1–Q8 query families combining nectar-robbing terms with corolla/tube dimensions, flower size, accessibility, trait mismatch and visitor-reach terms over the frozen publication window. The exports contained 1,699 query rows, which collapsed by DOI or normalized title-year to 857 unique bibliographic records. Calibration against the pre-existing 24-program direct corpus recovered 23 programs; the remaining program, Urcelay, Morales & Chalcoff (2006), was independently verified as absent from OpenAlex and is reported outside the formal denominator rather than injected into it.
-
-Unknown records were first screened without coding effect direction, then adjudicated from primary sources with explicit duplicate and exclusion states. One paywalled scientific note remained unrecoverable through the publisher, institutional repository and reproducible runner audit; because the required quantitative geometry–robbery relation could not be recovered, it was excluded on evidence-recoverability grounds rather than on effect direction. The final frame contains no pending records. We report its finite-frame direction distribution without estimating natural prevalence, performing a sign test, pooling heterogeneous effects or adding programs to network `k`. After directions were frozen, we also conducted a post hoc mechanism audit of the four opposite and two mixed programs, asking whether source descriptions directly identified the focal geometry as hardening the bypass route. Because cases were selected by direction, this audit is boundary interpretation, not predictive validation.
+We report only the finite-frame direction distribution—no prevalence estimate, sign test, pooled effect or increment to network `k`. After directions were frozen, we post hoc audited the four opposite and two mixed programs for source evidence that the focal geometry directly hardened bypass. Because this subset was selected by direction, the audit interprets boundaries rather than validating predictions.
 
 ### Floral-defence evidence as mechanistic context
 
-The network analysis tests route switching rather than the evolutionary origin of floral barriers. To evaluate whether its interpretation is biologically consistent with the floral-defence literature, we use an existing source-adjudicated corpus assembled under a frozen same-trait evidence contract.
-
-The broad defence-side corpus contains 17 unique study programs spanning chemical, physical and reward/access implementations. A stricter matched-system layer classifies each focal defence by effective access/exposure architecture—separated, transitional, overlapped or bypass—and records pollinator outcomes separately from architecture coding. These matched classifications are author-coded and have not yet undergone outcome-blind independent recoding. Heterogeneous endpoints are not pooled into a common effect size. We therefore use this evidence only as mechanistic context, not as an independent validation dataset or as the primary inferential test of the Letter.
+The network analysis does not identify the evolutionary origin of floral barriers. We therefore use the existing 17-program defence corpus only as mechanistic context. Its matched effective-domain classifications are author-coded, not outcome-blind independently recoded, and heterogeneous endpoints are not pooled; this material is not an independent validation dataset.
 
 ## Results
 
@@ -260,11 +240,7 @@ The relative-cost view clarifies some, but not all, reversals. Geometry should p
 
 ### A relational view clarifies floral defence selectivity
 
-The source-audited defence corpus is used here only as mechanistic context, not as a validation dataset. It helps explain why broad labels such as chemical versus physical defence are insufficient: the same nominal defence can be selective at one exposure and interfering at another, and physically similar structures can affect consumers differently depending on body size, timing or attack route.
-
-In the effective-exposure view, a defence is selective when antagonists cross their response threshold before legitimate visitors do. Bypass is a limiting case: if antagonists stop traversing the defended domain, effective exposure to the focal defence falls even as exploitation persists. The network result provides a community-scale manifestation of that boundary condition.
-
-This also explains why a barrier can simultaneously reduce one antagonistic mode and increase the relative importance of another. Measuring only total visitation or total damage can therefore miss an important ecological response. Future studies should distinguish legitimate use, thieving, robbing and other handling modes rather than treating all antagonist interactions as one count.
+The defence corpus remains mechanistic context because broad labels such as chemical or physical defence do not specify who encounters a trait or by which route. In an effective-exposure view, selectivity depends on antagonists crossing a response threshold before legitimate visitors; bypass is the limiting case in which antagonists stop traversing the defended domain while exploitation persists. Consequently, total visitation or damage can hide route switching. Experiments should distinguish legitimate use, thieving, robbing and other handling modes.
 
 ### What the joint test does—and does not—establish
 
