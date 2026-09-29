@@ -23,19 +23,54 @@
     "delta_legitimate_log_handling_time": null,
     "delta_bypass_log_handling_time": null,
     "delta_ratio": null,
-    "minimum_log_time_increment_each_route": 0.20,
+    "minimum_log_time_increment_each_route": 0.2,
     "all_state_success_rates_ge_0_90": null,
-    "passes_freeze_gate": false
+    "passes_freeze_gate": false,
+    "stage0a_candidate_sweep": {
+      "legitimate_bees_min": 12,
+      "bypass_bees_min": 12,
+      "cohorts_disjoint": true,
+      "distance_grid_mm": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "attempts_per_distance_per_bee_min": 3,
+      "input_sha256": null,
+      "selection_result_sha256": null,
+      "selected_legitimate_low_mm": null,
+      "selected_legitimate_high_mm": null,
+      "selected_bypass_low_mm": null,
+      "selected_bypass_high_mm": null
+    },
+    "stage0b_fresh_bee_validation": {
+      "completed_bees_min": 20,
+      "fresh_relative_to_stage0a": true,
+      "successful_trials_per_state_per_bee_min": 5,
+      "input_sha256": null,
+      "result_sha256": null
+    }
   },
   "confirmatory": {
     "target_completed_bees": 60,
     "minimum_colonies": 3,
     "maximum_completed_bees_per_colony": 30,
     "trials_per_condition_per_bee": 10,
-    "conditions": ["LL", "HL", "LH", "HH"],
+    "conditions": [
+      "LL",
+      "HL",
+      "LH",
+      "HH"
+    ],
     "permutations": 9999,
     "primary_alpha_each": 0.025,
-    "hh_equivalence_margin_route_share": 0.10,
+    "hh_equivalence_margin_route_share": 0.1,
     "analysis_seed": 20260929
   },
   "code": {
@@ -43,7 +78,18 @@
     "confirmatory_analysis": "scripts/analyze_relative_route_cost_factorial.py",
     "planning_simulation": "scripts/plan_relative_route_cost_factorial_power.py",
     "planning_receipt": "empirical/floral_defence_selectivity/RELATIVE_ROUTE_COST_FACTORIAL_POWER_PLAN_V1.json",
-    "randomization_generator": "scripts/generate_relative_route_cost_randomization.py"
+    "randomization_generator": "scripts/generate_relative_route_cost_randomization.py",
+    "hardware_validator": "scripts/validate_relative_route_cost_hardware.py",
+    "candidate_selector": "scripts/select_relative_route_cost_candidates.py"
   },
-  "activation_rule": "Stage 1 may begin only after every null field required by the physical and calibration freeze is filled and calibration.passes_freeze_gate is true."
+  "activation_rule": "Stage 1 may begin only after hardware.passes_stage0_hardware_gate is true, Stage 0A has deterministically selected one candidate pair, Stage 0B has independently passed calibration.passes_freeze_gate on fresh bees, and every required physical/calibration freeze field is filled.",
+  "hardware": {
+    "status": "PRE_BUILD_NOT_FROZEN",
+    "spec": "empirical/floral_defence_selectivity/RELATIVE_ROUTE_COST_FLOWER_HARDWARE_SPEC_V1.md",
+    "manifest_sha256": null,
+    "bench_qc_sha256": null,
+    "validated_result_sha256": null,
+    "minimum_flower_bodies": 4,
+    "passes_stage0_hardware_gate": false
+  }
 }
