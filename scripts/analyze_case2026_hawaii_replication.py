@@ -25,6 +25,7 @@ import urllib.request
 import zipfile
 from collections import defaultdict
 from pathlib import Path
+from html.parser import HTMLParser
 import sys
 import subprocess
 
@@ -158,42 +159,156 @@ def discover_case_public_file_url() -> tuple[str, dict[str, object]]:
     )
 
 
+def _curl_to_file(url: str, target: Path, *, accept: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        [
+            "curl",
+            "--fail",
+            "--location",
+            "--silent",
+            "--show-error",
+            "--retry",
+            "3",
+            "--retry-all-errors",
+            "--header",
+            f"Accept: {accept}",
+            "--header",
+            "X-API-Version: 2.1.0",
+            "--user-agent",
+            "BITA-public-replication/1.0",
+            "--output",
+            str(target),
+            url,
+        ],
+        check=False,
+        text=True,
+        capture_output=True,
+    )
+
+
+class _DryadPreviewTableParser(HTMLParser):
+    """Recover the CSV table rendered by Dryad's public preview endpoint."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self._in_cell = False
+        self._cell_parts: list[str] = []
+        self._current_row: list[str] | None = None
+        self.rows: list[list[str]] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag == "tr":
+            self._current_row = []
+        elif tag in {"th", "td"} and self._current_row is not None:
+            self._in_cell = True
+            self._cell_parts = []
+
+    def handle_data(self, data: str) -> None:
+        if self._in_cell:
+            self._cell_parts.append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag in {"th", "td"} and self._in_cell and self._current_row is not None:
+            self._current_row.append("".join(self._cell_parts).strip())
+            self._in_cell = False
+            self._cell_parts = []
+        elif tag == "tr" and self._current_row is not None:
+            if self._current_row:
+                self.rows.append(self._current_row)
+            self._current_row = None
+
+
+def _recover_case_from_full_preview(
+    target: Path,
+    *,
+    file_id: int,
+    metadata_size: int,
+) -> dict[str, object]:
+    """Recover complete content from Dryad's public CSV preview.
+
+    Dryad DataFile#text_preview reads the first 5 KiB. The frozen Case Analysis_2
+    object is only 1,462 bytes, so its preview necessarily spans the complete file.
+    HTML table rendering can normalize CSV quoting/newline bytes, so this route
+    establishes full content identity rather than byte identity.
+    """
+    preview_limit = 5 * 1024
+    if metadata_size >= preview_limit:
+        raise ValueError(
+            f"Case file size {metadata_size} is not safely below Dryad preview limit {preview_limit}"
+        )
+
+    preview_url = f"{DRYAD_BASE}/data_file/preview/{file_id}"
+    html_path = target.with_suffix(".preview.html")
+    completed = _curl_to_file(preview_url, html_path, accept="text/html,*/*")
+    if completed.returncode != 0:
+        raise RuntimeError(
+            "Dryad CSV preview retrieval failed: "
+            + (completed.stderr.strip() or f"curl exit {completed.returncode}")
+        )
+
+    parser = _DryadPreviewTableParser()
+    parser.feed(html_path.read_text(encoding="utf-8", errors="replace"))
+    rows = parser.rows
+    if len(rows) < 2:
+        raise ValueError(f"Dryad preview returned too few table rows: {len(rows)}")
+
+    required = [
+        "plant_species",
+        "bird_species",
+        "N",
+        "pollen_contact",
+        "nectar_robbing",
+        "source",
+        "culmen",
+        "flower_length",
+        "bill_minus_flower",
+    ]
+    if rows[0] != required:
+        raise ValueError(
+            f"Dryad preview header mismatch: observed={rows[0]!r}, expected={required!r}"
+        )
+    widths = {len(row) for row in rows}
+    if widths != {len(required)}:
+        raise ValueError(f"Dryad preview has inconsistent row widths: {sorted(widths)}")
+
+    with target.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.writer(handle, lineterminator="\n")
+        writer.writerows(rows)
+
+    reconstructed = target.read_bytes()
+    return {
+        "source_identity": "FULL_DRYAD_PREVIEW_CONTENT_RECONSTRUCTED",
+        "preview_url": preview_url,
+        "preview_limit_bytes": preview_limit,
+        "dryad_original_size_bytes": metadata_size,
+        "preview_covers_complete_file_by_size": True,
+        "reconstructed_rows_including_header": len(rows),
+        "reconstructed_csv_size_bytes": len(reconstructed),
+        "reconstructed_csv_sha256": hashlib.sha256(reconstructed).hexdigest(),
+        "byte_identity_claim": False,
+        "content_identity_basis": (
+            "Dryad DataFile#text_preview reads first 5 KiB; source metadata size is 1,462 bytes, "
+            "so the rendered CSV table contains the complete file content. HTML rendering may "
+            "normalize original CSV quoting/newline bytes."
+        ),
+    }
+
+
 def download_case_file(path: str | Path) -> tuple[Path, dict[str, object]]:
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     url, provenance = discover_case_public_file_url()
+    file_id = int(provenance["dryad_file_id"])
+    metadata_size = int(provenance["dryad_file_size"])
+
     candidates = [
         url,
-        f"{DRYAD_BASE}/downloads/file_stream/{provenance['dryad_file_id']}",
+        f"{DRYAD_BASE}/downloads/file_stream/{file_id}",
     ]
     errors: list[str] = []
-    completed = None
     used_url = None
     for candidate in candidates:
-        completed = subprocess.run(
-            [
-                "curl",
-                "--fail",
-                "--location",
-                "--silent",
-                "--show-error",
-                "--retry",
-                "3",
-                "--retry-all-errors",
-                "--header",
-                "Accept: text/csv,*/*",
-                "--header",
-                "X-API-Version: 2.1.0",
-                "--user-agent",
-                "BITA-public-replication/1.0",
-                "--output",
-                str(target),
-                candidate,
-            ],
-            check=False,
-            text=True,
-            capture_output=True,
-        )
+        completed = _curl_to_file(candidate, target, accept="text/csv,*/*")
         if completed.returncode == 0 and target.is_file() and target.stat().st_size > 0:
             used_url = candidate
             break
@@ -203,16 +318,24 @@ def download_case_file(path: str | Path) -> tuple[Path, dict[str, object]]:
         )
         if target.exists():
             target.unlink()
-    if used_url is None:
-        raise RuntimeError(
-            "Dryad public file download failed across API and file_stream routes; "
-            f"provenance={provenance!r}; errors={errors!r}"
-        )
-    if not target.is_file() or target.stat().st_size == 0:
-        raise ValueError("downloaded Case CSV is empty")
-    provenance.update(verify_case_source_bytes(target))
+
+    if used_url is not None:
+        provenance.update(verify_case_source_bytes(target))
+        provenance["public_file_api_download_url"] = url
+        provenance["public_file_download_url_used"] = used_url
+        provenance["direct_download_errors_before_success"] = errors
+        return target, provenance
+
+    preview = _recover_case_from_full_preview(
+        target,
+        file_id=file_id,
+        metadata_size=metadata_size,
+    )
+    provenance.update(preview)
     provenance["public_file_api_download_url"] = url
-    provenance["public_file_download_url_used"] = used_url
+    provenance["direct_download_errors"] = errors
+    provenance["dryad_original_sha256_from_metadata"] = provenance["dryad_digest"]
+    provenance["dryad_original_digest_type"] = provenance["dryad_digest_type"]
     return target, provenance
 
 
