@@ -41,6 +41,18 @@ def test_letter_centers_one_joint_access_routing_result() -> None:
     assert "2-network" not in text
 
 
+def test_letter_reports_within_bird_behavioral_routing_and_formal_boundary_asymmetry() -> None:
+    text = LETTER.read_text(encoding="utf-8")
+    assert "Thirty-six bird species occurred in both barrier states" in text
+    assert "1,285 bird × plant dyads" in text
+    assert "centered-rank \\(\\rho=0.340\\)" in text
+    assert "24 of 28 bird-specific correlations were positive" in text
+    assert "1/23, 4.3%" in text
+    assert "3/10, 30%" in text
+    assert "not a test of literature bias" in text
+    assert "does not show that the theory prospectively predicts every exception" in text
+
+
 @pytest.mark.prose_contract
 def test_letter_keeps_causal_and_replication_boundaries() -> None:
     text = LETTER.read_text(encoding="utf-8").lower()

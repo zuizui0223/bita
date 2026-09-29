@@ -27,6 +27,12 @@ barrier robbery     = 0.147
 accessible robbery  = 0.020
 18 / 18 comparable sites in the same direction
 complete-case yes/no sensitivity = same plant-level direction
+
+within-bird behavioral checks:
+36 bird species paired barrier difference = +0.0933, p = 0.0001
+28 bird species / 1,285 bird×plant dyads
+within-bird centered-rank rho = 0.340, p = 0.0001
+between-bird mean rho = 0.086, p = 0.551 (different estimand)
 ```
 
 A smaller independent Afrotropical insect network provides corroboration:

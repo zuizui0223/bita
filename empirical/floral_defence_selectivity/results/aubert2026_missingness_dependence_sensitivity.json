@@ -70,6 +70,22 @@
       "permutations": 9999,
       "rho": 0.303212334647208
     },
+    "bird_within_species_continuous_check": {
+      "aggregation": "bird x plant dyads averaged across sites; ranks computed and centered within bird species before pooling",
+      "bird_plant_dyads_in_pooled_test": 912,
+      "bird_species_total": 47,
+      "bird_species_with_at_least_3_plant_dyads": 31,
+      "bird_specific_median_rho": 0.2733105032194498,
+      "bird_specific_positive_rho_count": 19,
+      "bird_specific_rho_count": 26,
+      "bird_specific_sign_test_p": 0.01463329792022705,
+      "claim_boundary": "This is a within-bird behavioral sensitivity, not a crossed bird-and-plant random-effects model. Bird x plant dyads are averaged across sites before inference.",
+      "eligible_bird_species_continuous": 26,
+      "median_within_bird_mismatch_span": 2.1638205692158397,
+      "permutations": 9999,
+      "pooled_within_bird_rank_rho": 0.37992398322549514,
+      "within_bird_permutation_p_two_sided": 0.0001
+    },
     "native_pair_site_summary": {
       "accessible_pair_sites": 490,
       "analysis_name": "aubert_zenodo_all_ecuador_access_barrier_extension",
@@ -211,6 +227,22 @@
       "permutations": 9999,
       "rho": 0.0858105861375493
     },
+    "bird_within_species_continuous_check": {
+      "aggregation": "bird x plant dyads averaged across sites; ranks computed and centered within bird species before pooling",
+      "bird_plant_dyads_in_pooled_test": 1285,
+      "bird_species_total": 50,
+      "bird_species_with_at_least_3_plant_dyads": 38,
+      "bird_specific_median_rho": 0.3382871229832347,
+      "bird_specific_positive_rho_count": 24,
+      "bird_specific_rho_count": 28,
+      "bird_specific_sign_test_p": 0.00017999112606048584,
+      "claim_boundary": "This is a within-bird behavioral sensitivity, not a crossed bird-and-plant random-effects model. Bird x plant dyads are averaged across sites before inference.",
+      "eligible_bird_species_continuous": 28,
+      "median_within_bird_mismatch_span": 2.3055907754876097,
+      "permutations": 9999,
+      "pooled_within_bird_rank_rho": 0.33975861312678524,
+      "within_bird_permutation_p_two_sided": 0.0001
+    },
     "native_pair_site_summary": {
       "accessible_pair_sites": 908,
       "analysis_name": "aubert_zenodo_all_ecuador_access_barrier_extension",
@@ -317,9 +349,9 @@
     "missing_as_no": "include piercing=yes/no and recode explicit missing codes NA/N/A/blank as no; retain exclusion of maybe, thief, not_interacting, and other non-binary states"
   },
   "provenance": {
-    "workflow_run": 36326048526,
-    "workflow_job": 108638897372,
-    "artifact_id": 10934318172,
-    "artifact_digest": "sha256:45a2dcb55134f0d29d9f446513b3366a3342d3eb1b041591f4a765a1692b0d75"
+    "workflow_run": 36517969989,
+    "workflow_job": 109244401074,
+    "artifact_id": 11011138523,
+    "artifact_digest": "sha256:04b59860475467367d0cafdd1b3eb6f9f598e2659c98aa701e1d25fbb1af796d"
   }
 }

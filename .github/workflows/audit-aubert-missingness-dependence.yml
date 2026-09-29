@@ -49,6 +49,10 @@ jobs:
               print("  plant aggregated rho/p", pr["rho"], pr["permutation_p_two_sided"])
               print("  bird paired clusters/p", bc["eligible_clusters"], bc["cluster_label_swap_permutation_p"])
               print("  bird aggregated rho/p", br["rho"], br["permutation_p_two_sided"])
+              bw = s["bird_within_species_continuous_check"]
+              print("  within-bird dyads/species", bw["bird_plant_dyads_in_pooled_test"], bw["eligible_bird_species_continuous"])
+              print("  within-bird rho/p", bw["pooled_within_bird_rank_rho"], bw["within_bird_permutation_p_two_sided"])
+              print("  bird-specific median rho / positive", bw["bird_specific_median_rho"], bw["bird_specific_positive_rho_count"])
           print("direction_preserved", r["comparison"]["direction_preserved"])
           PY
       - uses: actions/upload-artifact@v4

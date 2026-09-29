@@ -4,6 +4,7 @@ from scripts.analyze_aubert2026_missingness_dependence_sensitivity import (
     _piercing_value,
     build_pair_site_rows_policy,
     cluster_aggregated_rho_summary,
+    bird_within_species_continuous_summary,
     cluster_label_swap_summary,
 )
 
@@ -101,3 +102,33 @@ def test_cluster_aggregated_rho_uses_one_point_per_species() -> None:
     assert out["n_clusters"] == 3
     assert out["rho"] > 0
     assert 0 < out["permutation_p_two_sided"] <= 1
+
+
+def test_within_bird_continuous_summary_uses_bird_x_plant_dyads() -> None:
+    rows = []
+    for bird in ("B1", "B2", "B3", "B4"):
+        for plant_i in range(5):
+            mismatch = -1.0 + plant_i * 0.5
+            robbery = plant_i / 4
+            for site in ("S1", "S2"):
+                rows.append(
+                    {
+                        "site": site,
+                        "bird_species": bird,
+                        "plant_species": f"P{plant_i}",
+                        "mismatch_log_t_over_b": mismatch,
+                        "robbery_rate": robbery,
+                        "trait_barrier": mismatch > 0,
+                    }
+                )
+    out = bird_within_species_continuous_summary(
+        rows,
+        permutations=199,
+        seed=12,
+    )
+    assert out["bird_species_total"] == 4
+    assert out["eligible_bird_species_continuous"] == 4
+    assert out["bird_plant_dyads_in_pooled_test"] == 20
+    assert out["pooled_within_bird_rank_rho"] > 0.9
+    assert out["within_bird_permutation_p_two_sided"] <= 0.05
+    assert out["bird_specific_positive_rho_count"] == 4

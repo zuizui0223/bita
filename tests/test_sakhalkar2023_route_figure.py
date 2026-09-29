@@ -65,6 +65,17 @@ def test_figure4_svg_contains_points_and_frozen_stats_without_species_ids() -> N
                 "mean_cluster_difference": 0.09146,
                 "cluster_label_swap_permutation_p": 0.0001,
             },
+            "bird_species_cluster_check": {
+                "eligible_clusters": 36,
+                "mean_cluster_difference": 0.09334,
+                "cluster_label_swap_permutation_p": 0.0001,
+            },
+            "bird_within_species_continuous_check": {
+                "eligible_bird_species_continuous": 28,
+                "bird_plant_dyads_in_pooled_test": 1285,
+                "pooled_within_bird_rank_rho": 0.33976,
+                "within_bird_permutation_p_two_sided": 0.0001,
+            },
         },
     }
     svg = build_svg(points, result, aubert)
@@ -76,10 +87,12 @@ def test_figure4_svg_contains_points_and_frozen_stats_without_species_ids() -> N
     assert "robber-only median = 8.000" in svg
     assert "thief-only median = 2.000" in svg
     assert "Aubert / EPHI" in svg
-    assert "barrier = 0.147" in svg
-    assert "accessible = 0.020" in svg
+    assert "descriptive pair-site robbery: barrier 0.147 vs accessible 0.020" in svg
     assert "18 / 18 sites" in svg
     assert "plant-level mismatch rho = 0.503" in svg
+    assert "bird paired barrier: 36 species" in svg
+    assert "within-bird continuous: 28 species / 1,285 dyads" in svg
+    assert "centered-rank rho = 0.340" in svg
     assert ">A<" not in svg
     assert ">B<" not in svg
     assert ">C<" not in svg

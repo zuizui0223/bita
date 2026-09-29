@@ -19,7 +19,10 @@ paired barrier contrast: 130 plant species, mean difference +0.0915, p = 0.0001
 descriptive pair-site robbery: barrier 0.147 vs accessible 0.020
 18 / 18 comparable sites same direction
 complete-case yes/no sensitivity retains plant-level direction
-bird-species continuous sensitivity: rho = 0.086, p = 0.551
+within-bird paired barrier: 36 bird species, mean difference +0.0933, p = 0.0001
+within-bird continuous: 28 bird species / 1,285 dyads, rho = 0.340, p = 0.0001
+24 / 28 bird-specific correlations positive; median rho = 0.338
+between-bird mean diagnostic: rho = 0.086, p = 0.551
 
 CORROBORATION:
 Sakhalkar Afrotropical insect–flower network
@@ -79,7 +82,10 @@ PRIMARY_STANDARDIZED_NETWORK_K = 2
 Of the 33 eligible programs, **23 are pre-existing direct-corpus programs recovered
 inside OpenAlex** and **10 are newly eligible programs recovered by the formal
 frame**. The 10 newly eligible programs comprise **7 positive and 3 opposite**
-directions. One pre-existing program
+directions. Thus opposite cases occur in **1/23 (4.3%)** of the pre-existing
+programs recovered inside the frame versus **3/10 (30%)** of newly recovered
+programs. This contrast is descriptive only; it is not a test of publication or
+search bias. One pre-existing program
 (`Urcelay_Morales_Chalcoff_2006`) was independently verified as absent from
 OpenAlex and is reported outside the formal denominator rather than injected into
 it.
@@ -100,6 +106,8 @@ The complete formal artifacts are:
 - `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv`
 - `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_FULLTEXT_COMPLETE_RECEIPT_V1.json`
 - `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json`
+- `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv`
+- `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json`
 
 The floral-defence corpus and effective-access / exposure framework remain
 mechanistic context for why route switching is biologically plausible. Matched

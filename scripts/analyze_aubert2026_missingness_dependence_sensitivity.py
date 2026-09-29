@@ -310,6 +310,150 @@ def cluster_aggregated_rho_summary(
     }
 
 
+
+def _rankdata_local(values: list[float]) -> list[float]:
+    """Average ranks with 1-based ranking; local helper avoids extra dependencies."""
+    indexed = sorted(enumerate(values), key=lambda item: item[1])
+    out = [0.0] * len(values)
+    i = 0
+    while i < len(indexed):
+        j = i + 1
+        while j < len(indexed) and indexed[j][1] == indexed[i][1]:
+            j += 1
+        rank = (i + 1 + j) / 2.0
+        for k in range(i, j):
+            out[indexed[k][0]] = rank
+        i = j
+    return out
+
+
+def _pearson_local(x: list[float], y: list[float]) -> float:
+    if len(x) != len(y) or len(x) < 2:
+        return float("nan")
+    mx = _mean(x)
+    my = _mean(y)
+    dx = [value - mx for value in x]
+    dy = [value - my for value in y]
+    den_x = math.sqrt(sum(value * value for value in dx))
+    den_y = math.sqrt(sum(value * value for value in dy))
+    if den_x == 0 or den_y == 0:
+        return float("nan")
+    return sum(a * b for a, b in zip(dx, dy)) / (den_x * den_y)
+
+
+def bird_within_species_continuous_summary(
+    rows: list[dict[str, object]],
+    *,
+    permutations: int,
+    seed: int,
+) -> dict[str, object]:
+    """Continuous within-bird route-switching check at bird x plant grain.
+
+    Pair-site rows are first averaged across sites for each bird x plant dyad.
+    Within each bird species, mismatch and robbery are ranked and centered.
+    The pooled statistic is the Pearson correlation of these centered within-bird
+    ranks. Its null shuffles robbery ranks only within each bird species.
+
+    We also report one Spearman rho per bird species where both variables vary.
+    Those bird-specific rhos are a descriptive species-balanced complement; the
+    sign test does not treat pair-site rows as independent replicates.
+    """
+    by_dyad: dict[tuple[str, str], list[dict[str, object]]] = defaultdict(list)
+    for row in rows:
+        key = (str(row["bird_species"]), str(row["plant_species"]))
+        by_dyad[key].append(row)
+
+    by_bird: dict[str, list[tuple[float, float]]] = defaultdict(list)
+    for (bird, _plant), dyad_rows in by_dyad.items():
+        mismatch = _mean(
+            [float(row["mismatch_log_t_over_b"]) for row in dyad_rows]
+        )
+        robbery = _mean([float(row["robbery_rate"]) for row in dyad_rows])
+        by_bird[bird].append((mismatch, robbery))
+
+    groups: list[dict[str, object]] = []
+    bird_rhos: list[float] = []
+    mismatch_spans: list[float] = []
+    for points in by_bird.values():
+        if len(points) < 3:
+            continue
+        x = [point[0] for point in points]
+        y = [point[1] for point in points]
+        mismatch_spans.append(max(x) - min(x))
+        if len(set(x)) < 2 or len(set(y)) < 2:
+            continue
+        xr = _rankdata_local(x)
+        yr = _rankdata_local(y)
+        xmean = _mean(xr)
+        ymean = _mean(yr)
+        xc = [value - xmean for value in xr]
+        yc = [value - ymean for value in yr]
+        rho = _pearson_local(xr, yr)
+        if math.isfinite(rho):
+            bird_rhos.append(rho)
+        groups.append(
+            {
+                "x_centered": xc,
+                "y_centered": yc,
+            }
+        )
+
+    pooled_x: list[float] = []
+    pooled_y: list[float] = []
+    for group in groups:
+        pooled_x.extend(group["x_centered"])
+        pooled_y.extend(group["y_centered"])
+
+    observed = _pearson_local(pooled_x, pooled_y)
+    if not math.isfinite(observed):
+        pooled_p = None
+    else:
+        rng = random.Random(seed)
+        extreme = 0
+        for _ in range(permutations):
+            permuted_y: list[float] = []
+            for group in groups:
+                local = list(group["y_centered"])
+                rng.shuffle(local)
+                permuted_y.extend(local)
+            permuted = _pearson_local(pooled_x, permuted_y)
+            if math.isfinite(permuted) and abs(permuted) >= abs(observed) - 1e-15:
+                extreme += 1
+        pooled_p = (extreme + 1) / (permutations + 1)
+
+    nonzero_rhos = [rho for rho in bird_rhos if rho != 0]
+    positive_rhos = sum(rho > 0 for rho in nonzero_rhos)
+    sign_p = _binomial_two_sided_sign_p(positive_rhos, len(nonzero_rhos))
+
+    return {
+        "aggregation": (
+            "bird x plant dyads averaged across sites; ranks computed and centered "
+            "within bird species before pooling"
+        ),
+        "bird_species_total": len(by_bird),
+        "bird_species_with_at_least_3_plant_dyads": sum(
+            len(points) >= 3 for points in by_bird.values()
+        ),
+        "eligible_bird_species_continuous": len(groups),
+        "bird_plant_dyads_in_pooled_test": len(pooled_x),
+        "pooled_within_bird_rank_rho": observed if math.isfinite(observed) else None,
+        "within_bird_permutation_p_two_sided": pooled_p,
+        "bird_specific_rho_count": len(bird_rhos),
+        "bird_specific_positive_rho_count": positive_rhos,
+        "bird_specific_median_rho": _median(bird_rhos) if bird_rhos else None,
+        "bird_specific_sign_test_p": sign_p,
+        "median_within_bird_mismatch_span": (
+            _median(mismatch_spans) if mismatch_spans else None
+        ),
+        "permutations": permutations,
+        "claim_boundary": (
+            "This is a within-bird behavioral sensitivity, not a crossed "
+            "bird-and-plant random-effects model. Bird x plant dyads are averaged "
+            "across sites before inference."
+        ),
+    }
+
+
 def summarize_policy(
     rows: list[dict[str, object]],
     *,
@@ -344,6 +488,11 @@ def summarize_policy(
             cluster_key="bird_species",
             permutations=permutations,
             seed=seed + 450,
+        ),
+        "bird_within_species_continuous_check": bird_within_species_continuous_summary(
+            rows,
+            permutations=permutations,
+            seed=seed + 500,
         ),
     }
 

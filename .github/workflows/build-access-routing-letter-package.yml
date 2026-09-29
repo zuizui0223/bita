@@ -15,8 +15,10 @@ on:
       - "tests/test_direct_access_geometry_corpus.py"
       - "tests/test_direct_access_geometry_stage_u.py"
       - "tests/test_direct_access_geometry_formal_frame.py"
+      - "tests/test_direct_access_geometry_boundary_audit.py"
       - "tests/test_leal2025_direct_geometry_screen.py"
       - "empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_*"
+      - "empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_*"
       - "empirical/floral_defence_selectivity/LEAL2025_*"
       - ".github/workflows/build-access-routing-letter-package.yml"
   pull_request:
@@ -47,12 +49,14 @@ on:
       - "tests/test_direct_access_geometry_corpus.py"
       - "tests/test_direct_access_geometry_stage_u.py"
       - "tests/test_direct_access_geometry_formal_frame.py"
+      - "tests/test_direct_access_geometry_boundary_audit.py"
       - "tests/test_leal2025_direct_geometry_screen.py"
       - "scripts/summarize_direct_access_geometry_corpus.py"
       - "scripts/validate_direct_access_geometry_stage_u.py"
       - "scripts/validate_direct_access_geometry_formal_frame.py"
       - "scripts/validate_leal2025_direct_geometry_screen.py"
       - "empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_*"
+      - "empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_*"
       - "empirical/floral_defence_selectivity/LEAL2025_*"
       - "empirical/floral_defence_selectivity/results/joint_access_routing.json"
       - "empirical/floral_defence_selectivity/results/joint_access_routing_species_robust.json"
@@ -95,6 +99,7 @@ jobs:
             tests/test_direct_access_geometry_corpus.py \
             tests/test_direct_access_geometry_stage_u.py \
             tests/test_direct_access_geometry_formal_frame.py \
+            tests/test_direct_access_geometry_boundary_audit.py \
             tests/test_leal2025_direct_geometry_screen.py
 
       - name: Verify reserved DOI state if present
@@ -188,6 +193,7 @@ jobs:
           assert observed["aubert_ephi"]["plant_species_cluster_check"] == aubert_primary["plant_species_cluster_check"]
           assert observed["aubert_ephi"]["bird_species_rho_check"] == aubert_primary["bird_species_rho_check"]
           assert observed["aubert_ephi"]["bird_species_cluster_check"] == aubert_primary["bird_species_cluster_check"]
+          assert observed["aubert_ephi"]["bird_within_species_continuous_check"] == aubert_primary["bird_within_species_continuous_check"]
 
           assert observed["joint"]["network_count"] == 2
           assert math.isclose(
@@ -228,6 +234,9 @@ jobs:
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_STAGE_U_BOUNDED_SEARCH_V1.md artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_FRAME_V1.md artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.md artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_LEAL2025_CROSSWALK_V1.csv artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/LEAL2025_ROBBER_STUDY_FRAME_V1.csv artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv artifacts/letter/data_archive/supporting_literature/
@@ -368,6 +377,9 @@ jobs:
               "data_archive/ZENODO_METADATA_TEMPLATE.md",
               "data_archive/DEPOSIT_CHECKLIST_V1.md",
               "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv",
+              "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv",
+              "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.md",
+              "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json",
               "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CONTRACT_V1.md",
               "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv",
               "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_BOUNDED_SEARCH_V1.md",

@@ -66,13 +66,24 @@ complete-case yes/no sensitivity:
   plant-level rho = 0.56964
   permutation p = 0.0001
 
-bird-species dependence sensitivity:
-  binary barrier p = 0.0001
-  continuous rho = 0.08581
-  continuous permutation p = 0.5509
+within-bird behavioral sensitivity:
+  36 bird species with both barrier states
+  mean barrier - accessible difference = +0.09334
+  whole-bird label-swap p = 0.0001
+  28 eligible bird species / 1,285 bird x plant dyads
+  centered-rank rho = 0.33976
+  within-bird permutation p = 0.0001
+  24 / 28 bird-specific correlations positive
+  median bird-specific rho = 0.33829
+  sign-test p = 0.000180
+
+between-bird mean diagnostic:
+  n = 50 bird species
+  rho = 0.08581
+  permutation p = 0.5509
 ```
 
-This is an observational all-Ecuador extension, not an exact replication of the source three-transect GLMM. The primary claim is plant-side and species-level; the continuous effect is not licensed as a bird-species-level generalization.
+This is an observational all-Ecuador extension, not an exact replication of the source three-transect GLMM. Plant-species inference remains primary for the cross-network statistic, while the within-bird paired and continuous analyses directly recover the behavioral routing direction. The null correlation among bird-species means is retained as a distinct between-species estimand, not interpreted as failure of within-bird rerouting.
 
 ## 3. Independent corroboration — Sakhalkar insects
 
@@ -255,12 +266,14 @@ programs do not increase the standardized network replication count above
 Calibration against the pre-existing 24-program direct corpus recovered 23 programs
 inside the OpenAlex frame. The remaining program,
 `Urcelay_Morales_Chalcoff_2006`, was independently verified as absent from
-OpenAlex and is reported outside the formal denominator. Among the ten newly
-eligible programs recovered by the formal frame, seven are positive and three are
-opposite. The retained reversals include systems where floral architecture blocks
-the bypass route rather than making legitimate access relatively more costly, which
-is consistent with the relative-route-cost boundary rather than a universal
-“longer flower = more robbery” rule.
+OpenAlex and is reported outside the formal denominator. Among the ten newly eligible programs recovered by the formal frame, seven are
+positive and three are opposite. Opposite directions occur in 1/23 pre-existing
+frame programs versus 3/10 newly recovered programs; this is descriptive only and
+is not a bias test. A post hoc mechanism audit of the four opposite and two mixed
+programs found direct bypass-hardening evidence in two opposite systems, while the
+other reversals either did not separately identify bypass cost or invoked additional
+behavioral/context mechanisms. This boundary audit is not a prospective prediction
+test.
 
 The historical Leal et al. (2025) frame remains an outcome-independent anchor:
 56 distinct `study` labels were screened under the same geometry contract, and
@@ -278,8 +291,8 @@ Canonical formal artifacts:
 
 Matched effective-domain classifications are still author-coded and have not yet
 undergone outcome-blind independent recoding. They therefore remain mechanistic
-context rather than independent validation, and the 11/11 state alignment is not a
-headline or confirmatory result.
+context and are **not treated as independent validation**; the 11/11 state alignment
+is not a headline or confirmatory result.
 
 These counts describe evidence structure, not natural prevalence, and they are not
 pooled into one grand meta-analytic effect.
