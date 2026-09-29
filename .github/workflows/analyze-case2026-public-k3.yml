@@ -37,28 +37,10 @@ jobs:
           if [ -f "$LOCAL" ]; then
             echo "mode=local" >> "$GITHUB_OUTPUT"
             echo "path=$LOCAL" >> "$GITHUB_OUTPUT"
-          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          else
             echo "mode=dryad" >> "$GITHUB_OUTPUT"
             echo "path=" >> "$GITHUB_OUTPUT"
-          else
-            echo "mode=pending" >> "$GITHUB_OUTPUT"
-            echo "path=" >> "$GITHUB_OUTPUT"
           fi
-
-      - name: Record source-pending state
-        if: steps.source.outputs.mode == 'pending'
-        run: |
-          mkdir -p artifacts/case2026
-          cat > artifacts/case2026/source_pending.json <<'JSON'
-          {
-            "status": "SOURCE_BYTES_PENDING",
-            "source_doi": "10.5061/dryad.sj3tx96kr",
-            "required_file": "Case_FE_2026_Analysis_2.csv",
-            "expected_size_bytes": 1462,
-            "expected_sha256": "ac132a82cc70abc34765b76add6c2280603108b2c958578b816cf211d3deb691",
-            "claim": "No k=3 result is computed until exact source bytes are present and verified."
-          }
-          JSON
 
       - name: Run exact local Case replication and k3 synthesis
         if: steps.source.outputs.mode == 'local'
