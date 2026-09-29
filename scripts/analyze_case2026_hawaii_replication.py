@@ -239,10 +239,14 @@ def _recover_case_from_full_preview(
 
     preview_url = f"{DRYAD_BASE}/data_file/preview/{file_id}"
     html_path = target.with_suffix(".preview.html")
-    completed = _curl_to_file(preview_url, html_path, accept="text/html,*/*")
+    completed = _curl_to_file(
+        preview_url,
+        html_path,
+        accept="text/javascript, application/javascript, */*; q=0.01",
+    )
     if completed.returncode != 0:
         raise RuntimeError(
-            "Dryad CSV preview retrieval failed: "
+            "Dryad CSV preview JS retrieval failed: "
             + (completed.stderr.strip() or f"curl exit {completed.returncode}")
         )
 
