@@ -18,6 +18,7 @@ on:
       - "tests/test_direct_access_geometry_boundary_audit.py"
       - "tests/test_leal2025_direct_geometry_screen.py"
       - "empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_*"
+      - "empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_*"
       - "empirical/floral_defence_selectivity/LEAL2025_*"
       - ".github/workflows/build-access-routing-letter-package.yml"
   pull_request:
@@ -54,6 +55,7 @@ on:
       - "scripts/validate_direct_access_geometry_formal_frame.py"
       - "scripts/validate_leal2025_direct_geometry_screen.py"
       - "empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_*"
+      - "empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_*"
       - "empirical/floral_defence_selectivity/LEAL2025_*"
       - "empirical/floral_defence_selectivity/results/joint_access_routing.json"
       - "empirical/floral_defence_selectivity/results/joint_access_routing_species_robust.json"
