@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import io
 import json
 import math
@@ -43,6 +44,8 @@ CASE_DATASET_API_URL = (
     + "/api/v2/datasets/doi%3A10.5061%2Fdryad.sj3tx96kr"
 )
 CASE_MEMBER = "Case_FE_2026_Analysis_2.csv"
+CASE_EXPECTED_SHA256 = "ac132a82cc70abc34765b76add6c2280603108b2c958578b816cf211d3deb691"
+CASE_EXPECTED_SIZE_BYTES = 1462
 SEED = 20260929
 
 MIN_UNITS = 30
@@ -177,11 +180,38 @@ def download_case_file(path: str | Path) -> tuple[Path, dict[str, object]]:
         )
     if not target.is_file() or target.stat().st_size == 0:
         raise ValueError("downloaded Case CSV is empty")
-    probe = target.read_bytes()[:256]
-    provenance["downloaded_size_bytes"] = target.stat().st_size
-    provenance["downloaded_prefix_repr"] = repr(probe)
+    provenance.update(verify_case_source_bytes(target))
     provenance["public_file_api_download_url"] = url
     return target, provenance
+
+
+def verify_case_source_bytes(source: str | Path) -> dict[str, object]:
+    """Verify exact Case Analysis_2 bytes against Dryad metadata."""
+    path = Path(source)
+    if zipfile.is_zipfile(path):
+        with zipfile.ZipFile(path) as zf:
+            members = [name for name in zf.namelist() if name.endswith(CASE_MEMBER)]
+            if len(members) != 1:
+                raise ValueError(
+                    f"expected exactly one {CASE_MEMBER}, found {len(members)}"
+                )
+            payload = zf.read(members[0])
+    else:
+        payload = path.read_bytes()
+
+    digest = hashlib.sha256(payload).hexdigest()
+    size = len(payload)
+    if digest != CASE_EXPECTED_SHA256 or size != CASE_EXPECTED_SIZE_BYTES:
+        raise ValueError(
+            "Case source bytes do not match frozen Dryad identity: "
+            f"observed_size={size}, expected_size={CASE_EXPECTED_SIZE_BYTES}, "
+            f"observed_sha256={digest}, expected_sha256={CASE_EXPECTED_SHA256}"
+        )
+    return {
+        "verified_source_size_bytes": size,
+        "verified_source_sha256": digest,
+        "source_identity": "EXACT_DRYAD_BYTES_VERIFIED",
+    }
 
 
 def read_case_rows(source: str | Path) -> list[dict[str, str]]:
@@ -531,6 +561,7 @@ def run(
             )
             rows = read_case_rows(case_file)
     else:
+        source_provenance = verify_case_source_bytes(case_zip)
         rows = read_case_rows(case_zip)
 
     units, audit = normalize_case_units(rows)
