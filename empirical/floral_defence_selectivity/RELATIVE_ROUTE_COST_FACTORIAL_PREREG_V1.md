@@ -9,6 +9,7 @@ SYSTEM = ARTIFICIAL_FLOWER_ROUTE_CHOICE
 VISITOR = BUMBLEBEE_FORAGER
 PRIMARY_UNIT = INDIVIDUAL_BEE
 PRIMARY_GOAL = PROSPECTIVE_SIGN_REVERSAL_TEST
+BENCH_HARDWARE_GATE_REQUIRED = YES
 CALIBRATION_COMPLETED_BEES_MIN = 20
 CALIBRATION_SUCCESSFUL_TRIALS_PER_STATE_PER_BEE = 5
 CONFIRMATORY_CHOICE_SAMPLE = 60_COMPLETED_BEES
@@ -72,7 +73,41 @@ nectar robbing, and does not identify the separate decision or mechanics of crea
 a new primary robbing hole. Balanced familiarization is required because prior
 experience with robbed flowers can itself alter later robbing behaviour.
 
-## 3. Stage 0 — outcome-blind engineering calibration
+## 3. Stage -1 — hardware bench QC
+
+Before any bee is exposed to a prototype, the physical platform must pass the
+engineering gate defined in:
+
+- RELATIVE_ROUTE_COST_FLOWER_HARDWARE_SPEC_V1.md;
+- RELATIVE_ROUTE_COST_FLOWER_MODULE_MANIFEST_TEMPLATE_V1.csv;
+- RELATIVE_ROUTE_COST_FLOWER_BENCH_QC_SCHEMA_V1.csv;
+- scripts/validate_relative_route_cost_hardware.py.
+
+The hardware gate requires:
+
+~~~text
+>=4 measured flower bodies
+dimension tolerance pass for every referenced body and insert
+>=20 repeated reward loads for every assembly entering Stage 0
+0 entrance wetting events
+0 spontaneous overflow events
+0 cross-route leakage events
+shared reservoir confirmed
+both route-isolation shutters pass
+external cue identity pass
+cleaning compatibility pass
+~~~
+
+Passing Stage -1 establishes engineering readiness only. It does not establish that
+the nominal low/high path lengths create matched biological route costs.
+
+No Stage-0 bee may be exposed until the hardware validator returns:
+
+~~~text
+passes_stage0_hardware_gate = true
+~~~
+
+## 4. Stage 0 — outcome-blind engineering calibration
 
 Calibration uses bees that will never enter the confirmatory choice experiment.
 
@@ -135,9 +170,9 @@ Freeze before Stage 1:
 - flower CAD/design-file hash if applicable;
 - the final `Delta_L` and `Delta_B`.
 
-## 4. Stage 1 — confirmatory route-choice experiment
+## 5. Stage 1 — confirmatory route-choice experiment
 
-### 4.1 Experimental units
+### 5.1 Experimental units
 
 Primary inferential unit: **individual bee**.
 
@@ -155,7 +190,7 @@ Recruitment continues until 60 bees satisfy the completion rule. Bees excluded
 under the predeclared rules are replaced, but their exclusion reasons remain in the
 audit table.
 
-### 4.1.1 Sample-size planning
+### 5.1.1 Sample-size planning
 
 The frozen planning simulation is
 `RELATIVE_ROUTE_COST_FACTORIAL_POWER_PLAN_V1.json`. Under 10 trials per condition,
@@ -175,13 +210,13 @@ sensitivity; the primary estimand remains the within-bee treatment effect. This
 design licenses inference to the sampled foragers, not a population-level estimate
 of among-colony heterogeneity.
 
-### 4.2 Familiarization
+### 5.2 Familiarization
 
 Before confirmatory trials, each bee receives four successful legitimate and four successful bypass familiarization trials using low-cost route-isolated training flowers. Route order is counterbalanced across bees.
 
 No high/low treatment comparison is shown during familiarization.
 
-### 4.3 Choice treatments
+### 5.3 Choice treatments
 
 Each confirmatory flower has both routes open.
 
@@ -203,7 +238,7 @@ flower position and flower-module identity are counterbalanced.
 Reward volume, concentration, replenishment state, odour, illumination and external
 visual route cues are held constant.
 
-### 4.4 Primary route outcome
+### 5.4 Primary route outcome
 
 For each valid trial:
 
@@ -216,7 +251,7 @@ A bee may inspect or contact both routes before success. First contact is record
 as a secondary behavioural variable and does not replace the primary acquisition
 route.
 
-### 4.5 Trial exclusions
+### 5.5 Trial exclusions
 
 Exclude a trial only if one of the following is logged before route outcome is
 opened for analysis:
@@ -230,7 +265,7 @@ opened for analysis:
 Do not exclude a trial because the bee chose an unexpected route, switched routes,
 or had a long handling time.
 
-## 5. Primary bee-level estimands
+## 6. Primary bee-level estimands
 
 For each bee, calculate bypass proportion in each condition:
 
@@ -263,7 +298,7 @@ one-sided p < 0.025
 The mechanism passes the primary sign-reversal test only if **both** directional
 contrasts pass.
 
-## 6. Compensation diagnostic
+## 7. Compensation diagnostic
 
 Secondary predeclared contrast:
 
@@ -286,7 +321,7 @@ Failure of this equivalence diagnostic does not retroactively erase a successful
 primary sign reversal; it indicates imperfect cost matching, interaction between
 routes, or an incomplete relative-cost model.
 
-## 7. Secondary outcomes
+## 8. Secondary outcomes
 
 Report, without promoting them to primary endpoints:
 
@@ -302,7 +337,7 @@ Report, without promoting them to primary endpoints:
 A useful suppression prediction is that `HH` may increase total handling time or
 abandonment even when route composition is similar to `LL`.
 
-## 8. Confirmatory decision rule
+## 9. Confirmatory decision rule
 
 ~~~text
 PRIMARY_RELATIVE_ROUTE_COST_SUPPORT =
@@ -316,7 +351,7 @@ Report the result even if one or both signs fail.
 No geometry, exclusion rule, equivalence margin, minimum trial count, or primary
 contrast may be changed after the first Stage-1 route-choice outcome is observed.
 
-## 9. Interpretation ladder
+## 10. Interpretation ladder
 
 If both primary contrasts pass:
 
@@ -335,7 +370,7 @@ If the signs fail:
 
 Even a full pass does not license a universal law across taxa or interaction types.
 
-## 10. Relation to the current Letter
+## 11. Relation to the current Letter
 
 This experiment is a prospective mechanism test, not a hidden requirement for the
 current Ecology Letters submission.
@@ -352,7 +387,7 @@ A completed experiment can be reported later as direct causal validation or as a
 separate mechanism paper.
 
 
-## 11. Experimental precedent
+## 12. Experimental precedent
 
 - Leonard AS, Brent J, Papaj DR, Dornhaus A (2013) Floral Nectar Guide Patterns
   Discourage Nectar Robbing by Bumble Bees. *PLoS ONE* 8:e55914.
