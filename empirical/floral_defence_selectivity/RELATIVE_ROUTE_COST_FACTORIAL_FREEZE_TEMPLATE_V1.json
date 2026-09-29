@@ -28,6 +28,8 @@
   },
   "confirmatory": {
     "target_completed_bees": 60,
+    "minimum_colonies": 3,
+    "maximum_completed_bees_per_colony": 30,
     "trials_per_condition_per_bee": 10,
     "conditions": ["LL", "HL", "LH", "HH"],
     "permutations": 9999,
