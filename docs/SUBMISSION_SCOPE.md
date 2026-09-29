@@ -278,8 +278,8 @@ Canonical formal artifacts:
 
 Matched effective-domain classifications are still author-coded and have not yet
 undergone outcome-blind independent recoding. They therefore remain mechanistic
-context rather than independent validation, and the 11/11 state alignment is not a
-headline or confirmatory result.
+context and are **not treated as independent validation**; the 11/11 state alignment
+is not a headline or confirmatory result.
 
 These counts describe evidence structure, not natural prevalence, and they are not
 pooled into one grand meta-analytic effect.
