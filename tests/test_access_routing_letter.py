@@ -122,3 +122,13 @@ def test_letter_states_decisive_relative_route_cost_falsification() -> None:
     assert "raising legitimate-route cost while bypass cost is fixed should increase bypass" in text
     assert "raising bypass cost while legitimate cost is fixed should decrease bypass" in text
     assert "raising both similarly should produce little route-composition shift" in text
+
+
+@pytest.mark.prose_contract
+def test_letter_separates_case_directional_recurrence_from_standardized_k() -> None:
+    text = LETTER.read_text(encoding="utf-8")
+    assert "A third independently sampled bird–flower network" in text
+    assert "Case et al. (2026)" in text
+    assert "11 plant and seven bird species" in text
+    assert "directional corroboration rather than a third standardized network contribution" in text
+    assert "standardized replication count remain \\(k=2\\)" in text
