@@ -1,0 +1,41 @@
+{
+  "schema": "BITA_RELATIVE_ROUTE_COST_CAD_RENDER_RECEIPT_V1",
+  "status": "ENGINEERING_RENDER_VALIDATED_NOT_BIOLOGICALLY_FROZEN",
+  "cad_file": "hardware/relative_route_cost_flower_v1.scad",
+  "cad_sha256": "a5bc641dd575df53c40cd210394a1aa95cb2525e4bb8976d131beb199f811962",
+  "openscad_version": "2021.01",
+  "mesh_validation_tool": "trimesh 4.11.1",
+  "renders": {
+    "body": {
+      "simple": true,
+      "watertight": true,
+      "connected_components": 1,
+      "extents_mm": [
+        50,
+        50,
+        21.5
+      ]
+    },
+    "sleeve_6mm": {
+      "simple": true,
+      "watertight": true,
+      "connected_components": 1,
+      "extents_mm": [
+        3.4,
+        3.4,
+        6
+      ]
+    },
+    "reservoir": {
+      "simple": true,
+      "watertight": true,
+      "connected_components": 1,
+      "extents_mm": [
+        8,
+        8,
+        8.4
+      ]
+    }
+  },
+  "claim_boundary": "This receipt validates CAD rendering and mesh topology only. Physical prints still require dimensional measurement and Stage -1 bench QC; biological route cost remains unfrozen until Stage 0."
+}
