@@ -39,8 +39,8 @@ def test_candidate_selector_is_deterministic_and_matched() -> None:
     assert a["selected"]["legitimate"]["delta_log_time"] >= 0.20
     assert a["selected"]["bypass"]["delta_log_time"] >= 0.20
 
-def test_candidate_selector_fails_when_route_increments_cannot_match() -> None:
-    with pytest.raises(ValueError, match="matched-increment ratio"):
+def test_candidate_selector_fails_when_bypass_increment_is_too_small() -> None:
+    with pytest.raises(ValueError, match="no bypass low/high pair"):
         select_candidate_pair(_rows(bypass_multiplier=0.15))
 
 
