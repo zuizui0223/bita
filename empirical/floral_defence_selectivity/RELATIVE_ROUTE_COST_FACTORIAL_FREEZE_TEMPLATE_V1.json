@@ -41,7 +41,8 @@
     "calibration_validator": "scripts/validate_relative_route_cost_calibration.py",
     "confirmatory_analysis": "scripts/analyze_relative_route_cost_factorial.py",
     "planning_simulation": "scripts/plan_relative_route_cost_factorial_power.py",
-    "planning_receipt": "empirical/floral_defence_selectivity/RELATIVE_ROUTE_COST_FACTORIAL_POWER_PLAN_V1.json"
+    "planning_receipt": "empirical/floral_defence_selectivity/RELATIVE_ROUTE_COST_FACTORIAL_POWER_PLAN_V1.json",
+    "randomization_generator": "scripts/generate_relative_route_cost_randomization.py"
   },
   "activation_rule": "Stage 1 may begin only after every null field required by the physical and calibration freeze is filled and calibration.passes_freeze_gate is true."
 }
