@@ -1,0 +1,43 @@
+{
+  "schema": "BITA_CASE2026_POSTPUBLICATION_SOURCE_RECEIPT_V1",
+  "status": "SOURCE_BYTES_NOT_AVAILABLE_IN_AUTOMATION",
+  "article_doi": "10.1111/1365-2435.70415",
+  "dataset_doi": "10.5061/dryad.sj3tx96kr",
+  "source_file": "Case_FE_2026_Analysis_2.csv",
+  "dryad_file_id": 4858934,
+  "source_size_bytes": 1462,
+  "source_sha256": "ac132a82cc70abc34765b76add6c2280603108b2c958578b816cf211d3deb691",
+  "required_columns": [
+    "plant_species",
+    "bird_species",
+    "N",
+    "pollen_contact",
+    "nectar_robbing",
+    "source",
+    "culmen",
+    "flower_length",
+    "bill_minus_flower"
+  ],
+  "public_schema_breadth": {
+    "plant_species": 11,
+    "bird_species": 7
+  },
+  "published_direction": {
+    "source_axis": "bill_minus_flower = culmen - flower_length",
+    "bita_axis": "access_constraint = flower_length - culmen",
+    "concordant_with_bita": true,
+    "direction_was_public_before_reanalysis": true
+  },
+  "standardized_reanalysis": {
+    "exact_source_bytes_verified": false,
+    "case_rho": null,
+    "case_permutation_p": null,
+    "joint_k3_rho": null,
+    "joint_k3_p": null
+  },
+  "claim_boundary": {
+    "confirmatory_third_fauna": false,
+    "current_standardized_network_k": 2,
+    "licensed_statement": "Case et al. 2026 is a third independently sampled network with a published direction concordant with the access-routing prediction. A harmonized Case rank effect and standardized k=3 statistic remain unavailable until exact source bytes are verified and analysed."
+  }
+}
