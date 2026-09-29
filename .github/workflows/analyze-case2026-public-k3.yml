@@ -5,6 +5,7 @@ on:
     paths:
       - "scripts/analyze_case2026_hawaii_replication.py"
       - "tests/test_case2026_hawaii_replication.py"
+      - "empirical/floral_defence_selectivity/case2026_external/**"
       - ".github/workflows/analyze-case2026-public-k3.yml"
   workflow_dispatch:
 
@@ -28,7 +29,49 @@ jobs:
       - name: Test fail-closed Case replication contract
         run: pytest -q tests/test_case2026_hawaii_replication.py
 
-      - name: Run real Dryad Case 2026 replication and k3 synthesis
+      - name: Resolve exact Case source route
+        id: source
+        shell: bash
+        run: |
+          LOCAL="empirical/floral_defence_selectivity/case2026_external/Case_FE_2026_Analysis_2.csv"
+          if [ -f "$LOCAL" ]; then
+            echo "mode=local" >> "$GITHUB_OUTPUT"
+            echo "path=$LOCAL" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "mode=dryad" >> "$GITHUB_OUTPUT"
+            echo "path=" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=pending" >> "$GITHUB_OUTPUT"
+            echo "path=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Record source-pending state
+        if: steps.source.outputs.mode == 'pending'
+        run: |
+          mkdir -p artifacts/case2026
+          cat > artifacts/case2026/source_pending.json <<'JSON'
+          {
+            "status": "SOURCE_BYTES_PENDING",
+            "source_doi": "10.5061/dryad.sj3tx96kr",
+            "required_file": "Case_FE_2026_Analysis_2.csv",
+            "expected_size_bytes": 1462,
+            "expected_sha256": "ac132a82cc70abc34765b76add6c2280603108b2c958578b816cf211d3deb691",
+            "claim": "No k=3 result is computed until exact source bytes are present and verified."
+          }
+          JSON
+
+      - name: Run exact local Case replication and k3 synthesis
+        if: steps.source.outputs.mode == 'local'
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/case2026
+          python -m scripts.analyze_case2026_hawaii_replication \
+            artifacts/case2026/case2026_hawaii_postpublication_k3.json \
+            --case-zip "${{ steps.source.outputs.path }}" \
+            --permutations 9999 | tee artifacts/case2026/run.log
+
+      - name: Probe registered Dryad download and run if available
+        if: steps.source.outputs.mode == 'dryad'
         run: |
           set -o pipefail
           mkdir -p artifacts/case2026
@@ -37,6 +80,7 @@ jobs:
             --permutations 9999 | tee artifacts/case2026/run.log
 
       - name: Print compact result
+        if: hashFiles('artifacts/case2026/case2026_hawaii_postpublication_k3.json') != ''
         run: |
           python - <<'PY'
           import json
