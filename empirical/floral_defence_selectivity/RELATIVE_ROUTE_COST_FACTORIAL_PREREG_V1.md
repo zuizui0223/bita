@@ -9,6 +9,8 @@ SYSTEM = ARTIFICIAL_FLOWER_ROUTE_CHOICE
 VISITOR = BUMBLEBEE_FORAGER
 PRIMARY_UNIT = INDIVIDUAL_BEE
 PRIMARY_GOAL = PROSPECTIVE_SIGN_REVERSAL_TEST
+CALIBRATION_COMPLETED_BEES_MIN = 20
+CALIBRATION_SUCCESSFUL_TRIALS_PER_STATE_PER_BEE = 5
 CONFIRMATORY_CHOICE_SAMPLE = 60_COMPLETED_BEES
 TRIALS_PER_CONDITION_PER_BEE = 10
 PERMUTATIONS = 9999
@@ -78,7 +80,7 @@ bypass low
 bypass high
 ~~~
 
-No flower in Stage 0 presents a route choice.
+No flower in Stage 0 presents a route choice. Use at least 20 completed calibration bees, each contributing at least five successful trials in each of the four isolated-route states.
 
 ### 3.2 Calibration response
 
@@ -150,9 +152,7 @@ analysis, but colonies are not treated as independent substitutes for bees.
 
 ### 4.2 Familiarization
 
-Before confirmatory trials, each bee receives balanced experience with both route
-types using route-isolated training flowers. The number and order of legitimate
-and bypass familiarization trials must be identical across bees.
+Before confirmatory trials, each bee receives four successful legitimate and four successful bypass familiarization trials using low-cost route-isolated training flowers. Route order is counterbalanced across bees.
 
 No high/low treatment comparison is shown during familiarization.
 
