@@ -25,6 +25,7 @@ import zipfile
 from collections import defaultdict
 from pathlib import Path
 import sys
+import subprocess
 
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -146,13 +147,34 @@ def download_case_file(path: str | Path) -> tuple[Path, dict[str, object]]:
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     url, provenance = discover_case_public_file_url()
-    request = urllib.request.Request(
-        url,
-        headers={"User-Agent": "BITA-public-replication/1.0"},
+    completed = subprocess.run(
+        [
+            "curl",
+            "--fail",
+            "--location",
+            "--silent",
+            "--show-error",
+            "--retry",
+            "3",
+            "--retry-all-errors",
+            "--user-agent",
+            "Mozilla/5.0 (compatible; BITA-public-replication/1.0)",
+            "--referer",
+            "https://datadryad.org/",
+            "--output",
+            str(target),
+            url,
+        ],
+        check=False,
+        text=True,
+        capture_output=True,
     )
-    with urllib.request.urlopen(request, timeout=120) as response:
-        target.write_bytes(response.read())
-    if target.stat().st_size == 0:
+    if completed.returncode != 0:
+        raise RuntimeError(
+            "Dryad public file_stream download failed: "
+            + (completed.stderr.strip() or f"curl exit {completed.returncode}")
+        )
+    if not target.is_file() or target.stat().st_size == 0:
         raise ValueError("downloaded Case CSV is empty")
     provenance["public_file_stream_url"] = url
     return target, provenance
