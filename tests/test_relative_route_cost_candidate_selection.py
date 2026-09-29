@@ -9,7 +9,8 @@ def _rows(*, bypass_multiplier: float = 1.0) -> list[dict[str, str]]:
     trial = 0
     for route in ("legitimate", "bypass"):
         for bee_i in range(12):
-            for distance, time_s in ((2.0, 1.0), (4.0, 1.3), (6.0, 1.7), (8.0, 2.2)):
+            for distance in range(2, 11):
+                time_s = 1.0 + 0.14 * (distance - 2)
                 adjusted = time_s
                 if route == "bypass":
                     adjusted = 1.0 + (time_s - 1.0) * bypass_multiplier
@@ -41,3 +42,18 @@ def test_candidate_selector_is_deterministic_and_matched() -> None:
 def test_candidate_selector_fails_when_route_increments_cannot_match() -> None:
     with pytest.raises(ValueError, match="matched-increment ratio"):
         select_candidate_pair(_rows(bypass_multiplier=0.15))
+
+
+def test_candidate_selector_rejects_overlapping_route_cohorts() -> None:
+    rows = _rows()
+    for row in rows:
+        if row["route"] == "bypass":
+            row["bee_id"] = row["bee_id"].replace("B", "L", 1)
+    with pytest.raises(ValueError, match="must use different bees"):
+        select_candidate_pair(rows)
+
+
+def test_candidate_selector_requires_full_2_to_10_grid() -> None:
+    rows = [row for row in _rows() if row["distance_mm"] != "10"]
+    with pytest.raises(ValueError, match="full 2-10 mm candidate grid"):
+        select_candidate_pair(rows)
