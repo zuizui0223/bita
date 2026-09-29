@@ -1,0 +1,32 @@
+{
+  "schema": "BITA_DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1",
+  "status": "POST_HOC_BOUNDARY_AUDIT_COMPLETE",
+  "audited_nonpositive_programs": 6,
+  "direction_counts": {
+    "OPPOSITE": 4,
+    "MIXED": 2
+  },
+  "opposite_mechanism_partition": {
+    "BYPASS_HARDENED_DIRECT": 2,
+    "MECHANICAL_AVOIDANCE_NOT_ROUTE_SEPARATED": 1,
+    "ALTERNATIVE_BEHAVIORAL_PREFERENCE": 1
+  },
+  "mixed_mechanism_partition": {
+    "WITHIN_PROGRAM_MORPH_HETEROGENEITY": 1,
+    "POPULATION_HETEROGENEITY": 1
+  },
+  "direct_bypass_hardened_programs": [
+    "Wu_Gao_2024_Thunia_alba",
+    "Hattori_Nagano_Itino_2015_Meehania"
+  ],
+  "formal_search_asymmetry": {
+    "preexisting_recovered_programs": 23,
+    "preexisting_opposite_programs": 1,
+    "preexisting_opposite_fraction": 0.043478260869565216,
+    "new_formal_frame_programs": 10,
+    "new_opposite_programs": 3,
+    "new_opposite_fraction": 0.3,
+    "inference": "DESCRIPTIVE_ONLY_NO_BIAS_TEST"
+  },
+  "claim_boundary": "Cases were selected after frozen direction coding because they were OPPOSITE or MIXED. This post hoc audit can partition boundary mechanisms but cannot estimate predictive accuracy or show that relative-route-cost theory prospectively predicted all reversals."
+}
