@@ -55,6 +55,8 @@ independent network contributions k = 2
 
 Because `k=2`, the joint test does not estimate between-network heterogeneity, a network-population mean, or generality beyond the two analysed systems.
 
+Within the Ecuadorian bird network, the behavioral contrast is also recovered within bird species: 36 species show a positive paired barrier effect overall, and a continuous within-bird analysis across 1,285 bird × plant dyads gives rho = 0.340 (permutation p = 0.0001). The null correlation among 50 bird-species means (rho = 0.086, p = 0.551) is therefore a between-species result, not evidence that route switching disappears at the consumer grain.
+
 ## Mechanistic interpretation
 
 The routing result is interpreted through the broader effective-access / exposure framework:
