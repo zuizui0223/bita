@@ -107,14 +107,71 @@ No Stage-0 bee may be exposed until the hardware validator returns:
 passes_stage0_hardware_gate = true
 ~~~
 
-## 4. Stage 0 — outcome-blind engineering calibration
+## 4. Stage 0 — outcome-blind biological calibration
 
-Calibration uses bees that will never enter the confirmatory choice experiment.
+All Stage-0 flowers are route-isolated. No Stage-0 bee ever sees simultaneous route
+choice, and no Stage-0 bee may enter Stage 1.
 
-### 3.1 Route-isolated flowers
+### 4.1 Stage 0A — full candidate sweep
 
-For calibration, only one route is available at a time. Four engineering states
-are therefore measured:
+Stage 0A maps the biological handling cost of the engineering distance grid before
+any low/high pair is chosen.
+
+Use two disjoint calibration cohorts:
+
+~~~text
+legitimate-route cohort: >=12 bees
+bypass-route cohort:     >=12 different bees
+~~~
+
+Each bee experiences only its assigned route and must receive at least three attempts
+at every candidate effective access distance:
+
+~~~text
+2, 3, 4, 5, 6, 7, 8, 9, 10 mm
+~~~
+
+Distance order is randomized or counterbalanced within bee. Success/failure and
+handling time are recorded for every attempt.
+
+Stage-0A candidate data are stored in
+RELATIVE_ROUTE_COST_CANDIDATE_SWEEP_SCHEMA_V1.csv and opened only through
+scripts/select_relative_route_cost_candidates.py.
+
+### 4.2 Deterministic low/high selection
+
+Candidate selection is mechanical rather than analyst-chosen.
+
+For each route, a candidate low/high pair must satisfy:
+
+~~~text
+high distance > low distance
+>=12 eligible bees
+screening success rate >=0.80 at both distances
+mean high-minus-low log handling time >=0.20
+~~~
+
+Cross-route pairs must also satisfy:
+
+~~~text
+0.80 <= Delta_L / Delta_B <= 1.25
+~~~
+
+If multiple joint pairs remain, select exactly one using this frozen order:
+
+1. minimize absolute log(Delta_L / Delta_B);
+2. maximize the minimum success rate across the four selected states;
+3. minimize the sum of the two high distances;
+4. break any remaining tie lexicographically by L-low, L-high, B-low, B-high.
+
+The selected pair is still an engineering candidate, not a frozen manipulation.
+
+### 4.3 Stage 0B — fresh-bee freeze validation
+
+Re-test only the selected four states on at least 20 new calibration bees that were
+not used in Stage 0A and will never enter Stage 1.
+
+Each Stage-0B bee contributes at least five successful trials in each state:
 
 ~~~text
 legitimate low
@@ -123,9 +180,8 @@ bypass low
 bypass high
 ~~~
 
-No flower in Stage 0 presents a route choice. Use at least 20 completed calibration bees, each contributing at least five successful trials in each of the four isolated-route states. Randomize or counterbalance the order of route and cost states so calibration increments are not confounded with experience.
-
-### 3.2 Calibration response
+State order is randomized or counterbalanced so handling-time increments are not
+confounded with experience.
 
 Primary engineering cost proxy:
 
@@ -133,42 +189,36 @@ Primary engineering cost proxy:
 log handling time from first physical route contact to reward acquisition
 ~~~
 
-Only successful acquisitions enter the handling-time calibration. Failure rate is
-recorded separately.
-
-For each bee, compute high-minus-low log handling-time differences for the route
-it experienced. Aggregate across calibration bees to obtain:
+For each bee, compute high-minus-low log handling-time differences and aggregate:
 
 ~~~text
 Delta_L = high - low cost increment for legitimate route
 Delta_B = high - low cost increment for bypass route
 ~~~
 
-### 3.3 Freeze gate
+### 4.4 Freeze gate
 
-A geometry version can be frozen only if:
+A geometry version can be frozen only if Stage 0B independently confirms:
 
-1. `Delta_L >= 0.20` log-time units;
-2. `Delta_B >= 0.20` log-time units;
-3. success rate is at least 0.90 in all four isolated-route states;
-4. the matched-cost ratio satisfies
+1. Delta_L >= 0.20 log-time units;
+2. Delta_B >= 0.20 log-time units;
+3. success rate >=0.90 in all four isolated-route states;
+4. 0.80 <= Delta_L / Delta_B <= 1.25.
 
-~~~text
-0.80 <= Delta_L / Delta_B <= 1.25
-~~~
-
-If the gate fails, geometry may be adjusted using Stage-0 data only. Each geometry
-revision receives a new version identifier. No confirmatory bee may be observed
-until one version passes and is frozen.
+If Stage 0B fails, the geometry version fails. Do not choose a second-best Stage-0A
+pair after seeing the failed Stage-0B result. A redesign requires a new geometry
+version and a new Stage-0A sweep.
 
 Freeze before Stage 1:
 
+- selected low/high dimensions for both routes;
 - all physical dimensions;
 - reward concentration and volume;
 - route-cue colours/materials;
-- calibration dataset hash;
+- Stage-0A input/result hashes;
+- Stage-0B calibration input/result hashes;
 - flower CAD/design-file hash if applicable;
-- the final `Delta_L` and `Delta_B`.
+- final Delta_L and Delta_B.
 
 ## 5. Stage 1 — confirmatory route-choice experiment
 
