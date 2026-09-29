@@ -151,40 +151,57 @@ def download_case_file(path: str | Path) -> tuple[Path, dict[str, object]]:
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     url, provenance = discover_case_public_file_url()
-    completed = subprocess.run(
-        [
-            "curl",
-            "--fail",
-            "--location",
-            "--silent",
-            "--show-error",
-            "--retry",
-            "3",
-            "--retry-all-errors",
-            "--header",
-            "Accept: text/csv,*/*",
-            "--header",
-            "X-API-Version: 2.1.0",
-            "--user-agent",
-            "BITA-public-replication/1.0",
-            "--output",
-            str(target),
-            url,
-        ],
-        check=False,
-        text=True,
-        capture_output=True,
-    )
-    if completed.returncode != 0:
-        raise RuntimeError(
-            "Dryad public file download failed; "
-            f"provenance={provenance!r}; "
+    candidates = [
+        url,
+        f"{DRYAD_BASE}/downloads/file_stream/{provenance['dryad_file_id']}",
+    ]
+    errors: list[str] = []
+    completed = None
+    used_url = None
+    for candidate in candidates:
+        completed = subprocess.run(
+            [
+                "curl",
+                "--fail",
+                "--location",
+                "--silent",
+                "--show-error",
+                "--retry",
+                "3",
+                "--retry-all-errors",
+                "--header",
+                "Accept: text/csv,*/*",
+                "--header",
+                "X-API-Version: 2.1.0",
+                "--user-agent",
+                "BITA-public-replication/1.0",
+                "--output",
+                str(target),
+                candidate,
+            ],
+            check=False,
+            text=True,
+            capture_output=True,
+        )
+        if completed.returncode == 0 and target.is_file() and target.stat().st_size > 0:
+            used_url = candidate
+            break
+        errors.append(
+            f"{candidate}: "
             + (completed.stderr.strip() or f"curl exit {completed.returncode}")
+        )
+        if target.exists():
+            target.unlink()
+    if used_url is None:
+        raise RuntimeError(
+            "Dryad public file download failed across API and file_stream routes; "
+            f"provenance={provenance!r}; errors={errors!r}"
         )
     if not target.is_file() or target.stat().st_size == 0:
         raise ValueError("downloaded Case CSV is empty")
     provenance.update(verify_case_source_bytes(target))
     provenance["public_file_api_download_url"] = url
+    provenance["public_file_download_url_used"] = used_url
     return target, provenance
 
 
