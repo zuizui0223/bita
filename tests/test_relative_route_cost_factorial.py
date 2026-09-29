@@ -11,6 +11,7 @@ from scripts.analyze_relative_route_cost_factorial import (
 from scripts.validate_relative_route_cost_calibration import (
     validate_calibration,
 )
+from scripts.generate_relative_route_cost_randomization import generate_schedule
 
 
 def _calibration_rows(*, bypass_high_time: float = 1.45) -> list[dict[str, str]]:
@@ -162,3 +163,27 @@ def test_confirmatory_requires_at_least_three_colonies() -> None:
         row["colony_id"] = "ONE_COLONY"
     with pytest.raises(ValueError, match="at least 3 colonies"):
         analyze_choice_events(rows, permutations=99, bootstraps=99, seed=1)
+
+
+def test_randomization_schedule_balances_all_four_conditions_per_block() -> None:
+    bees = [
+        {"bee_id": f"B{i:02d}", "colony_id": f"C{i % 3}"}
+        for i in range(60)
+    ]
+    rows = generate_schedule(bees, seed=123)
+    assert len(rows) == 2400
+    for bee in bees:
+        bee_rows = [row for row in rows if row["bee_id"] == bee["bee_id"]]
+        assert len(bee_rows) == 40
+        for block in range(1, 11):
+            block_conditions = {
+                row["planned_condition"]
+                for row in bee_rows
+                if row["block"] == block
+            }
+            assert block_conditions == {"LL", "HL", "LH", "HH"}
+    first_routes = {
+        row["bee_id"]: row["familiarization_first_route"]
+        for row in rows
+    }
+    assert set(first_routes.values()) == {"legitimate", "bypass"}
