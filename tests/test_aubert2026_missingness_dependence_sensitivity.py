@@ -132,3 +132,39 @@ def test_within_bird_continuous_summary_uses_bird_x_plant_dyads() -> None:
     assert out["pooled_within_bird_rank_rho"] > 0.9
     assert out["within_bird_permutation_p_two_sided"] <= 0.05
     assert out["bird_specific_positive_rho_count"] == 4
+
+
+def test_native_pair_site_summary_is_explicitly_descriptive() -> None:
+    rows = [
+        {
+            "site": "S1",
+            "bird_species": "B1",
+            "plant_species": "P1",
+            "bird_group": "hummingbird",
+            "n_interactions": 2,
+            "robbery_rate": 0.5,
+            "mismatch_log_t_over_b": 0.2,
+            "trait_barrier": True,
+        },
+        {
+            "site": "S1",
+            "bird_species": "B1",
+            "plant_species": "P2",
+            "bird_group": "hummingbird",
+            "n_interactions": 2,
+            "robbery_rate": 0.0,
+            "mismatch_log_t_over_b": -0.2,
+            "trait_barrier": False,
+        },
+    ]
+    from scripts.analyze_aubert2026_missingness_dependence_sensitivity import summarize_policy
+
+    out = summarize_policy(
+        rows,
+        audit={"missing_as_no": True},
+        permutations=19,
+        seed=7,
+    )
+    claim = out["native_pair_site_summary"]["claim_boundary"]
+    assert "Descriptive pair-site summary" in claim
+    assert "not the primary inferential units" in claim
