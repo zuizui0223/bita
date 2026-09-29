@@ -272,7 +272,7 @@ The ecological implication is simple: **barriers do not only filter interactions
 
 ## Data accessibility and reproducibility
 
-**A permanent analysis-data/code archive DOI is required before submission.** The submission archive will contain the exact analysis-ready tables used for inference, column metadata, reproduction code, frozen derived outputs, and the formal direct-evidence bibliographic frame with its eligibility, direction-coding, search and provenance receipts. The archive tables omit source species identifiers not required to reproduce the reported statistics and deterministically relabel EPHI site identifiers while preserving the within-site permutation structure.
+**A permanent analysis-data/code archive DOI is required before submission.** The submission archive will contain the exact analysis-ready tables used for inference, column metadata, reproduction code, frozen derived outputs, and the formal direct-evidence bibliographic frame with its eligibility, direction-coding, search and provenance receipts. The archive tables omit source taxon labels and deterministically relabel EPHI site, plant and bird identifiers while preserving the clustering needed for plant-species, within-bird and site sensitivities.
 
 Underlying public source data are Sakhalkar et al. (2023), Zenodo DOI 10.5281/zenodo.8398202, and the EPHI Ecuador mirror, Zenodo DOI 10.5281/zenodo.14185547, associated with Aubert et al. (2026).
 
