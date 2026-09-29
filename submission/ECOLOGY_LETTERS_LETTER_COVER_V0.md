@@ -16,7 +16,7 @@ We then asked whether a smaller, independently assembled Afrotropical insect net
 
 The two datasets were never pooled at the observation level. Each contributes one plant-species rank effect with equal network weight, yielding rho_J=0.428 and permutation p=0.0001. Because the joint statistic contains only k=2 independent networks, we do not estimate between-network heterogeneity or claim generality beyond these two systems.
 
-The novelty is a cross-fauna routing principle supported at both plant and within-consumer grains: access barriers can reorganize interaction pathways by increasing bypass exploitation. A formal outcome-blind bibliographic frame also recovered reversals disproportionately among newly found programs; we retain these as boundary cases rather than converting them into a success-rate argument. Source-audited floral-defence cases remain mechanistic context, not independent validation.
+The novelty is a cross-fauna routing principle supported at both plant and within-consumer grains: access barriers can reorganize interaction pathways by increasing bypass exploitation. The formal outcome-blind frame recovered three opposite programs among ten newly found cases, versus one among 23 pre-existing cases; we report this descriptively and treat reversals as boundary cases rather than a success-rate argument. Source-audited floral-defence cases remain mechanistic context, not independent validation.
 
 All analyses and aggregate outputs are reproducible from public data and repository workflows.
 
