@@ -266,12 +266,14 @@ programs do not increase the standardized network replication count above
 Calibration against the pre-existing 24-program direct corpus recovered 23 programs
 inside the OpenAlex frame. The remaining program,
 `Urcelay_Morales_Chalcoff_2006`, was independently verified as absent from
-OpenAlex and is reported outside the formal denominator. Among the ten newly
-eligible programs recovered by the formal frame, seven are positive and three are
-opposite. The retained reversals include systems where floral architecture blocks
-the bypass route rather than making legitimate access relatively more costly, which
-is consistent with the relative-route-cost boundary rather than a universal
-“longer flower = more robbery” rule.
+OpenAlex and is reported outside the formal denominator. Among the ten newly eligible programs recovered by the formal frame, seven are
+positive and three are opposite. Opposite directions occur in 1/23 pre-existing
+frame programs versus 3/10 newly recovered programs; this is descriptive only and
+is not a bias test. A post hoc mechanism audit of the four opposite and two mixed
+programs found direct bypass-hardening evidence in two opposite systems, while the
+other reversals either did not separately identify bypass cost or invoked additional
+behavioral/context mechanisms. This boundary audit is not a prospective prediction
+test.
 
 The historical Leal et al. (2025) frame remains an outcome-independent anchor:
 56 distinct `study` labels were screened under the same geometry contract, and
