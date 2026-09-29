@@ -12,6 +12,8 @@ PRIMARY_GOAL = PROSPECTIVE_SIGN_REVERSAL_TEST
 CALIBRATION_COMPLETED_BEES_MIN = 20
 CALIBRATION_SUCCESSFUL_TRIALS_PER_STATE_PER_BEE = 5
 CONFIRMATORY_CHOICE_SAMPLE = 60_COMPLETED_BEES
+CONFIRMATORY_COLONIES_MIN = 3
+MAX_COMPLETED_BEES_FROM_ONE_COLONY = 30
 TRIALS_PER_CONDITION_PER_BEE = 10
 PERMUTATIONS = 9999
 ~~~
@@ -80,7 +82,7 @@ bypass low
 bypass high
 ~~~
 
-No flower in Stage 0 presents a route choice. Use at least 20 completed calibration bees, each contributing at least five successful trials in each of the four isolated-route states.
+No flower in Stage 0 presents a route choice. Use at least 20 completed calibration bees, each contributing at least five successful trials in each of the four isolated-route states. Randomize or counterbalance the order of route and cost states so calibration increments are not confounded with experience.
 
 ### 3.2 Calibration response
 
@@ -147,8 +149,11 @@ Recruitment continues until 60 bees satisfy the completion rule. Bees excluded
 under the predeclared rules are replaced, but their exclusion reasons remain in the
 audit table.
 
-Use more than one colony when feasible. Colony identity is retained for sensitivity
-analysis, but colonies are not treated as independent substitutes for bees.
+Use at least three colonies. No single colony may contribute more than 30 of the
+60 completed bees. Colony identity is retained for a prespecified descriptive
+sensitivity; the primary estimand remains the within-bee treatment effect. This
+design licenses inference to the sampled foragers, not a population-level estimate
+of among-colony heterogeneity.
 
 ### 4.2 Familiarization
 
