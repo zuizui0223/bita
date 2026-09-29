@@ -132,7 +132,7 @@ def discover_case_public_file_url() -> tuple[str, dict[str, object]]:
         raise ValueError(f"cannot recover Dryad file id from {self_href}")
     file_id = match.group(1)
     return (
-        f"{DRYAD_BASE}/stash/downloads/file_stream/{file_id}",
+        f"{DRYAD_BASE}/api/v2/files/{file_id}/download",
         {
             "dryad_version_id": version.get("id"),
             "dryad_file_id": int(file_id),
@@ -157,10 +157,10 @@ def download_case_file(path: str | Path) -> tuple[Path, dict[str, object]]:
             "--retry",
             "3",
             "--retry-all-errors",
+            "--header",
+            "Accept: text/csv,*/*",
             "--user-agent",
-            "Mozilla/5.0 (compatible; BITA-public-replication/1.0)",
-            "--referer",
-            "https://datadryad.org/",
+            "BITA-public-replication/1.0",
             "--output",
             str(target),
             url,
@@ -179,7 +179,7 @@ def download_case_file(path: str | Path) -> tuple[Path, dict[str, object]]:
     probe = target.read_bytes()[:256]
     provenance["downloaded_size_bytes"] = target.stat().st_size
     provenance["downloaded_prefix_repr"] = repr(probe)
-    provenance["public_file_stream_url"] = url
+    provenance["public_file_api_download_url"] = url
     return target, provenance
 
 
