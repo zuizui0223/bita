@@ -15,6 +15,7 @@ on:
       - "tests/test_direct_access_geometry_corpus.py"
       - "tests/test_direct_access_geometry_stage_u.py"
       - "tests/test_direct_access_geometry_formal_frame.py"
+      - "tests/test_direct_access_geometry_boundary_audit.py"
       - "tests/test_leal2025_direct_geometry_screen.py"
       - "empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_*"
       - "empirical/floral_defence_selectivity/LEAL2025_*"
@@ -95,6 +96,7 @@ jobs:
             tests/test_direct_access_geometry_corpus.py \
             tests/test_direct_access_geometry_stage_u.py \
             tests/test_direct_access_geometry_formal_frame.py \
+            tests/test_direct_access_geometry_boundary_audit.py \
             tests/test_leal2025_direct_geometry_screen.py
 
       - name: Verify reserved DOI state if present
@@ -228,6 +230,8 @@ jobs:
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_STAGE_U_BOUNDED_SEARCH_V1.md artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_FRAME_V1.md artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.md artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_LEAL2025_CROSSWALK_V1.csv artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/LEAL2025_ROBBER_STUDY_FRAME_V1.csv artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv artifacts/letter/data_archive/supporting_literature/
