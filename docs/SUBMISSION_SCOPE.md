@@ -140,8 +140,8 @@ Both analyses are observational and are not pooled onto one effect scale.
 
 ### Published third-network directional corroboration
 
-Case et al. (2026; DOI 10.1111/1365-2435.70415) provide an independently
-sampled Hawaiian bird–lobelioid network. Their published analysis reports that
+Case et al. (2026; DOI 10.1111/1365-2435.70415) provide an independent
+multispecies Hawaiian bird–lobelioid dataset. Their published analysis reports that
 nectar robbing decreases as bill length approaches flower length, which is the
 same direction as the BITA access-routing prediction after reversing the source
 axis to flower length minus bill length. Dryad metadata for
@@ -151,7 +151,7 @@ and 7 bird species.
 This does **not** change the standardized network count:
 
 ~~~text
-PUBLISHED_DIRECTIONAL_NETWORK_RECURRENCE = 3_INDEPENDENT_NETWORKS
+PUBLISHED_DIRECTIONAL_MULTISPECIES_RECURRENCE = 3_DATASETS
 STANDARDIZED_EQUAL_NETWORK_K = 2
 CASE_STANDARDIZED_RHO = NOT_COMPUTED_SOURCE_BYTES_UNAVAILABLE
 CASE_CONFIRMATORY_THIRD_FAUNA = NO
