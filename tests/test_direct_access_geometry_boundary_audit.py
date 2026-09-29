@@ -9,6 +9,7 @@ FRAME = ROOT / "empirical" / "floral_defence_selectivity" / "formal_bibliographi
 AUDIT = FRAME / "DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv"
 NOTE = FRAME / "DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.md"
 SUMMARY = FRAME / "DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json"
+DECISIONS = FRAME / "DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv"
 BOUNDARY_SUMMARY = FRAME / "DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json"
 
 
@@ -24,6 +25,24 @@ def test_boundary_audit_covers_exact_nonpositive_programs() -> None:
     assert sum(row["direction"] == "MIXED" for row in rows) == 2
     assert len({row["program_id"] for row in rows}) == 6
 
+
+
+def test_boundary_audit_directions_match_frozen_formal_decisions() -> None:
+    with DECISIONS.open(encoding="utf-8", newline="") as handle:
+        decisions = {
+            row["biological_program_id"]: row
+            for row in csv.DictReader(handle)
+            if row["decision_status"] == "ELIGIBLE_DIRECT"
+            and row["biological_program_id"]
+        }
+    for row in _rows():
+        frozen = decisions[row["program_id"]]
+        assert frozen["direction"] == row["direction"]
+        if row["formal_frame_origin"] == "PREEXISTING_RECOVERED":
+            assert frozen["decision_basis"] == "PREEXISTING_24_PROGRAM_DIRECT_CORPUS"
+        else:
+            assert row["formal_frame_origin"] == "NEW_FORMAL_FRAME"
+            assert frozen["decision_basis"] != "PREEXISTING_24_PROGRAM_DIRECT_CORPUS"
 
 def test_direct_bypass_hardening_is_not_overgeneralized() -> None:
     rows = _rows()
