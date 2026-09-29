@@ -138,6 +138,30 @@ Raw observations are never pooled. The joint test does not estimate between-netw
 
 Both analyses are observational and are not pooled onto one effect scale.
 
+### Published third-network directional corroboration
+
+Case et al. (2026; DOI 10.1111/1365-2435.70415) provide an independently
+sampled Hawaiian bird–lobelioid network. Their published analysis reports that
+nectar robbing decreases as bill length approaches flower length, which is the
+same direction as the BITA access-routing prediction after reversing the source
+axis to flower length minus bill length. Dryad metadata for
+10.5061/dryad.sj3tx96kr describe an interaction table spanning 11 plant species
+and 7 bird species.
+
+This does **not** change the standardized network count:
+
+~~~text
+PUBLISHED_DIRECTIONAL_NETWORK_RECURRENCE = 3_INDEPENDENT_NETWORKS
+STANDARDIZED_EQUAL_NETWORK_K = 2
+CASE_STANDARDIZED_RHO = NOT_COMPUTED_SOURCE_BYTES_UNAVAILABLE
+CASE_CONFIRMATORY_THIRD_FAUNA = NO
+~~~
+
+The Case direction was already public before this reanalysis lane and its fauna
+is Aves, so it cannot satisfy the frozen outcome-blind non-Insecta/non-Aves
+third-fauna confirmation gate. It is directional corroboration, not a third
+standardized contribution.
+
 ## 5. Third independent network priority
 
 The current \(k=2\) ceiling is the highest-priority unresolved scientific limit.
