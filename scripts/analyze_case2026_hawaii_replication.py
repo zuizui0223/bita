@@ -73,6 +73,7 @@ def _url_json(url: str) -> dict[str, object]:
         headers={
             "User-Agent": "BITA-public-replication/1.0",
             "Accept": "application/json",
+            "X-API-Version": "2.1.0",
         },
     )
     with urllib.request.urlopen(request, timeout=120) as response:
@@ -162,6 +163,8 @@ def download_case_file(path: str | Path) -> tuple[Path, dict[str, object]]:
             "--retry-all-errors",
             "--header",
             "Accept: text/csv,*/*",
+            "--header",
+            "X-API-Version: 2.1.0",
             "--user-agent",
             "BITA-public-replication/1.0",
             "--output",
