@@ -1,1 +1,96 @@
-from __future__ import annotations\n\nfrom scripts.validate_relative_route_cost_hardware import validate_hardware\n\ndef _manifest() -> list[dict[str, str]]:\n    rows = []\n    for i in range(4):\n        rows.append({\n            "module_id": f"BODY{i+1:03d}",\n            "module_type": "body",\n            "manufacturing_batch": "B1",\n            "geometry_version": "G1",\n            "top_disc_diameter_mm": "50.0",\n            "visible_tube_length_mm": "20.0",\n            "top_aperture_diameter_mm": "2.5",\n            "lateral_aperture_diameter_mm": "2.5",\n            "lateral_aperture_offset_below_top_mm": "5.0",\n            "route": "",\n            "insert_effective_distance_mm": "",\n            "material": "test",\n            "surface_finish": "test",\n            "inspection_date": "2026-09-30",\n            "dimension_tolerance_pass": "true",\n            "notes": "",\n        })\n    for route, prefix in (("legitimate", "L"), ("bypass", "B")):\n        for distance in (2, 3, 4):\n            rows.append({\n                "module_id": f"{prefix}{distance:03d}",\n                "module_type": "insert",\n                "manufacturing_batch": "B1",\n                "geometry_version": "G1",\n                "top_disc_diameter_mm": "",\n                "visible_tube_length_mm": "",\n                "top_aperture_diameter_mm": "",\n                "lateral_aperture_diameter_mm": "",\n                "lateral_aperture_offset_below_top_mm": "",\n                "route": route,\n                "insert_effective_distance_mm": str(float(distance)),\n                "material": "test",\n                "surface_finish": "test",\n                "inspection_date": "2026-09-30",\n                "dimension_tolerance_pass": "true",\n                "notes": "",\n            })\n    return rows\n\ndef _qc(*, wet: bool = False, loads: int = 20) -> list[dict[str, str]]:\n    rows = []\n    for load in range(1, loads + 1):\n        rows.append({\n            "qc_run_id": "QC1",\n            "module_id": "BODY001",\n            "legitimate_insert_id": "L002",\n            "bypass_insert_id": "B002",\n            "reward_volume_ul": "3.0",\n            "reward_concentration": "50%",\n            "load_number": str(load),\n            "delay_to_inspection_s": "10",\n            "top_entrance_wet": "true" if wet and load == 1 else "false",\n            "lateral_entrance_wet": "false",\n            "overflow": "false",\n            "cross_route_leakage": "false",\n            "shared_reservoir_confirmed": "true",\n            "shutter_legitimate_pass": "true",\n            "shutter_bypass_pass": "true",\n            "external_cue_identity_pass": "true",\n            "cleaning_compatibility_pass": "true",\n            "notes": "",\n        })\n    return rows\n\ndef test_hardware_bench_qc_passes_clean_assembly() -> None:\n    result = validate_hardware(_manifest(), _qc())\n    assert result["body_count"] == 4\n    assert result["tested_assembly_count"] == 1\n    assert result["passes_stage0_hardware_gate"] is True\n\ndef test_hardware_bench_qc_fails_any_wetting() -> None:\n    result = validate_hardware(_manifest(), _qc(wet=True))\n    assert result["passes_stage0_hardware_gate"] is False\n    assembly = next(iter(result["assemblies"].values()))\n    assert assembly["checks"]["no_entrance_wetting"] is False\n\ndef test_hardware_bench_qc_requires_20_loads() -> None:\n    result = validate_hardware(_manifest(), _qc(loads=19))\n    assert result["passes_stage0_hardware_gate"] is False\n    assembly = next(iter(result["assemblies"].values()))\n    assert assembly["checks"]["loads_ge_20_with_first_20_present"] is False\n\ndef test_hardware_manifest_fails_out_of_tolerance_body() -> None:\n    manifest = _manifest()\n    manifest[0]["top_disc_diameter_mm"] = "51.0"\n    result = validate_hardware(manifest, _qc())\n    assert result["passes_stage0_hardware_gate"] is False\n    assert "BODY001:top_disc_diameter_mm" in result["manifest_failures"]\n
+from __future__ import annotations
+
+from scripts.validate_relative_route_cost_hardware import validate_hardware
+
+def _manifest() -> list[dict[str, str]]:
+    rows: list[dict[str, str]] = []
+    for i in range(4):
+        rows.append({
+            "module_id": f"BODY{i+1:03d}",
+            "module_type": "body",
+            "manufacturing_batch": "B1",
+            "geometry_version": "G1",
+            "top_disc_diameter_mm": "50.0",
+            "visible_tube_length_mm": "20.0",
+            "top_aperture_diameter_mm": "2.5",
+            "lateral_aperture_diameter_mm": "2.5",
+            "lateral_aperture_offset_below_top_mm": "5.0",
+            "route": "",
+            "insert_effective_distance_mm": "",
+            "material": "test",
+            "surface_finish": "test",
+            "inspection_date": "2026-09-30",
+            "dimension_tolerance_pass": "true",
+            "notes": "",
+        })
+    for route, prefix in (("legitimate", "L"), ("bypass", "B")):
+        for distance in (2, 3, 4):
+            rows.append({
+                "module_id": f"{prefix}{distance:03d}",
+                "module_type": "insert",
+                "manufacturing_batch": "B1",
+                "geometry_version": "G1",
+                "top_disc_diameter_mm": "",
+                "visible_tube_length_mm": "",
+                "top_aperture_diameter_mm": "",
+                "lateral_aperture_diameter_mm": "",
+                "lateral_aperture_offset_below_top_mm": "",
+                "route": route,
+                "insert_effective_distance_mm": str(float(distance)),
+                "material": "test",
+                "surface_finish": "test",
+                "inspection_date": "2026-09-30",
+                "dimension_tolerance_pass": "true",
+                "notes": "",
+            })
+    return rows
+
+def _qc(*, wet: bool = False, loads: int = 20) -> list[dict[str, str]]:
+    rows: list[dict[str, str]] = []
+    for load in range(1, loads + 1):
+        rows.append({
+            "qc_run_id": "QC1",
+            "module_id": "BODY001",
+            "legitimate_insert_id": "L002",
+            "bypass_insert_id": "B002",
+            "reward_volume_ul": "3.0",
+            "reward_concentration": "50%",
+            "load_number": str(load),
+            "delay_to_inspection_s": "10",
+            "top_entrance_wet": "true" if wet and load == 1 else "false",
+            "lateral_entrance_wet": "false",
+            "overflow": "false",
+            "cross_route_leakage": "false",
+            "shared_reservoir_confirmed": "true",
+            "shutter_legitimate_pass": "true",
+            "shutter_bypass_pass": "true",
+            "external_cue_identity_pass": "true",
+            "cleaning_compatibility_pass": "true",
+            "notes": "",
+        })
+    return rows
+
+def test_hardware_bench_qc_passes_clean_assembly() -> None:
+    result = validate_hardware(_manifest(), _qc())
+    assert result["body_count"] == 4
+    assert result["tested_assembly_count"] == 1
+    assert result["passes_stage0_hardware_gate"] is True
+
+def test_hardware_bench_qc_fails_any_wetting() -> None:
+    result = validate_hardware(_manifest(), _qc(wet=True))
+    assert result["passes_stage0_hardware_gate"] is False
+    assembly = next(iter(result["assemblies"].values()))
+    assert assembly["checks"]["no_entrance_wetting"] is False
+
+def test_hardware_bench_qc_requires_20_loads() -> None:
+    result = validate_hardware(_manifest(), _qc(loads=19))
+    assert result["passes_stage0_hardware_gate"] is False
+    assembly = next(iter(result["assemblies"].values()))
+    assert assembly["checks"]["loads_ge_20_with_first_20_present"] is False
+
+def test_hardware_manifest_fails_out_of_tolerance_body() -> None:
+    manifest = _manifest()
+    manifest[0]["top_disc_diameter_mm"] = "51.0"
+    result = validate_hardware(manifest, _qc())
+    assert result["passes_stage0_hardware_gate"] is False
+    assert "BODY001:top_disc_diameter_mm" in result["manifest_failures"]
