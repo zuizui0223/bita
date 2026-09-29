@@ -577,9 +577,15 @@ def replication_gate(
         "contains_legitimate_interactions": total_legitimate > 0,
         "plant_grain_points_ge_5": len(plant_points) >= MIN_PLANT_SPECIES,
     }
+    descriptive_checks = {
+        key: value for key, value in checks.items() if key != "units_ge_30"
+    }
     return {
         "checks": checks,
         "passes_postpublication_replication_gate": all(checks.values()),
+        "descriptive_computability_checks": descriptive_checks,
+        "passes_descriptive_computability_gate": all(descriptive_checks.values()),
+        "frozen_unit_gate_shortfall": max(0, MIN_UNITS - len(units)),
         "confirmatory_third_fauna_gate": False,
         "confirmatory_third_fauna_failure_reasons": [
             "visitor fauna is Aves, excluded by the frozen non-Insecta/non-Aves preregistration",
@@ -635,7 +641,7 @@ def summarize_case(
             "confirmatory third-fauna test."
         ),
     }
-    if gate["passes_postpublication_replication_gate"]:
+    if gate["passes_descriptive_computability_gate"]:
         x = [point["access_constraint"] for point in points]
         y = [point["robbery_rate"] for point in points]
         rho, p = _permutation_spearman(
@@ -647,9 +653,15 @@ def summarize_case(
         result["rho"] = rho
         result["permutation_p_two_sided"] = p
         result["permutations"] = permutations
+        result["effect_status"] = (
+            "POSTPUBLICATION_REPLICATION_GATE_PASS"
+            if gate["passes_postpublication_replication_gate"]
+            else "DESCRIPTIVE_ONLY_BELOW_FROZEN_30_UNIT_GATE"
+        )
     else:
         result["rho"] = None
         result["permutation_p_two_sided"] = None
+        result["effect_status"] = "NOT_COMPUTABLE"
     return result
 
 
@@ -785,12 +797,22 @@ def run(
 
     gate = case_summary["gate"]
     assert isinstance(gate, dict)
-    if compute_k3 and gate["passes_postpublication_replication_gate"]:
-        result["postpublication_k3"] = summarize_k3(
+    if compute_k3 and gate["passes_descriptive_computability_gate"]:
+        k3 = summarize_k3(
             plant_points,
             permutations=permutations,
             seed=seed + 100,
         )
+        if not gate["passes_postpublication_replication_gate"]:
+            k3["analysis_status"] = "DESCRIPTIVE_K3_SENSITIVITY_BELOW_FROZEN_30_UNIT_GATE"
+            k3["frozen_gate_status"] = "FAIL_28_OF_30_SOURCE_BIRD_PLANT_UNITS"
+            k3["claim_boundary"] = (
+                "Three independently sampled networks are shown only as a descriptive post-publication "
+                "sensitivity. The Case network has 28 source x bird x plant units and therefore fails the "
+                "pre-existing >=30-unit gate; it is also another bird network with a direction already "
+                "published. The primary standardized replication count remains k=2."
+            )
+        result["postpublication_k3"] = k3
     else:
         result["postpublication_k3"] = None
 
