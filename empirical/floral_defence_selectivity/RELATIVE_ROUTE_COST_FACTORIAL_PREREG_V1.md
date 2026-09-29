@@ -195,8 +195,10 @@ HH         high    high
 
 Each bee receives 10 valid trials in every condition.
 
-Treatment order is randomized within blocks with equal representation of all four
-conditions. Physical flower position and flower-module identity are counterbalanced.
+Treatment order is randomized within 10 blocks with exactly one presentation of
+each of the four conditions per block. The schedule is generated before route-choice
+outcomes with `scripts/generate_relative_route_cost_randomization.py`. Physical
+flower position and flower-module identity are counterbalanced.
 
 Reward volume, concentration, replenishment state, odour, illumination and external
 visual route cues are held constant.
