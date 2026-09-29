@@ -126,7 +126,7 @@ def discover_case_public_file_url() -> tuple[str, dict[str, object]]:
         raise ValueError("Dryad file metadata lacks self href")
 
     import re
-    match = re.search(r"/api/v2/files/(\\d+)$", str(self_href))
+    match = re.search(r"/api/v2/files/(\d+)$", str(self_href))
     if match is None:
         raise ValueError(f"cannot recover Dryad file id from {self_href}")
     file_id = match.group(1)
