@@ -1,0 +1,51 @@
+name: Build route-cost prototype STL bundle
+
+on:
+  pull_request:
+    paths:
+      - "hardware/relative_route_cost_flower_v1.scad"
+      - "scripts/export_relative_route_cost_prototype_bundle.py"
+      - ".github/workflows/build-relative-route-cost-prototypes.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install OpenSCAD
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openscad
+      - name: Export prototype STL bundle
+        run: |
+          python scripts/export_relative_route_cost_prototype_bundle.py \
+            artifacts/relative-route-cost-prototype-v1
+      - name: Verify bundle manifest
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path("artifacts/relative-route-cost-prototype-v1")
+          x=json.loads((root/"prototype_manifest.json").read_text())
+          assert x["status"]=="ENGINEERING_PROTOTYPE_ONLY_NOT_FROZEN"
+          assert x["part_file_count"]==12
+          assert x["total_recommended_print_quantity"]==38
+          lengths={p.get("guided_sleeve_length_mm") for p in x["parts"] if p["role"]=="guided_sleeve"}
+          assert lengths==set(range(2,11))
+          for part in x["parts"]:
+              assert (root/part["file"]).is_file()
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: relative-route-cost-prototype-v1
+          path: artifacts/relative-route-cost-prototype-v1
+          if-no-files-found: error
