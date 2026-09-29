@@ -234,9 +234,13 @@ The standardized replication count is therefore still only two networks, but the
 
 This changes the interpretation of floral barriers. A structure that makes the normal route difficult does not necessarily terminate exploitation. If an alternative route remains profitable, the ecological response can be behavioral rerouting. Nectar robbing is therefore not merely residual exploitation that survives a failed barrier; it can be the expected interaction mode when access through the legitimate floral opening becomes mismatched.
 
+The within-bird result sharpens this interpretation. The routing signal persisted after ranks were centered within bird species, whereas one mean mismatch and robbery value per bird species showed little association. The supported pattern is therefore not simply that some consumer species are intrinsically more prone to robbery. Route use changes with the consumer–resource relation, making interaction mode a relational property of trait matching rather than only a fixed consumer attribute.
+
 The same logic should apply beyond nectar robbing. Any ecological system with a constrained legitimate route and an available bypass can generate route switching: consumers can attack another tissue, enter from another side, change handling mode or exploit another stage. The general object is not a particular flower structure but the relation between consumer morphology or behavior and the accessible domain of the resource.
 
 The relative-cost view clarifies some, but not all, reversals. Geometry should promote robbery only when it raises legitimate-route cost more than bypass cost. Within the post hoc audit of the six non-positive programs, two opposite cases directly documented geometry that hardened robber entry; the remaining reversals left bypass cost unresolved or implicated additional behavioral context, and mixed programs varied across morphs or populations. This partition identifies plausible boundary mechanisms but, because cases were selected by frozen direction, does not show that the theory prospectively predicts every exception.
+
+The evidence therefore supports a nested claim rather than a universal law. The two networks establish observational recurrence, and the within-bird analyses show that routing varies within consumer species. Relative route cost is the mechanistic interpretation that unifies the observed positive direction with null and opposite boundary cases. Generality beyond the analysed networks, and causal sign reversal when bypass cost itself is manipulated, remain prospective predictions.
 
 ### A relational view clarifies floral defence selectivity
 
@@ -256,9 +260,9 @@ The matched floral-defence material is mechanistic context rather than independe
 
 The routing framework generates direct experimental tests.
 
-First, manipulating access geometry while keeping reward constant should change the ratio of legitimate entry to bypass behavior. A graded manipulation should be especially informative: the model predicts not merely fewer interactions but a shift in route composition as access mismatch increases.
+First, the strongest causal test is a factorial manipulation of route costs while reward is held constant. Raising legitimate-route cost while bypass cost is fixed should increase bypass; raising bypass cost while legitimate cost is fixed should decrease bypass; raising both similarly should produce little route-composition shift. This prospective sign-reversal test directly distinguishes relative route cost from absolute barrier strength.
 
-Second, the effect should depend on whether a viable bypass exists. Closing both legitimate and bypass routes should reduce total exploitation, whereas selectively constraining only the legitimate route should increase the relative frequency of bypass.
+Second, graded manipulations should separate rerouting from suppression. Selectively constraining only the legitimate route should increase the relative frequency of bypass, whereas closing both routes should primarily reduce total exploitation.
 
 Third, consumer morphology should interact with floral geometry. The same flower should produce different route choices among visitors with different access phenotypes, providing a direct test of the effective-domain mechanism.
 

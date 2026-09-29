@@ -104,3 +104,21 @@ def test_letter_has_no_internal_repo_program_names() -> None:
         "BITA repo",
     ]
     assert all(token not in text for token in forbidden)
+
+
+@pytest.mark.prose_contract
+def test_letter_separates_relational_result_mechanism_and_generality() -> None:
+    text = LETTER.read_text(encoding="utf-8").lower()
+    assert "relational property of trait matching" in text
+    assert "nested claim rather than a universal law" in text
+    assert "relative route cost is the mechanistic interpretation" in text
+    assert "remain prospective predictions" in text
+
+
+@pytest.mark.prose_contract
+def test_letter_states_decisive_relative_route_cost_falsification() -> None:
+    text = LETTER.read_text(encoding="utf-8").lower()
+    assert "factorial manipulation of route costs" in text
+    assert "raising legitimate-route cost while bypass cost is fixed should increase bypass" in text
+    assert "raising bypass cost while legitimate cost is fixed should decrease bypass" in text
+    assert "raising both similarly should produce little route-composition shift" in text

@@ -38,6 +38,33 @@ robbery.” Null, mixed and opposite direct studies are compatible boundary case
 the same trait also constrains the bypass route or when other route utilities dominate.
 See `theory/RELATIVE_ROUTE_COST_BOUNDARY_V1.md`.
 
+### Claim ladder
+
+~~~text
+ESTABLISHED_OBSERVATIONAL:
+  legitimate-route constraint covaries with bypass in two independent networks
+
+ESTABLISHED_RELATIONAL:
+  the Ecuadorian routing signal persists within bird species
+
+SUPPORTED_MECHANISTIC_INTERPRETATION:
+  relative route cost explains why positive, null and opposite signs can occur
+
+PROSPECTIVE_GENERAL_PRINCIPLE:
+  route choice across other ecological systems is governed by relative route cost
+~~~
+
+The Letter may move up this ladder only to the level directly licensed by the
+evidence. In particular, the 33-program direction frame and post hoc reversal audit
+support mechanism interpretation but do not convert the relative-route-cost rule
+into a prospectively validated universal law.
+
+The strongest future falsification is a factorial manipulation that independently
+raises legitimate-route cost and bypass-route cost while holding reward constant.
+The predeclared signatures are positive, opposite and approximately null routing
+responses when only legitimate cost, only bypass cost, or both costs are increased,
+respectively.
+
 ## 2. Primary empirical test — Ecuador birds
 
 ```text
