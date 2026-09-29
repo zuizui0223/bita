@@ -16,6 +16,8 @@ jobs:
   case2026:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      DRYAD_TOKEN: ${{ secrets.DRYAD_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
@@ -37,10 +39,29 @@ jobs:
           if [ -f "$LOCAL" ]; then
             echo "mode=local" >> "$GITHUB_OUTPUT"
             echo "path=$LOCAL" >> "$GITHUB_OUTPUT"
-          else
+          elif [ -n "$DRYAD_TOKEN" ]; then
             echo "mode=dryad" >> "$GITHUB_OUTPUT"
             echo "path=" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=pending" >> "$GITHUB_OUTPUT"
+            echo "path=" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Record verified source-pending state
+        if: steps.source.outputs.mode == 'pending'
+        run: |
+          mkdir -p artifacts/case2026
+          cp empirical/floral_defence_selectivity/CASE2026_POSTPUBLICATION_SOURCE_RECEIPT_V1.json \
+            artifacts/case2026/source_receipt.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x = json.loads(Path("artifacts/case2026/source_receipt.json").read_text())
+          assert x["status"] == "SOURCE_BYTES_NOT_AVAILABLE_IN_AUTOMATION"
+          assert x["standardized_reanalysis"]["case_rho"] is None
+          assert x["claim_boundary"]["current_standardized_network_k"] == 2
+          print("Case source bytes pending; no standardized k=3 result opened")
+          PY
 
       - name: Run exact local Case replication and k3 synthesis
         if: steps.source.outputs.mode == 'local'
