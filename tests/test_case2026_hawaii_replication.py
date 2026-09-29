@@ -113,13 +113,3 @@ def test_case_source_receipt_keeps_standardized_k3_closed_without_source_bytes()
     assert receipt["standardized_reanalysis"]["joint_k3_rho"] is None
     assert receipt["claim_boundary"]["current_standardized_network_k"] == 2
 
-
-def test_case_source_receipt_keeps_k3_closed() -> None:
-    receipt = json.loads(RECEIPT.read_text(encoding="utf-8"))
-    assert receipt["status"] == "SOURCE_BYTES_NOT_AVAILABLE_IN_AUTOMATION"
-    assert receipt["public_schema_breadth"]["plant_species"] == 11
-    assert receipt["public_schema_breadth"]["bird_species"] == 7
-    assert receipt["published_direction"]["concordant_with_bita"] is True
-    assert receipt["standardized_reanalysis"]["case_rho"] is None
-    assert receipt["standardized_reanalysis"]["joint_k3_rho"] is None
-    assert receipt["claim_boundary"]["current_standardized_network_k"] == 2
