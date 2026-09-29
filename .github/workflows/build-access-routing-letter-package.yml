@@ -233,6 +233,7 @@ jobs:
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_FRAME_V1.md artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.md artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_LEAL2025_CROSSWALK_V1.csv artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/LEAL2025_ROBBER_STUDY_FRAME_V1.csv artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv artifacts/letter/data_archive/supporting_literature/
