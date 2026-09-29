@@ -66,6 +66,12 @@ The platform is motivated by prior artificial-flower work in which bumblebees
 could choose legitimate top access or lateral nectar robbery. BITA adds independent
 manipulation of the two route costs.
 
+The confirmatory platform uses an already available lateral bypass. It therefore
+tests **route choice conditional on bypass availability**, analogous to secondary
+nectar robbing, and does not identify the separate decision or mechanics of creating
+a new primary robbing hole. Balanced familiarization is required because prior
+experience with robbed flowers can itself alter later robbing behaviour.
+
 ## 3. Stage 0 — outcome-blind engineering calibration
 
 Calibration uses bees that will never enter the confirmatory choice experiment.
@@ -342,3 +348,18 @@ CAUSAL_ROUTE_COST_SIGN_REVERSAL = NOT_YET_TESTED
 
 A completed experiment can be reported later as direct causal validation or as a
 separate mechanism paper.
+
+
+## 11. Experimental precedent
+
+- Leonard AS, Brent J, Papaj DR, Dornhaus A (2013) Floral Nectar Guide Patterns
+  Discourage Nectar Robbing by Bumble Bees. *PLoS ONE* 8:e55914.
+  DOI 10.1371/journal.pone.0055914. Artificial flowers allowed legitimate top
+  access and lateral robbery in the same foraging system.
+- Leadbeater E, Chittka L (2008) Social transmission of nectar-robbing behaviour
+  in bumble-bees. *Proceedings of the Royal Society B* 275:1669–1674.
+  DOI 10.1098/rspb.2008.0270. Artificial flowers with pre-cut robbing holes
+  demonstrate that route experience can alter later robbing behaviour.
+
+These studies establish platform feasibility. They do not test the BITA
+independent `C_L x C_B` manipulation.
