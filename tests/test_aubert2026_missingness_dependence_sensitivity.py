@@ -139,23 +139,24 @@ def test_native_pair_site_summary_is_explicitly_descriptive() -> None:
         {
             "site": "S1",
             "bird_species": "B1",
-            "plant_species": "P1",
+            "plant_species": f"P{i}",
             "bird_group": "hummingbird",
             "n_interactions": 2,
-            "robbery_rate": 0.5,
-            "mismatch_log_t_over_b": 0.2,
-            "trait_barrier": True,
-        },
-        {
-            "site": "S1",
-            "bird_species": "B1",
-            "plant_species": "P2",
-            "bird_group": "hummingbird",
-            "n_interactions": 2,
-            "robbery_rate": 0.0,
-            "mismatch_log_t_over_b": -0.2,
-            "trait_barrier": False,
-        },
+            "robbery_rate": robbery,
+            "mismatch_log_t_over_b": mismatch,
+            "trait_barrier": mismatch > 0,
+        }
+        for i, (mismatch, robbery) in enumerate(
+            [
+                (-0.6, 0.00),
+                (-0.3, 0.05),
+                (-0.1, 0.10),
+                (0.1, 0.30),
+                (0.3, 0.50),
+                (0.6, 0.70),
+            ],
+            start=1,
+        )
     ]
     from scripts.analyze_aubert2026_missingness_dependence_sensitivity import summarize_policy
 
