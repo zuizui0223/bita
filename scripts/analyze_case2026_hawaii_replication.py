@@ -176,6 +176,9 @@ def download_case_file(path: str | Path) -> tuple[Path, dict[str, object]]:
         )
     if not target.is_file() or target.stat().st_size == 0:
         raise ValueError("downloaded Case CSV is empty")
+    probe = target.read_bytes()[:256]
+    provenance["downloaded_size_bytes"] = target.stat().st_size
+    provenance["downloaded_prefix_repr"] = repr(probe)
     provenance["public_file_stream_url"] = url
     return target, provenance
 
@@ -210,9 +213,13 @@ def normalize_case_units(
     }
     if not rows:
         raise ValueError("Case interaction table is empty")
+    observed_columns = list(rows[0].keys())
     missing = required - set(rows[0])
     if missing:
-        raise ValueError(f"Case table missing required columns: {sorted(missing)}")
+        raise ValueError(
+            "Case table missing required columns: "
+            f"{sorted(missing)}; observed_columns={observed_columns!r}"
+        )
 
     grouped: dict[tuple[str, str, str], list[dict[str, float]]] = defaultdict(list)
     invalid_rows = 0
