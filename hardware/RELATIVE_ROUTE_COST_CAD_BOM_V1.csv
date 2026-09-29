@@ -1,0 +1,10 @@
+item_id,part,quantity_min,parameter_or_variant,status,notes
+BODY,flower_body,4,identical geometry,PRE_BUILD,rotate bodies across conditions
+L_SLEEVES,legitimate_sleeve,9,2-10 mm in 1-mm steps,PRE_BUILD,label L002-L010
+B_SLEEVES,bypass_sleeve,9,2-10 mm in 1-mm steps,PRE_BUILD,label B002-B010
+SHUTTER,route_isolation_shutter,8,2-mm plug,PRE_BUILD,spares required for Stage 0
+RESERVOIR,reward_cartridge,8,shared bottom-loaded cup,PRE_BUILD,clean/reload between trials
+MANIFEST,module_measurement_sheet,1,RELATIVE_ROUTE_COST_FLOWER_MODULE_MANIFEST_TEMPLATE_V1.csv,REQUIRED,record actual dimensions
+BENCH_QC,bench_qc_sheet,1,RELATIVE_ROUTE_COST_FLOWER_BENCH_QC_SCHEMA_V1.csv,REQUIRED,20-load tests
+CALIPER,measurement_tool,1,<=0.1 mm resolution,REQUIRED,no brand frozen
+PIPETTE,reward_loading_tool,1,able to deliver nominal 3 uL,REQUIRED,calibrate before use
