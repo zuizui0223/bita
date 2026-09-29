@@ -14,6 +14,7 @@ MIN_BEES_PER_ROUTE = 12
 MIN_ATTEMPTS_PER_DISTANCE_PER_BEE = 3
 MIN_SUCCESS_RATE_SCREEN = 0.80
 MIN_LOG_INCREMENT = 0.20
+EXPECTED_DISTANCE_GRID = {float(x) for x in range(2, 11)}
 RATIO_LOW = 0.80
 RATIO_HIGH = 1.25
 
@@ -81,11 +82,23 @@ def select_candidate_pair(rows: list[dict[str, str]]) -> dict[str, object]:
                 raise ValueError("handling_time_s must be positive")
             successes[key].append(math.log(time_s))
 
+    overlap = bees_by_route["legitimate"] & bees_by_route["bypass"]
+    if overlap:
+        raise ValueError("Stage-0A legitimate and bypass cohorts must use different bees")
+
     for route in ROUTES:
         if len(bees_by_route[route]) < MIN_BEES_PER_ROUTE:
             raise ValueError(f"{route} sweep requires at least {MIN_BEES_PER_ROUTE} bees")
-        if len(distances_by_route[route]) < 2:
-            raise ValueError(f"{route} sweep requires at least two distances")
+        if distances_by_route[route] != EXPECTED_DISTANCE_GRID:
+            raise ValueError(
+                f"{route} sweep must contain the full 2-10 mm candidate grid"
+            )
+        for bee in bees_by_route[route]:
+            for distance in EXPECTED_DISTANCE_GRID:
+                if attempts[(bee, route, distance)] < MIN_ATTEMPTS_PER_DISTANCE_PER_BEE:
+                    raise ValueError(
+                        f"{route} bee {bee} lacks 3 attempts at distance {distance}"
+                    )
 
     route_candidates: dict[str, list[dict[str, float]]] = {}
     for route in ROUTES:
