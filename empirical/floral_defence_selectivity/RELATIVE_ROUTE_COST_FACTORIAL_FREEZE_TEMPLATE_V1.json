@@ -23,6 +23,7 @@
     "delta_legitimate_log_handling_time": null,
     "delta_bypass_log_handling_time": null,
     "delta_ratio": null,
+    "minimum_log_time_increment_each_route": 0.20,
     "all_state_success_rates_ge_0_90": null,
     "passes_freeze_gate": false
   },
