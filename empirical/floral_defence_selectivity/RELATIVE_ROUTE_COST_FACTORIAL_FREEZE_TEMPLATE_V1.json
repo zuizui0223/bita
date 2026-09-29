@@ -23,7 +23,7 @@
     "delta_legitimate_log_handling_time": null,
     "delta_bypass_log_handling_time": null,
     "delta_ratio": null,
-    "minimum_log_time_increment_each_route": 0.20,
+    "minimum_log_time_increment_each_route": 0.2,
     "all_state_success_rates_ge_0_90": null,
     "passes_freeze_gate": false
   },
@@ -32,10 +32,15 @@
     "minimum_colonies": 3,
     "maximum_completed_bees_per_colony": 30,
     "trials_per_condition_per_bee": 10,
-    "conditions": ["LL", "HL", "LH", "HH"],
+    "conditions": [
+      "LL",
+      "HL",
+      "LH",
+      "HH"
+    ],
     "permutations": 9999,
     "primary_alpha_each": 0.025,
-    "hh_equivalence_margin_route_share": 0.10,
+    "hh_equivalence_margin_route_share": 0.1,
     "analysis_seed": 20260929
   },
   "code": {
@@ -43,7 +48,17 @@
     "confirmatory_analysis": "scripts/analyze_relative_route_cost_factorial.py",
     "planning_simulation": "scripts/plan_relative_route_cost_factorial_power.py",
     "planning_receipt": "empirical/floral_defence_selectivity/RELATIVE_ROUTE_COST_FACTORIAL_POWER_PLAN_V1.json",
-    "randomization_generator": "scripts/generate_relative_route_cost_randomization.py"
+    "randomization_generator": "scripts/generate_relative_route_cost_randomization.py",
+    "hardware_validator": "scripts/validate_relative_route_cost_hardware.py"
   },
-  "activation_rule": "Stage 1 may begin only after every null field required by the physical and calibration freeze is filled and calibration.passes_freeze_gate is true."
+  "activation_rule": "Stage 1 may begin only after hardware.passes_stage0_hardware_gate is true, every null field required by the physical and calibration freeze is filled, and calibration.passes_freeze_gate is true.",
+  "hardware": {
+    "status": "PRE_BUILD_NOT_FROZEN",
+    "spec": "empirical/floral_defence_selectivity/RELATIVE_ROUTE_COST_FLOWER_HARDWARE_SPEC_V1.md",
+    "manifest_sha256": null,
+    "bench_qc_sha256": null,
+    "validated_result_sha256": null,
+    "minimum_flower_bodies": 4,
+    "passes_stage0_hardware_gate": false
+  }
 }
