@@ -1,0 +1,105 @@
+name: Analyze Case 2026 public k3 replication
+
+on:
+  pull_request:
+    paths:
+      - "scripts/analyze_case2026_hawaii_replication.py"
+      - "tests/test_case2026_hawaii_replication.py"
+      - "empirical/floral_defence_selectivity/CASE2026_POSTPUBLICATION_SOURCE_RECEIPT_V1.json"
+      - "empirical/floral_defence_selectivity/case2026_external/**"
+      - ".github/workflows/analyze-case2026-public-k3.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  case2026:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DRYAD_TOKEN: ${{ secrets.DRYAD_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and tests
+        run: python -m pip install -e '.[dev]'
+
+      - name: Test fail-closed Case replication contract
+        run: pytest -q tests/test_case2026_hawaii_replication.py
+
+      - name: Resolve exact Case source route
+        id: source
+        shell: bash
+        run: |
+          LOCAL="empirical/floral_defence_selectivity/case2026_external/Case_FE_2026_Analysis_2.csv"
+          if [ -f "$LOCAL" ]; then
+            echo "mode=local" >> "$GITHUB_OUTPUT"
+            echo "path=$LOCAL" >> "$GITHUB_OUTPUT"
+          elif [ -n "$DRYAD_TOKEN" ]; then
+            echo "mode=dryad" >> "$GITHUB_OUTPUT"
+            echo "path=" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=pending" >> "$GITHUB_OUTPUT"
+            echo "path=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Record verified source-pending state
+        if: steps.source.outputs.mode == 'pending'
+        run: |
+          mkdir -p artifacts/case2026
+          cp empirical/floral_defence_selectivity/CASE2026_POSTPUBLICATION_SOURCE_RECEIPT_V1.json \
+            artifacts/case2026/source_receipt.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x = json.loads(Path("artifacts/case2026/source_receipt.json").read_text())
+          assert x["status"] == "SOURCE_BYTES_NOT_AVAILABLE_IN_AUTOMATION"
+          assert x["standardized_reanalysis"]["case_rho"] is None
+          assert x["claim_boundary"]["current_standardized_network_k"] == 2
+          print("Case source bytes pending; no standardized k=3 result opened")
+          PY
+
+      - name: Run exact local Case replication and k3 synthesis
+        if: steps.source.outputs.mode == 'local'
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/case2026
+          python -m scripts.analyze_case2026_hawaii_replication \
+            artifacts/case2026/case2026_hawaii_postpublication_k3.json \
+            --case-zip "${{ steps.source.outputs.path }}" \
+            --permutations 9999 | tee artifacts/case2026/run.log
+
+      - name: Probe registered Dryad download and run if available
+        if: steps.source.outputs.mode == 'dryad'
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/case2026
+          python -m scripts.analyze_case2026_hawaii_replication \
+            artifacts/case2026/case2026_hawaii_postpublication_k3.json \
+            --permutations 9999 | tee artifacts/case2026/run.log
+
+      - name: Print compact result
+        if: hashFiles('artifacts/case2026/case2026_hawaii_postpublication_k3.json') != ''
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("artifacts/case2026/case2026_hawaii_postpublication_k3.json")
+          x = json.loads(p.read_text())
+          print(json.dumps({
+              "audit": x["audit"],
+              "case_network": x["case_network"],
+              "postpublication_k3": x["postpublication_k3"],
+          }, indent=2, sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: case2026-postpublication-k3
+          path: artifacts/case2026
+          if-no-files-found: error

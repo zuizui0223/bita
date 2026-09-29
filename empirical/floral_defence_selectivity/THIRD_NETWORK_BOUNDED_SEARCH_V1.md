@@ -146,3 +146,37 @@ Do not reopen merely to relax:
 - the requirement for mechanical access mismatch;
 - the legitimate-versus-bypass outcome.
 
+
+
+## Search-reopening audit — 2026-09-29
+
+The bounded public search was reopened under the original, unchanged gates because
+newly indexed repository records and a newly published Case et al. bird dataset
+could be assessed without relaxing the estimand.
+
+Outcome-blind schema screening added two non-avian near-matches to the candidate
+registry:
+
+- `10.5061/dryad.tht76hfb5` — central-Mexico nectar-feeding bat × plant
+  interaction matrices. The year-long network spans 36 plant species but only
+  four bat species, and its pollen/faecal metabarcoding response is interaction
+  occurrence rather than legitimate-versus-bypass route use.
+- `10.5061/dryad.jk673fq` — Andean *Meriania* systems including bats and
+  rodents. The archive covers four focal plant species and floral/nectar/pollen
+  measurements, but not the frozen route-resolved bypass outcome.
+
+The newly indexed Case et al. 2026 Hawaiian bird dataset remains biologically
+valuable but does not reopen the confirmatory third-fauna lane: its visitor fauna
+is Aves and its relevant direction was public before this reanalysis lane.
+
+Decision after the 2026-09-29 reopening:
+
+~~~text
+PUBLIC_NON_INSECTA_NON_AVES_SCHEMA_ELIGIBLE_THIRD_NETWORK = 0
+FROZEN_GATES_RELAXED = NO
+PRIMARY_STANDARDIZED_NETWORK_K = 2
+~~~
+
+The next admissible route remains either a genuinely new schema-eligible public
+release, exact recovery of a currently inaccessible eligible source, or the
+prospective non-flying-mammal field network.
