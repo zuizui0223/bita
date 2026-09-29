@@ -187,3 +187,14 @@ def test_randomization_schedule_balances_all_four_conditions_per_block() -> None
         for row in rows
     }
     assert set(first_routes.values()) == {"legitimate", "bypass"}
+
+
+def test_stage0_calibration_fails_trivial_matched_increments() -> None:
+    rows = _calibration_rows(bypass_high_time=1.05)
+    for row in rows:
+        if row["route"] == "legitimate" and row["cost_level"] == "high":
+            row["handling_time_s"] = "1.05"
+    result = validate_calibration(rows)
+    assert result["passes_freeze_gate"] is False
+    assert result["gates"]["delta_legitimate_ge_0_20"] is False
+    assert result["gates"]["delta_bypass_ge_0_20"] is False
