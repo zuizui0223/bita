@@ -150,23 +150,26 @@ geometry with constant reward are particularly diagnostic.
 
 ## Connection to the current evidence
 
-The bounded direct evidence corpus currently contains:
+The frozen outcome-blind OpenAlex frame currently resolves:
 
 ~~~text
-24 independent study programs
-16 positive
+33 independent direct study programs
+22 positive
 5 null
-1 opposite
+4 opposite
 2 mixed
 ~~~
 
-These counts are descriptive and are not a prevalence estimate.
+These counts are a finite provider-defined evidence distribution, not a prevalence
+estimate or pooled effect.
 
 Their value for the model is qualitative: all four direction classes are possible
-under one relative-route-cost mechanism. The positive majority is compatible with
-many systems lying in the rerouting regime, whereas the retained null, opposite and
-mixed studies identify the boundary conditions that an absolute-barrier model would
-otherwise treat as failures.
+under one relative-route-cost mechanism. The positive programs are compatible with
+rerouting, whereas null, opposite and mixed programs identify boundary conditions
+that an absolute-barrier rule would otherwise treat as failures. A post hoc audit
+found direct bypass-hardening evidence in two opposite programs; because those cases
+were selected after direction coding, this is mechanism partitioning rather than an
+independent prediction test.
 
 ## Stronger ecological conclusion
 
@@ -178,6 +181,38 @@ The supported mechanistic statement is therefore:
 
 This is more general than a corolla-length rule and more precise than saying that
 barriers simply increase robbery.
+
+## Evidence ladder
+
+The present evidence supports four nested claims at different strengths:
+
+1. **Observed recurrence:** stronger constraint on the legitimate route is associated
+   with greater bypass use in two independently assembled bird and insect networks.
+2. **Relational routing:** the Ecuadorian signal persists within bird species, so the
+   pattern is not reducible to fixed differences among consumer species.
+3. **Mechanistic interpretation:** relative route cost unifies positive, null,
+   opposite and mixed directions, but bypass cost has not yet been independently
+   manipulated in the network datasets.
+4. **General principle:** route choice should respond to relative, not absolute,
+   access cost across other ecological systems. This remains a prospective
+   prediction rather than an established universal law.
+
+## Decisive prospective falsification
+
+A direct test should manipulate the two route costs independently while holding
+reward constant:
+
+~~~text
+raise C_L, hold C_B fixed      -> bypass increases
+hold C_L fixed, raise C_B      -> bypass decreases
+raise C_L and C_B similarly    -> little route-composition shift
+~~~
+
+The third outcome is especially diagnostic because an absolute-barrier model predicts
+suppression from a stronger barrier, whereas the relative-route-cost model predicts
+little rerouting if both routes are penalized similarly. A factorial manipulation can
+therefore prospectively generate positive, null and opposite signs rather than
+classifying them after observation.
 
 ## Claim ceiling
 
