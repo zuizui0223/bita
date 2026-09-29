@@ -1,0 +1,13 @@
+field,type,required,allowed_or_definition
+bee_id,string,yes,calibration bee identifier
+colony_id,string,yes,colony identifier
+geometry_version,string,yes,engineering version
+route,string,yes,legitimate|bypass
+cost_level,string,yes,low|high
+trial_id,string,yes,unique calibration trial
+handling_time_s,number,no,first route contact to reward acquisition
+reward_acquired,boolean,yes,true|false
+failure_code,string,no,mechanical_failure|reward_failure|timeout|other
+reward_concentration,string,yes,frozen within geometry version
+reward_volume_ul,number,yes,frozen within geometry version
+notes,string,no,engineering audit note
