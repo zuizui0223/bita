@@ -113,8 +113,8 @@ Delta_B = high - low cost increment for bypass route
 
 A geometry version can be frozen only if:
 
-1. `Delta_L > 0`;
-2. `Delta_B > 0`;
+1. `Delta_L >= 0.20` log-time units;
+2. `Delta_B >= 0.20` log-time units;
 3. success rate is at least 0.90 in all four isolated-route states;
 4. the matched-cost ratio satisfies
 
