@@ -12,6 +12,7 @@ if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.analyze_aubert2026_missingness_dependence_sensitivity import (
+    bird_within_species_continuous_summary,
     cluster_aggregated_rho_summary,
     cluster_label_swap_summary,
 )
@@ -138,6 +139,11 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
                 cluster_key="bird_species",
                 permutations=permutations,
                 seed=20261919 + 400,
+            ),
+            "bird_within_species_continuous_check": bird_within_species_continuous_summary(
+                aubert_rows,
+                permutations=permutations,
+                seed=20261919 + 500,
             ),
         },
         "joint": summarize_joint_species(
