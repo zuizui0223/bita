@@ -190,6 +190,7 @@ jobs:
           assert observed["aubert_ephi"]["plant_species_cluster_check"] == aubert_primary["plant_species_cluster_check"]
           assert observed["aubert_ephi"]["bird_species_rho_check"] == aubert_primary["bird_species_rho_check"]
           assert observed["aubert_ephi"]["bird_species_cluster_check"] == aubert_primary["bird_species_cluster_check"]
+          assert observed["aubert_ephi"]["bird_within_species_continuous_check"] == aubert_primary["bird_within_species_continuous_check"]
 
           assert observed["joint"]["network_count"] == 2
           assert math.isclose(
