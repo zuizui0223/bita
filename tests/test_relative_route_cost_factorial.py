@@ -154,3 +154,11 @@ def test_condition_labels_must_match_cost_levels() -> None:
     rows[0]["legitimate_cost_level"] = "high"
     with pytest.raises(ValueError, match="condition/level mismatch"):
         analyze_choice_events(rows, permutations=99, bootstraps=99, seed=1)
+
+
+def test_confirmatory_requires_at_least_three_colonies() -> None:
+    rows = _choice_rows()
+    for row in rows:
+        row["colony_id"] = "ONE_COLONY"
+    with pytest.raises(ValueError, match="at least 3 colonies"):
+        analyze_choice_events(rows, permutations=99, bootstraps=99, seed=1)
