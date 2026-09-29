@@ -149,6 +149,20 @@ Recruitment continues until 60 bees satisfy the completion rule. Bees excluded
 under the predeclared rules are replaced, but their exclusion reasons remain in the
 audit table.
 
+### 4.1.1 Sample-size planning
+
+The frozen planning simulation is
+`RELATIVE_ROUTE_COST_FACTORIAL_POWER_PLAN_V1.json`. Under 10 trials per condition,
+baseline bypass probability 0.40 and a bee-level random-intercept SD of 0.8 on the
+logit scale, a symmetric logit shift of 0.45 generated mean route-share contrasts of
+approximately +0.097 and -0.092 and an approximate 0.887 probability that both
+primary contrasts passed the planning criterion. A shift of 0.55 generated
+approximately +0.119 and -0.111 with pass probability 0.982.
+
+These values are **planning sensitivity only**. They do not define an expected effect
+size, do not enter confirmatory inference, and do not justify post-outcome sample-size
+changes.
+
 Use at least three colonies. No single colony may contribute more than 30 of the
 60 completed bees. Colony identity is retained for a prespecified descriptive
 sensitivity; the primary estimand remains the within-bee treatment effect. This
