@@ -17,6 +17,7 @@ from pathlib import Path
 MIN_BEES = 20
 MIN_SUCCESSFUL_TRIALS_PER_STATE = 5
 MIN_SUCCESS_RATE = 0.90
+MIN_LOG_TIME_INCREMENT = 0.20
 RATIO_LOW = 0.80
 RATIO_HIGH = 1.25
 
@@ -144,8 +145,12 @@ def validate_calibration(rows: list[dict[str, str]]) -> dict[str, object]:
 
     gates = {
         "eligible_bees_ge_20": len(eligible) >= MIN_BEES,
-        "delta_legitimate_positive": delta_l is not None and delta_l > 0,
-        "delta_bypass_positive": delta_b is not None and delta_b > 0,
+        "delta_legitimate_ge_0_20": (
+            delta_l is not None and delta_l >= MIN_LOG_TIME_INCREMENT
+        ),
+        "delta_bypass_ge_0_20": (
+            delta_b is not None and delta_b >= MIN_LOG_TIME_INCREMENT
+        ),
         "all_state_success_rates_ge_0_90": all(
             value >= MIN_SUCCESS_RATE for value in success_rates.values()
         ),
