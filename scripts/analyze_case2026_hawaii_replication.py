@@ -24,6 +24,10 @@ import urllib.request
 import zipfile
 from collections import defaultdict
 from pathlib import Path
+import sys
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.analyze_joint_access_routing import combine_rhos_equal_network
 from scripts.analyze_joint_access_routing_species_robust import (
