@@ -19,6 +19,7 @@ import hashlib
 import io
 import json
 import math
+import os
 import random
 import tempfile
 import urllib.request
@@ -335,47 +336,61 @@ def _recover_case_from_full_preview(
 
 
 def download_case_file(path: str | Path) -> tuple[Path, dict[str, object]]:
+    """Download exact Case bytes through the authenticated Dryad file API.
+
+    Dryad metadata are public, but file bytes currently require bearer
+    authentication. The caller must provide DRYAD_TOKEN; anonymous retries are
+    intentionally not attempted because both the API download (401) and legacy
+    file_stream route (403) have been independently reproduced.
+    """
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     url, provenance = discover_case_public_file_url()
-    file_id = int(provenance["dryad_file_id"])
-    metadata_size = int(provenance["dryad_file_size"])
+    token = os.environ.get("DRYAD_TOKEN", "").strip()
+    if not token:
+        raise RuntimeError(
+            "Case source bytes are token-gated at Dryad. Set DRYAD_TOKEN or "
+            "provide an exact local source file whose SHA256 matches the frozen "
+            f"identity {CASE_EXPECTED_SHA256}."
+        )
 
-    candidates = [
-        url,
-        f"{DRYAD_BASE}/downloads/file_stream/{file_id}",
-    ]
-    errors: list[str] = []
-    used_url = None
-    for candidate in candidates:
-        completed = _curl_to_file(candidate, target, accept="text/csv,*/*")
-        if completed.returncode == 0 and target.is_file() and target.stat().st_size > 0:
-            used_url = candidate
-            break
-        errors.append(
-            f"{candidate}: "
+    completed = subprocess.run(
+        [
+            "curl",
+            "--fail",
+            "--location",
+            "--silent",
+            "--show-error",
+            "--retry",
+            "3",
+            "--retry-all-errors",
+            "--header",
+            "Accept: text/csv,*/*",
+            "--header",
+            "X-API-Version: 2.1.0",
+            "--header",
+            f"Authorization: Bearer {token}",
+            "--user-agent",
+            "BITA-public-replication/1.0",
+            "--output",
+            str(target),
+            url,
+        ],
+        check=False,
+        text=True,
+        capture_output=True,
+    )
+    if completed.returncode != 0:
+        raise RuntimeError(
+            "Authenticated Dryad file download failed; "
+            f"provenance={provenance!r}; "
             + (completed.stderr.strip() or f"curl exit {completed.returncode}")
         )
-        if target.exists():
-            target.unlink()
-
-    if used_url is not None:
-        provenance.update(verify_case_source_bytes(target))
-        provenance["public_file_api_download_url"] = url
-        provenance["public_file_download_url_used"] = used_url
-        provenance["direct_download_errors_before_success"] = errors
-        return target, provenance
-
-    preview = _recover_case_from_full_preview(
-        target,
-        file_id=file_id,
-        metadata_size=metadata_size,
-    )
-    provenance.update(preview)
+    if not target.is_file() or target.stat().st_size == 0:
+        raise ValueError("downloaded Case CSV is empty")
+    provenance.update(verify_case_source_bytes(target))
     provenance["public_file_api_download_url"] = url
-    provenance["direct_download_errors"] = errors
-    provenance["dryad_original_sha256_from_metadata"] = provenance["dryad_digest"]
-    provenance["dryad_original_digest_type"] = provenance["dryad_digest_type"]
+    provenance["download_authentication"] = "DRYAD_BEARER_TOKEN"
     return target, provenance
 
 
@@ -804,13 +819,17 @@ def run(
             seed=seed + 100,
         )
         if not gate["passes_postpublication_replication_gate"]:
-            k3["analysis_status"] = "DESCRIPTIVE_K3_SENSITIVITY_BELOW_FROZEN_30_UNIT_GATE"
-            k3["frozen_gate_status"] = "FAIL_28_OF_30_SOURCE_BIRD_PLANT_UNITS"
+            k3["analysis_status"] = "DESCRIPTIVE_K3_SENSITIVITY_BELOW_FROZEN_GATE"
+            k3["frozen_gate_status"] = (
+                "FAILS_ONE_OR_MORE_FROZEN_POSTPUBLICATION_REPLICATION_GATES"
+            )
             k3["claim_boundary"] = (
-                "Three independently sampled networks are shown only as a descriptive post-publication "
-                "sensitivity. The Case network has 28 source x bird x plant units and therefore fails the "
-                "pre-existing >=30-unit gate; it is also another bird network with a direction already "
-                "published. The primary standardized replication count remains k=2."
+                "Three independently sampled networks may be shown only as a descriptive "
+                "post-publication sensitivity when the Case source bytes are available but "
+                "one or more pre-existing replication gates fail. Exact failed gates are "
+                "reported in case_network.gate. Case is also another bird network with a "
+                "direction already published. The primary standardized replication count "
+                "remains k=2 unless all frozen replication gates pass."
             )
         result["postpublication_k3"] = k3
     else:
