@@ -237,17 +237,53 @@ def _recover_case_from_full_preview(
             f"Case file size {metadata_size} is not safely below Dryad preview limit {preview_limit}"
         )
 
-    preview_url = f"{DRYAD_BASE}/data_file/preview/{file_id}"
-    html_path = target.with_suffix(".preview.html")
-    completed = _curl_to_file(
-        preview_url,
-        html_path,
-        accept="text/javascript, application/javascript, */*; q=0.01",
-    )
-    if completed.returncode != 0:
-        raise RuntimeError(
-            "Dryad CSV preview JS retrieval failed: "
+    preview_candidates = [
+        f"{DRYAD_BASE}/data_file/preview/{file_id}.js",
+        f"{DRYAD_BASE}/stash/data_file/preview/{file_id}.js",
+        f"{DRYAD_BASE}/data_file/preview/{file_id}?format=js",
+        f"{DRYAD_BASE}/stash/data_file/preview/{file_id}?format=js",
+    ]
+    html_path = target.with_suffix(".preview.js")
+    preview_url = None
+    preview_errors: list[str] = []
+    for candidate in preview_candidates:
+        completed = subprocess.run(
+            [
+                "curl",
+                "--fail",
+                "--location",
+                "--silent",
+                "--show-error",
+                "--retry",
+                "2",
+                "--retry-all-errors",
+                "--header",
+                "Accept: text/javascript, application/javascript, application/ecmascript, */*; q=0.01",
+                "--header",
+                "X-Requested-With: XMLHttpRequest",
+                "--user-agent",
+                "Mozilla/5.0 BITA-public-replication/1.0",
+                "--output",
+                str(html_path),
+                candidate,
+            ],
+            check=False,
+            text=True,
+            capture_output=True,
+        )
+        if completed.returncode == 0 and html_path.is_file() and html_path.stat().st_size > 0:
+            preview_url = candidate
+            break
+        preview_errors.append(
+            f"{candidate}: "
             + (completed.stderr.strip() or f"curl exit {completed.returncode}")
+        )
+        if html_path.exists():
+            html_path.unlink()
+    if preview_url is None:
+        raise RuntimeError(
+            "Dryad CSV preview JS retrieval failed across UI routes: "
+            + repr(preview_errors)
         )
 
     parser = _DryadPreviewTableParser()
