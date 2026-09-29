@@ -69,8 +69,15 @@ Use the existing two-network public-data figure as the base.
 primary n = 259 plant species
 plant-level mismatch rho = 0.5032
 permutation p = 0.0001
-paired barrier contrast = +0.0915 across 130 species
+paired plant barrier contrast = +0.0915 across 130 species
+
+consumer-grain behavior:
+36 bird species with both barrier states
+mean within-bird barrier contrast = +0.0933
 label-swap p = 0.0001
+28 bird species / 1,285 bird×plant dyads
+within-bird centered-rank rho = 0.3398
+within-bird permutation p = 0.0001
 
 descriptive pair-site scale:
 n = 2,265
