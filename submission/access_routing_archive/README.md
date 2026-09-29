@@ -7,13 +7,15 @@ This directory defines the archive that must receive a permanent DOI **before ex
 The build workflow generates an `artifacts/letter/data_archive/` directory containing:
 
 - `sakhalkar_species_analysis.csv` — 57 anonymous plant-species analysis units used for the insect routing and multitrait analyses;
-- `aubert_ephi_pair_site_analysis.csv` — 2,265 anonymous bird × plant × site aggregation units under the metadata-informed missing-as-no rule, with anonymized plant- and bird-species cluster IDs; the primary Ecuadorian inference aggregates these rows to 259 plant species;
+- `aubert_ephi_pair_site_analysis.csv` — 2,265 anonymous bird × plant × site aggregation units under the metadata-informed missing-as-no rule, with anonymized plant- and bird-species cluster IDs; these reproduce both the 259-plant primary inference and the paired/continuous within-bird behavioral sensitivities;
 - `metadata.csv` — file/column descriptions and units;
 - `archive_manifest.json` — source DOIs, row counts and identifier policy;
 - `archive_reproduction.json` — statistics regenerated using only the archived analysis tables;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv` — the 24-program bounded direct geometry → robbery supporting corpus;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv` — included, duplicate and excluded Stage-U update candidates with explicit reasons;
 - `supporting_literature/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv` — complete 56-label historical geometry screen;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv` and `.md` — post hoc mechanism audit of the four opposite and two mixed formal-frame programs;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json` — frozen descriptive partition and 1/23 versus 3/10 formal-search asymmetry;
 - the direct-evidence eligibility contract, bounded-search receipts, Leal crosswalk and provenance receipts needed to audit the supporting-corpus counts.
 
 The submission archive must also include the exact code used to export and reproduce the tables:
