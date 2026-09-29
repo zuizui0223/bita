@@ -1,0 +1,41 @@
+{
+  "analysis_name": "relative_route_cost_factorial_planning_sensitivity",
+  "status": "PLANNING_ONLY_NOT_CONFIRMATORY_INFERENCE",
+  "assumptions": {
+    "baseline_bypass_probability": 0.4,
+    "bee_random_intercept_sd_logit": 0.8,
+    "trials_per_condition": 10,
+    "n_bees": 60,
+    "alpha_each_primary_contrast": 0.025,
+    "data_generating_effect": "symmetric +/- logit shift for legitimate-cost and bypass-cost manipulations"
+  },
+  "scenarios": [
+    {
+      "logit_shift": 0.35,
+      "mean_C_L": 0.075411,
+      "mean_C_B": -0.07255,
+      "approx_joint_primary_pass_probability": 0.5936
+    },
+    {
+      "logit_shift": 0.45,
+      "mean_C_L": 0.09728966666666666,
+      "mean_C_B": -0.092042,
+      "approx_joint_primary_pass_probability": 0.8868
+    },
+    {
+      "logit_shift": 0.55,
+      "mean_C_L": 0.11905966666666666,
+      "mean_C_B": -0.111358,
+      "approx_joint_primary_pass_probability": 0.9822
+    },
+    {
+      "logit_shift": 0.7,
+      "mean_C_L": 0.15140599999999999,
+      "mean_C_B": -0.13781233333333331,
+      "approx_joint_primary_pass_probability": 0.9992
+    }
+  ],
+  "reps": 5000,
+  "seed": 20260929,
+  "claim_boundary": "These Monte Carlo values justify design sensitivity only. The confirmatory experiment uses bee-level sign-flip randomization, not the normal approximation used in this planning simulation."
+}

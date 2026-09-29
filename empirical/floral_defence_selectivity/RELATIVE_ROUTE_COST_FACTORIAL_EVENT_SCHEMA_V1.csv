@@ -1,0 +1,24 @@
+field,type,required,allowed_or_definition
+bee_id,string,yes,anonymous individual bee identifier
+colony_id,string,yes,colony identifier
+session_id,string,yes,experimental session
+bout_id,string,yes,foraging bout
+trial_id,string,yes,unique trial identifier
+trial_order,integer,yes,global order within bee
+condition,string,yes,LL|HL|LH|HH
+legitimate_cost_level,string,yes,low|high
+bypass_cost_level,string,yes,low|high
+flower_module_id,string,yes,physical flower module
+array_position,string,yes,position code
+reward_concentration,string,yes,frozen value
+reward_volume_ul,number,yes,frozen value
+first_contact_route,string,yes,legitimate|bypass|none
+successful_route,string,yes,legitimate|bypass|none
+reward_acquired,boolean,yes,true|false
+handling_time_s,number,no,first route contact to reward acquisition
+switch_count,integer,yes,number of route switches before success
+trial_valid,boolean,yes,true|false
+exclusion_code,string,no,mechanical_failure|reward_failure|video_loss|timeout|external_disturbance
+video_id,string,no,source video identifier
+coder_id,string,no,behaviour coder identifier
+notes,string,no,free text audit note

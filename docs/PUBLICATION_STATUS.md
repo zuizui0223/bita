@@ -57,6 +57,25 @@ Access constraints promote rerouting when they penalize legitimate access more t
 the bypass route. Null, mixed and opposite direct studies define boundary conditions
 for this mechanism.
 
+### Prospective causal sign-reversal test
+
+The decisive factorial mechanism test is now implemented but **not run**:
+
+~~~text
+CAUSAL_ROUTE_COST_PROTOCOL = IMPLEMENTED_PRE_OUTCOME
+CALIBRATION_ROUTE_CHOICE_OUTCOME = NOT_AVAILABLE
+CONFIRMATORY_COMPLETED_BEES_TARGET = 60
+PRIMARY_CONTRAST_1 = raise C_L only -> bypass increases
+PRIMARY_CONTRAST_2 = raise C_B only -> bypass decreases
+MATCHED_HIGH_HIGH_DIAGNOSTIC = route share approximately returns to baseline
+CAUSAL_SIGN_REVERSAL_RESULT = NOT_YET_AVAILABLE
+~~~
+
+The experimental preregistration, schemas, freeze template and fail-closed analysis
+code live under `empirical/floral_defence_selectivity/RELATIVE_ROUTE_COST_*` and
+`scripts/*relative_route_cost*`. This prospective test is a future mechanism layer
+and does not change the current Letter's observational claim ceiling.
+
 ## Formal direct empirical recurrence and mechanistic context
 
 The standardized joint network statistic remains **k = 2**. No literature study is

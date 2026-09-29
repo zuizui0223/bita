@@ -1,0 +1,49 @@
+{
+  "schema": "BITA_RELATIVE_ROUTE_COST_FACTORIAL_FREEZE_V1",
+  "status": "PRE_STAGE1_NOT_FROZEN",
+  "geometry_version": null,
+  "visitor_species": null,
+  "colony_count": null,
+  "flower_platform": {
+    "legitimate_low_dimensions": null,
+    "legitimate_high_dimensions": null,
+    "bypass_low_dimensions": null,
+    "bypass_high_dimensions": null,
+    "external_visual_cues_identical_across_cost_levels": null,
+    "shared_reward_reservoir": true
+  },
+  "reward": {
+    "concentration": null,
+    "volume_ul": null
+  },
+  "calibration": {
+    "completed_bees": null,
+    "input_sha256": null,
+    "result_sha256": null,
+    "delta_legitimate_log_handling_time": null,
+    "delta_bypass_log_handling_time": null,
+    "delta_ratio": null,
+    "minimum_log_time_increment_each_route": 0.20,
+    "all_state_success_rates_ge_0_90": null,
+    "passes_freeze_gate": false
+  },
+  "confirmatory": {
+    "target_completed_bees": 60,
+    "minimum_colonies": 3,
+    "maximum_completed_bees_per_colony": 30,
+    "trials_per_condition_per_bee": 10,
+    "conditions": ["LL", "HL", "LH", "HH"],
+    "permutations": 9999,
+    "primary_alpha_each": 0.025,
+    "hh_equivalence_margin_route_share": 0.10,
+    "analysis_seed": 20260929
+  },
+  "code": {
+    "calibration_validator": "scripts/validate_relative_route_cost_calibration.py",
+    "confirmatory_analysis": "scripts/analyze_relative_route_cost_factorial.py",
+    "planning_simulation": "scripts/plan_relative_route_cost_factorial_power.py",
+    "planning_receipt": "empirical/floral_defence_selectivity/RELATIVE_ROUTE_COST_FACTORIAL_POWER_PLAN_V1.json",
+    "randomization_generator": "scripts/generate_relative_route_cost_randomization.py"
+  },
+  "activation_rule": "Stage 1 may begin only after every null field required by the physical and calibration freeze is filled and calibration.passes_freeze_gate is true."
+}
