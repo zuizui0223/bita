@@ -62,6 +62,20 @@ for this mechanism.
 The standardized joint network statistic remains **k = 2**. No literature study is
 added to that standardized-network replication count.
 
+Case et al. (2026; DOI 10.1111/1365-2435.70415) provide a third independently
+sampled Hawaiian bird–lobelioid network with a published direction concordant
+with the routing prediction. The deposited interaction schema spans 11 plant and
+7 bird species. Because the direction was already public and this is another Aves
+network, it is directional corroboration rather than a standardized or third-fauna
+confirmatory contribution.
+
+~~~text
+PUBLISHED_DIRECTIONAL_NETWORK_RECURRENCE = 3
+PRIMARY_STANDARDIZED_NETWORK_K = 2
+CASE_STANDARDIZED_EFFECT = NOT_COMPUTED
+CASE_CONFIRMATORY_THIRD_FAUNA = NO
+~~~
+
 The outcome-blind OpenAlex Q1–Q8 frame is now **complete and open for finite-frame
 directional summary**:
 
