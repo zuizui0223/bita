@@ -135,6 +135,13 @@ def discover_case_public_file_url() -> tuple[str, dict[str, object]]:
     if match is None:
         raise ValueError(f"cannot recover Dryad file id from {self_href}")
     file_id = match.group(1)
+    file_metadata = _url_json(f"{DRYAD_BASE}/api/v2/files/{file_id}")
+    metadata_links = file_metadata.get("_links", {})
+    compact_links: dict[str, object] = {}
+    if isinstance(metadata_links, dict):
+        for key, value in metadata_links.items():
+            if isinstance(value, dict) and value.get("href"):
+                compact_links[str(key)] = str(value["href"])
     return (
         f"{DRYAD_BASE}/api/v2/files/{file_id}/download",
         {
@@ -143,6 +150,10 @@ def discover_case_public_file_url() -> tuple[str, dict[str, object]]:
             "dryad_file_size": entry.get("size"),
             "dryad_digest": entry.get("digest"),
             "dryad_digest_type": entry.get("digestType"),
+            "dryad_file_metadata_fields": sorted(
+                str(key) for key in file_metadata.keys() if key != "_links"
+            ),
+            "dryad_file_metadata_links": compact_links,
         },
     )
 
