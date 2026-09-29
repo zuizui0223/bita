@@ -214,6 +214,21 @@ little rerouting if both routes are penalized similarly. A factorial manipulatio
 therefore prospectively generate positive, null and opposite signs rather than
 classifying them after observation.
 
+### Implemented prospective test
+
+The causal test is now implemented before outcome collection in:
+
+- `empirical/floral_defence_selectivity/RELATIVE_ROUTE_COST_FACTORIAL_PREREG_V1.md`;
+- `empirical/floral_defence_selectivity/RELATIVE_ROUTE_COST_CALIBRATION_SCHEMA_V1.csv`;
+- `empirical/floral_defence_selectivity/RELATIVE_ROUTE_COST_FACTORIAL_EVENT_SCHEMA_V1.csv`;
+- `empirical/floral_defence_selectivity/RELATIVE_ROUTE_COST_FACTORIAL_FREEZE_TEMPLATE_V1.json`;
+- `scripts/validate_relative_route_cost_calibration.py`;
+- `scripts/analyze_relative_route_cost_factorial.py`.
+
+Stage 0 calibrates the high-minus-low cost increments for the two routes with
+route-isolated flowers. Stage 1 then uses a randomized 2 x 2 route-choice experiment.
+The protocol is implemented but no confirmatory route-choice data have been opened.
+
 ## Claim ceiling
 
 This proposition is a mechanistic interpretation and prospective prediction.
