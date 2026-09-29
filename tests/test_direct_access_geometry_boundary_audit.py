@@ -9,6 +9,7 @@ FRAME = ROOT / "empirical" / "floral_defence_selectivity" / "formal_bibliographi
 AUDIT = FRAME / "DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv"
 NOTE = FRAME / "DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.md"
 SUMMARY = FRAME / "DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json"
+BOUNDARY_SUMMARY = FRAME / "DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json"
 
 
 def _rows():
@@ -51,3 +52,13 @@ def test_formal_search_added_disproportionately_more_reverse_cases_descriptively
         - summary["new_eligible_direction_counts"]["OPPOSITE"]
     )
     assert preexisting_opposite == 1
+
+
+def test_boundary_summary_freezes_descriptive_claim_ceiling() -> None:
+    summary = json.loads(BOUNDARY_SUMMARY.read_text(encoding="utf-8"))
+    assert summary["audited_nonpositive_programs"] == 6
+    assert summary["opposite_mechanism_partition"]["BYPASS_HARDENED_DIRECT"] == 2
+    assert summary["formal_search_asymmetry"]["preexisting_opposite_programs"] == 1
+    assert summary["formal_search_asymmetry"]["new_opposite_programs"] == 3
+    assert summary["formal_search_asymmetry"]["inference"] == "DESCRIPTIVE_ONLY_NO_BIAS_TEST"
+    assert "cannot estimate predictive accuracy" in summary["claim_boundary"]
