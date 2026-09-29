@@ -102,7 +102,7 @@
           "pair_site_n": 1377
         }
       },
-      "claim_boundary": "Independent all-18-site EPHI Zenodo extension, not an exact replication of Aubert et al. 2026. Pair-site robbery rates are the inferential units. Associations do not establish causal floral defence.",
+      "claim_boundary": "Descriptive pair-site summary within the all-18-site EPHI extension; pair-site rows are not the primary inferential units in the repaired Letter. Primary inference is clustered at plant species, with separate within-bird behavioral sensitivities. Associations do not establish causal floral defence.",
       "mean_robbery_rate_accessible": 0.08138669738180652,
       "mean_robbery_rate_barrier": 0.3069825584178476,
       "median_robbery_rate_accessible": 0,
@@ -259,7 +259,7 @@
           "pair_site_n": 2263
         }
       },
-      "claim_boundary": "Independent all-18-site EPHI Zenodo extension, not an exact replication of Aubert et al. 2026. Pair-site robbery rates are the inferential units. Associations do not establish causal floral defence.",
+      "claim_boundary": "Descriptive pair-site summary within the all-18-site EPHI extension; pair-site rows are not the primary inferential units in the repaired Letter. Primary inference is clustered at plant species, with separate within-bird behavioral sensitivities. Associations do not establish causal floral defence.",
       "mean_robbery_rate_accessible": 0.01995294884852573,
       "mean_robbery_rate_barrier": 0.14663668561277685,
       "median_robbery_rate_accessible": 0,
