@@ -1,0 +1,45 @@
+name: Validate route-cost CAD render
+
+on:
+  pull_request:
+    paths:
+      - "hardware/relative_route_cost_flower_v1.scad"
+      - "hardware/RELATIVE_ROUTE_COST_CAD_RENDER_RECEIPT_V1.json"
+      - "scripts/validate_relative_route_cost_cad_render.py"
+      - ".github/workflows/validate-relative-route-cost-cad.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install OpenSCAD
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openscad
+
+      - name: Install mesh validator
+        run: python -m pip install "trimesh>=4.0" "numpy>=1.26" "networkx>=3.0"
+
+      - name: Render and validate CAD
+        run: |
+          python scripts/validate_relative_route_cost_cad_render.py \
+            hardware/relative_route_cost_flower_v1.scad \
+            hardware/RELATIVE_ROUTE_COST_CAD_RENDER_RECEIPT_V1.json \
+            artifacts/relative_route_cost_cad_render_ci.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: relative-route-cost-cad-render
+          path: artifacts/relative_route_cost_cad_render_ci.json
+          if-no-files-found: error

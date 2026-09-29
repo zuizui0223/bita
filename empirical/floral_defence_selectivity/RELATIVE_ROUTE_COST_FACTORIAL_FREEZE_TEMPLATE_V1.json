@@ -90,6 +90,10 @@
     "bench_qc_sha256": null,
     "validated_result_sha256": null,
     "minimum_flower_bodies": 4,
-    "passes_stage0_hardware_gate": false
+    "passes_stage0_hardware_gate": false,
+    "cad_file": "hardware/relative_route_cost_flower_v1.scad",
+    "cad_sha256": "08ed3a72b10576b800b52da289a4c0bb8d498ac439c85075f6b93ab81d1c4c78",
+    "cad_render_receipt": "hardware/RELATIVE_ROUTE_COST_CAD_RENDER_RECEIPT_V1.json",
+    "cad_render_validated": true
   }
 }

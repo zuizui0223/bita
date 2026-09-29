@@ -96,21 +96,21 @@ The trial ends after the first successful acquisition. The reservoir is then cle
 
 Cost is altered by changing post-entry effective access distance, not entrance visibility.
 
-Each entrance accepts a removable internal sleeve/spacer. The sleeve determines the distance from the entrance plane to the first point at which the proboscis can reach the reward surface.
+Each entrance accepts a removable internal sleeve. The reward chamber remains fixed. The sleeve sets the length of the narrow guided tunnel through which the proboscis must travel immediately after crossing the externally identical 2.5-mm entrance. Thus the manipulated engineering quantity is guided-sleeve length, not the total straight-line distance from entrance to reward.
 
 ### 4.2 Engineering candidate grid
 
 Before Stage 0, manufacture candidate inserts covering:
 
 ~~~text
-effective access distance = 2, 3, 4, 5, 6, 7, 8, 9, 10 mm
+guided sleeve length = 2, 3, 4, 5, 6, 7, 8, 9, 10 mm
 ~~~
 
 in 1-mm steps for both routes.
 
 The same candidate grid is available to legitimate and bypass channels. Stage 0 may select different absolute low/high distances for the two routes if necessary to make their handling-time increments comparable.
 
-Do not define high cost from distance alone. A candidate pair becomes low/high only if the Stage-0 biological calibration passes the frozen handling-time gate.
+Do not define high cost from sleeve length alone. A candidate pair becomes low/high only if Stage-0 biological calibration shows the frozen handling-time increment.
 
 ### 4.3 Channel geometry
 
@@ -199,8 +199,8 @@ Before biological calibration, measure and record:
 - top aperture diameter;
 - lateral aperture diameter;
 - lateral aperture vertical position;
-- legitimate insert effective distance;
-- bypass insert effective distance;
+- legitimate guided-sleeve length;
+- bypass guided-sleeve length;
 - module mass if useful for build QC;
 - manufacturing batch;
 - inspection date.
