@@ -171,7 +171,8 @@ def download_case_file(path: str | Path) -> tuple[Path, dict[str, object]]:
     )
     if completed.returncode != 0:
         raise RuntimeError(
-            "Dryad public file_stream download failed: "
+            "Dryad public file download failed; "
+            f"provenance={provenance!r}; "
             + (completed.stderr.strip() or f"curl exit {completed.returncode}")
         )
     if not target.is_file() or target.stat().st_size == 0:
