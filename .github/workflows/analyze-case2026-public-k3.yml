@@ -30,8 +30,9 @@ jobs:
 
       - name: Run real Dryad Case 2026 replication and k3 synthesis
         run: |
+          set -o pipefail
           mkdir -p artifacts/case2026
-          python scripts/analyze_case2026_hawaii_replication.py \
+          python -m scripts.analyze_case2026_hawaii_replication \
             artifacts/case2026/case2026_hawaii_postpublication_k3.json \
             --permutations 9999 | tee artifacts/case2026/run.log
 
