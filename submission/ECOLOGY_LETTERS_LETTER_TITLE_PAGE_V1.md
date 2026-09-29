@@ -29,8 +29,8 @@
 ## Manuscript counts
 
 ~~~text
-abstract words: 149
-main-text words: 4,411
+abstract words: 137
+main-text words: 4,251
 references: 16
 figures: 3
 tables: 0
