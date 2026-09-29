@@ -20,6 +20,8 @@ from collections import defaultdict
 from pathlib import Path
 
 TARGET_BEES = 60
+MIN_COLONIES = 3
+MAX_BEES_PER_COLONY = 30
 TRIALS_PER_CONDITION = 10
 PERMUTATIONS = 9999
 PRIMARY_ALPHA = 0.025
@@ -183,6 +185,18 @@ def analyze_choice_events(
             f"found {len(completed)}"
         )
 
+    completed_colony_counts: dict[str, int] = defaultdict(int)
+    for bee in completed:
+        completed_colony_counts[colony_by_bee[bee]] += 1
+    if len(completed_colony_counts) < MIN_COLONIES:
+        raise ValueError(
+            f"confirmatory dataset must contain at least {MIN_COLONIES} colonies"
+        )
+    if max(completed_colony_counts.values()) > MAX_BEES_PER_COLONY:
+        raise ValueError(
+            f"no colony may contribute more than {MAX_BEES_PER_COLONY} completed bees"
+        )
+
     p: dict[str, dict[str, float]] = {}
     for bee in completed:
         p[bee] = {
@@ -249,6 +263,8 @@ def analyze_choice_events(
         "analysis_name": "relative_route_cost_factorial_confirmatory",
         "primary_unit": "individual_bee",
         "completed_bees": len(completed),
+        "completed_colonies": len(completed_colony_counts),
+        "completed_bees_by_colony": dict(sorted(completed_colony_counts.items())),
         "valid_trials": sum(
             len(valid[(bee, condition)])
             for bee in completed
