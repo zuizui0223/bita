@@ -2,8 +2,9 @@
 
 Representation-only variation is removed without altering scientific values:
 - Sakhalkar rows are sorted by the exact fields entering the k=3 analysis.
-- Aubert/EPHI site *labels* are discarded. Sites are ordered by the complete
-  multiset of scientific rows they contain, then relabelled canonically.
+- Aubert/EPHI rows are the repaired plant-species analysis points. Row order
+  is discarded while exact mismatch, robbery rate, and contributing pair-site
+  count are preserved.
 - No float rounding or quantization is applied.
 """
 from __future__ import annotations
@@ -85,75 +86,40 @@ def canonicalize_sakhalkar(
 
 
 def _aubert_scientific_row(row: dict[str, object]) -> dict[str, object]:
-    bird_group = str(row["bird_group"]).strip()
-    if not bird_group:
-        raise ValueError("bird_group must be nonblank")
-
-    raw_n = row["n_interactions"]
-    if isinstance(raw_n, bool) or not isinstance(raw_n, int):
-        raise ValueError("n_interactions must be an integer")
-    if raw_n <= 0:
-        raise ValueError("n_interactions must be positive")
-
+    mismatch = _finite_float(row["mismatch"], "mismatch")
     robbery_rate = _finite_float(row["robbery_rate"], "robbery_rate")
     if not 0.0 <= robbery_rate <= 1.0:
         raise ValueError("robbery_rate must be within [0,1]")
 
-    mismatch = _finite_float(
-        row["mismatch_log_t_over_b"],
-        "mismatch_log_t_over_b",
-    )
-    barrier = row["trait_barrier"]
-    if not isinstance(barrier, bool):
-        raise ValueError("trait_barrier must be boolean")
-    if barrier != (mismatch > 0.0):
-        raise ValueError("trait_barrier is inconsistent with mismatch sign")
+    raw_n = row.get("pair_site_n")
+    if isinstance(raw_n, bool) or not isinstance(raw_n, int):
+        raise ValueError("pair_site_n must be an integer")
+    if raw_n <= 0:
+        raise ValueError("pair_site_n must be positive")
 
     return {
-        "bird_group": bird_group,
-        "n_interactions": raw_n,
+        "mismatch": mismatch,
         "robbery_rate": robbery_rate,
-        "mismatch_log_t_over_b": mismatch,
-        "trait_barrier": barrier,
+        "pair_site_n": raw_n,
     }
 
 
 def _aubert_row_key(row: dict[str, object]) -> tuple[object, ...]:
     return (
-        str(row["bird_group"]),
-        int(row["n_interactions"]),
+        float(row["mismatch"]),
         float(row["robbery_rate"]),
-        float(row["mismatch_log_t_over_b"]),
-        bool(row["trait_barrier"]),
+        int(row["pair_site_n"]),
     )
 
 
 def canonicalize_aubert(
     rows: list[dict[str, object]],
 ) -> list[dict[str, object]]:
-    """Canonicalize while treating arbitrary site labels as nuisance metadata."""
-    grouped: dict[str, list[dict[str, object]]] = {}
-    for row in rows:
-        site = str(row["site"]).strip()
-        if not site:
-            raise ValueError("Aubert site labels must be nonblank")
-        grouped.setdefault(site, []).append(_aubert_scientific_row(row))
-
-    if not grouped:
-        raise ValueError("Aubert input must contain at least one site")
-
-    site_blocks: list[list[dict[str, object]]] = []
-    for block in grouped.values():
-        site_blocks.append(sorted(block, key=_aubert_row_key))
-    site_blocks.sort(key=_stable_json)
-
-    out: list[dict[str, object]] = []
-    for index, block in enumerate(site_blocks, start=1):
-        canonical_site = f"site_{index:02d}"
-        for scientific in block:
-            out.append({"site": canonical_site, **scientific})
-    return out
-
+    """Canonicalize plant-species Aubert points; row order is representation only."""
+    if not rows:
+        raise ValueError("Aubert input must contain at least one plant-species point")
+    out = [_aubert_scientific_row(row) for row in rows]
+    return sorted(out, key=_aubert_row_key)
 
 def canonical_stable_json_sha256(
     network: str,

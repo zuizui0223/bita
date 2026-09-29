@@ -47,7 +47,7 @@ def _run_bundle(tmp_path):
         confirmatory_freeze_json=fixture / "confirmatory_freeze.json",
         field_readiness_json=fixture / "field_readiness_receipt.json",
         sakhalkar_points=_synthetic_sakhalkar(),
-        aubert_rows=_synthetic_aubert(),
+        aubert_points=_synthetic_aubert(),
         output_dir=output,
         repository_commit="TEST-COMMIT",
         existing_network_input_mode="TEST_SYNTHETIC_EXISTING_NETWORKS",

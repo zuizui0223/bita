@@ -70,7 +70,7 @@ def aggregate_aubert_by_plant(
                 "robbery_rate": _mean(
                     [float(row["robbery_rate"]) for row in plant_rows]
                 ),
-                "pair_site_n": float(len(plant_rows)),
+                "pair_site_n": len(plant_rows),
             }
         )
     return out
@@ -192,6 +192,15 @@ def build_public_inputs() -> tuple[
         missing_as_no=True,
     )
     return sakh, aubert_rows, audit
+
+
+def build_existing_network_species_inputs() -> tuple[
+    list[dict[str, float | str]],
+    list[dict[str, float]],
+]:
+    """Rebuild the two existing public networks at their production inferential grain."""
+    sakh, aubert_rows, _audit = build_public_inputs()
+    return sakh, aggregate_aubert_by_plant(aubert_rows)
 
 
 def run(

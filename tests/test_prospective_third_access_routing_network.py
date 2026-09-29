@@ -51,17 +51,16 @@ def _sakhalkar_points() -> list[dict[str, float]]:
 
 def _aubert_rows() -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []
-    for site in ("A", "B"):
-        for i in range(30):
-            mismatch = (i - 14.5) / 10.0
-            robbery = 1.0 / (1.0 + math.exp(-mismatch))
-            rows.append(
-                {
-                    "site": site,
-                    "mismatch_log_t_over_b": mismatch,
-                    "robbery_rate": robbery,
-                }
-            )
+    for i in range(60):
+        mismatch = (i - 29.5) / 10.0
+        robbery = 1.0 / (1.0 + math.exp(-mismatch))
+        rows.append(
+            {
+                "mismatch": mismatch,
+                "robbery_rate": robbery,
+                "pair_site_n": 2,
+            }
+        )
     return rows
 
 
@@ -135,7 +134,7 @@ def test_k3_joint_uses_equal_network_fisher_z_and_no_raw_pooling() -> None:
     expected = combine_rhos_equal_network(
         [
             effects["sakhalkar_insects"],
-            effects["aubert_ephi_birds"],
+            effects["aubert_ephi_birds_plant_species"],
             effects["prospective_mammals"],
         ]
     )

@@ -20,30 +20,9 @@ def _sakh():
 
 def _aubert():
     return [
-        {
-            "site": "alpha",
-            "bird_group": "hummingbird",
-            "n_interactions": 3,
-            "robbery_rate": 1 / 3,
-            "mismatch_log_t_over_b": 0.2,
-            "trait_barrier": True,
-        },
-        {
-            "site": "beta",
-            "bird_group": "flowerpiercer",
-            "n_interactions": 2,
-            "robbery_rate": 0.0,
-            "mismatch_log_t_over_b": -0.3,
-            "trait_barrier": False,
-        },
-        {
-            "site": "alpha",
-            "bird_group": "flowerpiercer",
-            "n_interactions": 5,
-            "robbery_rate": 0.4,
-            "mismatch_log_t_over_b": -0.1,
-            "trait_barrier": False,
-        },
+        {"mismatch": 0.2, "robbery_rate": 1 / 3, "pair_site_n": 3},
+        {"mismatch": -0.3, "robbery_rate": 0.0, "pair_site_n": 2},
+        {"mismatch": -0.1, "robbery_rate": 0.4, "pair_site_n": 5},
     ]
 
 
@@ -53,19 +32,13 @@ def test_sakhalkar_zero_tube_length_is_retained_not_rejected() -> None:
     assert rows[0]["tube_length"] == 0.0
 
 
-def test_aubert_digest_is_invariant_to_row_order_and_arbitrary_site_labels() -> None:
+def test_aubert_digest_is_invariant_to_row_order() -> None:
     rows = _aubert()
     first = canonical_stable_json_sha256("aubert_ephi", rows)
-
-    relabelled = []
-    for row in reversed(rows):
-        changed = copy.deepcopy(row)
-        changed["site"] = {"alpha": "ZZZ", "beta": "AAA"}[row["site"]]
-        relabelled.append(changed)
-
-    second = canonical_stable_json_sha256("aubert_ephi", relabelled)
+    reordered = list(reversed(copy.deepcopy(rows)))
+    second = canonical_stable_json_sha256("aubert_ephi", reordered)
     assert first == second
-    assert canonicalize_aubert(rows) == canonicalize_aubert(relabelled)
+    assert canonicalize_aubert(rows) == canonicalize_aubert(reordered)
 
 
 def test_fingerprint_is_content_sensitive_not_label_sensitive() -> None:
@@ -86,6 +59,6 @@ def test_canonicalizers_reject_inconsistent_derived_fields() -> None:
         canonicalize_sakhalkar(bad)
 
     bad_aubert = _aubert()
-    bad_aubert[0]["trait_barrier"] = False
-    with pytest.raises(ValueError, match="trait_barrier is inconsistent"):
+    bad_aubert[0]["pair_site_n"] = 0
+    with pytest.raises(ValueError, match="pair_site_n must be positive"):
         canonicalize_aubert(bad_aubert)
