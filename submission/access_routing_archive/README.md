@@ -8,6 +8,7 @@ The build workflow generates an `artifacts/letter/data_archive/` directory conta
 
 - `sakhalkar_species_analysis.csv` — 57 anonymous plant-species analysis units used for the insect routing and multitrait analyses;
 - `aubert_ephi_pair_site_analysis.csv` — 2,265 anonymous bird × plant × site aggregation units under the metadata-informed missing-as-no rule, with anonymized plant- and bird-species cluster IDs; these reproduce both the 259-plant primary inference and the paired/continuous within-bird behavioral sensitivities;
+- `aubert_ephi_participation_analysis.csv` — 19,909 anonymous zero-inclusive clean-waypoint × locally available bird opportunities used by the frozen two-way participation model; waypoint and bird fixed-effect IDs plus plant-cluster IDs preserve the rate-ratio and delete-one-plant jackknife analysis;
 - `metadata.csv` — file/column descriptions and units;
 - `archive_manifest.json` — source DOIs, row counts and identifier policy;
 - `archive_reproduction.json` — statistics regenerated using only the archived analysis tables;
@@ -66,7 +67,7 @@ PYTHONPATH=code python code/scripts/reproduce_access_routing_archive.py \
 
 This command uses only the deposited analysis tables and deposited code; it does not redownload the source datasets.
 
-The workflow verifies that the regenerated headline values agree with the committed frozen results.
+The workflow verifies that the regenerated routing, joint-network and participation headline values agree with the committed frozen results, including the first-open participation rate ratio and plant-cluster confidence intervals.
 
 ## Deposit-ready package
 
