@@ -1,0 +1,119 @@
+name: Open Aubert participation-rate effect once
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/open-aubert-participation-route-effect.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  first-open:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and tests
+        run: python -m pip install -e '.[dev]'
+
+      - name: Verify frozen pre-effect contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          freeze_path = Path(
+              "empirical/floral_defence_selectivity/"
+              "PARTICIPATION_ROUTE_DENOMINATOR_FREEZE_V1.json"
+          )
+          freeze = json.loads(freeze_path.read_text())
+          assert freeze["status"] == "FROZEN_BEFORE_MISMATCH_PARTICIPATION_EFFECT"
+          assert freeze["participation_effect_opened"] is False
+          assert freeze["denominator_audit_commit"] == "63e97b3f8f1a0167db0c34a71f9b602619a3ac34"
+          assert freeze["participation_effect_opened"] is False
+          assert freeze["equivalence_margin_rate_ratio"] == [0.8, 1.25]
+
+          script = Path("scripts/analyze_aubert2026_participation_route_decomposition.py").read_text()
+          assert 'EQ_LOW = 0.80' in script
+          assert 'EQ_HIGH = 1.25' in script
+          assert 'delete-one-plant-species jackknife' in script
+          print("frozen pre-effect contract verified")
+          PY
+
+      - name: Run frozen synthetic acceptance tests
+        run: pytest -q tests/test_aubert2026_participation_route_decomposition.py
+
+      - name: Open real participation effect exactly once
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/participation_first_open
+          python -m scripts.analyze_aubert2026_participation_route_decomposition             artifacts/participation_first_open/aubert2026_participation_route_first_open.json             | tee artifacts/participation_first_open/run.log
+
+      - name: Freeze first-open provenance receipt
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path("artifacts/participation_first_open")
+          result_path = root / "aubert2026_participation_route_first_open.json"
+          result = json.loads(result_path.read_text())
+
+          def sha256(path):
+              h = hashlib.sha256()
+              with open(path, "rb") as handle:
+                  for chunk in iter(lambda: handle.read(1024*1024), b""):
+                      h.update(chunk)
+              return h.hexdigest()
+
+          receipt = {
+              "schema": "BITA_AUBERT_PARTICIPATION_FIRST_OPEN_RECEIPT_V1",
+              "status": "FIRST_REAL_EFFECT_OPENED_RETAIN_REGARDLESS_OF_SIGN",
+              "git_head": os.environ["GITHUB_SHA"],
+              "frozen_main_commit": "bd449a7aeff4bd019238f01f48e1633012d49a3d",
+              "denominator_audit_commit": "63e97b3f8f1a0167db0c34a71f9b602619a3ac34",
+              "prereg_sha256": sha256(
+                  "empirical/floral_defence_selectivity/"
+                  "PARTICIPATION_ROUTE_DECOMPOSITION_PREREG_V1.md"
+              ),
+              "freeze_sha256": sha256(
+                  "empirical/floral_defence_selectivity/"
+                  "PARTICIPATION_ROUTE_DENOMINATOR_FREEZE_V1.json"
+              ),
+              "analysis_script_sha256": sha256(
+                  "scripts/analyze_aubert2026_participation_route_decomposition.py"
+              ),
+              "result_sha256": sha256(result_path),
+              "analysis_status": result.get("status"),
+              "decision": result.get("decision"),
+              "guardrail": (
+                  "This is the first real-data effect opening under the frozen denominator, "
+                  "model, uncertainty and equivalence rules. Retain this result regardless of sign."
+              ),
+          }
+          (root / "FIRST_OPEN_RECEIPT.json").write_text(
+              json.dumps(receipt, indent=2, sort_keys=True) + "\n"
+          )
+
+          print(json.dumps({
+              "status": result.get("status"),
+              "audit": result.get("audit"),
+              "decision": result.get("decision"),
+              "sensitivities": result.get("sensitivities"),
+          }, indent=2, sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aubert-participation-route-first-open
+          path: artifacts/participation_first_open
+          if-no-files-found: error
