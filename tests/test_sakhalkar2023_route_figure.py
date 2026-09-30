@@ -78,7 +78,13 @@ def test_figure4_svg_contains_points_and_frozen_stats_without_species_ids() -> N
             },
         },
     }
-    svg = build_svg(points, result, aubert)
+    participation = {
+        "decision": {
+            "rate_ratio": 1.7717,
+            "ci95_rate_ratio": [1.1050, 2.8405],
+        }
+    }
+    svg = build_svg(points, result, aubert, participation)
 
     assert svg.count("<circle") >= 3
     assert "n = 3 species" in svg
@@ -87,8 +93,10 @@ def test_figure4_svg_contains_points_and_frozen_stats_without_species_ids() -> N
     assert "robber-only median = 8.000" in svg
     assert "thief-only median = 2.000" in svg
     assert "Aubert / EPHI" in svg
-    assert "descriptive pair-site robbery: barrier 0.147 vs accessible 0.020" in svg
-    assert "18 / 18 sites" in svg
+    assert "total exploitation RR = 1.77" in svg
+    assert "95% CI 1.10–2.84" in svg
+    assert "route composition: barrier robbery 0.147 vs accessible 0.020" in svg
+    assert "18 / 18 sites positive" in svg
     assert "plant-level mismatch rho = 0.503" in svg
     assert "bird paired barrier: 36 species" in svg
     assert "within-bird continuous: 28 species / 1,285 dyads" in svg
