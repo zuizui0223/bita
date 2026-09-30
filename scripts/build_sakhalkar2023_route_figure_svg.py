@@ -28,6 +28,7 @@ DEFAULT_OUTPUT = (
     / "FIGURE_4_TWO_NETWORK_ACCESS_ROUTING.svg"
 )
 AUBERT_RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "aubert2026_missingness_dependence_sensitivity.json"
+PARTICIPATION_RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "aubert2026_participation_route_decomposition_first_open.json"
 
 
 def _text(
@@ -70,11 +71,12 @@ def build_svg(
     points: list[dict[str, float | str]],
     result: dict[str, object],
     aubert: dict[str, object] | None = None,
+    participation: dict[str, object] | None = None,
 ) -> str:
     if not points:
         raise ValueError("cannot build Figure 4 without species-level route points")
 
-    width, height = 1840, 1040
+    width, height = 1840, 1100
     plot_x0, plot_x1 = 120, 1050
     plot_y0, plot_y1 = 155, 680
     tubes = [float(point["tube_length"]) for point in points]
@@ -96,7 +98,7 @@ def build_svg(
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
         '<rect width="100%" height="100%" fill="white"/>',
-        _text(920, 42, "Figure 4. Access geometry predicts exploitation route in two independent networks", size=28, anchor="middle", weight="bold"),
+        _text(920, 42, "Figure 4. Access geometry predicts route and total exploitation", size=28, anchor="middle", weight="bold"),
         _text(920, 76, "Afrotropical insect cheating modes + Ecuadorian bird–flower access barriers", size=17, anchor="middle"),
         _text(120, 120, "A  Sakhalkar 2023 — plant-level robbing versus thieving", size=20, weight="bold"),
         f'<rect x="{plot_x0}" y="{plot_y0}" width="{plot_x1-plot_x0}" height="{plot_y1-plot_y0}" fill="#fafafa" stroke="#222" stroke-width="2"/>',
@@ -182,15 +184,30 @@ def build_svg(
             _text(1090, 332, "B  Aubert / EPHI — aggregate unavailable", size=20, weight="bold"),
         ])
 
+    if participation is not None:
+        decision = participation["decision"]
+        audit = participation["audit"]
+        ci95 = decision["ci95_rate_ratio"]
+        parts.extend([
+            '<rect x="1090" y="700" width="700" height="220" rx="14" fill="#f7f7f7" stroke="#444" stroke-width="2"/>',
+            _text(1115, 735, "C  Ecuador participation: total exploitation", size=19, weight="bold"),
+            _text(1115, 772, f'{int(audit["trait_matched_opportunity_edges"]):,} zero-inclusive bird × waypoint opportunities', size=14),
+            _text(1115, 804, f'{int(audit["primary_positive_edges"]):,} positive + {int(audit["primary_zero_edges"]):,} zero edges', size=14),
+            _text(1115, 844, f'barrier/access rate ratio = {float(decision["rate_ratio"]):.2f}', size=18, weight="bold"),
+            _text(1115, 878, f'95% plant-jackknife CI {float(ci95[0]):.2f}–{float(ci95[1]):.2f}', size=15, weight="bold"),
+            _text(1115, 906, "pre-frozen class: participation increase + routing", size=14, weight="bold"),
+        ])
+    else:
+        parts.extend([
+            '<rect x="1090" y="700" width="700" height="180" rx="14" fill="#f7f7f7" stroke="#444" stroke-width="2"/>',
+            _text(1115, 735, "C  Ecuador participation result unavailable", size=19, weight="bold"),
+        ])
+
     parts.extend([
-        '<rect x="1090" y="700" width="700" height="180" rx="14" fill="#f7f7f7" stroke="#444" stroke-width="2"/>',
-        _text(1115, 735, "Cross-network ecological readout", size=19, weight="bold"),
-        _text(1115, 775, "Insects: increasing access constraint shifts cheating toward bypass/robbing.", size=15),
-        _text(1115, 810, "Birds: plant-level and within-bird comparisons both recover rerouting.", size=15),
-        _text(1115, 850, "Consumer-grain behavior survives after bird-specific baselines are removed.", size=15, weight="bold"),
-        _text(120, 908, "Sakhalkar: significant univariate association; correlated morphology prevents a unique tube-length claim.", size=12, fill="#555"),
-        _text(120, 934, "Aubert/EPHI: observational all-site extension; missing piercing is recoded as legitimate/no from source metadata.", size=12, fill="#555"),
-        _text(120, 960, "No raw species identifiers or individual interaction rows are emitted in the figure.", size=12),
+        _text(120, 970, "Sakhalkar: significant univariate association; correlated morphology prevents a unique tube-length claim.", size=12, fill="#555"),
+        _text(120, 996, "Aubert/EPHI: observational all-site extension; participation model controls waypoint and bird main effects.", size=12, fill="#555"),
+        _text(120, 1022, "Total-exploitation amplification is an Ecuador-specific observational result; cross-fauna inference concerns routing.", size=12),
+        _text(120, 1048, "No raw species identifiers or individual interaction rows are emitted in the figure.", size=12),
         "</svg>",
     ])
     return "\n".join(parts) + "\n"
@@ -202,7 +219,12 @@ def build_from_public_data() -> str:
     points = species_route_points(visits, traits)
     result = analyze_workbook(workbook, permutations=9999)
     aubert = json.loads(AUBERT_RESULT.read_text(encoding="utf-8")) if AUBERT_RESULT.exists() else None
-    return build_svg(points, result, aubert)
+    participation = (
+        json.loads(PARTICIPATION_RESULT.read_text(encoding="utf-8"))
+        if PARTICIPATION_RESULT.exists()
+        else None
+    )
+    return build_svg(points, result, aubert, participation)
 
 
 def main(argv: list[str] | None = None) -> int:
