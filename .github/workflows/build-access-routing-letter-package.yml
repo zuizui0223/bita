@@ -122,8 +122,8 @@ jobs:
           path = Path("artifacts/letter/FIGURE_2_TWO_NETWORK_ACCESS_ROUTING.svg")
           text = path.read_text(encoding="utf-8")
           text = text.replace(
-              "Figure 4. Access geometry predicts exploitation route in two independent networks",
-              "Figure 2. Access geometry predicts exploitation route in two independent networks",
+              "Figure 4. Access geometry predicts route and total exploitation",
+              "Figure 2. Access geometry predicts route and total exploitation",
           )
           path.write_text(text, encoding="utf-8")
           PY
