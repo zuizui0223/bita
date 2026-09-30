@@ -132,3 +132,21 @@ def test_letter_separates_case_directional_recurrence_from_standardized_k() -> N
     assert "11 plant and seven bird species" in text
     assert "directional corroboration rather than a third standardized network contribution" in text
     assert "standardized replication count remain \\(k=2\\)" in text
+
+
+def test_letter_reports_participation_amplification_separately_from_routing() -> None:
+    text = LETTER.read_text(encoding="utf-8")
+    assert "19,909 zero-inclusive bird × waypoint opportunities" in text
+    assert "rate ratio=1.77" in text
+    assert "95% CI 1.11–2.84" in text
+    assert "participation increase plus routing" in text.lower()
+    assert "amplification plus rerouting" in text.lower()
+    assert "does not show that barriers causally increase visitation" in text
+    assert "Amplification is not claimed for the insect network" in text or "the insect dataset tests route composition, not total participation" in text
+
+
+@pytest.mark.prose_contract
+def test_letter_does_not_generalize_ecuador_participation_amplification() -> None:
+    text = LETTER.read_text(encoding="utf-8").lower()
+    assert "amplification result is specific to the ecuadorian observational analysis" in text
+    assert "whether that intensity effect generalizes remains open" in text
