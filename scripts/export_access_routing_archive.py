@@ -23,6 +23,9 @@ from scripts.analyze_aubert2026_zenodo_extension import (
     _download as _download_aubert,
     _read as _read_aubert,
 )
+from scripts.analyze_aubert2026_participation_route_decomposition import (
+    build_opportunity_edges,
+)
 from scripts.analyze_sakhalkar2023_network import _find_workbook
 from scripts.analyze_sakhalkar2023_trait_routing import build_species_trait_rows
 from scripts.audit_sakhalkar2023_zenodo import (
@@ -101,11 +104,57 @@ def _aubert_rows() -> list[dict[str, object]]:
         })
     return out
 
+def _aubert_participation_rows() -> list[dict[str, object]]:
+    tables = {
+        key: _read_aubert(_download_aubert(name))
+        for key, name in AUBERT_FILES.items()
+    }
+    edges, _audit = build_opportunity_edges(
+        tables["interactions"],
+        tables["cameras"],
+        tables["plants"],
+        tables["birds"],
+    )
+
+    site_map = {
+        value: f"site_{index:02d}"
+        for index, value in enumerate(sorted({edge.site for edge in edges}), start=1)
+    }
+    plant_map = {
+        value: f"plant_{index:03d}"
+        for index, value in enumerate(sorted({edge.plant for edge in edges}), start=1)
+    }
+    bird_map = {
+        value: f"bird_{index:03d}"
+        for index, value in enumerate(sorted({edge.bird for edge in edges}), start=1)
+    }
+    waypoint_map = {
+        value: f"waypoint_{index:05d}"
+        for index, value in enumerate(sorted({edge.waypoint for edge in edges}), start=1)
+    }
+
+    out: list[dict[str, object]] = []
+    for edge in edges:
+        out.append({
+            "waypoint_unit": waypoint_map[edge.waypoint],
+            "site_id": site_map[edge.site],
+            "plant_unit": plant_map[edge.plant],
+            "bird_unit": bird_map[edge.bird],
+            "trait_barrier": "true" if edge.barrier else "false",
+            "mismatch_log_t_over_b": edge.mismatch,
+            "primary_count": edge.primary_count,
+            "strict_count": edge.strict_count,
+            "broad_count": edge.broad_count,
+        })
+    return out
+
+
 def export_archive(output_dir: Path) -> dict[str, object]:
     output_dir.mkdir(parents=True, exist_ok=True)
 
     sakh = _sakhalkar_rows()
     aubert = _aubert_rows()
+    participation = _aubert_participation_rows()
 
     _write_csv(
         output_dir / "sakhalkar_species_analysis.csv",
@@ -132,6 +181,21 @@ def export_archive(output_dir: Path) -> dict[str, object]:
             "robbery_rate",
             "mismatch_log_t_over_b",
             "trait_barrier",
+        ],
+    )
+    _write_csv(
+        output_dir / "aubert_ephi_participation_analysis.csv",
+        participation,
+        [
+            "waypoint_unit",
+            "site_id",
+            "plant_unit",
+            "bird_unit",
+            "trait_barrier",
+            "mismatch_log_t_over_b",
+            "primary_count",
+            "strict_count",
+            "broad_count",
         ],
     )
 
@@ -226,6 +290,54 @@ def export_archive(output_dir: Path) -> dict[str, object]:
             "description": "True when flower tube length exceeds bird bill length.",
             "unit": "boolean",
         },
+        {
+            "file": "aubert_ephi_participation_analysis.csv",
+            "column": "waypoint_unit",
+            "description": "Anonymous clean-camera waypoint fixed-effect identifier.",
+            "unit": "identifier",
+        },
+        {
+            "file": "aubert_ephi_participation_analysis.csv",
+            "column": "plant_unit",
+            "description": "Anonymous plant-species cluster used for delete-one-plant jackknife.",
+            "unit": "identifier",
+        },
+        {
+            "file": "aubert_ephi_participation_analysis.csv",
+            "column": "bird_unit",
+            "description": "Anonymous bird-species fixed-effect identifier.",
+            "unit": "identifier",
+        },
+        {
+            "file": "aubert_ephi_participation_analysis.csv",
+            "column": "trait_barrier",
+            "description": "True when flower tube length exceeds bird culmen.",
+            "unit": "boolean",
+        },
+        {
+            "file": "aubert_ephi_participation_analysis.csv",
+            "column": "mismatch_log_t_over_b",
+            "description": "log(flower tube length cm / mean bird culmen length cm).",
+            "unit": "log ratio",
+        },
+        {
+            "file": "aubert_ephi_participation_analysis.csv",
+            "column": "primary_count",
+            "description": "Route-resolved feeding interaction count under the frozen primary participation policy.",
+            "unit": "count",
+        },
+        {
+            "file": "aubert_ephi_participation_analysis.csv",
+            "column": "strict_count",
+            "description": "Sensitivity count requiring explicit feeding-activity state.",
+            "unit": "count",
+        },
+        {
+            "file": "aubert_ephi_participation_analysis.csv",
+            "column": "broad_count",
+            "description": "Sensitivity count including broader feeding route states except no-feeding/not-interacting.",
+            "unit": "count",
+        },
     ]
     _write_csv(
         output_dir / "metadata.csv",
@@ -234,7 +346,7 @@ def export_archive(output_dir: Path) -> dict[str, object]:
     )
 
     manifest = {
-        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V2",
+        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V3",
         "source_data": {
             "sakhalkar_2023_zenodo_doi": SAKHALKAR_DOI,
             "aubert_ephi_zenodo_mirror_doi": AUBERT_EPHI_DOI,
@@ -242,6 +354,7 @@ def export_archive(output_dir: Path) -> dict[str, object]:
         "analysis_tables": {
             "sakhalkar_species_analysis.csv": len(sakh),
             "aubert_ephi_pair_site_analysis.csv": len(aubert),
+            "aubert_ephi_participation_analysis.csv": len(participation),
         },
         "identifier_policy": (
             "Analysis-unit identifiers are anonymous. EPHI site, plant-species and bird-species "
