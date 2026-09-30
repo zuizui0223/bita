@@ -79,6 +79,13 @@ label-swap p = 0.0001
 within-bird centered-rank rho = 0.3398
 within-bird permutation p = 0.0001
 
+zero-inclusive participation layer:
+19,909 trait-matched waypoint×bird opportunities
+6,519 positive / 13,390 zero edges
+barrier/access total exploitation RR = 1.7717
+95% CI = 1.105–2.841
+classification = participation increase + routing
+
 descriptive pair-site scale:
 n = 2,265
 barrier robbery = 0.147
@@ -96,7 +103,7 @@ site-stratified permutation p = 0.0001
 
 Main message:
 
-> the same access-routing direction appears under different fauna, response definitions and inferential grains.
+> the routing direction recurs across faunas, while the Ecuadorian barrier state is also associated with greater total exploitation rather than filtering alone.
 
 ---
 
