@@ -117,11 +117,14 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
     for token in (
         "sakhalkar_species_analysis.csv",
         "aubert_ephi_pair_site_analysis.csv",
+        "aubert_ephi_participation_opportunities.csv",
         "metadata.csv",
         "archive_manifest.json",
         "archive_reproduction.json",
         "scripts/export_access_routing_archive.py",
         "scripts/reproduce_access_routing_archive.py",
+        "scripts/analyze_aubert2026_participation_route_decomposition.py",
+        "scripts/audit_aubert2026_participation_denominator.py",
         "10.5281/zenodo.8398202",
         "10.5281/zenodo.14185547",
     ):
@@ -176,3 +179,34 @@ def test_cover_letter_matches_current_evidence_hierarchy() -> None:
     assert "four opposite" in lower
     assert "two mixed" in lower
     assert "success-rate or prevalence argument" in lower
+    assert "1.77-fold higher total route-resolved exploitation" in lower
+    assert "more exploitation and more bypass use" in lower
+
+
+def test_participation_first_open_result_is_submission_source() -> None:
+    import json
+
+    result_path = (
+        ROOT
+        / "empirical"
+        / "floral_defence_selectivity"
+        / "results"
+        / "aubert2026_participation_route_decomposition_first_open.json"
+    )
+    receipt_path = (
+        ROOT
+        / "empirical"
+        / "floral_defence_selectivity"
+        / "results"
+        / "AUBERT2026_PARTICIPATION_FIRST_OPEN_RECEIPT_V1.json"
+    )
+    result = json.loads(result_path.read_text(encoding="utf-8"))
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+
+    assert receipt["status"] == "FIRST_REAL_EFFECT_OPENED_RETAIN_REGARDLESS_OF_SIGN"
+    assert result["decision"]["classification"] == "PARTICIPATION_INCREASE_PLUS_ROUTING"
+    assert result["decision"]["rate_ratio"] == 1.7717025981047398
+    assert result["decision"]["ci95_rate_ratio"] == [
+        1.1050441908815296,
+        2.8405471220359604,
+    ]

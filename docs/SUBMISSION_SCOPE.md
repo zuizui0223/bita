@@ -43,6 +43,7 @@ See `theory/RELATIVE_ROUTE_COST_BOUNDARY_V1.md`.
 ~~~text
 ESTABLISHED_OBSERVATIONAL:
   legitimate-route constraint covaries with bypass in two independent networks
+  Ecuador barrier mismatch also covaries with increased total exploitation
 
 ESTABLISHED_RELATIONAL:
   the Ecuadorian routing signal persists within bird species
@@ -52,6 +53,7 @@ SUPPORTED_MECHANISTIC_INTERPRETATION:
 
 PROSPECTIVE_GENERAL_PRINCIPLE:
   route choice across other ecological systems is governed by relative route cost
+  participation amplification generalizes beyond Ecuador
 ~~~
 
 The Letter may move up this ladder only to the level directly licensed by the
@@ -111,6 +113,28 @@ between-bird mean diagnostic:
 ```
 
 This is an observational all-Ecuador extension, not an exact replication of the source three-transect GLMM. Plant-species inference remains primary for the cross-network statistic, while the within-bird paired and continuous analyses directly recover the behavioral routing direction. The null correlation among bird-species means is retained as a distinct between-species estimand, not interpreted as failure of within-bird rerouting.
+
+### Zero-inclusive participation layer — Ecuador only
+
+A separate denominator/model/equivalence contract was frozen before its mismatch-participation effect was opened.
+
+~~~text
+clean waypoints = 5,254
+trait-matched opportunity edges = 19,909
+positive edges = 6,519
+zero edges = 13,390
+
+barrier/access total exploitation RR = 1.7717
+95% CI = 1.1050–2.8405
+90% CI = 1.1922–2.6329
+
+frozen classification = PARTICIPATION_INCREASE_PLUS_ROUTING
+strict-feeding sensitivity RR = 1.7149
+broad-feeding sensitivity RR = 1.7717
+material enhancement >25% = NOT ESTABLISHED
+~~~
+
+This rules out the specific interpretation that the Ecuador robbery pattern is merely a robbery-enriched residual left after overall interaction suppression. It does **not** establish causal amplification by floral geometry. This participation result is currently Ecuador-only and is not included in the cross-network (k=2) routing statistic.
 
 ## 3. Independent corroboration — Sakhalkar insects
 
