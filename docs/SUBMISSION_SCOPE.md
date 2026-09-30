@@ -8,7 +8,7 @@ Primary manuscript:
 
 ## Canonical question
 
-> **When legitimate access becomes more constrained, does exploitation simply decline, or does it reroute toward bypass?**
+> **When legitimate access becomes more constrained, how do interaction intensity and route composition change?**
 
 ## 1. Primary prediction
 
@@ -111,6 +111,36 @@ between-bird mean diagnostic:
 ```
 
 This is an observational all-Ecuador extension, not an exact replication of the source three-transect GLMM. Plant-species inference remains primary for the cross-network statistic, while the within-bird paired and continuous analyses directly recover the behavioral routing direction. The null correlation among bird-species means is retained as a distinct between-species estimand, not interpreted as failure of within-bird rerouting.
+
+### 2.1 Zero-inclusive participation layer
+
+The participation effect was opened only after the clean-camera denominator and
+two-way fixed-effect model were frozen.
+
+~~~text
+trait-matched waypoint x local-bird opportunities = 19,909
+clean waypoints = 5,254
+primary positive edges = 6,519
+primary zero edges = 13,390
+
+model:
+  log(mu) = waypoint FE + bird-species FE + beta * barrier
+  barrier/access total-exploitation RR = 1.7717
+  plant-cluster 95% CI = 1.1050–2.8405
+  90% CI = 1.1922–2.6329
+  frozen equivalence margin = 0.80–1.25
+  classification = PARTICIPATION_INCREASE_PLUS_ROUTING
+
+sensitivities:
+  strict feeding RR = 1.7149
+  broad feeding RR = 1.7717
+~~~
+
+This rejects simple filtering in the Ecuador dataset: greater robbery under the
+relational barrier state is not merely a compositional consequence of fewer total
+interactions. The result is observational and does not show that geometry caused
+the higher interaction intensity. Amplification is not claimed for the insect
+network.
 
 ## 3. Independent corroboration — Sakhalkar insects
 
@@ -353,6 +383,8 @@ pooled into one grand meta-analytic effect.
 Do not claim:
 
 - either network establishes causality;
+- the Ecuador participation rate ratio proves that floral barriers causally increase visitation;
+- amplification generalizes to the insect network or to ecological networks broadly;
 - Sakhalkar uniquely identifies tube length;
 - the two networks estimate a universal effect;
 - `k=2` demonstrates network-wide generality;
@@ -370,7 +402,9 @@ Required archive contents:
 ~~~text
 57-row anonymous Sakhalkar species analysis table
 2,265-row anonymous Aubert/EPHI pair-site table with plant/bird cluster IDs
-259-plant-species primary inference reproducible from those anonymous clusters
+19,909-row anonymous Aubert/EPHI participation table with waypoint/plant/bird IDs
+259-plant-species routing inference reproducible from anonymous clusters
+participation RR and plant-cluster jackknife CI reproducible from the participation table
 column metadata
 exact reproduction code
 frozen aggregate outputs
@@ -414,6 +448,8 @@ PRIMARY_DATASET = AUBERT_EPHI_ALL_ECUADOR
 INDEPENDENT_CORROBORATION = SAKHALKAR_INSECTS
 JOINT_NETWORK_K = 2
 EXTENDED_SYNTHESIS = PRESERVED_RESERVE
+PARTICIPATION_RESULT = RR_1.7717_CI95_1.1050_2.8405
+PARTICIPATION_CLASS = PARTICIPATION_INCREASE_PLUS_ROUTING
 REPRODUCIBLE_ANALYSES = READY
 LETTER_PACKAGE = READY
 DATA_CODE_ARCHIVE = STAGING_READY_RESERVED_DOI_THEN_FINAL_BUILD
