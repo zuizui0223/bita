@@ -1,0 +1,24 @@
+{
+  "schema": "BITA_AUBERT_PARTICIPATION_FIRST_OPEN_RECEIPT_V1",
+  "status": "FIRST_REAL_EFFECT_OPENED_AND_RETAINED",
+  "freeze_commit": "0258577f9cd4556dc45df6c9ac37342da093d4c4",
+  "workflow_run_id": 36668954274,
+  "workflow_head_sha": "cb6e7b0e1075fd30344a250e253c1e32e181b6ab",
+  "artifact_id": 11077194293,
+  "artifact_digest": "sha256:da8b38d0f43acf399ad47c989fa18450ac0fb47776623a87db474cd20c57af14",
+  "result_class": "PARTICIPATION_INCREASE_PLUS_ROUTING",
+  "primary_rate_ratio": 1.7717025981047398,
+  "primary_ci95": [
+    1.1050441908815296,
+    2.8405471220359604
+  ],
+  "primary_ci90": [
+    1.192183703242776,
+    2.632924848404738
+  ],
+  "sensitivity_rate_ratios": {
+    "strict_feeding": 1.7149095800301755,
+    "broad_feeding": 1.7716648514423483
+  },
+  "guardrail": "This is the first real-data effect opened after the denominator/model freeze. Retain regardless of sign; do not redefine the zero set, model, equivalence margin, or outcome classes in response to this result."
+}
