@@ -1,4 +1,4 @@
-name: Validate participation-route pre-effect freeze
+name: Validate participation-route freeze lifecycle
 
 on:
   pull_request:
@@ -30,30 +30,44 @@ jobs:
       - name: Run synthetic model and jackknife acceptance tests
         run: pytest -q tests/test_aubert2026_participation_route_decomposition.py
 
-      - name: Verify effect remains unopened
+      - name: Verify frozen lifecycle state
         run: |
           python - <<'PY'
+          import hashlib
           import json
           from pathlib import Path
 
-          freeze = json.loads(
-              Path(
-                  "empirical/floral_defence_selectivity/"
-                  "PARTICIPATION_ROUTE_DENOMINATOR_FREEZE_V1.json"
-              ).read_text()
-          )
-          assert freeze["status"] == "FROZEN_BEFORE_MISMATCH_PARTICIPATION_EFFECT"
-          assert freeze["participation_effect_opened"] is False
+          base = Path("empirical/floral_defence_selectivity")
+          freeze_path = base / "PARTICIPATION_ROUTE_DENOMINATOR_FREEZE_V1.json"
+          result_path = base / "results" / "aubert2026_participation_route_decomposition_first_open.json"
+          receipt_path = base / "results" / "AUBERT2026_PARTICIPATION_FIRST_OPEN_RECEIPT_V1.json"
 
-          forbidden = [
-              Path("empirical/floral_defence_selectivity/results/aubert2026_participation_route_decomposition.json"),
-              Path("empirical/floral_defence_selectivity/results/aubert2026_participation_route_decomposition_first_open.json"),
-          ]
-          assert not any(path.exists() for path in forbidden)
+          freeze = json.loads(freeze_path.read_text())
 
           script = Path("scripts/analyze_aubert2026_participation_route_decomposition.py").read_text()
           assert "EQ_LOW = 0.80" in script
           assert "EQ_HIGH = 1.25" in script
           assert "delete-one-plant-species jackknife" in script
-          print("pre-effect freeze verified")
+
+          opened = freeze["participation_effect_opened"]
+          if opened is False:
+              assert freeze["status"] == "FROZEN_BEFORE_MISMATCH_PARTICIPATION_EFFECT"
+              assert not result_path.exists()
+              assert not receipt_path.exists()
+              print("pre-effect freeze verified")
+          else:
+              assert opened is True
+              assert result_path.is_file()
+              assert receipt_path.is_file()
+
+              result = json.loads(result_path.read_text())
+              receipt = json.loads(receipt_path.read_text())
+
+              digest = hashlib.sha256(result_path.read_bytes()).hexdigest()
+              assert digest == receipt["result_sha256"]
+              assert digest == freeze["first_open"]["result_sha256"]
+              assert receipt["status"] == "FIRST_REAL_EFFECT_OPENED_RETAIN_REGARDLESS_OF_SIGN"
+              assert result["decision"]["classification"] == freeze["first_open"]["classification"]
+              assert result["decision"]["rate_ratio"] == freeze["first_open"]["rate_ratio"]
+              print("post-open frozen result verified")
           PY
