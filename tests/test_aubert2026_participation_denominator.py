@@ -13,7 +13,7 @@ def _tables():
             "end_date": "2026-01-10",
             "duration_sampling_hours": "100",
             "camera_flowers_count": "2",
-            "camera_problem": "",
+            "camera_problem": "no",
         },
         {
             "waypoint": "w2",
@@ -23,7 +23,7 @@ def _tables():
             "end_date": "2026-01-10",
             "duration_sampling_hours": "120",
             "camera_flowers_count": "3",
-            "camera_problem": "",
+            "camera_problem": "no",
         },
     ]
     interactions = [
@@ -35,6 +35,7 @@ def _tables():
             "hummingbird_genus": "X",
             "hummingbird_family": "Trochilidae",
             "piercing": "no",
+            "feeding_activity": "hoverflying",
         },
         {
             "waypoint": "w2",
@@ -44,6 +45,7 @@ def _tables():
             "hummingbird_genus": "X",
             "hummingbird_family": "Trochilidae",
             "piercing": "yes",
+            "feeding_activity": "perching",
         },
         {
             "waypoint": "w2",
@@ -53,6 +55,7 @@ def _tables():
             "hummingbird_genus": "X",
             "hummingbird_family": "Trochilidae",
             "piercing": "no",
+            "feeding_activity": "hoverflying",
         },
     ]
     plants = [
@@ -98,6 +101,7 @@ def test_route_status_is_not_used_to_define_local_bird_availability() -> None:
             "hummingbird_genus": "X",
             "hummingbird_family": "Trochilidae",
             "piercing": "not_interacting",
+            "feeding_activity": "perching",
         }
     )
     birds.append({"hummingbird_species": "B4", "culmen_length": "22"})
@@ -110,3 +114,15 @@ def test_route_status_is_not_used_to_define_local_bird_availability() -> None:
     assert w["potential_dyads"] == 6
     assert w["route_eligible_positive_dyads"] == 2
     assert w["zero_dyads"] == 4
+
+
+def test_explicit_camera_problem_and_no_feeding_are_excluded() -> None:
+    interactions, cameras, plants, birds = _tables()
+    cameras[1]["camera_problem"] = "yes"
+    interactions[0]["feeding_activity"] = "no_feeding"
+    result = audit_denominator(interactions, cameras, plants, birds)
+    d = result["waypoint_candidate_denominator"]
+    assert d["eligible_waypoints"] == 1
+    assert d["potential_dyads"] == 2
+    assert d["route_eligible_positive_dyads"] == 0
+    assert d["zero_dyads"] == 2
