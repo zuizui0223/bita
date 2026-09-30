@@ -7,6 +7,7 @@ from scripts.analyze_aubert2026_participation_route_decomposition import (
     build_opportunity_edges,
     classify_participation,
     fit_two_way_poisson,
+    plant_cluster_jackknife,
 )
 
 
@@ -156,3 +157,32 @@ def test_builder_uses_clean_camera_presence_for_pool_and_excludes_no_feeding() -
     counts = {edge.bird: edge.primary_count for edge in edges}
     assert counts["B1"] == 0
     assert counts["B2"] == 1
+
+
+def test_plant_cluster_jackknife_runs_on_many_clusters() -> None:
+    edges: list[Edge] = []
+    for plant_i in range(30):
+        for bird_i in range(4):
+            waypoint = f"W{plant_i}"
+            barrier = (plant_i + bird_i) % 2
+            base = (8 + plant_i % 5) * (1 + bird_i)
+            y = max(1, int(round(base * (0.9 if barrier else 1.0))))
+            edges.append(
+                Edge(
+                    waypoint=waypoint,
+                    bird=f"B{bird_i}",
+                    plant=f"P{plant_i}",
+                    site=f"S{plant_i % 3}",
+                    barrier=barrier,
+                    mismatch=0.3 if barrier else -0.3,
+                    primary_count=y,
+                    strict_count=y,
+                    broad_count=y,
+                )
+            )
+    result = plant_cluster_jackknife(edges, count_field="primary_count")
+    assert result["plant_clusters"] == 30
+    assert result["jackknife_se_beta"] >= 0
+    assert len(result["ci95_rate_ratio"]) == 2
+    assert len(result["ci90_rate_ratio"]) == 2
+    assert result["ci95_rate_ratio"][0] <= result["fit"]["rate_ratio"] <= result["ci95_rate_ratio"][1]
