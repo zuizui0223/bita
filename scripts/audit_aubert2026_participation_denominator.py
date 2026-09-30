@@ -527,6 +527,18 @@ def audit_denominator(
     }
 
 
+def _metadata_rows_for_terms(
+    rows: list[dict[str, str]],
+    terms: tuple[str, ...],
+) -> list[dict[str, str]]:
+    out = []
+    for row in rows:
+        blob = " | ".join(str(value) for value in row.values()).lower()
+        if any(term.lower() in blob for term in terms):
+            out.append({str(key): str(value) for key, value in row.items()})
+    return out
+
+
 def run(output: str | Path) -> dict[str, object]:
     tables = {key: _read(_download(name)) for key, name in FILES.items()}
     result = audit_denominator(
@@ -534,6 +546,16 @@ def run(output: str | Path) -> dict[str, object]:
         tables["cameras"],
         tables["plants"],
         tables["birds"],
+    )
+    camera_metadata = _read(_download("Metadata EPHI cameras.csv"))
+    result["camera_metadata_matches"] = _metadata_rows_for_terms(
+        camera_metadata,
+        (
+            "duration_sampling_hours",
+            "camera_flowers_count",
+            "camera_problem",
+            "duration_from_pics",
+        ),
     )
     path = Path(output)
     path.parent.mkdir(parents=True, exist_ok=True)
