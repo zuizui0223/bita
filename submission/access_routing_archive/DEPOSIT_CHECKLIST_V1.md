@@ -50,7 +50,8 @@ Also confirm:
 - `data_archive/REPOSITORY_COMMIT.txt` equals the exact DOI-bearing submission
   commit;
 - `data_archive/FILE_SHA256SUMS.txt` covers every archived file;
-- the archive-only reproduction matches the frozen Letter results;
+- the archive-only reproduction matches the frozen routing, participation and joint Letter results;
+- `data_archive/aubert_ephi_participation_opportunities.csv` contains the frozen zero-inclusive opportunity matrix and reproduces the 1.7717 barrier/access rate ratio;
 - the ZIP contains no source species identifiers or uncited third-party raw files.
 
 ## Phase 4 — upload to the reserved Zenodo draft
