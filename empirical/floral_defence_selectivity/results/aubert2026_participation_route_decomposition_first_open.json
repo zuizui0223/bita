@@ -1,0 +1,89 @@
+{
+  "analysis_name": "aubert_ephi_participation_route_decomposition",
+  "audit": {
+    "accessible_edges": 8520,
+    "barrier_edges": 11389,
+    "bird_species": 50,
+    "broad_interaction_records": 43554,
+    "clean_waypoints": 5254,
+    "inconsistent_waypoints_excluded": 0,
+    "plant_species": 288,
+    "primary_interaction_records": 43550,
+    "primary_positive_edges": 6519,
+    "primary_zero_edges": 13390,
+    "sites": 18,
+    "strict_interaction_records": 34805,
+    "trait_matched_opportunity_edges": 19909,
+    "waypoints_with_nonempty_local_pool": 5166
+  },
+  "claim_boundary": "Observational participation analysis. Waypoint and bird fixed effects control their main effects, but the result does not establish that floral geometry causally changed visitation or evolved as defence.",
+  "decision": {
+    "ci90_rate_ratio": [
+      1.192183703242776,
+      2.632924848404738
+    ],
+    "ci95_rate_ratio": [
+      1.1050441908815296,
+      2.8405471220359604
+    ],
+    "classification": "PARTICIPATION_INCREASE_PLUS_ROUTING",
+    "equivalence_margin": [
+      0.8,
+      1.25
+    ],
+    "equivalence_supported": false,
+    "material_enhancement_supported": false,
+    "material_suppression_supported": false,
+    "participation_increase_supported": true,
+    "participation_reduction_supported": false,
+    "rate_ratio": 1.7717025981047398
+  },
+  "model": {
+    "estimand": "exp(beta) barrier/access total route-resolved exploitation rate ratio",
+    "formula": "log(mu_waypoint,bird) = alpha_waypoint + gamma_bird + beta * I[tube > culmen]",
+    "uncertainty": "delete-one-plant-species jackknife"
+  },
+  "primary_participation": {
+    "ci90_rate_ratio": [
+      1.192183703242776,
+      2.632924848404738
+    ],
+    "ci95_rate_ratio": [
+      1.1050441908815296,
+      2.8405471220359604
+    ],
+    "fit": {
+      "beta_log_rate_ratio": 0.5719410040705124,
+      "iterations": 199,
+      "max_margin_relative_error": 5.77274117397053e-10,
+      "rate_ratio": 1.7717025981047398,
+      "supported_birds": 49,
+      "supported_edges": 15862,
+      "supported_waypoints": 3770,
+      "zero_margin_birds_removed": 0,
+      "zero_margin_waypoints_removed": 0
+    },
+    "jackknife_se_beta": 0.2408447337512522,
+    "leave_one_estimate_max": 0.6595419517268437,
+    "leave_one_estimate_min": 0.4522591156830685,
+    "plant_clusters": 252
+  },
+  "sensitivities": {
+    "broad_feeding_rate_ratio": 1.7716648514423483,
+    "strict_feeding_rate_ratio": 1.7149095800301755
+  },
+  "status": "FIT",
+  "support_gate": {
+    "checks": {
+      "bird_species_ge_20": true,
+      "clean_waypoints_ge_1000": true,
+      "contains_accessible_edges": true,
+      "contains_barrier_edges": true,
+      "plant_species_clusters_ge_30": true,
+      "positive_edges_ge_3000": true,
+      "trait_matched_edges_ge_10000": true,
+      "zero_edges_ge_3000": true
+    },
+    "passes": true
+  }
+}
