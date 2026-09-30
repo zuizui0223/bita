@@ -79,8 +79,12 @@ label-swap p = 0.0001
 within-bird centered-rank rho = 0.3398
 within-bird permutation p = 0.0001
 
-descriptive pair-site scale:
-n = 2,265
+participation layer:
+zero-inclusive opportunities = 19,909
+barrier/access total-exploitation rate ratio = 1.772
+plant-cluster 95% CI = 1.105–2.841
+
+descriptive route scale:
 barrier robbery = 0.147
 accessible robbery = 0.020
 ~~~
@@ -96,7 +100,7 @@ site-stratified permutation p = 0.0001
 
 Main message:
 
-> the same access-routing direction appears under different fauna, response definitions and inferential grains.
+> access mismatch shifts route composition in both networks, and in Ecuador the relational barrier state is also associated with higher total exploitation.
 
 ---
 
