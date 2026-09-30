@@ -89,6 +89,15 @@ def _primary_route_status(value: object) -> str | None:
     return None
 
 
+def _date_in_any_interval(
+    value: date | None,
+    intervals: list[tuple[date, date]],
+) -> bool:
+    if value is None:
+        return False
+    return any(start <= value <= end for start, end in intervals)
+
+
 def audit_denominator(
     interactions: list[dict[str, str]],
     cameras: list[dict[str, str]],
@@ -196,6 +205,60 @@ def audit_denominator(
             }
         )
 
+    waypoint_camera_rows: dict[str, list[dict[str, object]]] = defaultdict(list)
+    for dep in deployments:
+        if dep["waypoint"]:
+            waypoint_camera_rows[str(dep["waypoint"])].append(dep)
+
+    waypoint_units: list[dict[str, object]] = []
+    waypoint_inconsistent_site_plant = 0
+    for waypoint, rows in waypoint_camera_rows.items():
+        site_plant = {
+            (str(row["site"]), str(row["plant"]))
+            for row in rows
+            if row["site"] and row["plant"]
+        }
+        if len(site_plant) != 1:
+            waypoint_inconsistent_site_plant += 1
+            continue
+        site, plant = next(iter(site_plant))
+        valid_rows = [
+            row
+            for row in rows
+            if row["start"] is not None
+            and row["end"] is not None
+            and row["duration"] is not None
+            and float(row["duration"]) > 0
+        ]
+        if not valid_rows:
+            continue
+        intervals = [
+            (row["start"], row["end"])
+            for row in valid_rows
+            if isinstance(row["start"], date) and isinstance(row["end"], date)
+        ]
+        total_hours = sum(float(row["duration"]) for row in valid_rows)
+        flower_hours_values = [
+            float(row["duration"]) * float(row["flowers"])
+            for row in valid_rows
+            if row["flowers"] is not None and float(row["flowers"]) > 0
+        ]
+        flower_hours_complete = len(flower_hours_values) == len(valid_rows)
+        waypoint_units.append(
+            {
+                "waypoint": waypoint,
+                "site": site,
+                "plant": plant,
+                "intervals": intervals,
+                "sampling_hours": total_hours,
+                "flower_hours": (
+                    sum(flower_hours_values) if flower_hours_complete else None
+                ),
+                "camera_rows": len(rows),
+                "valid_camera_rows": len(valid_rows),
+            }
+        )
+
     eligible_deployments = [
         d
         for d in deployments
@@ -284,6 +347,61 @@ def audit_denominator(
                 if route_rows:
                     trait_matched_positive_temporal += 1
 
+    waypoint_pool_sizes: list[int] = []
+    waypoint_opportunities = 0
+    waypoint_zero_opportunities = 0
+    waypoint_route_positive = 0
+    waypoint_trait_matched = 0
+    waypoint_trait_matched_positive = 0
+    waypoint_flower_hours_complete = 0
+    rows_per_waypoint = [float(len(rows)) for rows in waypoint_camera_rows.values()]
+
+    for unit in waypoint_units:
+        waypoint = str(unit["waypoint"])
+        site = str(unit["site"])
+        plant = str(unit["plant"])
+        intervals = list(unit["intervals"])
+        temporal_species = {
+            str(obs["species"])
+            for obs in by_site_obs.get(site, [])
+            if _date_in_any_interval(obs["date"], intervals)
+        }
+        waypoint_pool_sizes.append(len(temporal_species))
+        waypoint_opportunities += len(temporal_species)
+        if unit["flower_hours"] is not None:
+            waypoint_flower_hours_complete += 1
+
+        tube_vals = plant_values.get((site, plant)) or plant_global.get(plant)
+        tube_cm = sum(tube_vals) / len(tube_vals) if tube_vals else None
+
+        for species in temporal_species:
+            route_rows = [
+                obs
+                for obs in by_waypoint_species.get((waypoint, species), [])
+                if _date_in_any_interval(obs["date"], intervals)
+                and obs["route_status"] in {"yes", "no"}
+            ]
+            if route_rows:
+                waypoint_route_positive += 1
+            else:
+                waypoint_zero_opportunities += 1
+
+            bill_vals = bird_values.get(species)
+            bill_cm = (
+                sum(bill_vals) / len(bill_vals) / 10.0
+                if bill_vals
+                else None
+            )
+            if (
+                tube_cm is not None
+                and tube_cm > 0
+                and bill_cm is not None
+                and bill_cm > 0
+            ):
+                waypoint_trait_matched += 1
+                if route_rows:
+                    waypoint_trait_matched_positive += 1
+
     duplicate_deployment_keys = sum(
         count - 1 for count in duplicate_key_counts.values() if count > 1
     )
@@ -308,6 +426,10 @@ def audit_denominator(
             "positive_flower_count_fraction": flowers_positive / camera_n if camera_n else None,
             "camera_problem_nonblank_rows": camera_problem_nonblank,
             "duplicate_waypoint_site_plant_date_rows": duplicate_deployment_keys,
+            "unique_waypoints": len(waypoint_camera_rows),
+            "eligible_waypoint_units": len(waypoint_units),
+            "waypoint_inconsistent_site_plant": waypoint_inconsistent_site_plant,
+            "camera_rows_per_waypoint_summary": _quantiles(rows_per_waypoint),
             "duration_hours_summary": _quantiles(duration_values),
             "camera_flowers_count_summary": _quantiles(flower_values),
             "top_camera_problem_values": problem_counts.most_common(20),
@@ -348,7 +470,35 @@ def audit_denominator(
                 effort_flower_hours_available / eligible_n if eligible_n else None
             ),
         },
+        "waypoint_candidate_denominator": {
+            "primary_rule_candidate": (
+                "unique camera waypoint x target bird species observed in the same "
+                "site during any valid camera interval for that waypoint"
+            ),
+            "eligible_waypoints": len(waypoint_units),
+            "temporal_pool_size_summary": _quantiles(
+                [float(x) for x in waypoint_pool_sizes]
+            ),
+            "potential_dyads": waypoint_opportunities,
+            "route_eligible_positive_dyads": waypoint_route_positive,
+            "zero_dyads": waypoint_zero_opportunities,
+            "trait_matched_potential_dyads": waypoint_trait_matched,
+            "trait_matched_positive_dyads": waypoint_trait_matched_positive,
+            "waypoints_with_complete_flower_hours": waypoint_flower_hours_complete,
+            "flower_hours_complete_fraction": (
+                waypoint_flower_hours_complete / len(waypoint_units)
+                if waypoint_units else None
+            ),
+            "sampling_hours_offset": "sum positive duration_sampling_hours across camera rows within waypoint",
+            "flower_hours_sensitivity": "sum duration_sampling_hours * camera_flowers_count only when all valid camera rows for a waypoint have positive flower count",
+        },
         "decision_inputs": {
+            "waypoint_temporal_denominator_is_possible": (
+                len(waypoint_units) > 0
+                and waypoint_opportunities > 0
+                and waypoint_zero_opportunities > 0
+                and waypoint_trait_matched > waypoint_trait_matched_positive > 0
+            ),
             "temporal_denominator_is_possible": (
                 eligible_n > 0
                 and deployment_with_temporal_pool > 0
@@ -370,7 +520,9 @@ def audit_denominator(
         "claim_boundary": (
             "This audit constructs no mismatch-participation effect and computes no "
             "association or p-value. It exists only to decide whether a defensible "
-            "zero-inclusive participation denominator and effort offset can be frozen."
+            "zero-inclusive participation denominator and effort offset can be frozen. "
+            "The waypoint-aggregated denominator is preferred if viable because it "
+            "avoids assigning one interaction row to multiple repeated camera deployments."
         ),
     }
 
