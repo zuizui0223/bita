@@ -41,5 +41,20 @@
     "strict feeding activity only",
     "broad feeding including maybe/thief but excluding no_feeding/not_interacting"
   ],
-  "participation_effect_opened": false
+  "participation_effect_opened": true,
+  "first_open": {
+    "result": "empirical/floral_defence_selectivity/results/aubert2026_participation_route_first_open.json",
+    "receipt": "empirical/floral_defence_selectivity/results/AUBERT2026_PARTICIPATION_FIRST_OPEN_RECEIPT_V1.json",
+    "result_sha256": "5d0e48f208077aedafd251a576ca2a927adef9ac4516102570988df0944a344f",
+    "classification": "PARTICIPATION_INCREASE_PLUS_ROUTING",
+    "rate_ratio": 1.7717025981047398,
+    "ci95": [
+      1.1050441908815296,
+      2.8405471220359604
+    ],
+    "ci90": [
+      1.192183703242776,
+      2.632924848404738
+    ]
+  }
 }
