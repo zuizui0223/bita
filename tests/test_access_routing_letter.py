@@ -132,3 +132,15 @@ def test_letter_separates_case_directional_recurrence_from_standardized_k() -> N
     assert "11 plant and seven bird species" in text
     assert "directional corroboration rather than a third standardized network contribution" in text
     assert "standardized replication count remain \\(k=2\\)" in text
+
+
+@pytest.mark.prose_contract
+def test_letter_separates_ecuador_amplification_from_cross_network_routing() -> None:
+    text = LETTER.read_text(encoding="utf-8").lower()
+    assert "access barriers increase total exploitation rate in ecuador" in text
+    assert "rate ratio 1.77" in text
+    assert "95% plant-cluster jackknife ci 1.11–2.84" in text
+    assert "participation increase plus routing" in text
+    assert "amplification plus rerouting" in text
+    assert "this amplification result is specific to ecuador" in text
+    assert "cross-fauna result remains the recurrence of routing direction" in text
