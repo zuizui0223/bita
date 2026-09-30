@@ -1,275 +1,246 @@
-# Participation versus routing decomposition — preregistration v1
+# Participation-versus-routing decomposition preregistration v2
 
 ## Status
 
 ~~~text
-STATUS = PRE_EFFECT_DESIGN
-PRIMARY_DATA = EPHI_ECUADOR_PUBLIC_MIRROR
-CURRENT_LETTER_ROUTE_RESULT = FROZEN_EXISTING_RESULT
-NEW_PARTICIPATION_EFFECT = NOT_YET_OPENED
-DENOMINATOR_AUDIT = REQUIRED_BEFORE_EFFECT
+STATUS = FROZEN_BEFORE_MISMATCH_PARTICIPATION_EFFECT
+SOURCE = EPHI_ZENODO_10.5281/zenodo.14185547
+PRIMARY_QUESTION = DOES_ACCESS_BARRIER_CHANGE_TOTAL_EXPLOITATION_RATE
+ROUTING_RESULT = ALREADY_ESTABLISHED_OBSERVATIONALLY
+PARTICIPATION_EFFECT = NOT_YET_OPENED
 ~~~
-
-## 1. Question
 
 The current Letter establishes that, conditional on observed exploitation, greater
-legitimate-route mismatch is associated with greater bypass use. That does not by
-itself establish whether access constraints leave total exploitation unchanged,
-reduce it, or increase it.
+legitimate-route mismatch is associated with greater bypass use. That result alone
+cannot show whether total exploitation is preserved, reduced or increased.
 
-This analysis separates:
+This analysis freezes the missing participation layer before its mismatch effect is
+computed.
 
-~~~text
-PARTICIPATION:
-    how much target-bird floral interaction occurs per camera effort,
-    including defensible zero opportunities
+## 1. Opportunity denominator
 
-ROUTING:
-    among interactions that occur, what fraction uses bypass/robbery
-~~~
+No global bird x plant cross-product is allowed.
 
-The decomposition is observational.
-
-## 2. Opportunity denominator
-
-No global bird × plant cross-product is allowed.
-
-The primary potential opportunity is:
+The primary opportunity unit is:
 
 ~~~text
-unique camera waypoint
-×
-target bird species observed somewhere in the same site
-during at least one valid camera interval for that waypoint
+clean camera waypoint
+x
+target bird species locally available in the same site
+during a valid clean-camera interval
 ~~~
+
+### 1.1 Clean-camera gate
+
+Use only camera rows with:
+
+- nonblank waypoint, site and plant species;
+- parseable start and end dates;
+- positive finite `duration_sampling_hours`;
+- `camera_problem = no`.
+
+Source metadata define `no` as no camera problem. All other camera-problem states,
+including blank/unknown, are excluded from the primary denominator.
+
+`camera_flowers_count` is not imputed because the source metadata explicitly state
+that it is unavailable for Ecuador.
+
+### 1.2 Local bird availability
+
+A target bird is locally available for a focal waypoint when the species was
+observed at any **clean-camera waypoint** in the same site during at least one valid
+focal-waypoint interval.
+
+Availability ignores piercing outcome and feeding outcome. Thus the response cannot
+define its own zero set.
 
 Target birds are Trochilidae plus *Diglossa*, matching the Letter.
 
-Bird availability is defined from any target-bird observation at the site during
-the camera interval, regardless of piercing/route outcome. Thus route outcome is
-not used to decide whether a consumer belongs to the local opportunity pool.
+### 1.3 Trait matching
 
-Repeated camera rows for one waypoint are aggregated before interaction counts are
-formed. This prevents one interaction row from being assigned repeatedly to
-multiple camera-deployment rows.
-
-## 3. Camera-effort gate
-
-Source metadata define `duration_sampling_hours` as daylight sampling hours.
-Ecuador does not provide `camera_flowers_count`, so flower-hours cannot be the
-primary exposure denominator.
-
-Primary camera-row eligibility:
-
-1. nonblank waypoint, site and plant species;
-2. parseable start and end dates;
-3. positive finite `duration_sampling_hours`;
-4. known compromised camera states `yes`, `maybe` and `flower_problem` are
-   excluded;
-5. `no`, blank and `NA` camera-problem states are retained because no definite
-   malfunction is recorded.
-
-`duration_from_pics` is not used as a fallback because it is derived from
-interaction pictures and would make sampling effort outcome-dependent.
-
-A strict sensitivity retains only `camera_problem = no`.
-
-## 4. Interaction-count rule
-
-Consumer availability and exploitation count are different objects.
-
-Availability uses any target-bird observation.
-
-The primary exploitation count uses the Letter's missing-as-no route policy:
-
-- piercing/robbery `yes` -> robbery;
-- explicit `no` -> legitimate;
-- blank/NA/N/A missing status -> legitimate;
-- `maybe`, `thief`, `not_interacting`, and other nonbinary states -> excluded.
-
-In addition, rows explicitly coded `feeding_activity = no_feeding` are excluded
-from the participation numerator because they are definite nonfeeding observations.
-
-A Letter-aligned sensitivity omits this extra `no_feeding` exclusion. This
-sensitivity cannot replace the primary rule after effects are opened.
-
-## 5. Trait matching
-
-For each opportunity:
+Use the same trait definitions as the Letter:
 
 ~~~text
-M = log(flower_tube_cm / bird_culmen_cm)
-barrier = M > 0
+M = log(flower tube cm / bird culmen cm)
+Barrier = M > 0
 ~~~
 
-Plant tube length uses the site-specific mean when available, otherwise the species
-mean fallback already used by the Letter. Bird culmen uses the species mean divided
-by 10 to convert mm to cm.
+Plant tube length uses the site-specific mean with species-level fallback. Bird
+culmen uses the species mean in mm divided by 10.
 
-Only trait-matched potential opportunities enter effect estimation.
+Only trait-matched opportunities enter effect estimation.
 
-## 6. Aggregation before inference
+## 2. Participation response
 
-Waypoint × bird opportunities are first collapsed to:
+The primary exploitation count for each opportunity is the number of target-bird
+records at the focal waypoint during its valid clean-camera interval satisfying:
+
+- `feeding_activity != no_feeding`;
+- piercing status `yes` or `no`, with blank/NA recoded to `no` under the same
+  source-metadata rule used by the Letter;
+- distinct `maybe`, `thief` and `not_interacting` states excluded.
+
+This makes the participation numerator the total count underlying the same
+legitimate-versus-robbery route universe used by the Letter, except that explicit
+nonfeeding observations are removed from exploitation.
+
+Two point-estimate sensitivities are frozen:
+
+1. **strict feeding** — feeding activity must be explicitly `hoverflying`,
+   `perching`, or `perching,hoverflying`;
+2. **broad feeding** — count feeding records including `maybe` and `thief`, but
+   exclude explicit `no_feeding` and `not_interacting`.
+
+Sensitivities do not determine the primary conclusion class.
+
+## 3. Primary two-way fixed-effect model
+
+For waypoint (w) and locally available bird species (b),
+
+[
+Y_{wb} sim mathrm{Poisson}(mu_{wb}),
+]
+
+[
+log mu_{wb}
+=
+alpha_w + gamma_b + eta X_{wb},
+]
+
+where:
+
+- (alpha_w) is a waypoint fixed effect;
+- (gamma_b) is a bird-species fixed effect;
+- (X_{wb}=1) if tube length exceeds culmen and 0 otherwise.
+
+The waypoint effect absorbs camera effort, flower abundance, plant individual,
+plant species, site and other waypoint-level intensity differences. Because every
+bird opportunity within one waypoint shares the same camera exposure, no additional
+camera-hours offset is needed after conditioning on (alpha_w).
+
+The bird effect absorbs overall species abundance and baseline interaction
+propensity.
+
+The estimand is
+
+[
+RR_P = exp(eta),
+]
+
+the barrier/access ratio in **total route-resolved exploitation rate** after
+controlling waypoint and bird main effects.
+
+Structural opportunities outside the frozen local bird pool are absent from the
+matrix rather than encoded as zeros.
+
+The model is fit by iterative proportional fitting / log-linear maximum likelihood.
+
+## 4. Fail-closed support gate
+
+Before the effect is emitted, the constructed primary matrix must contain at least:
 
 ~~~text
-bird species × plant species × site
+trait-matched opportunity edges >= 10,000
+positive-count edges >= 3,000
+zero-count edges >= 3,000
+clean waypoints >= 1,000
+bird species >= 20
+plant-species clusters >= 30
+barrier edges > 0
+accessible edges > 0
 ~~~
 
-For each row:
+The model must converge with finite (eta).
 
-- total camera hours = sum eligible waypoint hours;
-- total interaction count = robbery + legitimate counts;
-- total interaction rate = total count / camera hours;
-- robbery count and legitimate count are retained separately;
-- robbery proportion is defined only where total count > 0;
-- mismatch is the plant-site × bird mismatch.
+Failure yields `RESULT_NOT_OPENED_SUPPORT_GATE_FAILED`; no alternative denominator
+is searched after seeing mismatch effects.
 
-For the continuous primary statistics, site rows are then collapsed to one
-bird × plant dyad, matching the current within-bird routing check:
+## 5. Dependence and uncertainty
 
-- dyad participation rate = total interactions / total eligible camera hours
-  across sites;
-- dyad robbery proportion = total robbery / total interactions across sites,
-  when total interactions > 0;
-- dyad mismatch = unweighted mean mismatch across contributing sites.
+The point estimate includes waypoint and bird fixed effects.
 
-No pair-site, waypoint or raw interaction row is treated as an independent
-biological replicate.
+Uncertainty is clustered at **plant species**, matching the current Letter's primary
+inferential grain. A delete-one-plant-species jackknife is applied to (eta).
 
-## 7. Primary statistics
+Every delete-one-plant fit must converge. Otherwise the equivalence decision is
+withheld as `JACKKNIFE_UNSTABLE`.
 
-### 7.1 Participation
+Report:
 
-For each bird species with at least three trait-matched plant dyads and variation in
-both mismatch and participation rate:
+- 95% jackknife-Wald CI for (RR_P);
+- 90% jackknife-Wald CI for the prespecified equivalence test.
 
-1. rank mismatch within bird;
-2. rank zero-inclusive interaction rate within bird;
-3. center both rank vectors within bird.
+## 6. Frozen equivalence margin and outcome classes
 
-Pool the centered ranks across eligible birds and calculate the Pearson correlation:
+Before opening the effect, define a material-change margin:
 
 ~~~text
-rho_participation
+participation-rate equivalence = 0.80 to 1.25
 ~~~
 
-Inference uses 9,999 permutations that shuffle participation ranks only within each
-bird species.
+This 20% rate margin is a pragmatic manuscript decision threshold, not a universal
+biological constant.
 
-Interpretation:
+Classification:
+
+### ROUTING_WITHOUT_MATERIAL_PARTICIPATION_LOSS
+
+The 90% CI for (RR_P) lies wholly inside [0.80, 1.25].
+
+### PARTICIPATION_REDUCTION_PLUS_ROUTING
+
+The 95% CI lies wholly below 1.
+
+Also flag `MATERIAL_SUPPRESSION` when the 95% upper bound is below 0.80.
+
+### PARTICIPATION_INCREASE_PLUS_ROUTING
+
+The 95% CI lies wholly above 1.
+
+Also flag `MATERIAL_ENHANCEMENT` when the 95% lower bound exceeds 1.25.
+
+### PARTICIPATION_UNRESOLVED_ROUTING_ESTABLISHED
+
+None of the above.
+
+The already frozen routing result remains positive regardless of participation class.
+
+## 7. Manuscript language gate
+
+If `ROUTING_WITHOUT_MATERIAL_PARTICIPATION_LOSS` is recovered, the Ecuador result
+may be described as rerouting without a material loss of total exploitation over the
+prespecified margin.
+
+If `PARTICIPATION_REDUCTION_PLUS_ROUTING` is recovered, wording such as
+"reroute rather than eliminate exploitation" must be replaced by **suppression plus
+rerouting**.
+
+If `PARTICIPATION_INCREASE_PLUS_ROUTING` is recovered, wording becomes
+**amplification plus rerouting**.
+
+If participation is unresolved, the Letter retains the routing result but states
+that the total-exploitation consequence is unresolved.
+
+No class licenses a causal evolutionary defence claim.
+
+## 8. Outcome-blind denominator audit
+
+Before this freeze, the clean-camera audit established feasibility without computing
+a mismatch-participation effect:
 
 ~~~text
-rho_participation < 0  -> mismatch is associated with reduced exploitation rate
-rho_participation ≈ 0 -> no monotonic participation association detected
-rho_participation > 0  -> mismatch is associated with increased exploitation rate
+clean eligible waypoints = 5,254
+trait-matched potential dyads = 20,270
+trait-matched positive dyads = 6,519
+trait-matched zero dyads = 13,751
+camera_flowers_count for Ecuador = unavailable
 ~~~
 
-The test is two-sided. Lack of significance is **not** equivalence.
+The final model rebuilds the matrix under the stricter clean-camera local-pool rule
+above before opening (eta).
 
-### 7.2 Routing on the same reconstructed opportunity system
+## 9. Claim boundary
 
-For bird × plant dyads with at least one counted interaction, apply the same
-within-bird rank-centering procedure to mismatch and robbery proportion:
-
-~~~text
-rho_routing_reconstructed
-~~~
-
-This is a bridge/sensitivity analysis. It must be reported alongside, not substituted
-for, the currently frozen Letter routing result.
-
-## 8. Binary barrier decomposition
-
-As a magnitude-oriented secondary analysis, calculate within each bird species:
-
-~~~text
-total_rate_difference
-    = mean(total interaction rate | barrier)
-      - mean(total interaction rate | accessible)
-
-legitimate_rate_difference
-    = mean(legitimate interaction rate | barrier)
-      - mean(legitimate interaction rate | accessible)
-
-robbery_rate_difference
-    = mean(robbery interaction rate | barrier)
-      - mean(robbery interaction rate | accessible)
-~~~
-
-Only birds observed in both barrier states contribute.
-
-Report the mean and median bird-level differences. Use whole-bird sign flips with
-9,999 permutations for the total-rate contrast. Legitimate and robbery components
-are decomposition terms and remain secondary.
-
-When legitimate loss < 0 and robbery gain > 0, also report the descriptive
-compensation ratio:
-
-~~~text
-robbery gain / abs(legitimate loss)
-~~~
-
-Do not interpret this ratio as causal mediation.
-
-## 9. Outcome classification frozen before effect opening
-
-Use alpha = 0.05, two-sided, for the two centered-rank permutation tests.
-
-~~~text
-ROUTING_WITHOUT_DETECTED_PARTICIPATION_LOSS
-    rho_routing_reconstructed > 0 and p_route < 0.05
-    AND NOT (rho_participation < 0 and p_participation < 0.05)
-
-SUPPRESSION_PLUS_REROUTING
-    rho_routing_reconstructed > 0 and p_route < 0.05
-    AND rho_participation < 0 and p_participation < 0.05
-
-FILTERING_DOMINANT
-    NOT (rho_routing_reconstructed > 0 and p_route < 0.05)
-    AND rho_participation < 0 and p_participation < 0.05
-
-MIXED_OR_UNRESOLVED
-    all other outcomes
-~~~
-
-The first class does **not** prove unchanged total exploitation. It licenses only
-"no detected monotonic participation decline."
-
-## 10. Manuscript language gate
-
-If the result is `SUPPRESSION_PLUS_REROUTING`, wording such as
-
-> reroute rather than eliminate exploitation
-
-must be removed or replaced by wording such as
-
-> access constraints can simultaneously suppress and reroute exploitation.
-
-If the result is `FILTERING_DOMINANT`, the present routing-first title/story must
-be reconsidered.
-
-If the result is `ROUTING_WITHOUT_DETECTED_PARTICIPATION_LOSS`, the manuscript
-may state that route composition shifted without a detected monotonic decline in
-total interaction rate, but may not claim statistical equivalence unless a separate
-equivalence margin is preregistered before effect opening.
-
-## 11. Activation gate
-
-No mismatch-participation effect may be computed until the denominator audit shows:
-
-1. parseable camera dates and positive camera-hours support a waypoint denominator;
-2. a nonempty temporal local bird pool exists;
-3. both positive and zero potential dyads exist;
-4. trait matching is available for both positive and zero dyads;
-5. source camera metadata are recorded;
-6. the final camera-problem handling rule above is executable.
-
-If any gate fails, record the denominator failure and do not search alternative
-zero definitions after seeing mismatch effects.
-
-## 12. Claim boundary
-
-This analysis tests whether the **observed pattern** is primarily participation
-filtering, route composition change, or both. It does not establish why birds
-choose routes and does not replace the prospective factorial causal experiment.
+This is an observational decomposition of interaction intensity and route
+composition. It does not establish why birds choose routes, that geometry was
+selected as defence, or the prospective causal route-cost mechanism.
