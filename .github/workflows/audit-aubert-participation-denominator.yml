@@ -1,0 +1,62 @@
+name: Audit Aubert participation denominator
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit_aubert2026_participation_denominator.py"
+      - "tests/test_aubert2026_participation_denominator.py"
+      - ".github/workflows/audit-aubert-participation-denominator.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and tests
+        run: python -m pip install -e '.[dev]'
+
+      - name: Test denominator contract
+        run: pytest -q tests/test_aubert2026_participation_denominator.py
+
+      - name: Run real EPHI denominator audit
+        run: |
+          mkdir -p artifacts/participation
+          python -m scripts.audit_aubert2026_participation_denominator             artifacts/participation/aubert2026_participation_denominator_audit.json
+
+      - name: Require audit remains effect-blind
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("artifacts/participation/aubert2026_participation_denominator_audit.json").read_text())
+          assert x["status"]=="OUTCOME_BLIND_WITH_RESPECT_TO_MISMATCH_EFFECT"
+          forbidden_keys = {"mismatch_coefficient","participation_p","participation_rho"}
+          def walk(value):
+              if isinstance(value, dict):
+                  for key, child in value.items():
+                      assert key.lower() not in forbidden_keys
+                      walk(child)
+              elif isinstance(value, list):
+                  for child in value:
+                      walk(child)
+          walk(x)
+          print(json.dumps(x["decision_inputs"],indent=2,sort_keys=True))
+          print(json.dumps(x["candidate_denominator"],indent=2,sort_keys=True))
+          print(json.dumps(x["waypoint_candidate_denominator"],indent=2,sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aubert-participation-denominator-audit
+          path: artifacts/participation/aubert2026_participation_denominator_audit.json
+          if-no-files-found: error
