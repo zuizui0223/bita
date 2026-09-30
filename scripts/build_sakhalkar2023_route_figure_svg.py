@@ -28,6 +28,13 @@ DEFAULT_OUTPUT = (
     / "FIGURE_4_TWO_NETWORK_ACCESS_ROUTING.svg"
 )
 AUBERT_RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "aubert2026_missingness_dependence_sensitivity.json"
+PARTICIPATION_RESULT = (
+    ROOT
+    / "empirical"
+    / "floral_defence_selectivity"
+    / "results"
+    / "aubert2026_participation_route_decomposition_first_open.json"
+)
 
 
 def _text(
@@ -70,6 +77,7 @@ def build_svg(
     points: list[dict[str, float | str]],
     result: dict[str, object],
     aubert: dict[str, object] | None = None,
+    participation: dict[str, object] | None = None,
 ) -> str:
     if not points:
         raise ValueError("cannot build Figure 4 without species-level route points")
@@ -182,14 +190,45 @@ def build_svg(
             _text(1090, 332, "B  Aubert / EPHI — aggregate unavailable", size=20, weight="bold"),
         ])
 
+    if participation is not None:
+        decision = participation["decision"]
+        rr = float(decision["rate_ratio"])
+        ci95 = [float(x) for x in decision["ci95_rate_ratio"]]
+        eq = [float(x) for x in decision["equivalence_margin"]]
+        rx0, rx1 = 1155, 1715
+        rlo, rhi = 0.5, 3.0
+        eq_x0 = _scale(eq[0], rlo, rhi, rx0, rx1)
+        eq_x1 = _scale(eq[1], rlo, rhi, rx0, rx1)
+        one_x = _scale(1.0, rlo, rhi, rx0, rx1)
+        ci_x0 = _scale(ci95[0], rlo, rhi, rx0, rx1)
+        ci_x1 = _scale(ci95[1], rlo, rhi, rx0, rx1)
+        rr_x = _scale(rr, rlo, rhi, rx0, rx1)
+        parts.extend([
+            '<rect x="1090" y="700" width="700" height="180" rx="14" fill="#f7f7f7" stroke="#444" stroke-width="2"/>',
+            _text(1115, 733, "C  Ecuador participation decomposition", size=18, weight="bold"),
+            _text(1115, 760, f"barrier/access total exploitation RR = {rr:.3f}", size=15, weight="bold"),
+            f'<rect x="{eq_x0:.2f}" y="797" width="{eq_x1-eq_x0:.2f}" height="34" fill="#e8e8e8"/>',
+            _line(rx0, 814, rx1, 814, width=2),
+            _line(one_x, 790, one_x, 838, width=2, dash="5 4"),
+            _line(ci_x0, 814, ci_x1, 814, width=5),
+            f'<circle cx="{rr_x:.2f}" cy="814" r="8" fill="#555" stroke="#111" stroke-width="1.5"/>',
+            _text(rx0, 850, "0.5", size=11, anchor="middle"),
+            _text(one_x, 850, "1.0", size=11, anchor="middle"),
+            _text(rx1, 850, "3.0", size=11, anchor="middle"),
+            _text(1115, 872, f"95% plant-jackknife CI {ci95[0]:.3f}–{ci95[1]:.3f}; grey band = frozen 0.80–1.25 equivalence margin", size=12),
+        ])
+    else:
+        parts.extend([
+            '<rect x="1090" y="700" width="700" height="180" rx="14" fill="#f7f7f7" stroke="#444" stroke-width="2"/>',
+            _text(1115, 735, "Cross-network ecological readout", size=19, weight="bold"),
+            _text(1115, 775, "Insects: increasing access constraint shifts cheating toward bypass/robbing.", size=15),
+            _text(1115, 810, "Birds: plant-level and within-bird comparisons both recover rerouting.", size=15),
+            _text(1115, 850, "Consumer-grain behavior survives after bird-specific baselines are removed.", size=15, weight="bold"),
+        ])
+
     parts.extend([
-        '<rect x="1090" y="700" width="700" height="180" rx="14" fill="#f7f7f7" stroke="#444" stroke-width="2"/>',
-        _text(1115, 735, "Cross-network ecological readout", size=19, weight="bold"),
-        _text(1115, 775, "Insects: increasing access constraint shifts cheating toward bypass/robbing.", size=15),
-        _text(1115, 810, "Birds: plant-level and within-bird comparisons both recover rerouting.", size=15),
-        _text(1115, 850, "Consumer-grain behavior survives after bird-specific baselines are removed.", size=15, weight="bold"),
         _text(120, 908, "Sakhalkar: significant univariate association; correlated morphology prevents a unique tube-length claim.", size=12, fill="#555"),
-        _text(120, 934, "Aubert/EPHI: observational all-site extension; missing piercing is recoded as legitimate/no from source metadata.", size=12, fill="#555"),
+        _text(120, 934, "Aubert/EPHI: observational all-site extension; total exploitation and route composition are analysed separately.", size=12, fill="#555"),
         _text(120, 960, "No raw species identifiers or individual interaction rows are emitted in the figure.", size=12),
         "</svg>",
     ])
@@ -202,7 +241,12 @@ def build_from_public_data() -> str:
     points = species_route_points(visits, traits)
     result = analyze_workbook(workbook, permutations=9999)
     aubert = json.loads(AUBERT_RESULT.read_text(encoding="utf-8")) if AUBERT_RESULT.exists() else None
-    return build_svg(points, result, aubert)
+    participation = (
+        json.loads(PARTICIPATION_RESULT.read_text(encoding="utf-8"))
+        if PARTICIPATION_RESULT.exists()
+        else None
+    )
+    return build_svg(points, result, aubert, participation)
 
 
 def main(argv: list[str] | None = None) -> int:
