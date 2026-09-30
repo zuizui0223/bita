@@ -15,6 +15,9 @@ The build workflow generates an `artifacts/letter/data_archive/` directory conta
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv` — the 24-program bounded direct geometry → robbery supporting corpus;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv` — included, duplicate and excluded Stage-U update candidates with explicit reasons;
 - `supporting_literature/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv` — complete 56-label historical geometry screen;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv` — final 857-record outcome-blind formal-frame eligibility/direction table;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_FULLTEXT_COMPLETE_RECEIPT_V1.json` — receipt confirming pending full text = 0;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json` — frozen 33-program finite-frame direction summary;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv` and `.md` — post hoc mechanism audit of the four opposite and two mixed formal-frame programs;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json` — frozen descriptive partition and 1/23 versus 3/10 formal-search asymmetry;
 - the direct-evidence eligibility contract, bounded-search receipts, Leal crosswalk and provenance receipts needed to audit the supporting-corpus counts.
@@ -35,18 +38,20 @@ The submission archive must also include the exact code used to export and repro
 
 ## Supporting direct-evidence boundary
 
-The literature files reproduce the manuscript's bounded supporting-audit statement:
+The archive contains the completed frozen OpenAlex finite frame used in the Letter:
 
 ~~~text
-24 direct study programs
-16 positive
+857 unique bibliographic records
+33 eligible independent direct study programs
+22 positive
 5 null
+4 opposite
 2 mixed
-1 opposite
+pending full text = 0
 network-k contribution = 0
 ~~~
 
-These counts are descriptive and are not a prevalence estimate, sign test or pooled effect. The standardized joint analysis remains based on two independent networks only. The supporting archive also records why the formal recurrence statistic remains closed: the bounded web update is not a finite exportable bibliographic denominator.
+These counts are a finite provider-defined evidence distribution, not a natural-prevalence estimate, sign test or pooled effect. The standardized joint routing analysis remains based on two independent networks only. The earlier 24-program bounded direct corpus is retained as provenance for the pre-existing targeted evidence base, not as the final formal denominator.
 
 ## Public source data
 
