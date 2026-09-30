@@ -24,6 +24,23 @@ within-bird continuous: 28 bird species / 1,285 dyads, rho = 0.340, p = 0.0001
 24 / 28 bird-specific correlations positive; median rho = 0.338
 between-bird mean diagnostic: rho = 0.086, p = 0.551
 
+ZERO-INCLUSIVE PARTICIPATION FOLLOW-UP:
+clean waypoints = 5,254
+trait-matched opportunity edges = 19,909
+positive edges = 6,519
+zero edges = 13,390
+supported edges after zero-margin pruning = 15,862
+supported waypoints = 3,770
+supported bird species = 49
+plant clusters in jackknife = 252
+barrier/access total exploitation RR = 1.7717
+95% CI = 1.1050–2.8405
+90% CI = 1.1922–2.6329
+strict-feeding sensitivity RR = 1.7149
+broad-feeding sensitivity RR = 1.7717
+frozen classification = PARTICIPATION_INCREASE_PLUS_ROUTING
+material enhancement >25% = NOT ESTABLISHED
+
 CORROBORATION:
 Sakhalkar Afrotropical insect–flower network
 57 plant species
@@ -38,7 +55,7 @@ p = 0.0001
 k = 2 independent networks
 ```
 
-The joint statistic tests recurrence across these two networks only. It does not estimate between-network heterogeneity, a network-population mean, or generality beyond the two systems.
+The joint statistic tests recurrence of the routing component across these two networks only. It does not estimate between-network heterogeneity, a network-population mean, or generality beyond the two systems. The participation increase is a separate Ecuador-only result and is not part of the cross-network joint statistic.
 
 ## Mechanistic boundary
 
@@ -91,6 +108,10 @@ confirmatory contribution.
 ~~~text
 PUBLISHED_DIRECTIONAL_MULTISPECIES_DATASET_RECURRENCE = 3
 PRIMARY_STANDARDIZED_NETWORK_K = 2
+ECUADOR_PARTICIPATION_CLASS = PARTICIPATION_INCREASE_PLUS_ROUTING
+ECUADOR_PARTICIPATION_RR = 1.7717
+ECUADOR_PARTICIPATION_CI95 = 1.1050_TO_2.8405
+AMPLIFICATION_GENERALITY = ECUADOR_ONLY
 CASE_STANDARDIZED_EFFECT = NOT_COMPUTED
 CASE_CONFIRMATORY_THIRD_FAUNA = NO
 ~~~
