@@ -89,6 +89,17 @@ def _primary_route_status(value: object) -> str | None:
     return None
 
 
+def _camera_is_clean(value: object) -> bool:
+    return str(value or "").strip().lower() == "no"
+
+
+def _is_resolved_exploitation(obs: dict[str, object]) -> bool:
+    return (
+        obs["route_status"] in {"yes", "no"}
+        and str(obs.get("feeding_activity", "")).strip().lower() != "no_feeding"
+    )
+
+
 def _date_in_any_interval(
     value: date | None,
     intervals: list[tuple[date, date]],
@@ -238,6 +249,7 @@ def audit_denominator(
             and row["end"] is not None
             and row["duration"] is not None
             and float(row["duration"]) > 0
+            and _camera_is_clean(row["problem"])
         ]
         if not valid_rows:
             continue
@@ -278,6 +290,7 @@ def audit_denominator(
         and d["end"] is not None
         and d["duration"] is not None
         and float(d["duration"]) > 0
+        and _camera_is_clean(d["problem"])
     ]
 
     temporal_pool_sizes: list[int] = []
@@ -333,7 +346,7 @@ def audit_denominator(
                 for obs in by_waypoint_species.get((waypoint, species), [])
                 if isinstance(obs["date"], date)
                 and start <= obs["date"] <= end
-                and obs["route_status"] in {"yes", "no"}
+                and _is_resolved_exploitation(obs)
             ]
             if route_rows:
                 route_eligible_positive_temporal += 1
@@ -388,7 +401,7 @@ def audit_denominator(
                 obs
                 for obs in by_waypoint_species.get((waypoint, species), [])
                 if _date_in_any_interval(obs["date"], intervals)
-                and obs["route_status"] in {"yes", "no"}
+                and _is_resolved_exploitation(obs)
             ]
             if route_rows:
                 waypoint_route_positive += 1
@@ -459,8 +472,9 @@ def audit_denominator(
         },
         "candidate_denominator": {
             "rule": (
-                "camera deployment x target bird species observed anywhere in the same "
-                "site during the deployment start/end dates"
+                "clean camera deployment (camera_problem=no) x target bird species observed "
+                "anywhere in the same site during the deployment start/end dates; "
+                "positive exploitation excludes explicit feeding_activity=no_feeding"
             ),
             "eligible_camera_deployments": eligible_n,
             "deployments_with_nonempty_temporal_bird_pool": deployment_with_temporal_pool,
@@ -484,8 +498,9 @@ def audit_denominator(
         },
         "waypoint_candidate_denominator": {
             "primary_rule_candidate": (
-                "unique camera waypoint x target bird species observed in the same "
-                "site during any valid camera interval for that waypoint"
+                "unique clean camera waypoint x target bird species observed in the same site "
+                "during any valid clean-camera interval for that waypoint; positive "
+                "exploitation excludes explicit feeding_activity=no_feeding"
             ),
             "eligible_waypoints": len(waypoint_units),
             "temporal_pool_size_summary": _quantiles(
@@ -568,6 +583,11 @@ def run(output: str | Path) -> dict[str, object]:
             "camera_problem",
             "duration_from_pics",
         ),
+    )
+    interaction_metadata = _read(_download("Metadata EPHI interactions.csv"))
+    result["interaction_metadata_matches"] = _metadata_rows_for_terms(
+        interaction_metadata,
+        ("feeding_activity", "piercing"),
     )
     path = Path(output)
     path.parent.mkdir(parents=True, exist_ok=True)
