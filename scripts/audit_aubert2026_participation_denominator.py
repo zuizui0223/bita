@@ -126,6 +126,9 @@ def audit_denominator(
 
     target_obs: list[dict[str, object]] = []
     interaction_date_parseable = 0
+    feeding_activity_counts: Counter[str] = Counter()
+    primary_route_status_counts: Counter[str] = Counter()
+    feeding_by_route_status: Counter[str] = Counter()
     for row in interactions:
         if not _is_target_bird(row):
             continue
@@ -135,13 +138,19 @@ def audit_denominator(
         d = _parse_date(row.get("date"))
         if d is not None:
             interaction_date_parseable += 1
+        feeding = str(row.get("feeding_activity", "")).strip().lower()
+        route_status = _primary_route_status(row.get("piercing"))
+        feeding_activity_counts[feeding or "<blank>"] += 1
+        primary_route_status_counts[route_status or "<excluded>"] += 1
+        feeding_by_route_status[f"{feeding or '<blank>'}|{route_status or '<excluded>'}"] += 1
         target_obs.append(
             {
                 "species": species,
                 "site": site,
                 "waypoint": waypoint,
                 "date": d,
-                "route_status": _primary_route_status(row.get("piercing")),
+                "route_status": route_status,
+                "feeding_activity": feeding,
             }
         )
 
@@ -444,6 +453,9 @@ def audit_denominator(
             "species_count": len(
                 {str(obs["species"]) for obs in target_obs}
             ),
+            "feeding_activity_counts": dict(feeding_activity_counts.most_common()),
+            "primary_route_status_counts": dict(primary_route_status_counts.most_common()),
+            "feeding_by_primary_route_status_top": feeding_by_route_status.most_common(30),
         },
         "candidate_denominator": {
             "rule": (
