@@ -117,6 +117,7 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
     for token in (
         "sakhalkar_species_analysis.csv",
         "aubert_ephi_pair_site_analysis.csv",
+        "aubert_ephi_participation_opportunities.csv",
         "metadata.csv",
         "archive_manifest.json",
         "archive_reproduction.json",
@@ -176,3 +177,18 @@ def test_cover_letter_matches_current_evidence_hierarchy() -> None:
     assert "four opposite" in lower
     assert "two mixed" in lower
     assert "success-rate or prevalence argument" in lower
+
+
+@pytest.mark.prose_contract
+def test_letter_reports_frozen_participation_increase() -> None:
+    letter = LETTER.read_text(encoding="utf-8")
+    cover = COVER.read_text(encoding="utf-8")
+    for text in (letter, cover):
+        assert "1.77" in text
+        assert "1.11" in text
+        assert "2.84" in text
+    assert "19,909" in letter
+    assert "6,519" in letter
+    assert "13,390" in letter
+    assert "participation increase plus routing" in letter.lower()
+    assert "amplification plus rerouting" in letter.lower()
