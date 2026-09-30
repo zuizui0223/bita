@@ -132,3 +132,16 @@ def test_letter_separates_case_directional_recurrence_from_standardized_k() -> N
     assert "11 plant and seven bird species" in text
     assert "directional corroboration rather than a third standardized network contribution" in text
     assert "standardized replication count remain \\(k=2\\)" in text
+
+
+@pytest.mark.prose_contract
+def test_letter_states_participation_increase_and_generality_boundary() -> None:
+    text = LETTER.read_text(encoding="utf-8")
+    lower = text.lower()
+    assert "barrier mismatches were associated with greater total exploitation" in lower
+    assert "rr_p=1.7717" in lower.replace(" ", "")
+    assert "participation increase plus routing" in lower
+    assert "strict-feeding" in lower
+    assert "broad-feeding" in lower
+    assert "amplification result has not yet been replicated in the insect network" in lower
+    assert "routing component recurs across birds and insects" in lower
