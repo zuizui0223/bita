@@ -268,6 +268,9 @@ jobs:
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_STAGE_U_BOUNDED_SEARCH_V1.md artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_FRAME_V1.md artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_FULLTEXT_COMPLETE_RECEIPT_V1.json artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.md artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json artifacts/letter/data_archive/supporting_literature/
@@ -418,6 +421,9 @@ jobs:
               "data_archive/ZENODO_METADATA_TEMPLATE.md",
               "data_archive/DEPOSIT_CHECKLIST_V1.md",
               "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv",
+              "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv",
+              "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_FULLTEXT_COMPLETE_RECEIPT_V1.json",
+              "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json",
               "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv",
               "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.md",
               "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json",
@@ -445,6 +451,19 @@ jobs:
           assert rows(root / "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv") == 24
           assert rows(root / "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv") == 23
           assert rows(root / "data_archive/supporting_literature/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv") == 56
+
+          formal = json.loads(
+              (root / "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json").read_text()
+          )
+          assert formal["frame_records"] == 857
+          assert formal["eligible_direct_programs"] == 33
+          assert formal["direction_counts"] == {
+              "POSITIVE": 22,
+              "NULL": 5,
+              "OPPOSITE": 4,
+              "MIXED": 2,
+          }
+          assert formal["primary_standardized_network_k"] == 2
 
           reserved = Path("submission/access_routing_archive/RESERVED_DOI_RECEIPT.json")
           archived_reserved = root / "data_archive/RESERVED_DOI_RECEIPT.json"
