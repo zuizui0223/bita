@@ -179,6 +179,8 @@ def test_cover_letter_matches_current_evidence_hierarchy() -> None:
     assert "four opposite" in lower
     assert "two mixed" in lower
     assert "success-rate or prevalence argument" in lower
+    assert "1.77-fold higher total route-resolved exploitation" in lower
+    assert "more exploitation and more bypass use" in lower
 
 
 def test_participation_first_open_result_is_submission_source() -> None:
