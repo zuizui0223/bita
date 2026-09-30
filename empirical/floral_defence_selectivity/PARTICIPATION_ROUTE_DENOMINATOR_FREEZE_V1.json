@@ -1,0 +1,45 @@
+{
+  "schema": "BITA_AUBERT_PARTICIPATION_ROUTE_FREEZE_V1",
+  "status": "FROZEN_BEFORE_MISMATCH_PARTICIPATION_EFFECT",
+  "source_doi": "10.5281/zenodo.14185547",
+  "denominator_audit_commit": "63e97b3f8f1a0167db0c34a71f9b602619a3ac34",
+  "denominator_audit": {
+    "clean_eligible_waypoints": 5254,
+    "trait_matched_potential_dyads": 20270,
+    "trait_matched_positive_dyads": 6519,
+    "trait_matched_zero_dyads": 13751,
+    "flower_count_available": false
+  },
+  "primary_model": {
+    "response": "route-resolved feeding interaction count per clean waypoint x locally available bird species",
+    "formula": "log(mu_wb) = alpha_waypoint + gamma_bird + beta_barrier * I[tube > culmen]",
+    "estimand": "exp(beta_barrier) = participation rate ratio barrier/access",
+    "opportunity_pool": "target bird observed at a clean-camera waypoint in same site during focal clean-camera interval",
+    "camera_problem_required": "no",
+    "explicit_no_feeding_excluded": true,
+    "missing_piercing_as_no": true
+  },
+  "support_gates": {
+    "trait_matched_edges_min": 10000,
+    "positive_edges_min": 3000,
+    "zero_edges_min": 3000,
+    "clean_waypoints_min": 1000,
+    "bird_species_min": 20,
+    "plant_species_clusters_min": 30
+  },
+  "uncertainty": {
+    "cluster": "plant_species",
+    "method": "delete-one-plant jackknife",
+    "ci95_z": 1.96,
+    "equivalence_ci90_z": 1.6448536269514722
+  },
+  "equivalence_margin_rate_ratio": [
+    0.8,
+    1.25
+  ],
+  "sensitivities": [
+    "strict feeding activity only",
+    "broad feeding including maybe/thief but excluding no_feeding/not_interacting"
+  ],
+  "participation_effect_opened": false
+}
