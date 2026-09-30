@@ -10,7 +10,7 @@ The mechanism-identification result `trait interaction != ecological mechanism` 
 
 ## Current submission thesis
 
-> **Access constraints can reorganize ecological interactions by shifting exploitation from legitimate access toward bypass routes rather than simply eliminating use.**
+> **Access mismatch can alter both interaction intensity and route: in Ecuador, relational barriers are associated with amplified total exploitation and greater bypass use.**
 
 The primary quantitative test is the all-Ecuador bird–flower network. Source metadata indicates unspecified piercing values are most probably legitimate interactions, so the primary analysis recodes missing piercing as non-robbing and treats plant species as the inferential unit:
 
@@ -33,6 +33,13 @@ within-bird behavioral checks:
 28 bird species / 1,285 bird×plant dyads
 within-bird centered-rank rho = 0.340, p = 0.0001
 between-bird mean rho = 0.086, p = 0.551 (different estimand)
+
+zero-inclusive participation layer:
+19,909 trait-matched bird × waypoint opportunities
+barrier/access total-exploitation rate ratio = 1.772
+plant-cluster 95% CI = 1.105–2.841
+classification = PARTICIPATION_INCREASE_PLUS_ROUTING
+strict / broad feeding sensitivities = 1.715 / 1.772
 ```
 
 A smaller independent Afrotropical insect network provides corroboration:
@@ -66,9 +73,9 @@ The routing result is interpreted through the broader effective-access / exposur
 ```text
 legitimate route becomes harder to use
         |
-        +--> exploitation declines, if no bypass exists
+        +--> exploitation may decline, persist or increase
         |
-        +--> exploitation reroutes, if bypass remains available
+        +--> route composition can shift toward bypass
 ```
 
 Source-audited floral-defence cases provide mechanistic context only. The matched effective-domain classifications are author-coded and have not yet undergone outcome-blind independent recoding, so the Letter does not use the matched-domain layer as independent validation and does not make an 11/11 success-rate argument.
@@ -82,6 +89,7 @@ Primary submission:
 - `submission/ECOLOGY_LETTERS_LETTER_COVER_V0.md`
 - `empirical/floral_defence_selectivity/results/joint_access_routing_species_robust.json`
 - `empirical/floral_defence_selectivity/results/aubert2026_missingness_dependence_sensitivity.json`
+- `empirical/floral_defence_selectivity/results/aubert2026_participation_route_first_open.json`
 
 Extended Synthesis reserve:
 
