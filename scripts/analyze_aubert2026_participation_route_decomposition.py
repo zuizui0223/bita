@@ -1,16 +1,21 @@
-"""Pre-registered participation-versus-routing decomposition for EPHI Ecuador.
+"""Frozen participation-versus-routing analysis for EPHI Ecuador.
 
-The real-data effect analysis is fail-closed behind the denominator audit. This file
-may be tested on synthetic data before the audit is accepted; no real mismatch effect
-should be opened until the audit gate passes.
+Primary participation model:
+    log(mu_wb) = alpha_waypoint + gamma_bird + beta * barrier_wb
+
+The opportunity matrix contains zero-count bird x waypoint dyads only when the bird
+was locally available in the same site during a clean-camera interval. Opportunity
+edges outside that frozen local pool are structural zeros and are absent.
+
+This file is committed before the real mismatch-participation effect is opened.
 """
 from __future__ import annotations
 
 import argparse
 import json
 import math
-import random
 from collections import defaultdict
+from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 
@@ -21,188 +26,68 @@ from scripts.analyze_aubert2026_zenodo_extension import (
     _read,
 )
 from scripts.audit_aubert2026_participation_denominator import (
+    _camera_is_clean,
     _date_in_any_interval,
     _is_target_bird,
     _parse_date,
     _primary_route_status,
 )
 
-SEED = 20260930
-PERMUTATIONS = 9999
-ALPHA = 0.05
+EQ_LOW = 0.80
+EQ_HIGH = 1.25
+Z95 = 1.96
+Z90 = 1.6448536269514722
+MIN_EDGES = 10_000
+MIN_POSITIVE = 3_000
+MIN_ZERO = 3_000
+MIN_WAYPOINTS = 1_000
+MIN_BIRDS = 20
+MIN_PLANTS = 30
 
-KNOWN_CAMERA_OK = {"", "na", "n/a", "nan", "none", "no"}
-KNOWN_CAMERA_BAD = {"yes", "maybe", "flower_problem"}
+EXPLICIT_FEEDING = {"hoverflying", "perching", "perching,hoverflying"}
+
+
+@dataclass(frozen=True)
+class Edge:
+    waypoint: str
+    bird: str
+    plant: str
+    site: str
+    barrier: int
+    mismatch: float
+    primary_count: int
+    strict_count: int
+    broad_count: int
 
 
 def _mean(values: list[float]) -> float:
     if not values:
-        raise ValueError("mean requires data")
+        raise ValueError("mean requires values")
     return sum(values) / len(values)
 
 
-def _median(values: list[float]) -> float:
-    if not values:
-        raise ValueError("median requires data")
-    values = sorted(values)
-    n = len(values)
-    m = n // 2
-    return values[m] if n % 2 else (values[m - 1] + values[m]) / 2
-
-
-def _rankdata(values: list[float]) -> list[float]:
-    indexed = sorted(enumerate(values), key=lambda item: item[1])
-    out = [0.0] * len(values)
-    i = 0
-    while i < len(indexed):
-        j = i + 1
-        while j < len(indexed) and indexed[j][1] == indexed[i][1]:
-            j += 1
-        rank = (i + 1 + j) / 2.0
-        for k in range(i, j):
-            out[indexed[k][0]] = rank
-        i = j
-    return out
-
-
-def _pearson(x: list[float], y: list[float]) -> float:
-    if len(x) != len(y) or len(x) < 2:
-        return float("nan")
-    mx = _mean(x)
-    my = _mean(y)
-    dx = [v - mx for v in x]
-    dy = [v - my for v in y]
-    sx = math.sqrt(sum(v * v for v in dx))
-    sy = math.sqrt(sum(v * v for v in dy))
-    if sx == 0 or sy == 0:
-        return float("nan")
-    return sum(a * b for a, b in zip(dx, dy)) / (sx * sy)
-
-
-def _binomial_two_sided_sign_p(positive: int, total: int) -> float | None:
-    if total <= 0:
-        return None
-    k = min(positive, total - positive)
-    tail = sum(math.comb(total, i) for i in range(k + 1)) / (2 ** total)
-    return min(1.0, 2 * tail)
-
-
-def _sign_flip_p(values: list[float], *, permutations: int, seed: int) -> float | None:
-    if not values:
-        return None
-    observed = _mean(values)
-    rng = random.Random(seed)
-    extreme = 0
-    for _ in range(permutations):
-        permuted = [v if rng.getrandbits(1) else -v for v in values]
-        stat = _mean(permuted)
-        if abs(stat) >= abs(observed) - 1e-15:
-            extreme += 1
-    return (extreme + 1) / (permutations + 1)
-
-
-def _normalize_camera_problem(value: object) -> str:
+def _raw_piercing(value: object) -> str:
     return str(value or "").strip().lower()
 
 
-def _camera_row_primary_eligible(row: dict[str, str]) -> bool:
-    problem = _normalize_camera_problem(row.get("camera_problem"))
-    if problem in KNOWN_CAMERA_BAD:
-        return False
-    if problem not in KNOWN_CAMERA_OK:
-        raise ValueError(f"unrecognized camera_problem state: {problem!r}")
-    return True
-
-
-def _strict_feeding_event(row: dict[str, str]) -> tuple[str | None, bool]:
-    status = _primary_route_status(row.get("piercing"))
-    if status is None:
-        return None, False
-    feeding = str(row.get("feeding_activity", "")).strip().lower()
-    if feeding == "no_feeding":
-        return status, False
-    return status, True
-
-
-def _build_waypoints(
-    cameras: list[dict[str, str]],
-    *,
-    strict_camera_problem: bool = False,
-) -> list[dict[str, object]]:
-    grouped: dict[str, list[dict[str, str]]] = defaultdict(list)
-    for row in cameras:
-        waypoint = str(row.get("waypoint", "")).strip()
-        if waypoint:
-            grouped[waypoint].append(row)
-
-    out: list[dict[str, object]] = []
-    for waypoint, rows in grouped.items():
-        site_plant = {
-            (
-                str(row.get("site", "")).strip(),
-                str(row.get("plant_species", "")).strip(),
-            )
-            for row in rows
-            if str(row.get("site", "")).strip()
-            and str(row.get("plant_species", "")).strip()
-        }
-        if len(site_plant) != 1:
-            continue
-        site, plant = next(iter(site_plant))
-        valid = []
-        for row in rows:
-            start = _parse_date(row.get("start_date"))
-            end = _parse_date(row.get("end_date"))
-            hours = _as_float(row.get("duration_sampling_hours"))
-            problem = _normalize_camera_problem(row.get("camera_problem"))
-            if strict_camera_problem:
-                problem_ok = problem == "no"
-            else:
-                problem_ok = _camera_row_primary_eligible(row)
-            if (
-                start is None
-                or end is None
-                or hours is None
-                or hours <= 0
-                or not problem_ok
-            ):
-                continue
-            valid.append((start, end, hours))
-        if not valid:
-            continue
-        out.append(
-            {
-                "waypoint": waypoint,
-                "site": site,
-                "plant": plant,
-                "intervals": [(a, b) for a, b, _h in valid],
-                "hours": sum(h for _a, _b, h in valid),
-            }
-        )
-    return out
-
-
-def build_opportunity_rows(
+def build_opportunity_edges(
     interactions: list[dict[str, str]],
     cameras: list[dict[str, str]],
     plants: list[dict[str, str]],
     birds: list[dict[str, str]],
-    *,
-    exclude_no_feeding: bool = True,
-    strict_camera_problem: bool = False,
-) -> tuple[list[dict[str, object]], dict[str, object]]:
+) -> tuple[list[Edge], dict[str, object]]:
     plant_values: dict[tuple[str, str], list[float]] = defaultdict(list)
     plant_global: dict[str, list[float]] = defaultdict(list)
     for row in plants:
         if str(row.get("Country", "")).strip().lower() not in {"ecuador", ""}:
             continue
-        plant = str(row.get("plant_species", "")).strip()
+        species = str(row.get("plant_species", "")).strip()
         site = str(row.get("site", "")).strip()
         tube = _as_float(row.get("Tubelength"))
-        if plant and tube is not None and tube > 0:
-            plant_global[plant].append(tube)
+        if species and tube is not None and tube > 0:
+            plant_global[species].append(tube)
             if site:
-                plant_values[(site, plant)].append(tube)
+                plant_values[(site, species)].append(tube)
 
     bird_values: dict[str, list[float]] = defaultdict(list)
     for row in birds:
@@ -211,329 +96,408 @@ def build_opportunity_rows(
         if species and culmen is not None and culmen > 0:
             bird_values[species].append(culmen)
 
-    target_obs: list[dict[str, object]] = []
+    camera_by_waypoint: dict[str, list[dict[str, object]]] = defaultdict(list)
+    for row in cameras:
+        waypoint = str(row.get("waypoint", "")).strip()
+        site = str(row.get("site", "")).strip()
+        plant = str(row.get("plant_species", "")).strip()
+        start = _parse_date(row.get("start_date"))
+        end = _parse_date(row.get("end_date"))
+        duration = _as_float(row.get("duration_sampling_hours"))
+        if (
+            not waypoint
+            or not site
+            or not plant
+            or start is None
+            or end is None
+            or duration is None
+            or duration <= 0
+            or not _camera_is_clean(row.get("camera_problem"))
+        ):
+            continue
+        camera_by_waypoint[waypoint].append(
+            {
+                "site": site,
+                "plant": plant,
+                "start": start,
+                "end": end,
+                "duration": duration,
+            }
+        )
+
+    waypoint_units: dict[str, dict[str, object]] = {}
+    inconsistent_waypoints = 0
+    for waypoint, rows in camera_by_waypoint.items():
+        site_plant = {(str(r["site"]), str(r["plant"])) for r in rows}
+        if len(site_plant) != 1:
+            inconsistent_waypoints += 1
+            continue
+        site, plant = next(iter(site_plant))
+        intervals = [
+            (r["start"], r["end"])
+            for r in rows
+            if isinstance(r["start"], date) and isinstance(r["end"], date)
+        ]
+        waypoint_units[waypoint] = {
+            "site": site,
+            "plant": plant,
+            "intervals": intervals,
+            "sampling_hours": sum(float(r["duration"]) for r in rows),
+        }
+
+    clean_waypoints = set(waypoint_units)
+
     by_site: dict[str, list[dict[str, object]]] = defaultdict(list)
-    by_waypoint_species: dict[tuple[str, str], list[dict[str, object]]] = defaultdict(list)
+    by_waypoint_bird: dict[tuple[str, str], list[dict[str, object]]] = defaultdict(list)
     for row in interactions:
-        if not _is_target_bird(row):
+        waypoint = str(row.get("waypoint", "")).strip()
+        if waypoint not in clean_waypoints or not _is_target_bird(row):
+            continue
+        d = _parse_date(row.get("date"))
+        if d is None:
+            continue
+        unit = waypoint_units[waypoint]
+        intervals = list(unit["intervals"])
+        if not _date_in_any_interval(d, intervals):
             continue
         species = str(row.get("hummingbird_species", "")).strip()
-        site = str(row.get("site", "")).strip()
-        waypoint = str(row.get("waypoint", "")).strip()
-        d = _parse_date(row.get("date"))
-        status, strict_event = _strict_feeding_event(row)
-        event = status is not None and (strict_event if exclude_no_feeding else True)
+        site = str(unit["site"])
         obs = {
-            "species": species,
-            "site": site,
             "waypoint": waypoint,
+            "site": site,
+            "species": species,
             "date": d,
-            "route_status": status,
-            "counted_event": event,
+            "feeding": str(row.get("feeding_activity", "")).strip().lower(),
+            "piercing_raw": _raw_piercing(row.get("piercing")),
+            "route_status": _primary_route_status(row.get("piercing")),
         }
-        target_obs.append(obs)
-        if site:
-            by_site[site].append(obs)
-        if waypoint:
-            by_waypoint_species[(waypoint, species)].append(obs)
+        by_site[site].append(obs)
+        by_waypoint_bird[(waypoint, species)].append(obs)
 
-    waypoints = _build_waypoints(cameras, strict_camera_problem=strict_camera_problem)
-
-    rows_out: list[dict[str, object]] = []
-    for unit in waypoints:
-        waypoint = str(unit["waypoint"])
+    edges: list[Edge] = []
+    nonempty_pool_waypoints = 0
+    for waypoint, unit in waypoint_units.items():
         site = str(unit["site"])
         plant = str(unit["plant"])
         intervals = list(unit["intervals"])
-        hours = float(unit["hours"])
-        available = {
+        local_birds = {
             str(obs["species"])
             for obs in by_site.get(site, [])
             if _date_in_any_interval(obs["date"], intervals)
         }
+        if local_birds:
+            nonempty_pool_waypoints += 1
+
         tube_vals = plant_values.get((site, plant)) or plant_global.get(plant)
         if not tube_vals:
             continue
         tube_cm = _mean(tube_vals)
+        if tube_cm <= 0:
+            continue
 
-        for species in available:
+        for species in sorted(local_birds):
             bill_vals = bird_values.get(species)
             if not bill_vals:
                 continue
             bill_cm = _mean(bill_vals) / 10.0
-            if tube_cm <= 0 or bill_cm <= 0:
+            if bill_cm <= 0:
                 continue
             mismatch = math.log(tube_cm / bill_cm)
-            rob = 0
-            leg = 0
-            for obs in by_waypoint_species.get((waypoint, species), []):
-                if not _date_in_any_interval(obs["date"], intervals):
-                    continue
-                if not bool(obs["counted_event"]):
-                    continue
-                if obs["route_status"] == "yes":
-                    rob += 1
-                elif obs["route_status"] == "no":
-                    leg += 1
-            total = rob + leg
-            rows_out.append(
-                {
-                    "waypoint": waypoint,
-                    "site": site,
-                    "bird_species": species,
-                    "plant_species": plant,
-                    "hours": hours,
-                    "total_count": total,
-                    "robbery_count": rob,
-                    "legitimate_count": leg,
-                    "mismatch_log_t_over_b": mismatch,
-                    "trait_barrier": mismatch > 0,
-                }
+            focal = [
+                obs
+                for obs in by_waypoint_bird.get((waypoint, species), [])
+                if _date_in_any_interval(obs["date"], intervals)
+            ]
+
+            primary = 0
+            strict = 0
+            broad = 0
+            for obs in focal:
+                feeding = str(obs["feeding"])
+                raw = str(obs["piercing_raw"])
+                route = obs["route_status"]
+
+                if feeding != "no_feeding" and route in {"yes", "no"}:
+                    primary += 1
+                    if feeding in EXPLICIT_FEEDING:
+                        strict += 1
+
+                if feeding != "no_feeding" and raw != "not_interacting":
+                    broad += 1
+
+            edges.append(
+                Edge(
+                    waypoint=waypoint,
+                    bird=species,
+                    plant=plant,
+                    site=site,
+                    barrier=1 if mismatch > 0 else 0,
+                    mismatch=mismatch,
+                    primary_count=primary,
+                    strict_count=strict,
+                    broad_count=broad,
+                )
             )
 
-    return rows_out, {
-        "waypoints_used": len({str(r["waypoint"]) for r in rows_out}),
-        "potential_waypoint_bird_rows": len(rows_out),
-        "positive_waypoint_bird_rows": sum(int(r["total_count"]) > 0 for r in rows_out),
-        "zero_waypoint_bird_rows": sum(int(r["total_count"]) == 0 for r in rows_out),
-        "strict_camera_problem": strict_camera_problem,
-        "exclude_no_feeding": exclude_no_feeding,
+    audit = {
+        "clean_waypoints": len(waypoint_units),
+        "inconsistent_waypoints_excluded": inconsistent_waypoints,
+        "waypoints_with_nonempty_local_pool": nonempty_pool_waypoints,
+        "trait_matched_opportunity_edges": len(edges),
+        "bird_species": len({edge.bird for edge in edges}),
+        "plant_species": len({edge.plant for edge in edges}),
+        "sites": len({edge.site for edge in edges}),
+        "primary_positive_edges": sum(edge.primary_count > 0 for edge in edges),
+        "primary_zero_edges": sum(edge.primary_count == 0 for edge in edges),
+        "primary_interaction_records": sum(edge.primary_count for edge in edges),
+        "strict_interaction_records": sum(edge.strict_count for edge in edges),
+        "broad_interaction_records": sum(edge.broad_count for edge in edges),
+        "barrier_edges": sum(edge.barrier == 1 for edge in edges),
+        "accessible_edges": sum(edge.barrier == 0 for edge in edges),
+    }
+    return edges, audit
+
+
+def _prune_positive_margin_support(
+    edges: list[Edge],
+    count_field: str,
+) -> tuple[list[Edge], dict[str, int]]:
+    current = list(edges)
+    removed_waypoints: set[str] = set()
+    removed_birds: set[str] = set()
+
+    while True:
+        row_totals: dict[str, int] = defaultdict(int)
+        col_totals: dict[str, int] = defaultdict(int)
+        for edge in current:
+            y = int(getattr(edge, count_field))
+            row_totals[edge.waypoint] += y
+            col_totals[edge.bird] += y
+        zero_rows = {key for key, value in row_totals.items() if value <= 0}
+        zero_cols = {key for key, value in col_totals.items() if value <= 0}
+        if not zero_rows and not zero_cols:
+            break
+        removed_waypoints.update(zero_rows)
+        removed_birds.update(zero_cols)
+        new_current = [
+            edge
+            for edge in current
+            if edge.waypoint not in zero_rows and edge.bird not in zero_cols
+        ]
+        if len(new_current) == len(current):
+            break
+        current = new_current
+
+    return current, {
+        "zero_margin_waypoints_removed": len(removed_waypoints),
+        "zero_margin_birds_removed": len(removed_birds),
     }
 
 
-def aggregate_site_dyads(rows: list[dict[str, object]]) -> list[dict[str, object]]:
-    grouped: dict[tuple[str, str, str], list[dict[str, object]]] = defaultdict(list)
-    for row in rows:
-        key = (
-            str(row["site"]),
-            str(row["bird_species"]),
-            str(row["plant_species"]),
-        )
-        grouped[key].append(row)
-
-    out = []
-    for (site, bird, plant), sub in grouped.items():
-        hours = sum(float(r["hours"]) for r in sub)
-        total = sum(int(r["total_count"]) for r in sub)
-        rob = sum(int(r["robbery_count"]) for r in sub)
-        leg = sum(int(r["legitimate_count"]) for r in sub)
-        mismatch = _mean([float(r["mismatch_log_t_over_b"]) for r in sub])
-        out.append(
-            {
-                "site": site,
-                "bird_species": bird,
-                "plant_species": plant,
-                "hours": hours,
-                "total_count": total,
-                "robbery_count": rob,
-                "legitimate_count": leg,
-                "total_rate_per_hour": total / hours,
-                "robbery_rate_per_hour": rob / hours,
-                "legitimate_rate_per_hour": leg / hours,
-                "robbery_proportion": rob / total if total > 0 else None,
-                "mismatch_log_t_over_b": mismatch,
-                "trait_barrier": mismatch > 0,
-            }
-        )
-    return out
-
-
-def aggregate_bird_plant_dyads(
-    rows: list[dict[str, object]],
-) -> list[dict[str, object]]:
-    grouped: dict[tuple[str, str], list[dict[str, object]]] = defaultdict(list)
-    for row in rows:
-        grouped[(str(row["bird_species"]), str(row["plant_species"]))].append(row)
-
-    out = []
-    for (bird, plant), sub in grouped.items():
-        hours = sum(float(r["hours"]) for r in sub)
-        total = sum(int(r["total_count"]) for r in sub)
-        rob = sum(int(r["robbery_count"]) for r in sub)
-        leg = sum(int(r["legitimate_count"]) for r in sub)
-        out.append(
-            {
-                "bird_species": bird,
-                "plant_species": plant,
-                "site_rows": len(sub),
-                "hours": hours,
-                "total_count": total,
-                "robbery_count": rob,
-                "legitimate_count": leg,
-                "total_rate_per_hour": total / hours,
-                "robbery_rate_per_hour": rob / hours,
-                "legitimate_rate_per_hour": leg / hours,
-                "robbery_proportion": rob / total if total > 0 else None,
-                "mismatch_log_t_over_b": _mean(
-                    [float(r["mismatch_log_t_over_b"]) for r in sub]
-                ),
-            }
-        )
-    return out
-
-
-def within_bird_centered_rank_summary(
-    rows: list[dict[str, object]],
+def fit_two_way_poisson(
+    edges: list[Edge],
     *,
-    response_key: str,
-    require_positive_total: bool,
-    permutations: int,
-    seed: int,
+    count_field: str,
+    max_iter: int = 5000,
+    tol: float = 1e-10,
 ) -> dict[str, object]:
-    by_bird: dict[str, list[tuple[float, float]]] = defaultdict(list)
-    for row in rows:
-        if require_positive_total and int(row["total_count"]) <= 0:
-            continue
-        response = row.get(response_key)
-        if response is None:
-            continue
-        by_bird[str(row["bird_species"])].append(
-            (float(row["mismatch_log_t_over_b"]), float(response))
+    supported, pruning = _prune_positive_margin_support(edges, count_field)
+    if not supported:
+        raise ValueError("no positive-margin support remains")
+    if not any(edge.barrier == 1 for edge in supported):
+        raise ValueError("no barrier support remains")
+    if not any(edge.barrier == 0 for edge in supported):
+        raise ValueError("no accessible support remains")
+
+    rows = sorted({edge.waypoint for edge in supported})
+    cols = sorted({edge.bird for edge in supported})
+    row_index = {key: i for i, key in enumerate(rows)}
+    col_index = {key: i for i, key in enumerate(cols)}
+
+    r = [row_index[e.waypoint] for e in supported]
+    c = [col_index[e.bird] for e in supported]
+    x = [int(e.barrier) for e in supported]
+    y = [int(getattr(e, count_field)) for e in supported]
+
+    row_total = [0.0] * len(rows)
+    col_total = [0.0] * len(cols)
+    barrier_total = 0.0
+    total_y = 0.0
+    for ri, ci, xi, yi in zip(r, c, x, y):
+        row_total[ri] += yi
+        col_total[ci] += yi
+        total_y += yi
+        if xi:
+            barrier_total += yi
+
+    if barrier_total <= 0 or barrier_total >= total_y:
+        raise ValueError("barrier coefficient is separated by observed counts")
+
+    a = [1.0] * len(rows)
+    b = [1.0] * len(cols)
+    beta = 0.0
+    converged = False
+    margin_error = math.inf
+
+    for iteration in range(1, max_iter + 1):
+        exp_beta = math.exp(beta)
+
+        row_den = [0.0] * len(rows)
+        for ri, ci, xi in zip(r, c, x):
+            row_den[ri] += b[ci] * (exp_beta if xi else 1.0)
+        for i in range(len(rows)):
+            if row_den[i] <= 0:
+                raise ValueError("zero row denominator during IPF")
+            a[i] = row_total[i] / row_den[i]
+
+        col_den = [0.0] * len(cols)
+        for ri, ci, xi in zip(r, c, x):
+            col_den[ci] += a[ri] * (exp_beta if xi else 1.0)
+        for i in range(len(cols)):
+            if col_den[i] <= 0:
+                raise ValueError("zero column denominator during IPF")
+            b[i] = col_total[i] / col_den[i]
+
+        positive_b = [value for value in b if value > 0]
+        if not positive_b:
+            raise ValueError("all bird fixed effects collapsed")
+        scale = math.exp(_mean([math.log(value) for value in positive_b]))
+        b = [value / scale for value in b]
+        a = [value * scale for value in a]
+
+        base_barrier = 0.0
+        for ri, ci, xi in zip(r, c, x):
+            if xi:
+                base_barrier += a[ri] * b[ci]
+        if base_barrier <= 0:
+            raise ValueError("barrier base intensity is zero")
+        beta_new = math.log(barrier_total / base_barrier)
+
+        exp_new = math.exp(beta_new)
+        fitted_row = [0.0] * len(rows)
+        fitted_col = [0.0] * len(cols)
+        for ri, ci, xi in zip(r, c, x):
+            mu = a[ri] * b[ci] * (exp_new if xi else 1.0)
+            fitted_row[ri] += mu
+            fitted_col[ci] += mu
+
+        row_error = max(
+            abs(fitted_row[i] - row_total[i]) / max(1.0, row_total[i])
+            for i in range(len(rows))
+        )
+        col_error = max(
+            abs(fitted_col[i] - col_total[i]) / max(1.0, col_total[i])
+            for i in range(len(cols))
+        )
+        margin_error = max(row_error, col_error)
+
+        if abs(beta_new - beta) < tol and margin_error < 1e-8:
+            beta = beta_new
+            converged = True
+            break
+        beta = beta_new
+
+    if not converged:
+        raise ValueError(
+            f"IPF did not converge; beta={beta}, margin_error={margin_error}"
         )
 
-    groups = []
-    bird_rhos: list[float] = []
-    spans: list[float] = []
-    for points in by_bird.values():
-        if len(points) < 3:
-            continue
-        x = [p[0] for p in points]
-        y = [p[1] for p in points]
-        spans.append(max(x) - min(x))
-        if len(set(x)) < 2 or len(set(y)) < 2:
-            continue
-        xr = _rankdata(x)
-        yr = _rankdata(y)
-        xmean = _mean(xr)
-        ymean = _mean(yr)
-        xc = [v - xmean for v in xr]
-        yc = [v - ymean for v in yr]
-        rho = _pearson(xr, yr)
-        if math.isfinite(rho):
-            bird_rhos.append(rho)
-        groups.append((xc, yc))
+    return {
+        "beta_log_rate_ratio": beta,
+        "rate_ratio": math.exp(beta),
+        "iterations": iteration,
+        "max_margin_relative_error": margin_error,
+        "supported_edges": len(supported),
+        "supported_waypoints": len(rows),
+        "supported_birds": len(cols),
+        **pruning,
+    }
 
-    pooled_x = [v for x, _y in groups for v in x]
-    pooled_y = [v for _x, y in groups for v in y]
-    observed = _pearson(pooled_x, pooled_y)
-    if not math.isfinite(observed):
-        p = None
+
+def plant_cluster_jackknife(
+    edges: list[Edge],
+    *,
+    count_field: str,
+) -> dict[str, object]:
+    supported, _ = _prune_positive_margin_support(edges, count_field)
+    plants = sorted({edge.plant for edge in supported})
+    if len(plants) < MIN_PLANTS:
+        raise ValueError("too few plant clusters for jackknife")
+
+    full = fit_two_way_poisson(supported, count_field=count_field)
+    estimates: list[float] = []
+    for plant in plants:
+        subset = [edge for edge in supported if edge.plant != plant]
+        estimate = fit_two_way_poisson(subset, count_field=count_field)
+        estimates.append(float(estimate["beta_log_rate_ratio"]))
+
+    mean_leave_one = _mean(estimates)
+    n = len(estimates)
+    variance = (n - 1) / n * sum(
+        (value - mean_leave_one) ** 2
+        for value in estimates
+    )
+    se = math.sqrt(max(0.0, variance))
+    beta = float(full["beta_log_rate_ratio"])
+
+    ci95_beta = [beta - Z95 * se, beta + Z95 * se]
+    ci90_beta = [beta - Z90 * se, beta + Z90 * se]
+
+    return {
+        "fit": full,
+        "plant_clusters": len(plants),
+        "jackknife_se_beta": se,
+        "ci95_rate_ratio": [math.exp(ci95_beta[0]), math.exp(ci95_beta[1])],
+        "ci90_rate_ratio": [math.exp(ci90_beta[0]), math.exp(ci90_beta[1])],
+        "leave_one_estimate_min": min(estimates),
+        "leave_one_estimate_max": max(estimates),
+    }
+
+
+def classify_participation(primary: dict[str, object]) -> dict[str, object]:
+    rr = float(primary["fit"]["rate_ratio"])
+    ci95 = [float(x) for x in primary["ci95_rate_ratio"]]
+    ci90 = [float(x) for x in primary["ci90_rate_ratio"]]
+
+    equivalent = ci90[0] >= EQ_LOW and ci90[1] <= EQ_HIGH
+    reduced = ci95[1] < 1.0
+    increased = ci95[0] > 1.0
+
+    if equivalent:
+        classification = "ROUTING_WITHOUT_MATERIAL_PARTICIPATION_LOSS"
+    elif reduced:
+        classification = "PARTICIPATION_REDUCTION_PLUS_ROUTING"
+    elif increased:
+        classification = "PARTICIPATION_INCREASE_PLUS_ROUTING"
     else:
-        rng = random.Random(seed)
-        extreme = 0
-        for _ in range(permutations):
-            perm_y = []
-            for _x, y in groups:
-                local = list(y)
-                rng.shuffle(local)
-                perm_y.extend(local)
-            stat = _pearson(pooled_x, perm_y)
-            if math.isfinite(stat) and abs(stat) >= abs(observed) - 1e-15:
-                extreme += 1
-        p = (extreme + 1) / (permutations + 1)
+        classification = "PARTICIPATION_UNRESOLVED_ROUTING_ESTABLISHED"
 
-    nonzero = [rho for rho in bird_rhos if rho != 0]
-    positive = sum(rho > 0 for rho in nonzero)
     return {
-        "response": response_key,
-        "bird_species_total": len(by_bird),
-        "eligible_bird_species": len(groups),
-        "bird_plant_dyads_in_pooled_test": len(pooled_x),
-        "pooled_within_bird_rank_rho": (
-            observed if math.isfinite(observed) else None
-        ),
-        "within_bird_permutation_p_two_sided": p,
-        "bird_specific_rho_count": len(bird_rhos),
-        "bird_specific_positive_rho_count": positive,
-        "bird_specific_median_rho": _median(bird_rhos) if bird_rhos else None,
-        "bird_specific_sign_test_p": _binomial_two_sided_sign_p(
-            positive, len(nonzero)
-        ),
-        "median_within_bird_mismatch_span": _median(spans) if spans else None,
-        "permutations": permutations,
+        "classification": classification,
+        "rate_ratio": rr,
+        "ci95_rate_ratio": ci95,
+        "ci90_rate_ratio": ci90,
+        "equivalence_margin": [EQ_LOW, EQ_HIGH],
+        "equivalence_supported": equivalent,
+        "participation_reduction_supported": reduced,
+        "participation_increase_supported": increased,
+        "material_suppression_supported": ci95[1] < EQ_LOW,
+        "material_enhancement_supported": ci95[0] > EQ_HIGH,
     }
 
 
-def barrier_rate_decomposition(
-    site_rows: list[dict[str, object]],
-    *,
-    permutations: int,
-    seed: int,
-) -> dict[str, object]:
-    by_bird: dict[str, list[dict[str, object]]] = defaultdict(list)
-    for row in site_rows:
-        by_bird[str(row["bird_species"])].append(row)
-
-    total_diffs: list[float] = []
-    leg_diffs: list[float] = []
-    rob_diffs: list[float] = []
-    for rows in by_bird.values():
-        barrier = [r for r in rows if bool(r["trait_barrier"])]
-        accessible = [r for r in rows if not bool(r["trait_barrier"])]
-        if not barrier or not accessible:
-            continue
-        total_diffs.append(
-            _mean([float(r["total_rate_per_hour"]) for r in barrier])
-            - _mean([float(r["total_rate_per_hour"]) for r in accessible])
-        )
-        leg_diffs.append(
-            _mean([float(r["legitimate_rate_per_hour"]) for r in barrier])
-            - _mean([float(r["legitimate_rate_per_hour"]) for r in accessible])
-        )
-        rob_diffs.append(
-            _mean([float(r["robbery_rate_per_hour"]) for r in barrier])
-            - _mean([float(r["robbery_rate_per_hour"]) for r in accessible])
-        )
-
-    mean_total = _mean(total_diffs) if total_diffs else None
-    mean_leg = _mean(leg_diffs) if leg_diffs else None
-    mean_rob = _mean(rob_diffs) if rob_diffs else None
-    compensation = None
-    if (
-        mean_leg is not None
-        and mean_rob is not None
-        and mean_leg < 0
-        and mean_rob > 0
-    ):
-        compensation = mean_rob / abs(mean_leg)
-
-    return {
-        "eligible_bird_species": len(total_diffs),
-        "mean_total_rate_difference_per_hour": mean_total,
-        "median_total_rate_difference_per_hour": (
-            _median(total_diffs) if total_diffs else None
-        ),
-        "total_rate_sign_flip_p_two_sided": _sign_flip_p(
-            total_diffs, permutations=permutations, seed=seed
-        ),
-        "mean_legitimate_rate_difference_per_hour": mean_leg,
-        "mean_robbery_rate_difference_per_hour": mean_rob,
-        "descriptive_robbery_compensation_ratio": compensation,
-        "claim_boundary": (
-            "Legitimate and robbery rate differences are a descriptive decomposition. "
-            "The compensation ratio is not causal mediation."
-        ),
+def support_gate(audit: dict[str, object], edges: list[Edge]) -> dict[str, object]:
+    checks = {
+        "trait_matched_edges_ge_10000": len(edges) >= MIN_EDGES,
+        "positive_edges_ge_3000": int(audit["primary_positive_edges"]) >= MIN_POSITIVE,
+        "zero_edges_ge_3000": int(audit["primary_zero_edges"]) >= MIN_ZERO,
+        "clean_waypoints_ge_1000": int(audit["clean_waypoints"]) >= MIN_WAYPOINTS,
+        "bird_species_ge_20": int(audit["bird_species"]) >= MIN_BIRDS,
+        "plant_species_clusters_ge_30": int(audit["plant_species"]) >= MIN_PLANTS,
+        "contains_barrier_edges": int(audit["barrier_edges"]) > 0,
+        "contains_accessible_edges": int(audit["accessible_edges"]) > 0,
     }
-
-
-def classify(participation: dict[str, object], routing: dict[str, object]) -> str:
-    prho = participation["pooled_within_bird_rank_rho"]
-    pp = participation["within_bird_permutation_p_two_sided"]
-    rrho = routing["pooled_within_bird_rank_rho"]
-    rp = routing["within_bird_permutation_p_two_sided"]
-    part_negative = (
-        prho is not None and pp is not None and float(prho) < 0 and float(pp) < ALPHA
-    )
-    route_positive = (
-        rrho is not None and rp is not None and float(rrho) > 0 and float(rp) < ALPHA
-    )
-    if route_positive and not part_negative:
-        return "ROUTING_WITHOUT_DETECTED_PARTICIPATION_LOSS"
-    if route_positive and part_negative:
-        return "SUPPRESSION_PLUS_REROUTING"
-    if (not route_positive) and part_negative:
-        return "FILTERING_DOMINANT"
-    return "MIXED_OR_UNRESOLVED"
+    return {"checks": checks, "passes": all(checks.values())}
 
 
 def analyze_tables(
@@ -541,138 +505,60 @@ def analyze_tables(
     cameras: list[dict[str, str]],
     plants: list[dict[str, str]],
     birds: list[dict[str, str]],
-    *,
-    permutations: int = PERMUTATIONS,
-    seed: int = SEED,
-    exclude_no_feeding: bool = True,
-    strict_camera_problem: bool = False,
 ) -> dict[str, object]:
-    opportunities, audit = build_opportunity_rows(
-        interactions,
-        cameras,
-        plants,
-        birds,
-        exclude_no_feeding=exclude_no_feeding,
-        strict_camera_problem=strict_camera_problem,
-    )
-    site_dyads = aggregate_site_dyads(opportunities)
-    dyads = aggregate_bird_plant_dyads(site_dyads)
+    edges, audit = build_opportunity_edges(interactions, cameras, plants, birds)
+    gate = support_gate(audit, edges)
+    if not gate["passes"]:
+        return {
+            "analysis_name": "aubert_ephi_participation_route_decomposition",
+            "status": "RESULT_NOT_OPENED_SUPPORT_GATE_FAILED",
+            "audit": audit,
+            "support_gate": gate,
+            "participation_effect": None,
+        }
 
-    participation = within_bird_centered_rank_summary(
-        dyads,
-        response_key="total_rate_per_hour",
-        require_positive_total=False,
-        permutations=permutations,
-        seed=seed,
-    )
-    routing = within_bird_centered_rank_summary(
-        dyads,
-        response_key="robbery_proportion",
-        require_positive_total=True,
-        permutations=permutations,
-        seed=seed + 1,
-    )
-    decomposition = barrier_rate_decomposition(
-        site_dyads,
-        permutations=permutations,
-        seed=seed + 2,
-    )
+    primary = plant_cluster_jackknife(edges, count_field="primary_count")
+    strict = fit_two_way_poisson(edges, count_field="strict_count")
+    broad = fit_two_way_poisson(edges, count_field="broad_count")
+    decision = classify_participation(primary)
 
     return {
         "analysis_name": "aubert_ephi_participation_route_decomposition",
-        "status": "OBSERVATIONAL_TWO_PART_DECOMPOSITION",
-        "opportunity_audit": audit,
-        "site_bird_plant_rows": len(site_dyads),
-        "bird_plant_dyads": len(dyads),
-        "participation": participation,
-        "routing_reconstructed": routing,
-        "barrier_rate_decomposition": decomposition,
-        "outcome_classification": classify(participation, routing),
-        "policy": {
-            "exclude_no_feeding": exclude_no_feeding,
-            "strict_camera_problem": strict_camera_problem,
-            "effort": "positive duration_sampling_hours only; no duration_from_pics fallback",
-            "camera_flowers_count": "unused; source metadata says unavailable for Ecuador",
+        "status": "FIT",
+        "audit": audit,
+        "support_gate": gate,
+        "primary_participation": primary,
+        "decision": decision,
+        "sensitivities": {
+            "strict_feeding_rate_ratio": strict["rate_ratio"],
+            "broad_feeding_rate_ratio": broad["rate_ratio"],
+        },
+        "model": {
+            "formula": (
+                "log(mu_waypoint,bird) = alpha_waypoint + gamma_bird "
+                "+ beta * I[tube > culmen]"
+            ),
+            "estimand": (
+                "exp(beta) barrier/access total route-resolved exploitation rate ratio"
+            ),
+            "uncertainty": "delete-one-plant-species jackknife",
         },
         "claim_boundary": (
-            "The participation denominator uses locally available birds and camera "
-            "effort to add zero opportunities. The analysis is observational; failure "
-            "to detect a negative participation association is not equivalence."
+            "Observational participation analysis. Waypoint and bird fixed effects "
+            "control their main effects, but the result does not establish that floral "
+            "geometry causally changed visitation or evolved as defence."
         ),
-        "permutations": permutations,
-        "seed": seed,
     }
 
 
-def _require_denominator_gate(audit: dict[str, object]) -> None:
-    decision = audit.get("decision_inputs")
-    if not isinstance(decision, dict):
-        raise ValueError("denominator audit lacks decision_inputs")
-    if decision.get("waypoint_temporal_denominator_is_possible") is not True:
-        raise ValueError("waypoint temporal denominator audit did not pass")
-    if not audit.get("camera_metadata_matches"):
-        raise ValueError("camera metadata definitions were not captured")
-
-
-def run(
-    audit_json: str | Path,
-    output: str | Path,
-    *,
-    permutations: int = PERMUTATIONS,
-) -> dict[str, object]:
-    audit = json.loads(Path(audit_json).read_text(encoding="utf-8"))
-    _require_denominator_gate(audit)
+def run(output: str | Path) -> dict[str, object]:
     tables = {key: _read(_download(name)) for key, name in FILES.items()}
-
-    primary = analyze_tables(
+    result = analyze_tables(
         tables["interactions"],
         tables["cameras"],
         tables["plants"],
         tables["birds"],
-        permutations=permutations,
-        seed=SEED,
-        exclude_no_feeding=True,
-        strict_camera_problem=False,
     )
-    letter_aligned = analyze_tables(
-        tables["interactions"],
-        tables["cameras"],
-        tables["plants"],
-        tables["birds"],
-        permutations=permutations,
-        seed=SEED + 1000,
-        exclude_no_feeding=False,
-        strict_camera_problem=False,
-    )
-    strict_camera = analyze_tables(
-        tables["interactions"],
-        tables["cameras"],
-        tables["plants"],
-        tables["birds"],
-        permutations=permutations,
-        seed=SEED + 2000,
-        exclude_no_feeding=True,
-        strict_camera_problem=True,
-    )
-
-    result = {
-        "analysis_name": "aubert_ephi_participation_route_decomposition_bundle",
-        "preregistration": (
-            "empirical/floral_defence_selectivity/"
-            "PARTICIPATION_ROUTE_DECOMPOSITION_PREREG_V1.md"
-        ),
-        "denominator_audit": str(audit_json),
-        "primary": primary,
-        "sensitivities": {
-            "letter_aligned_feeding_policy": letter_aligned,
-            "camera_problem_no_only": strict_camera,
-        },
-        "guardrail": (
-            "First real-data effect opening must be retained regardless of sign. "
-            "Do not redefine zero opportunities, effort, feeding inclusion, or outcome "
-            "classification after this file is generated."
-        ),
-    }
     path = Path(output)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -681,14 +567,6 @@ def run(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("audit_json")
     parser.add_argument("output")
-    parser.add_argument("--permutations", type=int, default=PERMUTATIONS)
     args = parser.parse_args()
-    print(
-        json.dumps(
-            run(args.audit_json, args.output, permutations=args.permutations),
-            indent=2,
-            sort_keys=True,
-        )
-    )
+    print(json.dumps(run(args.output), indent=2, sort_keys=True))
