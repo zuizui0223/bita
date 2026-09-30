@@ -24,6 +24,17 @@ within-bird continuous: 28 bird species / 1,285 dyads, rho = 0.340, p = 0.0001
 24 / 28 bird-specific correlations positive; median rho = 0.338
 between-bird mean diagnostic: rho = 0.086, p = 0.551
 
+PARTICIPATION DECOMPOSITION:
+clean waypoint x locally available bird opportunities = 19,909
+positive edges = 6,519
+zero edges = 13,390
+barrier/access total exploitation RR = 1.7717
+95% plant-jackknife CI = 1.1050 to 2.8405
+90% CI = 1.1922 to 2.6329
+frozen class = PARTICIPATION_INCREASE_PLUS_ROUTING
+strict-feeding RR = 1.7149
+broad-feeding RR = 1.7717
+
 CORROBORATION:
 Sakhalkar Afrotropical insect–flower network
 57 plant species
@@ -39,6 +50,8 @@ k = 2 independent networks
 ```
 
 The joint statistic tests recurrence across these two networks only. It does not estimate between-network heterogeneity, a network-population mean, or generality beyond the two systems.
+
+The Ecuador participation result closes a separate logical gap. The robbery analyses condition on interactions that occurred, whereas the preregistered zero-inclusive model asks whether barrier dyads receive less, equal or more total route-resolved exploitation. Under the frozen waypoint- and bird-fixed-effect model, barrier dyads received significantly more total exploitation (RR 1.772, 95% CI 1.105–2.841). Thus the retained manuscript interpretation is **participation increase plus routing**, not filtering followed by a robbery-enriched residual subset. The result remains observational.
 
 ## Mechanistic boundary
 
@@ -91,6 +104,11 @@ confirmatory contribution.
 ~~~text
 PUBLISHED_DIRECTIONAL_MULTISPECIES_DATASET_RECURRENCE = 3
 PRIMARY_STANDARDIZED_NETWORK_K = 2
+PARTICIPATION_FIRST_OPEN = FROZEN_RETAIN_REGARDLESS_OF_SIGN
+PARTICIPATION_CLASS = PARTICIPATION_INCREASE_PLUS_ROUTING
+PARTICIPATION_RATE_RATIO = 1.7717025981
+PARTICIPATION_CI95 = 1.1050441909_TO_2.8405471220
+PARTICIPATION_EQUIVALENCE = NOT_SUPPORTED
 CASE_STANDARDIZED_EFFECT = NOT_COMPUTED
 CASE_CONFIRMATORY_THIRD_FAUNA = NO
 ~~~
