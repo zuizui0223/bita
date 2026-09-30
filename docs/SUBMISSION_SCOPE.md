@@ -108,9 +108,20 @@ between-bird mean diagnostic:
   n = 50 bird species
   rho = 0.08581
   permutation p = 0.5509
+
+zero-inclusive participation decomposition:
+  clean waypoint x locally available bird opportunities = 19,909
+  positive edges = 6,519
+  zero edges = 13,390
+  barrier/access total route-resolved exploitation RR = 1.77170
+  95% plant-jackknife CI = 1.10504 to 2.84055
+  90% CI = 1.19218 to 2.63292
+  frozen class = PARTICIPATION_INCREASE_PLUS_ROUTING
+  strict-feeding RR = 1.71491
+  broad-feeding RR = 1.77166
 ```
 
-This is an observational all-Ecuador extension, not an exact replication of the source three-transect GLMM. Plant-species inference remains primary for the cross-network statistic, while the within-bird paired and continuous analyses directly recover the behavioral routing direction. The null correlation among bird-species means is retained as a distinct between-species estimand, not interpreted as failure of within-bird rerouting.
+This is an observational all-Ecuador extension, not an exact replication of the source three-transect GLMM. Plant-species inference remains primary for the cross-network routing statistic, while the within-bird analyses recover behavioral rerouting. The preregistered participation model separately shows that the routing signal is not a residual subset created by reduced interaction intensity: after waypoint and bird fixed effects, barrier dyads have higher total route-resolved exploitation. This is an observational association, not causal amplification.
 
 ## 3. Independent corroboration — Sakhalkar insects
 
@@ -353,6 +364,7 @@ pooled into one grand meta-analytic effect.
 Do not claim:
 
 - either network establishes causality;
+- the participation rate ratio establishes causal amplification or evolutionary defence;
 - Sakhalkar uniquely identifies tube length;
 - the two networks estimate a universal effect;
 - `k=2` demonstrates network-wide generality;
@@ -370,7 +382,9 @@ Required archive contents:
 ~~~text
 57-row anonymous Sakhalkar species analysis table
 2,265-row anonymous Aubert/EPHI pair-site table with plant/bird cluster IDs
-259-plant-species primary inference reproducible from those anonymous clusters
+19,909-row anonymous zero-inclusive Aubert/EPHI participation-opportunity table
+259-plant-species routing inference reproducible from anonymous clusters
+1.7717 participation rate ratio and plant-jackknife CI reproducible from the opportunity table
 column metadata
 exact reproduction code
 frozen aggregate outputs
@@ -413,6 +427,9 @@ PRIMARY_FORWARD_PAPER = ACCESS_ROUTING_LETTER
 PRIMARY_DATASET = AUBERT_EPHI_ALL_ECUADOR
 INDEPENDENT_CORROBORATION = SAKHALKAR_INSECTS
 JOINT_NETWORK_K = 2
+PARTICIPATION_CLASS = PARTICIPATION_INCREASE_PLUS_ROUTING
+PARTICIPATION_RATE_RATIO = 1.7717025981
+PARTICIPATION_CI95 = 1.1050441909_TO_2.8405471220
 EXTENDED_SYNTHESIS = PRESERVED_RESERVE
 REPRODUCIBLE_ANALYSES = READY
 LETTER_PACKAGE = READY

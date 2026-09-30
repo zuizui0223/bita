@@ -117,6 +117,7 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
     for token in (
         "sakhalkar_species_analysis.csv",
         "aubert_ephi_pair_site_analysis.csv",
+        "aubert_ephi_participation_opportunities.csv",
         "metadata.csv",
         "archive_manifest.json",
         "archive_reproduction.json",
@@ -176,3 +177,5 @@ def test_cover_letter_matches_current_evidence_hierarchy() -> None:
     assert "four opposite" in lower
     assert "two mixed" in lower
     assert "success-rate or prevalence argument" in lower
+    assert "1.77-fold higher total route-resolved exploitation" in lower
+    assert "participation increase plus routing" in lower

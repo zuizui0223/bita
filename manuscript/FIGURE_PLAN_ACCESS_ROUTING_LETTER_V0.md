@@ -94,9 +94,24 @@ sign-test p = 7.63e-6
 site-stratified permutation p = 0.0001
 ~~~
 
+### Panel C — participation versus routing
+
+Show a compact rate-ratio interval for the preregistered zero-inclusive analysis:
+
+~~~text
+barrier/access total route-resolved exploitation RR = 1.772
+95% plant-jackknife CI = 1.105–2.841
+90% CI = 1.192–2.633
+frozen class = participation increase + routing
+strict-feeding sensitivity RR = 1.715
+broad-feeding sensitivity RR = 1.772
+~~~
+
+Mark RR = 1 and the prespecified equivalence band 0.80–1.25. Do not label the estimate as causal amplification.
+
 Main message:
 
-> the same access-routing direction appears under different fauna, response definitions and inferential grains.
+> in Ecuador, access mismatch is associated with both greater total exploitation and a shift toward bypass use; the routing direction then recurs in the independent insect network.
 
 ---
 

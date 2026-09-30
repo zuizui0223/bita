@@ -7,7 +7,8 @@ This directory defines the archive that must receive a permanent DOI **before ex
 The build workflow generates an `artifacts/letter/data_archive/` directory containing:
 
 - `sakhalkar_species_analysis.csv` — 57 anonymous plant-species analysis units used for the insect routing and multitrait analyses;
-- `aubert_ephi_pair_site_analysis.csv` — 2,265 anonymous bird × plant × site aggregation units under the metadata-informed missing-as-no rule, with anonymized plant- and bird-species cluster IDs; these reproduce both the 259-plant primary inference and the paired/continuous within-bird behavioral sensitivities;
+- `aubert_ephi_pair_site_analysis.csv` — 2,265 anonymous bird × plant × site aggregation units under the metadata-informed missing-as-no rule, with anonymized plant- and bird-species cluster IDs; these reproduce the routing analyses;
+- `aubert_ephi_participation_opportunities.csv` — the zero-inclusive clean-waypoint × locally available bird opportunity matrix used for the participation-rate model, with anonymized waypoint, plant and bird IDs and primary/strict/broad exploitation counts; this reproduces the 1.77-fold barrier/access total-exploitation rate ratio and plant-cluster jackknife;
 - `metadata.csv` — file/column descriptions and units;
 - `archive_manifest.json` — source DOIs, row counts and identifier policy;
 - `archive_reproduction.json` — statistics regenerated using only the archived analysis tables;
@@ -32,18 +33,17 @@ The submission archive must also include the exact code used to export and repro
 
 ## Supporting direct-evidence boundary
 
-The literature files reproduce the manuscript's bounded supporting-audit statement:
+The formal provider-defined frame contains 33 eligible independent direct programs:
 
 ~~~text
-24 direct study programs
-16 positive
+22 positive
 5 null
+4 opposite
 2 mixed
-1 opposite
 network-k contribution = 0
 ~~~
 
-These counts are descriptive and are not a prevalence estimate, sign test or pooled effect. The standardized joint analysis remains based on two independent networks only. The supporting archive also records why the formal recurrence statistic remains closed: the bounded web update is not a finite exportable bibliographic denominator.
+These counts are descriptive and are not a natural-prevalence estimate, sign test or pooled effect. The standardized joint routing analysis remains based on two independent networks only. The archive retains the bounded precursor corpus and search/provenance files for auditability, but the manuscript-facing finite-frame count is the completed 33-program OpenAlex frame.
 
 ## Public source data
 
@@ -52,7 +52,7 @@ Underlying public data remain attributed to their original repositories:
 - Sakhalkar et al. 2023: Zenodo DOI `10.5281/zenodo.8398202`
 - EPHI Ecuador mirror: Zenodo DOI `10.5281/zenodo.14185547`
 
-The archive does not silently republish source species identifiers. It contains the exact analysis-ready units needed to reproduce the reported statistics. EPHI site, plant-species and bird-species labels are deterministically relabelled so the primary plant-species analysis and bird-species dependence sensitivity can be reproduced without exposing source taxon names.
+The archive does not silently republish source species identifiers. It contains the exact analysis-ready units needed to reproduce the reported routing and participation statistics. EPHI waypoint, site, plant-species and bird-species labels are deterministically relabelled so plant-cluster, bird-cluster and waypoint fixed-effect analyses can be reproduced without exposing source taxon names.
 
 ## Reproduction
 

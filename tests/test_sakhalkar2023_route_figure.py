@@ -78,7 +78,14 @@ def test_figure4_svg_contains_points_and_frozen_stats_without_species_ids() -> N
             },
         },
     }
-    svg = build_svg(points, result, aubert)
+    participation = {
+        "decision": {
+            "rate_ratio": 1.7717,
+            "ci95_rate_ratio": [1.1050, 2.8405],
+            "equivalence_margin": [0.8, 1.25],
+        }
+    }
+    svg = build_svg(points, result, aubert, participation)
 
     assert svg.count("<circle") >= 3
     assert "n = 3 species" in svg
@@ -93,6 +100,10 @@ def test_figure4_svg_contains_points_and_frozen_stats_without_species_ids() -> N
     assert "bird paired barrier: 36 species" in svg
     assert "within-bird continuous: 28 species / 1,285 dyads" in svg
     assert "centered-rank rho = 0.340" in svg
+    assert "Ecuador participation decomposition" in svg
+    assert "barrier/access total exploitation RR = 1.772" in svg
+    assert "95% plant-jackknife CI 1.105–2.841" in svg
+    assert "frozen 0.80–1.25 equivalence margin" in svg
     assert ">A<" not in svg
     assert ">B<" not in svg
     assert ">C<" not in svg
