@@ -17,6 +17,12 @@ from scripts.analyze_aubert2026_missingness_dependence_sensitivity import (
     cluster_label_swap_summary,
 )
 from scripts.analyze_aubert2026_zenodo_extension import summarize_pair_sites
+from scripts.analyze_aubert2026_participation_route_decomposition import (
+    Edge,
+    classify_participation,
+    fit_two_way_poisson,
+    plant_cluster_jackknife,
+)
 from scripts.analyze_joint_access_routing_species_robust import (
     aggregate_aubert_by_plant,
     summarize_joint_species,
@@ -72,9 +78,31 @@ def load_aubert(path: Path) -> list[dict[str, object]]:
     return rows
 
 
+def load_aubert_participation(path: Path) -> list[Edge]:
+    rows: list[Edge] = []
+    for row in _read_csv(path):
+        rows.append(
+            Edge(
+                waypoint=row["waypoint_unit"],
+                bird=row["bird_unit"],
+                plant=row["plant_unit"],
+                site=row["site_id"],
+                barrier=1 if row["trait_barrier"].strip().lower() == "true" else 0,
+                mismatch=float(row["mismatch_log_t_over_b"]),
+                primary_count=int(row["primary_count"]),
+                strict_count=int(row["strict_count"]),
+                broad_count=int(row["broad_count"]),
+            )
+        )
+    return rows
+
+
 def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]:
     sakh_rows = load_sakhalkar(input_dir / "sakhalkar_species_analysis.csv")
     aubert_rows = load_aubert(input_dir / "aubert_ephi_pair_site_analysis.csv")
+    participation_edges = load_aubert_participation(
+        input_dir / "aubert_ephi_participation_analysis.csv"
+    )
 
     sx = [float(row["tube_length"]) for row in sakh_rows if row["tube_length"] is not None]
     sy = [float(row["route_balance"]) for row in sakh_rows if row["tube_length"] is not None]
@@ -98,8 +126,22 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
 
     aubert_plant_points = aggregate_aubert_by_plant(aubert_rows)
 
+    participation_primary = plant_cluster_jackknife(
+        participation_edges,
+        count_field="primary_count",
+    )
+    participation_decision = classify_participation(participation_primary)
+    participation_strict = fit_two_way_poisson(
+        participation_edges,
+        count_field="strict_count",
+    )
+    participation_broad = fit_two_way_poisson(
+        participation_edges,
+        count_field="broad_count",
+    )
+
     return {
-        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V2",
+        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V3",
         "sakhalkar": {
             "n_species": len(sakh_points),
             "spearman_rho": s_rho,
@@ -152,6 +194,15 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
             permutations=permutations,
             seed=JOINT_SEED,
         ),
+        "participation": {
+            "primary_participation": participation_primary,
+            "decision": participation_decision,
+            "sensitivities": {
+                "strict_feeding_rate_ratio": participation_strict["rate_ratio"],
+                "broad_feeding_rate_ratio": participation_broad["rate_ratio"],
+            },
+            "n_opportunity_edges": len(participation_edges),
+        },
     }
 
 
