@@ -59,7 +59,7 @@ Main message:
 
 ---
 
-## Figure 2 — Native-scale routing evidence in two independent networks
+## Figure 2 — Routing recurrence and total exploitation in the primary network
 
 Use the existing two-network public-data figure as the base.
 
@@ -85,18 +85,22 @@ barrier robbery = 0.147
 accessible robbery = 0.020
 ~~~
 
-### Panel B — site robustness
+### Panel B — Aubert / EPHI participation intensity
 
 ~~~text
-18 comparable sites
-18 positive barrier effects
-sign-test p = 7.63e-6
-site-stratified permutation p = 0.0001
+zero-inclusive opportunities = 19,909
+positive edges = 6,519
+zero edges = 13,390
+barrier/access total exploitation rate ratio = 1.77
+95% plant-cluster jackknife CI = 1.11–2.84
+frozen class = participation increase + routing
 ~~~
+
+Keep site robustness in Supporting Information.
 
 Main message:
 
-> the same access-routing direction appears under different fauna, response definitions and inferential grains.
+> in Ecuador, access mismatch is associated with both greater bypass use and greater total route-resolved exploitation; the insect network independently corroborates the routing direction only.
 
 ---
 
