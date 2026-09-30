@@ -1,0 +1,59 @@
+name: Validate participation-route pre-effect freeze
+
+on:
+  pull_request:
+    paths:
+      - "empirical/floral_defence_selectivity/PARTICIPATION_ROUTE_DECOMPOSITION_PREREG_V1.md"
+      - "empirical/floral_defence_selectivity/PARTICIPATION_ROUTE_DENOMINATOR_FREEZE_V1.json"
+      - "scripts/analyze_aubert2026_participation_route_decomposition.py"
+      - "tests/test_aubert2026_participation_route_decomposition.py"
+      - ".github/workflows/validate-participation-route-freeze.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  freeze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and tests
+        run: python -m pip install -e '.[dev]'
+
+      - name: Run synthetic model and jackknife acceptance tests
+        run: pytest -q tests/test_aubert2026_participation_route_decomposition.py
+
+      - name: Verify effect remains unopened
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          freeze = json.loads(
+              Path(
+                  "empirical/floral_defence_selectivity/"
+                  "PARTICIPATION_ROUTE_DENOMINATOR_FREEZE_V1.json"
+              ).read_text()
+          )
+          assert freeze["status"] == "FROZEN_BEFORE_MISMATCH_PARTICIPATION_EFFECT"
+          assert freeze["participation_effect_opened"] is False
+
+          forbidden = [
+              Path("empirical/floral_defence_selectivity/results/aubert2026_participation_route_decomposition.json"),
+              Path("empirical/floral_defence_selectivity/results/aubert2026_participation_route_decomposition_first_open.json"),
+          ]
+          assert not any(path.exists() for path in forbidden)
+
+          script = Path("scripts/analyze_aubert2026_participation_route_decomposition.py").read_text()
+          assert "EQ_LOW = 0.80" in script
+          assert "EQ_HIGH = 1.25" in script
+          assert "delete-one-plant-species jackknife" in script
+          print("pre-effect freeze verified")
+          PY
