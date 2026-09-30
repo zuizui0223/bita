@@ -24,6 +24,14 @@ within-bird continuous: 28 bird species / 1,285 dyads, rho = 0.340, p = 0.0001
 24 / 28 bird-specific correlations positive; median rho = 0.338
 between-bird mean diagnostic: rho = 0.086, p = 0.551
 
+PARTICIPATION:
+clean zero-inclusive waypoint x local-bird opportunities = 19,909
+barrier/access total-exploitation rate ratio = 1.7717
+plant-cluster 95% CI = 1.1050–2.8405
+90% CI = 1.1922–2.6329
+classification = PARTICIPATION_INCREASE_PLUS_ROUTING
+strict / broad feeding sensitivities = 1.7149 / 1.7717
+
 CORROBORATION:
 Sakhalkar Afrotropical insect–flower network
 57 plant species
@@ -56,6 +64,13 @@ Thus the paper no longer implies a universal “longer flower = more robbery” 
 Access constraints promote rerouting when they penalize legitimate access more than
 the bypass route. Null, mixed and opposite direct studies define boundary conditions
 for this mechanism.
+
+The newly opened participation layer is separate from the routing mechanism:
+after clean-camera opportunity reconstruction and waypoint/bird fixed effects,
+barrier dyads show higher total route-resolved exploitation (RR = 1.772,
+95% CI 1.105–2.841). The frozen outcome class is
+`PARTICIPATION_INCREASE_PLUS_ROUTING`. This is observational amplification,
+not evidence that floral geometry causally increases visitation.
 
 ### Prospective causal sign-reversal test
 
@@ -181,7 +196,7 @@ AUTHOR_RELATIVE_NOVELTY_STATEMENT = REQUIRED
 EXTERNAL_SUBMISSION = BLOCKED_UNTIL_THESE_ARE_COMPLETE
 ~~~
 
-The archive contract contains the exact 57-species Sakhalkar table and 2,265-row Aubert/EPHI pair-site table with anonymous plant/bird cluster identifiers, allowing the 259-plant-species primary analysis and dependence sensitivities to be reproduced without source taxon names. The remaining data sequence is: reserve the Zenodo DOI first, insert it into the submission files, freeze that DOI-bearing commit, build the exact final ZIP from that commit, upload it to the same draft, and publish the DOI record.
+The archive contract contains the exact 57-species Sakhalkar table, the 2,265-row Aubert/EPHI pair-site table, and the 19,909-row zero-inclusive participation table with anonymous waypoint/plant/bird identifiers, allowing the routing, dependence and participation analyses to be reproduced without source taxon names. The remaining data sequence is: reserve the Zenodo DOI first, insert it into the submission files, freeze that DOI-bearing commit, build the exact final ZIP from that commit, upload it to the same draft, and publish the DOI record.
 
 ## Journal route
 
