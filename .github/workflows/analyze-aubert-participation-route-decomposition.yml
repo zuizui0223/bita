@@ -1,0 +1,67 @@
+name: Open frozen Aubert participation effect
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/analyze-aubert-participation-route-decomposition.yml"
+      - "scripts/analyze_aubert2026_participation_route_decomposition.py"
+      - "empirical/floral_defence_selectivity/PARTICIPATION_ROUTE_DECOMPOSITION_PREREG_V1.md"
+      - "empirical/floral_defence_selectivity/PARTICIPATION_ROUTE_DENOMINATOR_FREEZE_V1.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and tests
+        run: python -m pip install -e '.[dev]'
+
+      - name: Verify freeze still says effect unopened
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("empirical/floral_defence_selectivity/PARTICIPATION_ROUTE_DENOMINATOR_FREEZE_V1.json").read_text())
+          assert x["status"]=="FROZEN_BEFORE_MISMATCH_PARTICIPATION_EFFECT"
+          assert x["participation_effect_opened"] is False
+          assert x["equivalence_margin_rate_ratio"] == [0.8, 1.25]
+          print("freeze contract verified")
+          PY
+
+      - name: Run first real EPHI participation effect
+        run: |
+          mkdir -p artifacts/participation
+          python -m scripts.analyze_aubert2026_participation_route_decomposition             artifacts/participation/aubert2026_participation_route_decomposition_first_open.json
+
+      - name: Print frozen outcome class
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("artifacts/participation/aubert2026_participation_route_decomposition_first_open.json")
+          x=json.loads(p.read_text())
+          assert x["status"] in {"FIT","RESULT_NOT_OPENED_SUPPORT_GATE_FAILED"}
+          print(json.dumps({
+              "status": x["status"],
+              "audit": x.get("audit"),
+              "support_gate": x.get("support_gate"),
+              "decision": x.get("decision"),
+              "sensitivities": x.get("sensitivities"),
+          },indent=2,sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aubert-participation-first-effect
+          path: artifacts/participation/aubert2026_participation_route_decomposition_first_open.json
+          if-no-files-found: error
