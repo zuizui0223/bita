@@ -160,3 +160,19 @@ def test_archive_has_one_file_deposit_contract() -> None:
     assert "10.5281/zenodo.8398202" in checklist
     assert "10.5281/zenodo.14185547" in checklist
     assert "Do not submit while any of these remain" in checklist
+
+
+@pytest.mark.prose_contract
+def test_cover_letter_matches_current_evidence_hierarchy() -> None:
+    cover = COVER.read_text(encoding="utf-8")
+    lower = cover.lower()
+    assert "rho_j=0.428" in lower
+    assert "k=2 independent standardized networks" in lower
+    assert "third independent multispecies hawaiian bird–lobelioid dataset" in lower
+    assert "directional corroboration" in lower
+    assert "33 independent direct programs" in lower
+    assert "22 positive" in lower
+    assert "five null" in lower
+    assert "four opposite" in lower
+    assert "two mixed" in lower
+    assert "success-rate or prevalence argument" in lower
