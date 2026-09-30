@@ -62,6 +62,10 @@ on:
       - "empirical/floral_defence_selectivity/results/joint_access_routing_species_robust.json"
       - "empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json"
       - "empirical/floral_defence_selectivity/results/aubert2026_missingness_dependence_sensitivity.json"
+      - "empirical/floral_defence_selectivity/results/aubert2026_participation_route_decomposition_first_open.json"
+      - "empirical/floral_defence_selectivity/results/AUBERT2026_PARTICIPATION_FIRST_OPEN_RECEIPT_V1.json"
+      - "empirical/floral_defence_selectivity/PARTICIPATION_ROUTE_DECOMPOSITION_PREREG_V1.md"
+      - "empirical/floral_defence_selectivity/PARTICIPATION_ROUTE_DENOMINATOR_FREEZE_V1.json"
       - "empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json"
       - "empirical/floral_defence_selectivity/results/sakhalkar2023_trait_routing.json"
       - ".github/workflows/build-access-routing-letter-package.yml"
@@ -154,6 +158,9 @@ jobs:
           multi = json.loads((root / "sakhalkar2023_trait_routing.json").read_text())
           aubert = json.loads((root / "aubert2026_missingness_dependence_sensitivity.json").read_text())
           joint = json.loads((root / "joint_access_routing_species_robust.json").read_text())
+          participation = json.loads(
+              (root / "aubert2026_participation_route_decomposition_first_open.json").read_text()
+          )
 
           assert observed["sakhalkar"]["n_species"] == 57
           assert math.isclose(
@@ -205,6 +212,19 @@ jobs:
           assert observed["joint"]["joint_permutation_p_two_sided"] == joint["joint_permutation_p_two_sided"]
           assert observed["joint"]["network_effects"] == joint["network_effects"]
 
+          observed_part = observed["aubert_ephi"]["participation_route_first_open"]
+          assert observed_part["opportunity_edges"] == 19909
+          assert observed_part["decision"] == participation["decision"]
+          assert observed_part["sensitivities"] == participation["sensitivities"]
+          assert math.isclose(
+              observed_part["primary_participation"]["fit"]["rate_ratio"],
+              participation["primary_participation"]["fit"]["rate_ratio"],
+              rel_tol=0.0,
+              abs_tol=1e-15,
+          )
+          assert observed_part["primary_participation"]["ci95_rate_ratio"] == participation["primary_participation"]["ci95_rate_ratio"]
+          assert observed_part["primary_participation"]["ci90_rate_ratio"] == participation["primary_participation"]["ci90_rate_ratio"]
+
           print("Archive-only reproduction matches frozen Letter results")
           PY
 
@@ -248,6 +268,8 @@ jobs:
           cp scripts/reproduce_access_routing_archive.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_aubert2026_zenodo_extension.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_aubert2026_missingness_dependence_sensitivity.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/analyze_aubert2026_participation_route_decomposition.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/audit_aubert2026_participation_denominator.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_joint_access_routing.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_joint_access_routing_species_robust.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_sakhalkar2023_network.py artifacts/letter/data_archive/code/scripts/
@@ -263,6 +285,11 @@ jobs:
           cp empirical/floral_defence_selectivity/results/sakhalkar2023_trait_routing.json artifacts/letter/data_archive/frozen_outputs/
           cp empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json artifacts/letter/data_archive/frozen_outputs/
           cp empirical/floral_defence_selectivity/results/aubert2026_missingness_dependence_sensitivity.json artifacts/letter/data_archive/frozen_outputs/
+          cp empirical/floral_defence_selectivity/results/aubert2026_participation_route_decomposition_first_open.json artifacts/letter/data_archive/frozen_outputs/
+          cp empirical/floral_defence_selectivity/results/AUBERT2026_PARTICIPATION_FIRST_OPEN_RECEIPT_V1.json artifacts/letter/data_archive/frozen_outputs/
+          mkdir -p artifacts/letter/data_archive/protocols
+          cp empirical/floral_defence_selectivity/PARTICIPATION_ROUTE_DECOMPOSITION_PREREG_V1.md artifacts/letter/data_archive/protocols/
+          cp empirical/floral_defence_selectivity/PARTICIPATION_ROUTE_DENOMINATOR_FREEZE_V1.json artifacts/letter/data_archive/protocols/
           cp empirical/floral_defence_selectivity/results/joint_access_routing.json artifacts/letter/data_archive/frozen_outputs/
           cp empirical/floral_defence_selectivity/results/joint_access_routing_species_robust.json artifacts/letter/data_archive/frozen_outputs/
 
@@ -370,9 +397,14 @@ jobs:
               "joint_access_routing_species_robust.json",
               "data_archive/sakhalkar_species_analysis.csv",
               "data_archive/aubert_ephi_pair_site_analysis.csv",
+              "data_archive/aubert_ephi_participation_opportunities.csv",
               "data_archive/metadata.csv",
               "data_archive/archive_manifest.json",
               "data_archive/archive_reproduction.json",
+              "data_archive/frozen_outputs/aubert2026_participation_route_decomposition_first_open.json",
+              "data_archive/frozen_outputs/AUBERT2026_PARTICIPATION_FIRST_OPEN_RECEIPT_V1.json",
+              "data_archive/protocols/PARTICIPATION_ROUTE_DECOMPOSITION_PREREG_V1.md",
+              "data_archive/protocols/PARTICIPATION_ROUTE_DENOMINATOR_FREEZE_V1.json",
               "data_archive/README.md",
               "data_archive/ZENODO_METADATA_TEMPLATE.md",
               "data_archive/DEPOSIT_CHECKLIST_V1.md",
@@ -400,6 +432,7 @@ jobs:
 
           assert rows(root / "data_archive/sakhalkar_species_analysis.csv") == 57
           assert rows(root / "data_archive/aubert_ephi_pair_site_analysis.csv") == 2265
+          assert rows(root / "data_archive/aubert_ephi_participation_opportunities.csv") == 19909
           assert rows(root / "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv") == 24
           assert rows(root / "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv") == 23
           assert rows(root / "data_archive/supporting_literature/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv") == 56
