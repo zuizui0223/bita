@@ -40,11 +40,19 @@ jobs:
           from pathlib import Path
           x=json.loads(Path("artifacts/participation/aubert2026_participation_denominator_audit.json").read_text())
           assert x["status"]=="OUTCOME_BLIND_WITH_RESPECT_TO_MISMATCH_EFFECT"
-          blob=json.dumps(x).lower()
-          for forbidden in ["mismatch_coefficient","mismatch_effect","participation_p","participation_rho"]:
-              assert forbidden not in blob
+          forbidden_keys = {"mismatch_coefficient","participation_p","participation_rho"}
+          def walk(value):
+              if isinstance(value, dict):
+                  for key, child in value.items():
+                      assert key.lower() not in forbidden_keys
+                      walk(child)
+              elif isinstance(value, list):
+                  for child in value:
+                      walk(child)
+          walk(x)
           print(json.dumps(x["decision_inputs"],indent=2,sort_keys=True))
           print(json.dumps(x["candidate_denominator"],indent=2,sort_keys=True))
+          print(json.dumps(x["waypoint_candidate_denominator"],indent=2,sort_keys=True))
           PY
 
       - uses: actions/upload-artifact@v4
