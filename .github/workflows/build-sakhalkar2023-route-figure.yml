@@ -8,6 +8,7 @@ on:
       - "tests/test_sakhalkar2023_route_figure.py"
       - "empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json"
       - "empirical/floral_defence_selectivity/results/aubert2026_missingness_dependence_sensitivity.json"
+      - "empirical/floral_defence_selectivity/results/aubert2026_participation_route_first_open.json"
       - ".github/workflows/build-sakhalkar2023-route-figure.yml"
   workflow_dispatch:
 
@@ -47,8 +48,10 @@ jobs:
               "bird paired barrier: 36 species",
               "within-bird continuous: 28 species / 1,285 dyads",
               "centered-rank rho = 0.340",
-              "barrier 0.147 vs accessible 0.020",
-              "18 / 18 sites",
+              "total exploitation RR = 1.77",
+              "95% CI 1.11–2.84",
+              "route composition: barrier robbery 0.147 vs accessible 0.020",
+              "18 / 18 sites positive",
           ]
           missing = [item for item in expected if item not in text]
           if missing:
