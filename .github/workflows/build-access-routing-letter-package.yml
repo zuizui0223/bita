@@ -32,6 +32,7 @@ on:
       - "scripts/reproduce_access_routing_archive.py"
       - "scripts/analyze_aubert2026_zenodo_extension.py"
       - "scripts/analyze_aubert2026_missingness_dependence_sensitivity.py"
+      - "scripts/analyze_aubert2026_participation_route_decomposition.py"
       - "scripts/analyze_joint_access_routing.py"
       - "scripts/analyze_joint_access_routing_species_robust.py"
       - "scripts/analyze_sakhalkar2023_network.py"
@@ -62,6 +63,8 @@ on:
       - "empirical/floral_defence_selectivity/results/joint_access_routing_species_robust.json"
       - "empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json"
       - "empirical/floral_defence_selectivity/results/aubert2026_missingness_dependence_sensitivity.json"
+      - "empirical/floral_defence_selectivity/results/aubert2026_participation_route_first_open.json"
+      - "empirical/floral_defence_selectivity/results/AUBERT2026_PARTICIPATION_FIRST_OPEN_RECEIPT_V1.json"
       - "empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json"
       - "empirical/floral_defence_selectivity/results/sakhalkar2023_trait_routing.json"
       - ".github/workflows/build-access-routing-letter-package.yml"
@@ -154,6 +157,7 @@ jobs:
           multi = json.loads((root / "sakhalkar2023_trait_routing.json").read_text())
           aubert = json.loads((root / "aubert2026_missingness_dependence_sensitivity.json").read_text())
           joint = json.loads((root / "joint_access_routing_species_robust.json").read_text())
+          participation = json.loads((root / "aubert2026_participation_route_first_open.json").read_text())
 
           assert observed["sakhalkar"]["n_species"] == 57
           assert math.isclose(
@@ -205,6 +209,41 @@ jobs:
           assert observed["joint"]["joint_permutation_p_two_sided"] == joint["joint_permutation_p_two_sided"]
           assert observed["joint"]["network_effects"] == joint["network_effects"]
 
+          observed_part = observed["participation"]
+          frozen_part = participation
+          assert observed_part["n_opportunity_edges"] == frozen_part["audit"]["trait_matched_opportunity_edges"] == 19909
+          assert observed_part["decision"]["classification"] == frozen_part["decision"]["classification"]
+          for key in ("rate_ratio",):
+              assert math.isclose(
+                  float(observed_part["decision"][key]),
+                  float(frozen_part["decision"][key]),
+                  rel_tol=0.0,
+                  abs_tol=1e-15,
+              )
+          for key in ("ci95_rate_ratio", "ci90_rate_ratio"):
+              for observed_value, frozen_value in zip(
+                  observed_part["decision"][key],
+                  frozen_part["decision"][key],
+              ):
+                  assert math.isclose(
+                      float(observed_value),
+                      float(frozen_value),
+                      rel_tol=0.0,
+                      abs_tol=1e-15,
+                  ), key
+          assert math.isclose(
+              float(observed_part["sensitivities"]["strict_feeding_rate_ratio"]),
+              float(frozen_part["sensitivities"]["strict_feeding_rate_ratio"]),
+              rel_tol=0.0,
+              abs_tol=1e-15,
+          )
+          assert math.isclose(
+              float(observed_part["sensitivities"]["broad_feeding_rate_ratio"]),
+              float(frozen_part["sensitivities"]["broad_feeding_rate_ratio"]),
+              rel_tol=0.0,
+              abs_tol=1e-15,
+          )
+
           print("Archive-only reproduction matches frozen Letter results")
           PY
 
@@ -248,6 +287,8 @@ jobs:
           cp scripts/reproduce_access_routing_archive.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_aubert2026_zenodo_extension.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_aubert2026_missingness_dependence_sensitivity.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/analyze_aubert2026_participation_route_decomposition.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/audit_aubert2026_participation_denominator.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_joint_access_routing.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_joint_access_routing_species_robust.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_sakhalkar2023_network.py artifacts/letter/data_archive/code/scripts/
@@ -263,6 +304,10 @@ jobs:
           cp empirical/floral_defence_selectivity/results/sakhalkar2023_trait_routing.json artifacts/letter/data_archive/frozen_outputs/
           cp empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json artifacts/letter/data_archive/frozen_outputs/
           cp empirical/floral_defence_selectivity/results/aubert2026_missingness_dependence_sensitivity.json artifacts/letter/data_archive/frozen_outputs/
+          cp empirical/floral_defence_selectivity/results/aubert2026_participation_route_first_open.json artifacts/letter/data_archive/frozen_outputs/
+          cp empirical/floral_defence_selectivity/results/AUBERT2026_PARTICIPATION_FIRST_OPEN_RECEIPT_V1.json artifacts/letter/data_archive/frozen_outputs/
+          cp empirical/floral_defence_selectivity/PARTICIPATION_ROUTE_DECOMPOSITION_PREREG_V1.md artifacts/letter/data_archive/frozen_outputs/
+          cp empirical/floral_defence_selectivity/PARTICIPATION_ROUTE_DENOMINATOR_FREEZE_V1.json artifacts/letter/data_archive/frozen_outputs/
           cp empirical/floral_defence_selectivity/results/joint_access_routing.json artifacts/letter/data_archive/frozen_outputs/
           cp empirical/floral_defence_selectivity/results/joint_access_routing_species_robust.json artifacts/letter/data_archive/frozen_outputs/
 
@@ -370,6 +415,7 @@ jobs:
               "joint_access_routing_species_robust.json",
               "data_archive/sakhalkar_species_analysis.csv",
               "data_archive/aubert_ephi_pair_site_analysis.csv",
+              "data_archive/aubert_ephi_participation_analysis.csv",
               "data_archive/metadata.csv",
               "data_archive/archive_manifest.json",
               "data_archive/archive_reproduction.json",
