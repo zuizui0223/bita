@@ -24,6 +24,17 @@ within-bird continuous: 28 bird species / 1,285 dyads, rho = 0.340, p = 0.0001
 24 / 28 bird-specific correlations positive; median rho = 0.338
 between-bird mean diagnostic: rho = 0.086, p = 0.551
 
+PARTICIPATION / INTENSITY:
+clean-camera trait-matched opportunity edges = 19,909
+positive edges = 6,519
+zero edges = 13,390
+waypoint + bird fixed-effect barrier/access rate ratio = 1.7717
+95% plant-cluster jackknife CI = 1.105–2.841
+90% CI = 1.192–2.633
+frozen class = PARTICIPATION_INCREASE_PLUS_ROUTING
+strict-feeding RR = 1.715
+broad-feeding RR = 1.772
+
 CORROBORATION:
 Sakhalkar Afrotropical insect–flower network
 57 plant species
@@ -38,7 +49,7 @@ p = 0.0001
 k = 2 independent networks
 ```
 
-The joint statistic tests recurrence across these two networks only. It does not estimate between-network heterogeneity, a network-population mean, or generality beyond the two systems.
+The joint statistic tests routing recurrence across these two networks only. It does not estimate between-network heterogeneity, a network-population mean, or generality beyond the two systems. The total-exploitation increase is an Ecuador-specific observational result and is not claimed for the insect network.
 
 ## Mechanistic boundary
 
