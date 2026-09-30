@@ -11,7 +11,9 @@ The build workflow generates an `artifacts/letter/data_archive/` directory conta
 - `aubert_ephi_participation_opportunities.csv` — zero-inclusive clean-camera waypoint × locally available bird opportunities used for the frozen participation-rate decomposition, with anonymous waypoint, plant, bird and site identifiers plus primary/strict/broad interaction counts;
 - `metadata.csv` — file/column descriptions and units;
 - `archive_manifest.json` — source DOIs, row counts and identifier policy;
-- `archive_reproduction.json` — statistics regenerated using only the archived analysis tables;
+- `archive_reproduction.json` — statistics regenerated using only the archived analysis tables, including the participation rate ratio and jackknife intervals;
+- `frozen_outputs/aubert2026_participation_route_decomposition_first_open.json` and `AUBERT2026_PARTICIPATION_FIRST_OPEN_RECEIPT_V1.json` — immutable first-open result and provenance;
+- `protocols/PARTICIPATION_ROUTE_DECOMPOSITION_PREREG_V1.md` and `PARTICIPATION_ROUTE_DENOMINATOR_FREEZE_V1.json` — pre-effect denominator/model/equivalence freeze;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv` — the 24-program bounded direct geometry → robbery supporting corpus;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv` — included, duplicate and excluded Stage-U update candidates with explicit reasons;
 - `supporting_literature/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv` — complete 56-label historical geometry screen;
