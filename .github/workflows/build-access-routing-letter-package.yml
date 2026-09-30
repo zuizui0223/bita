@@ -90,6 +90,21 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y pandoc libreoffice-writer poppler-utils
 
+      - name: Report Letter counts
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          text = Path("manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md").read_text()
+          abstract = re.search(r"## Abstract\n\n([\s\S]*?)\n\n## Introduction", text).group(1)
+          main = text[text.index("## Introduction"):text.index("## Data accessibility and reproducibility")]
+          refs = text.split("## References", 1)[1]
+          words = lambda value: re.findall(r"\b[\w×–/-]+\b", value, flags=re.UNICODE)
+          print(f"ABSTRACT_WORDS={len(words(abstract))}")
+          print(f"MAIN_TEXT_WORDS={len(words(main))}")
+          print(f"REFERENCES={len(re.findall(r'^- ', refs, flags=re.MULTILINE))}")
+          PY
+
       - name: Test Letter contracts
         run: |
           pytest -q -m "not prose_contract" \
