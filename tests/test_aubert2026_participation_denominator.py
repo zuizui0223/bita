@@ -76,6 +76,13 @@ def test_temporal_site_pool_creates_defensible_zeros_without_global_cross_produc
     assert d["route_eligible_positive_dyads_temporal_pool"] == 2
     assert d["zero_dyads_temporal_pool"] == 2
     assert d["trait_matched_potential_dyads_temporal_pool"] == 4
+    w = result["waypoint_candidate_denominator"]
+    assert w["eligible_waypoints"] == 2
+    assert w["potential_dyads"] == 4
+    assert w["route_eligible_positive_dyads"] == 2
+    assert w["zero_dyads"] == 2
+    assert w["trait_matched_potential_dyads"] == 4
+    assert result["decision_inputs"]["waypoint_temporal_denominator_is_possible"] is True
     assert result["decision_inputs"]["temporal_denominator_is_possible"] is True
     assert result["decision_inputs"]["flower_hours_offset_is_possible"] is True
 
@@ -99,3 +106,7 @@ def test_route_status_is_not_used_to_define_local_bird_availability() -> None:
     assert d["potential_dyads_temporal_pool"] == 6
     assert d["route_eligible_positive_dyads_temporal_pool"] == 2
     assert d["zero_dyads_temporal_pool"] == 4
+    w = result["waypoint_candidate_denominator"]
+    assert w["potential_dyads"] == 6
+    assert w["route_eligible_positive_dyads"] == 2
+    assert w["zero_dyads"] == 4
