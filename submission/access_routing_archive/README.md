@@ -8,6 +8,7 @@ The build workflow generates an `artifacts/letter/data_archive/` directory conta
 
 - `sakhalkar_species_analysis.csv` — 57 anonymous plant-species analysis units used for the insect routing and multitrait analyses;
 - `aubert_ephi_pair_site_analysis.csv` — 2,265 anonymous bird × plant × site aggregation units under the metadata-informed missing-as-no rule, with anonymized plant- and bird-species cluster IDs; these reproduce both the 259-plant primary inference and the paired/continuous within-bird behavioral sensitivities;
+- `aubert_ephi_participation_opportunities.csv` — zero-inclusive clean-camera waypoint × locally available bird opportunities used for the frozen participation-rate model, with anonymous waypoint, site, plant and bird IDs and the primary/strict/broad interaction counts;
 - `metadata.csv` — file/column descriptions and units;
 - `archive_manifest.json` — source DOIs, row counts and identifier policy;
 - `archive_reproduction.json` — statistics regenerated using only the archived analysis tables;
@@ -22,12 +23,14 @@ The submission archive must also include the exact code used to export and repro
 
 - `scripts/export_access_routing_archive.py`
 - `scripts/reproduce_access_routing_archive.py`
+- `scripts/analyze_aubert2026_participation_route_decomposition.py`
 - `scripts/summarize_direct_access_geometry_corpus.py`
 - `scripts/validate_direct_access_geometry_stage_u.py`
 - `scripts/validate_direct_access_geometry_formal_frame.py`
 - `scripts/validate_leal2025_direct_geometry_screen.py`
 - the imported BITA analysis modules required by those scripts;
-- frozen aggregate JSON outputs used in the manuscript;
+- frozen aggregate JSON outputs used in the manuscript, including the first-open participation result and receipt;
+- the frozen participation preregistration and denominator/equivalence contract;
 - this README.
 
 ## Supporting direct-evidence boundary
@@ -66,7 +69,7 @@ PYTHONPATH=code python code/scripts/reproduce_access_routing_archive.py \
 
 This command uses only the deposited analysis tables and deposited code; it does not redownload the source datasets.
 
-The workflow verifies that the regenerated headline values agree with the committed frozen results.
+The workflow verifies that the regenerated headline values agree with the committed frozen results, including the Ecuador participation rate ratio, plant-cluster jackknife confidence intervals, first-open outcome class, and strict/broad feeding sensitivities.
 
 ## Deposit-ready package
 
