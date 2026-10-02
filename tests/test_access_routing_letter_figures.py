@@ -28,7 +28,7 @@ def test_letter_figure3_uses_frozen_joint_result() -> None:
 
     assert "One standardized routing effect recurs across networks" in svg
     assert "Sakhalkar insects" in svg
-    assert "Aubert / EPHI birds" in svg
+    assert "Aubert / EPHI" in svg
     assert "equal-network joint" in svg
     assert "0.347" in svg
     assert "0.503" in svg

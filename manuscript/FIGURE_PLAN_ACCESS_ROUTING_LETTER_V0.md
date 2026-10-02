@@ -79,6 +79,11 @@ label-swap p = 0.0001
 within-bird centered-rank rho = 0.3398
 within-bird permutation p = 0.0001
 
+zero-inclusive participation:
+barrier/access total exploitation RR = 1.7717
+95% plant-cluster jackknife CI = 1.1050–2.8405
+classification = participation increase plus rerouting
+
 descriptive pair-site scale:
 n = 2,265
 barrier robbery = 0.147

@@ -8,42 +8,55 @@ The build workflow generates an `artifacts/letter/data_archive/` directory conta
 
 - `sakhalkar_species_analysis.csv` — 57 anonymous plant-species analysis units used for the insect routing and multitrait analyses;
 - `aubert_ephi_pair_site_analysis.csv` — 2,265 anonymous bird × plant × site aggregation units under the metadata-informed missing-as-no rule, with anonymized plant- and bird-species cluster IDs; these reproduce both the 259-plant primary inference and the paired/continuous within-bird behavioral sensitivities;
+- `aubert_ephi_participation_opportunities.csv` — zero-inclusive clean-camera waypoint × locally available bird opportunities used for the frozen participation-rate model, with anonymous waypoint, site, plant and bird IDs and the primary/strict/broad interaction counts;
 - `metadata.csv` — file/column descriptions and units;
 - `archive_manifest.json` — source DOIs, row counts and identifier policy;
 - `archive_reproduction.json` — statistics regenerated using only the archived analysis tables;
-- `supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv` — the 24-program bounded direct geometry → robbery supporting corpus;
-- `supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv` — included, duplicate and excluded Stage-U update candidates with explicit reasons;
-- `supporting_literature/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv` — complete 56-label historical geometry screen;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv` — the complete 857-record frozen OpenAlex decision ledger;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_FULLTEXT_COMPLETE_RECEIPT_V1.json` — zero-pending full-text eligibility receipt;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json` — frozen 33-program finite-frame direction summary;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv` and `.md` — post hoc mechanism audit of the four opposite and two mixed formal-frame programs;
-- `supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json` — frozen descriptive partition and 1/23 versus 3/10 formal-search asymmetry;
-- the direct-evidence eligibility contract, bounded-search receipts, Leal crosswalk and provenance receipts needed to audit the supporting-corpus counts.
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json` — frozen descriptive boundary partition and 1/23 versus 3/10 search-origin contrast;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv` and Stage-U/Leal files — historical bounded-corpus provenance retained for audit, not the manuscript's final formal denominator.
 
 The submission archive must also include the exact code used to export and reproduce the tables:
 
 - `scripts/export_access_routing_archive.py`
 - `scripts/reproduce_access_routing_archive.py`
+- `scripts/analyze_aubert2026_participation_route_decomposition.py`
 - `scripts/summarize_direct_access_geometry_corpus.py`
 - `scripts/validate_direct_access_geometry_stage_u.py`
 - `scripts/validate_direct_access_geometry_formal_frame.py`
 - `scripts/validate_leal2025_direct_geometry_screen.py`
 - the imported BITA analysis modules required by those scripts;
-- frozen aggregate JSON outputs used in the manuscript;
+- frozen aggregate JSON outputs used in the manuscript, including the first-open participation result and receipt;
+- the frozen participation preregistration and denominator/equivalence contract;
 - this README.
 
-## Supporting direct-evidence boundary
+## Formal direct-evidence boundary
 
-The literature files reproduce the manuscript's bounded supporting-audit statement:
+The literature files reproduce the manuscript's completed frozen OpenAlex frame:
 
 ~~~text
-24 direct study programs
-16 positive
-5 null
-2 mixed
-1 opposite
+frame records = 857
+eligible independent direct programs = 33
+positive = 22
+null = 5
+opposite = 4
+mixed = 2
+duplicate bibliographic records = 6
+ineligible records = 818
+pending full text = 0
 network-k contribution = 0
 ~~~
 
-These counts are descriptive and are not a prevalence estimate, sign test or pooled effect. The standardized joint analysis remains based on two independent networks only. The supporting archive also records why the formal recurrence statistic remains closed: the bounded web update is not a finite exportable bibliographic denominator.
+These counts describe a finite provider-defined frame. They are **not** an estimate
+of natural prevalence, a sign test, a pooled meta-analytic effect, or an additional
+standardized-network replicate. The equal-network routing statistic remains
+`k=2`. The older 24-program bounded corpus is retained only as provenance for the
+pre-existing evidence base; it is not the final formal denominator. One pre-existing
+program independently verified absent from OpenAlex is reported outside the
+33-program denominator rather than injected into it.
 
 ## Public source data
 
@@ -66,7 +79,7 @@ PYTHONPATH=code python code/scripts/reproduce_access_routing_archive.py \
 
 This command uses only the deposited analysis tables and deposited code; it does not redownload the source datasets.
 
-The workflow verifies that the regenerated headline values agree with the committed frozen results.
+The workflow verifies that the regenerated headline values agree with the committed frozen results, including the Ecuador participation rate ratio, plant-cluster jackknife confidence intervals, first-open outcome class, and strict/broad feeding sensitivities.
 
 ## Deposit-ready package
 

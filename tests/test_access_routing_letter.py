@@ -132,3 +132,19 @@ def test_letter_separates_case_directional_recurrence_from_standardized_k() -> N
     assert "11 plant and seven bird species" in text
     assert "directional corroboration rather than a third standardized network contribution" in text
     assert "standardized replication count remain \\(k=2\\)" in text
+
+
+@pytest.mark.prose_contract
+def test_letter_reports_frozen_participation_increase() -> None:
+    text = LETTER.read_text(encoding="utf-8")
+    lower = text.lower()
+    assert "zero-inclusive participation decomposition" in lower
+    assert "19,909 trait-matched waypoint × bird opportunities" in text
+    assert "6,519 positive and 13,390 zero" in text
+    assert "15,862 supported edges" in text
+    assert "rate ratio \\(=1.772\\)" in text
+    assert "95% jackknife CI 1.105–2.841" in text
+    assert "90% CI 1.192–2.633" in text
+    assert "participation increase plus rerouting" in lower
+    assert "not the stronger 1.25 material-enhancement threshold" in lower
+    assert "coincide with greater total exploitation rather than suppression" in lower

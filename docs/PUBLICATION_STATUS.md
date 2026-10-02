@@ -24,6 +24,21 @@ within-bird continuous: 28 bird species / 1,285 dyads, rho = 0.340, p = 0.0001
 24 / 28 bird-specific correlations positive; median rho = 0.338
 between-bird mean diagnostic: rho = 0.086, p = 0.551
 
+PARTICIPATION DECOMPOSITION:
+clean waypoint x locally available bird opportunities = 19,909
+positive edges = 6,519
+zero edges = 13,390
+supported model edges = 15,862
+supported waypoints = 3,770
+supported bird species = 49
+plant jackknife clusters = 252
+barrier/access total exploitation rate ratio = 1.7717
+95% jackknife CI = 1.1050 to 2.8405
+90% jackknife CI = 1.1922 to 2.6329
+classification = PARTICIPATION_INCREASE_PLUS_ROUTING
+strict-feeding sensitivity RR = 1.7149
+broad-feeding sensitivity RR = 1.7717
+
 CORROBORATION:
 Sakhalkar Afrotropical insect–flower network
 57 plant species
@@ -39,6 +54,30 @@ k = 2 independent networks
 ```
 
 The joint statistic tests recurrence across these two networks only. It does not estimate between-network heterogeneity, a network-population mean, or generality beyond the two systems.
+
+## Participation versus routing
+
+The first real participation effect was opened once under the frozen denominator,
+model, plant-cluster jackknife and 0.80–1.25 equivalence rules. The result is retained
+regardless of sign.
+
+~~~text
+PARTICIPATION_FIRST_OPEN = FROZEN
+CLASSIFICATION = PARTICIPATION_INCREASE_PLUS_ROUTING
+RATE_RATIO_BARRIER_OVER_ACCESSIBLE = 1.7717025981
+CI95 = 1.1050441909_TO_2.8405471220
+CI90 = 1.1921837032_TO_2.6329248484
+PARTICIPATION_REDUCTION_SUPPORTED = FALSE
+PARTICIPATION_INCREASE_SUPPORTED = TRUE
+MATERIAL_ENHANCEMENT_GT_1_25_SUPPORTED = FALSE
+~~~
+
+This closes the logical gap in a route-composition-only analysis: in the Ecuador
+network, the robbery shift is not a residual pattern left after lower total
+exploitation. Barrier opportunities are observationally associated with **higher**
+total route-resolved exploitation after waypoint and bird main effects are
+conditioned out. The result remains observational and does not establish that floral
+geometry causally increased visitation.
 
 ## Mechanistic boundary
 
@@ -193,8 +232,11 @@ The archive contract contains the exact 57-species Sakhalkar table and 2,265-row
 ```
 
 ```text
-STATUS = SCIENTIFIC_PACKAGE_REBUILT_AROUND_SPECIES_LEVEL_ROBUST_INFERENCE
+STATUS = SCIENTIFIC_PACKAGE_WITH_PARTICIPATION_INCREASE_PLUS_ROUTING
 ACTIVE_PAPER = ACCESS_ROUTING_LETTER
+PARTICIPATION_FIRST_OPEN_CLASS = PARTICIPATION_INCREASE_PLUS_ROUTING
+PARTICIPATION_RATE_RATIO = 1.7717025981
+PARTICIPATION_CI95 = 1.1050441909_TO_2.8405471220
 ROUTING_MECHANISM = RELATIVE_ROUTE_COST
 ROUTE_COST_BOUNDARY = dC_LEGITIMATE_MINUS_dC_BYPASS
 DIRECT_ACCESS_GEOMETRY_BOUNDED_CORPUS_PROGRAMS = 24
