@@ -10,7 +10,7 @@ The mechanism-identification result `trait interaction != ecological mechanism` 
 
 ## Current submission thesis
 
-> **Access constraints can reorganize ecological interactions by shifting exploitation from legitimate access toward bypass routes rather than simply eliminating use.**
+> **Access constraints can reorganize ecological interactions by shifting exploitation toward bypass routes; in the Ecuador bird network, barrier opportunities are also associated with greater total exploitation rather than suppression.**
 
 The primary quantitative test is the all-Ecuador bird–flower network. Source metadata indicates unspecified piercing values are most probably legitimate interactions, so the primary analysis recodes missing piercing as non-robbing and treats plant species as the inferential unit:
 
@@ -34,6 +34,32 @@ within-bird behavioral checks:
 within-bird centered-rank rho = 0.340, p = 0.0001
 between-bird mean rho = 0.086, p = 0.551 (different estimand)
 ```
+
+A separately frozen zero-inclusive participation analysis closes the denominator gap:
+
+```text
+clean-camera trait-matched opportunities = 19,909
+positive opportunity edges = 6,519
+zero opportunity edges = 13,390
+supported fixed-effect edges = 15,862
+supported waypoints = 3,770
+supported bird species = 49
+plant jackknife clusters = 252
+
+barrier/access total exploitation RR = 1.7717
+95% jackknife CI = 1.1050–2.8405
+90% jackknife CI = 1.1922–2.6329
+classification = PARTICIPATION_INCREASE_PLUS_ROUTING
+
+strict-feeding sensitivity RR = 1.7149
+broad-feeding sensitivity RR = 1.7717
+```
+
+The participation result was opened once under a preregistered denominator, two-way
+waypoint/bird fixed-effect Poisson model, plant-species jackknife and 0.80–1.25
+equivalence rule. It is observational: it shows that the Ecuador routing pattern is
+not merely the residual composition of a reduced interaction pool, but does not show
+that floral geometry causally increased visitation.
 
 A smaller independent Afrotropical insect network provides corroboration:
 
@@ -66,9 +92,12 @@ The routing result is interpreted through the broader effective-access / exposur
 ```text
 legitimate route becomes harder to use
         |
-        +--> exploitation declines, if no bypass exists
+        +--> exploitation can decline, if no bypass exists
         |
-        +--> exploitation reroutes, if bypass remains available
+        +--> exploitation can reroute, if bypass remains available
+        |
+        +--> in Ecuador: barrier opportunities show both
+             greater total exploitation and greater bypass use
 ```
 
 Source-audited floral-defence cases provide mechanistic context only. The matched effective-domain classifications are author-coded and have not yet undergone outcome-blind independent recoding, so the Letter does not use the matched-domain layer as independent validation and does not make an 11/11 success-rate argument.
@@ -82,6 +111,8 @@ Primary submission:
 - `submission/ECOLOGY_LETTERS_LETTER_COVER_V0.md`
 - `empirical/floral_defence_selectivity/results/joint_access_routing_species_robust.json`
 - `empirical/floral_defence_selectivity/results/aubert2026_missingness_dependence_sensitivity.json`
+- `empirical/floral_defence_selectivity/results/aubert2026_participation_route_decomposition_first_open.json`
+- `empirical/floral_defence_selectivity/results/AUBERT2026_PARTICIPATION_FIRST_OPEN_RECEIPT_V1.json`
 
 Extended Synthesis reserve:
 
