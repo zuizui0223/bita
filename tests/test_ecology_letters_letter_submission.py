@@ -198,3 +198,20 @@ def test_submission_archive_contract_includes_participation_reproduction() -> No
         "plant-cluster jackknife confidence intervals",
     ):
         assert token in text
+
+
+def test_submission_archive_contract_uses_completed_formal_frame() -> None:
+    text = ARCHIVE_README.read_text(encoding="utf-8")
+    for token in (
+        "DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv",
+        "DIRECT_ACCESS_GEOMETRY_FULLTEXT_COMPLETE_RECEIPT_V1.json",
+        "DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json",
+        "eligible independent direct programs = 33",
+        "positive = 22",
+        "null = 5",
+        "opposite = 4",
+        "mixed = 2",
+        "pending full text = 0",
+    ):
+        assert token in text
+    assert "formal recurrence statistic remains closed" not in text
