@@ -32,6 +32,7 @@ on:
       - "scripts/reproduce_access_routing_archive.py"
       - "scripts/analyze_aubert2026_zenodo_extension.py"
       - "scripts/analyze_aubert2026_missingness_dependence_sensitivity.py"
+      - "scripts/analyze_aubert2026_participation_route_decomposition.py"
       - "scripts/analyze_joint_access_routing.py"
       - "scripts/analyze_joint_access_routing_species_robust.py"
       - "scripts/analyze_sakhalkar2023_network.py"
@@ -62,6 +63,10 @@ on:
       - "empirical/floral_defence_selectivity/results/joint_access_routing_species_robust.json"
       - "empirical/floral_defence_selectivity/results/aubert2026_zenodo_extension.json"
       - "empirical/floral_defence_selectivity/results/aubert2026_missingness_dependence_sensitivity.json"
+      - "empirical/floral_defence_selectivity/results/aubert2026_participation_route_decomposition_first_open.json"
+      - "empirical/floral_defence_selectivity/results/AUBERT2026_PARTICIPATION_FIRST_OPEN_RECEIPT_V1.json"
+      - "empirical/floral_defence_selectivity/PARTICIPATION_ROUTE_DECOMPOSITION_PREREG_V1.md"
+      - "empirical/floral_defence_selectivity/PARTICIPATION_ROUTE_DENOMINATOR_FREEZE_V1.json"
       - "empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json"
       - "empirical/floral_defence_selectivity/results/sakhalkar2023_trait_routing.json"
       - ".github/workflows/build-access-routing-letter-package.yml"
@@ -95,6 +100,8 @@ jobs:
             tests/test_access_routing_letter.py \
             tests/test_access_routing_letter_figures.py \
             tests/test_ecology_letters_letter_submission.py \
+            tests/test_aubert2026_participation_first_open.py \
+            tests/test_aubert2026_participation_route_decomposition.py \
             tests/test_reserved_archive_doi.py \
             tests/test_direct_access_geometry_corpus.py \
             tests/test_direct_access_geometry_stage_u.py \
