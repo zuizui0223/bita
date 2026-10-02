@@ -117,6 +117,7 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
     for token in (
         "sakhalkar_species_analysis.csv",
         "aubert_ephi_pair_site_analysis.csv",
+        "aubert_ephi_participation_opportunities.csv",
         "metadata.csv",
         "archive_manifest.json",
         "archive_reproduction.json",
@@ -176,3 +177,24 @@ def test_cover_letter_matches_current_evidence_hierarchy() -> None:
     assert "four opposite" in lower
     assert "two mixed" in lower
     assert "success-rate or prevalence argument" in lower
+
+
+@pytest.mark.prose_contract
+def test_cover_letter_reports_participation_increase() -> None:
+    cover = COVER.read_text(encoding="utf-8")
+    lower = cover.lower()
+    assert "1.77 times greater total route-resolved exploitation" in lower
+    assert "95% plant-cluster jackknife ci 1.11–2.84" in lower
+    assert "participation increase plus rerouting" in lower
+    assert "not suppression plus rerouting" in lower
+
+
+def test_submission_archive_contract_includes_participation_reproduction() -> None:
+    text = ARCHIVE_README.read_text(encoding="utf-8")
+    for token in (
+        "aubert_ephi_participation_opportunities.csv",
+        "scripts/analyze_aubert2026_participation_route_decomposition.py",
+        "first-open participation result",
+        "plant-cluster jackknife confidence intervals",
+    ):
+        assert token in text
