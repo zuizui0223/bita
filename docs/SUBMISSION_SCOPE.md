@@ -8,7 +8,7 @@ Primary manuscript:
 
 ## Canonical question
 
-> **When legitimate access becomes more constrained, does exploitation simply decline, or does it reroute toward bypass?**
+> **When legitimate access becomes more constrained, how do both total exploitation and exploitation route change?**
 
 ## 1. Primary prediction
 
@@ -46,6 +46,10 @@ ESTABLISHED_OBSERVATIONAL:
 
 ESTABLISHED_RELATIONAL:
   the Ecuadorian routing signal persists within bird species
+
+ESTABLISHED_ECUADOR_PARTICIPATION:
+  under the frozen zero-inclusive model, barrier opportunities have higher
+  total route-resolved exploitation (RR = 1.7717; 95% CI 1.1050–2.8405)
 
 SUPPORTED_MECHANISTIC_INTERPRETATION:
   relative route cost explains why positive, null and opposite signs can occur
@@ -111,6 +115,36 @@ between-bird mean diagnostic:
 ```
 
 This is an observational all-Ecuador extension, not an exact replication of the source three-transect GLMM. Plant-species inference remains primary for the cross-network statistic, while the within-bird paired and continuous analyses directly recover the behavioral routing direction. The null correlation among bird-species means is retained as a distinct between-species estimand, not interpreted as failure of within-bird rerouting.
+
+### Zero-inclusive participation result
+
+A denominator/model contract was frozen before the first participation effect was opened.
+
+```text
+clean-camera trait-matched opportunities = 19,909
+positive edges = 6,519
+zero edges = 13,390
+supported edges = 15,862
+supported waypoints = 3,770
+supported bird species = 49
+plant jackknife clusters = 252
+
+primary model:
+log(mu_waypoint,bird)
+  = alpha_waypoint + gamma_bird + beta * I[tube > culmen]
+
+barrier/access total exploitation RR = 1.7717025981
+95% plant-cluster jackknife CI = 1.1050441909–2.8405471220
+90% CI = 1.1921837032–2.6329248484
+classification = PARTICIPATION_INCREASE_PLUS_ROUTING
+strict-feeding sensitivity RR = 1.7149095800
+broad-feeding sensitivity RR = 1.7716648514
+```
+
+This result closes the route-composition denominator gap in the Ecuador network:
+barrier-associated robbery is not simply the residual composition of a lower total
+exploitation pool. It does **not** extend the standardized cross-network participation
+claim beyond Ecuador and remains observational.
 
 ## 3. Independent corroboration — Sakhalkar insects
 
