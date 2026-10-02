@@ -161,6 +161,9 @@ jobs:
           multi = json.loads((root / "sakhalkar2023_trait_routing.json").read_text())
           aubert = json.loads((root / "aubert2026_missingness_dependence_sensitivity.json").read_text())
           joint = json.loads((root / "joint_access_routing_species_robust.json").read_text())
+          participation = json.loads(
+              (root / "aubert2026_participation_route_decomposition_first_open.json").read_text()
+          )
 
           assert observed["sakhalkar"]["n_species"] == 57
           assert math.isclose(
@@ -212,7 +215,16 @@ jobs:
           assert observed["joint"]["joint_permutation_p_two_sided"] == joint["joint_permutation_p_two_sided"]
           assert observed["joint"]["network_effects"] == joint["network_effects"]
 
-          print("Archive-only reproduction matches frozen Letter results")
+          observed_part = observed["aubert_ephi"]["participation"]
+          frozen_part = participation["decision"]
+          assert observed_part["opportunity_edges"] == participation["audit"]["trait_matched_opportunity_edges"] == 19909
+          assert observed_part["decision"] == frozen_part
+          assert observed_part["primary"]["ci95_rate_ratio"] == participation["primary_participation"]["ci95_rate_ratio"]
+          assert observed_part["primary"]["ci90_rate_ratio"] == participation["primary_participation"]["ci90_rate_ratio"]
+          assert observed_part["primary"]["fit"]["rate_ratio"] == participation["primary_participation"]["fit"]["rate_ratio"]
+          assert observed_part["sensitivities"] == participation["sensitivities"]
+
+          print("Archive-only reproduction matches frozen Letter results, including participation")
           PY
 
       - name: Assemble source and archive package
