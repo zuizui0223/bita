@@ -82,7 +82,7 @@ def test_letter_submission_source_excludes_internal_workflow_language() -> None:
     assert "not an estimate of natural prevalence" in lower
     assert "bounded direct-evidence corpus contained 24 study programs" not in lower
     assert "standardized replication count is therefore still only two networks" in lower
-    assert "access barriers coincide with greater resolved feeding visitation, not filtering" in lower
+    assert "access barriers do not filter legitimate feeding visits" in lower
     assert "rate ratio 1.772" in lower
     assert "95% plant-jackknife ci 1.105–2.841" in lower
     assert "participation increase plus routing" in lower
@@ -193,6 +193,6 @@ def test_letter_reports_threshold_result_as_boundary_not_headline() -> None:
     text = LETTER.read_text(encoding="utf-8").lower()
     assert "did not localize a sharp threshold near tube–bill equality" in text
     assert "upper 95% support boundary" in text
-    assert "90% bootstrap ci 0.118–0.920" in text
+    assert "original 90% percentile interval (0.118–0.920)" in text\n    assert "585 of 999 finite bootstrap fits (58.6%)" in text
     assert "no interior upper turnover was supported" in text
     assert "better supported as graded across the sampled mismatch range" in text
