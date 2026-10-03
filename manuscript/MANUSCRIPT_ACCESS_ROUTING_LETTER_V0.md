@@ -11,6 +11,8 @@ Access-restricting structures are usually treated as filters: if an exploiter ca
 
 We formalize this as an **effective access domain**. A legitimate visitor and an antagonist can differ in geometry, susceptibility, timing or attack route, so the same trait need not impose the same effective constraint on both. A selective defence is possible when antagonist use is restricted before legitimate visitation is impaired. But even a strong access constraint need not suppress antagonism if a bypass remains available. Instead, an exploiter can switch from using the legitimate opening to piercing, robbing or another alternative route.
 
+This distinction separates two ecological axes that are often conflated: **participation intensity** (how much exploitation occurs) and **route composition** (how exploitation is performed). A barrier can reduce, preserve or increase total participation while independently shifting the fraction routed through bypass. The relevant question is therefore not only whether a constraint filters interactions, but whether it changes their mode.
+
 This yields a simple prediction that is more general than any one floral defence:
 
 > **As mismatch with the legitimate access route increases, exploitation should shift toward bypass routes rather than merely decline.**
