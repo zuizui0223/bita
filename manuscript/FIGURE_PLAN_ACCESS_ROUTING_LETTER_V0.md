@@ -86,7 +86,7 @@ accessible robbery = 0.020
 
 zero-inclusive participation layer:
 trait-matched opportunity edges = 19,909
-barrier/access total-exploitation RR = 1.7717
+barrier/access resolved-feeding-visit RR = 1.7717
 95% plant-jackknife CI = 1.1050–2.8405
 frozen class = participation increase + routing
 ~~~
@@ -102,7 +102,7 @@ site-stratified permutation p = 0.0001
 
 Main message:
 
-> the same access-routing direction appears under different fauna, while the Ecuadorian barrier state is associated with higher rather than lower total route-resolved exploitation.
+> the same access-routing direction appears under different fauna, while the Ecuadorian barrier state is associated with higher rather than lower resolved feeding visitation (legitimate + robbing).
 
 ---
 
