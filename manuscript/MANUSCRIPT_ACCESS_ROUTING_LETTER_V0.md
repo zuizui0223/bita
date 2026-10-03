@@ -3,7 +3,7 @@
 
 ## Abstract
 
-Access constraints may reroute exploitation rather than eliminate it. We test this prediction in an all-Ecuador bird–flower network and ask whether an independent insect network does too. EPHI metadata indicates unspecified piercing codes are probably legitimate, so we recoded them as non-robbing and used plant species as inferential units. Across 259 Ecuadorian plant species, mean tube–bill mismatch correlated with robbery (\(\rho=0.503\), species permutation \(p=0.0001\)); a paired barrier contrast across 130 species gave the same direction. Within-bird paired and continuous analyses recovered the same direction. In an Afrotropical insect network, tube length was associated with a shift from thieving toward robbing among 57 plant species (\(\rho=0.347\), \(p=0.0086\)). An equal-network species-level joint test gave \(\rho_J=0.428\), \(p=0.0001\). A frozen OpenAlex frame resolved 33 independent direct programs (22 positive, 5 null, 4 opposite, 2 mixed). Access constraints can reorganize interaction routes, while \(k=2\) limits claims about broader network generality.
+Access constraints may reroute exploitation rather than simply suppress it. We tested this in an all-Ecuador bird–flower network and an independent Afrotropical insect network. Across 259 Ecuadorian plant species, mean tube–bill mismatch correlated with robbery (\(\rho=0.503\), permutation \(p=0.0001\)), and paired and within-bird analyses agreed. A preregistered zero-inclusive participation analysis then showed that barrier opportunities had higher total route-resolved exploitation rates after waypoint and bird fixed effects (rate ratio 1.772, 95% CI 1.105–2.841), classifying the pattern as participation increase plus routing. In 57 Afrotropical plant species, tube length shifted exploitation from thieving toward robbing (\(\rho=0.347\), \(p=0.0086\)). The equal-network joint routing effect was \(\rho_J=0.428\) (\(p=0.0001\)). A frozen OpenAlex frame resolved 33 direct programs (22 positive, 5 null, 4 opposite, 2 mixed). Access constraints can reorganize interaction routes without acting as simple filters, although \(k=2\) limits broader network generality.
 
 ## Introduction
 
@@ -19,7 +19,7 @@ Direct studies already show both the predicted direction and boundary cases: lon
 
 The prediction has not been tested as a common standardized association across independently assembled visitor networks with different faunas. We therefore use the all-Ecuador EPHI bird–flower network as the primary quantitative test. After metadata-informed treatment of unspecified piercing records and trait matching, it contains 2,265 bird × plant × site units across 18 sites, which we aggregate to 259 plant species for primary inference (Aubert et al. 2026; EPHI public data). We then use the smaller Afrotropical insect–flower network of Sakhalkar et al. (2023) as an independent corroborative test on a different cheating contrast: robbing versus thieving among plant species.
 
-Our analysis has two levels. We first test the routing prediction within the Ecuadorian network and ask whether the independent insect network recovers the same directional association on its native biological scale. We then define one standardized rank association per network and combine them with equal network weight in a predeclared permutation test. This prevents the much larger bird dataset from dominating the smaller insect dataset by observation count alone. Source-audited floral-defence cases are used only as mechanistic context for the access/exposure interpretation, not as an independent validation dataset.
+Our analysis has three levels. We first test the routing prediction within the Ecuadorian network. We then use a zero-inclusive participation analysis, frozen before its effect was opened, to ask whether the same access barrier reduced total route-resolved exploitation or instead altered route composition without filtering. Finally, we ask whether the independent insect network recovers the routing direction and combine one standardized rank association per network with equal network weight. This prevents the much larger bird dataset from dominating the smaller insect dataset by observation count alone. Source-audited floral-defence cases are used only as mechanistic context, not as an independent validation dataset.
 
 ## Theory and predictions
 
@@ -68,13 +68,15 @@ This prediction is compatible with the broader effective-exposure framework deve
 
 The network test focuses only on the route-switching consequence. It does not require the access constraint itself to have evolved as a defence, nor does it assume a shared physiological mechanism across insects and birds.
 
-We test three predictions.
+We test four predictions.
 
 **P1. Bird access barriers.** Across bird–plant interactions, flowers whose tubes exceed visitor bill length should experience greater robbery, and continuous tube–bill mismatch should be positively associated with robbery rate.
 
-**P2. Insect route switching.** Across plant species, stronger floral access constraint should be associated with a shift from nectar thieving through the floral opening toward nectar robbing by bypass.
+**P2. Participation versus routing.** If higher robbery is only the residual composition left after filtering, access barriers should reduce total route-resolved exploitation. If barriers primarily redirect exploitation, total use need not decline; we therefore distinguish suppression, equivalence, amplification and unresolved participation before interpreting the route shift.
 
-**P3. Cross-network recurrence.** After converting each network to a rank-based association between access constraint and bypass propensity, the two network effects should be positive and their equal-network joint statistic should exceed a null generated by network-appropriate permutations.
+**P3. Insect route switching.** Across plant species, stronger floral access constraint should be associated with a shift from nectar thieving through the floral opening toward nectar robbing by bypass.
+
+**P4. Cross-network recurrence.** After converting each network to a rank-based association between access constraint and bypass propensity, the two network effects should be positive and their equal-network joint statistic should exceed a null generated by network-appropriate permutations.
 
 ## Methods
 
