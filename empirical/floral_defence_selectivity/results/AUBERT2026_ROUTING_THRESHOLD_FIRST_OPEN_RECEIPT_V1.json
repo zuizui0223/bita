@@ -1,0 +1,28 @@
+{
+  "schema": "BITA_AUBERT_ROUTING_THRESHOLD_FIRST_OPEN_RECEIPT_V1",
+  "status": "FIRST_REAL_THRESHOLD_EFFECT_OPENED_RETAIN_REGARDLESS_OF_SIGN",
+  "frozen_main_commit": "22d5a5fc6c3fa3283b76ff6800520ff1f2c04a43",
+  "first_open_branch": "analysis/routing-threshold-first-open-v1",
+  "first_open_workflow_run": 37090321341,
+  "first_open_artifact_id": 11262262598,
+  "first_open_artifact_digest": "sha256:3fd7b58ccc6682e463231c868bc82652c34120ecccf90c62952ed06f3eefffcb",
+  "first_open_head": "3ec85fb0c3e93a1278868f0d6b12a294c1423d34",
+  "result_path": "empirical/floral_defence_selectivity/results/aubert2026_routing_threshold_first_open.json",
+  "result_sha256": "33a1ee2248f69aaa308a8424f4acac0f59148b07e4607075614d8171a900b931",
+  "script_content_sha": "44a5968ca2fda52421ce584a45e31306764d467e",
+  "freeze_content_sha_before_open": "b63d33ad09b2d409845e445a029aec34ebcb9a62",
+  "decision": {
+    "threshold_classification": "THRESHOLD_AT_SUPPORT_BOUNDARY",
+    "xstar": 0.9197423428245373,
+    "ci90_xstar": [
+      0.1176853690900638,
+      0.9197423428245373
+    ],
+    "at_search_boundary": true,
+    "upper_turnover_classification": "CURVATURE_WITHOUT_INTERIOR_TURNOVER",
+    "curvature_permutation_p": 0.0049,
+    "quadratic_curvature": 0.042703579536178454,
+    "derivative_at_q90": 0.1662165245277788
+  },
+  "guardrail": "This is the first successful real-data threshold opening under the frozen plant-species sigmoid, bootstrap, proximity margin and turnover rules. Retain regardless of location or curvature."
+}

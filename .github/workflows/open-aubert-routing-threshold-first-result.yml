@@ -1,0 +1,100 @@
+name: Open Aubert routing-threshold first result
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/open-aubert-routing-threshold-first-result.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  first_open:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and tests
+        run: python -m pip install -e '.[dev]'
+
+      - name: Resolve threshold lifecycle
+        id: lifecycle
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          freeze=json.loads(Path("empirical/floral_defence_selectivity/AUBERT_ROUTING_THRESHOLD_FREEZE_V1.json").read_text())
+          result=Path("empirical/floral_defence_selectivity/results/aubert2026_routing_threshold_first_open.json")
+          opened=freeze.get("threshold_effect_opened") is True
+          if opened:
+              assert freeze["status"]=="FIRST_THRESHOLD_EFFECT_OPENED_RETAIN_REGARDLESS_OF_SIGN"
+              assert result.is_file()
+              mode="verify"
+          else:
+              assert freeze["status"]=="FROZEN_BEFORE_THRESHOLD_EFFECT"
+              assert not result.exists()
+              mode="open"
+          with open(Path(__import__("os").environ["GITHUB_OUTPUT"]), "a") as fh:
+              fh.write(f"mode={mode}\n")
+          print(f"threshold lifecycle mode={mode}")
+          PY
+
+      - name: Test frozen threshold implementation
+        run: pytest -q tests/test_aubert2026_routing_threshold.py
+
+      - name: Open first real threshold result once
+        if: steps.lifecycle.outputs.mode == 'open'
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/routing-threshold
+          output="artifacts/routing-threshold/aubert2026_routing_threshold_first_open.json"
+          rm -f "$output"
+          success=0
+          for attempt in 1 2 3 4 5; do
+            echo "Zenodo-backed first-open attempt $attempt/5"
+            if python -m scripts.analyze_aubert2026_routing_threshold "$output"; then
+              success=1
+              break
+            fi
+            rm -f "$output"
+            sleep 12
+          done
+          if [ "$success" -ne 1 ]; then
+            echo "First-open input retrieval failed after 5 identical retries" >&2
+            exit 1
+          fi
+
+      - name: Print frozen decision
+        if: steps.lifecycle.outputs.mode == 'open'
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("artifacts/routing-threshold/aubert2026_routing_threshold_first_open.json").read_text())
+          keep={
+            "n_plant_species":x["n_plant_species"],
+            "threshold_classification":x["threshold_classification"],
+            "primary_sigmoid":x["primary_sigmoid"],
+            "bootstrap":x["bootstrap"],
+            "upper_turnover":x["upper_turnover"],
+            "model_diagnostics":x["model_diagnostics"],
+          }
+          print(json.dumps(keep,indent=2,sort_keys=True))
+          PY
+
+      - name: Verify frozen post-open result
+        if: steps.lifecycle.outputs.mode == 'verify'
+        run: pytest -q tests/test_aubert2026_routing_threshold_first_open.py
+
+      - uses: actions/upload-artifact@v4
+        if: steps.lifecycle.outputs.mode == 'open'
+        with:
+          name: aubert-routing-threshold-first-open
+          path: artifacts/routing-threshold/aubert2026_routing_threshold_first_open.json
+          if-no-files-found: error
