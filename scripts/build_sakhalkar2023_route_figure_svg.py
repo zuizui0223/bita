@@ -28,6 +28,7 @@ DEFAULT_OUTPUT = (
     / "FIGURE_4_TWO_NETWORK_ACCESS_ROUTING.svg"
 )
 AUBERT_RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "aubert2026_missingness_dependence_sensitivity.json"
+PARTICIPATION_RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "aubert2026_participation_route_decomposition_first_open.json"
 
 
 def _text(
@@ -70,6 +71,7 @@ def build_svg(
     points: list[dict[str, float | str]],
     result: dict[str, object],
     aubert: dict[str, object] | None = None,
+    participation: dict[str, object] | None = None,
 ) -> str:
     if not points:
         raise ValueError("cannot build Figure 4 without species-level route points")
@@ -175,7 +177,17 @@ def build_svg(
             _text(1115, 531, f'within-bird continuous: {int(bird_within["eligible_bird_species_continuous"])} species / {int(bird_within["bird_plant_dyads_in_pooled_test"]):,} dyads', size=13, weight="bold"),
             _text(1115, 560, f'centered-rank rho = {float(bird_within["pooled_within_bird_rank_rho"]):.3f}; p = {float(bird_within["within_bird_permutation_p_two_sided"]):.4f}', size=13, weight="bold"),
             _text(1115, 598, f'descriptive pair-site robbery: barrier {barrier_rate:.3f} vs accessible {accessible_rate:.3f}', size=13),
-            _text(1115, 632, f'{int(site["positive_sites"])} / {int(site["eligible_sites"])} sites positive; {int(native["pair_site_n"]):,} pair-site units', size=13),
+        ])
+        if participation is not None:
+            decision = participation["decision"]
+            ci95 = decision["ci95_rate_ratio"]
+            parts.extend([
+                _text(1115, 628, f'total exploitation RR = {float(decision["rate_ratio"]):.3f} (95% CI {float(ci95[0]):.3f}–{float(ci95[1]):.3f})', size=13, weight="bold"),
+                _text(1115, 658, "frozen class: participation increase + routing", size=13, weight="bold"),
+            ])
+        else:
+            parts.append(_text(1115, 632, f'{int(site["positive_sites"])} / {int(site["eligible_sites"])} sites positive; {int(native["pair_site_n"]):,} pair-site units', size=13))
+        parts.extend([
         ])
     else:
         parts.extend([
@@ -202,7 +214,8 @@ def build_from_public_data() -> str:
     points = species_route_points(visits, traits)
     result = analyze_workbook(workbook, permutations=9999)
     aubert = json.loads(AUBERT_RESULT.read_text(encoding="utf-8")) if AUBERT_RESULT.exists() else None
-    return build_svg(points, result, aubert)
+    participation = json.loads(PARTICIPATION_RESULT.read_text(encoding="utf-8")) if PARTICIPATION_RESULT.exists() else None
+    return build_svg(points, result, aubert, participation)
 
 
 def main(argv: list[str] | None = None) -> int:
