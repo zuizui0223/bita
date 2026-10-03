@@ -2,11 +2,11 @@
 
 **Article type:** Letter
 
-**Provisional title:** Access constraints reroute floral exploitation across bird and insect visitor networks
+**Provisional title:** Access constraints predict interaction routing across bird and insect visitor networks
 
 Dear Editors,
 
-Please consider our manuscript, “Access constraints reroute floral exploitation across bird and insect visitor networks,” as a Letter in *Ecology Letters*.
+Please consider our manuscript, “Access constraints predict interaction routing across bird and insect visitor networks,” as a Letter in *Ecology Letters*.
 
 The manuscript asks a narrower question than the source studies: when access mismatch is associated with greater bypass use, does the constraint actually filter interactions out, or does it change the route through which interactions occur? We treat **filtering versus interaction routing** as distinct ecological outcomes.
 
