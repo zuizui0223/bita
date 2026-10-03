@@ -98,6 +98,10 @@ To avoid treating repeated pair-sites as independent, the primary analysis avera
 
 We separately tested the behavioral prediction within bird species. Pair-site rows were first averaged across sites to bird × plant dyads; mismatch and robbery were then ranked and centered within each bird species, and robbery ranks were permuted only within birds. We also retained one barrier-minus-accessible difference per bird species. A correlation of one mean mismatch and robbery value per bird was treated only as a between-bird diagnostic. Complete-case yes/no results and pair-site/site summaries were sensitivities. All permutation tests used 9,999 iterations.
 
+### Zero-inclusive participation decomposition
+
+To test whether increased robbery merely reflected the composition of residual interactions after filtering, we froze a zero-inclusive participation analysis before opening its mismatch effect. Opportunities were clean EPHI camera waypoints (`camera_problem=no`) crossed with target bird species observed elsewhere at the same site during the focal camera interval; explicit `no_feeding` records were excluded from exploitation. The primary count retained the Letter's missing-piercing-as-legitimate rule. We fit a Poisson log-linear model with waypoint and bird-species fixed effects and a binary barrier term (tube length > culmen). Thus the barrier coefficient estimates a total route-resolved exploitation rate ratio while conditioning out waypoint-level effort/flower availability and bird-level baseline use. Uncertainty used delete-one-plant-species jackknife intervals. Before opening the effect we froze a 0.80–1.25 equivalence margin and four outcome classes: no material participation loss, reduction plus routing, increase plus routing, or unresolved participation.
+
 ### Independent Afrotropical insect corroboration
 
 We reanalysed the public Sakhalkar et al. (2023) Afrotropical visitor and floral-trait dataset. Generic visiting records were excluded following the source analysis; all calculations use the currently deposited Zenodo workbook.
