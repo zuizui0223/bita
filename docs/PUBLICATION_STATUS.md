@@ -40,6 +40,39 @@ k = 2 independent networks
 
 The joint statistic tests recurrence across these two networks only. It does not estimate between-network heterogeneity, a network-population mean, or generality beyond the two systems.
 
+## Participation and routing-shape updates
+
+The zero-inclusive Ecuadorian participation analysis is now opened under its frozen denominator and model contract:
+
+~~~text
+trait-matched opportunity edges = 19,909
+clean camera waypoints = 5,254
+bird species = 50
+plant species = 288
+positive edges = 6,519
+zero edges = 13,390
+supported model edges after positive-margin pruning = 15,862
+barrier/access total exploitation rate ratio = 1.772
+95% plant-jackknife CI = 1.105–2.841
+90% CI = 1.192–2.633
+FROZEN_CLASS = PARTICIPATION_INCREASE_PLUS_ROUTING
+~~~
+
+Thus the higher robbery signal is not a residual composition created by lower total use. In the fitted observational model, barrier opportunities show higher total route-resolved exploitation after waypoint and bird fixed effects. The stronger prespecified material-enhancement flag is not met because the 95% lower bound does not exceed 1.25.
+
+A separately preregistered plant-species routing-shape analysis did **not** localize a sharp equality threshold:
+
+~~~text
+sigmoid midpoint x* = 0.9197
+x* at upper 95% mismatch-support boundary = YES
+bootstrap 90% CI = 0.1177–0.9197
+quadratic curvature permutation p = 0.0049
+interior upper turnover supported = NO
+THRESHOLD_CLASS = THRESHOLD_AT_SUPPORT_BOUNDARY
+~~~
+
+This is retained as a negative boundary result. Across the sampled mismatch range, the routing response is better supported as graded than as a sharply localized switch near tube–bill equality; a later transition beyond observed support remains unresolved.
+
 ## Mechanistic boundary
 
 The current routing claim is now expressed as a **relative-route-cost** condition.
