@@ -132,3 +132,12 @@ def test_letter_separates_case_directional_recurrence_from_standardized_k() -> N
     assert "11 plant and seven bird species" in text
     assert "directional corroboration rather than a third standardized network contribution" in text
     assert "standardized replication count remain \\(k=2\\)" in text
+
+
+def test_threshold_first_open_is_reported_as_negative_diagnostic() -> None:
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    assert "did **not** localize a routing threshold near tube–bill equality" in text
+    assert "upper 95% support boundary" in text
+    assert "no interior upper turnover" in text
+    assert "do not claim an empirical switch point" in text
+    assert "location of any mechanistic switch or abandonment boundary remains unresolved" in text
