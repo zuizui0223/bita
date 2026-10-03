@@ -165,6 +165,17 @@ Main message:
 
 ## Supplementary figure routing
 
+Add a compact **Fig. S2 — preregistered routing-shape diagnostic**:
+
+- x-axis: plant-species mean log tube/bill mismatch;
+- y-axis: plant-species robbery rate;
+- show the fitted monotone sigmoid only as a descriptive shape diagnostic;
+- mark the prespecified equality neighborhood \(|M|\leq\log(1.25)\);
+- mark the fitted \(x^*=0.920\) at the upper 95% support boundary;
+- annotate the 90% species-bootstrap interval (0.118–0.920);
+- state explicitly: **threshold not localized; no interior upper turnover**;
+- do not depict the boundary estimate as a biological switch point.
+
 Move detailed macro-paper material to Supporting Information:
 
 - full 17-system state matrix;
