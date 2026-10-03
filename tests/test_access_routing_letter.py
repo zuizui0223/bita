@@ -132,3 +132,23 @@ def test_letter_separates_case_directional_recurrence_from_standardized_k() -> N
     assert "11 plant and seven bird species" in text
     assert "directional corroboration rather than a third standardized network contribution" in text
     assert "standardized replication count remain \\(k=2\\)" in text
+
+
+@pytest.mark.prose_contract
+def test_letter_names_zero_inclusive_estimand_as_feeding_visitation() -> None:
+    text = LETTER.read_text(encoding="utf-8").lower()
+    assert "resolved feeding visits (legitimate + robbing)" in text
+    assert "total route-resolved exploitation" not in text
+    assert "waypoint fixed effects absorb" in text
+    assert "time-invariant plant/waypoint reward main effect" in text
+    assert "bird-specific reward responses" in text
+
+
+@pytest.mark.prose_contract
+def test_letter_integrates_postopen_route_split_and_boundary_mass() -> None:
+    text = LETTER.read_text(encoding="utf-8")
+    assert "legitimate/non-robbing visits (1.883, 1.111–3.190)" in text
+    assert "robbery-only counts (0.463, 0.147–1.461)" in text
+    assert "585 of 999 finite bootstrap fits (58.6%)" in text
+    assert "should not be described as greater exploitation or greater robbery" in text
+    assert "public EPHI tables contain no direct nectar-reward covariate" in text
