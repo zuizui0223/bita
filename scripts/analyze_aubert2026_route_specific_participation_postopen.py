@@ -230,8 +230,10 @@ def analyze_tables(
         "claim_boundary": (
             "Post-open observational decomposition motivated by the aggregate "
             "first-open participation result. It does not convert either route-specific "
-            "association into a causal floral-geometry effect and does not control "
-            "unmeasured plant-level reward differences."
+            "association into a causal floral-geometry effect. Waypoint fixed "
+            "effects absorb time-invariant waypoint/plant reward main effects; "
+            "bird-specific reward responses and within-deployment temporal reward "
+            "variation remain possible confounding."
         ),
     }
 
