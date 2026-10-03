@@ -193,6 +193,7 @@ def test_letter_reports_threshold_result_as_boundary_not_headline() -> None:
     text = LETTER.read_text(encoding="utf-8").lower()
     assert "did not localize a sharp threshold near tube–bill equality" in text
     assert "upper 95% support boundary" in text
-    assert "original 90% percentile interval (0.118–0.920)" in text\n    assert "585 of 999 finite bootstrap fits (58.6%)" in text
+    assert "original 90% percentile interval (0.118–0.920)" in text
+    assert "585 of 999 finite bootstrap fits (58.6%)" in text
     assert "no interior upper turnover was supported" in text
     assert "better supported as graded across the sampled mismatch range" in text
