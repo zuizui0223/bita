@@ -28,6 +28,7 @@ DEFAULT_OUTPUT = (
     / "FIGURE_4_TWO_NETWORK_ACCESS_ROUTING.svg"
 )
 AUBERT_RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "aubert2026_missingness_dependence_sensitivity.json"
+PARTICIPATION_RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "aubert2026_participation_route_decomposition_first_open.json"
 
 
 def _text(
@@ -70,6 +71,7 @@ def build_svg(
     points: list[dict[str, float | str]],
     result: dict[str, object],
     aubert: dict[str, object] | None = None,
+    participation: dict[str, object] | None = None,
 ) -> str:
     if not points:
         raise ValueError("cannot build Figure 4 without species-level route points")
@@ -167,7 +169,7 @@ def build_svg(
 
         parts.extend([
             _text(1090, 332, "B  Aubert / EPHI — plant and within-bird tests", size=20, weight="bold"),
-            '<rect x="1090" y="354" width="700" height="318" rx="14" fill="#fffdf7" stroke="#444" stroke-width="2"/>',
+            '<rect x="1090" y="354" width="700" height="330" rx="14" fill="#fffdf7" stroke="#444" stroke-width="2"/>',
             _text(1115, 386, f'{int(plant_rho["n_clusters"]):,} plant species | missing piercing → legitimate/no', size=15, weight="bold"),
             _text(1115, 421, f'plant-level mismatch rho = {float(plant_rho["rho"]):.3f}; p = {float(plant_rho["permutation_p_two_sided"]):.4f}', size=14, weight="bold"),
             _text(1115, 455, f'plant paired barrier: {int(plant_barrier["eligible_clusters"])} species; Δ = +{float(plant_barrier["mean_cluster_difference"]):.3f}; p = {float(plant_barrier["cluster_label_swap_permutation_p"]):.4f}', size=13),
@@ -175,8 +177,16 @@ def build_svg(
             _text(1115, 531, f'within-bird continuous: {int(bird_within["eligible_bird_species_continuous"])} species / {int(bird_within["bird_plant_dyads_in_pooled_test"]):,} dyads', size=13, weight="bold"),
             _text(1115, 560, f'centered-rank rho = {float(bird_within["pooled_within_bird_rank_rho"]):.3f}; p = {float(bird_within["within_bird_permutation_p_two_sided"]):.4f}', size=13, weight="bold"),
             _text(1115, 598, f'descriptive pair-site robbery: barrier {barrier_rate:.3f} vs accessible {accessible_rate:.3f}', size=13),
-            _text(1115, 632, f'{int(site["positive_sites"])} / {int(site["eligible_sites"])} sites positive; {int(native["pair_site_n"]):,} pair-site units', size=13),
         ])
+        if participation is not None:
+            decision = participation["decision"]
+            ci95 = decision["ci95_rate_ratio"]
+            parts.extend([
+                _text(1115, 628, f'total exploitation RR = {float(decision["rate_ratio"]):.3f} (95% CI {float(ci95[0]):.3f}–{float(ci95[1]):.3f})', size=13, weight="bold"),
+                _text(1115, 658, "frozen class: participation increase + routing", size=13, weight="bold"),
+            ])
+        else:
+            parts.append(_text(1115, 632, f'{int(site["positive_sites"])} / {int(site["eligible_sites"])} sites positive; {int(native["pair_site_n"]):,} pair-site units', size=13))
     else:
         parts.extend([
             _text(1090, 332, "B  Aubert / EPHI — aggregate unavailable", size=20, weight="bold"),
@@ -186,8 +196,8 @@ def build_svg(
         '<rect x="1090" y="700" width="700" height="180" rx="14" fill="#f7f7f7" stroke="#444" stroke-width="2"/>',
         _text(1115, 735, "Cross-network ecological readout", size=19, weight="bold"),
         _text(1115, 775, "Insects: increasing access constraint shifts cheating toward bypass/robbing.", size=15),
-        _text(1115, 810, "Birds: plant-level and within-bird comparisons both recover rerouting.", size=15),
-        _text(1115, 850, "Consumer-grain behavior survives after bird-specific baselines are removed.", size=15, weight="bold"),
+        _text(1115, 810, "Birds: routing rises while total route-resolved exploitation is also higher.", size=15),
+        _text(1115, 850, "The Ecuador pattern is participation increase + routing, not simple filtering.", size=15, weight="bold"),
         _text(120, 908, "Sakhalkar: significant univariate association; correlated morphology prevents a unique tube-length claim.", size=12, fill="#555"),
         _text(120, 934, "Aubert/EPHI: observational all-site extension; missing piercing is recoded as legitimate/no from source metadata.", size=12, fill="#555"),
         _text(120, 960, "No raw species identifiers or individual interaction rows are emitted in the figure.", size=12),
@@ -202,7 +212,8 @@ def build_from_public_data() -> str:
     points = species_route_points(visits, traits)
     result = analyze_workbook(workbook, permutations=9999)
     aubert = json.loads(AUBERT_RESULT.read_text(encoding="utf-8")) if AUBERT_RESULT.exists() else None
-    return build_svg(points, result, aubert)
+    participation = json.loads(PARTICIPATION_RESULT.read_text(encoding="utf-8")) if PARTICIPATION_RESULT.exists() else None
+    return build_svg(points, result, aubert, participation)
 
 
 def main(argv: list[str] | None = None) -> int:

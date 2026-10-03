@@ -59,7 +59,7 @@ Main message:
 
 ---
 
-## Figure 2 — Native-scale routing evidence in two independent networks
+## Figure 2 — Native-scale routing and participation evidence
 
 Use the existing two-network public-data figure as the base.
 
@@ -83,6 +83,12 @@ descriptive pair-site scale:
 n = 2,265
 barrier robbery = 0.147
 accessible robbery = 0.020
+
+zero-inclusive participation layer:
+trait-matched opportunity edges = 19,909
+barrier/access total-exploitation RR = 1.7717
+95% plant-jackknife CI = 1.1050–2.8405
+frozen class = participation increase + routing
 ~~~
 
 ### Panel B — site robustness
@@ -96,7 +102,7 @@ site-stratified permutation p = 0.0001
 
 Main message:
 
-> the same access-routing direction appears under different fauna, response definitions and inferential grains.
+> the same access-routing direction appears under different fauna, while the Ecuadorian barrier state is associated with higher rather than lower total route-resolved exploitation.
 
 ---
 

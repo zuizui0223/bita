@@ -82,6 +82,10 @@ def test_letter_submission_source_excludes_internal_workflow_language() -> None:
     assert "not an estimate of natural prevalence" in lower
     assert "bounded direct-evidence corpus contained 24 study programs" not in lower
     assert "standardized replication count is therefore still only two networks" in lower
+    assert "access barriers coincide with greater total exploitation, not filtering" in lower
+    assert "rate ratio 1.772" in lower
+    assert "95% plant-jackknife ci 1.105–2.841" in lower
+    assert "participation increase plus routing" in lower
 
 
 def test_letter_submission_remains_fail_closed_until_archive_doi_and_author_metadata() -> None:
@@ -117,6 +121,7 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
     for token in (
         "sakhalkar_species_analysis.csv",
         "aubert_ephi_pair_site_analysis.csv",
+        "aubert_ephi_participation_opportunities.csv",
         "metadata.csv",
         "archive_manifest.json",
         "archive_reproduction.json",
@@ -124,6 +129,9 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
         "scripts/reproduce_access_routing_archive.py",
         "10.5281/zenodo.8398202",
         "10.5281/zenodo.14185547",
+        "DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv",
+        "DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json",
+        "33 eligible independent direct study programs",
     ):
         assert token in text
 
@@ -176,3 +184,5 @@ def test_cover_letter_matches_current_evidence_hierarchy() -> None:
     assert "four opposite" in lower
     assert "two mixed" in lower
     assert "success-rate or prevalence argument" in lower
+    assert "rate ratio 1.772" in lower
+    assert "participation increase plus routing" in lower
