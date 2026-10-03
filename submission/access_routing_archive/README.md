@@ -7,7 +7,8 @@ This directory defines the archive that must receive a permanent DOI **before ex
 The build workflow generates an `artifacts/letter/data_archive/` directory containing:
 
 - `sakhalkar_species_analysis.csv` — 57 anonymous plant-species analysis units used for the insect routing and multitrait analyses;
-- `aubert_ephi_pair_site_analysis.csv` — 2,265 anonymous bird × plant × site aggregation units under the metadata-informed missing-as-no rule, with anonymized plant- and bird-species cluster IDs; these reproduce both the 259-plant primary inference and the paired/continuous within-bird behavioral sensitivities;
+- `aubert_ephi_pair_site_analysis.csv` — 2,265 anonymous bird × plant × site aggregation units under the metadata-informed missing-as-no rule, with anonymized plant- and bird-species cluster IDs; these reproduce both the 259-plant primary routing inference and the paired/continuous within-bird behavioral sensitivities;
+- `aubert_ephi_participation_opportunities.csv` — the zero-inclusive clean-waypoint × locally available bird opportunity table used to reproduce the frozen participation rate ratio, with anonymized waypoint, plant, bird and site identifiers;
 - `metadata.csv` — file/column descriptions and units;
 - `archive_manifest.json` — source DOIs, row counts and identifier policy;
 - `archive_reproduction.json` — statistics regenerated using only the archived analysis tables;
@@ -27,7 +28,7 @@ The submission archive must also include the exact code used to export and repro
 - `scripts/validate_direct_access_geometry_formal_frame.py`
 - `scripts/validate_leal2025_direct_geometry_screen.py`
 - the imported BITA analysis modules required by those scripts;
-- frozen aggregate JSON outputs used in the manuscript;
+- frozen aggregate JSON outputs used in the manuscript, including the first-open participation result and provenance receipt;
 - this README.
 
 ## Supporting direct-evidence boundary
@@ -52,7 +53,7 @@ Underlying public data remain attributed to their original repositories:
 - Sakhalkar et al. 2023: Zenodo DOI `10.5281/zenodo.8398202`
 - EPHI Ecuador mirror: Zenodo DOI `10.5281/zenodo.14185547`
 
-The archive does not silently republish source species identifiers. It contains the exact analysis-ready units needed to reproduce the reported statistics. EPHI site, plant-species and bird-species labels are deterministically relabelled so the primary plant-species analysis and bird-species dependence sensitivity can be reproduced without exposing source taxon names.
+The archive does not silently republish source species identifiers. It contains the exact analysis-ready units needed to reproduce the reported statistics. EPHI waypoint, site, plant-species and bird-species labels are deterministically relabelled so the primary routing analysis, within-bird sensitivities and zero-inclusive participation model can be reproduced without exposing source taxon names.
 
 ## Reproduction
 
