@@ -1,6 +1,6 @@
 {
   "schema": "BITA_AUBERT_ROUTING_THRESHOLD_FREEZE_V1",
-  "status": "FROZEN_BEFORE_THRESHOLD_EFFECT",
+  "status": "FIRST_THRESHOLD_EFFECT_OPENED_RETAIN_REGARDLESS_OF_SIGN",
   "source_doi": "10.5281/zenodo.14185547",
   "base_routing_commit": "13b75b9ea461916968bbd5e42b8b86cf01a32c88",
   "inferential_unit": "plant_species",
@@ -45,5 +45,22 @@
     "require_negative_derivative_at_q90": true
   },
   "seed": 20261003,
-  "threshold_effect_opened": false
+  "threshold_effect_opened": true,
+  "first_open": {
+    "workflow_run": 37090321341,
+    "artifact_id": 11262262598,
+    "artifact_digest": "sha256:3fd7b58ccc6682e463231c868bc82652c34120ecccf90c62952ed06f3eefffcb",
+    "branch": "analysis/routing-threshold-first-open-v1",
+    "head": "3ec85fb0c3e93a1278868f0d6b12a294c1423d34",
+    "result_path": "empirical/floral_defence_selectivity/results/aubert2026_routing_threshold_first_open.json",
+    "receipt_path": "empirical/floral_defence_selectivity/results/AUBERT2026_ROUTING_THRESHOLD_FIRST_OPEN_RECEIPT_V1.json",
+    "result_sha256": "33a1ee2248f69aaa308a8424f4acac0f59148b07e4607075614d8171a900b931",
+    "threshold_classification": "THRESHOLD_AT_SUPPORT_BOUNDARY",
+    "xstar": 0.9197423428245373,
+    "ci90_xstar": [
+      0.1176853690900638,
+      0.9197423428245373
+    ],
+    "upper_turnover_classification": "CURVATURE_WITHOUT_INTERIOR_TURNOVER"
+  }
 }
