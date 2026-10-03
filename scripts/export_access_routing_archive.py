@@ -18,6 +18,9 @@ if __package__ in {None, ""}:
 from scripts.analyze_aubert2026_missingness_dependence_sensitivity import (
     build_pair_site_rows_policy,
 )
+from scripts.analyze_aubert2026_participation_route_decomposition import (
+    build_opportunity_edges,
+)
 from scripts.analyze_aubert2026_zenodo_extension import (
     FILES as AUBERT_FILES,
     _download as _download_aubert,
@@ -101,11 +104,58 @@ def _aubert_rows() -> list[dict[str, object]]:
         })
     return out
 
+
+def _aubert_participation_rows() -> list[dict[str, object]]:
+    tables = {
+        key: _read_aubert(_download_aubert(name))
+        for key, name in AUBERT_FILES.items()
+    }
+    edges, _audit = build_opportunity_edges(
+        tables["interactions"],
+        tables["cameras"],
+        tables["plants"],
+        tables["birds"],
+    )
+
+    site_map = {
+        site: f"site_{index:02d}"
+        for index, site in enumerate(sorted({edge.site for edge in edges}), start=1)
+    }
+    plant_map = {
+        plant: f"plant_{index:03d}"
+        for index, plant in enumerate(sorted({edge.plant for edge in edges}), start=1)
+    }
+    bird_map = {
+        bird: f"bird_{index:03d}"
+        for index, bird in enumerate(sorted({edge.bird for edge in edges}), start=1)
+    }
+    waypoint_map = {
+        waypoint: f"waypoint_{index:04d}"
+        for index, waypoint in enumerate(sorted({edge.waypoint for edge in edges}), start=1)
+    }
+
+    out: list[dict[str, object]] = []
+    for index, edge in enumerate(edges, start=1):
+        out.append({
+            "analysis_unit": f"opportunity_{index:05d}",
+            "waypoint_unit": waypoint_map[edge.waypoint],
+            "site_id": site_map[edge.site],
+            "plant_unit": plant_map[edge.plant],
+            "bird_unit": bird_map[edge.bird],
+            "trait_barrier": "true" if bool(edge.barrier) else "false",
+            "mismatch_log_t_over_b": edge.mismatch,
+            "primary_count": edge.primary_count,
+            "strict_count": edge.strict_count,
+            "broad_count": edge.broad_count,
+        })
+    return out
+
 def export_archive(output_dir: Path) -> dict[str, object]:
     output_dir.mkdir(parents=True, exist_ok=True)
 
     sakh = _sakhalkar_rows()
     aubert = _aubert_rows()
+    participation = _aubert_participation_rows()
 
     _write_csv(
         output_dir / "sakhalkar_species_analysis.csv",
@@ -132,6 +182,22 @@ def export_archive(output_dir: Path) -> dict[str, object]:
             "robbery_rate",
             "mismatch_log_t_over_b",
             "trait_barrier",
+        ],
+    )
+    _write_csv(
+        output_dir / "aubert_ephi_participation_opportunities.csv",
+        participation,
+        [
+            "analysis_unit",
+            "waypoint_unit",
+            "site_id",
+            "plant_unit",
+            "bird_unit",
+            "trait_barrier",
+            "mismatch_log_t_over_b",
+            "primary_count",
+            "strict_count",
+            "broad_count",
         ],
     )
 
@@ -225,6 +291,53 @@ def export_archive(output_dir: Path) -> dict[str, object]:
             "column": "trait_barrier",
             "description": "True when flower tube length exceeds bird bill length.",
             "unit": "boolean",
+        },        {
+            "file": "aubert_ephi_participation_opportunities.csv",
+            "column": "waypoint_unit",
+            "description": "Anonymous clean camera-waypoint fixed-effect identifier.",
+            "unit": "identifier",
+        },
+        {
+            "file": "aubert_ephi_participation_opportunities.csv",
+            "column": "plant_unit",
+            "description": "Anonymous plant-species cluster identifier used for jackknife uncertainty.",
+            "unit": "identifier",
+        },
+        {
+            "file": "aubert_ephi_participation_opportunities.csv",
+            "column": "bird_unit",
+            "description": "Anonymous bird-species fixed-effect identifier.",
+            "unit": "identifier",
+        },
+        {
+            "file": "aubert_ephi_participation_opportunities.csv",
+            "column": "trait_barrier",
+            "description": "True when flower tube length exceeds bird culmen length.",
+            "unit": "boolean",
+        },
+        {
+            "file": "aubert_ephi_participation_opportunities.csv",
+            "column": "mismatch_log_t_over_b",
+            "description": "log(flower tube length cm / mean bird culmen length cm).",
+            "unit": "log ratio",
+        },
+        {
+            "file": "aubert_ephi_participation_opportunities.csv",
+            "column": "primary_count",
+            "description": "Primary route-resolved exploitation count; explicit no_feeding excluded and missing piercing recoded as legitimate/no.",
+            "unit": "count",
+        },
+        {
+            "file": "aubert_ephi_participation_opportunities.csv",
+            "column": "strict_count",
+            "description": "Sensitivity count requiring explicit feeding activity.",
+            "unit": "count",
+        },
+        {
+            "file": "aubert_ephi_participation_opportunities.csv",
+            "column": "broad_count",
+            "description": "Sensitivity count including maybe/thief feeding records but excluding no_feeding/not_interacting.",
+            "unit": "count",
         },
     ]
     _write_csv(
@@ -242,11 +355,12 @@ def export_archive(output_dir: Path) -> dict[str, object]:
         "analysis_tables": {
             "sakhalkar_species_analysis.csv": len(sakh),
             "aubert_ephi_pair_site_analysis.csv": len(aubert),
+            "aubert_ephi_participation_opportunities.csv": len(participation),
         },
         "identifier_policy": (
             "Analysis-unit identifiers are anonymous. EPHI site, plant-species and bird-species "
-            "identifiers are deterministically relabelled, preserving the clustering needed for "
-            "species-level inference without exposing source taxon labels."
+            "identifiers are deterministically relabelled, preserving the clustering and fixed-effect "
+            "structure needed for routing and participation inference without exposing source taxon labels."
         ),
     }
     (output_dir / "archive_manifest.json").write_text(
