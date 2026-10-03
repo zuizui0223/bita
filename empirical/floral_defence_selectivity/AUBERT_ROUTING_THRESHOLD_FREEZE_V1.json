@@ -1,0 +1,49 @@
+{
+  "schema": "BITA_AUBERT_ROUTING_THRESHOLD_FREEZE_V1",
+  "status": "FROZEN_BEFORE_THRESHOLD_EFFECT",
+  "source_doi": "10.5281/zenodo.14185547",
+  "base_routing_commit": "13b75b9ea461916968bbd5e42b8b86cf01a32c88",
+  "inferential_unit": "plant_species",
+  "expected_units": 259,
+  "aggregation": "unweighted mean mismatch and robbery rate across pair-site rows within plant species",
+  "sigmoid": {
+    "form": "L + (U-L) / (1 + exp(-k*(M-xstar)))",
+    "lower_upper_bounds": [
+      0,
+      1
+    ],
+    "k_bounds": [
+      0.25,
+      20
+    ],
+    "xstar_search_quantiles": [
+      0.05,
+      0.95
+    ],
+    "minimum_amplitude": 0.1
+  },
+  "equality_prediction": {
+    "target_mismatch": 0,
+    "margin_abs_log_mismatch": 0.22314355131420976,
+    "equivalent_tube_bill_ratio": [
+      0.8,
+      1.25
+    ],
+    "bootstrap_replicates": 999,
+    "bootstrap_ci": 0.9,
+    "minimum_finite_bootstrap_fraction": 0.9
+  },
+  "upper_turnover": {
+    "model": "quadratic versus linear unweighted plant-species robbery rate",
+    "permutations": 9999,
+    "alpha": 0.05,
+    "vertex_support_quantiles": [
+      0.1,
+      0.9
+    ],
+    "require_negative_curvature": true,
+    "require_negative_derivative_at_q90": true
+  },
+  "seed": 20261003,
+  "threshold_effect_opened": false
+}
