@@ -23,24 +23,33 @@ jobs:
       - name: Install package and tests
         run: python -m pip install -e '.[dev]'
 
-      - name: Verify freeze is unopened
+      - name: Resolve threshold lifecycle
+        id: lifecycle
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          p=Path("empirical/floral_defence_selectivity/AUBERT_ROUTING_THRESHOLD_FREEZE_V1.json")
-          x=json.loads(p.read_text())
-          assert x["status"]=="FROZEN_BEFORE_THRESHOLD_EFFECT"
-          assert x["threshold_effect_opened"] is False
+          freeze=json.loads(Path("empirical/floral_defence_selectivity/AUBERT_ROUTING_THRESHOLD_FREEZE_V1.json").read_text())
           result=Path("empirical/floral_defence_selectivity/results/aubert2026_routing_threshold_first_open.json")
-          assert not result.exists()
-          print("routing-threshold freeze is unopened")
+          opened=freeze.get("threshold_effect_opened") is True
+          if opened:
+              assert freeze["status"]=="FIRST_THRESHOLD_EFFECT_OPENED_RETAIN_REGARDLESS_OF_SIGN"
+              assert result.is_file()
+              mode="verify"
+          else:
+              assert freeze["status"]=="FROZEN_BEFORE_THRESHOLD_EFFECT"
+              assert not result.exists()
+              mode="open"
+          with open(Path(__import__("os").environ["GITHUB_OUTPUT"]), "a") as fh:
+              fh.write(f"mode={mode}\n")
+          print(f"threshold lifecycle mode={mode}")
           PY
 
       - name: Test frozen threshold implementation
         run: pytest -q tests/test_aubert2026_routing_threshold.py
 
       - name: Open first real threshold result once
+        if: steps.lifecycle.outputs.mode == 'open'
         run: |
           set -euo pipefail
           mkdir -p artifacts/routing-threshold
@@ -62,6 +71,7 @@ jobs:
           fi
 
       - name: Print frozen decision
+        if: steps.lifecycle.outputs.mode == 'open'
         run: |
           python - <<'PY'
           import json
@@ -78,7 +88,12 @@ jobs:
           print(json.dumps(keep,indent=2,sort_keys=True))
           PY
 
+      - name: Verify frozen post-open result
+        if: steps.lifecycle.outputs.mode == 'verify'
+        run: pytest -q tests/test_aubert2026_routing_threshold_first_open.py
+
       - uses: actions/upload-artifact@v4
+        if: steps.lifecycle.outputs.mode == 'open'
         with:
           name: aubert-routing-threshold-first-open
           path: artifacts/routing-threshold/aubert2026_routing_threshold_first_open.json
