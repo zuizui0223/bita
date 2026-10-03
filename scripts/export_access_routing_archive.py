@@ -347,7 +347,7 @@ def export_archive(output_dir: Path) -> dict[str, object]:
     )
 
     manifest = {
-        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V2",
+        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V3",
         "source_data": {
             "sakhalkar_2023_zenodo_doi": SAKHALKAR_DOI,
             "aubert_ephi_zenodo_mirror_doi": AUBERT_EPHI_DOI,
