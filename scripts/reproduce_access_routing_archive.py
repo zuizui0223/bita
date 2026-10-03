@@ -141,7 +141,7 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
     )
 
     return {
-        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V2",
+        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V3",
         "sakhalkar": {
             "n_species": len(sakh_points),
             "spearman_rho": s_rho,
