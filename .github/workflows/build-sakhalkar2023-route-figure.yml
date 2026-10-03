@@ -48,7 +48,9 @@ jobs:
               "within-bird continuous: 28 species / 1,285 dyads",
               "centered-rank rho = 0.340",
               "barrier 0.147 vs accessible 0.020",
-              "18 / 18 sites",
+              "total exploitation RR = 1.772",
+              "95% CI 1.105–2.841",
+              "participation increase + routing",
           ]
           missing = [item for item in expected if item not in text]
           if missing:
