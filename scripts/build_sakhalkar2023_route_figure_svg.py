@@ -182,7 +182,7 @@ def build_svg(
             decision = participation["decision"]
             ci95 = decision["ci95_rate_ratio"]
             parts.extend([
-                _text(1115, 628, f'total exploitation RR = {float(decision["rate_ratio"]):.3f} (95% CI {float(ci95[0]):.3f}–{float(ci95[1]):.3f})', size=13, weight="bold"),
+                _text(1115, 628, f'resolved feeding-visit RR = {float(decision["rate_ratio"]):.3f} (95% CI {float(ci95[0]):.3f}–{float(ci95[1]):.3f})', size=13, weight="bold"),
                 _text(1115, 658, "frozen class: participation increase + routing", size=13, weight="bold"),
             ])
         else:
@@ -196,7 +196,7 @@ def build_svg(
         '<rect x="1090" y="700" width="700" height="180" rx="14" fill="#f7f7f7" stroke="#444" stroke-width="2"/>',
         _text(1115, 735, "Cross-network ecological readout", size=19, weight="bold"),
         _text(1115, 775, "Insects: increasing access constraint shifts cheating toward bypass/robbing.", size=15),
-        _text(1115, 810, "Birds: routing rises while total route-resolved exploitation is also higher.", size=15),
+        _text(1115, 810, "Birds: routing rises while resolved feeding visitation is also higher.", size=15),
         _text(1115, 850, "The Ecuador pattern is participation increase + routing, not simple filtering.", size=15, weight="bold"),
         _text(120, 908, "Sakhalkar: significant univariate association; correlated morphology prevents a unique tube-length claim.", size=12, fill="#555"),
         _text(120, 934, "Aubert/EPHI: observational all-site extension; missing piercing is recoded as legitimate/no from source metadata.", size=12, fill="#555"),
