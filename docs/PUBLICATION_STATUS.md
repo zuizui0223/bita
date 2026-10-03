@@ -236,7 +236,10 @@ The archive contract contains the exact 57-species Sakhalkar table and 2,265-row
 
 ```text
 1. Ecology Letters — Letter
+   route only on the network-scale filtering-versus-routing distinction;
+   do not pitch first mismatch→robbery, first tactic switching, or first route-cost theory
 2. Functional Ecology — Research Article fallback
+   strongest mechanism/trait fit if Ecology Letters judges k=2 reanalysis insufficiently broad
 3. Oikos — Research fallback
 4. extended Synthesis retained for later use
 ```
@@ -245,6 +248,8 @@ The archive contract contains the exact 57-species Sakhalkar table and 2,265-row
 STATUS = SCIENTIFIC_PACKAGE_REBUILT_AROUND_SPECIES_LEVEL_ROBUST_INFERENCE
 ACTIVE_PAPER = ACCESS_ROUTING_LETTER
 ROUTING_MECHANISM = RELATIVE_ROUTE_COST
+ROUTE_COST_PRIOR_THEORY = ACKNOWLEDGED_NOT_CLAIMED_AS_NOVEL
+NOVELTY_CORE = NETWORK_SCALE_FILTERING_VS_ROUTING_SEPARATION
 ROUTE_COST_BOUNDARY = dC_LEGITIMATE_MINUS_dC_BYPASS
 DIRECT_ACCESS_GEOMETRY_BOUNDED_CORPUS_PROGRAMS = 24
 FORMAL_DIRECT_ACCESS_GEOMETRY_PROGRAMS = 33
