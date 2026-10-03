@@ -15,8 +15,11 @@ The build workflow generates an `artifacts/letter/data_archive/` directory conta
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv` — the 24-program bounded direct geometry → robbery supporting corpus;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv` — included, duplicate and excluded Stage-U update candidates with explicit reasons;
 - `supporting_literature/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv` — complete 56-label historical geometry screen;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv` — complete frozen eligibility/direction decisions for the formal 857-record OpenAlex frame;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_FULLTEXT_COMPLETE_RECEIPT_V1.json` — receipt that no formal-frame records remain pending;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json` — frozen finite-frame summary of 33 eligible direct programs (22 positive, 5 null, 4 opposite, 2 mixed);
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv` and `.md` — post hoc mechanism audit of the four opposite and two mixed formal-frame programs;
-- `supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json` — frozen descriptive partition and 1/23 versus 3/10 formal-search asymmetry;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json` — frozen descriptive boundary partition;
 - the direct-evidence eligibility contract, bounded-search receipts, Leal crosswalk and provenance receipts needed to audit the supporting-corpus counts.
 
 The submission archive must also include the exact code used to export and reproduce the tables:
@@ -33,18 +36,20 @@ The submission archive must also include the exact code used to export and repro
 
 ## Supporting direct-evidence boundary
 
-The literature files reproduce the manuscript's bounded supporting-audit statement:
+The literature files reproduce the manuscript's completed formal-frame statement:
 
 ~~~text
-24 direct study programs
-16 positive
+857 unique OpenAlex records
+33 eligible independent direct study programs
+22 positive
 5 null
+4 opposite
 2 mixed
-1 opposite
+pending full text = 0
 network-k contribution = 0
 ~~~
 
-These counts are descriptive and are not a prevalence estimate, sign test or pooled effect. The standardized joint analysis remains based on two independent networks only. The supporting archive also records why the formal recurrence statistic remains closed: the bounded web update is not a finite exportable bibliographic denominator.
+These counts describe one frozen provider-defined bibliographic frame. They are not a prevalence estimate, sign test or pooled effect. The standardized routing synthesis remains based on two independent networks only. The older 24-program bounded corpus is retained only as provenance for the targeted-search history and is not the manuscript's final formal denominator.
 
 ## Public source data
 
