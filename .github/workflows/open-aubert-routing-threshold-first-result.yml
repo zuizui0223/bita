@@ -1,0 +1,69 @@
+name: Open Aubert routing-threshold first result
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/open-aubert-routing-threshold-first-result.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  first_open:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and tests
+        run: python -m pip install -e '.[dev]'
+
+      - name: Verify freeze is unopened
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("empirical/floral_defence_selectivity/AUBERT_ROUTING_THRESHOLD_FREEZE_V1.json")
+          x=json.loads(p.read_text())
+          assert x["status"]=="FROZEN_BEFORE_THRESHOLD_EFFECT"
+          assert x["threshold_effect_opened"] is False
+          result=Path("empirical/floral_defence_selectivity/results/aubert2026_routing_threshold_first_open.json")
+          assert not result.exists()
+          print("routing-threshold freeze is unopened")
+          PY
+
+      - name: Test frozen threshold implementation
+        run: pytest -q tests/test_aubert2026_routing_threshold.py
+
+      - name: Open first real threshold result once
+        run: |
+          mkdir -p artifacts/routing-threshold
+          python -m scripts.analyze_aubert2026_routing_threshold             artifacts/routing-threshold/aubert2026_routing_threshold_first_open.json
+
+      - name: Print frozen decision
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("artifacts/routing-threshold/aubert2026_routing_threshold_first_open.json").read_text())
+          keep={
+            "n_plant_species":x["n_plant_species"],
+            "threshold_classification":x["threshold_classification"],
+            "primary_sigmoid":x["primary_sigmoid"],
+            "bootstrap":x["bootstrap"],
+            "upper_turnover":x["upper_turnover"],
+            "model_diagnostics":x["model_diagnostics"],
+          }
+          print(json.dumps(keep,indent=2,sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aubert-routing-threshold-first-open
+          path: artifacts/routing-threshold/aubert2026_routing_threshold_first_open.json
+          if-no-files-found: error
