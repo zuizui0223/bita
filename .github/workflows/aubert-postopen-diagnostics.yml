@@ -1,0 +1,100 @@
+name: Aubert post-open route and threshold diagnostics
+
+on:
+  pull_request:
+    paths:
+      - "scripts/analyze_aubert2026_route_specific_participation_postopen.py"
+      - "scripts/audit_aubert2026_threshold_bootstrap_boundary.py"
+      - "tests/test_aubert2026_postopen_diagnostics.py"
+      - ".github/workflows/aubert-postopen-diagnostics.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and tests
+        run: python -m pip install -e '.[dev]'
+
+      - name: Run diagnostic unit tests
+        run: pytest -q tests/test_aubert2026_postopen_diagnostics.py
+
+      - name: Run route-specific participation decomposition
+        run: |
+          mkdir -p artifacts/postopen
+          python scripts/analyze_aubert2026_route_specific_participation_postopen.py \
+            artifacts/postopen/aubert2026_route_specific_participation_postopen.json
+
+      - name: Run threshold bootstrap boundary audit
+        run: |
+          python scripts/audit_aubert2026_threshold_bootstrap_boundary.py \
+            artifacts/postopen/aubert2026_threshold_bootstrap_boundary.json
+
+      - name: Print scientific readout
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          base = Path("artifacts/postopen")
+          route = json.loads(
+              (base / "aubert2026_route_specific_participation_postopen.json").read_text()
+          )
+          boundary = json.loads(
+              (base / "aubert2026_threshold_bootstrap_boundary.json").read_text()
+          )
+
+          for label, key in [
+              ("robbing", "robbing"),
+              ("legitimate", "legitimate_nonrobbing"),
+          ]:
+              fit = route[key]
+              print(
+                  label,
+                  "RR=", fit["fit"]["rate_ratio"],
+                  "CI95=", fit["ci95_rate_ratio"],
+                  "direction=", fit["direction"],
+              )
+
+          b = boundary["bootstrap_boundary"]
+          print(
+              "threshold upper-boundary mass=",
+              b["upper_boundary_replicates"],
+              "/",
+              b["finite_replicates"],
+              "=",
+              b["upper_boundary_fraction"],
+          )
+          print(
+              "threshold lower-boundary mass=",
+              b["lower_boundary_replicates"],
+              "/",
+              b["finite_replicates"],
+              "=",
+              b["lower_boundary_fraction"],
+          )
+          print(
+              "threshold interior mass=",
+              b["interior_replicates"],
+              "/",
+              b["finite_replicates"],
+              "=",
+              b["interior_fraction"],
+          )
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aubert-postopen-diagnostics
+          path: artifacts/postopen/*.json
+          if-no-files-found: error
