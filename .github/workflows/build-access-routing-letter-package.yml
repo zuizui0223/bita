@@ -262,6 +262,9 @@ jobs:
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_STAGE_U_BOUNDED_SEARCH_V1.md artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_FRAME_V1.md artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_FULLTEXT_COMPLETE_RECEIPT_V1.json artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.md artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json artifacts/letter/data_archive/supporting_literature/
@@ -416,6 +419,9 @@ jobs:
               "data_archive/ZENODO_METADATA_TEMPLATE.md",
               "data_archive/DEPOSIT_CHECKLIST_V1.md",
               "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv",
+              "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv",
+              "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_FULLTEXT_COMPLETE_RECEIPT_V1.json",
+              "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json",
               "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv",
               "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.md",
               "data_archive/supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json",
