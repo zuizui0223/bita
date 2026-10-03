@@ -16,6 +16,13 @@ and nectar robbery.
 These prior results are treated as the starting point, not as discoveries of the
 current Letter.
 
+Behavioral switching is also established. Bronstein et al. (2017) framed legitimate
+visitation and nectar robbing as alternative handling tactics, Lichtenberg et al.
+(2018) showed that their relative efficiencies depend on the bee–plant combination,
+and Leonard et al. (2013) experimentally shifted the relative use of legitimate and
+robbing tactics with floral nectar guides. The Letter therefore does not claim to
+invent tactic switching or relative route-cost reasoning.
+
 ## Contribution claimed here
 
 The manuscript separates quantities that prior trait–robbery associations do not by
@@ -30,9 +37,10 @@ themselves identify:
 3. **A common route-scale comparison across faunas.** Bird and insect networks are
    mapped to one plant-level rank association between access constraint and bypass
    propensity, with equal network weight.
-4. **Relative-route-cost boundary conditions.** Null and opposite studies are
-   interpreted as cases where geometry does not preferentially penalize the
-   legitimate route, rather than as failures of a universal “longer flower = more
+4. **Trait-gradient boundary synthesis.** Existing foraging theory already motivates
+   relative handling costs. Here that logic is used to organize the sign of
+   geometry–routing associations across null, positive and opposite systems, rather
+   than to claim a new foraging principle or a universal “longer flower = more
    robbery” law.
 
 ## Claim ceiling
