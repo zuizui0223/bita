@@ -186,3 +186,13 @@ def test_cover_letter_matches_current_evidence_hierarchy() -> None:
     assert "success-rate or prevalence argument" in lower
     assert "rate ratio 1.772" in lower
     assert "participation increase plus routing" in lower
+
+
+@pytest.mark.prose_contract
+def test_letter_reports_threshold_result_as_boundary_not_headline() -> None:
+    text = LETTER.read_text(encoding="utf-8").lower()
+    assert "did not localize a sharp threshold near tube–bill equality" in text
+    assert "upper 95% support boundary" in text
+    assert "90% bootstrap ci 0.118–0.920" in text
+    assert "no interior upper turnover was supported" in text
+    assert "better supported as graded across the sampled mismatch range" in text
