@@ -1,0 +1,63 @@
+{
+  "analysis_name": "aubert_ephi_plant_species_routing_threshold",
+  "bootstrap": {
+    "ci90_xstar": [
+      0.1176853690900638,
+      0.9197423428245373
+    ],
+    "finite_fraction": 1.0,
+    "finite_replicates": 999,
+    "median_amplitude": 0.38472631035354626,
+    "median_xstar": 0.9197423428245373
+  },
+  "bootstraps": 999,
+  "claim_boundary": "Observational shape analysis at the plant-species grain. Threshold location does not establish a causal morphology switch.",
+  "equivalent_tube_bill_ratio": [
+    0.8,
+    1.25
+  ],
+  "model_diagnostics": {
+    "claim_boundary": "Working Gaussian AIC on species-level robbery proportions is a descriptive adequacy diagnostic, not the threshold decision rule.",
+    "delta_aic_sigmoid_minus_linear": -6.439564963131261,
+    "linear_sse": 3.760166201226201,
+    "sigmoid_sse": 3.611618313739196,
+    "working_aic_linear": -1092.1825098306022,
+    "working_aic_sigmoid": -1098.6220747937334
+  },
+  "n_plant_species": 259,
+  "permutations": 9999,
+  "primary_sigmoid": {
+    "amplitude": 0.4130984092633582,
+    "at_search_boundary": true,
+    "k": 1.9330368450930515,
+    "logk": 0.6590922611376797,
+    "lower": 0.0,
+    "sse": 3.611618313739196,
+    "upper": 0.4130984092633582,
+    "x_search_high": 0.9197423428245373,
+    "x_search_low": -0.9938168690755013,
+    "xstar": 0.9197423428245373
+  },
+  "proximity_margin_abs_log_mismatch": 0.22314355131420976,
+  "seed": 20261003,
+  "status": "FIT",
+  "threshold_classification": "THRESHOLD_AT_SUPPORT_BOUNDARY",
+  "upper_turnover": {
+    "classification": "CURVATURE_WITHOUT_INTERIOR_TURNOVER",
+    "curvature_permutation_p": 0.0049,
+    "derivative_at_q90": 0.1662165245277788,
+    "linear_sse": 3.760166201226201,
+    "permutations": 9999,
+    "q10_mismatch": -0.8020002345243027,
+    "q90_mismatch": 0.7012015893566665,
+    "quadratic": {
+      "intercept": 0.0612852073555371,
+      "linear": 0.1063288888438045,
+      "quadratic": 0.042703579536178454,
+      "sse": 3.5621043483180213,
+      "vertex": null
+    },
+    "quadratic_sse": 3.5621043483180213,
+    "sse_improvement": 0.19806185290817968
+  }
+}
