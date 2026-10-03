@@ -86,6 +86,10 @@ def test_letter_submission_source_excludes_internal_workflow_language() -> None:
     assert "rate ratio 1.772" in lower
     assert "95% plant-jackknife ci 1.105–2.841" in lower
     assert "participation increase plus routing" in lower
+    assert "no routing threshold was localized near tube–bill equality" in lower
+    assert "threshold at support boundary" in lower
+    assert "90% bootstrap ci 0.118–0.920" in lower
+    assert "upper-turnover criterion was not met" in lower
 
 
 def test_letter_submission_remains_fail_closed_until_archive_doi_and_author_metadata() -> None:
@@ -122,6 +126,11 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
         "sakhalkar_species_analysis.csv",
         "aubert_ephi_pair_site_analysis.csv",
         "aubert_ephi_participation_opportunities.csv",
+        "aubert2026_routing_threshold_first_open.json",
+        "AUBERT2026_ROUTING_THRESHOLD_FIRST_OPEN_RECEIPT_V1.json",
+        "AUBERT_ROUTING_THRESHOLD_PREREG_V1.md",
+        "AUBERT_ROUTING_THRESHOLD_FREEZE_V1.json",
+        "scripts/analyze_aubert2026_routing_threshold.py",
         "metadata.csv",
         "archive_manifest.json",
         "archive_reproduction.json",
@@ -186,3 +195,16 @@ def test_cover_letter_matches_current_evidence_hierarchy() -> None:
     assert "success-rate or prevalence argument" in lower
     assert "rate ratio 1.772" in lower
     assert "participation increase plus routing" in lower
+
+
+@pytest.mark.prose_contract
+def test_threshold_result_remains_bounded_negative_shape_claim() -> None:
+    letter = LETTER.read_text(encoding="utf-8").lower()
+    assert "threshold at support boundary" in letter
+    assert "not near equality" in letter
+    assert "curvature was positive" in letter
+    assert "upper-turnover criterion was not met" in letter
+    assert "hard behavioral switch" in letter
+    assert "graded rather than localized near geometric equality" in letter
+    assert "threshold near equality was supported" not in letter
+    assert "upper turnover was supported" not in letter

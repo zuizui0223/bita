@@ -23,6 +23,7 @@ from scripts.analyze_aubert2026_participation_route_decomposition import (
     fit_two_way_poisson,
     plant_cluster_jackknife,
 )
+from scripts.analyze_aubert2026_routing_threshold import analyze_points as analyze_routing_threshold
 from scripts.analyze_joint_access_routing_species_robust import (
     aggregate_aubert_by_plant,
     summarize_joint_species,
@@ -139,6 +140,12 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
         participation_edges,
         count_field="broad_count",
     )
+    routing_threshold = analyze_routing_threshold(
+        aubert_plant_points,
+        bootstraps=999,
+        permutations=9999,
+        seed=20261003,
+    )
 
     return {
         "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V3",
@@ -193,7 +200,9 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
             aubert_plant_points,
             permutations=permutations,
             seed=JOINT_SEED,
-        ),        "aubert_ephi_participation": {
+        ),
+        "aubert_ephi_routing_threshold": routing_threshold,
+        "aubert_ephi_participation": {
             "opportunity_edges": len(participation_edges),
             "positive_edges": sum(edge.primary_count > 0 for edge in participation_edges),
             "zero_edges": sum(edge.primary_count == 0 for edge in participation_edges),
