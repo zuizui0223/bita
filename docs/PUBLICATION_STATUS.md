@@ -52,13 +52,13 @@ plant species = 288
 positive edges = 6,519
 zero edges = 13,390
 supported model edges after positive-margin pruning = 15,862
-barrier/access total exploitation rate ratio = 1.772
+barrier/access resolved feeding-visit rate ratio = 1.772
 95% plant-jackknife CI = 1.105–2.841
 90% CI = 1.192–2.633
 FROZEN_CLASS = PARTICIPATION_INCREASE_PLUS_ROUTING
 ~~~
 
-Thus the higher robbery signal is not a residual composition created by lower total use. In the fitted observational model, barrier opportunities show higher total route-resolved exploitation after waypoint and bird fixed effects. The stronger prespecified material-enhancement flag is not met because the 95% lower bound does not exceed 1.25.
+Thus the higher robbery signal is not a residual composition created by lower total use. In the fitted observational model, barrier opportunities show a higher rate of resolved feeding visits (legitimate + robbing) after waypoint and bird fixed effects. The stronger prespecified material-enhancement flag is not met because the 95% lower bound does not exceed 1.25.
 
 A separately preregistered plant-species routing-shape analysis did **not** localize a sharp equality threshold:
 
