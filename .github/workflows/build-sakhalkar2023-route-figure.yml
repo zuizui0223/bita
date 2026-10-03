@@ -48,7 +48,7 @@ jobs:
               "within-bird continuous: 28 species / 1,285 dyads",
               "centered-rank rho = 0.340",
               "barrier 0.147 vs accessible 0.020",
-              "total exploitation RR = 1.772",
+              "resolved feeding-visit RR = 1.772",
               "95% CI 1.105–2.841",
               "participation increase + routing",
           ]
