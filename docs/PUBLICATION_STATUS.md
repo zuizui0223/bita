@@ -43,12 +43,15 @@ The joint statistic tests recurrence across these two networks only. It does not
 ## Novelty boundary
 
 The Letter does **not** claim first discovery of a flower-trait mismatch–robbery
-association. Aubert et al. already establish the bird trait-barrier association and
-Sakhalkar et al. already establish floral-trait partitioning of robbing versus
-thieving. The manuscript-facing novelty is the separation of **route composition
-from zero-inclusive participation**, the **within-consumer relational** test, the
-common cross-fauna routing estimand, and the **relative-route-cost** boundary that
-admits null and opposite systems. The complete guard is
+association, behavioral switching between legitimate and robbing tactics, or
+relative handling-cost explanations of tactic choice. Aubert et al. establish the
+bird trait-barrier association, Sakhalkar et al. establish floral-trait partitioning
+of robbing versus thieving, and Bronstein/Lichtenberg already establish the
+alternative-tactic framing and species-pair-dependent relative efficiencies. The
+manuscript-facing novelty is the **network-scale separation of route composition
+from zero-inclusive participation**, the **within-consumer relational** test, and a
+common cross-fauna routing estimand; relative route cost is used only to organize
+sign boundaries across systems. The complete guard is
 `docs/ACCESS_ROUTING_NOVELTY_BOUNDARY_V1.md`.
 
 ## Participation and routing-shape updates
