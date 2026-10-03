@@ -11,7 +11,7 @@ The build workflow generates an `artifacts/letter/data_archive/` directory conta
 - `aubert_ephi_participation_opportunities.csv` — the zero-inclusive clean-waypoint × locally available bird opportunity table used to reproduce the frozen participation rate ratio, with anonymized waypoint, plant, bird and site identifiers;
 - `metadata.csv` — file/column descriptions and units;
 - `archive_manifest.json` — source DOIs, row counts and identifier policy;
-- `archive_reproduction.json` — statistics regenerated using only the archived analysis tables;
+- `archive_reproduction.json` — statistics regenerated using only the archived analysis tables, including the frozen 259-plant routing-shape check;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv` — the 24-program bounded direct geometry → robbery supporting corpus;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv` — included, duplicate and excluded Stage-U update candidates with explicit reasons;
 - `supporting_literature/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv` — complete 56-label historical geometry screen;
@@ -31,7 +31,7 @@ The submission archive must also include the exact code used to export and repro
 - `scripts/validate_direct_access_geometry_formal_frame.py`
 - `scripts/validate_leal2025_direct_geometry_screen.py`
 - the imported BITA analysis modules required by those scripts;
-- frozen aggregate JSON outputs used in the manuscript, including the first-open participation result and provenance receipt;
+- frozen aggregate JSON outputs used in the manuscript, including the first-open participation and routing-threshold results and provenance receipts;
 - this README.
 
 ## Supporting direct-evidence boundary
@@ -72,7 +72,7 @@ PYTHONPATH=code python code/scripts/reproduce_access_routing_archive.py \
 
 This command uses only the deposited analysis tables and deposited code; it does not redownload the source datasets.
 
-The workflow verifies that the regenerated headline values agree with the committed frozen results.
+The workflow verifies that the regenerated headline values agree with the committed frozen results, including the participation rate ratio and the preregistered routing-threshold classification.
 
 ## Deposit-ready package
 
