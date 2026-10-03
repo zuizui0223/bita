@@ -152,3 +152,18 @@ def test_letter_integrates_postopen_route_split_and_boundary_mass() -> None:
     assert "585 of 999 finite bootstrap fits (58.6%)" in text
     assert "should not be described as greater exploitation or greater robbery" in text
     assert "public EPHI tables contain no direct nectar-reward covariate" in text
+
+
+@pytest.mark.prose_contract
+def test_letter_states_novelty_boundary_against_source_studies() -> None:
+    text = LETTER.read_text(encoding="utf-8")
+    lower = text.lower()
+    assert "the component associations are already known" in lower
+    assert "aubert et al. (2026) showed that nectar robbing" in lower
+    assert "sakhalkar et al. (2023) likewise found" in lower
+    assert "filter on interaction occurrence" in lower
+    assert "route composition independently of filtering interaction occurrence" in lower
+    assert "within consumer species" in lower
+    assert "behavioral switching itself new" in lower
+    assert "lichtenberg et al. (2018)" in lower
+    assert "the prediction has not been tested as a common standardized association" not in lower

@@ -2,7 +2,7 @@
 
 BITA's **primary submission paper** is now the Ecology Letters Letter:
 
-> **Access constraints reroute floral exploitation across bird and insect visitor networks**
+> **Access constraints predict interaction routing across bird and insect visitor networks**
 
 The broader floral-defence selectivity Synthesis remains preserved as the extended BITA evidence package and fallback manuscript architecture.
 

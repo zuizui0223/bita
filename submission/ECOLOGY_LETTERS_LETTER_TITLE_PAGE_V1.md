@@ -1,8 +1,8 @@
-# Access constraints reroute floral exploitation across bird and insect visitor networks
+# Access constraints predict interaction routing across bird and insect visitor networks
 
 **Article type:** Letter
 
-**Running title:** Access constraints reroute exploitation
+**Running title:** Access constraints predict routing
 
 **Keywords:** access constraint; interaction routing; nectar robbing; trait matching; floral ecology; mutualism; antagonism; network ecology
 
@@ -29,9 +29,9 @@
 ## Manuscript counts
 
 ~~~text
-abstract words: 131
-main-text words: 4,560
-references: 17
+abstract words: 137
+main-text words: 4,731
+references: 20
 figures: 3
 tables: 0
 text boxes: 0
