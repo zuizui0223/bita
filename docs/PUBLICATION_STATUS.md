@@ -58,7 +58,7 @@ barrier/access resolved feeding-visit rate ratio = 1.772
 FROZEN_CLASS = PARTICIPATION_INCREASE_PLUS_ROUTING
 ~~~
 
-Thus the higher robbery signal is not a residual composition created by lower total use. In the fitted observational model, barrier opportunities show a higher rate of resolved feeding visits (legitimate + robbing) after waypoint and bird fixed effects. The stronger prespecified material-enhancement flag is not met because the 95% lower bound does not exceed 1.25.
+The frozen pooled response is resolved feeding visitation, not exploitation-specific use. A post-open route-specific decomposition using the same opportunity matrix, waypoint and bird fixed effects, and plant jackknife showed that the pooled increase is carried by legitimate/non-robbing visits: legitimate RR = 1.883 (95% CI 1.111–3.190), whereas robbery-only RR = 0.463 (95% CI 0.147–1.461). The supported filtering claim is therefore that legitimate feeding visitation is not suppressed under barriers; the aggregate 1.772 estimate must not be described as increased robbery or increased exploitation.
 
 A separately preregistered plant-species routing-shape analysis did **not** localize a sharp equality threshold:
 
@@ -66,6 +66,8 @@ A separately preregistered plant-species routing-shape analysis did **not** loca
 sigmoid midpoint x* = 0.9197
 x* at upper 95% mismatch-support boundary = YES
 bootstrap 90% CI = 0.1177–0.9197
+post-open bootstrap upper-boundary mass = 585/999 (58.6%)
+post-open bootstrap interior mass = 414/999 (41.4%)
 quadratic curvature permutation p = 0.0049
 interior upper turnover supported = NO
 THRESHOLD_CLASS = THRESHOLD_AT_SUPPORT_BOUNDARY
