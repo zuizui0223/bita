@@ -162,6 +162,8 @@ def test_letter_states_novelty_boundary_against_source_studies() -> None:
     assert "aubert et al. (2026) showed that nectar robbing" in lower
     assert "sakhalkar et al. (2023) likewise found" in lower
     assert "filter on interaction occurrence" in lower
-    assert "routing variable that changes interaction mode" in lower
+    assert "route composition independently of filtering interaction occurrence" in lower
     assert "within consumer species" in lower
+    assert "behavioral switching itself new" in lower
+    assert "lichtenberg et al. (2018)" in lower
     assert "the prediction has not been tested as a common standardized association" not in lower
