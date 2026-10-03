@@ -82,7 +82,7 @@ def test_letter_submission_source_excludes_internal_workflow_language() -> None:
     assert "not an estimate of natural prevalence" in lower
     assert "bounded direct-evidence corpus contained 24 study programs" not in lower
     assert "standardized replication count is therefore still only two networks" in lower
-    assert "access barriers coincide with greater total exploitation, not filtering" in lower
+    assert "access barriers coincide with greater resolved feeding visitation, not filtering" in lower
     assert "rate ratio 1.772" in lower
     assert "95% plant-jackknife ci 1.105–2.841" in lower
     assert "participation increase plus routing" in lower
