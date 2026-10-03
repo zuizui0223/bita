@@ -12,6 +12,9 @@ The build workflow generates an `artifacts/letter/data_archive/` directory conta
 - `metadata.csv` — file/column descriptions and units;
 - `archive_manifest.json` — source DOIs, row counts and identifier policy;
 - `archive_reproduction.json` — statistics regenerated using only the archived analysis tables, including the frozen 259-plant routing-shape check;
+- `frozen_outputs/aubert2026_routing_threshold_first_open.json` — the retained first-open plant-species routing-threshold result;
+- `analysis_contracts/AUBERT2026_ROUTING_THRESHOLD_FIRST_OPEN_RECEIPT_V1.json` — exact first-open provenance and result SHA;
+- `analysis_contracts/AUBERT_ROUTING_THRESHOLD_PREREG_V1.md` and `analysis_contracts/AUBERT_ROUTING_THRESHOLD_FREEZE_V1.json` — the pre-effect location/turnover decision rules and lifecycle receipt;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv` — the 24-program bounded direct geometry → robbery supporting corpus;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv` — included, duplicate and excluded Stage-U update candidates with explicit reasons;
 - `supporting_literature/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv` — complete 56-label historical geometry screen;
@@ -26,6 +29,7 @@ The submission archive must also include the exact code used to export and repro
 
 - `scripts/export_access_routing_archive.py`
 - `scripts/reproduce_access_routing_archive.py`
+- `scripts/analyze_aubert2026_routing_threshold.py`
 - `scripts/summarize_direct_access_geometry_corpus.py`
 - `scripts/validate_direct_access_geometry_stage_u.py`
 - `scripts/validate_direct_access_geometry_formal_frame.py`
