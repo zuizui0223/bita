@@ -40,6 +40,17 @@ k = 2 independent networks
 
 The joint statistic tests recurrence across these two networks only. It does not estimate between-network heterogeneity, a network-population mean, or generality beyond the two systems.
 
+## Novelty boundary
+
+The Letter does **not** claim first discovery of a flower-trait mismatch–robbery
+association. Aubert et al. already establish the bird trait-barrier association and
+Sakhalkar et al. already establish floral-trait partitioning of robbing versus
+thieving. The manuscript-facing novelty is the separation of **route composition
+from zero-inclusive participation**, the **within-consumer relational** test, the
+common cross-fauna routing estimand, and the **relative-route-cost** boundary that
+admits null and opposite systems. The complete guard is
+`docs/ACCESS_ROUTING_NOVELTY_BOUNDARY_V1.md`.
+
 ## Participation and routing-shape updates
 
 The zero-inclusive Ecuadorian participation analysis is now opened under its frozen denominator and model contract:
