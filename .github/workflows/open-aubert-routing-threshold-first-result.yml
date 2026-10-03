@@ -42,8 +42,24 @@ jobs:
 
       - name: Open first real threshold result once
         run: |
+          set -euo pipefail
           mkdir -p artifacts/routing-threshold
-          python -m scripts.analyze_aubert2026_routing_threshold             artifacts/routing-threshold/aubert2026_routing_threshold_first_open.json
+          output="artifacts/routing-threshold/aubert2026_routing_threshold_first_open.json"
+          rm -f "$output"
+          success=0
+          for attempt in 1 2 3 4 5; do
+            echo "Zenodo-backed first-open attempt $attempt/5"
+            if python -m scripts.analyze_aubert2026_routing_threshold "$output"; then
+              success=1
+              break
+            fi
+            rm -f "$output"
+            sleep 12
+          done
+          if [ "$success" -ne 1 ]; then
+            echo "First-open input retrieval failed after 5 identical retries" >&2
+            exit 1
+          fi
 
       - name: Print frozen decision
         run: |
