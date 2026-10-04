@@ -360,7 +360,7 @@ jobs:
           pdfinfo "$PDF" | tee "$RUNNER_TEMP/access-routing-letter-pdfinfo.txt"
           pdftotext -layout "$PDF" "$TXT"
 
-          grep -q 'Access constraints reroute floral exploitation' "$TXT"
+          grep -q 'Access constraints predict interaction routing' "$TXT"
           grep -q 'Article type:' "$TXT"
           grep -q 'Abstract' "$TXT"
           grep -q 'Data accessibility and reproducibility' "$TXT"
