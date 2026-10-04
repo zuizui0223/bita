@@ -23,6 +23,13 @@ from scripts.analyze_aubert2026_participation_route_decomposition import (
     fit_two_way_poisson,
     plant_cluster_jackknife,
 )
+from scripts.analyze_aubert2026_routing_threshold import (
+    BOOTSTRAPS as THRESHOLD_BOOTSTRAPS,
+    PERMUTATIONS as THRESHOLD_PERMUTATIONS,
+    SEED as THRESHOLD_SEED,
+    analyze_points as analyze_threshold_points,
+)
+from scripts.audit_aubert2026_threshold_bootstrap_boundary import boundary_stickiness
 from scripts.analyze_joint_access_routing_species_robust import (
     aggregate_aubert_by_plant,
     summarize_joint_species,
@@ -79,30 +86,73 @@ def load_aubert(path: Path) -> list[dict[str, object]]:
 
 
 
-def load_aubert_participation(path: Path) -> list[Edge]:
-    edges: list[Edge] = []
+def load_aubert_participation(path: Path) -> dict[str, list[Edge]]:
+    primary: list[Edge] = []
+    robbing: list[Edge] = []
+    legitimate: list[Edge] = []
     for row in _read_csv(path):
-        edges.append(
+        common = {
+            "waypoint": row["waypoint_unit"],
+            "bird": row["bird_unit"],
+            "plant": row["plant_unit"],
+            "site": row["site_id"],
+            "barrier": 1 if row["trait_barrier"].strip().lower() == "true" else 0,
+            "mismatch": float(row["mismatch_log_t_over_b"]),
+        }
+        primary_count = int(row["primary_count"])
+        robbing_count = int(row["robbing_count"])
+        legitimate_count = int(row["legitimate_count"])
+        if robbing_count + legitimate_count != primary_count:
+            raise ValueError(
+                "archive route-specific counts do not reconstruct primary_count "
+                f"for {row['analysis_unit']}"
+            )
+        primary.append(
             Edge(
-                waypoint=row["waypoint_unit"],
-                bird=row["bird_unit"],
-                plant=row["plant_unit"],
-                site=row["site_id"],
-                barrier=1 if row["trait_barrier"].strip().lower() == "true" else 0,
-                mismatch=float(row["mismatch_log_t_over_b"]),
-                primary_count=int(row["primary_count"]),
+                **common,
+                primary_count=primary_count,
                 strict_count=int(row["strict_count"]),
                 broad_count=int(row["broad_count"]),
             )
         )
-    return edges
+        robbing.append(
+            Edge(
+                **common,
+                primary_count=robbing_count,
+                strict_count=robbing_count,
+                broad_count=robbing_count,
+            )
+        )
+        legitimate.append(
+            Edge(
+                **common,
+                primary_count=legitimate_count,
+                strict_count=legitimate_count,
+                broad_count=legitimate_count,
+            )
+        )
+    return {
+        "primary": primary,
+        "robbing": robbing,
+        "legitimate": legitimate,
+    }
+
+
+def _route_direction(result: dict[str, object]) -> str:
+    lo, hi = [float(value) for value in result["ci95_rate_ratio"]]
+    if lo > 1.0:
+        return "INCREASED_UNDER_BARRIER"
+    if hi < 1.0:
+        return "DECREASED_UNDER_BARRIER"
+    return "UNRESOLVED_AROUND_ONE"
 
 def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]:
     sakh_rows = load_sakhalkar(input_dir / "sakhalkar_species_analysis.csv")
     aubert_rows = load_aubert(input_dir / "aubert_ephi_pair_site_analysis.csv")
-    participation_edges = load_aubert_participation(
+    participation = load_aubert_participation(
         input_dir / "aubert_ephi_participation_opportunities.csv"
     )
+    participation_edges = participation["primary"]
 
     sx = [float(row["tube_length"]) for row in sakh_rows if row["tube_length"] is not None]
     sy = [float(row["route_balance"]) for row in sakh_rows if row["tube_length"] is not None]
@@ -139,9 +189,33 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
         participation_edges,
         count_field="broad_count",
     )
+    route_robbing = plant_cluster_jackknife(
+        participation["robbing"],
+        count_field="primary_count",
+    )
+    route_legitimate = plant_cluster_jackknife(
+        participation["legitimate"],
+        count_field="primary_count",
+    )
+
+    threshold = analyze_threshold_points(
+        aubert_plant_points,
+        bootstraps=THRESHOLD_BOOTSTRAPS,
+        permutations=THRESHOLD_PERMUTATIONS,
+        seed=THRESHOLD_SEED,
+    )
+    threshold_x = [float(row["mismatch"]) for row in aubert_plant_points]
+    threshold_y = [float(row["robbery_rate"]) for row in aubert_plant_points]
+    threshold_boundary = boundary_stickiness(
+        threshold_x,
+        threshold_y,
+        threshold["primary_sigmoid"],
+        replicates=THRESHOLD_BOOTSTRAPS,
+        seed=THRESHOLD_SEED,
+    )
 
     return {
-        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V3",
+        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V4",
         "sakhalkar": {
             "n_species": len(sakh_points),
             "spearman_rho": s_rho,
@@ -193,7 +267,8 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
             aubert_plant_points,
             permutations=permutations,
             seed=JOINT_SEED,
-        ),        "aubert_ephi_participation": {
+        ),
+        "aubert_ephi_participation": {
             "opportunity_edges": len(participation_edges),
             "positive_edges": sum(edge.primary_count > 0 for edge in participation_edges),
             "zero_edges": sum(edge.primary_count == 0 for edge in participation_edges),
@@ -203,6 +278,21 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
                 "strict_feeding_rate_ratio": participation_strict["rate_ratio"],
                 "broad_feeding_rate_ratio": participation_broad["rate_ratio"],
             },
+            "postopen_route_specific": {
+                "analysis_timing": "POST_OPEN_DIAGNOSTIC",
+                "robbing": {
+                    **route_robbing,
+                    "direction": _route_direction(route_robbing),
+                },
+                "legitimate_nonrobbing": {
+                    **route_legitimate,
+                    "direction": _route_direction(route_legitimate),
+                },
+            },
+        },
+        "aubert_ephi_threshold": {
+            "first_open_reproduction": threshold,
+            "postopen_boundary_audit": threshold_boundary,
         },
     }
 
