@@ -21,6 +21,9 @@ from scripts.analyze_aubert2026_missingness_dependence_sensitivity import (
 from scripts.analyze_aubert2026_participation_route_decomposition import (
     build_opportunity_edges,
 )
+from scripts.analyze_aubert2026_route_specific_participation_postopen import (
+    split_route_counts,
+)
 from scripts.analyze_aubert2026_zenodo_extension import (
     FILES as AUBERT_FILES,
     _download as _download_aubert,
@@ -116,6 +119,25 @@ def _aubert_participation_rows() -> list[dict[str, object]]:
         tables["plants"],
         tables["birds"],
     )
+    robbery_edges, legitimate_edges, route_audit = split_route_counts(
+        tables["interactions"],
+        tables["cameras"],
+        tables["plants"],
+        tables["birds"],
+    )
+    if route_audit["route_specific_reconstruction_mismatches"] != 0:
+        raise ValueError("route-specific counts do not reconstruct primary participation counts")
+
+    robbery_by_key = {
+        (edge.waypoint, edge.bird): edge.primary_count
+        for edge in robbery_edges
+    }
+    legitimate_by_key = {
+        (edge.waypoint, edge.bird): edge.primary_count
+        for edge in legitimate_edges
+    }
+    if len(robbery_by_key) != len(edges) or len(legitimate_by_key) != len(edges):
+        raise ValueError("route-specific archive edge set does not match primary opportunity edge set")
 
     site_map = {
         site: f"site_{index:02d}"
@@ -136,6 +158,11 @@ def _aubert_participation_rows() -> list[dict[str, object]]:
 
     out: list[dict[str, object]] = []
     for index, edge in enumerate(edges, start=1):
+        key = (edge.waypoint, edge.bird)
+        robbing_count = int(robbery_by_key[key])
+        legitimate_count = int(legitimate_by_key[key])
+        if robbing_count + legitimate_count != edge.primary_count:
+            raise ValueError(f"route-specific counts fail to reconstruct {key!r}")
         out.append({
             "analysis_unit": f"opportunity_{index:05d}",
             "waypoint_unit": waypoint_map[edge.waypoint],
@@ -145,6 +172,8 @@ def _aubert_participation_rows() -> list[dict[str, object]]:
             "trait_barrier": "true" if bool(edge.barrier) else "false",
             "mismatch_log_t_over_b": edge.mismatch,
             "primary_count": edge.primary_count,
+            "robbing_count": robbing_count,
+            "legitimate_count": legitimate_count,
             "strict_count": edge.strict_count,
             "broad_count": edge.broad_count,
         })
@@ -196,6 +225,8 @@ def export_archive(output_dir: Path) -> dict[str, object]:
             "trait_barrier",
             "mismatch_log_t_over_b",
             "primary_count",
+            "robbing_count",
+            "legitimate_count",
             "strict_count",
             "broad_count",
         ],
@@ -324,7 +355,19 @@ def export_archive(output_dir: Path) -> dict[str, object]:
         {
             "file": "aubert_ephi_participation_opportunities.csv",
             "column": "primary_count",
-            "description": "Primary route-resolved exploitation count; explicit no_feeding excluded and missing piercing recoded as legitimate/no.",
+            "description": "Primary resolved feeding-visit count; explicit no_feeding excluded and missing piercing recoded as legitimate/no.",
+            "unit": "count",
+        },
+        {
+            "file": "aubert_ephi_participation_opportunities.csv",
+            "column": "robbing_count",
+            "description": "Post-open route-specific count of resolved feeding records with piercing/robbery route status yes.",
+            "unit": "count",
+        },
+        {
+            "file": "aubert_ephi_participation_opportunities.csv",
+            "column": "legitimate_count",
+            "description": "Post-open route-specific count of resolved feeding records with legitimate/non-robbing route status no, including metadata-supported missing-piercing-as-no recoding.",
             "unit": "count",
         },
         {
@@ -347,7 +390,7 @@ def export_archive(output_dir: Path) -> dict[str, object]:
     )
 
     manifest = {
-        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V3",
+        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V4",
         "source_data": {
             "sakhalkar_2023_zenodo_doi": SAKHALKAR_DOI,
             "aubert_ephi_zenodo_mirror_doi": AUBERT_EPHI_DOI,

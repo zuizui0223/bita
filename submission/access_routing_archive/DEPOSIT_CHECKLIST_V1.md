@@ -50,7 +50,8 @@ Also confirm:
 - `data_archive/REPOSITORY_COMMIT.txt` equals the exact DOI-bearing submission
   commit;
 - `data_archive/FILE_SHA256SUMS.txt` covers every archived file;
-- the archive-only reproduction matches the frozen Letter results;
+- the archive-only reproduction matches the frozen first-open Letter results;
+- the archive-only reproduction also matches the retained post-open route split (legitimate/non-robbing RR 1.883; robbery-only RR 0.463) and threshold boundary audit (585/999 upper-boundary bootstrap fits);
 - the ZIP contains no source species identifiers or uncited third-party raw files.
 
 ## Phase 4 — upload to the reserved Zenodo draft

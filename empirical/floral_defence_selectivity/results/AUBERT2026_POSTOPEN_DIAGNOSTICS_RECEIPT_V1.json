@@ -1,0 +1,31 @@
+{
+  "schema": "BITA_AUBERT_POSTOPEN_DIAGNOSTICS_RECEIPT_V1",
+  "status": "POST_OPEN_DIAGNOSTICS_RETAINED",
+  "analysis_timing": "POST_OPEN_DIAGNOSTIC",
+  "source_workflow_run_id": 37128140620,
+  "source_artifact_id": 11274869271,
+  "source_artifact_name": "aubert-postopen-diagnostics",
+  "source_files": {
+    "aubert2026_route_specific_participation_postopen.json": {
+      "sha256": "0a2937e53bb4bf3262ba9731875fd404fade4e4c20fa27bcce8b5d0817543f30",
+      "robbing_rate_ratio": 0.462667408735345,
+      "robbing_ci95": [0.14653594569947606, 1.4608097015655608],
+      "robbing_direction": "UNRESOLVED_AROUND_ONE",
+      "legitimate_nonrobbing_rate_ratio": 1.8826427304381232,
+      "legitimate_nonrobbing_ci95": [1.1112148475182773, 3.1896114944713374],
+      "legitimate_nonrobbing_direction": "INCREASED_UNDER_BARRIER",
+      "route_specific_reconstruction_mismatches": 0
+    },
+    "aubert2026_threshold_bootstrap_boundary.json": {
+      "sha256": "6d89b581ac798d60346e102387810e2e05babe9919a2bb8786f7513fc1030c01",
+      "finite_replicates": 999,
+      "upper_boundary_replicates": 585,
+      "upper_boundary_fraction": 0.5855855855855856,
+      "interior_replicates": 414,
+      "interior_fraction": 0.4144144144144144,
+      "lower_boundary_replicates": 0,
+      "primary_xstar": 0.9197423428245373
+    }
+  },
+  "claim_boundary": "These analyses were motivated after the frozen pooled participation and threshold effects were opened. They are retained as post-open diagnostics and are not described as separately preregistered confirmatory tests."
+}
