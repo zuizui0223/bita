@@ -127,6 +127,11 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
         "archive_reproduction.json",
         "scripts/export_access_routing_archive.py",
         "scripts/reproduce_access_routing_archive.py",
+        "scripts/analyze_aubert2026_route_specific_participation_postopen.py",
+        "scripts/analyze_aubert2026_routing_threshold.py",
+        "scripts/audit_aubert2026_threshold_bootstrap_boundary.py",
+        "AUBERT2026_POSTOPEN_DIAGNOSTICS_RECEIPT_V1.json",
+        "585/999 bootstrap fits",
         "10.5281/zenodo.8398202",
         "10.5281/zenodo.14185547",
         "DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv",
@@ -197,3 +202,25 @@ def test_letter_reports_threshold_result_as_boundary_not_headline() -> None:
     assert "585 of 999 finite bootstrap fits (58.6%)" in text
     assert "no interior upper turnover was supported" in text
     assert "better supported as graded across the sampled mismatch range" in text
+
+
+def test_archive_reproduction_contract_covers_postopen_letter_results() -> None:
+    exporter = (ROOT / "scripts" / "export_access_routing_archive.py").read_text(encoding="utf-8")
+    reproducer = (ROOT / "scripts" / "reproduce_access_routing_archive.py").read_text(encoding="utf-8")
+    receipt = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "AUBERT2026_POSTOPEN_DIAGNOSTICS_RECEIPT_V1.json"
+
+    assert '"robbing_count"' in exporter
+    assert '"legitimate_count"' in exporter
+    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V4" in exporter
+
+    assert '"postopen_route_specific"' in reproducer
+    assert '"aubert_ephi_threshold"' in reproducer
+    assert "boundary_stickiness" in reproducer
+    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V4" in reproducer
+
+    assert receipt.is_file()
+    text = receipt.read_text(encoding="utf-8")
+    assert "0.462667408735345" in text
+    assert "1.8826427304381232" in text
+    assert '"upper_boundary_replicates": 585' in text
+    assert '"source_workflow_run_id": 37128140620' in text
