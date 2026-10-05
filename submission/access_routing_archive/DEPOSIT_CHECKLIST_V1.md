@@ -51,7 +51,7 @@ Also confirm:
   commit;
 - `data_archive/FILE_SHA256SUMS.txt` covers every archived file;
 - the archive-only reproduction matches the frozen first-open Letter results;
-- the archive-only reproduction also matches the retained post-open route split (legitimate/non-robbing RR 1.883; robbery-only RR 0.463) and threshold boundary audit (585/999 upper-boundary bootstrap fits);
+- the archive-only reproduction also matches the retained culmen-only route split, threshold boundary audit (585/999 upper-boundary bootstrap fits), and V5 1.8× hummingbird-reach sensitivity (legitimate RR 0.154; robbery RR 0.816; robbery/legitimate RR ratio 5.311);
 - the ZIP contains no source species identifiers or uncited third-party raw files.
 
 ## Phase 4 — upload to the reserved Zenodo draft
