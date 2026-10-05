@@ -120,7 +120,10 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
         "scripts/analyze_aubert2026_route_specific_participation_postopen.py",
         "scripts/analyze_aubert2026_routing_threshold.py",
         "scripts/audit_aubert2026_threshold_bootstrap_boundary.py",
+        "scripts/analyze_aubert2026_effective_reach_grain_sensitivity.py",
         "AUBERT2026_POSTOPEN_DIAGNOSTICS_RECEIPT_V1.json",
+        "AUBERT2026_EFFECTIVE_REACH_GRAIN_SENSITIVITY_FREEZE_V1.md",
+        "aubert2026_effective_reach_grain_sensitivity_v1.json",
         "585/999 bootstrap fits",
         "10.5281/zenodo.8398202",
         "10.5281/zenodo.14185547",
@@ -199,12 +202,15 @@ def test_archive_reproduction_contract_covers_postopen_letter_results() -> None:
 
     assert '"robbing_count"' in exporter
     assert '"legitimate_count"' in exporter
-    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V4" in exporter
+    assert '"bird_group"' in exporter
+    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V5" in exporter
 
     assert '"postopen_route_specific"' in reproducer
     assert '"aubert_ephi_threshold"' in reproducer
     assert "boundary_stickiness" in reproducer
-    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V4" in reproducer
+    assert '"aubert_ephi_effective_reach"' in reproducer
+    assert "_reach_summary" in reproducer
+    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V5" in reproducer
 
     assert receipt.is_file()
     text = receipt.read_text(encoding="utf-8")
@@ -212,3 +218,18 @@ def test_archive_reproduction_contract_covers_postopen_letter_results() -> None:
     assert "1.8826427304381232" in text
     assert '"upper_boundary_replicates": 585' in text
     assert '"source_workflow_run_id": 37128140620' in text
+
+    reach_receipt = (
+        ROOT
+        / "empirical"
+        / "floral_defence_selectivity"
+        / "results"
+        / "aubert2026_effective_reach_grain_sensitivity_v1.json"
+    )
+    assert reach_receipt.is_file()
+    reach_text = reach_receipt.read_text(encoding="utf-8")
+    assert "0.22865639407019936" in reach_text
+    assert "0.15371602990346264" in reach_text
+    assert "0.43499782193808995" in reach_text
+    assert "0.35373752302117567" in reach_text
+    assert "POSTOPEN_LITERATURE_ANCHORED_EXTENSION" in reach_text
