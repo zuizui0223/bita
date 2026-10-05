@@ -6,6 +6,7 @@ import csv
 import json
 import sys
 import math
+from dataclasses import replace
 from pathlib import Path
 
 if __package__ in {None, ""}:
@@ -90,10 +91,16 @@ def load_aubert_participation(path: Path) -> dict[str, list[Edge]]:
     primary: list[Edge] = []
     robbing: list[Edge] = []
     legitimate: list[Edge] = []
+    bird_group_by_bird: dict[str, str] = {}
     for row in _read_csv(path):
+        bird = row["bird_unit"]
+        group = row["bird_group"]
+        previous = bird_group_by_bird.setdefault(bird, group)
+        if previous != group:
+            raise ValueError(f"inconsistent archived bird group for {bird!r}")
         common = {
             "waypoint": row["waypoint_unit"],
-            "bird": row["bird_unit"],
+            "bird": bird,
             "plant": row["plant_unit"],
             "site": row["site_id"],
             "barrier": 1 if row["trait_barrier"].strip().lower() == "true" else 0,
@@ -135,6 +142,7 @@ def load_aubert_participation(path: Path) -> dict[str, list[Edge]]:
         "primary": primary,
         "robbing": robbing,
         "legitimate": legitimate,
+        "bird_group_by_bird": bird_group_by_bird,
     }
 
 
@@ -145,6 +153,88 @@ def _route_direction(result: dict[str, object]) -> str:
     if hi < 1.0:
         return "DECREASED_UNDER_BARRIER"
     return "UNRESOLVED_AROUND_ONE"
+
+
+def _reach_edges(
+    edges: list[Edge],
+    bird_group_by_bird: dict[str, str],
+    multiplier: float,
+) -> list[Edge]:
+    shift = math.log(multiplier)
+    out: list[Edge] = []
+    for edge in edges:
+        if bird_group_by_bird.get(edge.bird) != "hummingbird":
+            continue
+        mismatch = float(edge.mismatch) - shift
+        out.append(
+            replace(
+                edge,
+                mismatch=mismatch,
+                barrier=1 if mismatch > 0 else 0,
+            )
+        )
+    return out
+
+
+def _reach_pair_rows(
+    rows: list[dict[str, object]],
+    multiplier: float,
+) -> list[dict[str, object]]:
+    shift = math.log(multiplier)
+    out: list[dict[str, object]] = []
+    for row in rows:
+        if str(row.get("bird_group", "")) != "hummingbird":
+            continue
+        updated = dict(row)
+        mismatch = float(row["mismatch_log_t_over_b"]) - shift
+        updated["mismatch_log_t_over_b"] = mismatch
+        updated["trait_barrier"] = mismatch > 0
+        out.append(updated)
+    return out
+
+
+def _reach_summary(
+    aubert_rows: list[dict[str, object]],
+    participation: dict[str, object],
+    multiplier: float,
+    *,
+    permutations: int,
+) -> dict[str, object]:
+    groups = participation["bird_group_by_bird"]
+    primary = _reach_edges(participation["primary"], groups, multiplier)
+    robbing = _reach_edges(participation["robbing"], groups, multiplier)
+    legitimate = _reach_edges(participation["legitimate"], groups, multiplier)
+    pair_rows = _reach_pair_rows(aubert_rows, multiplier)
+
+    pooled_fit = plant_cluster_jackknife(primary, count_field="primary_count")
+    robbing_fit = plant_cluster_jackknife(robbing, count_field="primary_count")
+    legitimate_fit = plant_cluster_jackknife(legitimate, count_field="primary_count")
+    plant_rho = cluster_aggregated_rho_summary(
+        pair_rows,
+        cluster_key="plant_species",
+        permutations=permutations,
+        seed=20261005 + round(multiplier * 1000),
+    )
+    paired = cluster_label_swap_summary(
+        pair_rows,
+        cluster_key="plant_species",
+        permutations=permutations,
+        seed=20262005 + round(multiplier * 1000),
+    )
+    return {
+        "reach_multiplier": multiplier,
+        "opportunity_edges": len(primary),
+        "barrier_edges": sum(edge.barrier == 1 for edge in primary),
+        "barrier_fraction": (
+            sum(edge.barrier == 1 for edge in primary) / len(primary)
+            if primary else None
+        ),
+        "pooled_resolved_feeding": pooled_fit,
+        "legitimate_nonrobbing": legitimate_fit,
+        "robbing_only": robbing_fit,
+        "plant_species_continuous": plant_rho,
+        "plant_species_paired_binary": paired,
+    }
 
 def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]:
     sakh_rows = load_sakhalkar(input_dir / "sakhalkar_species_analysis.csv")
@@ -214,8 +304,17 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
         seed=THRESHOLD_SEED,
     )
 
+    reach_sensitivity = {
+        "1.3333333333333333": _reach_summary(
+            aubert_rows, participation, 4.0 / 3.0, permutations=permutations
+        ),
+        "1.8": _reach_summary(
+            aubert_rows, participation, 1.8, permutations=permutations
+        ),
+    }
+
     return {
-        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V4",
+        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V5",
         "sakhalkar": {
             "n_species": len(sakh_points),
             "spearman_rho": s_rho,
@@ -293,6 +392,16 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
         "aubert_ephi_threshold": {
             "first_open_reproduction": threshold,
             "postopen_boundary_audit": threshold_boundary,
+        },
+        "aubert_ephi_effective_reach": {
+            "analysis_timing": "POST_OPEN_SENSITIVITY",
+            "taxonomic_scope": "Trochilidae only",
+            "multipliers": reach_sensitivity,
+            "fixed_multiplier_threshold_note": (
+                "Constant reach scaling translates mismatch, sigmoid midpoint and "
+                "support by the same -log(k), so it cannot create an interior "
+                "threshold from a support-boundary midpoint."
+            ),
         },
     }
 
