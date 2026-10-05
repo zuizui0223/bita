@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   reserve:
@@ -47,16 +47,25 @@ jobs:
       - name: Verify DOI-bearing submission state
         run: python scripts/apply_reserved_archive_doi.py --check-only
 
-      - name: Commit reserved DOI to main
+      - name: Package DOI-bearing changes for handoff
         run: |
-          if git diff --quiet && [ -z "$(git status --porcelain)" ]; then
-            echo "No DOI changes to commit."
-            exit 0
-          fi
+          git diff -- \
+            manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md \
+            submission/ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md \
+            submission/ECOLOGY_LETTERS_LETTER_COVER_V0.md \
+            docs/PUBLICATION_STATUS.md \
+            docs/SUBMISSION_SCOPE.md \
+            submission/access_routing_archive/README.md \
+            submission/access_routing_archive/ZENODO_METADATA_TEMPLATE.md \
+            > zenodo-doi-reservation.patch
+          cp submission/access_routing_archive/RESERVED_DOI_RECEIPT.json .
+          cp submission/access_routing_archive/ZENODO_DRAFT_RECEIPT.json .
 
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add             manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md             submission/ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md             submission/ECOLOGY_LETTERS_LETTER_COVER_V0.md             docs/PUBLICATION_STATUS.md             docs/SUBMISSION_SCOPE.md             submission/access_routing_archive/README.md             submission/access_routing_archive/ZENODO_METADATA_TEMPLATE.md             submission/access_routing_archive/RESERVED_DOI_RECEIPT.json             submission/access_routing_archive/ZENODO_DRAFT_RECEIPT.json
-          git commit -m "Reserve Zenodo DOI for access-routing Letter"
-          git pull --rebase origin main
-          git push origin HEAD:main
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zenodo-doi-reservation
+          path: |
+            zenodo-doi-reservation.patch
+            RESERVED_DOI_RECEIPT.json
+            ZENODO_DRAFT_RECEIPT.json
+          if-no-files-found: error
