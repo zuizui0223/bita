@@ -132,6 +132,11 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
         "scripts/analyze_aubert2026_route_specific_participation_postopen.py",
         "scripts/analyze_aubert2026_routing_threshold.py",
         "scripts/audit_aubert2026_threshold_bootstrap_boundary.py",
+        "scripts/analyze_aubert2026_hummingbird_reach_sensitivity.py",
+        "scripts/reproduce_aubert2026_hummingbird_reach_archive.py",
+        "bird_group",
+        "effective-reach sensitivity",
+        "5.311",
         "AUBERT2026_POSTOPEN_DIAGNOSTICS_RECEIPT_V1.json",
         "585/999 bootstrap fits",
         "10.5281/zenodo.8398202",
@@ -214,12 +219,14 @@ def test_archive_reproduction_contract_covers_postopen_letter_results() -> None:
 
     assert '"robbing_count"' in exporter
     assert '"legitimate_count"' in exporter
-    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V4" in exporter
+    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V5" in exporter
 
     assert '"postopen_route_specific"' in reproducer
     assert '"aubert_ephi_threshold"' in reproducer
+    assert '"aubert_ephi_effective_reach_sensitivity"' in reproducer
+    assert "reproduce_reach" in reproducer
     assert "boundary_stickiness" in reproducer
-    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V4" in reproducer
+    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V5" in reproducer
 
     assert receipt.is_file()
     text = receipt.read_text(encoding="utf-8")
