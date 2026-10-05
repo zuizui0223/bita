@@ -190,9 +190,12 @@ def build_svg(
                 r18 = reach["sensitivities"]["1.8"]["zero_inclusive"]
                 leg = r18["legitimate_nonrobbing"]
                 rob = r18["robbing"]
-                parts.append(
-                    _text(1115, 658, f'1.8× reach: legitimate RR {float(leg["rr"]):.3f}; robbery RR {float(rob["rr"]):.3f}', size=13, weight="bold")
-                )
+                ratio = r18["robbing_rr_over_legitimate_rr"]
+                ratio_ci = ratio["ci95"]
+                parts.extend([
+                    _text(1115, 650, f'1.8× reach: legitimate RR {float(leg["rr"]):.3f}; robbery RR {float(rob["rr"]):.3f}', size=13, weight="bold"),
+                    _text(1115, 676, f'robbery / legitimate RR = {float(ratio["ratio"]):.2f} (95% CI {float(ratio_ci[0]):.2f}–{float(ratio_ci[1]):.2f})', size=12, weight="bold"),
+                ])
         else:
             parts.append(_text(1115, 632, f'{int(site["positive_sites"])} / {int(site["eligible_sites"])} sites positive; {int(native["pair_site_n"]):,} pair-site units', size=13))
     else:
