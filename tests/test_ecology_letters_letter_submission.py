@@ -82,10 +82,12 @@ def test_letter_submission_source_excludes_internal_workflow_language() -> None:
     assert "not an estimate of natural prevalence" in lower
     assert "bounded direct-evidence corpus contained 24 study programs" not in lower
     assert "standardized replication count is therefore still only two networks" in lower
-    assert "access barriers do not filter legitimate feeding visits" in lower
-    assert "rate ratio 1.772" in lower
-    assert "95% plant-jackknife ci 1.105–2.841" in lower
-    assert "participation increase plus routing" in lower
+    assert "participation inference depends on the physiological reach threshold" in lower
+    assert "rr 1.772" in lower
+    assert "1.105–2.841" in lower
+    assert "1.8 multiplier used in a prior hummingbird-network analysis" in lower
+    assert "legitimate rr was 0.154" in lower
+    assert "selectively suppresses legitimate feeding" in lower
 
 
 def test_letter_submission_remains_fail_closed_until_archive_doi_and_author_metadata() -> None:
@@ -130,6 +132,11 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
         "scripts/analyze_aubert2026_route_specific_participation_postopen.py",
         "scripts/analyze_aubert2026_routing_threshold.py",
         "scripts/audit_aubert2026_threshold_bootstrap_boundary.py",
+        "scripts/analyze_aubert2026_hummingbird_reach_sensitivity.py",
+        "scripts/reproduce_aubert2026_hummingbird_reach_archive.py",
+        "bird_group",
+        "effective-reach sensitivity",
+        "5.311",
         "AUBERT2026_POSTOPEN_DIAGNOSTICS_RECEIPT_V1.json",
         "585/999 bootstrap fits",
         "10.5281/zenodo.8398202",
@@ -189,8 +196,9 @@ def test_cover_letter_matches_current_evidence_hierarchy() -> None:
     assert "four opposite" in lower
     assert "two mixed" in lower
     assert "success-rate or prevalence argument" in lower
-    assert "rate ratio 1.772" in lower
-    assert "participation increase plus routing" in lower
+    assert "rr=0.154" in lower
+    assert "0.087–0.271" in lower
+    assert "retained relative to legitimate feeding by a factor of 5.31" in lower
 
 
 @pytest.mark.prose_contract
@@ -211,12 +219,14 @@ def test_archive_reproduction_contract_covers_postopen_letter_results() -> None:
 
     assert '"robbing_count"' in exporter
     assert '"legitimate_count"' in exporter
-    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V4" in exporter
+    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V5" in exporter
 
     assert '"postopen_route_specific"' in reproducer
     assert '"aubert_ephi_threshold"' in reproducer
+    assert '"aubert_ephi_effective_reach_sensitivity"' in reproducer
+    assert "reproduce_reach" in reproducer
     assert "boundary_stickiness" in reproducer
-    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V4" in reproducer
+    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V5" in reproducer
 
     assert receipt.is_file()
     text = receipt.read_text(encoding="utf-8")

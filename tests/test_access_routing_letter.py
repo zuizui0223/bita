@@ -74,9 +74,9 @@ def test_letter_keeps_causal_and_replication_boundaries() -> None:
 def test_letter_weights_ecuador_primary_and_insects_as_corroboration() -> None:
     text = LETTER.read_text(encoding="utf-8")
     abstract = text.split("## Abstract", 1)[1].split("## Introduction", 1)[0]
-    assert "in an all-Ecuador bird–flower network" in abstract
+    assert "In an Ecuadorian bird–flower network" in abstract
     assert "independent insect network" in abstract
-    assert abstract.index("259 Ecuadorian plant species") < abstract.index("57 plant species")
+    assert abstract.index("259 plant species") < abstract.index("57 plant species")
 
     assert "### Primary Ecuadorian test" in text
     assert "### Independent insect corroboration" in text
@@ -128,30 +128,35 @@ def test_letter_states_decisive_relative_route_cost_falsification() -> None:
 def test_letter_separates_case_directional_recurrence_from_standardized_k() -> None:
     text = LETTER.read_text(encoding="utf-8")
     assert "A third independent multispecies bird–flower dataset" in text
-    assert "Case et al. (2026)" in text
+    assert "Case et al. 2026" in text
     assert "11 plant and seven bird species" in text
     assert "directional corroboration rather than a third standardized network contribution" in text
-    assert "standardized replication count remain \\(k=2\\)" in text
+    assert "standardized replication count remains \\(k=2\\)" in text
 
 
 @pytest.mark.prose_contract
-def test_letter_names_zero_inclusive_estimand_as_feeding_visitation() -> None:
+def test_letter_names_zero_inclusive_estimand_and_grain() -> None:
     text = LETTER.read_text(encoding="utf-8").lower()
-    assert "resolved feeding visits (legitimate + robbing)" in text
+    assert "pooled resolved legitimate and robbing feeding records" in text
     assert "total route-resolved exploitation" not in text
     assert "waypoint fixed effects absorb" in text
-    assert "time-invariant plant/waypoint reward main effect" in text
+    assert "cross-classified bird × waypoint threshold estimand" in text
+    assert "not the plant-level p1 contrast" in text
+    assert "exactly additive in waypoint-level tube and bird-level culmen" in text
     assert "bird-specific reward responses" in text
 
 
 @pytest.mark.prose_contract
-def test_letter_integrates_postopen_route_split_and_boundary_mass() -> None:
+def test_letter_integrates_postopen_reach_sensitivity_and_boundary_mass() -> None:
     text = LETTER.read_text(encoding="utf-8")
-    assert "legitimate/non-robbing visits (1.883, 1.111–3.190)" in text
-    assert "robbery-only counts (0.463, 0.147–1.461)" in text
+    assert "RR 1.883, 1.111–3.190" in text
+    assert "RR 0.463, 0.147–1.461" in text
+    assert "With the 1.8 multiplier" in text
+    assert "legitimate RR was 0.154 (0.087–0.271)" in text
+    assert "robbery RR was 0.816 (0.358–1.860)" in text
+    assert "robbery-to-legitimate RR ratio was then 5.31 (1.92–14.67)" in text
     assert "585 of 999 finite bootstrap fits (58.6%)" in text
-    assert "should not be described as greater exploitation or greater robbery" in text
-    assert "public EPHI tables contain no direct nectar-reward covariate" in text
+    assert "cannot by themselves convert a support-boundary sigmoid midpoint into an interior threshold" in text
 
 
 @pytest.mark.prose_contract
@@ -161,9 +166,9 @@ def test_letter_states_novelty_boundary_against_source_studies() -> None:
     assert "the component associations are already known" in lower
     assert "aubert et al. (2026) showed that nectar robbing" in lower
     assert "sakhalkar et al. (2023) likewise found" in lower
-    assert "filter on interaction occurrence" in lower
-    assert "route composition independently of filtering interaction occurrence" in lower
+    assert "route composition from interaction occurrence" in lower
+    assert "physiological-reach audit" not in lower
     assert "within consumer species" in lower
     assert "behavioral switching itself new" in lower
-    assert "lichtenberg et al. (2018)" in lower
+    assert "lichtenberg et al. 2018" in lower
     assert "the prediction has not been tested as a common standardized association" not in lower

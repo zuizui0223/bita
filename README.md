@@ -55,6 +55,16 @@ independent network contributions k = 2
 
 Because `k=2`, the joint test does not estimate between-network heterogeneity, a network-population mean, or generality beyond the two analysed systems.
 
+The zero-inclusive participation layer is threshold-sensitive. The historically frozen
+culmen-only barrier gave pooled RR 1.772 and legitimate RR 1.883, but this is not a
+robust no-filtering result because exposed culmen underestimates hummingbird reach.
+In a frozen post-open hummingbird-only sensitivity, the 1.8× reach correction used
+in prior network work gave legitimate RR 0.154 (95% CI 0.087–0.271), robbery RR
+0.816 (0.358–1.860), and a robbery/legitimate RR ratio of 5.311 (1.923–14.672).
+Thus severe effective mismatch selectively filters the legitimate route while
+robbery is comparatively retained; it need not increase absolute robbery counts.
+
+
 Case et al. (2026) add **published directional corroboration** from a third independent multispecies Hawaiian bird–lobelioid dataset. Their published analysis reports that nectar robbing declines as bill length approaches flower length, equivalent under the BITA orientation to greater flower-minus-bill mismatch being associated with greater robbery. Dryad metadata describe 11 plant and 7 bird species. Because the direction was already public and the fauna is Aves, this dataset is not added to the standardized equal-network statistic: `k=2` remains primary, and a harmonized Case rank effect stays unopened until exact source bytes are verified.
 
 Within the Ecuadorian bird network, the behavioral contrast is also recovered within bird species: 36 species show a positive paired barrier effect overall, and a continuous within-bird analysis across 1,285 bird × plant dyads gives rho = 0.340 (permutation p = 0.0001). The null correlation among 50 bird-species means (rho = 0.086, p = 0.551) is therefore a between-species result, not evidence that route switching disappears at the consumer grain.

@@ -86,9 +86,11 @@ accessible robbery = 0.020
 
 zero-inclusive participation layer:
 trait-matched opportunity edges = 19,909
-barrier/access resolved-feeding-visit RR = 1.7717
-95% plant-jackknife CI = 1.1050–2.8405
-frozen class = participation increase + routing
+culmen-only pooled RR = 1.7717 (95% CI 1.1050–2.8405)
+post-open 1.8× effective reach:
+  legitimate RR = 0.1537 (0.0872–0.2710)
+  robbery RR = 0.8164 (0.3583–1.8602)
+  robbery/legitimate RR ratio = 5.311 (1.923–14.672)
 ~~~
 
 ### Panel B — site robustness
@@ -102,7 +104,7 @@ site-stratified permutation p = 0.0001
 
 Main message:
 
-> the same access-routing direction appears under different fauna, while the Ecuadorian barrier state is associated with higher rather than lower resolved feeding visitation (legitimate + robbing).
+> the same access-routing direction appears under different fauna; in Ecuador, literature-motivated effective-reach barriers selectively suppress legitimate feeding while robbery is comparatively retained.
 
 ---
 

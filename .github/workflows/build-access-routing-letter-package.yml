@@ -9,8 +9,10 @@ on:
       - "submission/**"
       - "scripts/export_access_routing_archive.py"
       - "scripts/reproduce_access_routing_archive.py"
+      - "scripts/reproduce_aubert2026_hummingbird_reach_archive.py"
       - "scripts/analyze_aubert2026_route_specific_participation_postopen.py"
       - "scripts/analyze_aubert2026_routing_threshold.py"
+      - "scripts/analyze_aubert2026_hummingbird_reach_sensitivity.py"
       - "scripts/audit_aubert2026_threshold_bootstrap_boundary.py"
       - "scripts/format_ecology_submission_docx.py"
       - "scripts/apply_reserved_archive_doi.py"
@@ -24,6 +26,8 @@ on:
       - "empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_*"
       - "empirical/floral_defence_selectivity/LEAL2025_*"
       - "empirical/floral_defence_selectivity/AUBERT_ROUTING_THRESHOLD_*"
+      - "empirical/floral_defence_selectivity/HUMMINGBIRD_EFFECTIVE_REACH_SENSITIVITY_FREEZE_V1.md"
+      - "empirical/floral_defence_selectivity/results/aubert2026_hummingbird_effective_reach_sensitivity.json"
       - "empirical/floral_defence_selectivity/results/AUBERT2026_POSTOPEN_DIAGNOSTICS_RECEIPT_V1.json"
       - "empirical/floral_defence_selectivity/results/aubert2026_routing_threshold_first_open.json"
       - "empirical/floral_defence_selectivity/results/AUBERT2026_ROUTING_THRESHOLD_FIRST_OPEN_RECEIPT_V1.json"
@@ -37,11 +41,13 @@ on:
       - "submission/access_routing_archive/**"
       - "scripts/export_access_routing_archive.py"
       - "scripts/reproduce_access_routing_archive.py"
+      - "scripts/reproduce_aubert2026_hummingbird_reach_archive.py"
       - "scripts/analyze_aubert2026_zenodo_extension.py"
       - "scripts/analyze_aubert2026_missingness_dependence_sensitivity.py"
       - "scripts/analyze_aubert2026_participation_route_decomposition.py"
       - "scripts/analyze_aubert2026_route_specific_participation_postopen.py"
       - "scripts/analyze_aubert2026_routing_threshold.py"
+      - "scripts/analyze_aubert2026_hummingbird_reach_sensitivity.py"
       - "scripts/audit_aubert2026_threshold_bootstrap_boundary.py"
       - "scripts/audit_aubert2026_participation_denominator.py"
       - "scripts/analyze_joint_access_routing.py"
@@ -94,7 +100,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
 
@@ -117,6 +123,7 @@ jobs:
             tests/test_access_routing_letter_figures.py \
             tests/test_aubert2026_participation_route_decomposition.py \
             tests/test_aubert2026_participation_first_open.py \
+            tests/test_aubert2026_hummingbird_reach_sensitivity.py \
             tests/test_aubert2026_postopen_diagnostics.py \
             tests/test_ecology_letters_letter_submission.py \
             tests/test_reserved_archive_doi.py \
@@ -181,6 +188,7 @@ jobs:
           participation = json.loads((root / "aubert2026_participation_route_decomposition_first_open.json").read_text())
           threshold = json.loads((root / "aubert2026_routing_threshold_first_open.json").read_text())
           postopen = json.loads((root / "AUBERT2026_POSTOPEN_DIAGNOSTICS_RECEIPT_V1.json").read_text())
+          reach_expected = json.loads((root / "aubert2026_hummingbird_effective_reach_sensitivity.json").read_text())
 
           assert observed["sakhalkar"]["n_species"] == 57
           assert math.isclose(
@@ -311,7 +319,45 @@ jobs:
               abs_tol=1e-15,
           )
 
-          print("Archive-only reproduction matches frozen and retained Letter results")
+          reach = observed["aubert_ephi_effective_reach_sensitivity"]["sensitivities"]["1.8"]
+          expected18 = reach_expected["sensitivities"]["1.8"]
+          assert math.isclose(
+              reach["paired_barrier"]["mean_cluster_difference"],
+              expected18["plant_route_composition"]["paired_mean_barrier_minus_accessible"],
+              rel_tol=0.0,
+              abs_tol=1e-12,
+          )
+          assert observed["aubert_ephi_effective_reach_sensitivity"]["full_jackknife_recomputed"] is False
+          expected_z = expected18["zero_inclusive"]
+          point = reach["point_rate_ratios"]
+          for name, expected_key in (
+              ("pooled", "pooled_resolved_feeding"),
+              ("legitimate", "legitimate_nonrobbing"),
+              ("robbing", "robbing"),
+          ):
+              assert math.isclose(
+                  point[name],
+                  expected_z[expected_key]["rr"],
+                  rel_tol=0.0,
+                  abs_tol=1e-12,
+              )
+
+          # Full plant-jackknife intervals remain frozen in the archived reach receipt
+          # and reproducible with reproduce_reach(..., full_jackknife=True).  The
+          # routine package gate checks the underlying anonymous-table point estimates
+          # so submission packaging does not spend tens of minutes re-running the same
+          # jackknife on every prose or metadata change.
+          for expected_key in (
+              "pooled_resolved_feeding",
+              "legitimate_nonrobbing",
+              "robbing",
+              "robbing_rr_over_legitimate_rr",
+          ):
+              ci = expected_z[expected_key]["ci95"]
+              assert len(ci) == 2
+              assert all(math.isfinite(float(value)) for value in ci)
+
+          print("Archive-only reproduction matches frozen/retained results and effective-reach point estimates")
           PY
 
       - name: Assemble source and archive package
@@ -357,11 +403,13 @@ jobs:
 
           cp scripts/export_access_routing_archive.py artifacts/letter/data_archive/code/scripts/
           cp scripts/reproduce_access_routing_archive.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/reproduce_aubert2026_hummingbird_reach_archive.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_aubert2026_zenodo_extension.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_aubert2026_missingness_dependence_sensitivity.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_aubert2026_participation_route_decomposition.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_aubert2026_route_specific_participation_postopen.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_aubert2026_routing_threshold.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/analyze_aubert2026_hummingbird_reach_sensitivity.py artifacts/letter/data_archive/code/scripts/
           cp scripts/audit_aubert2026_threshold_bootstrap_boundary.py artifacts/letter/data_archive/code/scripts/
           cp scripts/audit_aubert2026_participation_denominator.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_joint_access_routing.py artifacts/letter/data_archive/code/scripts/
@@ -385,8 +433,10 @@ jobs:
           cp empirical/floral_defence_selectivity/PARTICIPATION_ROUTE_DENOMINATOR_FREEZE_V1.json artifacts/letter/data_archive/analysis_contracts/
           cp empirical/floral_defence_selectivity/AUBERT_ROUTING_THRESHOLD_PREREG_V1.md artifacts/letter/data_archive/analysis_contracts/
           cp empirical/floral_defence_selectivity/AUBERT_ROUTING_THRESHOLD_FREEZE_V1.json artifacts/letter/data_archive/analysis_contracts/
+          cp empirical/floral_defence_selectivity/HUMMINGBIRD_EFFECTIVE_REACH_SENSITIVITY_FREEZE_V1.md artifacts/letter/data_archive/analysis_contracts/
           cp empirical/floral_defence_selectivity/results/AUBERT2026_ROUTING_THRESHOLD_FIRST_OPEN_RECEIPT_V1.json artifacts/letter/data_archive/analysis_contracts/
           cp empirical/floral_defence_selectivity/results/aubert2026_routing_threshold_first_open.json artifacts/letter/data_archive/frozen_outputs/
+          cp empirical/floral_defence_selectivity/results/aubert2026_hummingbird_effective_reach_sensitivity.json artifacts/letter/data_archive/diagnostic_receipts/
           cp empirical/floral_defence_selectivity/results/AUBERT2026_POSTOPEN_DIAGNOSTICS_RECEIPT_V1.json artifacts/letter/data_archive/diagnostic_receipts/
           cp empirical/floral_defence_selectivity/results/joint_access_routing.json artifacts/letter/data_archive/frozen_outputs/
           cp empirical/floral_defence_selectivity/results/joint_access_routing_species_robust.json artifacts/letter/data_archive/frozen_outputs/
@@ -511,6 +561,10 @@ jobs:
               "data_archive/code/scripts/analyze_aubert2026_route_specific_participation_postopen.py",
               "data_archive/code/scripts/analyze_aubert2026_routing_threshold.py",
               "data_archive/code/scripts/audit_aubert2026_threshold_bootstrap_boundary.py",
+              "data_archive/code/scripts/analyze_aubert2026_hummingbird_reach_sensitivity.py",
+              "data_archive/code/scripts/reproduce_aubert2026_hummingbird_reach_archive.py",
+              "data_archive/analysis_contracts/HUMMINGBIRD_EFFECTIVE_REACH_SENSITIVITY_FREEZE_V1.md",
+              "data_archive/diagnostic_receipts/aubert2026_hummingbird_effective_reach_sensitivity.json",
               "data_archive/README.md",
               "data_archive/ZENODO_METADATA_TEMPLATE.md",
               "data_archive/DEPOSIT_CHECKLIST_V1.md",

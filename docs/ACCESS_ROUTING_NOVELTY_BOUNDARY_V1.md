@@ -28,9 +28,11 @@ invent tactic switching or relative route-cost reasoning.
 The manuscript separates quantities that prior trait–robbery associations do not by
 themselves identify:
 
-1. **Route composition versus interaction occurrence.** The zero-inclusive Ecuador
-   analysis asks whether a barrier filters resolved feeding visits out or changes
-   the route mix while legitimate feeding persists.
+1. **Route composition versus interaction occurrence.** The Ecuador analysis
+   separates robbery share from zero-inclusive route-specific participation and
+   shows that the filtering inference itself depends on physiologically defined
+   reach: under a literature-based 1.8× correction, legitimate feeding is strongly
+   filtered while robbery is comparatively retained.
 2. **Relational versus consumer-fixed routing.** Within-bird analyses ask whether
    route use changes with the bird–flower relation rather than only because some
    bird species are intrinsically more robbery-prone.
@@ -55,7 +57,8 @@ themselves identify:
 
 ## Ecology Letters positioning rule
 
-The manuscript should be presented as a test of **filtering versus interaction
-routing**, not as a first discovery of mismatch-associated nectar robbery. Any
+The manuscript should be presented as a test of **route composition versus
+route-specific participation under physiological access constraints**, not as a
+first discovery of mismatch-associated nectar robbery. Any
 future abstract, cover letter, title or Discussion revision must preserve that
 boundary.
