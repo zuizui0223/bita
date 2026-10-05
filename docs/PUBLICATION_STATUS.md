@@ -54,40 +54,81 @@ common cross-fauna routing estimand; relative route cost is used only to organiz
 sign boundaries across systems. The complete guard is
 `docs/ACCESS_ROUTING_NOVELTY_BOUNDARY_V1.md`.
 
-## Participation and routing-shape updates
+## Participation, reach sensitivity and routing shape
 
-The zero-inclusive Ecuadorian participation analysis is now opened under its frozen denominator and model contract:
+The preregistered zero-inclusive Ecuadorian model remains frozen under its original
+exposed-culmen barrier:
 
 ~~~text
 trait-matched opportunity edges = 19,909
 clean camera waypoints = 5,254
 bird species = 50
 plant species = 288
-positive edges = 6,519
-zero edges = 13,390
-supported model edges after positive-margin pruning = 15,862
-barrier/access resolved feeding-visit rate ratio = 1.772
+culmen-only pooled resolved-feeding RR = 1.772
 95% plant-jackknife CI = 1.105–2.841
-90% CI = 1.192–2.633
+culmen-only legitimate RR = 1.883 (1.111–3.190)
+culmen-only robbery RR = 0.463 (0.147–1.461)
 FROZEN_CLASS = PARTICIPATION_INCREASE_PLUS_ROUTING
 ~~~
 
-The frozen pooled response is resolved feeding visitation, not exploitation-specific use. A post-open route-specific decomposition using the same opportunity matrix, waypoint and bird fixed effects, and plant jackknife showed that the pooled increase is carried by legitimate/non-robbing visits: legitimate RR = 1.883 (95% CI 1.111–3.190), whereas robbery-only RR = 0.463 (95% CI 0.147–1.461). The supported filtering claim is therefore that legitimate feeding visitation is not suppressed under barriers; the aggregate 1.772 estimate must not be described as increased robbery or increased exploitation.
+That frozen classification is retained as provenance, but its former biological
+interpretation ("legitimate feeding is not filtered") is **not robust**. Each
+retained waypoint contains one plant identity, so tube length is constant within
+waypoint. With waypoint and bird fixed effects, P2 is a cross-classified
+bird × waypoint **threshold** estimand, not the plant-level P1 estimand; continuous
+`log(tube/culmen)` is additive in those two fixed effects and cannot be separately
+estimated in that model.
 
-A separately preregistered plant-species routing-shape analysis did **not** localize a sharp equality threshold:
+A post-open sensitivity was frozen before opening and restricted to hummingbirds,
+excluding the single `Diglossa` flowerpiercer species from the bill-plus-tongue
+reach model. Published hummingbird-network work has used tongue corrections of
+one-third bill length and 80% bill length; Grant & Temeles (1992) also show that
+maximum tongue protrusion in *Selasphorus rufus* can approach bill length, although
+efficient feeding declines before maximum reach.
+
+~~~text
+effective reach multiplier      1.0       4/3       1.8       2.0
+paired plant robbery difference +0.091    +0.191    +0.259    +0.273
+paired permutation p            0.0001    0.0001    0.0001    0.0001
+pooled feeding RR               1.771     0.435     0.229     0.174
+pooled 95% CI                   1.105-2.841 0.255-0.742 0.147-0.355 0.120-0.252
+legitimate RR                   1.883     0.354     0.154     0.100
+legitimate 95% CI               1.111-3.190 0.197-0.635 0.087-0.271 0.065-0.155
+robbery RR                      0.463     0.851     0.816     1.393
+robbery 95% CI                  0.146-1.464 0.328-2.212 0.358-1.860 0.729-2.663
+RR_robbery / RR_legitimate      0.246     2.406     5.311     13.876
+ratio 95% CI                    0.070-0.869 0.862-6.720 1.923-14.672 6.504-29.603
+~~~
+
+The strongest biologically grounded sensitivity is the 1.8 correction used by
+Vizentin-Bugoni et al. (2016): severe effective mismatch suppresses legitimate
+feeding strongly while robbery-only counts remain statistically unresolved.
+Robbery is therefore **retained relative to the legitimate route**, which reconciles
+the zero-inclusive model with P1's higher robbery share. The supported mechanism is
+selective filtering of the legitimate route with comparative buffering of bypass,
+not an absolute increase in robbery.
+
+The plant-level continuous Spearman result is invariant to any constant reach
+multiplier because `log[T/(kB)] = log(T/B) - log(k)`. The paired binary P1 contrast
+strengthens as the barrier is restricted to more severe mismatch.
+
+The separately preregistered routing-shape analysis still does **not** localize a
+sharp threshold:
 
 ~~~text
 sigmoid midpoint x* = 0.9197
 x* at upper 95% mismatch-support boundary = YES
 bootstrap 90% CI = 0.1177–0.9197
 post-open bootstrap upper-boundary mass = 585/999 (58.6%)
-post-open bootstrap interior mass = 414/999 (41.4%)
 quadratic curvature permutation p = 0.0049
 interior upper turnover supported = NO
 THRESHOLD_CLASS = THRESHOLD_AT_SUPPORT_BOUNDARY
 ~~~
 
-This is retained as a negative boundary result. Across the sampled mismatch range, the routing response is better supported as graded than as a sharply localized switch near tube–bill equality; a later transition beyond observed support remains unresolved.
+A constant reach multiplier translates the midpoint and the 5–95% search support
+together, so it cannot manufacture an interior threshold. Under 1.8× reach the same
+boundary midpoint corresponds to tube/effective-reach ≈1.39; under 2.0× it is
+≈1.25, but the estimate remains boundary-limited rather than newly localized.
 
 ## Mechanistic boundary
 
@@ -253,7 +294,7 @@ STATUS = SCIENTIFIC_PACKAGE_REBUILT_AROUND_SPECIES_LEVEL_ROBUST_INFERENCE
 ACTIVE_PAPER = ACCESS_ROUTING_LETTER
 ROUTING_MECHANISM = RELATIVE_ROUTE_COST
 ROUTE_COST_PRIOR_THEORY = ACKNOWLEDGED_NOT_CLAIMED_AS_NOVEL
-NOVELTY_CORE = NETWORK_SCALE_FILTERING_VS_ROUTING_SEPARATION
+NOVELTY_CORE = NETWORK_SCALE_ROUTE_COMPOSITION_VS_PARTICIPATION_SEPARATION
 ROUTE_COST_BOUNDARY = dC_LEGITIMATE_MINUS_dC_BYPASS
 DIRECT_ACCESS_GEOMETRY_BOUNDED_CORPUS_PROGRAMS = 24
 FORMAL_DIRECT_ACCESS_GEOMETRY_PROGRAMS = 33
@@ -281,8 +322,8 @@ FORMAL_BIBLIOGRAPHIC_FRAME = COMPLETE_OPENALEX_857_RECORDS
 FORMAL_RECURRENCE_RESULT = COMPLETE_33_ELIGIBLE_PROGRAMS
 EXTENDED_SYNTHESIS = PRESERVED_RESERVE
 LEGACY_IDENTIFICATION_PAPER = PRESERVED_SUPPORT
-DATA_CODE_ARCHIVE = V4_ARCHIVE_ONLY_CURRENT_MANUSCRIPT_REPRODUCTION_PASS
-ARCHIVE_SCHEMA = BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V4
+DATA_CODE_ARCHIVE = V4_BASE_READY_V5_REACH_SENSITIVITY_UPDATE_REQUIRED
+ARCHIVE_SCHEMA = BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V4_PLUS_PENDING_REACH_SENSITIVITY
 POSTOPEN_DIAGNOSTIC_PROVENANCE = RECEIPT_AND_HASHES_RECORDED
 DOI_APPLICATION_GATE = IMPLEMENTED_RECEIPT_RENDER_ARCHIVE_CHECKS
 AUTHOR_METADATA = MACHINE_READABLE_CONTRACT_READY_VALUES_REQUIRED
