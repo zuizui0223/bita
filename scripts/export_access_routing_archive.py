@@ -156,6 +156,26 @@ def _aubert_participation_rows() -> list[dict[str, object]]:
         for index, waypoint in enumerate(sorted({edge.waypoint for edge in edges}), start=1)
     }
 
+    bird_group: dict[str, str] = {}
+    for row in tables["interactions"]:
+        species = str(row.get("hummingbird_species", "")).strip()
+        if species not in bird_map:
+            continue
+        family = str(row.get("hummingbird_family", "")).strip()
+        genus = str(row.get("hummingbird_genus", "")).strip()
+        group = "flowerpiercer" if genus == "Diglossa" else (
+            "hummingbird" if family == "Trochilidae" else ""
+        )
+        if not group:
+            continue
+        prior = bird_group.get(species)
+        if prior is not None and prior != group:
+            raise ValueError(f"inconsistent bird group for {species!r}")
+        bird_group[species] = group
+    missing_group = sorted(set(bird_map) - set(bird_group))
+    if missing_group:
+        raise ValueError(f"missing bird-group labels for participation species: {missing_group!r}")
+
     out: list[dict[str, object]] = []
     for index, edge in enumerate(edges, start=1):
         key = (edge.waypoint, edge.bird)
@@ -169,6 +189,7 @@ def _aubert_participation_rows() -> list[dict[str, object]]:
             "site_id": site_map[edge.site],
             "plant_unit": plant_map[edge.plant],
             "bird_unit": bird_map[edge.bird],
+            "bird_group": bird_group[edge.bird],
             "trait_barrier": "true" if bool(edge.barrier) else "false",
             "mismatch_log_t_over_b": edge.mismatch,
             "primary_count": edge.primary_count,
@@ -222,6 +243,7 @@ def export_archive(output_dir: Path) -> dict[str, object]:
             "site_id",
             "plant_unit",
             "bird_unit",
+            "bird_group",
             "trait_barrier",
             "mismatch_log_t_over_b",
             "primary_count",
@@ -342,6 +364,12 @@ def export_archive(output_dir: Path) -> dict[str, object]:
         },
         {
             "file": "aubert_ephi_participation_opportunities.csv",
+            "column": "bird_group",
+            "description": "Hummingbird or flowerpiercer grouping, retained to reproduce the effective-reach sensitivity without source species names.",
+            "unit": "categorical",
+        },
+        {
+            "file": "aubert_ephi_participation_opportunities.csv",
             "column": "trait_barrier",
             "description": "True when flower tube length exceeds bird culmen length.",
             "unit": "boolean",
@@ -390,7 +418,7 @@ def export_archive(output_dir: Path) -> dict[str, object]:
     )
 
     manifest = {
-        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V4",
+        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V5",
         "source_data": {
             "sakhalkar_2023_zenodo_doi": SAKHALKAR_DOI,
             "aubert_ephi_zenodo_mirror_doi": AUBERT_EPHI_DOI,
