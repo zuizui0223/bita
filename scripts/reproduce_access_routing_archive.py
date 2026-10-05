@@ -36,6 +36,7 @@ from scripts.analyze_joint_access_routing_species_robust import (
 )
 from scripts.analyze_sakhalkar2023_network import _permutation_p, _spearman
 from scripts.analyze_sakhalkar2023_trait_routing import fit_source_model_set
+from scripts.reproduce_aubert2026_hummingbird_reach_archive import reproduce_reach
 
 SAKHALKAR_SEED = 20260919
 JOINT_SEED = 20260927
@@ -215,7 +216,7 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
     )
 
     return {
-        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V4",
+        "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V5",
         "sakhalkar": {
             "n_species": len(sakh_points),
             "spearman_rho": s_rho,
@@ -294,6 +295,10 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
             "first_open_reproduction": threshold,
             "postopen_boundary_audit": threshold_boundary,
         },
+        "aubert_ephi_effective_reach_sensitivity": reproduce_reach(
+            input_dir,
+            permutations=permutations,
+        ),
     }
 
 
