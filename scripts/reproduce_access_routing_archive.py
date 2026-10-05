@@ -298,6 +298,7 @@ def reproduce(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]
         "aubert_ephi_effective_reach_sensitivity": reproduce_reach(
             input_dir,
             permutations=permutations,
+            full_jackknife=False,
         ),
     }
 
