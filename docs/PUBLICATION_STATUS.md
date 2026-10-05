@@ -259,7 +259,7 @@ The scientific and package layers are ready, but Ecology Letters requires an ext
 Current blockers:
 
 ~~~text
-ACCESS_ROUTING_ARCHIVE = V4_FULL_CURRENT_RESULT_REPRODUCTION_READY
+ACCESS_ROUTING_ARCHIVE = V5_CURRENT_RESULT_INPUTS_CODE_AND_FAST_CHECK_READY
 ARCHIVE_ONLY_POOLED_PARTICIPATION = PASS
 ARCHIVE_ONLY_ROUTE_SPECIFIC_POSTOPEN = PASS
 ARCHIVE_ONLY_THRESHOLD_FIRST_OPEN = PASS
@@ -275,7 +275,7 @@ AUTHOR_RELATIVE_NOVELTY_STATEMENT = REQUIRED
 EXTERNAL_SUBMISSION = BLOCKED_UNTIL_THESE_ARE_COMPLETE
 ~~~
 
-The archive contract is now V4 and covers the **current manuscript rather than only the earlier frozen spine**. In addition to the exact 57-species Sakhalkar table and 2,265-row Aubert/EPHI pair-site table, the anonymous participation-opportunity table carries pooled, robbing and legitimate/non-robbing counts. The package workflow reconstructs the pooled participation estimate, the post-open route-specific RRs (legitimate/non-robbing 1.883; robbery-only 0.463), the preregistered threshold result and the post-open 585/999 upper-boundary bootstrap mass using archived tables and archived code only, then checks them against frozen/retained receipts. Source taxon names are not required. The remaining data sequence is therefore external only: reserve the Zenodo DOI, insert it into the submission files, freeze that DOI-bearing commit, build the exact final ZIP from that commit, upload it to the same draft, and publish the DOI record.
+The archive contract is now V5 and covers the **current manuscript rather than only the earlier frozen spine**. In addition to the exact 57-species Sakhalkar table and 2,265-row Aubert/EPHI pair-site table, the anonymous participation-opportunity table carries pooled, robbing and legitimate/non-robbing counts plus anonymous bird-group labels sufficient to reproduce the hummingbird-only reach sensitivity without restoring taxon identities. The routine package workflow reconstructs the frozen culmen-only participation and route split, the preregistered threshold result and 585/999 boundary audit, and all effective-reach plant contrasts and point rate ratios from archived tables/code. Full plant-jackknife reach intervals and the paired robbery/legitimate RR-ratio interval are reproducible with the archived dedicated long-run mode and are preserved in the committed reach receipt rather than recomputed during every package-only change. Source taxon names are not required. The remaining data sequence is therefore external only: reserve the Zenodo DOI, insert it into the submission files, freeze that DOI-bearing commit, build the exact final ZIP from that commit, upload it to the same draft, and publish the DOI record.
 
 ## Journal route
 
@@ -322,7 +322,7 @@ FORMAL_BIBLIOGRAPHIC_FRAME = COMPLETE_OPENALEX_857_RECORDS
 FORMAL_RECURRENCE_RESULT = COMPLETE_33_ELIGIBLE_PROGRAMS
 EXTENDED_SYNTHESIS = PRESERVED_RESERVE
 LEGACY_IDENTIFICATION_PAPER = PRESERVED_SUPPORT
-DATA_CODE_ARCHIVE = V5_EFFECTIVE_REACH_REPRODUCTION_IMPLEMENTED
+DATA_CODE_ARCHIVE = V5_FAST_GATE_PLUS_DEDICATED_FULL_REACH_REPRODUCTION
 ARCHIVE_SCHEMA = BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V5
 POSTOPEN_DIAGNOSTIC_PROVENANCE = RECEIPT_AND_HASHES_RECORDED
 DOI_APPLICATION_GATE = IMPLEMENTED_RECEIPT_RENDER_ARCHIVE_CHECKS
