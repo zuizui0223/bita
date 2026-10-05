@@ -79,7 +79,7 @@ PYTHONPATH=code python code/scripts/reproduce_access_routing_archive.py \
 
 This command uses only the deposited analysis tables and deposited code; it does not redownload the source datasets.
 
-The workflow verifies that the regenerated headline values agree with the committed frozen first-open results and retained post-open diagnostics. It must recover the culmen-only route split and 585/999 threshold boundary mass, and from the V5 anonymous tables reproduce the 1.8× hummingbird-reach result: pooled RR 0.2287, legitimate RR 0.1537 (95% CI 0.0872–0.2710), robbery RR 0.8164 (0.3583–1.8602), and robbery/legitimate RR ratio 5.311 (1.923–14.672).
+The routine package workflow verifies that regenerated headline values agree with the committed frozen first-open results and retained post-open diagnostics. It recovers the culmen-only route split and 585/999 threshold boundary mass, and from the V5 anonymous tables reproduces the effective-reach plant contrasts and point rate ratios (including the 1.8× pooled RR 0.2287, legitimate RR 0.1537 and robbery RR 0.8164). The archived reach-reproduction module also supports a dedicated full plant-jackknife rerun (`reproduce_reach(..., full_jackknife=True)`) for the manuscript intervals and paired robbery/legitimate RR ratio; those long-run intervals are preserved in `diagnostic_receipts/aubert2026_hummingbird_effective_reach_sensitivity.json` rather than recomputed during every packaging change.
 
 ## Deposit-ready package
 
