@@ -44,50 +44,77 @@ The joint statistic tests recurrence across these two networks only. It does not
 
 The Letter does **not** claim first discovery of a flower-trait mismatch–robbery
 association, behavioral switching between legitimate and robbing tactics, or
-relative handling-cost explanations of tactic choice. Aubert et al. establish the
-bird trait-barrier association, Sakhalkar et al. establish floral-trait partitioning
-of robbing versus thieving, and Bronstein/Lichtenberg already establish the
-alternative-tactic framing and species-pair-dependent relative efficiencies. The
-manuscript-facing novelty is the **network-scale separation of route composition
-from zero-inclusive participation**, the **within-consumer relational** test, and a
-common cross-fauna routing estimand; relative route cost is used only to organize
-sign boundaries across systems. The complete guard is
+relative handling-cost explanations of tactic choice. The manuscript-facing
+contribution is now narrower and more biological: **relational mismatch robustly
+predicts route composition, whereas whether mismatch becomes an occurrence filter
+depends on functional reach rather than raw trait equality**. The within-consumer
+test and cross-fauna routing estimand carry the routing result; the hummingbird
+reach sensitivity shows that culmen equality is not a defensible universal access
+threshold. Relative route cost remains an organizing interpretation, not a novel
+foraging theory. The complete guard is
 `docs/ACCESS_ROUTING_NOVELTY_BOUNDARY_V1.md`.
 
 ## Participation and routing-shape updates
 
-The zero-inclusive Ecuadorian participation analysis is now opened under its frozen denominator and model contract:
+The frozen zero-inclusive analysis used the source-defined binary barrier
+`tube > culmen`:
 
 ~~~text
 trait-matched opportunity edges = 19,909
-clean camera waypoints = 5,254
-bird species = 50
-plant species = 288
-positive edges = 6,519
-zero edges = 13,390
-supported model edges after positive-margin pruning = 15,862
-barrier/access resolved feeding-visit rate ratio = 1.772
+barrier/access pooled resolved-feeding RR = 1.772
 95% plant-jackknife CI = 1.105–2.841
-90% CI = 1.192–2.633
-FROZEN_CLASS = PARTICIPATION_INCREASE_PLUS_ROUTING
+POST_OPEN legitimate/non-robbing RR = 1.883 (1.111–3.190)
+POST_OPEN robbery-only RR = 0.463 (0.147–1.461)
 ~~~
 
-The frozen pooled response is resolved feeding visitation, not exploitation-specific use. A post-open route-specific decomposition using the same opportunity matrix, waypoint and bird fixed effects, and plant jackknife showed that the pooled increase is carried by legitimate/non-robbing visits: legitimate RR = 1.883 (95% CI 1.111–3.190), whereas robbery-only RR = 0.463 (95% CI 0.147–1.461). The supported filtering claim is therefore that legitimate feeding visitation is not suppressed under barriers; the aggregate 1.772 estimate must not be described as increased robbery or increased exploitation.
+That **culmen-only no-filtering interpretation is no longer the biological claim**.
+Hummingbirds extend their tongues beyond the bill, so a second post-open analysis
+tested functional-reach definitions in Trochilidae only. The initial sensitivity
+froze one-third and 2× multipliers; after opening those results, a deeper literature
+audit recovered the 80% extension used as the primary morphology correction by
+Vizentin-Bugoni et al. (2016), which is retained explicitly as a post-open
+literature-anchored extension.
 
-A separately preregistered plant-species routing-shape analysis did **not** localize a sharp equality threshold:
+~~~text
+reach multiplier k = 4/3
+barrier fraction = 0.413
+pooled feeding RR = 0.435 (0.255–0.741)
+legitimate RR = 0.354 (0.197–0.635)
+robbery RR = 0.851 (0.328–2.207)
+P1 paired robbery contrast = +0.191; n = 129; p = 0.0001
+
+reach multiplier k = 1.8
+barrier fraction = 0.258
+pooled feeding RR = 0.229 (0.147–0.355)
+legitimate RR = 0.154 (0.087–0.271)
+robbery RR = 0.816 (0.359–1.857)
+P1 paired robbery contrast = +0.259; n = 105; p = 0.0001
+~~~
+
+The hummingbird-only continuous P1 mismatch–robbery correlation is
+`rho = 0.5029` under every fixed multiplier because multiplying reach by a
+constant only translates log mismatch. Thus the routing signal is robust while the
+binary participation inference changes qualitatively once the barrier is tied to
+functional reach. Absolute robbery counts remain imprecise; the higher robbery
+share can arise through suppression of legitimate feeding rather than an increase
+in robbery events.
+
+The preregistered routing-shape analysis remains a negative localization result:
 
 ~~~text
 sigmoid midpoint x* = 0.9197
 x* at upper 95% mismatch-support boundary = YES
 bootstrap 90% CI = 0.1177–0.9197
 post-open bootstrap upper-boundary mass = 585/999 (58.6%)
-post-open bootstrap interior mass = 414/999 (41.4%)
 quadratic curvature permutation p = 0.0049
 interior upper turnover supported = NO
 THRESHOLD_CLASS = THRESHOLD_AT_SUPPORT_BOUNDARY
 ~~~
 
-This is retained as a negative boundary result. Across the sampled mismatch range, the routing response is better supported as graded than as a sharply localized switch near tube–bill equality; a later transition beyond observed support remains unresolved.
+Fixed reach multipliers translate the midpoint and mismatch support by the same
+`-log(k)`, so they cannot convert this support-boundary midpoint into an interior
+threshold. Species-specific tongue extension, corolla opening and nectar depth
+remain unresolved.
 
 ## Mechanistic boundary
 
@@ -253,7 +280,7 @@ STATUS = SCIENTIFIC_PACKAGE_REBUILT_AROUND_SPECIES_LEVEL_ROBUST_INFERENCE
 ACTIVE_PAPER = ACCESS_ROUTING_LETTER
 ROUTING_MECHANISM = RELATIVE_ROUTE_COST
 ROUTE_COST_PRIOR_THEORY = ACKNOWLEDGED_NOT_CLAIMED_AS_NOVEL
-NOVELTY_CORE = NETWORK_SCALE_FILTERING_VS_ROUTING_SEPARATION
+NOVELTY_CORE = ROBUST_ROUTING_VS_FUNCTIONAL_REACH_DEPENDENT_FILTERING
 ROUTE_COST_BOUNDARY = dC_LEGITIMATE_MINUS_dC_BYPASS
 DIRECT_ACCESS_GEOMETRY_BOUNDED_CORPUS_PROGRAMS = 24
 FORMAL_DIRECT_ACCESS_GEOMETRY_PROGRAMS = 33
@@ -281,8 +308,8 @@ FORMAL_BIBLIOGRAPHIC_FRAME = COMPLETE_OPENALEX_857_RECORDS
 FORMAL_RECURRENCE_RESULT = COMPLETE_33_ELIGIBLE_PROGRAMS
 EXTENDED_SYNTHESIS = PRESERVED_RESERVE
 LEGACY_IDENTIFICATION_PAPER = PRESERVED_SUPPORT
-DATA_CODE_ARCHIVE = V4_ARCHIVE_ONLY_CURRENT_MANUSCRIPT_REPRODUCTION_PASS
-ARCHIVE_SCHEMA = BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V4
+DATA_CODE_ARCHIVE = V5_REACH_SENSITIVITY_INTEGRATION_IN_PROGRESS
+ARCHIVE_SCHEMA = BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V5
 POSTOPEN_DIAGNOSTIC_PROVENANCE = RECEIPT_AND_HASHES_RECORDED
 DOI_APPLICATION_GATE = IMPLEMENTED_RECEIPT_RENDER_ARCHIVE_CHECKS
 AUTHOR_METADATA = MACHINE_READABLE_CONTRACT_READY_VALUES_REQUIRED
