@@ -1,0 +1,68 @@
+name: Aubert effective-reach grain sensitivity
+
+on:
+  pull_request:
+    paths:
+      - "scripts/analyze_aubert2026_effective_reach_grain_sensitivity.py"
+      - "tests/test_aubert2026_effective_reach_grain_sensitivity.py"
+      - "empirical/floral_defence_selectivity/AUBERT2026_EFFECTIVE_REACH_GRAIN_SENSITIVITY_FREEZE_V1.md"
+      - ".github/workflows/aubert-effective-reach-grain-sensitivity.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and tests
+        run: python -m pip install -e '.[dev]'
+
+      - name: Test frozen sensitivity code
+        run: pytest -q tests/test_aubert2026_effective_reach_grain_sensitivity.py
+
+      - name: Run effective-reach sensitivity
+        run: |
+          python -m scripts.analyze_aubert2026_effective_reach_grain_sensitivity \
+            artifacts/aubert2026_effective_reach_grain_sensitivity.json
+
+      - name: Print compact scientific readout
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          obj = json.loads(
+              Path("artifacts/aubert2026_effective_reach_grain_sensitivity.json").read_text()
+          )
+          print("analysis_timing =", obj["analysis_timing"])
+          print("hummingbird_only_edges =", obj["base_audits"]["hummingbird_only_opportunity_edges"])
+          for key, block in obj["multipliers"].items():
+              print("REACH", key)
+              print(" barrier_fraction =", block["barrier_fraction"])
+              print(" P1_rho =", block["p1_hummingbird_only"]["continuous_mismatch_robbery"]["rho"])
+              paired = block["p1_hummingbird_only"]["paired_binary_barrier"]
+              print(" P1_paired_n =", paired["eligible_clusters"])
+              print(" P1_paired_diff =", paired["mean_cluster_difference"])
+              for label, fit in block["p2_zero_inclusive"].items():
+                  print(" ", label, "=", fit)
+              tr = block["threshold_coordinate_translation"]
+              print(" translated_xstar =", tr["translated_xstar"])
+              print(" effective_reach_ratio_at_xstar =", tr["effective_reach_ratio_at_xstar"])
+              print(" same_support_boundary =", tr["xstar_at_same_upper_support_boundary"])
+              print(" equality_ci_within_margin =", tr["ci90_within_original_equality_margin"])
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aubert-effective-reach-grain-sensitivity
+          path: artifacts/aubert2026_effective_reach_grain_sensitivity.json
+          if-no-files-found: error
