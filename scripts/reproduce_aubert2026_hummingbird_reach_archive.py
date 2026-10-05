@@ -135,7 +135,12 @@ def _route_ratio_jackknife(robbing: list[Edge], legitimate: list[Edge]) -> dict[
     }
 
 
-def reproduce_reach(\n    input_dir: Path,\n    *,\n    permutations: int = 9999,\n    full_jackknife: bool = False,\n) -> dict[str, object]:
+def reproduce_reach(
+    input_dir: Path,
+    *,
+    permutations: int = 9999,
+    full_jackknife: bool = False,
+) -> dict[str, object]:
     pair_rows = _load_pair_rows(input_dir)
     participation = _load_participation(input_dir)
     if not pair_rows or not participation["primary"]:
