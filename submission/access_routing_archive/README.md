@@ -8,10 +8,10 @@ The build workflow generates an `artifacts/letter/data_archive/` directory conta
 
 - `sakhalkar_species_analysis.csv` — 57 anonymous plant-species analysis units used for the insect routing and multitrait analyses;
 - `aubert_ephi_pair_site_analysis.csv` — 2,265 anonymous bird × plant × site aggregation units under the metadata-informed missing-as-no rule, with anonymized plant- and bird-species cluster IDs; these reproduce both the 259-plant primary routing inference and the paired/continuous within-bird behavioral sensitivities;
-- `aubert_ephi_participation_opportunities.csv` — the zero-inclusive clean-waypoint × locally available bird opportunity table used to reproduce the frozen pooled participation rate ratio **and** the post-open robbing versus legitimate/non-robbing decomposition; it includes `primary_count`, `robbing_count` and `legitimate_count` with anonymized waypoint, plant, bird and site identifiers;
+- `aubert_ephi_participation_opportunities.csv` — the zero-inclusive clean-waypoint × locally available bird opportunity table used to reproduce the frozen pooled participation rate ratio, the post-open robbing versus legitimate/non-robbing decomposition, and the hummingbird-only effective-reach sensitivity; it includes `primary_count`, `robbing_count`, `legitimate_count` and anonymous `bird_group` with relabelled waypoint, plant, bird and site identifiers;
 - `metadata.csv` — file/column descriptions and units;
 - `archive_manifest.json` — source DOIs, row counts and identifier policy;
-- `archive_reproduction.json` — statistics regenerated using only the archived analysis tables, including the pooled participation result, route-specific RRs, the preregistered threshold fit and the post-open bootstrap boundary-mass audit;
+- `archive_reproduction.json` — statistics regenerated using only the archived analysis tables, including pooled and route-specific participation, the preregistered threshold/boundary audit, and the post-open hummingbird effective-reach sensitivity;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv` — the 24-program bounded direct geometry → robbery supporting corpus;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv` — included, duplicate and excluded Stage-U update candidates with explicit reasons;
 - `supporting_literature/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv` — complete 56-label historical geometry screen;
@@ -29,6 +29,8 @@ The submission archive must also include the exact code used to export and repro
 - `scripts/analyze_aubert2026_route_specific_participation_postopen.py`
 - `scripts/analyze_aubert2026_routing_threshold.py`
 - `scripts/audit_aubert2026_threshold_bootstrap_boundary.py`
+- `scripts/analyze_aubert2026_hummingbird_reach_sensitivity.py`
+- `scripts/reproduce_aubert2026_hummingbird_reach_archive.py`
 - `scripts/summarize_direct_access_geometry_corpus.py`
 - `scripts/validate_direct_access_geometry_stage_u.py`
 - `scripts/validate_direct_access_geometry_formal_frame.py`
@@ -36,6 +38,7 @@ The submission archive must also include the exact code used to export and repro
 - the imported BITA analysis modules required by those scripts;
 - frozen aggregate JSON outputs used in the manuscript, including the first-open participation and threshold results with their freeze/receipt files;
 - `diagnostic_receipts/AUBERT2026_POSTOPEN_DIAGNOSTICS_RECEIPT_V1.json`, preserving workflow/artifact provenance and hashes for the post-open route split and bootstrap boundary audit;
+- `analysis_contracts/HUMMINGBIRD_EFFECTIVE_REACH_SENSITIVITY_FREEZE_V1.md` and `diagnostic_receipts/aubert2026_hummingbird_effective_reach_sensitivity.json`, preserving the frozen post-open reach sensitivity and its result;
 - this README.
 
 ## Supporting direct-evidence boundary
@@ -76,7 +79,7 @@ PYTHONPATH=code python code/scripts/reproduce_access_routing_archive.py \
 
 This command uses only the deposited analysis tables and deposited code; it does not redownload the source datasets.
 
-The workflow verifies that the regenerated headline values agree with the committed frozen first-open results and the retained post-open diagnostic receipt. In particular, the archive-only rerun must recover legitimate/non-robbing RR 1.8826427304, robbery-only RR 0.4626674087, and 585/999 bootstrap fits at the upper threshold search boundary.
+The workflow verifies that the regenerated headline values agree with the committed frozen first-open results and retained post-open diagnostics. It must recover the culmen-only route split and 585/999 threshold boundary mass, and from the V5 anonymous tables reproduce the 1.8× hummingbird-reach result: pooled RR 0.2287, legitimate RR 0.1537 (95% CI 0.0872–0.2710), robbery RR 0.8164 (0.3583–1.8602), and robbery/legitimate RR ratio 5.311 (1.923–14.672).
 
 ## Deposit-ready package
 
