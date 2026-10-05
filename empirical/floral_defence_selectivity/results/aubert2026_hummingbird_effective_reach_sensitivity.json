@@ -1,0 +1,222 @@
+{
+  "analysis_name": "aubert_ephi_hummingbird_effective_reach_sensitivity",
+  "status": "FIT",
+  "analysis_timing": "POST_OPEN_MECHANISM_SENSITIVITY",
+  "freeze": "empirical/floral_defence_selectivity/HUMMINGBIRD_EFFECTIVE_REACH_SENSITIVITY_FREEZE_V1.md",
+  "source": {
+    "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V4",
+    "workflow_run": 37176584268,
+    "artifact_id": 11293379572,
+    "artifact_digest": "sha256:d6da14aa49002f9b427985b19f2675f1277a6e221443bea441f8287107f6cca7",
+    "pair_site_table": "aubert_ephi_pair_site_analysis.csv",
+    "participation_table": "aubert_ephi_participation_opportunities.csv"
+  },
+  "scope": {
+    "bird_group": "hummingbird_only",
+    "hummingbird_species": 49,
+    "flowerpiercer_species_excluded": 1,
+    "plant_species": 259,
+    "plant_jackknife_clusters": 288,
+    "reason_for_exclusion": "Diglossa flowerpiercers are not represented by the same bill-plus-tongue legitimate-access model."
+  },
+  "literature_motivated_reach_multipliers": {
+    "1.0": "production exposed-culmen definition",
+    "1.3333333333333333": "bill plus one-third bill tongue correction used in Vizentin-Bugoni et al. 2014 and as alternative M1 in Vizentin-Bugoni et al. 2016",
+    "1.8": "bill plus 80% tongue correction used in Vizentin-Bugoni et al. 2016 based on Grant & Temeles 1992 and proportionality reasoning from Paton & Collins 1989",
+    "2.0": "maximum-reach stress test: Grant & Temeles 1992 report maximal tongue extension approximately bill length in Selasphorus rufus"
+  },
+  "sensitivities": {
+    "1.0": {
+      "plant_route_composition": {
+        "rho": 0.5029079310045257,
+        "rho_permutation_p": 0.0001,
+        "paired_mean_barrier_minus_accessible": 0.09145033949615833,
+        "paired_eligible_plants": 130,
+        "paired_permutation_p": 0.0001
+      },
+      "zero_inclusive": {
+        "pooled_resolved_feeding": {
+          "rr": 1.7714887307524367,
+          "ci95": [
+            1.1047743606754807,
+            2.840554990128608
+          ]
+        },
+        "legitimate_nonrobbing": {
+          "rr": 1.8825147795742707,
+          "ci95": [
+            1.110979751431349,
+            3.189852822024679
+          ]
+        },
+        "robbing": {
+          "rr": 0.46266740876813595,
+          "ci95": [
+            0.14617361329598333,
+            1.4644307293873504
+          ]
+        },
+        "robbing_rr_over_legitimate_rr": {
+          "ratio": 0.24577108705687,
+          "ci95": [
+            0.06953283169682499,
+            0.8687036865762179
+          ]
+        },
+        "barrier_edges": 11387,
+        "accessible_edges": 8516
+      },
+      "threshold_translation": {
+        "xstar": 0.9197423428245373,
+        "tube_over_effective_reach_at_xstar": 2.5086439365472644,
+        "classification": "THRESHOLD_AT_SUPPORT_BOUNDARY"
+      }
+    },
+    "1.3333333333333333": {
+      "plant_route_composition": {
+        "rho": 0.5029079310045257,
+        "rho_permutation_p": 0.0001,
+        "paired_mean_barrier_minus_accessible": 0.1912424341131144,
+        "paired_eligible_plants": 129,
+        "paired_permutation_p": 0.0001
+      },
+      "zero_inclusive": {
+        "pooled_resolved_feeding": {
+          "rr": 0.43499782193808995,
+          "ci95": [
+            0.25517432498892617,
+            0.7415444524016825
+          ]
+        },
+        "legitimate_nonrobbing": {
+          "rr": 0.35373752302117567,
+          "ci95": [
+            0.19690533226886853,
+            0.6354842388031172
+          ]
+        },
+        "robbing": {
+          "rr": 0.8511618632506165,
+          "ci95": [
+            0.3275473778504263,
+            2.2118220643582482
+          ]
+        },
+        "robbing_rr_over_legitimate_rr": {
+          "ratio": 2.4061974541699787,
+          "ci95": [
+            0.8616313946595365,
+            6.719562708995593
+          ]
+        },
+        "barrier_edges": 8224,
+        "accessible_edges": 11679
+      },
+      "threshold_translation": {
+        "xstar": 0.6320602703727565,
+        "tube_over_effective_reach_at_xstar": 1.8814829524104486,
+        "classification": "THRESHOLD_AT_SUPPORT_BOUNDARY"
+      }
+    },
+    "1.8": {
+      "plant_route_composition": {
+        "rho": 0.5029079310045257,
+        "rho_permutation_p": 0.0001,
+        "paired_mean_barrier_minus_accessible": 0.2586576066307523,
+        "paired_eligible_plants": 105,
+        "paired_permutation_p": 0.0001
+      },
+      "zero_inclusive": {
+        "pooled_resolved_feeding": {
+          "rr": 0.22865639407019936,
+          "ci95": [
+            0.14724343922469293,
+            0.35508370915869125
+          ]
+        },
+        "legitimate_nonrobbing": {
+          "rr": 0.15371602990346264,
+          "ci95": [
+            0.08719018555578942,
+            0.27100088959167584
+          ]
+        },
+        "robbing": {
+          "rr": 0.8164071389168566,
+          "ci95": [
+            0.35830257484716027,
+            1.860217210994709
+          ]
+        },
+        "robbing_rr_over_legitimate_rr": {
+          "ratio": 5.311138967397444,
+          "ci95": [
+            1.922554819306188,
+            14.672245934286211
+          ]
+        },
+        "barrier_edges": 5133,
+        "accessible_edges": 14770
+      },
+      "threshold_translation": {
+        "xstar": 0.3319556779224182,
+        "tube_over_effective_reach_at_xstar": 1.3936910758595913,
+        "classification": "THRESHOLD_AT_SUPPORT_BOUNDARY"
+      }
+    },
+    "2.0": {
+      "plant_route_composition": {
+        "rho": 0.5029079310045257,
+        "rho_permutation_p": 0.0001,
+        "paired_mean_barrier_minus_accessible": 0.27251277387821166,
+        "paired_eligible_plants": 98,
+        "paired_permutation_p": 0.0001
+      },
+      "zero_inclusive": {
+        "pooled_resolved_feeding": {
+          "rr": 0.1739980781766477,
+          "ci95": [
+            0.12028100009645905,
+            0.25170501729190453
+          ]
+        },
+        "legitimate_nonrobbing": {
+          "rr": 0.10038081346134377,
+          "ci95": [
+            0.06519125219423712,
+            0.15456533464242667
+          ]
+        },
+        "robbing": {
+          "rr": 1.3928713985821701,
+          "ci95": [
+            0.7285316456578789,
+            2.6630150447841
+          ]
+        },
+        "robbing_rr_over_legitimate_rr": {
+          "ratio": 13.875868972331533,
+          "ci95": [
+            6.504104546441221,
+            29.602805176719183
+          ]
+        },
+        "barrier_edges": 4082,
+        "accessible_edges": 15821
+      },
+      "threshold_translation": {
+        "xstar": 0.22659516226459198,
+        "tube_over_effective_reach_at_xstar": 1.2543219682736322,
+        "classification": "THRESHOLD_AT_SUPPORT_BOUNDARY"
+      }
+    }
+  },
+  "interpretation": {
+    "primary_route_result": "Continuous plant-level mismatch-to-robbery rank association is invariant to constant reach scaling and remains positive.",
+    "binary_route_result": "Paired plant-level robbery contrast strengthens as the barrier is restricted to more severe effective-reach mismatch.",
+    "participation_result": "The culmen-only no-filtering conclusion is not robust to literature-motivated tongue-reach correction. At 4/3 and 1.8, pooled and legitimate feeding are reduced under the redefined barrier while robbery-only counts remain statistically unresolved.",
+    "relative_route_result": "At the 1.8 multiplier, robbery is retained relative to legitimate feeding (RR ratio 5.31, 95% plant-jackknife CI 1.92-14.67), aligning the zero-inclusive model with the positive route-composition result.",
+    "threshold_result": "Constant reach scaling only translates mismatch and the fitted/search boundary together. The preregistered threshold remains boundary-limited and does not become an interior localized threshold."
+  },
+  "claim_boundary": "Post-open sensitivity using fixed literature-motivated reach multipliers, not measured species-specific tongue lengths. Production culmen-only results remain historically frozen; manuscript interpretation must state their threshold-definition sensitivity."
+}
