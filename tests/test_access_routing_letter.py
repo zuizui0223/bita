@@ -75,7 +75,7 @@ def test_letter_weights_ecuador_primary_and_insects_as_corroboration() -> None:
     text = LETTER.read_text(encoding="utf-8")
     abstract = text.split("## Abstract", 1)[1].split("## Introduction", 1)[0]
     assert "in an all-Ecuador bird–flower network" in abstract
-    assert "independent insect network" in abstract
+    assert "independent Afrotropical insect network" in abstract
     assert abstract.index("259 Ecuadorian plant species") < abstract.index("57 plant species")
 
     assert "### Primary Ecuadorian test" in text
@@ -137,7 +137,8 @@ def test_letter_separates_case_directional_recurrence_from_standardized_k() -> N
 @pytest.mark.prose_contract
 def test_letter_names_zero_inclusive_estimand_as_feeding_visitation() -> None:
     text = LETTER.read_text(encoding="utf-8").lower()
-    assert "resolved feeding visits (legitimate + robbing)" in text
+    assert "resolved feeding visitation" in text
+    assert "not robbery alone" in text
     assert "total route-resolved exploitation" not in text
     assert "waypoint fixed effects absorb" in text
     assert "time-invariant plant/waypoint reward main effect" in text
@@ -147,8 +148,10 @@ def test_letter_names_zero_inclusive_estimand_as_feeding_visitation() -> None:
 @pytest.mark.prose_contract
 def test_letter_integrates_postopen_route_split_and_boundary_mass() -> None:
     text = LETTER.read_text(encoding="utf-8")
-    assert "legitimate/non-robbing visits (1.883, 1.111–3.190)" in text
-    assert "robbery-only counts (0.463, 0.147–1.461)" in text
+    assert "legitimate/non-robbing count was higher" in text
+    assert "rate ratio 1.883, 95% CI 1.111–3.190" in text
+    assert "robbery-only count did not show a detectable increase" in text
+    assert "0.463, 95% CI 0.147–1.461" in text
     assert "585 of 999 finite bootstrap fits (58.6%)" in text
     assert "should not be described as greater exploitation or greater robbery" in text
     assert "public EPHI tables contain no direct nectar-reward covariate" in text
@@ -165,5 +168,16 @@ def test_letter_states_novelty_boundary_against_source_studies() -> None:
     assert "route composition independently of filtering interaction occurrence" in lower
     assert "within consumer species" in lower
     assert "behavioral switching itself new" in lower
-    assert "lichtenberg et al. (2018)" in lower
+    assert "lichtenberg et al. 2018" in lower
     assert "the prediction has not been tested as a common standardized association" not in lower
+
+
+@pytest.mark.prose_contract
+def test_letter_separates_p1_and_p2_conditional_grains() -> None:
+    text = LETTER.read_text(encoding="utf-8").lower()
+    assert "each clean waypoint maps to one plant identity" in text
+    assert "identification of the barrier coefficient comes from differences among locally available bird species" in text
+    assert "p2 is not a second estimate of the same plant-level barrier contrast" in text
+    assert "p1 varies flowers within birds" in text
+    assert "p2 holds each waypoint plant fixed" in text
+    assert "opposite point directions can therefore occur without algebraic contradiction" in text
