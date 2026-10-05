@@ -44,6 +44,10 @@ on:
       - "scripts/analyze_aubert2026_routing_threshold.py"
       - "scripts/audit_aubert2026_threshold_bootstrap_boundary.py"
       - "scripts/audit_aubert2026_participation_denominator.py"
+      - "scripts/analyze_aubert2026_effective_reach_grain_sensitivity.py"
+      - "tests/test_aubert2026_effective_reach_grain_sensitivity.py"
+      - "empirical/floral_defence_selectivity/AUBERT2026_EFFECTIVE_REACH_GRAIN_SENSITIVITY_FREEZE_V1.md"
+      - "empirical/floral_defence_selectivity/results/aubert2026_effective_reach_grain_sensitivity_v1.json"
       - "scripts/analyze_joint_access_routing.py"
       - "scripts/analyze_joint_access_routing_species_robust.py"
       - "scripts/analyze_sakhalkar2023_network.py"
@@ -118,6 +122,7 @@ jobs:
             tests/test_aubert2026_participation_route_decomposition.py \
             tests/test_aubert2026_participation_first_open.py \
             tests/test_aubert2026_postopen_diagnostics.py \
+            tests/test_aubert2026_effective_reach_grain_sensitivity.py \
             tests/test_ecology_letters_letter_submission.py \
             tests/test_reserved_archive_doi.py \
             tests/test_direct_access_geometry_corpus.py \
@@ -181,6 +186,7 @@ jobs:
           participation = json.loads((root / "aubert2026_participation_route_decomposition_first_open.json").read_text())
           threshold = json.loads((root / "aubert2026_routing_threshold_first_open.json").read_text())
           postopen = json.loads((root / "AUBERT2026_POSTOPEN_DIAGNOSTICS_RECEIPT_V1.json").read_text())
+          effective = json.loads((root / "aubert2026_effective_reach_grain_sensitivity_v1.json").read_text())
 
           assert observed["sakhalkar"]["n_species"] == 57
           assert math.isclose(
@@ -311,6 +317,48 @@ jobs:
               abs_tol=1e-15,
           )
 
+          reach = observed["aubert_ephi_effective_reach"]["multipliers"]
+          for key in ("1.3333333333333333", "1.8"):
+              expected = effective["p2_hummingbird_only"][key]
+              got = reach[key]
+              assert math.isclose(
+                  got["barrier_fraction"],
+                  expected["barrier_fraction"],
+                  rel_tol=0.0,
+                  abs_tol=1e-15,
+              )
+              for observed_name, expected_name in (
+                  ("pooled_resolved_feeding", "pooled"),
+                  ("legitimate_nonrobbing", "legitimate"),
+                  ("robbing_only", "robbing"),
+              ):
+                  observed_fit = got[observed_name]
+                  expected_fit = expected[expected_name]
+                  assert math.isclose(
+                      observed_fit["fit"]["rate_ratio"],
+                      expected_fit["rr"],
+                      rel_tol=0.0,
+                      abs_tol=1e-12,
+                  )
+                  for actual, target in zip(
+                      observed_fit["ci95_rate_ratio"],
+                      expected_fit["ci95"],
+                  ):
+                      assert math.isclose(
+                          actual,
+                          target,
+                          rel_tol=0.0,
+                          abs_tol=5e-9,
+                      )
+          assert math.isclose(
+              reach["1.8"]["plant_species_paired_binary"]["mean_cluster_difference"],
+              effective["p1_hummingbird_only"]["binary"]["1.8"][
+                  "mean_barrier_minus_accessible_robbery"
+              ],
+              rel_tol=0.0,
+              abs_tol=1e-12,
+          )
+
           print("Archive-only reproduction matches frozen and retained Letter results")
           PY
 
@@ -364,6 +412,7 @@ jobs:
           cp scripts/analyze_aubert2026_routing_threshold.py artifacts/letter/data_archive/code/scripts/
           cp scripts/audit_aubert2026_threshold_bootstrap_boundary.py artifacts/letter/data_archive/code/scripts/
           cp scripts/audit_aubert2026_participation_denominator.py artifacts/letter/data_archive/code/scripts/
+          cp scripts/analyze_aubert2026_effective_reach_grain_sensitivity.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_joint_access_routing.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_joint_access_routing_species_robust.py artifacts/letter/data_archive/code/scripts/
           cp scripts/analyze_sakhalkar2023_network.py artifacts/letter/data_archive/code/scripts/
@@ -388,6 +437,8 @@ jobs:
           cp empirical/floral_defence_selectivity/results/AUBERT2026_ROUTING_THRESHOLD_FIRST_OPEN_RECEIPT_V1.json artifacts/letter/data_archive/analysis_contracts/
           cp empirical/floral_defence_selectivity/results/aubert2026_routing_threshold_first_open.json artifacts/letter/data_archive/frozen_outputs/
           cp empirical/floral_defence_selectivity/results/AUBERT2026_POSTOPEN_DIAGNOSTICS_RECEIPT_V1.json artifacts/letter/data_archive/diagnostic_receipts/
+          cp empirical/floral_defence_selectivity/AUBERT2026_EFFECTIVE_REACH_GRAIN_SENSITIVITY_FREEZE_V1.md artifacts/letter/data_archive/analysis_contracts/
+          cp empirical/floral_defence_selectivity/results/aubert2026_effective_reach_grain_sensitivity_v1.json artifacts/letter/data_archive/diagnostic_receipts/
           cp empirical/floral_defence_selectivity/results/joint_access_routing.json artifacts/letter/data_archive/frozen_outputs/
           cp empirical/floral_defence_selectivity/results/joint_access_routing_species_robust.json artifacts/letter/data_archive/frozen_outputs/
 
@@ -508,6 +559,9 @@ jobs:
               "data_archive/analysis_contracts/AUBERT_ROUTING_THRESHOLD_FREEZE_V1.json",
               "data_archive/analysis_contracts/AUBERT2026_ROUTING_THRESHOLD_FIRST_OPEN_RECEIPT_V1.json",
               "data_archive/diagnostic_receipts/AUBERT2026_POSTOPEN_DIAGNOSTICS_RECEIPT_V1.json",
+              "data_archive/diagnostic_receipts/aubert2026_effective_reach_grain_sensitivity_v1.json",
+              "data_archive/analysis_contracts/AUBERT2026_EFFECTIVE_REACH_GRAIN_SENSITIVITY_FREEZE_V1.md",
+              "data_archive/code/scripts/analyze_aubert2026_effective_reach_grain_sensitivity.py",
               "data_archive/code/scripts/analyze_aubert2026_route_specific_participation_postopen.py",
               "data_archive/code/scripts/analyze_aubert2026_routing_threshold.py",
               "data_archive/code/scripts/audit_aubert2026_threshold_bootstrap_boundary.py",
