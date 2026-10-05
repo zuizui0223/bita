@@ -29,6 +29,7 @@ DEFAULT_OUTPUT = (
 )
 AUBERT_RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "aubert2026_missingness_dependence_sensitivity.json"
 PARTICIPATION_RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "aubert2026_participation_route_decomposition_first_open.json"
+REACH_RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "aubert2026_hummingbird_effective_reach_sensitivity.json"
 
 
 def _text(
@@ -72,6 +73,7 @@ def build_svg(
     result: dict[str, object],
     aubert: dict[str, object] | None = None,
     participation: dict[str, object] | None = None,
+    reach: dict[str, object] | None = None,
 ) -> str:
     if not points:
         raise ValueError("cannot build Figure 4 without species-level route points")
@@ -181,10 +183,16 @@ def build_svg(
         if participation is not None:
             decision = participation["decision"]
             ci95 = decision["ci95_rate_ratio"]
-            parts.extend([
-                _text(1115, 628, f'resolved feeding-visit RR = {float(decision["rate_ratio"]):.3f} (95% CI {float(ci95[0]):.3f}–{float(ci95[1]):.3f})', size=13, weight="bold"),
-                _text(1115, 658, "frozen class: participation increase + routing", size=13, weight="bold"),
-            ])
+            parts.append(
+                _text(1115, 628, f'culmen-only pooled RR = {float(decision["rate_ratio"]):.3f} (95% CI {float(ci95[0]):.3f}–{float(ci95[1]):.3f})', size=13)
+            )
+            if reach is not None:
+                r18 = reach["sensitivities"]["1.8"]["zero_inclusive"]
+                leg = r18["legitimate_nonrobbing"]
+                rob = r18["robbing"]
+                parts.append(
+                    _text(1115, 658, f'1.8× reach: legitimate RR {float(leg["rr"]):.3f}; robbery RR {float(rob["rr"]):.3f}', size=13, weight="bold")
+                )
         else:
             parts.append(_text(1115, 632, f'{int(site["positive_sites"])} / {int(site["eligible_sites"])} sites positive; {int(native["pair_site_n"]):,} pair-site units', size=13))
     else:
@@ -196,8 +204,8 @@ def build_svg(
         '<rect x="1090" y="700" width="700" height="180" rx="14" fill="#f7f7f7" stroke="#444" stroke-width="2"/>',
         _text(1115, 735, "Cross-network ecological readout", size=19, weight="bold"),
         _text(1115, 775, "Insects: increasing access constraint shifts cheating toward bypass/robbing.", size=15),
-        _text(1115, 810, "Birds: routing rises while resolved feeding visitation is also higher.", size=15),
-        _text(1115, 850, "The Ecuador pattern is participation increase + routing, not simple filtering.", size=15, weight="bold"),
+        _text(1115, 810, "Birds: mismatch increases robbery share across plant and within-bird grains.", size=15),
+        _text(1115, 850, "Effective-reach sensitivity: legitimate route filtered; robbery comparatively retained.", size=15, weight="bold"),
         _text(120, 908, "Sakhalkar: significant univariate association; correlated morphology prevents a unique tube-length claim.", size=12, fill="#555"),
         _text(120, 934, "Aubert/EPHI: observational all-site extension; missing piercing is recoded as legitimate/no from source metadata.", size=12, fill="#555"),
         _text(120, 960, "No raw species identifiers or individual interaction rows are emitted in the figure.", size=12),
@@ -213,7 +221,8 @@ def build_from_public_data() -> str:
     result = analyze_workbook(workbook, permutations=9999)
     aubert = json.loads(AUBERT_RESULT.read_text(encoding="utf-8")) if AUBERT_RESULT.exists() else None
     participation = json.loads(PARTICIPATION_RESULT.read_text(encoding="utf-8")) if PARTICIPATION_RESULT.exists() else None
-    return build_svg(points, result, aubert, participation)
+    reach = json.loads(REACH_RESULT.read_text(encoding="utf-8")) if REACH_RESULT.exists() else None
+    return build_svg(points, result, aubert, participation, reach)
 
 
 def main(argv: list[str] | None = None) -> int:
