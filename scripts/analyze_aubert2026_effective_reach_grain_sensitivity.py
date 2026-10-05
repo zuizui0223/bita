@@ -47,7 +47,7 @@ FIRST_OPEN_THRESHOLD = (
 )
 SEED = 20261005
 PERMUTATIONS = 9999
-REACH_MULTIPLIERS = (1.0, 4.0 / 3.0, 2.0)
+REACH_MULTIPLIERS = (1.0, 4.0 / 3.0, 1.8, 2.0)
 PROXIMITY_MARGIN = math.log(1.25)
 
 
@@ -280,6 +280,12 @@ def analyze_tables(
         "analysis_timing": "POST_OPEN_SENSITIVITY",
         "status": "FIT",
         "reach_multipliers": list(REACH_MULTIPLIERS),
+        "multiplier_timing": {
+            "1": "INITIAL_FROZEN_SET",
+            "1.33333333333": "INITIAL_FROZEN_SET",
+            "1.8": "POST_OPEN_LITERATURE_ANCHORED_EXTENSION",
+            "2": "INITIAL_FROZEN_SET",
+        },
         "taxonomic_scope": (
             "Trochilidae only for reach sensitivity; Diglossa excluded because "
             "a hummingbird tongue multiplier is not biologically transferable."
@@ -289,6 +295,12 @@ def analyze_tables(
                 "Vizentin-Bugoni, Maruyama & Sazima 2014, Proc R Soc B, "
                 "doi:10.1098/rspb.2013.2397; pragmatic correction when "
                 "species-specific tongue lengths were unavailable."
+            ),
+            "1.8": (
+                "Vizentin-Bugoni et al. 2016, Journal of Animal Ecology, "
+                "doi:10.1111/1365-2656.12459; primary network correction adds "
+                "80% of bill length for tongue extension. Recovered after the "
+                "initial sensitivity result was opened."
             ),
             "2": (
                 "Grant & Temeles 1992, PNAS, doi:10.1073/pnas.89.20.9400; "
