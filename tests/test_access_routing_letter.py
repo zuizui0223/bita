@@ -74,9 +74,9 @@ def test_letter_keeps_causal_and_replication_boundaries() -> None:
 def test_letter_weights_ecuador_primary_and_insects_as_corroboration() -> None:
     text = LETTER.read_text(encoding="utf-8")
     abstract = text.split("## Abstract", 1)[1].split("## Introduction", 1)[0]
-    assert "in an all-Ecuador bird–flower network" in abstract
+    assert "In an Ecuadorian bird–flower network" in abstract
     assert "independent insect network" in abstract
-    assert abstract.index("259 Ecuadorian plant species") < abstract.index("57 plant species")
+    assert abstract.index("259 plant species") < abstract.index("57 plant species")
 
     assert "### Primary Ecuadorian test" in text
     assert "### Independent insect corroboration" in text
@@ -128,10 +128,10 @@ def test_letter_states_decisive_relative_route_cost_falsification() -> None:
 def test_letter_separates_case_directional_recurrence_from_standardized_k() -> None:
     text = LETTER.read_text(encoding="utf-8")
     assert "A third independent multispecies bird–flower dataset" in text
-    assert "Case et al. (2026)" in text
+    assert "Case et al. 2026" in text
     assert "11 plant and seven bird species" in text
     assert "directional corroboration rather than a third standardized network contribution" in text
-    assert "standardized replication count remain \\(k=2\\)" in text
+    assert "standardized replication count remains \\(k=2\\)" in text
 
 
 @pytest.mark.prose_contract
@@ -170,5 +170,5 @@ def test_letter_states_novelty_boundary_against_source_studies() -> None:
     assert "physiological-reach audit" not in lower
     assert "within consumer species" in lower
     assert "behavioral switching itself new" in lower
-    assert "lichtenberg et al. (2018)" in lower
+    assert "lichtenberg et al. 2018" in lower
     assert "the prediction has not been tested as a common standardized association" not in lower
