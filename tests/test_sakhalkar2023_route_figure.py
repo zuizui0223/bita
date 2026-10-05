@@ -90,6 +90,10 @@ def test_figure4_svg_contains_points_and_frozen_stats_without_species_ids() -> N
                 "zero_inclusive": {
                     "legitimate_nonrobbing": {"rr": 0.153716},
                     "robbing": {"rr": 0.816407},
+                    "robbing_rr_over_legitimate_rr": {
+                        "ratio": 5.311139,
+                        "ci95": [1.922555, 14.672246],
+                    },
                 }
             }
         }
@@ -107,6 +111,7 @@ def test_figure4_svg_contains_points_and_frozen_stats_without_species_ids() -> N
     assert "culmen-only pooled RR = 1.772" in svg
     assert "95% CI 1.105–2.841" in svg
     assert "1.8× reach: legitimate RR 0.154; robbery RR 0.816" in svg
+    assert "robbery / legitimate RR = 5.31 (95% CI 1.92–14.67)" in svg
     assert "legitimate route filtered; robbery comparatively retained" in svg
     assert "plant-level mismatch rho = 0.503" in svg
     assert "bird paired barrier: 36 species" in svg
