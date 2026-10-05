@@ -8,10 +8,10 @@ The build workflow generates an `artifacts/letter/data_archive/` directory conta
 
 - `sakhalkar_species_analysis.csv` — 57 anonymous plant-species analysis units used for the insect routing and multitrait analyses;
 - `aubert_ephi_pair_site_analysis.csv` — 2,265 anonymous bird × plant × site aggregation units under the metadata-informed missing-as-no rule, with anonymized plant- and bird-species cluster IDs; these reproduce both the 259-plant primary routing inference and the paired/continuous within-bird behavioral sensitivities;
-- `aubert_ephi_participation_opportunities.csv` — the zero-inclusive clean-waypoint × locally available bird opportunity table used to reproduce the frozen pooled participation rate ratio **and** the post-open robbing versus legitimate/non-robbing decomposition; it includes `primary_count`, `robbing_count` and `legitimate_count` with anonymized waypoint, plant, bird and site identifiers;
+- `aubert_ephi_participation_opportunities.csv` — the zero-inclusive clean-waypoint × locally available bird opportunity table used to reproduce the frozen pooled participation rate ratio, the post-open robbing versus legitimate/non-robbing decomposition, and the hummingbird functional-reach sensitivity; it includes `primary_count`, `robbing_count`, `legitimate_count` and anonymous `bird_group` (hummingbird/flowerpiercer) with anonymized waypoint, plant, bird and site identifiers;
 - `metadata.csv` — file/column descriptions and units;
 - `archive_manifest.json` — source DOIs, row counts and identifier policy;
-- `archive_reproduction.json` — statistics regenerated using only the archived analysis tables, including the pooled participation result, route-specific RRs, the preregistered threshold fit and the post-open bootstrap boundary-mass audit;
+- `archive_reproduction.json` — statistics regenerated using only the archived analysis tables, including the pooled participation result, route-specific RRs, the preregistered threshold fit, the post-open bootstrap boundary-mass audit, and the 4/3× and 1.8× hummingbird reach sensitivities;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv` — the 24-program bounded direct geometry → robbery supporting corpus;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv` — included, duplicate and excluded Stage-U update candidates with explicit reasons;
 - `supporting_literature/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv` — complete 56-label historical geometry screen;
@@ -29,6 +29,7 @@ The submission archive must also include the exact code used to export and repro
 - `scripts/analyze_aubert2026_route_specific_participation_postopen.py`
 - `scripts/analyze_aubert2026_routing_threshold.py`
 - `scripts/audit_aubert2026_threshold_bootstrap_boundary.py`
+- `scripts/analyze_aubert2026_effective_reach_grain_sensitivity.py`
 - `scripts/summarize_direct_access_geometry_corpus.py`
 - `scripts/validate_direct_access_geometry_stage_u.py`
 - `scripts/validate_direct_access_geometry_formal_frame.py`
@@ -36,6 +37,7 @@ The submission archive must also include the exact code used to export and repro
 - the imported BITA analysis modules required by those scripts;
 - frozen aggregate JSON outputs used in the manuscript, including the first-open participation and threshold results with their freeze/receipt files;
 - `diagnostic_receipts/AUBERT2026_POSTOPEN_DIAGNOSTICS_RECEIPT_V1.json`, preserving workflow/artifact provenance and hashes for the post-open route split and bootstrap boundary audit;
+- `analysis_contracts/AUBERT2026_EFFECTIVE_REACH_GRAIN_SENSITIVITY_FREEZE_V1.md` and `diagnostic_receipts/aubert2026_effective_reach_grain_sensitivity_v1.json`, preserving the timing boundary and V4-archive recomputation of the reach analysis;
 - this README.
 
 ## Supporting direct-evidence boundary
@@ -62,7 +64,7 @@ Underlying public data remain attributed to their original repositories:
 - Sakhalkar et al. 2023: Zenodo DOI `10.5281/zenodo.8398202`
 - EPHI Ecuador mirror: Zenodo DOI `10.5281/zenodo.14185547`
 
-The archive does not silently republish source species identifiers. It contains the exact analysis-ready units needed to reproduce the reported statistics. EPHI waypoint, site, plant-species and bird-species labels are deterministically relabelled so the primary routing analysis, within-bird sensitivities and zero-inclusive participation model can be reproduced without exposing source taxon names.
+The archive does not silently republish source species identifiers. It contains the exact analysis-ready units needed to reproduce the reported statistics. EPHI waypoint, site, plant-species and bird-species labels are deterministically relabelled; only the coarse hummingbird/flowerpiercer grouping is retained because the functional-reach sensitivity is restricted to Trochilidae.
 
 ## Reproduction
 
@@ -76,7 +78,7 @@ PYTHONPATH=code python code/scripts/reproduce_access_routing_archive.py \
 
 This command uses only the deposited analysis tables and deposited code; it does not redownload the source datasets.
 
-The workflow verifies that the regenerated headline values agree with the committed frozen first-open results and the retained post-open diagnostic receipt. In particular, the archive-only rerun must recover legitimate/non-robbing RR 1.8826427304, robbery-only RR 0.4626674087, and 585/999 bootstrap fits at the upper threshold search boundary.
+The workflow verifies that the regenerated headline values agree with the committed frozen first-open results and retained post-open receipts. In particular, the archive-only rerun must recover legitimate/non-robbing RR 1.8826427304 and robbery-only RR 0.4626674087 under the source-defined culmen threshold, 585/999 bootstrap fits at the upper threshold search boundary, and the reach-corrected filtering results reported in the Letter (4/3×: pooled RR 0.435 and legitimate RR 0.354; 1.8×: pooled RR 0.229 and legitimate RR 0.154).
 
 ## Deposit-ready package
 
