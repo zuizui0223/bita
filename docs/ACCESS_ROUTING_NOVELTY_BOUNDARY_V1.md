@@ -28,26 +28,30 @@ invent tactic switching or relative route-cost reasoning.
 The manuscript separates quantities that prior trait–robbery associations do not by
 themselves identify:
 
-1. **Route composition versus interaction occurrence.** The zero-inclusive Ecuador
-   analysis asks whether a barrier filters resolved feeding visits out or changes
-   the route mix while legitimate feeding persists.
-2. **Relational versus consumer-fixed routing.** Within-bird analyses ask whether
-   route use changes with the bird–flower relation rather than only because some
-   bird species are intrinsically more robbery-prone.
-3. **A common route-scale comparison across faunas.** Bird and insect networks are
+1. **Robust relational routing.** Continuous bird–flower mismatch predicts robbery
+   across plants and within bird species, and fixed hummingbird reach multipliers do
+   not change that rank-based routing signal.
+2. **Functional reach versus raw trait equality.** The source-defined
+   `tube > culmen` classifier suggests preserved feeding, whereas published
+   hummingbird tongue-extension corrections reveal strong filtering of pooled and
+   legitimate feeding. Raw bill–tube equality is therefore not treated as a
+   self-evident physical barrier.
+3. **Route composition versus interaction occurrence.** The two margins can respond
+   differently: robbery share rises with mismatch even when absolute robbery counts
+   do not detectably increase, because legitimate feeding can be suppressed.
+4. **A common route-scale comparison across faunas.** Bird and insect networks are
    mapped to one plant-level rank association between access constraint and bypass
    propensity, with equal network weight.
-4. **Trait-gradient boundary synthesis.** Existing foraging theory already motivates
-   relative handling costs. Here that logic is used to organize the sign of
-   geometry–routing associations across null, positive and opposite systems, rather
-   than to claim a new foraging principle or a universal “longer flower = more
-   robbery” law.
+5. **Trait-gradient boundary synthesis.** Existing foraging theory motivates
+   relative handling costs; null and opposite systems are retained as boundary
+   conditions rather than forced into a universal “longer flower = more robbery”
+   law.
 
 ## Claim ceiling
 
 - The standardized network replication count is still **k = 2**.
 - The analyses are observational; geometry is not randomized.
-- The route-specific robbing/legitimate split is explicitly post-open.
+- The route-specific robbing/legitimate split and functional-reach analysis are explicitly post-open; the 80% multiplier was added only after the initial reach sensitivity was opened and a deeper literature audit identified it as a published primary network correction.
 - The 33-program direct-study frame is a finite directional frame, not a prevalence
   estimate or pooled meta-analysis.
 - The causal factorial test of legitimate-route versus bypass-route cost remains
@@ -55,7 +59,8 @@ themselves identify:
 
 ## Ecology Letters positioning rule
 
-The manuscript should be presented as a test of **filtering versus interaction
-routing**, not as a first discovery of mismatch-associated nectar robbery. Any
-future abstract, cover letter, title or Discussion revision must preserve that
-boundary.
+The manuscript should be presented as evidence that **relational mismatch robustly
+predicts interaction routing, while filtering depends on functional access rather
+than raw trait equality**. It must not be sold as a first discovery of
+mismatch-associated nectar robbery, as “routing without filtering,” or as
+identification of a universal hummingbird reach threshold.

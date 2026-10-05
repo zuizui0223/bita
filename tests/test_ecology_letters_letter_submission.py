@@ -63,29 +63,19 @@ def test_letter_submission_source_excludes_internal_workflow_language() -> None:
     lower = letter.lower()
     assert "ecology letters letter candidate v0" not in lower
     assert "our ci environment" not in lower
-    assert "mechanistic corroboration from floral-defence systems" not in lower
-    assert "floral-defence evidence as mechanistic context" in lower
-    assert "not as an independent validation dataset" in lower
-    assert "88 species from four communities" in lower
-    assert "provide biological context rather than additional standardized network replicates" in lower
-    assert "coetzee et al. 2026" in lower
+    assert "floral-defence cases provide mechanistic context, not independent validation" in lower
     assert "relative route cost" in lower
-    assert "cost of legitimate entry more than the cost of bypass" in lower
     assert "longer flower = more robbery" in lower
-    assert "frozen openalex frame contained 857 unique bibliographic records" in lower
-    assert "33 independent study programs" in lower
-    assert "twenty-two showed the predicted direction" in lower
-    assert "five were null" in lower
-    assert "four were opposite" in lower
-    assert "two were mixed" in lower
-    assert "finite provider-defined frame" in lower
-    assert "not an estimate of natural prevalence" in lower
-    assert "bounded direct-evidence corpus contained 24 study programs" not in lower
-    assert "standardized replication count is therefore still only two networks" in lower
-    assert "access barriers do not filter legitimate feeding visits" in lower
+    assert "frozen openalex frame contained 857 unique records" in lower
+    assert "33 eligible direct study programs" in lower
+    assert "22 positive, five null, four opposite and two mixed" in lower
+    assert "without a prevalence estimate, sign test or pooled effect" in lower
+    assert "standardized replication count remains \\(k=2\\)" in lower
+    assert "functional reach reverses the participation inference" in lower
     assert "rate ratio 1.772" in lower
-    assert "95% plant-jackknife ci 1.105–2.841" in lower
-    assert "participation increase plus routing" in lower
+    assert "80% tongue-extension correction" in lower
+    assert "pooled feeding rate ratio 0.229" in lower
+    assert "legitimate/non-robbing rate ratio 0.154" in lower
 
 
 def test_letter_submission_remains_fail_closed_until_archive_doi_and_author_metadata() -> None:
@@ -130,7 +120,10 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
         "scripts/analyze_aubert2026_route_specific_participation_postopen.py",
         "scripts/analyze_aubert2026_routing_threshold.py",
         "scripts/audit_aubert2026_threshold_bootstrap_boundary.py",
+        "scripts/analyze_aubert2026_effective_reach_grain_sensitivity.py",
         "AUBERT2026_POSTOPEN_DIAGNOSTICS_RECEIPT_V1.json",
+        "AUBERT2026_EFFECTIVE_REACH_GRAIN_SENSITIVITY_FREEZE_V1.md",
+        "aubert2026_effective_reach_grain_sensitivity_v1.json",
         "585/999 bootstrap fits",
         "10.5281/zenodo.8398202",
         "10.5281/zenodo.14185547",
@@ -184,13 +177,11 @@ def test_cover_letter_matches_current_evidence_hierarchy() -> None:
     assert "third independent multispecies hawaiian bird–lobelioid dataset" in lower
     assert "directional corroboration" in lower
     assert "33 independent direct programs" in lower
-    assert "22 positive" in lower
-    assert "five null" in lower
-    assert "four opposite" in lower
-    assert "two mixed" in lower
-    assert "success-rate or prevalence argument" in lower
     assert "rate ratio 1.772" in lower
-    assert "participation increase plus routing" in lower
+    assert "80% tongue-extension correction" in lower
+    assert "pooled feeding 0.229" in lower
+    assert "legitimate feeding 0.154" in lower
+    assert "filtering inference is not" in lower
 
 
 @pytest.mark.prose_contract
@@ -201,7 +192,7 @@ def test_letter_reports_threshold_result_as_boundary_not_headline() -> None:
     assert "original 90% percentile interval (0.118–0.920)" in text
     assert "585 of 999 finite bootstrap fits (58.6%)" in text
     assert "no interior upper turnover was supported" in text
-    assert "better supported as graded across the sampled mismatch range" in text
+    assert "routing response remained graded rather than localized at trait equality" in text
 
 
 def test_archive_reproduction_contract_covers_postopen_letter_results() -> None:
@@ -211,12 +202,15 @@ def test_archive_reproduction_contract_covers_postopen_letter_results() -> None:
 
     assert '"robbing_count"' in exporter
     assert '"legitimate_count"' in exporter
-    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V4" in exporter
+    assert '"bird_group"' in exporter
+    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V5" in exporter
 
     assert '"postopen_route_specific"' in reproducer
     assert '"aubert_ephi_threshold"' in reproducer
     assert "boundary_stickiness" in reproducer
-    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V4" in reproducer
+    assert '"aubert_ephi_effective_reach"' in reproducer
+    assert "_reach_summary" in reproducer
+    assert "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_REPRODUCTION_V5" in reproducer
 
     assert receipt.is_file()
     text = receipt.read_text(encoding="utf-8")
@@ -224,3 +218,18 @@ def test_archive_reproduction_contract_covers_postopen_letter_results() -> None:
     assert "1.8826427304381232" in text
     assert '"upper_boundary_replicates": 585' in text
     assert '"source_workflow_run_id": 37128140620' in text
+
+    reach_receipt = (
+        ROOT
+        / "empirical"
+        / "floral_defence_selectivity"
+        / "results"
+        / "aubert2026_effective_reach_grain_sensitivity_v1.json"
+    )
+    assert reach_receipt.is_file()
+    reach_text = reach_receipt.read_text(encoding="utf-8")
+    assert "0.22865639407019936" in reach_text
+    assert "0.15371602990346264" in reach_text
+    assert "0.43499782193808995" in reach_text
+    assert "0.35373752302117567" in reach_text
+    assert "POSTOPEN_LITERATURE_ANCHORED_EXTENSION" in reach_text
