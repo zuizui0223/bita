@@ -135,7 +135,7 @@ def _route_ratio_jackknife(robbing: list[Edge], legitimate: list[Edge]) -> dict[
     }
 
 
-def reproduce_reach(input_dir: Path, *, permutations: int = 9999) -> dict[str, object]:
+def reproduce_reach(\n    input_dir: Path,\n    *,\n    permutations: int = 9999,\n    full_jackknife: bool = False,\n) -> dict[str, object]:
     pair_rows = _load_pair_rows(input_dir)
     participation = _load_participation(input_dir)
     if not pair_rows or not participation["primary"]:
@@ -170,7 +170,7 @@ def reproduce_reach(input_dir: Path, *, permutations: int = 9999) -> dict[str, o
             "barrier_edges": sum(edge.barrier == 1 for edge in primary),
             "accessible_edges": sum(edge.barrier == 0 for edge in primary),
         }
-        if math.isclose(multiplier, JACKKNIFE_MULTIPLIER):
+        if full_jackknife and math.isclose(multiplier, JACKKNIFE_MULTIPLIER):
             entry["jackknife"] = {
                 "pooled": _jackknife_summary(primary),
                 "legitimate": _jackknife_summary(legitimate),
@@ -184,6 +184,7 @@ def reproduce_reach(input_dir: Path, *, permutations: int = 9999) -> dict[str, o
         "analysis_timing": "POST_OPEN_MECHANISM_SENSITIVITY",
         "hummingbird_pair_site_rows": len(pair_rows),
         "hummingbird_opportunity_edges": len(participation["primary"]),
+        "full_jackknife_recomputed": full_jackknife,
         "sensitivities": out,
         "claim_boundary": (
             "Fixed literature-motivated reach multipliers; not measured species-specific tongue lengths. "
