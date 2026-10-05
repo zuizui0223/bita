@@ -1,0 +1,68 @@
+name: Aubert hummingbird reach sensitivity
+
+on:
+  pull_request:
+    paths:
+      - "empirical/floral_defence_selectivity/HUMMINGBIRD_EFFECTIVE_REACH_SENSITIVITY_FREEZE_V1.md"
+      - "scripts/analyze_aubert2026_hummingbird_reach_sensitivity.py"
+      - "tests/test_aubert2026_hummingbird_reach_sensitivity.py"
+      - ".github/workflows/aubert-hummingbird-reach-sensitivity.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and tests
+        run: python -m pip install -e '.[dev]'
+
+      - name: Verify frozen sensitivity code
+        run: pytest -q tests/test_aubert2026_hummingbird_reach_sensitivity.py
+
+      - name: Open hummingbird effective-reach sensitivity once
+        run: |
+          python scripts/analyze_aubert2026_hummingbird_reach_sensitivity.py \
+            artifacts/aubert2026_hummingbird_reach_sensitivity.json
+
+      - name: Print compact scientific readout
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = Path("artifacts/aubert2026_hummingbird_reach_sensitivity.json")
+          d = json.loads(p.read_text())
+          print("hummingbird_only", d["hummingbird_only"])
+          for key, x in d["sensitivities"].items():
+              z = x["zero_inclusive_participation"]
+              p1 = x["plant_route_composition"]
+              th = x["threshold_translation"]
+              print(
+                  "k=", key,
+                  "barrier_edges=", z["barrier_edges"],
+                  "plant_rho=", p1["rho"].get("rho"),
+                  "plant_paired=", p1["paired_barrier_contrast"].get("mean_cluster_difference"),
+                  "pooled_RR=", z["pooled_resolved_feeding"].get("rate_ratio"),
+                  "legit_RR=", z["legitimate_nonrobbing"].get("rate_ratio"),
+                  "rob_RR=", z["robbing"].get("rate_ratio"),
+                  "rob_over_legit=", z["robbing_rr_over_legitimate_rr"],
+                  "translated_xstar=", th["translated_xstar"],
+                  "reach_ratio_xstar=", th["effective_reach_ratio_at_midpoint"],
+              )
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aubert-hummingbird-effective-reach-sensitivity
+          path: artifacts/aubert2026_hummingbird_reach_sensitivity.json
+          if-no-files-found: error
