@@ -1,0 +1,163 @@
+{
+  "receipt": "BITA_AUBERT2026_EFFECTIVE_REACH_GRAIN_SENSITIVITY_V1",
+  "status": "POST_OPEN_ARCHIVE_RECOMPUTATION",
+  "source_archive": {
+    "workflow_run_id": 37176584268,
+    "artifact_id": 11293379572,
+    "artifact_name": "access-routing-letter-package",
+    "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V4"
+  },
+  "taxonomic_scope": "Trochilidae only; flowerpiercer bird_018 excluded from reach multipliers",
+  "timing": {
+    "1": "SOURCE_DEFINED_BASELINE",
+    "2": "INITIAL_POSTOPEN_FROZEN_MAX_REACH_STRESS",
+    "1.3333333333333333": "INITIAL_POSTOPEN_FROZEN_SENSITIVITY",
+    "1.8": "POSTOPEN_LITERATURE_ANCHORED_EXTENSION"
+  },
+  "p1_hummingbird_only": {
+    "continuous_rho": 0.5029079310045256,
+    "multiplier_invariant": true,
+    "binary": {
+      "1": {
+        "eligible_plants": 130,
+        "mean_barrier_minus_accessible_robbery": 0.09145033949615831,
+        "permutation_p": 0.0001
+      },
+      "2": {
+        "eligible_plants": 98,
+        "mean_barrier_minus_accessible_robbery": 0.27251277387821166,
+        "permutation_p": 0.0001
+      },
+      "1.3333333333333333": {
+        "eligible_plants": 129,
+        "mean_barrier_minus_accessible_robbery": 0.19124243411311442,
+        "permutation_p": 0.0001
+      },
+      "1.8": {
+        "eligible_plants": 105,
+        "mean_barrier_minus_accessible_robbery": 0.2586576066307524,
+        "permutation_p": 0.0001
+      }
+    }
+  },
+  "p2_hummingbird_only": {
+    "1": {
+      "barrier_fraction": 0.5721248053057328,
+      "pooled": {
+        "rr": 1.7714887307524367,
+        "ci95": [
+          1.1049042391908745,
+          2.8402210905453438
+        ]
+      },
+      "legitimate": {
+        "rr": 1.8825147795742707,
+        "ci95": [
+          1.1111302540267816,
+          3.1894207564526877
+        ]
+      },
+      "robbing": {
+        "rr": 0.46266740876813595,
+        "ci95": [
+          0.1465359456825415,
+          1.4608097019414463
+        ]
+      }
+    },
+    "2": {
+      "barrier_fraction": 0.20509470934030047,
+      "pooled": {
+        "rr": 0.1739980781766477,
+        "ci95": [
+          0.12029211778777175,
+          0.25168175409947297
+        ]
+      },
+      "legitimate": {
+        "rr": 0.10038081346134377,
+        "ci95": [
+          0.06519864103519399,
+          0.15454781803997944
+        ]
+      },
+      "robbing": {
+        "rr": 1.3928713985821701,
+        "ci95": [
+          0.7295066709049,
+          2.659455780687665
+        ]
+      }
+    },
+    "1.3333333333333333": {
+      "barrier_fraction": 0.4132040395920213,
+      "pooled": {
+        "rr": 0.43499782193808995,
+        "ci95": [
+          0.25520826464921575,
+          0.7414458358195011
+        ]
+      },
+      "legitimate": {
+        "rr": 0.35373752302117567,
+        "ci95": [
+          0.1969349792050141,
+          0.6353885718945499
+        ]
+      },
+      "robbing": {
+        "rr": 0.8511618632506165,
+        "ci95": [
+          0.32827408461644725,
+          2.2069257105651015
+        ]
+      }
+    },
+    "1.8": {
+      "barrier_fraction": 0.2579008189720143,
+      "pooled": {
+        "rr": 0.22865639407019936,
+        "ci95": [
+          0.14725967720103064,
+          0.35504455491785075
+        ]
+      },
+      "legitimate": {
+        "rr": 0.15371602990346264,
+        "ci95": [
+          0.08720301883727676,
+          0.27096100759279756
+        ]
+      },
+      "robbing": {
+        "rr": 0.8164071389168566,
+        "ci95": [
+          0.35891135834450794,
+          1.8570619206612988
+        ]
+      }
+    }
+  },
+  "threshold_translation": {
+    "2": {
+      "translated_xstar": 0.22659516226459198,
+      "translated_ci90": [
+        -0.5754618114698815,
+        0.22659516226459198
+      ],
+      "tube_over_effective_reach_at_xstar": 1.2543219682736322
+    },
+    "invariant_class": "THRESHOLD_AT_SUPPORT_BOUNDARY",
+    "note": "A fixed reach multiplier translates mismatch, midpoint and support by the same -log(k); it cannot make the fitted midpoint interior.",
+    "1.8": {
+      "translated_xstar": 0.3319556779224182,
+      "translated_ci90": [
+        -0.4701012958120553,
+        0.3319556779224182
+      ],
+      "tube_over_effective_reach_at_xstar": 1.3936910758595913
+    }
+  },
+  "interpretation": "Continuous routing is invariant to constant reach scaling, but the zero-inclusive filtering conclusion reverses under literature-grounded hummingbird reach corrections. The culmen-only no-filtering claim is not robust.",
+  "claim_boundary": "Post-open sensitivity; fixed multipliers are not species-specific tongue allometries and do not identify a universal causal access threshold."
+}
