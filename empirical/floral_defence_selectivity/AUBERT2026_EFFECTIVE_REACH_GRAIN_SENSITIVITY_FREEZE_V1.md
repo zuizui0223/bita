@@ -125,3 +125,18 @@ It cannot, by itself:
 - override the original frozen culmen-based estimands.
 
 All results are retained regardless of direction.
+
+
+## Post-freeze literature audit and additional reported multiplier
+
+The initial frozen sensitivity above specified `k = 1`, `4/3` and `2` before its
+real-data result was opened. After that opening, a deeper source audit recovered a
+more directly relevant published network convention: Vizentin-Bugoni et al. (2016,
+*Journal of Animal Ecology*, doi:10.1111/1365-2656.12459) used **bill + 80% of bill
+length** (`k = 1.8`) as its primary tongue-extension correction, based on
+*Selasphorus rufus* measurements, and reported the one-third correction as an
+alternative sensitivity.
+
+Accordingly, `k = 1.8` is added as a **POST_OPEN_LITERATURE_ANCHORED_EXTENSION**.
+It is not retroactively part of the frozen multiplier set. Its result must be
+reported with that timing distinction.
