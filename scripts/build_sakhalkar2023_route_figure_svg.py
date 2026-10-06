@@ -100,8 +100,8 @@ def build_svg(
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
         '<rect width="100%" height="100%" fill="white"/>',
-        _text(920, 42, "Figure 4. Access geometry predicts exploitation route in two independent networks", size=28, anchor="middle", weight="bold"),
-        _text(920, 76, "Afrotropical insect cheating modes + Ecuadorian bird–flower access barriers", size=17, anchor="middle"),
+        _text(920, 42, "Figure 4. Access mismatch changes route composition and route-specific participation", size=28, anchor="middle", weight="bold"),
+        _text(920, 76, "Afrotropical insect routing + Ecuadorian bird robbery-share and route-rate decomposition", size=17, anchor="middle"),
         _text(120, 120, "A  Sakhalkar 2023 — plant-level robbing versus thieving", size=20, weight="bold"),
         f'<rect x="{plot_x0}" y="{plot_y0}" width="{plot_x1-plot_x0}" height="{plot_y1-plot_y0}" fill="#fafafa" stroke="#222" stroke-width="2"/>',
     ]
@@ -205,10 +205,10 @@ def build_svg(
 
     parts.extend([
         '<rect x="1090" y="700" width="700" height="180" rx="14" fill="#f7f7f7" stroke="#444" stroke-width="2"/>',
-        _text(1115, 735, "Cross-network ecological readout", size=19, weight="bold"),
+        _text(1115, 735, "Composition versus route-specific participation", size=19, weight="bold"),
         _text(1115, 775, "Insects: increasing access constraint shifts cheating toward bypass/robbing.", size=15),
         _text(1115, 810, "Birds: mismatch increases robbery share across plant and within-bird grains.", size=15),
-        _text(1115, 850, "Effective-reach sensitivity: legitimate route filtered; robbery comparatively retained.", size=15, weight="bold"),
+        _text(1115, 850, "1.8× reach: legitimate feeding declines; robbery shows no detectable increase.", size=15, weight="bold"),
         _text(120, 908, "Sakhalkar: significant univariate association; correlated morphology prevents a unique tube-length claim.", size=12, fill="#555"),
         _text(120, 934, "Aubert/EPHI: observational all-site extension; missing piercing is recoded as legitimate/no from source metadata.", size=12, fill="#555"),
         _text(120, 960, "No raw species identifiers or individual interaction rows are emitted in the figure.", size=12),
