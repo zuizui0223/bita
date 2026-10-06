@@ -1,8 +1,8 @@
-# Access constraints predict interaction routing across bird and insect visitor networks
+# Higher nectar robbery prevalence under access mismatch need not reflect higher robbery rates
 
 **Article type:** Letter
 
-**Running title:** Access constraints predict routing
+**Running title:** Robbery prevalence and frequency
 
 **Keywords:** access constraint; interaction routing; nectar robbing; trait matching; floral ecology; mutualism; antagonism; network ecology
 
@@ -30,8 +30,8 @@
 
 ~~~text
 abstract words: 120
-main-text words: 4,321
-references: 24
+main-text words: 4,402
+references: 26
 figures: 3
 tables: 0
 text boxes: 0

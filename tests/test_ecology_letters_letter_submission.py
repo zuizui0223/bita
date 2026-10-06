@@ -36,8 +36,8 @@ def test_letter_title_page_matches_current_manuscript_counts() -> None:
     title = TITLE_PAGE.read_text(encoding="utf-8")
 
     assert "Article type:** Letter" in title
-    assert "Access constraints predict interaction routing across bird and insect visitor networks" in title
-    assert len("Access constraints predict routing") < 45
+    assert "Higher nectar robbery prevalence under access mismatch need not reflect higher robbery rates" in title
+    assert len("Robbery prevalence and frequency") < 45
 
     abstract_words = len(_words(_abstract(letter)))
     main_words = len(_words(_main_text(letter)))

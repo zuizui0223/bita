@@ -2,7 +2,7 @@
 
 BITA's **primary submission paper** is now the Ecology Letters Letter:
 
-> **Access constraints predict interaction routing across bird and insect visitor networks**
+> **Higher nectar robbery prevalence under access mismatch need not reflect higher robbery rates**
 
 The broader floral-defence selectivity Synthesis remains preserved as the extended BITA evidence package and fallback manuscript architecture.
 
@@ -10,7 +10,7 @@ The mechanism-identification result `trait interaction != ecological mechanism` 
 
 ## Current submission thesis
 
-> **Access constraints can reorganize ecological interactions by shifting exploitation from legitimate access toward bypass routes rather than simply eliminating use.**
+> **Higher nectar-robbery prevalence under access mismatch can arise through selective loss of legitimate feeding without a detectable increase in robbery itself.**
 
 The primary quantitative test is the all-Ecuador bird–flower network. Source metadata indicates unspecified piercing values are most probably legitimate interactions, so the primary analysis recodes missing piercing as non-robbing and treats plant species as the inferential unit:
 
