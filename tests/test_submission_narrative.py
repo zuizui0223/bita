@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_readme_declares_active_access_routing_letter_story() -> None:
     text = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "primary submission paper" in text
-    assert "Access constraints predict interaction routing" in text
+    assert "Higher nectar robbery prevalence under access mismatch" in text
     assert "PRIMARY:" not in text
     assert "259 plant species aggregated from 2,265 pair-site units" in text
     assert "57 plant species" in text
