@@ -43,17 +43,18 @@ The joint statistic tests recurrence across these two networks only. It does not
 ## Novelty boundary
 
 The Letter does **not** claim first discovery of a flower-trait mismatch–robbery
-association, behavioral switching between legitimate and robbing tactics,
-relative handling-cost explanations of tactic choice, trait-mediated forbidden
-links, alternative interaction modes, or ecological-network rewiring. Aubert et al. establish the
-bird trait-barrier association, Sakhalkar et al. establish floral-trait partitioning
-of robbing versus thieving, and Bronstein/Lichtenberg already establish the
-alternative-tactic framing and species-pair-dependent relative efficiencies. The
-manuscript-facing novelty is the **network-scale separation of route composition
-from zero-inclusive participation**, the **within-consumer relational** test, and a
-common cross-fauna routing estimand; relative route cost is used only to organize
-sign boundaries across systems. The complete guard is
-`docs/ACCESS_ROUTING_NOVELTY_BOUNDARY_V1.md`.
+association, separate measurement of legitimate and robbing visitation rates,
+behavioral switching between legitimate and robbing tactics, relative handling-cost
+explanations, trait-mediated forbidden links, alternative interaction modes, or
+ecological-network rewiring. Those components are established. The manuscript-facing
+novelty is narrower: in a network where mismatch already predicts robbery prevalence,
+it uses zero-inclusive route-specific rates to distinguish **more robbery** from
+**selective loss of legitimate interaction**. Under the literature-based 1.8× reach
+sensitivity, legitimate feeding is strongly reduced while robbery itself shows no
+detectable increase, so robbery becomes more prevalent relative to legitimate feeding
+without requiring more robbery events. The within-consumer relational test and
+independent insect routing result remain secondary layers of support. The complete
+guard is `docs/ACCESS_ROUTING_NOVELTY_BOUNDARY_V1.md`.
 
 ## Participation, reach sensitivity and routing shape
 
