@@ -35,9 +35,13 @@ def test_letter_figure3_uses_frozen_joint_result() -> None:
     assert "0.503" in svg
     assert "0.428" in svg
     assert "p = 0.0001" in svg
-    assert "17 D-side study programs" in svg
-    assert "context, not validation" in svg
-    assert "8 within-D switching systems" in svg
+    assert "What direct geometry studies can identify" in svg
+    assert "Frozen 33-program direct frame" in svg
+    assert "7  zero-inclusive both-route rates" in svg
+    assert "18  robbery-prevalence only" in svg
+    assert "6  conditional route choice" in svg
+    assert "1 + 1  other non-strict designs" in svg
+    assert "Post-hoc finite-frame design audit" in svg
 
 
 def test_letter_figure3_keeps_equal_network_language() -> None:
