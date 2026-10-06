@@ -10,7 +10,7 @@ The mechanism-identification result `trait interaction != ecological mechanism` 
 
 ## Current submission thesis
 
-> **Access constraints can reorganize ecological interactions by shifting exploitation from legitimate access toward bypass routes rather than simply eliminating use.**
+> **Higher nectar-robbery prevalence under access mismatch can arise through selective loss of legitimate feeding without a detectable increase in robbery itself.**
 
 The primary quantitative test is the all-Ecuador bird–flower network. Source metadata indicates unspecified piercing values are most probably legitimate interactions, so the primary analysis recodes missing piercing as non-robbing and treats plant species as the inferential unit:
 
