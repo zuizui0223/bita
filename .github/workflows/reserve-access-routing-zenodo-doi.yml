@@ -10,6 +10,7 @@ on:
       - ".github/workflows/reserve-access-routing-zenodo-doi.yml"
   workflow_dispatch:
 
+# Safe credential re-probe: no publish step; contents stay read-only.
 permissions:
   contents: read
 
