@@ -182,3 +182,5 @@ def test_letter_positions_route_result_beyond_forbidden_links_and_rewiring() -> 
     assert "rewiring is now treated as a central property" in text
     assert "link participation from interaction mode within realized consumer–resource relationships" in text
     assert "finer-grained than ordinary link gain or loss" in text
+    assert "within-link mode redistribution" in text
+    assert "not temporal rewiring in the usual sense of partner turnover" in text
