@@ -168,11 +168,13 @@ def build_figure3(result: dict[str, object]) -> str:
         _text(1197, 684, "Fisher-z mean", size=15, anchor="middle"),
         _text(1197, 711, "equal network weight", size=15, anchor="middle"),
         _text(60, 795, "C", size=22, weight="bold"),
-        _text(100, 795, "Independent mechanistic corroboration", size=21, weight="bold"),
-        _text(120, 835, "17 D-side study programs", size=16, weight="bold"),
-        _text(535, 835, "matched-domain cases = context, not validation", size=15, weight="bold"),
-        _text(1035, 835, "8 within-D switching systems", size=16, weight="bold"),
-        _text(750, 880, "Joint network inference is primary; literature-based evidence supports interpretation and is not pooled into the network effect.", size=13, anchor="middle"),
+        _text(100, 795, "What direct geometry studies can identify", size=21, weight="bold"),
+        _text(120, 832, "Frozen 33-program direct frame", size=15, weight="bold"),
+        _text(120, 860, "7  zero-inclusive both-route rates", size=15, weight="bold"),
+        _text(455, 860, "18  robbery-prevalence only", size=15),
+        _text(785, 860, "6  conditional route choice", size=15),
+        _text(1110, 860, "1 + 1  other non-strict designs", size=15),
+        _text(750, 892, "Post-hoc finite-frame design audit; not literature prevalence and not an increment to network k.", size=13, anchor="middle"),
         "</svg>",
     ])
     return "\n".join(parts) + "\n"
