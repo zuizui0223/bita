@@ -172,3 +172,13 @@ def test_letter_states_novelty_boundary_against_source_studies() -> None:
     assert "behavioral switching itself new" in lower
     assert "lichtenberg et al. 2018" in lower
     assert "the prediction has not been tested as a common standardized association" not in lower
+
+
+@pytest.mark.prose_contract
+def test_letter_positions_route_result_beyond_forbidden_links_and_rewiring() -> None:
+    text = LETTER.read_text(encoding="utf-8").lower()
+    assert "trait-mediated forbidden links" in text
+    assert "alternative interaction modes" in text
+    assert "rewiring is now treated as a central property" in text
+    assert "link participation from interaction mode within realized consumer–resource relationships" in text
+    assert "finer-grained than ordinary link gain or loss" in text
