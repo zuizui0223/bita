@@ -209,6 +209,9 @@ def test_cover_letter_matches_current_evidence_hierarchy() -> None:
     assert "four opposite" in lower
     assert "two mixed" in lower
     assert "success-rate or prevalence argument" in lower
+    assert "only 7/33 programs met a strict zero-inclusive both-route-rate criterion" in lower
+    assert "not an estimate for the broader literature" in lower
+    assert "which absolute route changed" in lower
     assert "rr=0.154" in lower
     assert "0.087–0.271" in lower
     assert "retained relative to legitimate feeding by a factor of 5.31" in lower
