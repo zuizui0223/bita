@@ -164,10 +164,10 @@ def test_letter_states_novelty_boundary_against_source_studies() -> None:
     text = LETTER.read_text(encoding="utf-8")
     lower = text.lower()
     assert "the component associations are already known" in lower
-    assert "aubert et al. (2026) showed that nectar robbing" in lower
+    assert "aubert et al. (2026) showed that, among recorded bird–flower interactions" in lower
     assert "sakhalkar et al. (2023) found" in lower
     assert "studies have also measured legitimate and robbing visitation rates separately" in lower
-    assert "whether higher robbery prevalence reflects more robbery or differential persistence of the two routes" in lower
+    assert "a conditional probability of robbery among observed interactions cannot distinguish" in lower
     assert "behavioral switching is also established" in lower
     assert "lichtenberg et al. 2018" in lower
     assert "physiological-reach audit" not in lower
@@ -184,7 +184,7 @@ def test_letter_centers_prevalence_vs_route_frequency_not_rewiring_novelty() -> 
     assert "### higher robbery prevalence need not mean more robbery" in text
     assert "more prevalent robbery did not require more robbery" in text
     assert "existing forbidden-link, alternative-mode and rewiring theory" in text
-    assert "our contribution is to show, with zero-inclusive route-specific rates" in text
+    assert "our zero-inclusive opportunity model adds the missing no-interaction state" in text
     assert "composition should therefore not be interpreted as route frequency" in text
 
 
