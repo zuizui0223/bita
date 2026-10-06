@@ -148,22 +148,23 @@ joint:
   equal network weight
 ~~~
 
-### Panel C — mechanistic context
+### Panel C — what direct studies can identify
 
-Use only compact supporting information:
+Show the post-hoc design audit of the frozen 33-program direct frame:
 
 ~~~text
-17 D-side study programs
-10 same-defence pollinator follow-ups
-8 independent within-D switching systems
-matched-domain classifications = author-coded context, not validation
+7  strict zero-inclusive both-route rates
+18 robbery-prevalence-only
+6  conditional route choice
+1  both-route counts without verified common zero denominator
+1  other route-resolved but not both-route-rate identifiable
 ~~~
 
-Do not display 11/11 as a success fraction. The matched-domain layer has not yet undergone outcome-blind independent recoding and is not an inferential pillar of the Letter.
+Label this explicitly as a **post-hoc finite-frame design audit**, not a prevalence estimate for the broader literature and not an increment to standardized network \(k\).
 
 Main message:
 
-> the Ecuadorian network supplies the primary quantitative test, the insect network independently corroborates the routing direction, and source-audited defence cases supply mechanism context.
+> the Ecuadorian analysis addresses an estimand that most programs in the frozen direct frame do not identify: which absolute route changes under the observed prevalence shift.
 
 ## Supplementary figure routing
 
