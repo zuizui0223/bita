@@ -19,50 +19,16 @@ Our general prediction is not that mismatch must increase the absolute frequency
 
 ## Theory and predictions
 
-Let \(L\) denote the legitimate access route to a floral reward and \(B\) a bypass route. Let \(M\) represent mismatch between a consumer's access phenotype and the legitimate route. As mismatch increases, the utility or feasibility of the legitimate route declines,
-
-\[
-A_L(M)\downarrow,
-\]
-
-whereas bypass access can remain available,
-
-\[
-A_B>0.
-\]
-
-If exploiters can switch behavior, increasing \(M\) should therefore increase the relative use of \(B\). The exact functional form need not be common across taxa. The minimal prediction is ordinal:
-
-\[
-M \uparrow
-\quad\Rightarrow\quad
-\text{bypass propensity} \uparrow.
-\]
-
-More precisely, the relevant quantity is the **relative route cost**, not absolute
-flower size. Let \(C_L(x)\) and \(C_B(x)\) denote the costs of legitimate and
-bypass access under trait state \(x\). A simple route-choice model gives
+Let \(L\) denote legitimate access, \(B\) a bypass route and \(M\) consumer–resource mismatch. We predict greater relative use of \(B\) only when mismatch penalizes legitimate access more strongly than bypass. Writing their costs as \(C_L(x)\) and \(C_B(x)\),
 
 \[
 \operatorname{logit} P(B\mid x)
 =
 \alpha+\beta\{C_L(x)-C_B(x)\},
-\qquad \beta>0.
+\qquad \beta>0,
 \]
 
-Hence the sign of a geometry–robbery association is determined by
-
-\[
-\frac{dC_L}{dx}-\frac{dC_B}{dx}.
-\]
-
-Geometry should increase robbery when it penalizes legitimate access more strongly
-than bypass, have little routing effect when both routes are similarly constrained,
-and reduce robbery when bypass itself is disproportionately hardened.
-
-This prediction is compatible with the broader effective-exposure framework developed for floral defence selectivity. There, a selective window exists when the antagonist experiences a focal trait strongly enough to be suppressed before the legitimate visitor crosses its own interference threshold. Bypass is a boundary condition: if the antagonist does not traverse the defended domain, effective exposure to the focal defence falls even as exploitation persists.
-
-The network test focuses only on the route-switching consequence. It does not require the access constraint itself to have evolved as a defence, nor does it assume a shared physiological mechanism across insects and birds.
+so the sign of a geometry–robbery association depends on \(dC_L/dx-dC_B/dx\). Robbery should increase when legitimate-route cost rises faster, show little response when both routes are similarly constrained, and decrease when bypass is hardened more strongly. This relative-cost interpretation is compatible with effective-exposure theory but does not require floral geometry to have evolved as defence or the same physiology to operate in birds and insects.
 
 We test four predictions.
 
@@ -140,9 +106,9 @@ The permutation null acted on plant-species units in both datasets. In each netw
 
 ### Formal direct access-geometry literature frame
 
-We froze an outcome-blind OpenAlex frame for empirical studies that quantitatively related an independently measured access-geometry variable to route-resolved robbery/bypass. Eligibility was fixed before direction coding for new records; positive, null, mixed and opposite results used the same rule. Eight predefined query families produced 1,699 rows and 857 deduplicated records. The frame recovered 23 of 24 pre-existing direct programs; the remaining program was independently verified absent from OpenAlex and stays outside the denominator. Unknown records were direction-blind screened and then adjudicated from primary sources; no records remain pending.
+We froze an outcome-blind OpenAlex frame for studies quantitatively relating independently measured access geometry to route-resolved robbery/bypass. Eight predefined queries yielded 857 deduplicated records. Eligibility was fixed before direction coding; primary-source adjudication left no records pending. The frame recovered 23 of 24 pre-existing direct programs, with the provider-absent program kept outside the denominator.
 
-We report only the finite-frame direction distribution—no prevalence estimate, sign test, pooled effect or increment to network `k`. After directions were frozen, we post hoc audited the four opposite and two mixed programs for source evidence that the focal geometry directly hardened bypass. Because this subset was selected by direction, the audit interprets boundaries rather than validating predictions.
+We report only finite-frame directions—no prevalence estimate, sign test, pooled effect or increment to network \(k\). After directions were frozen, a post-hoc audit of the four opposite and two mixed programs asked whether focal geometry directly hardened bypass; because this subset was direction-selected, it defines boundaries rather than validating predictions.
 
 Separately, we conducted a post-hoc **design-identifiability audit** of all 33 eligible programs. Before classifying the full set, we froze a strict criterion for whether a study could distinguish more robbery from fewer legitimate interactions: legitimate and robbing routes had to be separately estimable against a common opportunity or effort denominator that retained zero counts. Studies reporting robbery prevalence alone, route choice conditional on an observed interaction, or both routes without a common zero-inclusive denominator did not meet this criterion. This audit changes neither effect directions nor network replication counts.
 
