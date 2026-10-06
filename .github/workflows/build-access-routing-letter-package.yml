@@ -6,7 +6,14 @@ on:
       - main
     paths:
       - "manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md"
+      - "manuscript/FIGURE_PLAN_ACCESS_ROUTING_LETTER_V0.md"
       - "submission/**"
+      - "scripts/build_access_routing_letter_figures_svg.py"
+      - "scripts/build_sakhalkar2023_route_figure_svg.py"
+      - "tests/test_access_routing_letter.py"
+      - "tests/test_access_routing_letter_figures.py"
+      - "tests/test_sakhalkar2023_route_figure.py"
+      - "tests/test_ecology_letters_letter_submission.py"
       - "scripts/export_access_routing_archive.py"
       - "scripts/reproduce_access_routing_archive.py"
       - "scripts/reproduce_aubert2026_hummingbird_reach_archive.py"
