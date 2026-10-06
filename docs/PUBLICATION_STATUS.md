@@ -285,7 +285,11 @@ ARCHIVE_ONLY_POOLED_PARTICIPATION = PASS
 ARCHIVE_ONLY_ROUTE_SPECIFIC_POSTOPEN = PASS
 ARCHIVE_ONLY_THRESHOLD_FIRST_OPEN = PASS
 ARCHIVE_ONLY_THRESHOLD_BOUNDARY_AUDIT = PASS_585_OF_999_UPPER_BOUNDARY
-ACCESS_ROUTING_ARCHIVE_DOI = RESERVE_IN_ZENODO_DRAFT_BEFORE_FINAL_PACKAGE_BUILD
+ACCESS_ROUTING_ARCHIVE_DOI = NOT_YET_RESERVED
+ZENODO_RESERVATION_LOGIC = PASS
+ZENODO_RESERVATION_PROBE_RUN = 37482640792
+ZENODO_ACCESS_TOKEN_GITHUB_SECRET = MISSING_CONFIRMED
+ZENODO_DRAFT_PUBLICATION = NOT_PERFORMED
 RESERVED_DOI_APPLICATOR = scripts/apply_reserved_archive_doi.py
 AUTHOR_METADATA_CONTRACT = submission/ECOLOGY_LETTERS_LETTER_AUTHOR_METADATA_V1.json
 FINAL_AUTHOR_LIST_AND_AFFILIATIONS = REQUIRED
@@ -296,14 +300,15 @@ AUTHOR_RELATIVE_NOVELTY_STATEMENT = REQUIRED
 EXTERNAL_SUBMISSION = BLOCKED_UNTIL_THESE_ARE_COMPLETE
 ~~~
 
-The archive contract is now V5 and covers the **current manuscript rather than only the earlier frozen spine**. In addition to the exact 57-species Sakhalkar table and 2,265-row Aubert/EPHI pair-site table, the anonymous participation-opportunity table carries pooled, robbing and legitimate/non-robbing counts plus anonymous bird-group labels sufficient to reproduce the hummingbird-only reach sensitivity without restoring taxon identities. The routine package workflow reconstructs the frozen culmen-only participation and route split, the preregistered threshold result and 585/999 boundary audit, and all effective-reach plant contrasts and point rate ratios from archived tables/code. Full plant-jackknife reach intervals and the paired robbery/legitimate RR-ratio interval are reproducible with the archived dedicated long-run mode and are preserved in the committed reach receipt rather than recomputed during every package-only change. Source taxon names are not required. The remaining data sequence is therefore external only: reserve the Zenodo DOI, insert it into the submission files, freeze that DOI-bearing commit, build the exact final ZIP from that commit, upload it to the same draft, and publish the DOI record.
+The archive contract is now V5 and covers the **current manuscript rather than only the earlier frozen spine**. The automated Zenodo reservation workflow has been executed through its credential gate: reservation tests passed, but run 37482640792 stopped because the repository secret `ZENODO_ACCESS_TOKEN` is absent. No Zenodo draft was created and no publication action occurred. In addition to the exact 57-species Sakhalkar table and 2,265-row Aubert/EPHI pair-site table, the anonymous participation-opportunity table carries pooled, robbing and legitimate/non-robbing counts plus anonymous bird-group labels sufficient to reproduce the hummingbird-only reach sensitivity without restoring taxon identities. The routine package workflow reconstructs the frozen culmen-only participation and route split, the preregistered threshold result and 585/999 boundary audit, and all effective-reach plant contrasts and point rate ratios from archived tables/code. Full plant-jackknife reach intervals and the paired robbery/legitimate RR-ratio interval are reproducible with the archived dedicated long-run mode and are preserved in the committed reach receipt rather than recomputed during every package-only change. Source taxon names are not required. The remaining data sequence is therefore external only: reserve the Zenodo DOI, insert it into the submission files, freeze that DOI-bearing commit, build the exact final ZIP from that commit, upload it to the same draft, and publish the DOI record.
 
 ## Journal route
 
 ```text
 1. Ecology Letters — Letter
-   route only on the network-scale filtering-versus-routing distinction;
-   do not pitch first mismatch→robbery, first tactic switching, or first route-cost theory
+   route on the network-scale decomposition of higher robbery prevalence into absolute route-rate changes;
+   emphasize mechanism heterogeneity and the 7/33 finite-frame identifiability gap;
+   do not pitch first mismatch→robbery, first route-rate measurement, first tactic switching, or first route-cost theory
 2. Functional Ecology — Research Article fallback
    strongest mechanism/trait fit if Ecology Letters judges k=2 reanalysis insufficiently broad
 3. Oikos — Research fallback
@@ -351,6 +356,7 @@ ARCHIVE_SCHEMA = BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V5
 POSTOPEN_DIAGNOSTIC_PROVENANCE = RECEIPT_AND_HASHES_RECORDED
 DOI_APPLICATION_GATE = IMPLEMENTED_RECEIPT_RENDER_ARCHIVE_CHECKS
 AUTHOR_METADATA = MACHINE_READABLE_CONTRACT_READY_VALUES_REQUIRED
-NEXT_EXTERNAL_ACTION = CREATE_ZENODO_DRAFT_AND_RESERVE_DOI
+ZENODO_RESERVATION_PROBE = CREDENTIAL_GATE_FAILED_TOKEN_MISSING
+NEXT_EXTERNAL_ACTION = ADD_ZENODO_ACCESS_TOKEN_GITHUB_SECRET
 EXTERNAL_SUBMISSION = BLOCKED_PENDING_RESERVED_DOI_FINAL_ARCHIVE_AND_AUTHOR_CONTROLLED_VALUES
 ```
