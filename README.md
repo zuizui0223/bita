@@ -2,7 +2,7 @@
 
 BITA's **primary submission paper** is now the Ecology Letters Letter:
 
-> **Access constraints predict interaction routing across bird and insect visitor networks**
+> **Higher nectar robbery prevalence under access mismatch need not reflect higher robbery rates**
 
 The broader floral-defence selectivity Synthesis remains preserved as the extended BITA evidence package and fallback manuscript architecture.
 
