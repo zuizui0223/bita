@@ -20,8 +20,11 @@ Behavioral switching is also established. Bronstein et al. (2017) framed legitim
 visitation and nectar robbing as alternative handling tactics, Lichtenberg et al.
 (2018) showed that their relative efficiencies depend on the bee–plant combination,
 and Leonard et al. (2013) experimentally shifted the relative use of legitimate and
-robbing tactics with floral nectar guides. The Letter therefore does not claim to
-invent tactic switching or relative route-cost reasoning.
+robbing tactics with floral nectar guides. Network theory also already recognizes
+trait-mediated forbidden links, alternative interaction modes and ecological
+rewiring (Kiziridis et al. 2020; Ward et al. 2026). The Letter therefore does not
+claim to invent tactic switching, relative route-cost reasoning, forbidden links or
+rewiring.
 
 ## Contribution claimed here
 
