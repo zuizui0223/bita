@@ -207,3 +207,17 @@ def test_letter_acknowledges_closest_route_rate_prior_art_and_mechanism_heteroge
     assert "kohl and steffan-dewenter (2022) found legitimate visitation approximately unchanged while robbery increased" in text
     assert "our ecuadorian effective-reach sensitivity shows a different configuration" in text
     assert "the same qualitative prevalence pattern can therefore arise through increased bypass use, selective loss of legitimate use, or mixtures of both" in text
+
+
+@pytest.mark.prose_contract
+def test_letter_reports_route_rate_identifiability_audit_with_claim_boundary() -> None:
+    text = LETTER.read_text(encoding="utf-8").lower()
+    assert "post-hoc **design-identifiability audit**" in text
+    assert "seven of the 33 programs met the strict zero-inclusive both-route-rate criterion" in text
+    assert "18 used robbery-prevalence-only outcomes" in text
+    assert "six estimated route choice conditional on observed interactions" in text
+    assert "26/33 programs in this frozen frame did not" in text
+    assert "post-hoc finite-frame design description" in text
+    assert "not an estimate for the broader literature" in text
+    assert "the 7/33 audit is post hoc" in text
+    assert "does not make this the first study to measure both route rates" in text
