@@ -20,22 +20,25 @@ Behavioral switching is also established. Bronstein et al. (2017) framed legitim
 visitation and nectar robbing as alternative handling tactics, Lichtenberg et al.
 (2018) showed that their relative efficiencies depend on the bee–plant combination,
 and Leonard et al. (2013) experimentally shifted the relative use of legitimate and
-robbing tactics with floral nectar guides. Network theory also already recognizes
+robbing tactics with floral nectar guides. Individual-system studies have also
+reported legitimate and robbing visitation rates separately (Rojas-Nossa et al.
+2021; Kohl & Steffan-Dewenter 2022). Network theory already recognizes
 trait-mediated forbidden links, alternative interaction modes and ecological
 rewiring (Kiziridis et al. 2020; Ward et al. 2026). The Letter therefore does not
-claim to invent tactic switching, relative route-cost reasoning, forbidden links or
-rewiring.
+claim to invent tactic switching, separate route-rate measurement, relative
+route-cost reasoning, forbidden links or rewiring.
 
 ## Contribution claimed here
 
 The manuscript separates quantities that prior trait–robbery associations do not by
 themselves identify:
 
-1. **Route composition versus interaction occurrence.** The Ecuador analysis
-   separates robbery share from zero-inclusive route-specific participation and
-   shows that the filtering inference itself depends on physiologically defined
-   reach: under a literature-based 1.8× correction, legitimate feeding is strongly
-   filtered while robbery is comparatively retained.
+1. **Robbery prevalence versus robbery frequency.** The Ecuador analysis starts
+   from the known mismatch–robbery association, then decomposes the same pattern
+   with zero-inclusive route-specific participation. Under a literature-based
+   1.8× reach correction, legitimate feeding is strongly filtered while robbery
+   itself shows no detectable increase; robbery therefore becomes more prevalent
+   relative to legitimate feeding without requiring more robbery events.
 2. **Relational versus consumer-fixed routing.** Within-bird analyses ask whether
    route use changes with the bird–flower relation rather than only because some
    bird species are intrinsically more robbery-prone.
@@ -60,8 +63,9 @@ themselves identify:
 
 ## Ecology Letters positioning rule
 
-The manuscript should be presented as a test of **route composition versus
-route-specific participation under physiological access constraints**, not as a
-first discovery of mismatch-associated nectar robbery. Any
+The manuscript should be presented as a test of **whether higher robbery
+prevalence under access mismatch reflects more robbery or selective loss of
+legitimate interaction**, not as a first discovery of mismatch-associated nectar
+robbery or of separate route-rate measurement. Any
 future abstract, cover letter, title or Discussion revision must preserve that
 boundary.
