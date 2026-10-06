@@ -14,13 +14,19 @@ RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "joint_
 
 def test_letter_figure1_states_prevalence_frequency_ambiguity() -> None:
     svg = build_figure1()
-    assert "Higher robbery share does not identify which route changed" in svg
-    assert "same rise in robbery proportion" in svg
-    assert "robbery ↑  or  legitimate ↓" in svg
-    assert "Need route-specific rates" in svg
-    assert "measure legitimate feeding" in svg
-    assert "and robbery separately" in svg
-    assert "Ecuador separates route-specific rates" in svg
+    assert "Higher robbery share can arise by different biological routes" in svg
+    assert "robbery share = 10%" in svg
+    assert "robbery share = 33%" in svg
+    assert "robbery share = 44% ↑" in svg
+    assert "45 ↑" in svg
+    assert "10 ↓" in svg
+    assert "8 ↓" in svg
+    assert "Only zero-inclusive route-specific rates distinguish them" in svg
+    assert "RR = 0.154" in svg
+    assert "RR = 0.816" in svg
+    assert "5.31  (1.92–14.67)" in svg
+    assert "no detectable increase in robbery" in svg
+    assert "Illustrative counts in A–C are schematic" in svg
 
 
 def test_letter_figure3_uses_frozen_joint_result() -> None:

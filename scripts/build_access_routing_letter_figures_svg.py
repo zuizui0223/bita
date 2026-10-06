@@ -55,55 +55,76 @@ def _arrow(x1: float, y1: float, x2: float, y2: float, *, width: float = 3.0) ->
 
 
 def build_figure1() -> str:
-    width, height = 1500, 880
+    width, height = 1500, 900
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
         '<rect width="100%" height="100%" fill="white"/>',
-        _text(750, 46, "Figure 1. Higher robbery share does not identify which route changed", size=30, anchor="middle", weight="bold"),
-        _text(750, 80, "The same rise in robbery proportion can result from more robbery or loss of legitimate feeding", size=18, anchor="middle"),
-        _text(65, 145, "A", size=22, weight="bold"),
-        _text(105, 145, "Low mismatch: legitimate route remains usable", size=21, weight="bold"),
-        '<ellipse cx="355" cy="280" rx="150" ry="82" fill="#f5f5f5" stroke="#222" stroke-width="2"/>',
-        '<rect x="325" y="198" width="60" height="88" fill="#dddddd" stroke="#222" stroke-width="2"/>',
-        _text(355, 247, "opening", size=15, anchor="middle", weight="bold"),
-        _text(130, 280, "visitor", size=17, anchor="middle", weight="bold"),
-    ]
-    parts.extend(_arrow(180, 280, 315, 280))
-    parts.extend([
-        _text(245, 263, "legitimate route", size=14, anchor="middle"),
-        _text(610, 260, "reward reached through", size=16, weight="bold"),
-        _text(610, 287, "normal opening", size=16, weight="bold"),
-        _text(610, 325, "filtering may reduce exploitation", size=14),
-        _text(610, 348, "without forcing bypass", size=14),
-        _text(65, 455, "B", size=22, weight="bold"),
-        _text(105, 455, "High mismatch: legitimate route constrained, bypass remains", size=21, weight="bold"),
-        '<ellipse cx="355" cy="610" rx="150" ry="82" fill="#f5f5f5" stroke="#222" stroke-width="2"/>',
-        '<rect x="325" y="528" width="60" height="88" fill="#dddddd" stroke="#222" stroke-width="2"/>',
-        _text(355, 577, "opening", size=15, anchor="middle", weight="bold"),
-        _text(130, 610, "visitor", size=17, anchor="middle", weight="bold"),
-        _line(180, 610, 305, 610, width=2, dash="8 6"),
-        _text(245, 593, "constrained route", size=14, anchor="middle"),
-        '<path d="M 180 635 C 250 730, 380 735, 505 635" fill="none" stroke="#222" stroke-width="3" stroke-dasharray="9 6"/>',
-        _text(345, 735, "bypass / robbing", size=16, anchor="middle", weight="bold"),
-        _text(625, 590, "mismatch ↑", size=18, weight="bold"),
-        _text(625, 625, "legitimate access ↓", size=18),
-        _text(625, 660, "relative bypass use ↑", size=18, weight="bold"),
-        '<rect x="1010" y="185" width="405" height="505" rx="16" fill="#fafafa" stroke="#444" stroke-width="2"/>',
-        _text(1035, 225, "Composition alone is ambiguous", size=21, weight="bold"),
-        _text(1210, 285, "higher robbery share", size=18, anchor="middle", weight="bold"),
-        _text(1210, 330, "↓", size=24, anchor="middle"),
-        _text(1210, 377, "two possible processes", size=17, anchor="middle"),
-        _text(1210, 422, "↓", size=24, anchor="middle"),
-        _text(1210, 468, "robbery ↑  or  legitimate ↓", size=18, anchor="middle", weight="bold"),
-        _text(1035, 535, "Need route-specific rates:", size=16, weight="bold"),
-        _text(1060, 566, "measure legitimate feeding", size=15),
-        _text(1035, 615, "and robbery separately", size=16, weight="bold"),
-        _text(1060, 646, "before interpreting composition", size=15),
-        _text(750, 835, "Ecuador separates route-specific rates; the insect network independently tests recurrence of the routing direction.", size=15, anchor="middle"),
-        "</svg>",
-    ])
-    return "\n".join(parts) + "\n"
+        _text(750, 46, "Figure 1. Higher robbery share can arise by different biological routes", size=29, anchor="middle", weight="bold"),
+        _text(750, 80, "Composition alone cannot distinguish more robbery from loss of legitimate interaction", size=17, anchor="middle"),
 
+        # Baseline
+        '<rect x="70" y="125" width="410" height="235" rx="15" fill="#fafafa" stroke="#444" stroke-width="2"/>',
+        _text(95, 160, "A  Baseline", size=21, weight="bold"),
+        _text(95, 195, "Illustrative interaction counts", size=14),
+        _text(95, 235, "legitimate", size=15, weight="bold"),
+        '<rect x="195" y="215" width="225" height="25" fill="#dddddd" stroke="#555"/>',
+        _text(430, 234, "90", size=15, weight="bold"),
+        _text(95, 285, "robbery", size=15, weight="bold"),
+        '<rect x="195" y="265" width="25" height="25" fill="#777777" stroke="#333"/>',
+        _text(230, 284, "10", size=15, weight="bold"),
+        _text(275, 330, "robbery share = 10%", size=18, anchor="middle", weight="bold"),
+
+        # Numerator-driven scenario
+        '<rect x="545" y="125" width="410" height="235" rx="15" fill="#fafafa" stroke="#444" stroke-width="2"/>',
+        _text(570, 160, "B  More robbery", size=21, weight="bold"),
+        _text(570, 195, "legitimate unchanged; robbery increases", size=14),
+        _text(570, 235, "legitimate", size=15, weight="bold"),
+        '<rect x="670" y="215" width="225" height="25" fill="#dddddd" stroke="#555"/>',
+        _text(905, 234, "90", size=15, weight="bold"),
+        _text(570, 285, "robbery", size=15, weight="bold"),
+        '<rect x="670" y="265" width="112.5" height="25" fill="#777777" stroke="#333"/>',
+        _text(795, 284, "45 ↑", size=15, weight="bold"),
+        _text(750, 330, "robbery share = 33%", size=18, anchor="middle", weight="bold"),
+
+        # Denominator-loss scenario
+        '<rect x="1020" y="125" width="410" height="235" rx="15" fill="#fafafa" stroke="#444" stroke-width="2"/>',
+        _text(1045, 160, "C  Loss of legitimate interaction", size=21, weight="bold"),
+        _text(1045, 195, "robbery need not increase", size=14),
+        _text(1045, 235, "legitimate", size=15, weight="bold"),
+        '<rect x="1145" y="215" width="25" height="25" fill="#dddddd" stroke="#555"/>',
+        _text(1180, 234, "10 ↓", size=15, weight="bold"),
+        _text(1045, 285, "robbery", size=15, weight="bold"),
+        '<rect x="1145" y="265" width="20" height="25" fill="#777777" stroke="#333"/>',
+        _text(1175, 284, "8 ↓", size=15, weight="bold"),
+        _text(1225, 330, "robbery share = 44% ↑", size=18, anchor="middle", weight="bold"),
+
+        _text(750, 405, "Both B and C produce higher robbery prevalence, but they imply different ecology.", size=18, anchor="middle", weight="bold"),
+        _text(750, 438, "Only zero-inclusive route-specific rates distinguish them.", size=17, anchor="middle"),
+
+        # Ecuador empirical result
+        '<rect x="160" y="485" width="1180" height="310" rx="18" fill="#f7f7f7" stroke="#333" stroke-width="2"/>',
+        _text(190, 525, "D  Ecuador: post-open 1.8× effective-reach sensitivity", size=22, weight="bold"),
+        _text(190, 565, "same zero-inclusive bird × waypoint opportunities; plant-jackknife intervals", size=14),
+
+        _text(215, 625, "legitimate feeding", size=17, weight="bold"),
+        _text(470, 625, "RR = 0.154", size=20, weight="bold"),
+        _text(650, 625, "95% CI 0.087–0.271", size=16),
+        _text(215, 680, "robbery", size=17, weight="bold"),
+        _text(470, 680, "RR = 0.816", size=20, weight="bold"),
+        _text(650, 680, "95% CI 0.358–1.860", size=16),
+
+        '<rect x="925" y="585" width="360" height="125" rx="12" fill="white" stroke="#555" stroke-width="1.5"/>',
+        _text(1105, 620, "robbery / legitimate RR", size=16, anchor="middle", weight="bold"),
+        _text(1105, 660, "5.31  (1.92–14.67)", size=23, anchor="middle", weight="bold"),
+        _text(1105, 693, "comparative persistence of bypass", size=14, anchor="middle"),
+
+        _text(750, 750, "Observed pattern: strong loss of legitimate feeding; no detectable increase in robbery.", size=18, anchor="middle", weight="bold"),
+        _text(750, 780, "Interpretation is observational and the 1.8× reach analysis is explicitly post-open.", size=14, anchor="middle"),
+
+        _text(750, 855, "Illustrative counts in A–C are schematic; panel D reports the Ecuadorian estimates.", size=13, anchor="middle"),
+        "</svg>",
+    ]
+    return "\n".join(parts) + "\n"
 
 def _scale(value: float, lo: float, hi: float, x0: float, x1: float) -> float:
     return x0 + (value - lo) / (hi - lo) * (x1 - x0)
