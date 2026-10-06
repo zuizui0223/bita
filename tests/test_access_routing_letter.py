@@ -197,3 +197,13 @@ def test_letter_makes_conditional_vs_zero_inclusive_estimand_difference_explicit
     assert "our zero-inclusive opportunity model adds the missing no-interaction state" in text
     assert "estimates the legitimate and robbing rates separately" in text
     assert "estimand problem rather than a new arithmetic identity" in text
+
+
+@pytest.mark.prose_contract
+def test_letter_acknowledges_closest_route_rate_prior_art_and_mechanism_heterogeneity() -> None:
+    text = LETTER.read_text(encoding="utf-8").lower()
+    assert "lara and ornelas (2001) manipulated corolla length" in text
+    assert "more robbing visits to long artificial corollas" in text
+    assert "kohl and steffan-dewenter (2022) found legitimate visitation approximately unchanged while robbery increased" in text
+    assert "our ecuadorian effective-reach sensitivity shows a different configuration" in text
+    assert "the same qualitative prevalence pattern can therefore arise through increased bypass use, selective loss of legitimate use, or mixtures of both" in text

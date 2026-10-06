@@ -11,7 +11,10 @@ and nectar robbery.
   restrict thieving while being associated with robbing in Afrotropical visitor
   communities.
 - Additional direct studies already link floral geometry and robbery in individual
-  systems.
+  systems. Lara & Ornelas (2001) is especially close prior art: it experimentally
+  manipulated corolla length in two hummingbird species and separately recorded
+  legitimate and robbing visit counts; long artificial corollas received more
+  robbing visits.
 
 These prior results are treated as the starting point, not as discoveries of the
 current Letter.
@@ -65,9 +68,13 @@ themselves identify:
 
 ## Ecology Letters positioning rule
 
-The manuscript should be presented as a test of **whether higher robbery
-prevalence under access mismatch reflects more robbery or selective loss of
-legitimate interaction**, not as a first discovery of mismatch-associated nectar
-robbery or of separate route-rate measurement. Any
+The manuscript should be presented as a **network-scale decomposition of a
+known mismatch–robbery prevalence pattern into its route-specific absolute
+components**, not as a first discovery of mismatch-associated robbery, route-rate
+measurement, or geometry-driven behavioral switching. The biologically interesting
+result is that the same higher-robbery-prevalence pattern is mechanistically
+heterogeneous across systems: prior experiments show numerator-driven robbery
+increases, whereas the Ecuadorian effective-reach sensitivity is dominated by loss
+of legitimate feeding. Any
 future abstract, cover letter, title or Discussion revision must preserve that
 boundary.
