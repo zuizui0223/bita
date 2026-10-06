@@ -33,9 +33,11 @@ route-cost reasoning, forbidden links or rewiring.
 The manuscript separates quantities that prior trait–robbery associations do not by
 themselves identify:
 
-1. **Robbery prevalence versus robbery frequency.** The Ecuador analysis starts
-   from the known mismatch–robbery association, then decomposes the same pattern
-   with zero-inclusive route-specific participation. Under a literature-based
+1. **Robbery prevalence versus robbery frequency.** The source mismatch result is
+   conditional on an observed interaction: it distinguishes robbing from legitimate
+   route choice but has no no-interaction state in the denominator. The Ecuador
+   extension reconstructs zero-inclusive bird × waypoint opportunities and therefore
+   separates absolute legitimate and robbing feeding rates. Under a literature-based
    1.8× reach correction, legitimate feeding is strongly filtered while robbery
    itself shows no detectable increase; robbery therefore becomes more prevalent
    relative to legitimate feeding without requiring more robbery events.
