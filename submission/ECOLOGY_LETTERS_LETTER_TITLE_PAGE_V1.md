@@ -30,8 +30,8 @@
 
 ~~~text
 abstract words: 120
-main-text words: 4,176
-references: 22
+main-text words: 4,297
+references: 24
 figures: 3
 tables: 0
 text boxes: 0
