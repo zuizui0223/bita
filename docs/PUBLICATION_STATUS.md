@@ -43,8 +43,9 @@ The joint statistic tests recurrence across these two networks only. It does not
 ## Novelty boundary
 
 The Letter does **not** claim first discovery of a flower-trait mismatch–robbery
-association, behavioral switching between legitimate and robbing tactics, or
-relative handling-cost explanations of tactic choice. Aubert et al. establish the
+association, behavioral switching between legitimate and robbing tactics,
+relative handling-cost explanations of tactic choice, trait-mediated forbidden
+links, alternative interaction modes, or ecological-network rewiring. Aubert et al. establish the
 bird trait-barrier association, Sakhalkar et al. establish floral-trait partitioning
 of robbing versus thieving, and Bronstein/Lichtenberg already establish the
 alternative-tactic framing and species-pair-dependent relative efficiencies. The
@@ -294,7 +295,7 @@ STATUS = SCIENTIFIC_PACKAGE_REBUILT_AROUND_SPECIES_LEVEL_ROBUST_INFERENCE
 ACTIVE_PAPER = ACCESS_ROUTING_LETTER
 ROUTING_MECHANISM = RELATIVE_ROUTE_COST
 ROUTE_COST_PRIOR_THEORY = ACKNOWLEDGED_NOT_CLAIMED_AS_NOVEL
-NOVELTY_CORE = NETWORK_SCALE_ROUTE_COMPOSITION_VS_PARTICIPATION_SEPARATION
+NOVELTY_CORE = REALIZED_LINK_PARTICIPATION_VS_INTERACTION_MODE_SEPARATION
 ROUTE_COST_BOUNDARY = dC_LEGITIMATE_MINUS_dC_BYPASS
 DIRECT_ACCESS_GEOMETRY_BOUNDED_CORPUS_PROGRAMS = 24
 FORMAL_DIRECT_ACCESS_GEOMETRY_PROGRAMS = 33
