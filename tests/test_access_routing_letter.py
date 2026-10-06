@@ -186,3 +186,14 @@ def test_letter_centers_prevalence_vs_route_frequency_not_rewiring_novelty() -> 
     assert "existing forbidden-link, alternative-mode and rewiring theory" in text
     assert "our contribution is to show, with zero-inclusive route-specific rates" in text
     assert "composition should therefore not be interpreted as route frequency" in text
+
+
+@pytest.mark.prose_contract
+def test_letter_makes_conditional_vs_zero_inclusive_estimand_difference_explicit() -> None:
+    text = LETTER.read_text(encoding="utf-8").lower()
+    assert "conditional probability of robbery among observed interactions" in text
+    assert "no-interaction opportunities are absent from its denominator" in text
+    assert "the source mismatch result conditions on an observed interaction" in text
+    assert "our zero-inclusive opportunity model adds the missing no-interaction state" in text
+    assert "estimates the legitimate and robbing rates separately" in text
+    assert "estimand problem rather than a new arithmetic identity" in text
