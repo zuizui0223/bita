@@ -12,9 +12,9 @@ main figures: 3
 journal maximum display items: 6
 ~~~
 
-## Figure 1 — Access constraints reroute exploitation
+## Figure 1 — Higher robbery share does not identify which route changed
 
-Purpose: state the single general hypothesis before any dataset-specific result.
+Purpose: make the inferential ambiguity visible before any dataset-specific result: a higher robbery proportion can arise from more robbery or from faster loss of legitimate interaction.
 
 ### Panel A — legitimate versus bypass route
 
@@ -55,11 +55,11 @@ equal-network rank synthesis
 
 Main message:
 
-> barriers can reorganize interaction routes rather than simply remove interactions.
+> composition alone cannot identify which route changed; zero-inclusive route-specific rates are required.
 
 ---
 
-## Figure 2 — Native-scale routing and participation evidence
+## Figure 2 — Robbery share versus route-specific participation
 
 Use the existing two-network public-data figure as the base.
 
@@ -104,7 +104,7 @@ site-stratified permutation p = 0.0001
 
 Main message:
 
-> the same access-routing direction appears under different fauna; in Ecuador, literature-motivated effective-reach barriers selectively suppress legitimate feeding while robbery is comparatively retained.
+> in Ecuador, higher robbery share under effective mismatch accompanies strong loss of legitimate feeding without a detectable increase in robbery rate; the insect network independently corroborates the routing direction.
 
 ---
 
