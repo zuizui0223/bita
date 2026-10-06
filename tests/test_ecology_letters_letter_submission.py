@@ -16,19 +16,27 @@ RESERVED_DOI_RECEIPT = ROOT / "submission" / "access_routing_archive" / "RESERVE
 
 
 def _words(text: str) -> list[str]:
-    return re.findall(r"\b[\w×–/-]+\b", text, flags=re.UNICODE)
+    return [token for token in re.split(r"\s+", text.strip()) if token]
 
 
 def _abstract(text: str) -> str:
     match = re.search(r"## Abstract\n\n([\s\S]*?)\n\n## Introduction", text)
     assert match is not None
-    return match.group(1)
+    body = re.sub(r"\\\([^)]*\\\)", " ", match.group(1))
+    return body.replace("**", "")
 
 
 def _main_text(text: str) -> str:
+    # Match the Ecology Letters main-text counter used by
+    # tests/test_access_routing_letter.py: exclude title/abstract/back matter,
+    # fenced display blocks, display equations, and markdown headings.
     start = text.index("## Introduction")
     end = text.index("## Data accessibility and reproducibility")
-    return text[start:end]
+    body = text[start:end]
+    body = re.sub(r"~~~[\s\S]*?~~~", " ", body)
+    body = re.sub(r"\\\[[\s\S]*?\\\]", " ", body)
+    body = re.sub(r"^#.*$", " ", body, flags=re.MULTILINE)
+    return body.replace("**", "")
 
 
 def test_letter_title_page_matches_current_manuscript_counts() -> None:
