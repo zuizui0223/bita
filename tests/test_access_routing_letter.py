@@ -165,22 +165,24 @@ def test_letter_states_novelty_boundary_against_source_studies() -> None:
     lower = text.lower()
     assert "the component associations are already known" in lower
     assert "aubert et al. (2026) showed that nectar robbing" in lower
-    assert "sakhalkar et al. (2023) likewise found" in lower
-    assert "route composition from interaction occurrence" in lower
-    assert "physiological-reach audit" not in lower
-    assert "within consumer species" in lower
-    assert "behavioral switching itself new" in lower
+    assert "sakhalkar et al. (2023) found" in lower
+    assert "studies have also measured legitimate and robbing visitation rates separately" in lower
+    assert "whether higher robbery prevalence reflects more robbery or differential persistence of the two routes" in lower
+    assert "behavioral switching is also established" in lower
     assert "lichtenberg et al. 2018" in lower
+    assert "physiological-reach audit" not in lower
     assert "the prediction has not been tested as a common standardized association" not in lower
 
 
 @pytest.mark.prose_contract
-def test_letter_positions_route_result_beyond_forbidden_links_and_rewiring() -> None:
+def test_letter_centers_prevalence_vs_route_frequency_not_rewiring_novelty() -> None:
     text = LETTER.read_text(encoding="utf-8").lower()
-    assert "trait-mediated forbidden links" in text
-    assert "alternative interaction modes" in text
-    assert "rewiring is now treated as a central property" in text
-    assert "link participation from interaction mode within realized consumer–resource relationships" in text
-    assert "finer-grained than ordinary link gain or loss" in text
-    assert "within-link mode redistribution" in text
-    assert "not temporal rewiring in the usual sense of partner turnover" in text
+    abstract = text.split("## abstract", 1)[1].split("## introduction", 1)[0]
+    assert "composition alone cannot distinguish these mechanisms" in abstract
+    assert "robbery itself showed no detectable increase" in abstract
+    assert "higher robbery prevalence need not imply more robbery" in abstract
+    assert "### higher robbery prevalence need not mean more robbery" in text
+    assert "more prevalent robbery did not require more robbery" in text
+    assert "existing forbidden-link, alternative-mode and rewiring theory" in text
+    assert "our contribution is to show, with zero-inclusive route-specific rates" in text
+    assert "composition should therefore not be interpreted as route frequency" in text
