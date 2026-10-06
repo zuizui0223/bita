@@ -12,14 +12,15 @@ ROOT = Path(__file__).resolve().parents[1]
 RESULT = ROOT / "empirical" / "floral_defence_selectivity" / "results" / "joint_access_routing_species_robust.json"
 
 
-def test_letter_figure1_states_access_routing_prediction() -> None:
+def test_letter_figure1_states_prevalence_frequency_ambiguity() -> None:
     svg = build_figure1()
-    assert "Access constraints reroute exploitation" in svg
-    assert "legitimate route" in svg
-    assert "bypass / robbing" in svg
-    assert "mismatch" in svg.lower()
-    assert "filtering" in svg.lower()
-    assert "rerouting" in svg.lower()
+    assert "Higher robbery share does not identify which route changed" in svg
+    assert "same rise in robbery proportion" in svg
+    assert "robbery ↑  or  legitimate ↓" in svg
+    assert "Need route-specific rates" in svg
+    assert "measure legitimate feeding" in svg
+    assert "and robbery separately" in svg
+    assert "Ecuador separates route-specific rates" in svg
 
 
 def test_letter_figure3_uses_frozen_joint_result() -> None:
