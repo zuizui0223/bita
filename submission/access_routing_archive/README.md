@@ -20,6 +20,9 @@ The build workflow generates an `artifacts/letter/data_archive/` directory conta
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json` — frozen finite-frame summary of 33 eligible direct programs (22 positive, 5 null, 4 opposite, 2 mixed);
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv` and `.md` — post hoc mechanism audit of the four opposite and two mixed formal-frame programs;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json` — frozen descriptive boundary partition;
+- `supporting_literature/ROUTE_RATE_IDENTIFIABILITY_AUDIT_FREEZE_V1.md` — frozen post-hoc design-audit criterion distinguishing conditional robbery prevalence from common-denominator absolute route rates;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_ROUTE_RATE_IDENTIFIABILITY_AUDIT_V1.csv` — all 33 direct programs classified by route-rate identifiability;
+- `supporting_literature/DIRECT_ACCESS_GEOMETRY_ROUTE_RATE_IDENTIFIABILITY_SUMMARY_V1.json` — finite-frame design summary: 7/33 programs meet the strict zero-inclusive both-route-rate criterion and 26/33 do not; this is not a broader-literature prevalence estimate;
 - the direct-evidence eligibility contract, bounded-search receipts, Leal crosswalk and provenance receipts needed to audit the supporting-corpus counts.
 
 The submission archive must also include the exact code used to export and reproduce the tables:

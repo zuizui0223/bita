@@ -21,9 +21,12 @@ on:
       - "tests/test_direct_access_geometry_stage_u.py"
       - "tests/test_direct_access_geometry_formal_frame.py"
       - "tests/test_direct_access_geometry_boundary_audit.py"
+      - "tests/test_direct_access_geometry_route_rate_identifiability.py"
       - "tests/test_leal2025_direct_geometry_screen.py"
       - "empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_*"
       - "empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_*"
+      - "empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ROUTE_RATE_IDENTIFIABILITY_*"
+      - "empirical/floral_defence_selectivity/ROUTE_RATE_IDENTIFIABILITY_AUDIT_FREEZE_V1.md"
       - "empirical/floral_defence_selectivity/LEAL2025_*"
       - "empirical/floral_defence_selectivity/AUBERT_ROUTING_THRESHOLD_*"
       - "empirical/floral_defence_selectivity/HUMMINGBIRD_EFFECTIVE_REACH_SENSITIVITY_FREEZE_V1.md"
@@ -68,6 +71,7 @@ on:
       - "tests/test_direct_access_geometry_stage_u.py"
       - "tests/test_direct_access_geometry_formal_frame.py"
       - "tests/test_direct_access_geometry_boundary_audit.py"
+      - "tests/test_direct_access_geometry_route_rate_identifiability.py"
       - "tests/test_leal2025_direct_geometry_screen.py"
       - "scripts/summarize_direct_access_geometry_corpus.py"
       - "scripts/validate_direct_access_geometry_stage_u.py"
@@ -75,6 +79,8 @@ on:
       - "scripts/validate_leal2025_direct_geometry_screen.py"
       - "empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_*"
       - "empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_*"
+      - "empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ROUTE_RATE_IDENTIFIABILITY_*"
+      - "empirical/floral_defence_selectivity/ROUTE_RATE_IDENTIFIABILITY_AUDIT_FREEZE_V1.md"
       - "empirical/floral_defence_selectivity/LEAL2025_*"
       - "empirical/floral_defence_selectivity/results/joint_access_routing.json"
       - "empirical/floral_defence_selectivity/results/joint_access_routing_species_robust.json"
@@ -131,6 +137,7 @@ jobs:
             tests/test_direct_access_geometry_stage_u.py \
             tests/test_direct_access_geometry_formal_frame.py \
             tests/test_direct_access_geometry_boundary_audit.py \
+            tests/test_direct_access_geometry_route_rate_identifiability.py \
             tests/test_leal2025_direct_geometry_screen.py
 
       - name: Verify reserved DOI state if present
@@ -394,6 +401,9 @@ jobs:
           cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.md artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/ROUTE_RATE_IDENTIFIABILITY_AUDIT_FREEZE_V1.md artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ROUTE_RATE_IDENTIFIABILITY_AUDIT_V1.csv artifacts/letter/data_archive/supporting_literature/
+          cp empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ROUTE_RATE_IDENTIFIABILITY_SUMMARY_V1.json artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/DIRECT_ACCESS_GEOMETRY_LEAL2025_CROSSWALK_V1.csv artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/LEAL2025_ROBBER_STUDY_FRAME_V1.csv artifacts/letter/data_archive/supporting_literature/
           cp empirical/floral_defence_selectivity/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv artifacts/letter/data_archive/supporting_literature/

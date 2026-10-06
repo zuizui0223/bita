@@ -232,6 +232,16 @@ replication count. Its role is stronger and narrower: the access-geometry →
 nectar-robbery relation formally recurs beyond the two standardized networks while
 retaining null, mixed and opposite systems as mechanism boundary conditions.
 
+A separate post-hoc design-identifiability audit asks a different question: can each
+direct program distinguish **more robbery** from **fewer legitimate interactions**?
+Using a frozen strict criterion requiring both route rates against one common
+zero-inclusive opportunity/effort denominator, 7/33 programs qualify and 26/33 do
+not. The non-qualifying set comprises 18 robbery-prevalence-only designs, six
+conditional route-choice designs, one both-route design without a verified common
+zero-inclusive denominator, and one other route-resolved design without a legitimate
+visitation rate. This is a finite-frame design audit, not a prevalence estimate for
+the broader literature and not an increment to network k.
+
 The complete formal artifacts are:
 
 - `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv`
@@ -239,6 +249,9 @@ The complete formal artifacts are:
 - `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json`
 - `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_AUDIT_V1.csv`
 - `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_BOUNDARY_MECHANISM_SUMMARY_V1.json`
+- `empirical/floral_defence_selectivity/ROUTE_RATE_IDENTIFIABILITY_AUDIT_FREEZE_V1.md`
+- `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ROUTE_RATE_IDENTIFIABILITY_AUDIT_V1.csv`
+- `empirical/floral_defence_selectivity/formal_bibliographic_frame_v2/DIRECT_ACCESS_GEOMETRY_ROUTE_RATE_IDENTIFIABILITY_SUMMARY_V1.json`
 
 The floral-defence corpus and effective-access / exposure framework remain
 mechanistic context for why route switching is biologically plausible. Matched
@@ -328,6 +341,9 @@ FORMAL_RECURRENCE_PVALUE = NOT_COMPUTED_BY_V1
 FORMAL_RECURRENCE_POOLED_EFFECT = NOT_COMPUTED_BY_V1
 FORMAL_BIBLIOGRAPHIC_FRAME = COMPLETE_OPENALEX_857_RECORDS
 FORMAL_RECURRENCE_RESULT = COMPLETE_33_ELIGIBLE_PROGRAMS
+ROUTE_RATE_IDENTIFIABILITY_AUDIT = POST_HOC_COMPLETE
+ROUTE_RATE_IDENTIFIABILITY_STRICT = 7_OF_33
+ROUTE_RATE_IDENTIFIABILITY_NONSTRICT = 26_OF_33
 EXTENDED_SYNTHESIS = PRESERVED_RESERVE
 LEGACY_IDENTIFICATION_PAPER = PRESERVED_SUPPORT
 DATA_CODE_ARCHIVE = V5_FAST_GATE_PLUS_DEDICATED_FULL_REACH_REPRODUCTION

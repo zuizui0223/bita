@@ -1,0 +1,35 @@
+{
+  "schema": "BITA_DIRECT_ACCESS_GEOMETRY_ROUTE_RATE_IDENTIFIABILITY_V1",
+  "status": "POST_HOC_DESIGN_AUDIT_COMPLETE",
+  "source_frame_programs": 33,
+  "class_counts": {
+    "BOTH_ROUTE_COUNTS_NO_ZERO_INCLUSIVE_DENOMINATOR": 1,
+    "CONDITIONAL_ROUTE_CHOICE_ONLY": 6,
+    "OTHER_ROUTE_RESOLVED_NOT_RATE_IDENTIFIABLE": 1,
+    "ROBBERY_PREVALENCE_ONLY": 18,
+    "UNRESOLVED_SOURCE": 0,
+    "ZERO_INCLUSIVE_BOTH_ROUTE_RATES": 7
+  },
+  "strict_zero_inclusive_both_route_programs": 7,
+  "strict_zero_inclusive_both_route_fraction": 0.21212121212121213,
+  "not_strict_zero_inclusive_both_route_programs": 26,
+  "not_strict_zero_inclusive_both_route_fraction": 0.7878787878787878,
+  "both_route_metrics_any_denominator_programs": 8,
+  "strict_program_ids": [
+    "Adler_Leege_Irwin_2016",
+    "Bhandari_Das_Karmakar_2024",
+    "Lara_Ornelas_2001",
+    "Newman_Thomson_2005_Linaria",
+    "Tie_et_al_2023",
+    "Wang_et_al_2013_Impatiens",
+    "Wu_Gao_2024_Thunia_alba"
+  ],
+  "claim": "Within the frozen 33-program direct access-geometry frame, 7/33 programs (21.2%) meet the strict zero-inclusive both-route-rate criterion. The remaining 26/33 do not. This is a post-hoc finite-frame design audit, not an estimate of the prevalence of study designs in all ecological literature.",
+  "claim_boundaries": [
+    "post_hoc_design_audit",
+    "finite_formal_frame_not_all_literature",
+    "does_not_change_effect_direction_counts",
+    "does_not_increment_standardized_network_k",
+    "strict_class_requires_common_zero_inclusive_denominator"
+  ]
+}
