@@ -59,11 +59,12 @@ def test_route_rate_audit_is_frozen_and_complete() -> None:
 def test_route_rate_audit_counts_match_frozen_summary() -> None:
     rows = _rows()
     observed = Counter(row["identifiability_class"] for row in rows)
+    observed_complete = {key: observed.get(key, 0) for key in ALLOWED}
     summary = json.loads(SUMMARY.read_text(encoding="utf-8"))
 
     assert summary["status"] == "POST_HOC_DESIGN_AUDIT_COMPLETE"
     assert summary["source_frame_programs"] == 33
-    assert summary["class_counts"] == dict(sorted(observed.items()))
+    assert summary["class_counts"] == dict(sorted(observed_complete.items()))
     assert summary["strict_zero_inclusive_both_route_programs"] == 7
     assert summary["not_strict_zero_inclusive_both_route_programs"] == 26
 
