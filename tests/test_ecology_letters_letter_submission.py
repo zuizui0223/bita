@@ -143,6 +143,11 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
         "10.5281/zenodo.14185547",
         "DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv",
         "DIRECT_ACCESS_GEOMETRY_FORMAL_RECURRENCE_SUMMARY_V1.json",
+        "ROUTE_RATE_IDENTIFIABILITY_AUDIT_FREEZE_V1.md",
+        "DIRECT_ACCESS_GEOMETRY_ROUTE_RATE_IDENTIFIABILITY_AUDIT_V1.csv",
+        "DIRECT_ACCESS_GEOMETRY_ROUTE_RATE_IDENTIFIABILITY_SUMMARY_V1.json",
+        "7/33",
+        "strict zero-inclusive both-route-rate criterion",
         "33 eligible independent direct study programs",
     ):
         assert token in text
