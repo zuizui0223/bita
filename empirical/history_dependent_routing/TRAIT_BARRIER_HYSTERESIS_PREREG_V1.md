@@ -130,6 +130,8 @@ Define:
 Delta_R_barrier_control
 ```
 
+To keep the deployment as the independent randomization unit, a deployment enters at most one arm. A deployment with any observed Diglossa `piercing=yes` is assigned only to the breach arm if otherwise eligible; the primary control arm is therefore restricted to deployments with **no observed Diglossa `piercing=yes` anywhere in the deployment**. This is a design clarification made before the hummingbird temporal outcome is opened.
+
 The primary contrast is the difference in temporal changes:
 
 ```text
