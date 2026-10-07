@@ -82,6 +82,12 @@ piercing, whether clinging or hovering. This state is secondary because it is
 closer to innovative cheating but its absence is especially vulnerable to
 observation error.
 
+A negative primary clinger effect alone is **not** evidence that cheating lowers
+speciation, because clinging also includes legitimate feeding. The stronger
+cross-scale cheating claim is eligible only if the bypass-capable analysis also
+has a negative median coefficient and at least two speciation-estimator families
+agree in direction; this check is repeated after excluding Coquettes.
+
 ### Primary outcomes
 
 Use every independently supplied present-day speciation-rate estimator in the
