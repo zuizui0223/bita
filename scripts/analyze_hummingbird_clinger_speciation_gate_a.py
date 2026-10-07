@@ -463,10 +463,24 @@ def main() -> None:
     primary = analyze_state(merged, "clinger_primary", outcomes, covariates, args.permutations, args.seed, False)
     no_coquettes = analyze_state(merged, "clinger_primary", outcomes, covariates, args.permutations, args.seed + 50000, True)
     bypass = analyze_state(merged, "bypass_capable", outcomes, covariates, args.permutations, args.seed + 100000, False)
+    bypass_no_coquettes = analyze_state(
+        merged,
+        "bypass_capable",
+        outcomes,
+        covariates,
+        args.permutations,
+        args.seed + 150000,
+        True,
+    )
 
     gate = (
         primary["directional_gate_support"]
         and no_coquettes["directional_gate_support"]
+    )
+    cheating_claim_gate = (
+        gate
+        and bypass["directional_gate_support"]
+        and bypass_no_coquettes["directional_gate_support"]
     )
     receipt = {
         "analysis": "ecological_stability_evolutionary_transience_gate_a",
@@ -504,7 +518,9 @@ def main() -> None:
         "primary_clinger": primary,
         "sensitivity_exclude_coquettes": no_coquettes,
         "secondary_bypass_capable": bypass,
+        "secondary_bypass_capable_exclude_coquettes": bypass_no_coquettes,
         "gate_a_pass": bool(gate),
+        "cross_scale_cheating_claim_eligible": bool(cheating_claim_gate),
         "decision": (
             "PROCEED_TO_GATE_B"
             if gate
@@ -534,7 +550,11 @@ def main() -> None:
         "primary_median_beta": primary["median_beta"],
         "primary_negative_families": primary["negative_estimator_families"],
         "exclude_coquettes_median_beta": no_coquettes["median_beta"],
+        "bypass_median_beta": bypass["median_beta"],
+        "bypass_negative_families": bypass["negative_estimator_families"],
+        "bypass_exclude_coquettes_median_beta": bypass_no_coquettes["median_beta"],
         "gate_a_pass": receipt["gate_a_pass"],
+        "cross_scale_cheating_claim_eligible": receipt["cross_scale_cheating_claim_eligible"],
         "decision": receipt["decision"],
     }, indent=2))
 
