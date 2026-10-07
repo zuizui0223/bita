@@ -1,0 +1,42 @@
+name: Analyze hummingbird clinger speciation Gate A
+
+on:
+  push:
+    branches:
+      - analysis/ecological-stability-evolutionary-transience-v1
+    paths:
+      - "scripts/analyze_hummingbird_clinger_speciation_gate_a.py"
+      - "empirical/evolutionary_transience/ECOLOGICAL_STABILITY_EVOLUTIONARY_TRANSIENCE_PREREG_V2_AMENDMENT.md"
+      - ".github/workflows/analyze-hummingbird-clinger-speciation-gate-a.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate-a:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install analysis dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas requests openpyxl
+
+      - name: Run frozen Gate A
+        run: |
+          mkdir -p artifacts
+          python scripts/analyze_hummingbird_clinger_speciation_gate_a.py \
+            artifacts/hummingbird_clinger_speciation_gate_a.json \
+            --permutations 9999 \
+            --seed 20261007
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hummingbird-clinger-speciation-gate-a
+          path: artifacts/hummingbird_clinger_speciation_gate_a.json
+          if-no-files-found: error
