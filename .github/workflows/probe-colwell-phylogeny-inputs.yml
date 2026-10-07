@@ -1,0 +1,84 @@
+name: Probe Colwell hummingbird phylogeny inputs
+
+on:
+  push:
+    branches:
+      - analysis/ecological-stability-evolutionary-transience-v1
+    paths:
+      - ".github/workflows/probe-colwell-phylogeny-inputs.yml"
+      - "empirical/evolutionary_transience/ECOLOGICAL_STABILITY_EVOLUTIONARY_TRANSIENCE_PREREG_V1.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download frozen public inputs
+        run: |
+          mkdir -p external/colwell artifacts
+          curl -fL --retry 6 --retry-all-errors --retry-delay 5 \
+            "https://zenodo.org/api/records/7489569/files/PGLS_Inputs.zip/content" \
+            -o external/colwell/PGLS_Inputs.zip
+          curl -fL --retry 6 --retry-all-errors --retry-delay 5 \
+            "https://dataverse.harvard.edu/api/access/datafile/6961274" \
+            -o external/colwell/Colwell_S1.csv
+          unzip -q external/colwell/PGLS_Inputs.zip -d external/colwell/PGLS_Inputs
+
+      - name: Audit archive structure without opening hypothesis result
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import csv, json, zipfile
+
+          root = Path("external/colwell/PGLS_Inputs")
+          files = sorted(p for p in root.rglob("*") if p.is_file())
+          candidates = [
+              p for p in files
+              if p.suffix.lower() in {".tre", ".tree", ".trees", ".nex", ".nexus", ".txt"}
+              or "tree" in p.name.lower()
+              or "phylo" in p.name.lower()
+          ]
+
+          report = {
+              "zip_bytes": Path("external/colwell/PGLS_Inputs.zip").stat().st_size,
+              "archive_file_count": len(files),
+              "archive_paths": [str(p.relative_to(root)) for p in files],
+              "tree_candidate_paths": [str(p.relative_to(root)) for p in candidates],
+              "candidate_previews": {},
+          }
+          for p in candidates[:30]:
+              try:
+                  text = p.read_text(encoding="utf-8", errors="replace")
+              except Exception as exc:
+                  report["candidate_previews"][str(p.relative_to(root))] = f"READ_ERROR:{exc}"
+                  continue
+              report["candidate_previews"][str(p.relative_to(root))] = text[:1000]
+
+          s1 = Path("external/colwell/Colwell_S1.csv")
+          rows = list(csv.reader(s1.open(encoding="utf-8-sig", newline="")))
+          report["s1_rows"] = len(rows)
+          report["s1_first_12_rows"] = rows[:12]
+
+          Path("artifacts/colwell_phylogeny_probe.json").write_text(
+              json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8"
+          )
+          print(json.dumps({
+              "zip_bytes": report["zip_bytes"],
+              "archive_file_count": report["archive_file_count"],
+              "tree_candidate_count": len(report["tree_candidate_paths"]),
+              "tree_candidate_paths": report["tree_candidate_paths"][:30],
+              "s1_rows": report["s1_rows"],
+          }, indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: colwell-phylogeny-probe
+          path: artifacts/colwell_phylogeny_probe.json
+          if-no-files-found: error
