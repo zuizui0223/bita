@@ -54,6 +54,33 @@ A negative residual clinger effect would be a sign reversal relative to the
 trait-only expectation rather than a restatement that unusual feeding behavior
 occurs near phylogenetic tips.
 
+
+## Outcome-blind taxonomic crosswalk gate
+
+The Colwell and Barreto tables use partly different hummingbird taxonomy.
+Taxonomic reconciliation is frozen before any Gate-A coefficient is read:
+
+1. exact normalized genus + species match;
+2. for still-unmatched taxa only, allow a match when the species epithet is
+   unique within the same canonical major hummingbird clade in both sources;
+3. do not use fuzzy spelling distance, morphology, speciation rate or feeding
+   state to choose among multiple candidates.
+
+Every recovered match must retain a `join_method` field. Before any outcome
+model is fitted, require at least:
+
+~~~text
+joined source species       >= 200 / 220
+joined known clingers       >= 60 / 66
+joined presumed nonclingers >= 130 / 144
+~~~
+
+These thresholds are coverage safeguards, not evidence thresholds. They are
+compatible with the known source-tree incompleteness while preventing the
+analysis from proceeding on the strongly asymmetric exact-name intersection.
+If the gate fails, output only the crosswalk audit and unmatched taxa and do
+not fit speciation outcomes.
+
 ## Gate A — independent published speciation estimates
 
 ### Data
@@ -90,10 +117,15 @@ agree in direction; this check is repeated after excluding Coquettes.
 
 ### Primary outcomes
 
-Use every independently supplied present-day speciation-rate estimator in the
-Barreto processed dataset that is available for the McGuire phylogeny
-(expected families: BAMM, ClaDS and DR). No estimator may be selected on the
-basis of its result.
+Use the three independently supplied present-day speciation-rate estimators
+from the Barreto processed table for the McGuire phylogeny:
+
+- `BAMM Lambda McGuire`;
+- `Lambda ClaDS McGuire`;
+- `DR McGuire`.
+
+All three are required. No estimator may be dropped or selected on the basis
+of its result.
 
 ### Frozen models
 
@@ -103,14 +135,27 @@ joined species set.
 Baseline:
 
 ~~~text
-z(speciation_rate)
-  ~ z(log_bill_length)
-  + z(log_body_mass)
-  + z(mid_elevation)
-  + z(temperature_breadth)
-  + z(precipitation_breadth)
+z(log(speciation_rate))
+  ~ z(log(bill_length))
+  + z(log(body_mass))
+  + z(log(mid_elevation))
+  + z(log(temperature_position))
+  + z(log(temperature_breadth))
+  + z(log(precipitation_position))
+  + z(log(precipitation_breadth))
   + major_clade
 ~~~
+
+This seven-static-trait baseline follows the trait set reported by Barreto et
+al. rather than choosing only traits that were significant in their paper.
+The source paper states that variables shown in its comparative panel were
+log-transformed and z-standardized; Gate A applies the same transformation to
+the rate outcomes and seven positive-valued static covariates before fitting.
+If a required source variable is absent or has non-positive values that make
+the declared transform invalid, Gate A aborts rather than changing the
+transform after outcome inspection.
+
+The major-clade field is the Barreto processed-table `Group` column.
 
 Test model:
 
