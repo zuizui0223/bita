@@ -69,7 +69,11 @@ derived from the speciation-rate dataset.
 ### Primary state
 
 Source-defined **clinger** classification: any of the first four unorthodox
-feeding modes pooled as clinger by Colwell et al.
+feeding modes pooled as clinger by Colwell et al. The primary contrast is the
+published 66 known clingers versus 144 presumed non-clingers. The 10 species
+documented only feeding through pierces while on the wing are a third
+source-defined group and are excluded from the primary clinger contrast rather
+than coded as non-clingers.
 
 ### Secondary state
 
