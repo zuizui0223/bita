@@ -148,6 +148,26 @@ def load_colwell_state() -> pd.DataFrame:
     out["bypass_capable"] = (style.iloc[:, 2:6].sum(axis=1) > 0).astype(int)
     out = out[out["species"].str.contains(" ", regex=False)].copy()
     out = out.drop_duplicates("species", keep="first")
+
+    # Published source-definition checksum. Abort instead of silently analysing a
+    # misparsed behavioral table.
+    source_counts = {
+        "species": int(len(out)),
+        "clingers": int(out["clinger"].sum()),
+        "onwing_pierce_only": int(out["onwing_pierce_only"].sum()),
+        "presumed_nonclingers": int((out["clinger_primary"] == 0).sum()),
+    }
+    expected = {
+        "species": 220,
+        "clingers": 66,
+        "onwing_pierce_only": 10,
+        "presumed_nonclingers": 144,
+    }
+    if source_counts != expected:
+        raise RuntimeError(
+            "COLWELL_SOURCE_COUNT_MISMATCH:"
+            + json.dumps({"observed": source_counts, "expected": expected})
+        )
     return out
 
 
