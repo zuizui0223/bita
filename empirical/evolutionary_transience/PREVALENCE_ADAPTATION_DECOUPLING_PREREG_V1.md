@@ -159,7 +159,7 @@ standardized clinger contrast for R_abs
 standardized clinger contrast for R_share
 ```
 
-This is corroborative because clinger state is behavioural rather than morphology alone.
+Use Cliff's delta (probability-of-superiority scale) as the standardized clinger contrast for both R_abs and R_share, so the two outcomes are compared on the same bounded effect-size scale. The prediction is delta_abs > delta_share. This is corroborative because clinger state is behavioural rather than morphology alone.
 
 ## Inclusion / sensitivity rules
 
