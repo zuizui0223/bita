@@ -131,6 +131,20 @@ def load_colwell_state() -> pd.DataFrame:
     style = pd.DataFrame({f"style_{i+1}": df[c].map(active) for i, c in enumerate(style_cols)})
     out = pd.concat([out, style], axis=1)
     out["clinger"] = (style.iloc[:, :4].sum(axis=1) > 0).astype(int)
+    out["unorthodox"] = (style.sum(axis=1) > 0).astype(int)
+    out["onwing_pierce_only"] = (
+        (out["clinger"] == 0) & (style.iloc[:, 4:6].sum(axis=1) > 0)
+    ).astype(int)
+    # Match Colwell et al.'s published 66-clinger versus 144 presumed-non-clinger
+    # contrast. The 10 species documented only feeding through pierces on the wing
+    # are a third source-defined group and are not coded as primary non-clingers.
+    out["clinger_primary"] = np.where(
+        out["clinger"] == 1,
+        1.0,
+        np.where(out["unorthodox"] == 0, 0.0, np.nan),
+    )
+    # Secondary behavior state: any documented bypass through an existing or
+    # self-made floral opening, whether clinging or hovering.
     out["bypass_capable"] = (style.iloc[:, 2:6].sum(axis=1) > 0).astype(int)
     out = out[out["species"].str.contains(" ", regex=False)].copy()
     out = out.drop_duplicates("species", keep="first")
@@ -446,8 +460,8 @@ def main() -> None:
             + json.dumps({"missing": missing_cov, "mapped": covariates, "columns": list(map(str, bdf.columns))})
         )
 
-    primary = analyze_state(merged, "clinger", outcomes, covariates, args.permutations, args.seed, False)
-    no_coquettes = analyze_state(merged, "clinger", outcomes, covariates, args.permutations, args.seed + 50000, True)
+    primary = analyze_state(merged, "clinger_primary", outcomes, covariates, args.permutations, args.seed, False)
+    no_coquettes = analyze_state(merged, "clinger_primary", outcomes, covariates, args.permutations, args.seed + 50000, True)
     bypass = analyze_state(merged, "bypass_capable", outcomes, covariates, args.permutations, args.seed + 100000, False)
 
     gate = (
@@ -469,11 +483,15 @@ def main() -> None:
         "join_audit": {
             "colwell_species": int(states["species"].nunique()),
             "colwell_clingers": int(states["clinger"].sum()),
+            "colwell_presumed_nonclingers": int((states["clinger_primary"] == 0).sum()),
+            "colwell_onwing_pierce_only": int(states["onwing_pierce_only"].sum()),
             "colwell_bypass_capable": int(states["bypass_capable"].sum()),
             "barreto_rows": int(len(bdf)),
             "barreto_species": int(bdf["species"].nunique()),
             "joined_species": int(merged["species"].nunique()),
             "joined_clingers": int(merged["clinger"].sum()),
+            "joined_primary_nonclingers": int((merged["clinger_primary"] == 0).sum()),
+            "joined_onwing_pierce_only": int(merged["onwing_pierce_only"].sum()),
             "joined_bypass_capable": int(merged["bypass_capable"].sum()),
         },
         "schema": {
