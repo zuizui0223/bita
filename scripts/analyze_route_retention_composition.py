@@ -192,6 +192,16 @@ def _load_frozen_archive(directory: Path) -> tuple[list[Edge], list[Edge], list[
             for column, target in fields:
                 n = int(row[column])
                 target.append(Edge(**common,primary_count=n,strict_count=n,broad_count=n))
+    expected_hashes = {
+        "aubert_ephi_participation_opportunities.csv": "685f227a2aa2c5c322e18188ba5bd6d44aa67490b31514b9c728e6e033abc14f",
+        "aubert_ephi_pair_site_analysis.csv": "94c74386d2c304b5816653e79b552a0e79487258c5021f8791c614afdc956afa",
+    }
+    actual_hashes = {}
+    for filename, expected in expected_hashes.items():
+        digest = hashlib.sha256((directory / filename).read_bytes()).hexdigest()
+        actual_hashes[filename] = digest
+        if digest != expected:
+            raise ValueError("FROZEN_ARCHIVE_SHA256_MISMATCH:" + filename)
     if unknown_species:
         raise ValueError("UNKNOWN_ARCHIVE_BIRD_GROUP:" + repr(sorted(unknown_species)))
     if len(base) != 19903 or len({e.bird for e in base}) != 49:
@@ -208,7 +218,7 @@ def _load_frozen_archive(directory: Path) -> tuple[list[Edge], list[Edge], list[
     audit = {"source":"FROZEN_ANON_ARCHIVE", "archive_schema":"BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V4_OR_V5",
              "original_hummingbird_edges":len(base),
              "bird_group_from_pair_site_when_missing":True,
-             "route_reconstruction_mismatches":0}
+             "route_reconstruction_mismatches":0, "verified_sha256":actual_hashes}
     return (*shifted,audit)
 
 
