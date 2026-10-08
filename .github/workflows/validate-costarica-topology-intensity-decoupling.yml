@@ -1,0 +1,38 @@
+name: Validate Costa Rica topology-intensity cheating decoupling
+
+on:
+  push:
+    branches:
+      - analysis/costarica-topology-intensity-decoupling-v1
+    paths:
+      - "scripts/analyze_costarica_topology_intensity_decoupling.py"
+      - "empirical/mutualism_attrition/COSTARICA_TOPOLOGY_INTENSITY_DECOUPLING_PREREG_V1.md"
+      - ".github/workflows/validate-costarica-topology-intensity-decoupling.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install project
+        run: python -m pip install -e '.[dev]'
+      - name: Compile analysis
+        run: python -m py_compile scripts/analyze_costarica_topology_intensity_decoupling.py
+      - name: Run frozen Costa Rica validation
+        run: |
+          mkdir -p artifacts
+          python scripts/analyze_costarica_topology_intensity_decoupling.py \
+            artifacts/costarica_topology_intensity_decoupling.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: costarica-topology-intensity-decoupling
+          path: artifacts/costarica_topology_intensity_decoupling.json
+          if-no-files-found: error
