@@ -1,0 +1,38 @@
+name: Analyze bypass rescue window
+
+on:
+  push:
+    branches:
+      - analysis/bypass-rescue-window-v1
+    paths:
+      - "scripts/analyze_bypass_rescue_window.py"
+      - "empirical/bypass_rescue_window/BYPASS_RESCUE_WINDOW_PREREG_V1.md"
+      - ".github/workflows/analyze-bypass-rescue-window.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rescue-window:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install project
+        run: python -m pip install -e '.[dev]'
+      - name: Compile analysis
+        run: python -m py_compile scripts/analyze_bypass_rescue_window.py
+      - name: Run frozen rescue-window analysis
+        run: |
+          mkdir -p artifacts
+          python scripts/analyze_bypass_rescue_window.py \
+            artifacts/bypass_rescue_window.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bypass-rescue-window
+          path: artifacts/bypass_rescue_window.json
+          if-no-files-found: error
