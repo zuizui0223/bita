@@ -23,6 +23,10 @@ from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 from typing import Iterable
+import sys
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.analyze_aubert2026_zenodo_extension import (
     FILES,
