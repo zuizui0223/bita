@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   point-audit:
@@ -29,11 +30,37 @@ jobs:
         run: python -m pytest -q tests/test_route_retention_composition.py
       - name: Compile new diagnostic
         run: python -m py_compile scripts/analyze_route_retention_composition.py
+      - name: Reuse previously archived input (no Zenodo request)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p artifacts/frozen_input
+          archive_name="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/11293379572" --jq '.name')"
+          archive_run="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/11293379572" --jq '.workflow_run.id')"
+          gh run download "$archive_run" --name "$archive_name" --dir artifacts/frozen_input
+          test -f artifacts/frozen_input/data_archive/aubert_ephi_participation_opportunities.csv
+          test -f artifacts/frozen_input/data_archive/aubert_ephi_pair_site_analysis.csv
+          sha256sum artifacts/frozen_input/data_archive/aubert_ephi_participation_opportunities.csv
       - name: Fit species and species-site models on zero-inclusive opportunity data
         run: |
           mkdir -p artifacts
           python -m scripts.analyze_route_retention_composition \
-            artifacts/route_retention_composition_point.json --mode point
+            artifacts/route_retention_composition_point.json --mode point \
+            --archive-dir artifacts/frozen_input/data_archive
+      - name: Assert point estimates equal prior source-file run
+        run: |
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          j=json.loads(Path("artifacts/route_retention_composition_point.json").read_text())
+          assert j["support_gate"]["total_edges"]==19903
+          assert j["support_gate"]["state_edges"]=={"ACCESSIBLE":14770,"MODERATE_MISMATCH":1847,"SEVERE_MISMATCH":3286}
+          r=j["route_specific"]
+          assert math.isclose(r["robbing"]["model_bird_and_waypoint_FE"]["rate_ratio_contrasts"]["severe_vs_accessible"],1.2173212224518681,rel_tol=1e-9)
+          assert math.isclose(r["legitimate"]["model_bird_site_and_waypoint_FE"]["rate_ratio_contrasts"]["severe_vs_accessible"],0.04897687680739414,rel_tol=1e-9)
+          assert r["robbing"]["model_bird_site_and_waypoint_FE"]["status"]=="FIT_ERROR"
+          print("FROZEN_ARCHIVE_REPRODUCES_PREVIOUS_POINT_RESULTS")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: route-retention-composition-point
@@ -51,11 +78,23 @@ jobs:
           python-version: "3.11"
       - name: Install analysis prerequisites
         run: python -m pip install -e '.[dev]'
+      - name: Reuse previously archived input (no Zenodo request)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p artifacts/frozen_input
+          archive_name="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/11293379572" --jq '.name')"
+          archive_run="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/11293379572" --jq '.workflow_run.id')"
+          gh run download "$archive_run" --name "$archive_name" --dir artifacts/frozen_input
+          test -f artifacts/frozen_input/data_archive/aubert_ephi_participation_opportunities.csv
+          test -f artifacts/frozen_input/data_archive/aubert_ephi_pair_site_analysis.csv
+          sha256sum artifacts/frozen_input/data_archive/aubert_ephi_participation_opportunities.csv
       - name: Complete frozen plant-cluster jackknife without changing categories
         run: |
           mkdir -p artifacts
           python -m scripts.analyze_route_retention_composition \
-            artifacts/route_retention_composition_full.json --mode full
+            artifacts/route_retention_composition_full.json --mode full \
+            --archive-dir artifacts/frozen_input/data_archive
       - uses: actions/upload-artifact@v4
         with:
           name: route-retention-composition-full
