@@ -1,0 +1,37 @@
+name: Analyze cheater-dominance attrition diagnostics
+
+on:
+  push:
+    branches:
+      - analysis/cheater-dominance-attrition-crossfit-v1
+    paths:
+      - "scripts/analyze_cheater_dominance_attrition_diagnostics.py"
+      - ".github/workflows/analyze-cheater-dominance-attrition-diagnostics.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install project
+        run: python -m pip install -e '.[dev]'
+      - name: Compile diagnostic analysis
+        run: python -m py_compile scripts/analyze_cheater_dominance_attrition_diagnostics.py
+      - name: Run frozen secondary diagnostics
+        run: |
+          mkdir -p artifacts
+          python scripts/analyze_cheater_dominance_attrition_diagnostics.py \
+            artifacts/cheater_dominance_attrition_diagnostics.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cheater-dominance-attrition-diagnostics
+          path: artifacts/cheater_dominance_attrition_diagnostics.json
+          if-no-files-found: error
