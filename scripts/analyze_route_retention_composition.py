@@ -8,12 +8,17 @@ This is NOT an individual switching or causal inference design.
 """
 from __future__ import annotations
 import argparse
+import csv
 import json
 import math
 import sys
+import hashlib
+import tempfile
+import zipfile
 from collections import defaultdict
 from dataclasses import replace
 from pathlib import Path
+from contextlib import contextmanager
 
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -128,26 +133,109 @@ def jackknife_site_fe(edges: list[Edge], full: dict) -> dict:
     }
 
 
+
+@contextmanager
+def archive_input(zip_path: Path | None, archive_dir: Path | None):
+    """Read the frozen anonymous opportunity table without external downloads."""
+    if zip_path is not None and archive_dir is not None:
+        raise ValueError("specify only one archive input")
+    if archive_dir is not None:
+        yield archive_dir
+    elif zip_path is not None:
+        with tempfile.TemporaryDirectory(prefix="bita_archive_") as name:
+            root = Path(name)
+            with zipfile.ZipFile(zip_path) as zf:
+                zf.extractall(root)
+            yield root / "data_archive" if (root / "data_archive").is_dir() else root
+    else:
+        yield None
+
+
+def _load_frozen_archive(directory: Path) -> tuple[list[Edge], list[Edge], list[Edge], dict]:
+    """Use the same route counts, opportunity universe and taxa partition.
+
+    V4 lacks bird_group in its opportunity table, so recover group exclusively
+    from its companion pair-site table; do not infer from outcome or mismatch.
+    """
+    pair_map = {}
+    with (directory / "aubert_ephi_pair_site_analysis.csv").open(
+        encoding="utf-8", newline=""
+    ) as source:
+        for row in csv.DictReader(source):
+            species = row["bird_unit"]
+            group = row["bird_group"]
+            if species in pair_map and pair_map[species] != group:
+                raise ValueError("CONFLICTING_BIRD_GROUP_IN_ARCHIVE:" + species)
+            pair_map[species] = group
+
+    base, rob, leg = [], [], []
+    unknown_species = set()
+    with (directory / "aubert_ephi_participation_opportunities.csv").open(
+        encoding="utf-8", newline=""
+    ) as source:
+        for row in csv.DictReader(source):
+            group = row.get("bird_group") or pair_map.get(row["bird_unit"], "")
+            if not group:
+                unknown_species.add(row["bird_unit"])
+                continue
+            if group != "hummingbird":
+                continue
+            common = {
+                "waypoint": row["waypoint_unit"],
+                "bird": row["bird_unit"],
+                "plant": row["plant_unit"],
+                "site": row["site_id"],
+                "barrier": int(row["trait_barrier"].strip().lower() == "true"),
+                "mismatch": float(row["mismatch_log_t_over_b"]),
+            }
+            fields = [("primary_count",base),("robbing_count",rob),("legitimate_count",leg)]
+            for column, target in fields:
+                n = int(row[column])
+                target.append(Edge(**common,primary_count=n,strict_count=n,broad_count=n))
+    if unknown_species:
+        raise ValueError("UNKNOWN_ARCHIVE_BIRD_GROUP:" + repr(sorted(unknown_species)))
+    if len(base) != 19903 or len({e.bird for e in base}) != 49:
+        raise ValueError("ARCHIVE_POPULATION_DRIFT")
+    if any(b.primary_count != r.primary_count + l.primary_count
+           for b,r,l in zip(base,rob,leg)):
+        raise ValueError("ARCHIVE_ROUTE_SUM_MISMATCH")
+    shift = math.log(REACH_MULTIPLIER)
+    shifted = [
+        [replace(e,mismatch=e.mismatch-shift,barrier=int(e.mismatch-shift>0))
+         for e in edges]
+        for edges in (base,rob,leg)
+    ]
+    audit = {"source":"FROZEN_ANON_ARCHIVE", "archive_schema":"BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V4_OR_V5",
+             "original_hummingbird_edges":len(base),
+             "bird_group_from_pair_site_when_missing":True,
+             "route_reconstruction_mismatches":0}
+    return (*shifted,audit)
+
+
+def _load_sources(args):
+    if args.archive_zip is None and args.archive_dir is None:
+        data = {key:_read(_download(name)) for key,name in FILES.items()}
+        birds=_hummingbird_species(data["interactions"])
+        base,_audit=build_opportunity_edges(data["interactions"],data["cameras"],data["plants"],data["birds"])
+        rob,leg,route_audit=split_route_counts(data["interactions"],data["cameras"],data["plants"],data["birds"])
+        return (*[_shift_hummingbird_edges(edges,birds,REACH_MULTIPLIER) for edges in (base,rob,leg)],
+                {"source":"EPHI_ZENODO","route_reconstruction_mismatches":route_audit["route_specific_reconstruction_mismatches"]})
+    with archive_input(args.archive_zip,args.archive_dir) as directory:
+        return _load_frozen_archive(directory)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("output")
     parser.add_argument("--mode", choices=("point", "full"), default="point")
+    parser.add_argument("--archive-zip", type=Path, default=None)
+    parser.add_argument("--archive-dir", type=Path, default=None)
     args = parser.parse_args()
 
-    data = {key: _read(_download(name)) for key, name in FILES.items()}
-    allowed = _hummingbird_species(data["interactions"])
-    base, audit = build_opportunity_edges(
-        data["interactions"], data["cameras"], data["plants"], data["birds"]
-    )
-    rob, leg, route_audit = split_route_counts(
-        data["interactions"], data["cameras"], data["plants"], data["birds"]
-    )
-    base = _shift_hummingbird_edges(base, allowed, REACH_MULTIPLIER)
-    rob = _shift_hummingbird_edges(rob, allowed, REACH_MULTIPLIER)
-    leg = _shift_hummingbird_edges(leg, allowed, REACH_MULTIPLIER)
+    base, rob, leg, input_audit = _load_sources(args)
     if not (len(base) == len(rob) == len(leg)):
         raise RuntimeError("ROUTE_EDGE_COUNTS_MISMATCH")
-    if route_audit["route_specific_reconstruction_mismatches"] != 0:
+    if input_audit["route_reconstruction_mismatches"] != 0:
         raise RuntimeError("ROUTE_COUNTS_NOT_RECONSTRUCTED")
     if any(b.primary_count != r.primary_count + l.primary_count
            for b, r, l in zip(base, rob, leg)):
@@ -201,7 +289,8 @@ def main() -> None:
         "mismatch_scale": "log(tube/(1.8*culmen))",
         "category_cut": [0.0, MARGIN],
         "support_gate": gate,
-        "source_route_reconstruction": route_audit["route_specific_reconstruction_mismatches"],
+        "source_route_reconstruction": input_audit["route_reconstruction_mismatches"],
+        "input_provenance": input_audit,
         "route_specific": results,
         "diagnostic_decision": decision,
         "claim_ceiling": (
