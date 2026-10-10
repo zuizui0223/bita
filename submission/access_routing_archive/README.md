@@ -12,6 +12,20 @@ The build workflow generates an `artifacts/letter/data_archive/` directory conta
 - `metadata.csv` — file/column descriptions and units;
 - `archive_manifest.json` — source DOIs, row counts and identifier policy;
 - `archive_reproduction.json` — statistics regenerated using only the archived analysis tables, including pooled and route-specific participation, the preregistered threshold/boundary audit, and the post-open hummingbird effective-reach sensitivity;
+
+**Route-rate estimand boundary (post-open audit):** Under the 1.8×
+effective-reach sensitivity, the descriptive ratio of separately fitted
+robbery and legitimate rate ratios is **5.311** (95% plant-jackknife
+interval 1.923–14.672). Both outcomes are constructed from the same
+zero-inclusive opportunity matrix, but response-specific Poisson
+fixed-effect fitting drops waypoint and bird-group margins with zero
+counts. The resulting fitted positive-margin supports differ
+(3,371 robbery versus 15,377 legitimate hummingbird opportunities in
+the bird + waypoint FE model, from 19,903 original hummingbird
+opportunities). The quoted 5.311 is therefore **not** a directly
+estimated common-risk-set substitution or individual behavior-switching
+effect. These bounds do not change any frozen data or model output.
+
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv` — the 24-program bounded direct geometry → robbery supporting corpus;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv` — included, duplicate and excluded Stage-U update candidates with explicit reasons;
 - `supporting_literature/LEAL2025_DIRECT_GEOMETRY_SCREEN_V1.csv` — complete 56-label historical geometry screen;
