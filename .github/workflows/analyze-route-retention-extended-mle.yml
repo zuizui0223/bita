@@ -6,6 +6,7 @@ on:
       - analysis/route-retention-composition-v1
     paths:
       - "scripts/analyze_route_retention_extended_mle.py"
+      - "scripts/audit_route_retention_extended_cluster_sensitivity.py"
       - "tests/test_route_retention_extended_mle.py"
       - ".github/workflows/analyze-route-retention-extended-mle.yml"
   workflow_dispatch:
@@ -68,8 +69,29 @@ jobs:
           print("EXPLORATORY_MISMATCH_ESTIMATION_REPRODUCED_NOT_CONFIRMATORY")
           PY
 
+      - name: Audit plant-excluded-site and bird-specific fragility
+        run: |
+          python -m scripts.audit_route_retention_extended_cluster_sensitivity \
+            artifacts/immutable_archive.zip artifacts/route_retention_extended_cluster_sensitivity.json
+      - name: Validate directional fragility and no-site07 dependence
+        run: |
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          j=json.loads(Path("artifacts/route_retention_extended_cluster_sensitivity.json").read_text())
+          assert j["leave_site"]["successful_refits"]==18
+          assert j["leave_bird"]["successful_refits"]==49
+          assert math.isclose(
+              j["site_07_deletion"]["rate_ratios"]["severe_accessible"],
+              1.0277602286742213,rel_tol=1e-7)
+          assert j["leave_bird"]["ranges"]["severe_accessible"]["min"] < 1
+          assert j["leave_bird"]["ranges"]["severe_accessible"]["max"] > 1
+          print("BIRD_SITE_DELETION_SENSITIVITY_VERIFIED")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: route-retention-extended-mle-exploratory
-          path: artifacts/route_retention_extended_mle.json
+          path: |
+            artifacts/route_retention_extended_mle.json
+            artifacts/route_retention_extended_cluster_sensitivity.json
           if-no-files-found: error
