@@ -1,0 +1,75 @@
+name: Diagnose exploratory extended-MLE robbery effects
+
+on:
+  push:
+    branches:
+      - analysis/route-retention-composition-v1
+    paths:
+      - "scripts/analyze_route_retention_extended_mle.py"
+      - "tests/test_route_retention_extended_mle.py"
+      - ".github/workflows/analyze-route-retention-extended-mle.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  extended-mle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install numerical dependencies
+        run: python -m pip install --disable-pip-version-check numpy scipy pytest
+
+      - name: Verify minimal-face and identifiability invariants
+        run: python -m pytest -q tests/test_route_retention_extended_mle.py
+
+      - name: Download immutable anonymous archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p artifacts/archive
+          archive_name="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/11293379572" --jq '.name')"
+          archive_run="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/11293379572" --jq '.workflow_run.id')"
+          gh run download "$archive_run" --name "$archive_name" --dir artifacts/archive
+          test -f artifacts/archive/data_archive/aubert_ephi_participation_opportunities.csv
+          ( cd artifacts/archive && zip -q -r ../immutable_archive.zip data_archive )
+
+      - name: Fit exploratory extended MLE and 288 plant-deletion refits
+        run: |
+          python -m scripts.analyze_route_retention_extended_mle \
+            artifacts/immutable_archive.zip artifacts/route_retention_extended_mle.json
+
+      - name: Validate result and claim boundary
+        run: |
+          python - <<'PY'
+          import json, math
+          from pathlib import Path
+          d=json.loads(Path("artifacts/route_retention_extended_mle.json").read_text())
+          f=d["full_fit"]
+          assert d["hummingbird_zero_inclusive_opportunities"]==19903
+          assert d["plants"]==288
+          assert f["status"]=="FIT"
+          assert f["forced_zero_cells"]==6
+          assert f["active_cells"]==2557
+          assert d["mismatch_identifiability"]["joint_contrast_rank"]==2
+          assert math.isclose(f["rate_ratios"]["moderate_accessible"],0.5038729297814168,rel_tol=1e-6)
+          assert math.isclose(f["rate_ratios"]["severe_accessible"],1.0277602286742213,rel_tol=1e-6)
+          jack=d["plant_jackknife"]
+          assert jack["complete"] and jack["successful_replicates"]==288
+          assert all(v["ci95"][0]<1<v["ci95"][1] for v in jack["contrasts"].values())
+          assert "EXPLORATORY" in d["analysis"] and "not confirmatory" in d["claim_boundary"].lower()
+          print("EXPLORATORY_MISMATCH_ESTIMATION_REPRODUCED_NOT_CONFIRMATORY")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: route-retention-extended-mle-exploratory
+          path: artifacts/route_retention_extended_mle.json
+          if-no-files-found: error
