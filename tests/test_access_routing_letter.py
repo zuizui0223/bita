@@ -155,6 +155,10 @@ def test_letter_integrates_postopen_reach_sensitivity_and_boundary_mass() -> Non
     assert "legitimate RR was 0.154 (0.087–0.271)" in text
     assert "robbery RR was 0.816 (0.358–1.860)" in text
     assert "robbery-to-legitimate RR ratio was then 5.31 (1.92–14.67)" in text
+    assert "positive-margin supports" in text
+    assert "not a joint rate contrast estimated over identical opportunities" in text
+    assert "individual birds were not tracked" in text
+    assert "without identifying individual tactic changes" in text
     assert "585 of 999 finite bootstrap fits (58.6%)" in text
     assert "cannot by themselves convert a support-boundary sigmoid midpoint into an interior threshold" in text
 
