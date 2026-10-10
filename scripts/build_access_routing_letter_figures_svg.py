@@ -104,7 +104,7 @@ def build_figure1() -> str:
         # Ecuador empirical result
         '<rect x="160" y="485" width="1180" height="310" rx="18" fill="#f7f7f7" stroke="#333" stroke-width="2"/>',
         _text(190, 525, "D  Ecuador: post-open 1.8× effective-reach sensitivity", size=22, weight="bold"),
-        _text(190, 565, "same zero-inclusive bird × waypoint opportunities; plant-jackknife intervals", size=14),
+        _text(190, 565, "same constructed opportunities; route-specific fit supports differ", size=14),
 
         _text(215, 625, "legitimate feeding", size=17, weight="bold"),
         _text(470, 625, "RR = 0.154", size=20, weight="bold"),
@@ -114,9 +114,9 @@ def build_figure1() -> str:
         _text(650, 680, "95% CI 0.358–1.860", size=16),
 
         '<rect x="925" y="585" width="360" height="125" rx="12" fill="white" stroke="#555" stroke-width="1.5"/>',
-        _text(1105, 620, "robbery / legitimate RR", size=16, anchor="middle", weight="bold"),
+        _text(1105, 620, "ratio of separately fitted RRs", size=15, anchor="middle", weight="bold"),
         _text(1105, 660, "5.31  (1.92–14.67)", size=23, anchor="middle", weight="bold"),
-        _text(1105, 693, "comparative persistence of bypass", size=14, anchor="middle"),
+        _text(1105, 693, "different FE supports; descriptive", size=12, anchor="middle"),
 
         _text(750, 750, "Observed pattern: strong loss of legitimate feeding; no detectable increase in robbery.", size=18, anchor="middle", weight="bold"),
         _text(750, 780, "Interpretation is observational and the 1.8× reach analysis is explicitly post-open.", size=14, anchor="middle"),
