@@ -1,0 +1,67 @@
+name: Audit common route-rate support and paired sensitivity
+
+on:
+  push:
+    branches:
+      - analysis/route-retention-composition-v1
+    paths:
+      - "scripts/audit_route_rate_common_support.py"
+      - "tests/test_route_rate_common_support.py"
+      - ".github/workflows/audit-route-rate-common-support.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  support-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install numerical dependencies
+        run: python -m pip install --disable-pip-version-check numpy scipy pytest
+      - name: Test response-dependent margin pruning
+        run: python -m pytest -q tests/test_route_rate_common_support.py
+      - name: Retrieve source-frozen anonymous archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p artifacts/immutable
+          archive_name="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/11293379572" --jq '.name')"
+          archive_run="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/11293379572" --jq '.workflow_run.id')"
+          gh run download "$archive_run" --name "$archive_name" --dir artifacts/immutable
+          test -f artifacts/immutable/data_archive/aubert_ephi_participation_opportunities.csv
+          ( cd artifacts/immutable && zip -q -r ../frozen.zip data_archive )
+      - name: Audit original and common route-specific support
+        run: |
+          python -m scripts.audit_route_rate_common_support \
+            artifacts/frozen.zip artifacts/route_rate_common_support.json
+      - name: Assert denominators and post-outcome claim ceiling
+        run: |
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          a=json.loads(Path("artifacts/route_rate_common_support.json").read_text())
+          s=a["route_support"]
+          assert s["total_eligible_opportunities"]==19903
+          assert s["robbery_positive_margin_support"]==2563
+          assert s["legitimate_positive_margin_support"]==15352
+          assert s["initial_intersection"]==2195
+          assert s["joint_iteratively_pruned_cells"]==1986
+          assert s["joint_support_plants"]==126
+          b=a["common_positive_margin_sensitivity"]
+          assert math.isclose(b["cross_route_rr_ratio_on_joint_margin_support"]["severe_accessible"],12.361789241228873,rel_tol=2e-6)
+          assert b["paired_plant_jackknife"]["severe_accessible"]["successful_plant_refits"]==126
+          assert "post-outcome" in a["claim_boundary"].lower()
+          print("SUPPORT_OVERLAP_AND_EXPLORATORY_JACKKNIFE_REPRODUCED")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: route-rate-common-support-exploratory
+          path: artifacts/route_rate_common_support.json
+          if-no-files-found: error
