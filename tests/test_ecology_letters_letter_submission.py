@@ -74,9 +74,9 @@ def test_letter_submission_source_excludes_internal_workflow_language() -> None:
     assert "mechanistic corroboration from floral-defence systems" not in lower
     assert "floral-defence evidence as mechanistic context" in lower
     assert "not an independent validation dataset" in lower
-    assert "88 species from four communities" in lower
-    assert "provide biological context rather than additional standardized network replicates" in lower
-    assert "coetzee et al. 2026" in lower
+    assert "a third independent multispecies bird–flower dataset" in lower
+    assert "directional corroboration rather than a third standardized network contribution" in lower
+    assert "case et al. 2026" in lower
     assert "relative route cost" in lower
     assert "cost of legitimate entry more than the cost of bypass" in lower
     assert "longer flower = more robbery" in lower
@@ -146,7 +146,7 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
         "effective-reach sensitivity",
         "5.311",
         "AUBERT2026_POSTOPEN_DIAGNOSTICS_RECEIPT_V1.json",
-        "585/999 bootstrap fits",
+        "585/999 threshold boundary mass",
         "10.5281/zenodo.8398202",
         "10.5281/zenodo.14185547",
         "DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv",
