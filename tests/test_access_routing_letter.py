@@ -131,7 +131,7 @@ def test_letter_separates_case_directional_recurrence_from_standardized_k() -> N
     assert "Case et al. 2026" in text
     assert "11 plant and seven bird species" in text
     assert "directional corroboration rather than a third standardized network contribution" in text
-    assert "standardized replication count remains \\(k=2\\)" in text
+    assert "the standardized replication count remains (k=2)" in text
 
 
 @pytest.mark.prose_contract
@@ -218,7 +218,7 @@ def test_letter_reports_route_rate_identifiability_audit_with_claim_boundary() -
     text = LETTER.read_text(encoding="utf-8").lower()
     assert "post-hoc **design-identifiability audit**" in text
     assert "seven of the 33 programs met the strict zero-inclusive both-route-rate criterion" in text
-    assert "18 used robbery-prevalence-only outcomes" in text
+    assert "eighteen used robbery-prevalence-only outcomes" in text
     assert "six estimated route choice conditional on observed interactions" in text
     assert "26/33 programs in this frozen frame did not" in text
     assert "post-hoc finite-frame design description" in text
