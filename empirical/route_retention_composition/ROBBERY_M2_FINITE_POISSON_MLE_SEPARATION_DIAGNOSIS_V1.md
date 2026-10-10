@@ -2,7 +2,7 @@
 
 Date: 2026-10-10
 Branch: `analysis/route-retention-composition-v1`
-Status: **INDEPENDENT LOCAL LINEAR-PROGRAM DIAGNOSIS COMPUTED; GITHUB ACTIONS REPRODUCIBILITY RUN SUBMITTED**
+Status: **INDEPENDENT AND GITHUB ACTIONS REPRODUCED; BOUNDARY SEPARATION VERIFIED**
 This analysis does not modify the frozen biological hypothesis, mismatch threshold,
 zero-inclusive denominator, or its original Poisson model.
 
@@ -110,3 +110,31 @@ provides the same maximum-minimum-intensity LP, with frozen archive checksum
 verification and a corresponding test fixture for structural positivity and
 boundary separation. GitHub Actions workflow:
 `.github/workflows/audit-route-poisson-mle-feasibility.yml`.
+
+
+## GitHub Actions reproduction confirmed
+
+- [Run 38058880723](https://github.com/zuizui0223/bita/actions/runs/38058880723): **completed, success**
+- Head SHA: `7af2ee7eac240eac82eed6f7415d04bf5aca2f37`
+- Both synthetic interior/boundary tests and frozen original archive retrieval passed.
+- Expected eight-route/design LP classifications passed.
+- Output artifact: `route-retention-poisson-mle-feasibility`, id `11672166953`.
+- The 8 run estimates reproduce all local maxima in the table above.
+- The robbery M2 positive-margin support has 2,563 opportunity cells,
+  818 camera-waypoint and 100 bird×site fixed-effect groups.
+
+### Explicit constrained-cell witness
+
+The category-free robbery M2 transportation-margin LP was also separately
+re-solved after setting the objective to maximize the expected value of one
+anonymous supported opportunity, `waypoint_1297 × bird_041@@site_07`
+(plant `plant_139`, observed robbery count 0). Under the **unchanged**
+observed waypoint and bird×site margins, its maximum feasible value was
+**zero** at the HiGHS optimum. This exhibits a supported opportunity
+that is forced to have zero expectation when margins are matched,
+so a strictly positive finite-parameter Poisson fit cannot reproduce
+the data's sufficient statistics.
+
+The witness is a mathematical **support/margin** statement, not a new
+test of the mismatch predictor; its observation was never used to
+change the model's covariates or inclusion filters.
