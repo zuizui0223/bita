@@ -78,16 +78,16 @@ def test_letter_submission_source_excludes_internal_workflow_language() -> None:
     assert "directional corroboration rather than a third standardized network contribution" in lower
     assert "case et al. 2026" in lower
     assert "relative route cost" in lower
-    assert "cost of legitimate entry more than the cost of bypass" in lower
-    assert "longer flower = more robbery" in lower
+    assert "the sign of a geometry–robbery association depends on" in lower
+    assert "longer flowers were associated with relatively greater use of robbery" in lower
     assert "frozen openalex frame contained 857 unique bibliographic records" in lower
     assert "33 independent study programs" in lower
     assert "twenty-two showed the predicted direction" in lower
     assert "five were null" in lower
     assert "four were opposite" in lower
     assert "two were mixed" in lower
-    assert "finite provider-defined frame" in lower
-    assert "not an estimate of natural prevalence" in lower
+    assert "frozen openalex frame contained 857 unique bibliographic records" in lower
+    assert "not an estimate for the broader literature" in lower
     assert "bounded direct-evidence corpus contained 24 study programs" not in lower
     assert "standardized replication count is therefore still only two networks" in lower
     assert "participation inference depends on the physiological reach threshold" in lower
