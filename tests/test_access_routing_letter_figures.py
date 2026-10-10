@@ -25,6 +25,8 @@ def test_letter_figure1_states_prevalence_frequency_ambiguity() -> None:
     assert "RR = 0.154" in svg
     assert "RR = 0.816" in svg
     assert "5.31  (1.92–14.67)" in svg
+    assert "ratio of separately fitted RRs" in svg
+    assert "different FE supports; descriptive" in svg
     assert "no detectable increase in robbery" in svg
     assert "Illustrative counts in A–C are schematic" in svg
 
