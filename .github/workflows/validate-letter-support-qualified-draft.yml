@@ -1,0 +1,61 @@
+name: Validate support-qualified Letter draft
+
+on:
+  push:
+    branches:
+      - paper/route-rate-riskset-qualification-v1
+    paths:
+      - "manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md"
+      - "manuscript/FIGURE_PLAN_ACCESS_ROUTING_LETTER_V0.md"
+      - "submission/ECOLOGY_LETTERS_LETTER_COVER_V0.md"
+      - "submission/ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md"
+      - "scripts/build_access_routing_letter_figures_svg.py"
+      - "tests/test_access_routing_letter.py"
+      - "tests/test_access_routing_letter_figures.py"
+      - "tests/test_ecology_letters_letter_submission.py"
+      - ".github/workflows/validate-letter-support-qualified-draft.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependencies
+        run: python -m pip install -e '.[dev]'
+      - name: Run all Letter source and figure claim tests
+        run: |
+          python -m pytest -q \
+            tests/test_access_routing_letter.py \
+            tests/test_access_routing_letter_figures.py \
+            tests/test_ecology_letters_letter_submission.py
+      - name: Rebuild revised main figures from source
+        run: |
+          python -m scripts.build_access_routing_letter_figures_svg \
+            --output-dir artifacts/figures
+      - name: Verify source-frozen stats and qualified display language
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          letter=Path("manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md").read_text()
+          fig=Path("artifacts/figures/FIGURE_1_ACCESS_ROUTING_HYPOTHESIS.svg").read_text()
+          assert "robbery-to-legitimate RR ratio was then 5.31 (1.92–14.67)" in letter
+          assert "not a joint rate contrast estimated over identical opportunities" in letter
+          assert "individual birds were not tracked" in letter
+          assert "ratio of separately fitted RRs" in fig
+          assert "different FE supports; descriptive" in fig
+          assert "RR = 0.154" in fig and "RR = 0.816" in fig
+          print("SUPPORT_QUALIFICATION_AND_FROZEN_NUMBERS_VERIFIED")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: support-qualified-letter-figures
+          path: artifacts/figures/
+          if-no-files-found: error
