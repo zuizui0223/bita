@@ -56,12 +56,16 @@ Show the post-open 1.8× effective-reach result:
 ~~~text
 legitimate RR = 0.154 (0.087–0.271)
 robbery RR = 0.816 (0.358–1.860)
-robbery / legitimate RR = 5.31 (1.92–14.67)
+descriptive ratio of separately fitted robbery and legitimate RRs = 5.31 (1.92–14.67)
 ~~~
 
 Label the biological reading as strong loss of legitimate feeding with no detectable
 increase in robbery. State directly that A–C are illustrative counts and D is the
 observed Ecuadorian estimate; the 1.8× sensitivity is post-open and observational.
+Although both route outcomes were constructed from the same zero-inclusive
+opportunity matrix, their fixed-effect Poisson fits retain different positive-margin
+supports. The 5.31 ratio must be labeled as a descriptive ratio of separately
+fitted RRs, **not** a directly observed common-risk-set substitution effect.
 
 Main message:
 
