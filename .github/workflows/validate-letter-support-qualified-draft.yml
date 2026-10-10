@@ -9,6 +9,7 @@ on:
       - "manuscript/FIGURE_PLAN_ACCESS_ROUTING_LETTER_V0.md"
       - "submission/ECOLOGY_LETTERS_LETTER_COVER_V0.md"
       - "submission/ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md"
+      - "submission/access_routing_archive/README.md"
       - "scripts/build_access_routing_letter_figures_svg.py"
       - "tests/test_access_routing_letter.py"
       - "tests/test_access_routing_letter_figures.py"
