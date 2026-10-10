@@ -214,7 +214,8 @@ def test_cover_letter_matches_current_evidence_hierarchy() -> None:
     assert "which absolute route changed" in lower
     assert "rr=0.154" in lower
     assert "0.087–0.271" in lower
-    assert "retained relative to legitimate feeding by a factor of 5.31" in lower
+    assert "descriptive ratio of separately fitted robbery-versus-legitimate rrs" in lower
+    assert "not a single common-risk-set replacement estimate" in lower
 
 
 @pytest.mark.prose_contract
