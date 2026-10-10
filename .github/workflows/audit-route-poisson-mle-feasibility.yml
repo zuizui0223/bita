@@ -1,0 +1,64 @@
+name: Audit finite Poisson MLE feasibility for route retention
+
+on:
+  push:
+    branches:
+      - analysis/route-retention-composition-v1
+    paths:
+      - "scripts/diagnose_route_retention_poisson_mle_existence.py"
+      - "tests/test_route_retention_poisson_mle_existence.py"
+      - ".github/workflows/audit-route-poisson-mle-feasibility.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install numerical test dependencies
+        run: python -m pip install numpy scipy pytest
+      - name: Verify structural/nonstructural fixtures
+        run: python -m pytest -q tests/test_route_retention_poisson_mle_existence.py
+      - name: Reuse immutable frozen source artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p artifacts/frozen_input
+          archive_name="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/11293379572" --jq '.name')"
+          archive_run="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/11293379572" --jq '.workflow_run.id')"
+          gh run download "$archive_run" --name "$archive_name" --dir artifacts/frozen_input
+          test -f artifacts/frozen_input/data_archive/aubert_ephi_participation_opportunities.csv
+          test -f artifacts/frozen_input/data_archive/aubert_ephi_pair_site_analysis.csv
+          ( cd artifacts/frozen_input && zip -q -r ../frozen_archive.zip data_archive )
+      - name: Check finite-MLE necessary/sufficient interior condition
+        run: |
+          python -m scripts.diagnose_route_retention_poisson_mle_existence \
+            artifacts/frozen_archive.zip artifacts/route_poisson_feasibility.json
+      - name: Verify expected conditional boundary diagnostics
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("artifacts/route_poisson_feasibility.json").read_text())
+          assert d["source"]["opportunity_edges"]==19903
+          fits=d["fits"]
+          for f in fits:
+              if f["fixed_effect_groups"]=="waypoint+bird_site" and f["route"]=="robbery":
+                  assert f["status"]=="BOUNDARY_SEPARATION", f
+              else:
+                  assert f["status"]=="STRICTLY_POSITIVE_FEASIBLE", f
+          print("MARGINAL_INTERIOR_DIAGNOSIS_REPRODUCED")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: route-retention-poisson-mle-feasibility
+          path: artifacts/route_poisson_feasibility.json
+          if-no-files-found: error
