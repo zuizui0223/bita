@@ -73,7 +73,7 @@ def test_letter_submission_source_excludes_internal_workflow_language() -> None:
     assert "our ci environment" not in lower
     assert "mechanistic corroboration from floral-defence systems" not in lower
     assert "floral-defence evidence as mechanistic context" in lower
-    assert "not as an independent validation dataset" in lower
+    assert "not an independent validation dataset" in lower
     assert "88 species from four communities" in lower
     assert "provide biological context rather than additional standardized network replicates" in lower
     assert "coetzee et al. 2026" in lower
