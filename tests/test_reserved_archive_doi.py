@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from shutil import copyfile
 
 import pytest
 
@@ -126,3 +127,48 @@ def test_check_only_state_before_reservation_is_explicit(tmp_path: Path) -> None
         "status": "ZENODO_DOI_NOT_RESERVED_YET",
         "receipt_present": False,
     }
+
+
+def test_current_letter_checkout_can_receive_doi_without_touching_source(tmp_path: Path) -> None:
+    """Contract test against the *actual* repository state, not a synthetic status."""
+    real_root = Path(__file__).resolve().parents[1]
+    before = {}
+    for rel in TARGETS:
+        source = real_root / rel
+        original = source.read_bytes()
+        before[rel] = original
+        destination = tmp_path / rel
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        copyfile(source, destination)
+
+    test_doi = "10.5281/zenodo.12345678"  # fixture only; never publish
+    result = apply_reserved_doi(tmp_path, test_doi)
+    assert result["doi"] == test_doi
+    assert verify_reserved_doi(tmp_path)["status"] == "ZENODO_RESERVED_DOI_APPLIED"
+    assert "ACCESS_ROUTING_ARCHIVE_DOI = RESERVED_PENDING_ZENODO_PUBLICATION" in (
+        tmp_path / "docs/PUBLICATION_STATUS.md"
+    ).read_text(encoding="utf-8")
+    assert "ARCHIVE_DOI = RESERVED_PENDING_ZENODO_PUBLICATION" in (
+        tmp_path / "docs/SUBMISSION_SCOPE.md"
+    ).read_text(encoding="utf-8")
+    assert apply_reserved_doi(tmp_path, test_doi)["changed_files"] == []
+    for rel, original in before.items():
+        assert (real_root / rel).read_bytes() == original
+    assert not (real_root / "submission/access_routing_archive/RESERVED_DOI_RECEIPT.json").exists()
+
+
+def test_doi_application_is_all_or_nothing_if_status_unknown(tmp_path: Path) -> None:
+    """Invalid later target must not leave manuscript and title-page half-updated."""
+    _fixture(tmp_path)
+    (tmp_path / "docs/PUBLICATION_STATUS.md").write_text(
+        "ACCESS_ROUTING_ARCHIVE_DOI = UNRECOGNIZED_STATUS\n",
+        encoding="utf-8",
+    )
+    baseline = {rel: (tmp_path / rel).read_bytes() for rel in TARGETS}
+    with pytest.raises(ValueError, match="DOI_TARGET_NOT_FOUND"):
+        apply_reserved_doi(tmp_path, "10.5281/zenodo.12345678")
+    for rel, original in baseline.items():
+        assert (tmp_path / rel).read_bytes() == original
+    assert not (
+        tmp_path / "submission/access_routing_archive/RESERVED_DOI_RECEIPT.json"
+    ).exists()
