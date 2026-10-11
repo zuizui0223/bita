@@ -15,6 +15,16 @@ into the Letter **before** the exact submission-commit archive is built.
 At this point the DOI is reserved but not yet registered. Registration occurs
 when the Zenodo record is published.
 
+**Confidential-review alternative (not yet editorially authorized):**
+Ecology Letters' data/code policy also permits private-for-peer-review
+access, while Zenodo supports `Can preview draft` links. A DOI reserved
+but not yet registered may require explicit confirmation from the
+journal's editorial office. See
+`PRIVATE_REVIEW_ACCESS_ROUTE_V1.md` before considering such a route.
+Do not place a confidential draft-preview link in public GitHub files.
+The normal publication-and-public-DOI gate below remains in force
+unless the editor confirms an alternative.
+
 ## Phase 2 — freeze the DOI-bearing submission commit
 
 Replace the archive placeholder with the reserved DOI in:
