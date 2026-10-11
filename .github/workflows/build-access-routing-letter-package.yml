@@ -23,6 +23,8 @@ on:
       - "scripts/audit_aubert2026_threshold_bootstrap_boundary.py"
       - "scripts/format_ecology_submission_docx.py"
       - "scripts/apply_reserved_archive_doi.py"
+      - "scripts/audit_letter_release_gate.py"
+      - "tests/test_audit_letter_release_gate.py"
       - "tests/test_reserved_archive_doi.py"
       - "tests/test_direct_access_geometry_corpus.py"
       - "tests/test_direct_access_geometry_stage_u.py"
@@ -68,6 +70,8 @@ on:
       - "scripts/build_access_routing_letter_figures_svg.py"
       - "scripts/format_ecology_submission_docx.py"
       - "scripts/apply_reserved_archive_doi.py"
+      - "scripts/audit_letter_release_gate.py"
+      - "tests/test_audit_letter_release_gate.py"
       - "scripts/build_sakhalkar2023_route_figure_svg.py"
       - "trait_architecture/numerics.py"
       - "tests/test_access_routing_letter.py"
@@ -632,6 +636,42 @@ jobs:
                   raise SystemExit(f"Figure 3 missing token: {token}")
 
           print("Letter package and DOI-archive staging inventory verified")
+          PY
+
+      - name: Audit staging archive and record submission blockers
+        env:
+          REVIEWED_PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          STAGE_PROXY="$RUNNER_TEMP/access-routing-letter-stage-proxy.zip"
+          (
+            cd artifacts/letter
+            zip -q "$STAGE_PROXY" \
+              access-routing-letter-data-code-v1.zip \
+              access-routing-letter-data-code-v1.sha256 \
+              MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md \
+              ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md \
+              ECOLOGY_LETTERS_LETTER_COVER_V0.md
+          )
+          EXPECTED_SHA="${REVIEWED_PR_HEAD_SHA:-$GITHUB_SHA}"
+          python -m scripts.audit_letter_release_gate \
+            "$STAGE_PROXY" \
+            submission/ECOLOGY_LETTERS_LETTER_AUTHOR_METADATA_V1.json \
+            --expected-head-sha "$EXPECTED_SHA" \
+            --output-json artifacts/letter/LETTER_RELEASE_READINESS_RECEIPT.json
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          d=json.loads(Path("artifacts/letter/LETTER_RELEASE_READINESS_RECEIPT.json").read_text())
+          assert d["integrity"]["all_checksums_match"] is True
+          assert d["integrity"]["inner"]["verified"] >= 60
+          assert d["submission_ready"] is False
+          assert "DOI_PUBLICATION_NOT_VERIFIED" in d["blockers"]
+          assert d["provenance"]["expected_head_sha"] == os.environ.get("REVIEWED_PR_HEAD_SHA") or d["provenance"]["expected_head_sha"] == os.environ["GITHUB_SHA"]
+          if os.environ.get("REVIEWED_PR_HEAD_SHA"):
+              assert d["provenance"]["source_commit_matches_head"] is False
+              assert "SOURCE_COMMIT_NOT_REVIEWED_HEAD" in d["blockers"]
+          print("STAGING_RELEASE_AUDIT_SAVED_WITH_PACKAGE; EXTERNAL_SUBMISSION_BLOCKED")
           PY
 
       - uses: actions/upload-artifact@v4
