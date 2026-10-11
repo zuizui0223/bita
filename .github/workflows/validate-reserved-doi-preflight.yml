@@ -1,0 +1,36 @@
+name: Validate access-routing reserved-DOI preflight
+
+on:
+  push:
+    branches:
+      - paper/route-rate-riskset-qualification-v1
+    paths:
+      - "scripts/apply_reserved_archive_doi.py"
+      - "tests/test_reserved_archive_doi.py"
+      - ".github/workflows/validate-reserved-doi-preflight.yml"
+      - "docs/PUBLICATION_STATUS.md"
+      - "docs/SUBMISSION_SCOPE.md"
+      - "submission/access_routing_archive/README.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dry-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install only test dependencies
+        run: python -m pip install --disable-pip-version-check pytest
+      - name: Test synthetic fixtures and actual-checkout DOI application in temporary directory
+        run: python -m pytest -q tests/test_reserved_archive_doi.py
+      - name: Verify no DOI has been applied to live checkout
+        run: |
+          test ! -f submission/access_routing_archive/RESERVED_DOI_RECEIPT.json
+          git diff --exit-code
+          echo DOI_PREFLIGHT_DRIVE_RUN_ONLY
