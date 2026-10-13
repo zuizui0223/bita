@@ -40,13 +40,18 @@ themselves identify:
    conditional on an observed interaction: it distinguishes robbing from legitimate
    route choice but has no no-interaction state in the denominator. The Ecuador
    extension reconstructs zero-inclusive bird × waypoint opportunities and fits
-   separate legitimate and robbing feeding-rate contrasts. Under a post-open,
-   literature-based 1.8× reach correction, the legitimate fit gives a strong
-   decline, while the robbery fit gives no detectable direction. The two
-   route-specific FE fits retain different positive-margin supports, and
-   P1's plant-level prevalence association has a different inferential grain.
-   The ratio of the fitted route RRs is descriptive, not a direct common-risk-set
-   decomposition of the plant-level association.
+   separate legitimate and robbing feeding-rate contrasts. Across three explicitly post-open
+   tongue-reach multiplier scenarios (4/3, 1.8, 2.0×), the legitimate fit
+   consistently declines (all 95% CIs below 1) but the robbery direction remains
+   unresolved (all 95% CIs include 1). The preregistered, anatomically incomplete
+   bill-only definition yields an opposite legitimate sign and is retained as
+   provenance, not a validated physiological-access benchmark. No one correction
+   is verified across all 49 hummingbird species. Descriptive RR ratios span
+   2.41–13.88 across corrected scenarios; the 4/3 ratio CI includes 1, and
+   multiplier-choice uncertainty is absent from each conditional interval.
+   Route-specific FE fits retain different positive-margin supports; P1's
+   plant-level prevalence association has a different inferential grain.
+   The fitted RR ratio is not a direct common-risk-set decomposition of P1.
 2. **Relational versus consumer-fixed routing.** Within-bird analyses ask whether
    route use changes with the bird–flower relation rather than only because some
    bird species are intrinsically more robbery-prone.
