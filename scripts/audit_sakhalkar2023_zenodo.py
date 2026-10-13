@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import io
 import json
+from http.client import IncompleteRead
 import posixpath
 import time
 import xml.etree.ElementTree as ET
@@ -207,7 +208,9 @@ def _download() -> bytes:
             last_error = error
             if error.code < 500 or attempt == attempts - 1:
                 break
-        except URLError as error:
+        except (URLError, ConnectionError, TimeoutError, IncompleteRead) as error:
+            # urlopen can expose RemoteDisconnected directly (a ConnectionResetError),
+            # rather than wrapping it in URLError. Retry transport failures only.
             last_error = error
             if attempt == attempts - 1:
                 break
