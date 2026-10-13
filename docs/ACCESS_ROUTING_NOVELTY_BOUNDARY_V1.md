@@ -39,11 +39,14 @@ themselves identify:
 1. **Robbery prevalence versus robbery frequency.** The source mismatch result is
    conditional on an observed interaction: it distinguishes robbing from legitimate
    route choice but has no no-interaction state in the denominator. The Ecuador
-   extension reconstructs zero-inclusive bird × waypoint opportunities and therefore
-   separates absolute legitimate and robbing feeding rates. Under a literature-based
-   1.8× reach correction, legitimate feeding is strongly filtered while robbery
-   itself shows no detectable increase; robbery therefore becomes more prevalent
-   relative to legitimate feeding without requiring more robbery events.
+   extension reconstructs zero-inclusive bird × waypoint opportunities and fits
+   separate legitimate and robbing feeding-rate contrasts. Under a post-open,
+   literature-based 1.8× reach correction, the legitimate fit gives a strong
+   decline, while the robbery fit gives no detectable direction. The two
+   route-specific FE fits retain different positive-margin supports, and
+   P1's plant-level prevalence association has a different inferential grain.
+   The ratio of the fitted route RRs is descriptive, not a direct common-risk-set
+   decomposition of the plant-level association.
 2. **Relational versus consumer-fixed routing.** Within-bird analyses ask whether
    route use changes with the bird–flower relation rather than only because some
    bird species are intrinsically more robbery-prone.
@@ -68,13 +71,16 @@ themselves identify:
 
 ## Ecology Letters positioning rule
 
-The manuscript should be presented as a **network-scale decomposition of a
-known mismatch–robbery prevalence pattern into its route-specific absolute
-components**, not as a first discovery of mismatch-associated robbery, route-rate
-measurement, or geometry-driven behavioral switching. The biologically interesting
-result is that the same higher-robbery-prevalence pattern is mechanistically
-heterogeneous across systems: prior experiments show numerator-driven robbery
-increases, whereas the Ecuadorian effective-reach sensitivity is dominated by loss
-of legitimate feeding. Any
-future abstract, cover letter, title or Discussion revision must preserve that
-boundary.
+The manuscript should be presented as a **network-scale comparison of a known
+conditional mismatch–robbery prevalence pattern with an opportunity-augmented,
+route-specific rate sensitivity**, not as a first discovery of mismatch-associated
+robbery, rate measurement, or geometry-driven behavioral switching. Prior
+experiments document numerator-driven robbery increases; in Ecuador, the
+post-open effective-reach fit instead estimates much lower legitimate feeding
+and unresolved robbery-rate change. That contrast suggests heterogeneous
+possible processes, but is not a common-risk-set accounting decomposition or
+prospective causal identification. The model-based numerical share of the
+plant-level prevalence pattern due to either route is unidentified. Any future
+abstract, cover letter, title or Discussion revision must preserve that boundary.
+
+The detailed own-estimand audit is `docs/LETTER_ESTIMAND_SELF_AUDIT_2026_10_13.md`.
