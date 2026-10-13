@@ -152,9 +152,17 @@ def test_letter_integrates_postopen_reach_sensitivity_and_boundary_mass() -> Non
     assert "RR 1.883, 1.111–3.190" in text
     assert "RR 0.463, 0.147–1.461" in text
     assert "With the 1.8 multiplier" in text
-    assert "legitimate RR was 0.154 (0.087–0.271)" in text
-    assert "robbery RR was 0.816 (0.358–1.860)" in text
-    assert "robbery-to-legitimate RR ratio was then 5.31 (1.92–14.67)" in text
+    assert "RR 0.154 (0.087–0.271)" in text
+    assert "0.816 (0.358–1.860)" in text
+    assert "Descriptive robbery-to-legitimate ratios" in text
+    assert "4/3×, RR 0.354 (0.197–0.635)" in text
+    assert "2.0×, RR 0.100 (0.065–0.155)" in text
+    assert "0.851 (0.328–2.212)" in text
+    assert "1.393 (0.729–2.663)" in text
+    assert "all three CIs included 1" in text.lower() or "all three CIs included 1" in text
+    assert "the legitimate-rate direction reverses" in text.lower()
+    assert "all 49 hummingbird species" in text
+    assert "omit uncertainty in the multiplier itself" in text
     assert "positive-margin supports" in text
     assert "not a joint rate contrast estimated over identical opportunities" in text
     assert "individual birds were not tracked" in text
@@ -183,7 +191,9 @@ def test_letter_centers_prevalence_vs_route_frequency_not_rewiring_novelty() -> 
     text = LETTER.read_text(encoding="utf-8").lower()
     abstract = text.split("## abstract", 1)[1].split("## introduction", 1)[0]
     assert "composition alone cannot distinguish these mechanisms" in abstract
-    assert "robbery itself showed no detectable increase" in abstract
+    assert "every robbery-rate CI included 1" in abstract
+    assert "1.33–2.0" in abstract
+    assert "The preregistered bill-only barrier gave the opposite legitimate-rate direction" in abstract
     assert "higher robbery prevalence need not imply more robbery" in abstract
     assert "### higher robbery prevalence need not mean more robbery" in text
     assert "more prevalent robbery did not require more robbery" in text
@@ -237,3 +247,18 @@ def test_letter_self_audit_guards_noncommon_estimands() -> None:
     assert "do not share one estimand or fitted support" in cover
     for token in ("19,903", "3,371", "15,377", "2,900", "5.31", "k = 2", "post-open", "unresolved"):
         assert token in audit
+
+
+@pytest.mark.prose_contract
+def test_letter_reach_sign_robustness_is_conditional_on_scenarios() -> None:
+    text = LETTER.read_text(encoding="utf-8")
+    abstract = text.split("## Abstract", 1)[1].split("## Introduction", 1)[0]
+    assert "each 95% CI below 1" in abstract
+    assert "every robbery-rate CI included 1" in abstract
+    assert "2.41 to 13.88" in abstract
+    assert "different supports and cannot identify substitution" in abstract
+    assert "0.862–6.720" in text
+    assert "At 4/3× the ratio CI also includes 1" in text
+    assert "the plant-jackknife CIs are conditional on each multiplier" in text
+    assert "The preregistered culmen-only P2 result reverses" in text
+    assert "A shared multiplier assumes proportional tongue reach across species" in text
