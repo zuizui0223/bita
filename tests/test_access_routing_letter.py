@@ -199,7 +199,7 @@ def test_letter_centers_prevalence_vs_route_frequency_not_rewiring_novelty() -> 
     assert "more prevalent robbery did not require more robbery" in text
     assert "existing forbidden-link, alternative-mode and rewiring theory" in text
     assert "our zero-inclusive opportunity model adds the missing no-interaction state" in text
-    assert "composition should therefore not be interpreted as route frequency" in text
+    assert "conditional robbery share should not be interpreted as absolute route frequency" in text
 
 
 @pytest.mark.prose_contract
