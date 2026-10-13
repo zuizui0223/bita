@@ -225,3 +225,15 @@ def test_letter_reports_route_rate_identifiability_audit_with_claim_boundary() -
     assert "not an estimate for the broader literature" in text
     assert "the 7/33 audit is post hoc" in text
     assert "does not make this the first study to measure both route rates" in text
+
+
+@pytest.mark.prose_contract
+def test_letter_self_audit_guards_noncommon_estimands() -> None:
+    letter = LETTER.read_text(encoding="utf-8")
+    cover = (ROOT / "submission" / "ECOLOGY_LETTERS_LETTER_COVER_V0.md").read_text(encoding="utf-8")
+    audit = (ROOT / "docs" / "LETTER_ESTIMAND_SELF_AUDIT_2026_10_13.md").read_text(encoding="utf-8")
+    assert "same population, weighting and access contrast" in letter
+    assert "fraction of the P1 prevalence association attributable to either route cannot be identified" in letter
+    assert "do not share one estimand or fitted support" in cover
+    for token in ("19,903", "3,371", "15,377", "2,900", "5.31", "k = 2", "post-open", "unresolved"):
+        assert token in audit
