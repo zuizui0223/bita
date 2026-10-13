@@ -191,9 +191,9 @@ def test_letter_centers_prevalence_vs_route_frequency_not_rewiring_novelty() -> 
     text = LETTER.read_text(encoding="utf-8").lower()
     abstract = text.split("## abstract", 1)[1].split("## introduction", 1)[0]
     assert "composition alone cannot distinguish these mechanisms" in abstract
-    assert "every robbery-rate CI included 1" in abstract
+    assert "every robbery-rate ci included 1" in abstract
     assert "1.33–2.0" in abstract
-    assert "The preregistered bill-only barrier gave the opposite legitimate-rate direction" in abstract
+    assert "the preregistered bill-only barrier gave the opposite legitimate-rate direction" in abstract
     assert "higher robbery prevalence need not imply more robbery" in abstract
     assert "### higher robbery prevalence need not mean more robbery" in text
     assert "more prevalent robbery did not require more robbery" in text
