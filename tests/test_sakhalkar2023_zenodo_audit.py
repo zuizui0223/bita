@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import io
 import zipfile
+from http.client import RemoteDisconnected
 from urllib.error import HTTPError
+
+import pytest
 
 from scripts import audit_sakhalkar2023_zenodo as audit
 from scripts.audit_sakhalkar2023_zenodo import summarize_archive
@@ -108,3 +111,43 @@ def test_download_retries_transient_5xx(monkeypatch) -> None:
 
     assert audit._download() == b"abc"
     assert calls["n"] == 3
+
+
+def test_download_retries_remote_disconnected(monkeypatch) -> None:
+    calls = {"n": 0}
+
+    class FakeResponse:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self, _limit):
+            return b"source-zip"
+
+    def fake_urlopen(_request, timeout=60):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise RemoteDisconnected("Remote end closed connection without response")
+        return FakeResponse()
+
+    monkeypatch.setattr(audit, "urlopen", fake_urlopen)
+    monkeypatch.setattr(audit.time, "sleep", lambda _seconds: None)
+    assert audit._download() == b"source-zip"
+    assert calls["n"] == 2
+
+
+def test_download_remote_disconnected_exhaustion_is_fail_closed(monkeypatch) -> None:
+    calls = {"n": 0}
+
+    def fake_urlopen(_request, timeout=60):
+        calls["n"] += 1
+        raise RemoteDisconnected("Remote end closed connection without response")
+
+    monkeypatch.setattr(audit, "urlopen", fake_urlopen)
+    monkeypatch.setattr(audit.time, "sleep", lambda _seconds: None)
+
+    with pytest.raises(RuntimeError, match="after retries"):
+        audit._download()
+    assert calls["n"] == 4
