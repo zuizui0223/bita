@@ -86,17 +86,28 @@ def test_figure4_svg_contains_points_and_frozen_stats_without_species_ids() -> N
     }
     reach = {
         "sensitivities": {
+            "1.3333333333333333": {
+                "zero_inclusive": {
+                    "legitimate_nonrobbing": {"rr": 0.3537375, "ci95": [0.196905, 0.635484]},
+                    "robbing": {"rr": 0.8511619, "ci95": [0.327547, 2.211822]},
+                    "robbing_rr_over_legitimate_rr": {"ratio": 2.406197},
+                },
+            },
             "1.8": {
                 "zero_inclusive": {
-                    "legitimate_nonrobbing": {"rr": 0.153716},
-                    "robbing": {"rr": 0.816407},
-                    "robbing_rr_over_legitimate_rr": {
-                        "ratio": 5.311139,
-                        "ci95": [1.922555, 14.672246],
-                    },
-                }
-            }
-        }
+                    "legitimate_nonrobbing": {"rr": 0.153716, "ci95": [0.087190, 0.271001]},
+                    "robbing": {"rr": 0.816407, "ci95": [0.358303, 1.860217]},
+                    "robbing_rr_over_legitimate_rr": {"ratio": 5.311139},
+                },
+            },
+            "2.0": {
+                "zero_inclusive": {
+                    "legitimate_nonrobbing": {"rr": 0.1003808, "ci95": [0.065191, 0.154565]},
+                    "robbing": {"rr": 1.3928714, "ci95": [0.728532, 2.663015]},
+                    "robbing_rr_over_legitimate_rr": {"ratio": 13.875869},
+                },
+            },
+        },
     }
     svg = build_svg(points, result, aubert, participation, reach)
 
@@ -110,9 +121,9 @@ def test_figure4_svg_contains_points_and_frozen_stats_without_species_ids() -> N
     assert "descriptive pair-site robbery: barrier 0.147 vs accessible 0.020" in svg
     assert "culmen-only pooled RR = 1.772" in svg
     assert "95% CI 1.105–2.841" in svg
-    assert "1.8× reach: legitimate RR 0.154; robbery RR 0.816" in svg
-    assert "robbery / legitimate RR = 5.31 (95% CI 1.92–14.67)" in svg
-    assert "legitimate feeding declines; robbery shows no detectable increase" in svg
+    assert "post-open 4/3–2.0×: legitimate RR 0.100–0.354; each CI excludes 1" in svg
+    assert "robbery RR 0.816–1.393 (CIs include 1); descriptive RR ratios 2.41–13.88" in svg
+    assert "Post-open corrected reach: legitimate declines; robbery direction unresolved" in svg
     assert "plant-level mismatch rho = 0.503" in svg
     assert "bird paired barrier: 36 species" in svg
     assert "within-bird continuous: 28 species / 1,285 dyads" in svg
