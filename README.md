@@ -61,8 +61,16 @@ robust no-filtering result because exposed culmen underestimates hummingbird rea
 In a frozen post-open hummingbird-only sensitivity, the 1.8× reach correction used
 in prior network work gave legitimate RR 0.154 (95% CI 0.087–0.271), robbery RR
 0.816 (0.358–1.860), and a robbery/legitimate RR ratio of 5.311 (1.923–14.672).
-Thus severe effective mismatch selectively filters the legitimate route while
-robbery is comparatively retained; it need not increase absolute robbery counts.
+The two route-specific fixed-effect models retain different positive-margin
+supports (robbery 3,371; legitimate 15,377; intersection 2,900 of the 19,903
+hummingbird opportunity edges). Hence the 5.311 ratio is **descriptive across
+models**, not a directly identified common-risk-set substitution or an accounting
+decomposition of the plant-level prevalence association (P1). Under the explicitly
+post-open 1.8× reach definition, a marked legitimate-rate reduction is supported
+on its fitted support; the direction of the robbery-rate change remains unresolved.
+This observational contrast cannot establish an individual tactic switch or a
+causal explanation of the P1 association. See
+[the own-estimand self-audit](docs/LETTER_ESTIMAND_SELF_AUDIT_2026_10_13.md).
 
 
 Case et al. (2026) add **published directional corroboration** from a third independent multispecies Hawaiian bird–lobelioid dataset. Their published analysis reports that nectar robbing declines as bill length approaches flower length, equivalent under the BITA orientation to greater flower-minus-bill mismatch being associated with greater robbery. Dryad metadata describe 11 plant and 7 bird species. Because the direction was already public and the fauna is Aves, this dataset is not added to the standardized equal-network statistic: `k=2` remains primary, and a harmonized Case rank effect stays unopened until exact source bytes are verified.
