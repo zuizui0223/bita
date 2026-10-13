@@ -75,6 +75,8 @@ guard is `docs/ACCESS_ROUTING_NOVELTY_BOUNDARY_V1.md`.
 
 ## Participation, reach sensitivity and routing shape
 
+**Headline claim (2026-10-14):** Within the **post-open** hummingbird effective-reach scenarios 4/3, 1.8, 2.0×, legitimate RRs are 0.354 (0.197–0.635), 0.154 (0.087–0.271), and 0.100 (0.065–0.155): all CIs exclude 1 below. The paired robbery RRs 0.851 (0.328–2.212), 0.816 (0.358–1.860), and 1.393 (0.729–2.663) all have CIs crossing 1 and are direction-unresolved. The descriptive route-RR ratios span 2.406–13.876 across selected multipliers, without integrating multiplier uncertainty; the 4/3 ratio CI (0.862–6.720) includes 1. The preregistered bill-only legitimate RR 1.883 is **opposite in sign**, and is retained as the anatomically incomplete culmen-only benchmark, not silently discarded. A single tongue-reach multiplier is not validated across 49 hummingbird species. No causal common-risk-set substitution or algebraic decomposition of plant-level P1 is identified.
+
 The preregistered zero-inclusive Ecuadorian model remains frozen under its original
 exposed-culmen barrier:
 
@@ -119,16 +121,7 @@ RR_robbery / RR_legitimate      0.246     2.406     5.311     13.876
 ratio 95% CI                    0.070-0.869 0.862-6.720 1.923-14.672 6.504-29.603
 ~~~
 
-The strongest biologically grounded sensitivity is the 1.8 correction used by
-Vizentin-Bugoni et al. (2016): severe effective mismatch suppresses legitimate
-feeding strongly while robbery-only counts remain statistically unresolved.
-The ratio of separately fitted robbery and legitimate RRs descriptively suggests
-greater relative retention of robbery, but these response-specific fits have
-different positive-margin support sets. Thus this ratio is not a directly
-estimated common-risk-set substitution factor. The robust observation is
-strongly reduced legitimate feeding with no statistically resolved increase
-of robbery; a causal buffering or individual tactic-switching mechanism has
-not been identified.
+Vizentin-Bugoni et al. (2016) motivates the 1.8× sensitivity, but it is not a measured value shared by all hummingbird species. The three corrected reach scenarios consistently estimate reduced legitimate feeding, whereas robbery-only changes remain statistically unresolved. The 1.8× ratio is a descriptive comparison of separately fitted RRs; route-specific models use different positive-margin support sets and no conditional jackknife interval incorporates multiplier uncertainty. The original bill-only result reverses the legitimate direction, showing why the threshold definition matters. Therefore a causal buffering or individual tactic-switching mechanism has not been identified.
 
 The plant-level continuous Spearman result is invariant to any constant reach
 multiplier because `log[T/(kB)] = log(T/B) - log(k)`. The paired binary P1 contrast
