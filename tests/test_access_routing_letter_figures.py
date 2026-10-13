@@ -24,11 +24,15 @@ def test_letter_figure1_states_prevalence_frequency_ambiguity() -> None:
     assert "Only zero-inclusive route-specific rates distinguish them" in svg
     assert "RR = 0.154" in svg
     assert "RR = 0.816" in svg
-    assert "5.31  (1.92–14.67)" in svg
+    assert "0.246 (0.070–0.869)" in svg
+    assert "2.406 (0.862–6.720)" in svg
+    assert "5.311 (1.923–14.672)" in svg
+    assert "13.876 (6.504–29.603)" in svg
     assert "ratio of separately fitted RRs" in svg
-    assert "different FE supports; descriptive" in svg
-    assert "no detectable increase in robbery" in svg
-    assert "Illustrative counts in A–C are schematic" in svg
+    assert "different FE supports; descriptive only" in svg
+    assert "1.00 reverses the legitimate direction" in svg
+    assert "Across 1.33–2.0: legitimate CIs exclude 1; all robbery CIs include 1" in svg
+    assert "A–C are schematic" in svg
 
 
 def test_letter_figure3_uses_frozen_joint_result() -> None:
