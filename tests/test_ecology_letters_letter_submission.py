@@ -94,8 +94,10 @@ def test_letter_submission_source_excludes_internal_workflow_language() -> None:
     assert "rr 1.772" in lower
     assert "1.105–2.841" in lower
     assert "1.8 multiplier used in a prior hummingbird-network analysis" in lower
-    assert "legitimate rr was 0.154" in lower
-    assert "selectively suppresses legitimate feeding" in lower
+    assert "legitimate feeding rates decreased" in lower
+    assert "all three 95% cis excluded 1" in lower
+    assert "the legitimate-rate direction reverses" in lower
+    assert "all three cis included 1" in lower
 
 
 def test_letter_submission_remains_fail_closed_until_archive_doi_and_author_metadata() -> None:
@@ -212,8 +214,10 @@ def test_cover_letter_matches_current_evidence_hierarchy() -> None:
     assert "only 7/33 programs met a strict zero-inclusive both-route-rate criterion" in lower
     assert "not an estimate for the broader literature" in lower
     assert "which absolute route changed" in lower
-    assert "rr=0.154" in lower
-    assert "0.087–0.271" in lower
+    assert "0.354, 0.154, 0.100" in lower
+    assert "0.851, 0.816, and 1.393" in lower
+    assert "4/3× ratio ci includes 1" in lower
+    assert "not a single common-risk-set replacement estimate" in lower
     assert "descriptive ratio of separately fitted robbery-versus-legitimate rrs" in lower
     assert "not a single common-risk-set replacement estimate" in lower
 
