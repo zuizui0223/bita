@@ -68,3 +68,22 @@ This is the substantive novelty ceiling of the present Letter. To exceed it woul
 Write **“the post-open legitimate-rate model estimated a strong reduction while robbery-rate change was unresolved”** rather than **“the higher robbery prevalence was caused by legitimate-visit loss.”** Treat P1 versus P2 as **complementary but different estimands**, and the 5.31 as descriptive, throughout the title-facing argument, abstract, figure, Discussion and cover.
 
 Do not merge the current draft PR solely because this document and wording pass regression tests: author-controlled disclosures, DOI provenance, archival publication and submission remain separately blocked.
+
+## 6. 2026-10-14 reach-multiplier sign and uncertainty qualification
+
+The old selected 1.8× point estimate is no longer the manuscript's main headline. The post-open all-hummingbird scenarios are reported side-by-side:
+
+| Fixed reach multiplier | Legitimate RR (95% plant jackknife CI) | Robbery RR (95% plant jackknife CI) | Descriptive separately fitted RR ratio (conditional CI) |
+|---|---:|---:|---:|
+| 1.00 exposed culmen only, originally preregistered | 1.883 (1.111–3.190) | 0.463 (0.147–1.461) | 0.246 (0.070–0.869) |
+| 4/3 corrected | 0.354 (0.197–0.635) | 0.851 (0.328–2.212) | 2.406 (0.862–6.720) |
+| 1.80 corrected | 0.154 (0.087–0.271) | 0.816 (0.358–1.860) | 5.311 (1.923–14.672) |
+| 2.00 corrected | 0.100 (0.065–0.155) | 1.393 (0.729–2.663) | 13.876 (6.504–29.603) |
+
+**Across the three post-open corrected scenarios alone:** all legitimate 95% CIs exclude 1 below; all robbery 95% CIs cross 1. This is sign consistency for the separately fitted legitimate reduction, **not** an equivalence result for robbery, a proven relative retention effect, or a universal physiological statement. The 4/3 ratio CI itself includes 1. The descriptive ratio ranges from 2.406 to 13.876 over these three scenarios; those endpoints are **not** a 95% interval that propagates uncertainty in multiplier choice.
+
+**Why keep k=1.00 but not accept it as true effective reach:** hummingbird tongues extend beyond the exposed bill, so the frozen `tube > culmen` barrier omits a functional structure necessary for nectar access. It is an anatomically incomplete threshold. The positive legitimate RR there reverses the corrected-scenario direction and must be visible; the fact does **not** make a universal correction of 4/3, 1.8, or 2.0 biologically proven. Maximum tongue projection, efficient extraction distance and interspecific allometry are distinct. Grant & Temeles (1992)'s focal hummingbird observations do not measure reach for all 49 species in the present sensitivity, so uniform proportional scaling is an unvalidated scenario assumption.
+
+**Threshold localization remains negative:** changing a single fixed multiplier translates `log[tube/(k*culmen)]` by a constant and also translates the searched support. It cannot change the boundary-sticking outcome (585/999 bootstrap fits at the upper bound). Species-specific reach estimates could change relative mismatch rankings and in principle alter threshold localization; their existence or impact is not established here.
+
+These observations alter interpretive emphasis and plotting only. The original registration, model fits, confidence intervals, frozen archive numerical outputs, and distinct P1/P2 estimands remain intact.
