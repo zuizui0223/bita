@@ -13,18 +13,9 @@ The build workflow generates an `artifacts/letter/data_archive/` directory conta
 - `archive_manifest.json` — source DOIs, row counts and identifier policy;
 - `archive_reproduction.json` — statistics regenerated using only the archived analysis tables, including pooled and route-specific participation, the preregistered threshold/boundary audit, and the post-open hummingbird effective-reach sensitivity;
 
-**Route-rate estimand boundary (post-open audit):** Under the 1.8×
-effective-reach sensitivity, the descriptive ratio of separately fitted
-robbery and legitimate rate ratios is **5.311** (95% plant-jackknife
-interval 1.923–14.672). Both outcomes are constructed from the same
-zero-inclusive opportunity matrix, but response-specific Poisson
-fixed-effect fitting drops waypoint and bird-group margins with zero
-counts. The resulting fitted positive-margin supports differ
-(3,371 robbery versus 15,377 legitimate hummingbird opportunities in
-the bird + waypoint FE model, from 19,903 original hummingbird
-opportunities). The quoted 5.311 is therefore **not** a directly
-estimated common-risk-set substitution or individual behavior-switching
-effect. These bounds do not change any frozen data or model output.
+**Route-rate estimand boundary (post-open audit):** The original frozen bill-only barrier returns a positive legitimate RR **1.883 (1.111–3.190)** and omits tongue extension, so it is an incomplete anatomical proxy for effective nectar access. In three explicitly post-open hummingbird reach scenarios (4/3, 1.8, 2.0× culmen), legitimate RRs are **0.354, 0.154, 0.100** (all 95% CIs exclude 1 below); robbery RRs are **0.851, 0.816, 1.393** (all 95% CIs include 1). The descriptive ratios of separately fitted robbery/legitimate RRs span **2.406–13.876**, with the 4/3× ratio interval including 1. The conditional 1.8× ratio **5.311 (1.923–14.672)** is retained for full reproducibility, not promoted as the headline.
+
+Both outcomes are constructed from one zero-inclusive opportunity matrix, but response-specific Poisson fixed-effect fitting drops distinct zero-count waypoint/bird margins. Their positive-margin supports therefore differ (3,371 robbery versus 15,377 legitimate opportunities, intersection 2,900 of 19,903 original hummingbird opportunities). The ratios are **not** estimated common-risk-set substitution or individual tactic changes. Conditional plant-jackknife intervals omit uncertainty over multiplier choice, and a uniform correction has not been independently validated for all 49 hummingbird species. No frozen data, point estimates or archived analytical options are altered by this interpretation.
 
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_ROBBERY_CORPUS_V1.csv` — the 24-program bounded direct geometry → robbery supporting corpus;
 - `supporting_literature/DIRECT_ACCESS_GEOMETRY_STAGE_U_REGISTRY_V1.csv` — included, duplicate and excluded Stage-U update candidates with explicit reasons;
