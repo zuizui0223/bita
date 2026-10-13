@@ -1,5 +1,13 @@
 # Publication status
 
+## Verified staging state (2026-10-14 JST)
+
+- [Review PR #360](https://github.com/zuizui0223/bita/pull/360) is **draft/unmerged**. The reviewed head `3b42919668c25fc7b7c9014ea2e97439f57b39f3` passed the full [Letter package workflow](https://github.com/zuizui0223/bita/actions/runs/38415454239), [Python 3.10/3.11/3.12 CI](https://github.com/zuizui0223/bita/actions/runs/38415454318), source data audits and submission-scope tests.
+- Stage artifact ID `11824174728` contains review materials. Archive-only reproduction and **69/69** inner checksum checks passed. This is **not** a DOI-bearing published release; GitHub Actions used a virtual-merge source SHA.
+- The CI receipt remains `INTEGRITY_VERIFIED_BUT_RELEASE_BLOCKED`: no real reserved/published Zenodo DOI, no complete author approval/metadata and no exact DOI-bearing final commit.
+- [Canonical submission tracker #227](https://github.com/zuizui0223/bita/issues/227) now supersedes older claims that the 5.31 ratio identifies a common-risk-set substitution. P1 plant-level composition and P2 bird × waypoint rate fits are distinct estimands; P2 route-specific support sets differ. See `docs/LETTER_ESTIMAND_SELF_AUDIT_2026_10_13.md`.
+- Do not merge, publicly deposit or submit until author-controlled release gates are satisfied.
+
 ## Primary submission paper
 
 > **Higher nectar robbery prevalence under access mismatch need not reflect higher robbery rates**
@@ -61,7 +69,7 @@ within-individual substitution or a causal common-risk-set replacement effect.
 Under the literature-based 1.8× reach sensitivity, legitimate feeding is
 strongly reduced while a robbery increase is not statistically resolved.
 This is compatible with selective loss of legitimate access, not proof that
-robbery causally compensates for it. The within-consumer relational test and
+robbery causally compensates for it. The within-bird-species relational association (without tracked individual tactic changes) and
 independent insect routing result remain secondary layers of support. The complete
 guard is `docs/ACCESS_ROUTING_NOVELTY_BOUNDARY_V1.md`.
 
@@ -281,7 +289,7 @@ The identification framework remains supporting provenance and claim discipline.
 
 ## Initial-submission readiness gate
 
-The scientific and package layers are ready, but Ecology Letters requires an externally archived analysis-data/code package with a persistent DOI at initial submission.
+The scientific and staging package layers have passed. The project's **default fail-closed submission rule** requires a genuine published, resolving archive DOI and approved authorship/metadata before journal submission. A private-for-review route is documented separately but requires affirmative editorial authorization; it has not been approved.
 
 Current blockers:
 
@@ -312,7 +320,7 @@ The archive contract is now V5 and covers the **current manuscript rather than o
 
 ```text
 1. Ecology Letters — Letter
-   route on the network-scale decomposition of higher robbery prevalence into absolute route-rate changes;
+   route on a network-scale comparison of conditional robbery prevalence with separately fitted opportunity-based route-rate sensitivities (distinct estimands);
    emphasize mechanism heterogeneity and the 7/33 finite-frame identifiability gap;
    do not pitch first mismatch→robbery, first route-rate measurement, first tactic switching, or first route-cost theory
 2. Functional Ecology — Research Article fallback
@@ -326,7 +334,7 @@ STATUS = SCIENTIFIC_PACKAGE_REBUILT_AROUND_SPECIES_LEVEL_ROBUST_INFERENCE
 ACTIVE_PAPER = ACCESS_ROUTING_LETTER
 ROUTING_MECHANISM = RELATIVE_ROUTE_COST
 ROUTE_COST_PRIOR_THEORY = ACKNOWLEDGED_NOT_CLAIMED_AS_NOVEL
-NOVELTY_CORE = NETWORK_SCALE_MECHANISM_HETEROGENEITY_BEHIND_ROBBERY_PREVALENCE
+NOVELTY_CORE = NETWORK_SCALE_PREVALENCE_VS_OPPORTUNITY_BASED_ROUTE_RATE_COMPARISON
 ROUTE_COST_BOUNDARY = dC_LEGITIMATE_MINUS_dC_BYPASS
 DIRECT_ACCESS_GEOMETRY_BOUNDED_CORPUS_PROGRAMS = 24
 FORMAL_DIRECT_ACCESS_GEOMETRY_PROGRAMS = 33
@@ -363,6 +371,6 @@ POSTOPEN_DIAGNOSTIC_PROVENANCE = RECEIPT_AND_HASHES_RECORDED
 DOI_APPLICATION_GATE = IMPLEMENTED_RECEIPT_RENDER_ARCHIVE_CHECKS
 AUTHOR_METADATA = MACHINE_READABLE_CONTRACT_READY_VALUES_REQUIRED
 ZENODO_RESERVATION_PROBE = CREDENTIAL_GATE_FAILED_TOKEN_MISSING
-NEXT_EXTERNAL_ACTION = ADD_ZENODO_ACCESS_TOKEN_GITHUB_SECRET
+NEXT_EXTERNAL_ACTION = AUTHOR_RESERVE_APPROVED_ZENODO_DOI_OR_AUTHOR_INSTALL_DEPOSIT_SECRET
 EXTERNAL_SUBMISSION = BLOCKED_PENDING_RESERVED_DOI_FINAL_ARCHIVE_AND_AUTHOR_CONTROLLED_VALUES
 ```
