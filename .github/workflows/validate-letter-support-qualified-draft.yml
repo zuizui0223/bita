@@ -47,11 +47,15 @@ jobs:
           from pathlib import Path
           letter=Path("manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md").read_text()
           fig=Path("artifacts/figures/FIGURE_1_ACCESS_ROUTING_HYPOTHESIS.svg").read_text()
-          assert "robbery-to-legitimate RR ratio was then 5.31 (1.92–14.67)" in letter
+          assert "Descriptive robbery-to-legitimate ratios" in letter
+          assert "0.862–6.720" in letter and "13.876" in letter
+          assert "all three CIs included 1" in letter
           assert "not a joint rate contrast estimated over identical opportunities" in letter
           assert "individual birds were not tracked" in letter
           assert "ratio of separately fitted RRs" in fig
           assert "different FE supports; descriptive" in fig
+          assert "1.00 reverses the legitimate direction" in fig
+          assert "Across 1.33–2.0: legitimate CIs exclude 1" in fig
           assert "RR = 0.154" in fig and "RR = 0.816" in fig
           print("SUPPORT_QUALIFICATION_AND_FROZEN_NUMBERS_VERIFIED")
           PY
