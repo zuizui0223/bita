@@ -201,7 +201,10 @@ def test_zenodo_504_uses_only_blob_verified_tagged_author_snapshot(monkeypatch, 
     assert len(requests) == 5
     assert all("zenodo.org" in u for u in requests[:4])
     assert requests[-1] == audit.UPSTREAM_SNAPSHOT_URL
-    assert blob in capsys.readouterr().err
+    stderr = capsys.readouterr().err
+    assert blob in stderr
+    assert "ZENODO_TRANSIENT_FAILURE" in stderr
+    assert "SOURCE_PROVENANCE" in stderr
     # Provenance is printed for the release audit but no raw rows are emitted.
 
 
