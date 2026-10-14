@@ -251,10 +251,11 @@ def _pinned_author_github_snapshot() -> bytes:
     if git_blob != UPSTREAM_WORKBOOK_BLOB_SHA1:
         raise ValueError("Pinned author workbook git blob SHA-1 mismatch")
     print(
-        "SOURCE_PROVENANCE: Zenodo transiently unavailable; "
-        f"pinned author GitHub v1.0.0 commit={UPSTREAM_COMMIT}; "
-        f"verified workbook git blob={git_blob}; "
-        "all frozen result checks still required.",
+        "SOURCE_PROVENANCE: verified pinned author GitHub v1.0.0 source; "
+        f"commit={UPSTREAM_COMMIT}; "
+        f"workbook git blob={git_blob}; "
+        "no assumption about the current Zenodo service status; "
+        "frozen result checks still required.",
         file=sys.stderr,
     )
     return data
@@ -286,6 +287,11 @@ def _download() -> bytes:
     # The author-maintained public GitHub tag is a separate, fixed source path,
     # NOT an unverified mirror or an excuse to emit committed summary statistics.
     try:
+        print(
+            "ZENODO_TRANSIENT_FAILURE: exhausted four retryable attempts; "
+            "verifying pinned author-source fallback.",
+            file=sys.stderr,
+        )
         return _pinned_author_github_snapshot()
     except (HTTPError, URLError, ConnectionError, TimeoutError, IncompleteRead,
             ValueError, zipfile.BadZipFile, OSError) as fallback_error:
