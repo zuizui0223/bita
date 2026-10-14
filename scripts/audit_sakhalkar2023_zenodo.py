@@ -246,7 +246,7 @@ def _pinned_author_github_snapshot() -> bytes:
         raise ValueError("Invalid pinned author GitHub ZIP") from exc
 
     git_blob = hashlib.sha1(
-        f"blob {len(workbook)}\\0".encode("ascii") + workbook
+        f"blob {len(workbook)}\0".encode("ascii") + workbook
     ).hexdigest()
     if git_blob != UPSTREAM_WORKBOOK_BLOB_SHA1:
         raise ValueError("Pinned author workbook git blob SHA-1 mismatch")
