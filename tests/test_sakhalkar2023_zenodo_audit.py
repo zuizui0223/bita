@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import io
 import zipfile
 from http.client import RemoteDisconnected
@@ -148,6 +149,89 @@ def test_download_remote_disconnected_exhaustion_is_fail_closed(monkeypatch) -> 
     monkeypatch.setattr(audit, "urlopen", fake_urlopen)
     monkeypatch.setattr(audit.time, "sleep", lambda _seconds: None)
 
-    with pytest.raises(RuntimeError, match="after retries"):
+    with pytest.raises(RuntimeError, match="after Zenodo retries"):
         audit._download()
-    assert calls["n"] == 4
+    assert calls["n"] == 5  # Four Zenodo attempts plus one pinned GitHub attempt
+
+
+def _author_snapshot(workbook: bytes) -> bytes:
+    archive = io.BytesIO()
+    with zipfile.ZipFile(archive, "w") as z:
+        z.writestr(
+            "cheaters-among-pollinators-ecosphere/input/cheaters_visitation_and_trait_data.xlsx",
+            workbook,
+        )
+        z.writestr("cheaters-among-pollinators-ecosphere/README.md", "author archive")
+        z.writestr("cheaters-among-pollinators-ecosphere/scripts/cheaters_analysis.R", "pass")
+    return archive.getvalue()
+
+
+def _source_response(payload: bytes):
+    class FakeResponse:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self, _limit):
+            return payload
+
+    return FakeResponse()
+
+
+def test_zenodo_504_uses_only_blob_verified_tagged_author_snapshot(monkeypatch, capsys) -> None:
+    workbook = _fake_xlsx()
+    blob = hashlib.sha1(f"blob {len(workbook)}\0".encode("ascii") + workbook).hexdigest()
+    upstream = _author_snapshot(workbook)
+    monkeypatch.setattr(audit, "UPSTREAM_WORKBOOK_BLOB_SHA1", blob)
+    monkeypatch.setattr(audit, "UPSTREAM_WORKBOOK_SIZE", len(workbook))
+    monkeypatch.setattr(audit.time, "sleep", lambda _seconds: None)
+    requests = []
+
+    def fake_urlopen(request, timeout=60):
+        requests.append(request.full_url)
+        if "zenodo.org" in request.full_url:
+            raise HTTPError(request.full_url, 504, "Gateway Time-out", {}, None)
+        assert request.full_url == audit.UPSTREAM_SNAPSHOT_URL
+        return _source_response(upstream)
+
+    monkeypatch.setattr(audit, "urlopen", fake_urlopen)
+    assert audit._download() == upstream
+    assert len(requests) == 5
+    assert all("zenodo.org" in u for u in requests[:4])
+    assert requests[-1] == audit.UPSTREAM_SNAPSHOT_URL
+    assert blob in capsys.readouterr().err
+    # Provenance is printed for the release audit but no raw rows are emitted.
+
+
+def test_github_snapshot_rejects_changed_primary_workbook(monkeypatch) -> None:
+    workbook = _fake_xlsx()
+    upstream = _author_snapshot(workbook)
+    monkeypatch.setattr(audit, "UPSTREAM_WORKBOOK_SIZE", len(workbook))
+    monkeypatch.setattr(audit, "urlopen", lambda *_args, **_kwargs: _source_response(upstream))
+    with pytest.raises(ValueError, match="git blob SHA-1 mismatch"):
+        audit._pinned_author_github_snapshot()
+
+
+def test_github_snapshot_rejects_missing_workbook(monkeypatch) -> None:
+    payload = io.BytesIO()
+    with zipfile.ZipFile(payload, "w") as z:
+        z.writestr("README.md", "no workbook")
+    monkeypatch.setattr(audit, "urlopen", lambda *_args, **_kwargs: _source_response(payload.getvalue()))
+    with pytest.raises(ValueError, match="exactly one"):
+        audit._pinned_author_github_snapshot()
+
+
+def test_zenodo_404_does_not_switch_sources(monkeypatch) -> None:
+    requests = []
+
+    def fake_urlopen(request, timeout=60):
+        requests.append(request.full_url)
+        raise HTTPError(request.full_url, 404, "Not Found", {}, None)
+
+    monkeypatch.setattr(audit, "urlopen", fake_urlopen)
+    with pytest.raises(RuntimeError, match="Non-retryable Zenodo source response: HTTP 404"):
+        audit._download()
+    assert len(requests) == 1
+    assert requests[0] == audit.DOWNLOAD_URL
