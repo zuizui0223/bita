@@ -123,7 +123,7 @@ def _author_surface_mismatches(metadata_path: Path, documents: dict[str, str]) -
     mismatches: list[str] = []
 
     def field(document: str, label: str) -> str:
-        found = re.search(r"(?m)^\\*\\*" + re.escape(label) + r":\\*\\*\\s*(.*)$", document)
+        found = re.search(r"(?m)^\*\*" + re.escape(label) + r":\*\*\s*(.*)$", document)
         return found.group(1).strip() if found else ""
 
     authors = data["authors"]
