@@ -13,7 +13,10 @@ ORCID_RE = re.compile(r"^\d{4}-\d{4}-\d{4}-\d{3}[\dX]$")
 
 
 def _text(value: object) -> str:
-    return str(value or "").strip()
+    # Required author, affiliation, declaration and contact fields must be
+    # explicit strings. Coercing numbers/bools silently can mark bad JSON ready
+    # and later break the final document-concordance check.
+    return value.strip() if isinstance(value, str) else ""
 
 
 def validate(data: dict[str, object]) -> dict[str, object]:
