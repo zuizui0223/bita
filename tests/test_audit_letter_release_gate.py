@@ -12,7 +12,7 @@ SOURCE_SHA = "a" * 40
 DOI = "10.5281/zenodo.12345678"
 
 
-def _archive(root: Path, *, reserved: bool = False, corrupt: bool = False, source: str = SOURCE_SHA) -> Path:
+def _archive(root: Path, *, reserved: bool = False, corrupt: bool = False, source: str = SOURCE_SHA, author_placeholder: bool = False) -> Path:
     values = {
         "data_archive/archive_manifest.json": json.dumps({
             "archive_schema": "BITA_ACCESS_ROUTING_LETTER_ARCHIVE_V5",
@@ -53,7 +53,10 @@ def _archive(root: Path, *, reserved: bool = False, corrupt: bool = False, sourc
             "ECOLOGY_LETTERS_LETTER_COVER_V0.md",
             "ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md",
         ):
-            z.writestr(filename, markdown)
+            content = markdown
+            if author_placeholder and filename == "ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md":
+                content += b"\n**Authors:** [FINAL AUTHOR LIST -- REQUIRED BEFORE SUBMISSION]"
+            z.writestr(filename, content)
     return out
 
 
@@ -173,3 +176,29 @@ def test_release_gate_rejects_non_object_metadata(tmp_path):
     assert receipt["author_metadata"]["missing"] == ["METADATA_FILE_UNREADABLE"]
     assert not receipt["author_metadata"]["complete"]
     assert "AUTHOR_METADATA_INCOMPLETE" in receipt["blockers"]
+
+
+
+def test_release_gate_blocks_title_page_placeholder_even_with_valid_metadata(tmp_path):
+    package = _archive(tmp_path, reserved=True, author_placeholder=True)
+    receipt = audit_package(package, _author_metadata(tmp_path, approved=True), expected_head_sha=SOURCE_SHA)
+    assert receipt["author_metadata"]["complete"]
+    assert receipt["author_submission_surfaces"]["complete"] is False
+    assert receipt["author_submission_surfaces"]["placeholders_remaining"] == [
+        "ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md"
+    ]
+    assert "AUTHOR_STATEMENTS_NOT_APPLIED_TO_SUBMISSION_FILES" in receipt["blockers"]
+    assert receipt["integrity"]["all_checksums_match"]
+    assert receipt["submission_ready"] is False
+
+
+def test_release_gate_has_no_author_placeholder_blocker_for_complete_doc_and_record(tmp_path):
+    receipt = audit_package(
+        _archive(tmp_path, reserved=True),
+        _author_metadata(tmp_path, approved=True),
+        expected_head_sha=SOURCE_SHA,
+    )
+    assert receipt["author_metadata"]["complete"] is True
+    assert receipt["author_submission_surfaces"]["complete"] is True
+    assert "AUTHOR_STATEMENTS_NOT_APPLIED_TO_SUBMISSION_FILES" not in receipt["blockers"]
+    assert "DOI_PUBLICATION_NOT_VERIFIED" in receipt["blockers"]
