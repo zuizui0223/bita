@@ -39,11 +39,14 @@ Replace the archive placeholder with the reserved DOI in:
 Use the fail-closed applicator on the real DOI, from a reviewed checkout:
 
 ```bash
-python scripts/apply_reserved_archive_doi.py --doi 10.5281/zenodo.<RESERVED_RECORD_NUMBER>
+# Set this locally to the genuine DOI from YOUR saved Zenodo draft.
+# Do not commit credentials or a confidential preview URL.
+test -n "$RESERVED_ZENODO_DOI"
+python scripts/apply_reserved_archive_doi.py --doi "$RESERVED_ZENODO_DOI"
 python scripts/apply_reserved_archive_doi.py --check-only
 ```
 
-The angle-bracket number above is an **instructional placeholder, not a reserved DOI**. The applicator modifies submission files and writes a reservation receipt; it does **not** publish a Zenodo deposit.
+`RESERVED_ZENODO_DOI` must be set to the actual new record DOI before running. The applicator modifies submission files and writes a reservation receipt; it does **not** publish a Zenodo deposit.
 
 Complete the **author-controlled** JSON schema in `submission/ECOLOGY_LETTERS_LETTER_AUTHOR_METADATA_V1.json`, have every author approve the actual submission version, and verify with:
 
