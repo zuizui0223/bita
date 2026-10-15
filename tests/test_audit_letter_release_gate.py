@@ -276,3 +276,21 @@ def test_release_gate_requires_approved_funding_novelty_and_signoff(tmp_path):
     assert "title.funding_statement" in receipt["author_submission_surfaces"]["metadata_mismatches"]
     assert "cover.author_relative_novelty_statement" in receipt["author_submission_surfaces"]["metadata_mismatches"]
     assert "AUTHOR_METADATA_DOES_NOT_MATCH_SUBMISSION_FILES" in receipt["blockers"]
+
+
+def test_release_gate_rejects_numeric_author_fields_without_exception(tmp_path):
+    package = _archive(tmp_path, reserved=True)
+    metadata = _author_metadata(tmp_path, approved=True)
+    data = json.loads(metadata.read_text())
+    data["authors"][0]["name"] = 1234
+    data["correspondence"]["telephone"] = 123456789
+    data["funding_statement"] = 0
+    metadata.write_text(json.dumps(data))
+    receipt = audit_package(package, metadata, expected_head_sha=SOURCE_SHA)
+    assert receipt["integrity"]["all_checksums_match"]
+    assert receipt["author_metadata"]["complete"] is False
+    assert "authors[1].name" in receipt["author_metadata"]["missing"]
+    assert "correspondence.telephone" in receipt["author_metadata"]["missing"]
+    assert "funding_statement" in receipt["author_metadata"]["missing"]
+    assert "AUTHOR_METADATA_INCOMPLETE" in receipt["blockers"]
+    assert "AUTHOR_METADATA_DOES_NOT_MATCH_SUBMISSION_FILES" not in receipt["blockers"]
