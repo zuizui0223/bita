@@ -17,6 +17,7 @@ RECEIPT_PATH = ROOT / "submission" / "access_routing_archive" / "RESERVED_DOI_RE
 RECEIPT_TYPE = "BITA_ACCESS_ROUTING_RESERVED_DOI_V1"
 RESERVED_STATUS = "ZENODO_DOI_RESERVED_PENDING_PUBLICATION"
 DOI_RE = re.compile(r"^10\.5281/zenodo\.(\d+)$", re.IGNORECASE)
+SOURCE_DATASET_DOIS = frozenset(("10.5281/zenodo.8398202", "10.5281/zenodo.14185547"))
 
 TARGETS = (
     "manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md",
@@ -36,7 +37,10 @@ def normalize_zenodo_doi(value: str) -> str:
     match = DOI_RE.fullmatch(text)
     if match is None:
         raise ValueError("RESERVED_DOI_MUST_BE_ZENODO_RECORD_DOI")
-    return f"10.5281/zenodo.{match.group(1)}"
+    doi = f"10.5281/zenodo.{match.group(1)}"
+    if doi in SOURCE_DATASET_DOIS:
+        raise ValueError("SOURCE_DATASET_DOI_CANNOT_BE_REUSED_AS_BITA_ARCHIVE_DOI")
+    return doi
 
 
 def _replace_once_or_already(text: str, old: str, new: str, *, label: str) -> str:
