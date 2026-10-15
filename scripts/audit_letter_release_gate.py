@@ -29,6 +29,13 @@ DOCS = (
     "ECOLOGY_LETTERS_LETTER_COVER_V0.md",
 )
 SOURCE_DOIS = {"10.5281/zenodo.8398202", "10.5281/zenodo.14185547"}
+AUTHOR_PLACEHOLDERS = (
+    "[FINAL AUTHOR LIST",
+    "[AUTHOR-CONTROLLED",
+    "AUTHOR-CONTROLLED BEFORE SUBMISSION",
+    "[postal address; telephone;",
+    "[Affiliation, postal address, telephone number",
+)
 
 
 def _sha(value: bytes) -> str:
@@ -155,6 +162,12 @@ def audit_package(package_zip: Path, author_metadata_json: Path, *, expected_hea
         blockers.append("DOI_NOT_RESERVED")
     if not author["complete"]:
         blockers.append("AUTHOR_METADATA_INCOMPLETE")
+    incomplete_submission_docs = sorted(
+        doc for doc, content in documents.items()
+        if any(marker in content for marker in AUTHOR_PLACEHOLDERS)
+    )
+    if incomplete_submission_docs:
+        blockers.append("AUTHOR_STATEMENTS_NOT_APPLIED_TO_SUBMISSION_FILES")
     if expected_head_sha is not None and matches_head is False:
         blockers.append("SOURCE_COMMIT_NOT_REVIEWED_HEAD")
     blockers.append("DOI_PUBLICATION_NOT_VERIFIED")
@@ -165,6 +178,10 @@ def audit_package(package_zip: Path, author_metadata_json: Path, *, expected_hea
         "provenance": {"source_commit": source_commit, "expected_head_sha": expected_head_sha, "source_commit_matches_head": matches_head},
         "doi": {"reserved_in_package": doi_ok, "doi": doi if doi_ok else None, "external_publication_checked": False},
         "author_metadata": author,
+        "author_submission_surfaces": {
+            "placeholders_remaining": incomplete_submission_docs,
+            "complete": not incomplete_submission_docs,
+        },
         "blockers": blockers,
         "submission_ready": False,
         "external_gate": "The published DOI must resolve publicly and author-controlled fields require approval; offline inspection cannot verify these.",
