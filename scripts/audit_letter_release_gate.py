@@ -11,8 +11,15 @@ import hashlib
 import io
 import json
 import re
+import sys
 import zipfile
 from pathlib import Path
+
+# Keep standalone `python scripts/audit_letter_release_gate.py` and pytest
+# imports on the same strict author metadata contract.
+if __package__ in (None, ""):
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from scripts.validate_ecology_letters_letter_author_metadata import validate as validate_author_record
 
 INNER = "access-routing-letter-data-code-v1.zip"
 DIGEST = "access-routing-letter-data-code-v1.sha256"
@@ -20,11 +27,6 @@ DOCS = (
     "MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md",
     "ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md",
     "ECOLOGY_LETTERS_LETTER_COVER_V0.md",
-)
-AUTHOR_FIELDS = (
-    "authorship_statement", "funding_statement", "acknowledgments",
-    "conflict_of_interest_statement", "ai_assisted_workflow_disclosure",
-    "author_relative_novelty_statement", "archive_license",
 )
 SOURCE_DOIS = {"10.5281/zenodo.8398202", "10.5281/zenodo.14185547"}
 
@@ -76,27 +78,30 @@ def _inner_check(zf: zipfile.ZipFile, errors: list[str]) -> dict:
 
 
 def _author_check(path: Path) -> dict:
+    """Use the exact Letter author-schema validator, not a weaker proxy.
+
+    Reporting only field-presence used to accept arbitrary nonempty author lists
+    and nonempty affiliation objects, even without a corresponding author,
+    affiliation links, author emails, or valid metadata schema. The downstream
+    release receipt must never call those author records complete.
+    """
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
-    except (FileNotFoundError, json.JSONDecodeError, UnicodeDecodeError) as exc:
-        return {"complete": False, "missing": ["METADATA_FILE_UNREADABLE"], "error": str(exc)}
-    missing = []
-    if not isinstance(data.get("authors"), list) or not data["authors"]:
-        missing.append("authors")
-    if not isinstance(data.get("affiliations"), dict) or not data["affiliations"]:
-        missing.append("affiliations")
-    contact = data.get("correspondence")
-    for key in ("postal_address", "telephone", "email"):
-        if not isinstance(contact, dict) or not isinstance(contact.get(key), str) or not contact[key].strip():
-            missing.append("correspondence." + key)
-    for key in AUTHOR_FIELDS:
-        if not isinstance(data.get(key), str) or not data[key].strip():
-            missing.append(key)
-    for key in ("all_authors_approved_submitted_version", "not_under_consideration_elsewhere"):
-        if data.get(key) is not True:
-            missing.append(key)
-    return {"complete": len(missing) == 0, "missing": missing}
-
+        if not isinstance(data, dict):
+            raise ValueError("AUTHOR_METADATA_ROOT_MUST_BE_OBJECT")
+    except (FileNotFoundError, json.JSONDecodeError, UnicodeDecodeError, ValueError) as exc:
+        return {
+            "complete": False,
+            "missing": ["METADATA_FILE_UNREADABLE"],
+            "invalid": [],
+            "error": str(exc),
+        }
+    report = validate_author_record(data)
+    return {
+        "complete": report["ready_for_submission_metadata_application"],
+        "missing": report["missing"],
+        "invalid": report["invalid"],
+    }
 
 def audit_package(package_zip: Path, author_metadata_json: Path, *, expected_head_sha: str | None = None) -> dict:
     """Audit package contents offline; never declare DOI publication verified."""
