@@ -11,6 +11,7 @@ into the Letter **before** the exact submission-commit archive is built.
    **Get a DOI now!** to reserve one.
 4. Copy the reserved DOI exactly.
 5. Do **not** delete this draft; deleting it loses the reserved DOI.
+6. The reserved DOI must be a **new BITA data/code deposit record**, not either of the original source dataset DOIs (`10.5281/zenodo.8398202` or `10.5281/zenodo.14185547`). The DOI applicator rejects accidentally reusing either source DOI. Never paste Zenodo access tokens or private draft-preview URLs in public repository files or chat.
 
 At this point the DOI is reserved but not yet registered. Registration occurs
 when the Zenodo record is published.
@@ -35,13 +36,30 @@ Replace the archive placeholder with the reserved DOI in:
 4. `docs/PUBLICATION_STATUS.md`
 5. issue #227
 
-Then fill the author-controlled submission fields and commit the resulting
-submission state. That exact commit is the source for the final archive build.
+Use the fail-closed applicator on the real DOI, from a reviewed checkout:
+
+```bash
+python scripts/apply_reserved_archive_doi.py --doi 10.5281/zenodo.<RESERVED_RECORD_NUMBER>
+python scripts/apply_reserved_archive_doi.py --check-only
+```
+
+The angle-bracket number above is an **instructional placeholder, not a reserved DOI**. The applicator modifies submission files and writes a reservation receipt; it does **not** publish a Zenodo deposit.
+
+Complete the **author-controlled** JSON schema in `submission/ECOLOGY_LETTERS_LETTER_AUTHOR_METADATA_V1.json`, have every author approve the actual submission version, and verify with:
+
+```bash
+python scripts/validate_ecology_letters_letter_author_metadata.py --require-complete
+```
+
+The archive release gate now uses this same full validator: a nonempty author string list is **not** enough; correctly structured author names, affiliation links, e-mails, exactly one corresponding author and declarations are required. Author metadata is not automatically copied into the title page or cover: inspect and replace their actual author-controlled placeholders consistently before release. Personal mailing addresses, telephone numbers and email addresses committed to a public repository become public; obtain deliberate author approval before putting them in the branch or a published artifact.
+
+Freeze the final reviewed DOI-bearing source commit **after** these author-controlled changes. That exact commit is the source for the final archive build.
 
 ## Phase 3 — build the final deposit file
 
-Run `.github/workflows/build-access-routing-letter-package.yml` from the exact
-DOI-bearing submission commit.
+Run `.github/workflows/build-access-routing-letter-package.yml` with **workflow_dispatch on the branch containing the exact reviewed DOI-bearing submission commit**. GitHub's ordinary `pull_request` trigger uses a synthetic virtual merge commit; a successful PR artifact therefore does **not** prove that `data_archive/REPOSITORY_COMMIT.txt` matches the reviewed branch HEAD.
+
+Record the exact `GITHUB_SHA` that the workflow checked out. If it differs from the final approved DOI-bearing commit, the resulting ZIP remains staging-only, even if its internal checksums and science reproduction pass.
 
 Use:
 
