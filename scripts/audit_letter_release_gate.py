@@ -110,6 +110,74 @@ def _author_check(path: Path) -> dict:
         "invalid": report["invalid"],
     }
 
+
+def _author_surface_mismatches(metadata_path: Path, documents: dict[str, str]) -> list[str]:
+    """Compare fully approved author JSON with the actual submission surfaces.
+
+    Author values are intentionally NOT returned in audit receipts or logs.
+    This runs only after the separate schema validator reports completion.
+    """
+    data = json.loads(metadata_path.read_text(encoding="utf-8"))
+    title = documents.get("ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md", "")
+    cover = documents.get("ECOLOGY_LETTERS_LETTER_COVER_V0.md", "")
+    mismatches: list[str] = []
+
+    def field(document: str, label: str) -> str:
+        found = re.search(r"(?m)^\\*\\*" + re.escape(label) + r":\\*\\*\\s*(.*)$", document)
+        return found.group(1).strip() if found else ""
+
+    authors = data["authors"]
+    names = [author["name"].strip() for author in authors]
+    title_names = [
+        name.strip() for name in field(title, "Authors").split(";") if name.strip()
+    ]
+    if names != title_names:
+        mismatches.append("title.authors")
+
+    affiliation_line = field(title, "Affiliations and author e-mail addresses")
+    for index, author in enumerate(authors, start=1):
+        if author["email"].strip() not in affiliation_line:
+            mismatches.append(f"title.authors[{index}].email")
+        for affiliation_id in author["affiliation_ids"]:
+            affiliation = data["affiliations"][str(affiliation_id)].strip()
+            if affiliation not in affiliation_line:
+                mismatches.append(f"title.authors[{index}].affiliation")
+
+    correspondent = next(author["name"].strip() for author in authors if author["corresponding"])
+    if correspondent not in field(title, "Corresponding author"):
+        mismatches.append("title.corresponding_author")
+    contact_line = field(title, "Complete correspondence address")
+    for key in ("postal_address", "telephone", "email"):
+        if data["correspondence"][key].strip() not in contact_line:
+            mismatches.append(f"title.correspondence.{key}")
+
+    fields = (
+        ("authorship_statement", "Statement of authorship"),
+        ("funding_statement", "Funding"),
+        ("acknowledgments", "Acknowledgments"),
+        ("conflict_of_interest_statement", "Conflict of interest"),
+        ("ai_assisted_workflow_disclosure", "AI-assisted workflow disclosure"),
+    )
+    for key, label in fields:
+        if data[key].strip() not in field(title, label):
+            mismatches.append("title." + key)
+
+    if data["author_relative_novelty_statement"].strip() not in cover:
+        mismatches.append("cover.author_relative_novelty_statement")
+    if data["conflict_of_interest_statement"].strip() not in cover:
+        mismatches.append("cover.conflict_of_interest_statement")
+    signoff = cover.split("Best regards,", 1)
+    if len(signoff) != 2:
+        mismatches.append("cover.corresponding_author_signature")
+    else:
+        first_line = next(
+            (line.strip() for line in signoff[1].splitlines() if line.strip()), ""
+        )
+        if first_line != correspondent:
+            mismatches.append("cover.corresponding_author_signature")
+    return sorted(set(mismatches))
+
+
 def audit_package(package_zip: Path, author_metadata_json: Path, *, expected_head_sha: str | None = None) -> dict:
     """Audit package contents offline; never declare DOI publication verified."""
     errors: list[str] = []
@@ -168,6 +236,13 @@ def audit_package(package_zip: Path, author_metadata_json: Path, *, expected_hea
     )
     if incomplete_submission_docs:
         blockers.append("AUTHOR_STATEMENTS_NOT_APPLIED_TO_SUBMISSION_FILES")
+    author_surface_mismatches = (
+        _author_surface_mismatches(author_metadata_json, documents)
+        if author["complete"] and not incomplete_submission_docs
+        else []
+    )
+    if author_surface_mismatches:
+        blockers.append("AUTHOR_METADATA_DOES_NOT_MATCH_SUBMISSION_FILES")
     if expected_head_sha is not None and matches_head is False:
         blockers.append("SOURCE_COMMIT_NOT_REVIEWED_HEAD")
     blockers.append("DOI_PUBLICATION_NOT_VERIFIED")
@@ -180,7 +255,8 @@ def audit_package(package_zip: Path, author_metadata_json: Path, *, expected_hea
         "author_metadata": author,
         "author_submission_surfaces": {
             "placeholders_remaining": incomplete_submission_docs,
-            "complete": not incomplete_submission_docs,
+            "metadata_mismatches": author_surface_mismatches,
+            "complete": not incomplete_submission_docs and not author_surface_mismatches,
         },
         "blockers": blockers,
         "submission_ready": False,
