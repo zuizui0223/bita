@@ -54,6 +54,24 @@ def _archive(root: Path, *, reserved: bool = False, corrupt: bool = False, sourc
             "ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md",
         ):
             content = markdown
+            if reserved and filename == "ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md":
+                content += (
+                    b"\n**Authors:** Example Author"
+                    b"\n**Affiliations and author e-mail addresses:** Example Institute; example@example.edu"
+                    b"\n**Corresponding author:** Example Author"
+                    b"\n**Complete correspondence address:** postal address; telephone; example@example.edu"
+                    b"\n**Statement of authorship:** contributions"
+                    b"\n**Funding:** none declared"
+                    b"\n**Acknowledgments:** none"
+                    b"\n**Conflict of interest:** none"
+                    b"\n**AI-assisted workflow disclosure:** reviewed"
+                )
+            if reserved and filename == "ECOLOGY_LETTERS_LETTER_COVER_V0.md":
+                content += (
+                    b"\n**Author-relative novelty statement:** novelty described"
+                    b"\n**Conflict-of-interest statement:** none"
+                    b"\nBest regards,\n\nExample Author\n"
+                )
             if author_placeholder and filename == "ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md":
                 content += b"\n**Authors:** [FINAL AUTHOR LIST -- REQUIRED BEFORE SUBMISSION]"
             z.writestr(filename, content)
@@ -202,3 +220,59 @@ def test_release_gate_has_no_author_placeholder_blocker_for_complete_doc_and_rec
     assert receipt["author_submission_surfaces"]["complete"] is True
     assert "AUTHOR_STATEMENTS_NOT_APPLIED_TO_SUBMISSION_FILES" not in receipt["blockers"]
     assert "DOI_PUBLICATION_NOT_VERIFIED" in receipt["blockers"]
+
+
+def test_release_gate_author_concordance_accepts_approved_synthetic_documents(tmp_path):
+    receipt = audit_package(
+        _archive(tmp_path, reserved=True),
+        _author_metadata(tmp_path, approved=True),
+        expected_head_sha=SOURCE_SHA,
+    )
+    assert receipt["author_metadata"]["complete"]
+    assert receipt["author_submission_surfaces"]["complete"]
+    assert receipt["author_submission_surfaces"]["metadata_mismatches"] == []
+    assert "AUTHOR_METADATA_DOES_NOT_MATCH_SUBMISSION_FILES" not in receipt["blockers"]
+
+
+def test_release_gate_rejects_stale_author_name_and_cover_signature(tmp_path):
+    package = _archive(tmp_path, reserved=True)
+    metadata = _author_metadata(tmp_path, approved=True)
+    data = json.loads(metadata.read_text())
+    data["authors"][0]["name"] = "Different Approved Author"
+    metadata.write_text(json.dumps(data))
+    receipt = audit_package(package, metadata, expected_head_sha=SOURCE_SHA)
+    assert receipt["author_metadata"]["complete"]
+    assert "title.authors" in receipt["author_submission_surfaces"]["metadata_mismatches"]
+    assert "cover.corresponding_author_signature" in receipt["author_submission_surfaces"]["metadata_mismatches"]
+    assert "AUTHOR_METADATA_DOES_NOT_MATCH_SUBMISSION_FILES" in receipt["blockers"]
+    assert "Different Approved Author" not in json.dumps(receipt)
+    assert "Example Author" not in json.dumps(receipt)
+
+
+def test_release_gate_rejects_mismatched_author_email_and_affiliation(tmp_path):
+    package = _archive(tmp_path, reserved=True)
+    metadata = _author_metadata(tmp_path, approved=True)
+    data = json.loads(metadata.read_text())
+    data["authors"][0]["email"] = "updated@example.edu"
+    data["affiliations"]["1"] = "Different Institute"
+    metadata.write_text(json.dumps(data))
+    receipt = audit_package(package, metadata, expected_head_sha=SOURCE_SHA)
+    assert receipt["author_metadata"]["complete"]
+    fields = receipt["author_submission_surfaces"]["metadata_mismatches"]
+    assert "title.authors[1].email" in fields
+    assert "title.authors[1].affiliation" in fields
+    assert "AUTHOR_METADATA_DOES_NOT_MATCH_SUBMISSION_FILES" in receipt["blockers"]
+    assert "updated@example.edu" not in json.dumps(receipt)
+
+
+def test_release_gate_requires_approved_funding_novelty_and_signoff(tmp_path):
+    package = _archive(tmp_path, reserved=True)
+    metadata = _author_metadata(tmp_path, approved=True)
+    data = json.loads(metadata.read_text())
+    data["funding_statement"] = "Funding declaration updated"
+    data["author_relative_novelty_statement"] = "Novelty statement updated"
+    metadata.write_text(json.dumps(data))
+    receipt = audit_package(package, metadata, expected_head_sha=SOURCE_SHA)
+    assert "title.funding_statement" in receipt["author_submission_surfaces"]["metadata_mismatches"]
+    assert "cover.author_relative_novelty_statement" in receipt["author_submission_surfaces"]["metadata_mismatches"]
+    assert "AUTHOR_METADATA_DOES_NOT_MATCH_SUBMISSION_FILES" in receipt["blockers"]
