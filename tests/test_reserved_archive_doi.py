@@ -70,6 +70,27 @@ def test_reject_non_zenodo_record_doi(value: str) -> None:
         normalize_zenodo_doi(value)
 
 
+@pytest.mark.parametrize(
+    "source_doi",
+    ["10.5281/zenodo.8398202", "10.5281/zenodo.14185547"],
+)
+def test_existing_public_source_dataset_doi_cannot_be_reserved_for_bita(source_doi: str) -> None:
+    with pytest.raises(ValueError, match="SOURCE_DATASET_DOI_CANNOT_BE_REUSED_AS_BITA_ARCHIVE_DOI"):
+        normalize_zenodo_doi(source_doi)
+
+
+def test_source_dataset_doi_rejection_does_not_mutate_checkout(tmp_path: Path) -> None:
+    _fixture(tmp_path)
+    before = {
+        path: (tmp_path / path).read_bytes()
+        for path in TARGETS
+    }
+    with pytest.raises(ValueError, match="SOURCE_DATASET_DOI_CANNOT_BE_REUSED_AS_BITA_ARCHIVE_DOI"):
+        apply_reserved_doi(tmp_path, "10.5281/zenodo.8398202")
+    assert before == {path: (tmp_path / path).read_bytes() for path in TARGETS}
+    assert not (tmp_path / "submission/access_routing_archive/RESERVED_DOI_RECEIPT.json").exists()
+
+
 def test_apply_reserved_doi_updates_all_submission_surfaces(tmp_path: Path) -> None:
     _fixture(tmp_path)
     doi = "10.5281/zenodo.12345678"
