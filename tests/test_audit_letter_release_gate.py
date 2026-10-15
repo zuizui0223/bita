@@ -59,12 +59,22 @@ def _archive(root: Path, *, reserved: bool = False, corrupt: bool = False, sourc
 
 def _author_metadata(root: Path, *, approved: bool = False) -> Path:
     data = {
-        "authors": ["Author One"] if approved else [],
-        "affiliations": {"Author One": "Institute"} if approved else {},
+        "schema": "BITA_ECOLOGY_LETTERS_LETTER_AUTHOR_METADATA_V1",
+        "status": "AUTHOR_CONTROLLED_COMPLETE" if approved else "AUTHOR_CONTROLLED_INCOMPLETE",
+        "authors": [
+            {
+                "name": "Example Author",
+                "affiliation_ids": ["1"],
+                "email": "example@example.edu",
+                "orcid": None,
+                "corresponding": True,
+            }
+        ] if approved else [],
+        "affiliations": {"1": "Example Institute"} if approved else {},
         "correspondence": {
-            "postal_address": "address" if approved else None,
-            "telephone": "phone" if approved else None,
-            "email": "email" if approved else None,
+            "postal_address": "postal address" if approved else None,
+            "telephone": "telephone" if approved else None,
+            "email": "example@example.edu" if approved else None,
         },
         "authorship_statement": "contributions" if approved else None,
         "funding_statement": "none declared" if approved else None,
@@ -112,3 +122,54 @@ def test_even_reserved_doi_and_author_record_require_external_publication(tmp_pa
     assert "AUTHOR_METADATA_INCOMPLETE" not in receipt["blockers"]
     assert "DOI_PUBLICATION_NOT_VERIFIED" in receipt["blockers"]
     assert not receipt["submission_ready"]
+
+
+def test_release_gate_rejects_unstructured_authors_even_with_all_declarations(tmp_path):
+    package = _archive(tmp_path, reserved=True)
+    metadata = _author_metadata(tmp_path, approved=True)
+    data = json.loads(metadata.read_text())
+    data["authors"] = ["Example Author"]  # previously accepted as nonempty list
+    metadata.write_text(json.dumps(data))
+
+    receipt = audit_package(package, metadata, expected_head_sha=SOURCE_SHA)
+    assert receipt["integrity"]["all_checksums_match"]
+    assert receipt["author_metadata"]["complete"] is False
+    assert "authors[1]" in receipt["author_metadata"]["invalid"]
+    assert "AUTHOR_METADATA_INCOMPLETE" in receipt["blockers"]
+    assert receipt["submission_ready"] is False
+
+
+def test_release_gate_requires_affiliation_links_and_single_correspondent(tmp_path):
+    package = _archive(tmp_path, reserved=True)
+    metadata = _author_metadata(tmp_path, approved=True)
+    data = json.loads(metadata.read_text())
+    data["authors"][0]["affiliation_ids"] = ["nonexistent"]
+    data["authors"][0]["corresponding"] = False
+    metadata.write_text(json.dumps(data))
+
+    receipt = audit_package(package, metadata, expected_head_sha=SOURCE_SHA)
+    assert "authors[1].unknown_affiliation:nonexistent" in receipt["author_metadata"]["invalid"]
+    assert "exactly_one_corresponding_author" in receipt["author_metadata"]["invalid"]
+    assert not receipt["author_metadata"]["complete"]
+    assert "AUTHOR_METADATA_INCOMPLETE" in receipt["blockers"]
+
+
+def test_release_gate_requires_author_metadata_schema(tmp_path):
+    package = _archive(tmp_path, reserved=True)
+    metadata = _author_metadata(tmp_path, approved=True)
+    data = json.loads(metadata.read_text())
+    data.pop("schema")
+    metadata.write_text(json.dumps(data))
+    receipt = audit_package(package, metadata, expected_head_sha=SOURCE_SHA)
+    assert "schema" in receipt["author_metadata"]["invalid"]
+    assert not receipt["author_metadata"]["complete"]
+
+
+def test_release_gate_rejects_non_object_metadata(tmp_path):
+    package = _archive(tmp_path, reserved=True)
+    metadata = _author_metadata(tmp_path)
+    metadata.write_text('["not", "an", "author-record"]')
+    receipt = audit_package(package, metadata, expected_head_sha=SOURCE_SHA)
+    assert receipt["author_metadata"]["missing"] == ["METADATA_FILE_UNREADABLE"]
+    assert not receipt["author_metadata"]["complete"]
+    assert "AUTHOR_METADATA_INCOMPLETE" in receipt["blockers"]
