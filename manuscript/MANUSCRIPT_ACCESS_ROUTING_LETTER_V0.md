@@ -60,7 +60,7 @@ To avoid treating repeated pair-sites as independent, the primary analysis avera
 
 We separately tested the behavioral prediction within bird species. Pair-site rows were first averaged across sites to bird × plant dyads; mismatch and robbery were then ranked and centered within each bird species, and robbery ranks were permuted only within birds. We also retained one barrier-minus-accessible difference per bird species. A correlation of one mean mismatch and robbery value per bird was treated only as a between-bird diagnostic. Complete-case yes/no results and pair-site/site summaries were sensitivities. All permutation tests used 9,999 iterations.
 
-Before opening its result, we preregistered a plant-species shape analysis: a monotone sigmoid estimated a switching midpoint (x^*), 999 species bootstraps quantified midpoint uncertainty, and a quadratic 9,999-permutation diagnostic tested upper turnover. Localization required an interior midpoint within the 5–95% mismatch support; equality proximity required its 90% bootstrap interval to lie within (pmlog(1.25)).
+Before opening its result, we preregistered a plant-species shape analysis: a monotone sigmoid estimated a switching midpoint (x^*), 999 species bootstraps quantified midpoint uncertainty, and a quadratic 9,999-permutation diagnostic tested upper turnover. Localization required an interior midpoint within the 5–95% mismatch support; equality proximity required its 90% bootstrap interval to lie within \(\pm\log(1.25)\).
 
 ### Zero-inclusive participation decomposition
 
@@ -87,7 +87,7 @@ Because tube length can covary with other floral traits, we also retained the so
 
 ### Joint cross-network test
 
-Raw observations were not pooled. Each network contributed one plant-species rank association between access constraint and bypass propensity: tube length versus robbing–thieving balance in Sakhalkar, and mean tube–bill mismatch versus mean robbery in Aubert/EPHI under the metadata-informed missing-as-no rule.
+Raw observations were not pooled. Each network contributed one plant-species rank association between access constraint and bypass propensity: tube length versus robbing–thieving balance in Sakhalkar, and mean tube–bill mismatch versus mean conditional robbery share in Aubert/EPHI under the metadata-informed missing-as-no rule.
 
 Because the two datasets represent two independent networks rather than pooled interchangeable observations, they received equal weight. The primary joint effect was the Fisher-z mean,
 
@@ -130,7 +130,7 @@ p_{\mathrm{perm}}=0.0001.
 
 The binary barrier contrast gave the same result. Among 130 plant species observed in both barrier and accessible states, the mean within-species barrier-minus-accessible robbery-share difference was +0.0915; 75 of 82 nonzero species differences were positive, and the whole-species label-swap permutation gave \(p=0.0001\).
 
-At the descriptive pair-site scale, the missing-as-no analysis yielded 2,265 units. Mean conditional robbery share was 0.147 under barriers and 0.020 when accessible, a difference of +0.127. All 18 sites containing both states showed higher mean robbery under the barrier state (two-sided sign test \(p=7.63\times10^{-6}\); site-stratified permutation \(p=0.0001\)).
+At the descriptive pair-site scale, the missing-as-no analysis yielded 2,265 units. Mean conditional robbery share was 0.147 under barriers and 0.020 when accessible, a difference of +0.127. All 18 sites containing both states showed higher conditional robbery share under the barrier state (two-sided sign test \(p=7.63\times10^{-6}\); site-stratified permutation \(p=0.0001\)).
 
 The result was not created by the missing-value recoding. In the explicit yes/no complete-case sensitivity, the plant-species correlation was \(\rho=0.570\) (permutation \(p=0.0001\)), and the mean paired species difference was +0.155 (label-swap \(p=0.0001\)). The missing-value correction reduced estimated conditional robbery fractions and the pair-site contrast, but not its direction; it did not measure absolute robbery visitation frequency.
 
