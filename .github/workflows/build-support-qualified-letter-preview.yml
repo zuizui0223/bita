@@ -1,0 +1,81 @@
+name: Build support-qualified Letter Word preview
+
+on:
+  push:
+    branches:
+      - paper/route-rate-riskset-qualification-v1
+    paths:
+      - "manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md"
+      - "submission/ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md"
+      - "scripts/format_ecology_submission_docx.py"
+      - ".github/workflows/build-support-qualified-letter-preview.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install document toolchain
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq pandoc libreoffice-writer poppler-utils
+          python -m pip install python-docx
+      - name: Generate updated manuscript Word source
+        run: |
+          mkdir -p artifacts/letter_preview
+          cp submission/ECOLOGY_LETTERS_LETTER_TITLE_PAGE_V1.md \
+            artifacts/letter_preview/LETTER_SUPPORT_QUALIFIED_PREVIEW.md
+          printf '\n\n[[ECOLOGY_SECTION_BREAK_AFTER_TITLE]]\n\n' \
+            >> artifacts/letter_preview/LETTER_SUPPORT_QUALIFIED_PREVIEW.md
+          tail -n +2 manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md \
+            >> artifacts/letter_preview/LETTER_SUPPORT_QUALIFIED_PREVIEW.md
+          pandoc artifacts/letter_preview/LETTER_SUPPORT_QUALIFIED_PREVIEW.md \
+            --from=markdown+tex_math_single_backslash \
+            --to=docx \
+            --output=artifacts/letter_preview/letter_raw.docx
+          python scripts/format_ecology_submission_docx.py \
+            artifacts/letter_preview/letter_raw.docx \
+            artifacts/letter_preview/LETTER_SUPPORT_QUALIFIED_PREVIEW.docx \
+            --black-headings
+          rm artifacts/letter_preview/letter_raw.docx
+      - name: Validate Word paragraphs and visual PDF conversion
+        run: |
+          python - <<'PY'
+          from docx import Document
+          from pathlib import Path
+          p=Path("artifacts/letter_preview/LETTER_SUPPORT_QUALIFIED_PREVIEW.docx")
+          d=Document(p)
+          t="\n".join(x.text for x in d.paragraphs)
+          must=[
+            "5.31",
+            "the fitted route-specific coefficients have different positive-margin supports",
+            "not a joint rate contrast estimated over identical opportunities",
+            "individual birds were not tracked",
+            "higher robbery prevalence need not",
+          ]
+          for word in must:
+              if word.lower() not in t.lower():
+                  raise SystemExit("WORD_TEXT_MISSING: " + word)
+          print("WORD_SOURCE_QUALIFICATION_VERIFIED")
+          PY
+          libreoffice --headless --convert-to pdf \
+            --outdir artifacts/letter_preview \
+            artifacts/letter_preview/LETTER_SUPPORT_QUALIFIED_PREVIEW.docx
+          test -s artifacts/letter_preview/LETTER_SUPPORT_QUALIFIED_PREVIEW.pdf
+          pdfinfo artifacts/letter_preview/LETTER_SUPPORT_QUALIFIED_PREVIEW.pdf | grep Pages
+      - uses: actions/upload-artifact@v4
+        with:
+          name: support-qualified-letter-preview-docx
+          path: |
+            artifacts/letter_preview/LETTER_SUPPORT_QUALIFIED_PREVIEW.docx
+            artifacts/letter_preview/LETTER_SUPPORT_QUALIFIED_PREVIEW.md
+            artifacts/letter_preview/LETTER_SUPPORT_QUALIFIED_PREVIEW.pdf
+          if-no-files-found: error

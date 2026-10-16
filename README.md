@@ -22,9 +22,9 @@ paired barrier species   = 130
 mean paired difference   = +0.0915
 label-swap p             = 0.0001
 
-descriptive pair-site means:
-barrier robbery     = 0.147
-accessible robbery  = 0.020
+descriptive pair-site conditional robbery shares (not absolute visit rates):
+barrier robbery share     = 0.147
+accessible robbery share  = 0.020
 18 / 18 comparable sites in the same direction
 complete-case yes/no sensitivity = same plant-level direction
 
@@ -55,15 +55,11 @@ independent network contributions k = 2
 
 Because `k=2`, the joint test does not estimate between-network heterogeneity, a network-population mean, or generality beyond the two analysed systems.
 
-The zero-inclusive participation layer is threshold-sensitive. The historically frozen
-culmen-only barrier gave pooled RR 1.772 and legitimate RR 1.883, but this is not a
-robust no-filtering result because exposed culmen underestimates hummingbird reach.
-In a frozen post-open hummingbird-only sensitivity, the 1.8× reach correction used
-in prior network work gave legitimate RR 0.154 (95% CI 0.087–0.271), robbery RR
-0.816 (0.358–1.860), and a robbery/legitimate RR ratio of 5.311 (1.923–14.672).
-Thus severe effective mismatch selectively filters the legitimate route while
-robbery is comparatively retained; it need not increase absolute robbery counts.
+The zero-inclusive rate analysis is **highly sensitive to how anatomical reach is defined**. The preregistered exposed-culmen-only barrier gave pooled RR 1.772 and legitimate RR **1.883 (1.111–3.190)**, in the opposite direction to all tongue-reach scenarios. Since hummingbirds extend their tongues beyond the bill tip, culmen alone is an incomplete proxy for nectar reach; the original result remains preserved rather than silently dropped. In the **same 49-hummingbird/19,903-opportunity sample** used for the post-open corrections, refitting the 1.0× culmen-only barrier still gives legitimate RR **1.883 (1.111–3.190)**. Thus sample exclusion is not the cause of the corrected-barrier sign reversal; 11,387 of those opportunities are classed as barrier at 1.0×, compared with 8,224, 5,133 and 4,082 at 4/3×, 1.8× and 2.0×.
 
+Across three **post-open** hummingbird-only reach multipliers (4/3, 1.8, 2.0× culmen), separately fitted legitimate feeding RRs were **0.354 (0.197–0.635)**, **0.154 (0.087–0.271)**, and **0.100 (0.065–0.155)**: all three 95% CIs exclude 1 below. Robbery RRs were **0.851 (0.328–2.212)**, **0.816 (0.358–1.860)**, and **1.393 (0.729–2.663)**: all CIs include 1, so their rate direction remains unresolved. Descriptive robbery-to-legitimate RR ratios vary from **2.406 to 13.876** across these scenarios, with the 4/3 ratio CI **0.862–6.720** including 1. The former 1.8-only display value **5.311 (1.923–14.672)** is a conditional, not multiplier-integrated, interval.
+
+Route-specific fixed-effect fits retain different positive-margin supports: at 1.8×, robbery 3,371 and legitimate 15,377, with only 2,900 in common among 19,903 constructed hummingbird opportunities. Thus the ratios are descriptive, **not** directly identified common-risk-set substitution factors or algebraic decompositions of the plant-level P1 association. A uniform reach multiplier has not been independently validated for all 49 hummingbird species; species-specific tongue allometry and efficient extraction remain uncertain. The robust conclusion is therefore limited to the three tested post-open scenarios, **not** all possible physiological definitions. See [the own-estimand self-audit](docs/LETTER_ESTIMAND_SELF_AUDIT_2026_10_13.md).
 
 Case et al. (2026) add **published directional corroboration** from a third independent multispecies Hawaiian bird–lobelioid dataset. Their published analysis reports that nectar robbing declines as bill length approaches flower length, equivalent under the BITA orientation to greater flower-minus-bill mismatch being associated with greater robbery. Dryad metadata describe 11 plant and 7 bird species. Because the direction was already public and the fauna is Aves, this dataset is not added to the standardized equal-network statistic: `k=2` remains primary, and a harmonized Case rank effect stays unopened until exact source bytes are verified.
 

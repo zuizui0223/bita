@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 from pathlib import Path
 
@@ -131,7 +132,7 @@ def test_letter_separates_case_directional_recurrence_from_standardized_k() -> N
     assert "Case et al. 2026" in text
     assert "11 plant and seven bird species" in text
     assert "directional corroboration rather than a third standardized network contribution" in text
-    assert "standardized replication count remains \\(k=2\\)" in text
+    assert "the standardized replication count remains (k=2)" in text
 
 
 @pytest.mark.prose_contract
@@ -152,9 +153,21 @@ def test_letter_integrates_postopen_reach_sensitivity_and_boundary_mass() -> Non
     assert "RR 1.883, 1.111–3.190" in text
     assert "RR 0.463, 0.147–1.461" in text
     assert "With the 1.8 multiplier" in text
-    assert "legitimate RR was 0.154 (0.087–0.271)" in text
-    assert "robbery RR was 0.816 (0.358–1.860)" in text
-    assert "robbery-to-legitimate RR ratio was then 5.31 (1.92–14.67)" in text
+    assert "RR 0.154 (0.087–0.271)" in text
+    assert "0.816 (0.358–1.860)" in text
+    assert "Descriptive robbery-to-legitimate ratios" in text
+    assert "4/3×, RR 0.354 (0.197–0.635)" in text
+    assert "2.0×, RR 0.100 (0.065–0.155)" in text
+    assert "0.851 (0.328–2.212)" in text
+    assert "1.393 (0.729–2.663)" in text
+    assert "all three CIs included 1" in text.lower() or "all three CIs included 1" in text
+    assert "the legitimate-rate direction reverses" in text.lower()
+    assert "all 49 hummingbird species" in text
+    assert "omit uncertainty in the multiplier itself" in text
+    assert "positive-margin supports" in text
+    assert "not a joint rate contrast estimated over identical opportunities" in text
+    assert "individual birds were not tracked" in text
+    assert "without identifying individual tactic changes" in text
     assert "585 of 999 finite bootstrap fits (58.6%)" in text
     assert "cannot by themselves convert a support-boundary sigmoid midpoint into an interior threshold" in text
 
@@ -179,13 +192,15 @@ def test_letter_centers_prevalence_vs_route_frequency_not_rewiring_novelty() -> 
     text = LETTER.read_text(encoding="utf-8").lower()
     abstract = text.split("## abstract", 1)[1].split("## introduction", 1)[0]
     assert "composition alone cannot distinguish these mechanisms" in abstract
-    assert "robbery itself showed no detectable increase" in abstract
+    assert "every robbery-rate ci included 1" in abstract
+    assert "1.33–2.0" in abstract
+    assert "the preregistered bill-only barrier gave the opposite legitimate-rate direction" in abstract
     assert "higher robbery prevalence need not imply more robbery" in abstract
     assert "### higher robbery prevalence need not mean more robbery" in text
     assert "more prevalent robbery did not require more robbery" in text
     assert "existing forbidden-link, alternative-mode and rewiring theory" in text
     assert "our zero-inclusive opportunity model adds the missing no-interaction state" in text
-    assert "composition should therefore not be interpreted as route frequency" in text
+    assert "conditional robbery share should not be interpreted as absolute route frequency" in text
 
 
 @pytest.mark.prose_contract
@@ -214,10 +229,85 @@ def test_letter_reports_route_rate_identifiability_audit_with_claim_boundary() -
     text = LETTER.read_text(encoding="utf-8").lower()
     assert "post-hoc **design-identifiability audit**" in text
     assert "seven of the 33 programs met the strict zero-inclusive both-route-rate criterion" in text
-    assert "18 used robbery-prevalence-only outcomes" in text
+    assert "eighteen used robbery-prevalence-only outcomes" in text
     assert "six estimated route choice conditional on observed interactions" in text
     assert "26/33 programs in this frozen frame did not" in text
     assert "post-hoc finite-frame design description" in text
     assert "not an estimate for the broader literature" in text
     assert "the 7/33 audit is post hoc" in text
     assert "does not make this the first study to measure both route rates" in text
+
+
+@pytest.mark.prose_contract
+def test_letter_self_audit_guards_noncommon_estimands() -> None:
+    letter = LETTER.read_text(encoding="utf-8")
+    cover = (ROOT / "submission" / "ECOLOGY_LETTERS_LETTER_COVER_V0.md").read_text(encoding="utf-8")
+    audit = (ROOT / "docs" / "LETTER_ESTIMAND_SELF_AUDIT_2026_10_13.md").read_text(encoding="utf-8")
+    assert "same population, weighting and access contrast" in letter
+    assert "fraction of P1 attributable to either route cannot be identified" in letter
+    assert "do not share one estimand or fitted support" in cover
+    for token in ("19,903", "3,371", "15,377", "2,900", "5.31", "k = 2", "post-open", "unresolved"):
+        assert token in audit
+
+
+@pytest.mark.prose_contract
+def test_letter_reach_sign_robustness_is_conditional_on_scenarios() -> None:
+    text = LETTER.read_text(encoding="utf-8")
+    abstract = text.split("## Abstract", 1)[1].split("## Introduction", 1)[0]
+    assert "each 95% CI below 1" in abstract
+    assert "every robbery-rate CI included 1" in abstract
+    assert "2.41 to 13.88" in abstract
+    assert "different supports and cannot identify substitution" in abstract
+    assert "0.862–6.720" in text
+    assert "At 4/3× the ratio CI also includes 1" in text
+    assert "the plant-jackknife CIs are conditional on each multiplier" in text
+    assert "The preregistered culmen-only P2 result reverses" in text
+    assert "A shared multiplier assumes proportional tongue reach across species" in text
+
+
+@pytest.mark.prose_contract
+def test_p1_is_conditional_robbery_share_never_absolute_rate() -> None:
+    text = LETTER.read_text(encoding="utf-8")
+    p1 = text.split("**P1. Bird access barriers.**", 1)[1].split("**P2.", 1)[0]
+    methods = text.split("### Primary Ecuadorian bird–flower test", 1)[1].split(
+        "### Zero-inclusive participation decomposition", 1
+    )[0]
+    results = text.split("### Primary Ecuadorian test: access mismatch predicts robbery", 1)[1].split(
+        "### Participation inference depends on the physiological reach threshold", 1
+    )[0]
+    assert "conditional robbery share" in p1
+    assert "conditional robbery share" in methods
+    assert "mean conditional robbery share" in results
+    assert "robbery rate" not in p1.lower()
+    assert "robbery rate" not in methods.lower()
+    assert "mean robbery rate" not in results.lower()
+    assert "absolute robbery rates" not in results.lower()
+    assert "did not measure absolute robbery visitation frequency" in results
+
+
+def test_reach_sign_reversal_is_within_same_hummingbird_opportunity_sample() -> None:
+    text = LETTER.read_text(encoding="utf-8")
+    diag = json.loads((
+        ROOT / "empirical/floral_defence_selectivity/results/"
+        "aubert2026_hummingbird_effective_reach_sensitivity.json"
+    ).read_text(encoding="utf-8"))
+    assert diag["scope"]["hummingbird_species"] == 49
+    sens = diag["sensitivities"]
+    multipliers = ("1.0", "1.3333333333333333", "1.8", "2.0")
+    expected_barriers = (11387, 8224, 5133, 4082)
+    for key, n in zip(multipliers, expected_barriers):
+        zero = sens[key]["zero_inclusive"]
+        assert zero["barrier_edges"] == n
+        assert zero["barrier_edges"] + zero["accessible_edges"] == 19903
+
+    uncorrected = sens["1.0"]["zero_inclusive"]["legitimate_nonrobbing"]
+    assert uncorrected["rr"] > 1
+    assert uncorrected["ci95"][0] > 1
+    for key in multipliers[1:]:
+        corrected = sens[key]["zero_inclusive"]["legitimate_nonrobbing"]
+        assert corrected["rr"] < 1
+        assert corrected["ci95"][1] < 1
+
+    assert "bill-only refit within the same 19,903 hummingbird opportunities" in text
+    assert "excluding the flowerpiercer species does not explain the sign reversal" in text
+    assert "barriers numbered 11,387 at 1.0×, 8,224 at 4/3×" in text

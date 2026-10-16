@@ -51,8 +51,9 @@ jobs:
               "barrier 0.147 vs accessible 0.020",
               "culmen-only pooled RR = 1.772",
               "95% CI 1.105–2.841",
-              "1.8× reach: legitimate RR 0.154; robbery RR 0.816",
-              "legitimate route filtered; robbery comparatively retained",
+              "post-open 4/3–2.0×: legitimate RR 0.100–0.354; each CI excludes 1",
+              "robbery RR 0.816–1.393 (CIs include 1); descriptive RR ratios 2.41–13.88",
+              "Post-open corrected reach: legitimate declines; robbery direction unresolved",
           ]
           missing = [item for item in expected if item not in text]
           if missing:

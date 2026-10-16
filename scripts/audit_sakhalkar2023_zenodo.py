@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import hashlib
 import io
 import json
+import sys
+from http.client import IncompleteRead
 import posixpath
 import time
 import xml.etree.ElementTree as ET
@@ -19,6 +22,20 @@ DOWNLOAD_URL = (
 )
 USER_AGENT = "bita-sakhalkar2023-zenodo-audit/1.0"
 MAX_BYTES = 8 * 1024 * 1024
+
+# Author-owned, tagged GitHub source for the exact Zenodo v1.0.0 release.
+# Provenance was checked against the public GitHub git/ref and git/tree APIs.
+# The tag resolves to the immutable commit below, and its input workbook has
+# this Git blob SHA-1. We never accept an unpinned branch or a mismatched file.
+UPSTREAM_COMMIT = "605d76245a8e89ec9932d0ce5368e47f1ecabd5c"
+UPSTREAM_WORKBOOK_BLOB_SHA1 = "0ee25ea58c12e5641d0eda9926f8aa87bb5e35e6"
+UPSTREAM_WORKBOOK_SIZE = 755_561
+UPSTREAM_WORKBOOK_NAME = "cheaters_visitation_and_trait_data.xlsx"
+UPSTREAM_SNAPSHOT_URL = (
+    "https://codeload.github.com/"
+    "SaileeSakhalkar/cheaters-among-pollinators-ecosphere/zip/"
+    f"{UPSTREAM_COMMIT}"
+)
 
 _MAIN_NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 _DOC_REL_NS = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
@@ -192,6 +209,58 @@ def summarize_archive(data: bytes) -> dict[str, object]:
         }
 
 
+def _pinned_author_github_snapshot() -> bytes:
+    """Use only the exact author-owned v1.0.0 commit if Zenodo transport fails.
+
+    The ZIP container itself need not be byte-identical to Zenodo's GitHub export:
+    the primary biological workbook must match its immutable git-blob identity.
+    Manuscript-facing data/model outputs are still checked against frozen receipts.
+    """
+    request = Request(
+        UPSTREAM_SNAPSHOT_URL,
+        headers={"User-Agent": USER_AGENT, "Accept": "application/zip"},
+    )
+    with urlopen(request, timeout=60) as response:  # nosec B310: pinned author commit
+        data = response.read(MAX_BYTES + 1)
+    if len(data) > MAX_BYTES:
+        raise ValueError("Pinned author GitHub archive exceeds configured size limit")
+
+    try:
+        with zipfile.ZipFile(io.BytesIO(data)) as archive:
+            members = [item for item in archive.infolist() if not item.is_dir()]
+            if sum(item.file_size for item in members) > 4 * MAX_BYTES:
+                raise ValueError("Pinned author GitHub archive exceeds decompressed size limit")
+            workbooks = [
+                item for item in members
+                if Path(item.filename).name == UPSTREAM_WORKBOOK_NAME
+            ]
+            if len(workbooks) != 1:
+                raise ValueError(
+                    f"Pinned author GitHub snapshot contains {len(workbooks)} "
+                    "primary workbooks rather than exactly one"
+                )
+            if workbooks[0].file_size != UPSTREAM_WORKBOOK_SIZE:
+                raise ValueError("Pinned author workbook size differs from tagged git tree")
+            workbook = archive.read(workbooks[0])
+    except (zipfile.BadZipFile, OSError, RuntimeError) as exc:
+        raise ValueError("Invalid pinned author GitHub ZIP") from exc
+
+    git_blob = hashlib.sha1(
+        f"blob {len(workbook)}\0".encode("ascii") + workbook
+    ).hexdigest()
+    if git_blob != UPSTREAM_WORKBOOK_BLOB_SHA1:
+        raise ValueError("Pinned author workbook git blob SHA-1 mismatch")
+    print(
+        "SOURCE_PROVENANCE: verified pinned author GitHub v1.0.0 source; "
+        f"commit={UPSTREAM_COMMIT}; "
+        f"workbook git blob={git_blob}; "
+        "no assumption about the current Zenodo service status; "
+        "frozen result checks still required.",
+        file=sys.stderr,
+    )
+    return data
+
+
 def _download() -> bytes:
     request = Request(DOWNLOAD_URL, headers={"User-Agent": USER_AGENT, "Accept": "*/*"})
     attempts = 4
@@ -205,20 +274,34 @@ def _download() -> bytes:
             return data
         except HTTPError as error:
             last_error = error
-            if error.code < 500 or attempt == attempts - 1:
-                break
-        except URLError as error:
+            if error.code < 500:
+                # A changed/deleted Zenodo source is NOT a transient outage.
+                raise RuntimeError(
+                    f"Non-retryable Zenodo source response: HTTP {error.code}"
+                ) from error
+        except (URLError, ConnectionError, TimeoutError, IncompleteRead) as error:
             last_error = error
-            if attempt == attempts - 1:
-                break
-        time.sleep(2 ** attempt)
-    raise RuntimeError(
-        "Unable to retrieve the frozen Sakhalkar 2023 Zenodo archive after retries. "
-        f"Dataset DOI: {DATASET_DOI}. Regenerating the network analysis requires "
-        "network access to the fixed Zenodo record; the repository's committed "
-        "results/sakhalkar2023_network_result.json remains the frozen analysis receipt. "
-        f"Last download error: {last_error}"
-    ) from last_error
+        if attempt < attempts - 1:
+            time.sleep(2 ** attempt)
+
+    # The author-maintained public GitHub tag is a separate, fixed source path,
+    # NOT an unverified mirror or an excuse to emit committed summary statistics.
+    try:
+        print(
+            "ZENODO_TRANSIENT_FAILURE: exhausted four retryable attempts; "
+            "verifying pinned author-source fallback.",
+            file=sys.stderr,
+        )
+        return _pinned_author_github_snapshot()
+    except (HTTPError, URLError, ConnectionError, TimeoutError, IncompleteRead,
+            ValueError, zipfile.BadZipFile, OSError) as fallback_error:
+        raise RuntimeError(
+            "Unable to retrieve the frozen Sakhalkar 2023 source after Zenodo "
+            "retries and a pinned author-GitHub integrity check. "
+            f"Dataset DOI: {DATASET_DOI}; tagged commit: {UPSTREAM_COMMIT}. "
+            f"Last Zenodo error: {last_error}; "
+            f"pinned author source error: {fallback_error}"
+        ) from fallback_error
 
 
 def run(output_path: str | Path) -> dict[str, object]:

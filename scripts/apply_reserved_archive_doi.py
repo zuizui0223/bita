@@ -17,6 +17,7 @@ RECEIPT_PATH = ROOT / "submission" / "access_routing_archive" / "RESERVED_DOI_RE
 RECEIPT_TYPE = "BITA_ACCESS_ROUTING_RESERVED_DOI_V1"
 RESERVED_STATUS = "ZENODO_DOI_RESERVED_PENDING_PUBLICATION"
 DOI_RE = re.compile(r"^10\.5281/zenodo\.(\d+)$", re.IGNORECASE)
+SOURCE_DATASET_DOIS = frozenset(("10.5281/zenodo.8398202", "10.5281/zenodo.14185547"))
 
 TARGETS = (
     "manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md",
@@ -36,7 +37,10 @@ def normalize_zenodo_doi(value: str) -> str:
     match = DOI_RE.fullmatch(text)
     if match is None:
         raise ValueError("RESERVED_DOI_MUST_BE_ZENODO_RECORD_DOI")
-    return f"10.5281/zenodo.{match.group(1)}"
+    doi = f"10.5281/zenodo.{match.group(1)}"
+    if doi in SOURCE_DATASET_DOIS:
+        raise ValueError("SOURCE_DATASET_DOI_CANNOT_BE_REUSED_AS_BITA_ARCHIVE_DOI")
+    return doi
 
 
 def _replace_once_or_already(text: str, old: str, new: str, *, label: str) -> str:
@@ -45,6 +49,28 @@ def _replace_once_or_already(text: str, old: str, new: str, *, label: str) -> st
     if new in text:
         return text
     raise ValueError(f"DOI_TARGET_NOT_FOUND:{label}")
+
+
+def _set_doi_status(
+    text: str, *, field: str, allowed_old: tuple[str, ...], label: str
+) -> str:
+    """Replace exactly one full status assignment, rejecting unrecognized drift."""
+    pattern = re.compile(rf"(?m)^{re.escape(field)} = ([A-Z][A-Z0-9_]*)$")
+    matches = list(pattern.finditer(text))
+    if len(matches) != 1:
+        raise ValueError(f"DOI_TARGET_NOT_FOUND:{label}")
+    match = matches[0]
+    old_value = match.group(1)
+    new_value = "RESERVED_PENDING_ZENODO_PUBLICATION"
+    if old_value == new_value:
+        return text
+    if old_value not in allowed_old:
+        raise ValueError(f"DOI_TARGET_NOT_FOUND:{label}:{old_value}")
+    return (
+        text[:match.start()]
+        + f"{field} = {new_value}"
+        + text[match.end():]
+    )
 
 
 def transform(path: str, text: str, doi: str) -> str:
@@ -79,10 +105,13 @@ def transform(path: str, text: str, doi: str) -> str:
         )
 
     if path == "docs/PUBLICATION_STATUS.md":
-        text = _replace_once_or_already(
+        text = _set_doi_status(
             text,
-            "ACCESS_ROUTING_ARCHIVE_DOI = RESERVE_IN_ZENODO_DRAFT_BEFORE_FINAL_PACKAGE_BUILD",
-            "ACCESS_ROUTING_ARCHIVE_DOI = RESERVED_PENDING_ZENODO_PUBLICATION",
+            field="ACCESS_ROUTING_ARCHIVE_DOI",
+            allowed_old=(
+                "RESERVE_IN_ZENODO_DRAFT_BEFORE_FINAL_PACKAGE_BUILD",
+                "NOT_YET_RESERVED",
+            ),
             label=f"{path}:doi_status",
         )
         marker = "ACCESS_ROUTING_ARCHIVE_DOI = RESERVED_PENDING_ZENODO_PUBLICATION"
@@ -96,9 +125,14 @@ def transform(path: str, text: str, doi: str) -> str:
         return text
 
     if path == "docs/SUBMISSION_SCOPE.md":
-        text = text.replace(
-            "ARCHIVE_DOI = REQUIRED",
-            "ARCHIVE_DOI = RESERVED_PENDING_ZENODO_PUBLICATION",
+        text = _set_doi_status(
+            text,
+            field="ARCHIVE_DOI",
+            allowed_old=(
+                "REQUIRED",
+                "RESERVE_IN_ZENODO_DRAFT_BEFORE_FINAL_PACKAGE_BUILD",
+            ),
+            label=f"{path}:doi_status",
         )
         marker = "ARCHIVE_DOI = RESERVED_PENDING_ZENODO_PUBLICATION"
         exact = f"RESERVED_ARCHIVE_DOI = {doi}"
@@ -146,32 +180,60 @@ def _receipt(doi: str) -> dict[str, object]:
 
 
 def apply_reserved_doi(root: Path, doi_value: str) -> dict[str, object]:
+    """Validate every target before touching disk; roll back on write failure.
+
+    An author-supplied DOI can be applied only to a fully consistent current
+    submission checkout. No Zenodo publication or external submission occurs.
+    """
     doi = normalize_zenodo_doi(doi_value)
     receipt_path = root / RECEIPT_PATH.relative_to(ROOT)
 
+    old_receipt_bytes: bytes | None = None
     if receipt_path.is_file():
-        existing = json.loads(receipt_path.read_text(encoding="utf-8"))
+        old_receipt_bytes = receipt_path.read_bytes()
+        existing = json.loads(old_receipt_bytes.decode("utf-8"))
         existing_doi = normalize_zenodo_doi(str(existing.get("doi", "")))
         if existing_doi != doi:
             raise ValueError("DIFFERENT_RESERVED_DOI_ALREADY_FROZEN")
 
-    changed: list[str] = []
+    # Stage *all* changes in memory before the first file is mutated.
+    original_bytes: dict[str, bytes] = {}
+    replacements: dict[str, str] = {}
     for rel in TARGETS:
         path = root / rel
-        original = path.read_text(encoding="utf-8")
+        raw = path.read_bytes()
+        original_bytes[rel] = raw
+        original = raw.decode("utf-8")
         updated = transform(rel, original, doi)
         if updated != original:
-            path.write_text(updated, encoding="utf-8")
-            changed.append(rel)
+            replacements[rel] = updated
 
     receipt = _receipt(doi)
-    receipt_path.parent.mkdir(parents=True, exist_ok=True)
-    payload = json.dumps(receipt, indent=2, sort_keys=True) + "\n"
-    if not receipt_path.is_file() or receipt_path.read_text(encoding="utf-8") != payload:
-        receipt_path.write_text(payload, encoding="utf-8")
+    payload = (json.dumps(receipt, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    receipt_changed = old_receipt_bytes != payload
+    changed = list(replacements)
+    if receipt_changed:
         changed.append(str(RECEIPT_PATH.relative_to(ROOT)))
 
-    verify_reserved_doi(root)
+    # Write only after every source transformation has succeeded. Restore the
+    # original files if a write or the final independent verification fails.
+    try:
+        for rel, updated in replacements.items():
+            (root / rel).write_text(updated, encoding="utf-8")
+        if receipt_changed:
+            receipt_path.parent.mkdir(parents=True, exist_ok=True)
+            receipt_path.write_bytes(payload)
+        verify_reserved_doi(root)
+    except Exception:
+        for rel, original in original_bytes.items():
+            path = root / rel
+            if path.read_bytes() != original:
+                path.write_bytes(original)
+        if old_receipt_bytes is None:
+            receipt_path.unlink(missing_ok=True)
+        else:
+            receipt_path.write_bytes(old_receipt_bytes)
+        raise
     return {"doi": doi, "changed_files": changed, **receipt}
 
 

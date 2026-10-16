@@ -73,29 +73,31 @@ def test_letter_submission_source_excludes_internal_workflow_language() -> None:
     assert "our ci environment" not in lower
     assert "mechanistic corroboration from floral-defence systems" not in lower
     assert "floral-defence evidence as mechanistic context" in lower
-    assert "not as an independent validation dataset" in lower
-    assert "88 species from four communities" in lower
-    assert "provide biological context rather than additional standardized network replicates" in lower
-    assert "coetzee et al. 2026" in lower
+    assert "not an independent validation dataset" in lower
+    assert "a third independent multispecies bird–flower dataset" in lower
+    assert "directional corroboration rather than a third standardized network contribution" in lower
+    assert "case et al. 2026" in lower
     assert "relative route cost" in lower
-    assert "cost of legitimate entry more than the cost of bypass" in lower
-    assert "longer flower = more robbery" in lower
+    assert "the sign of a geometry–robbery association depends on" in lower
+    assert "longer flowers were associated with relatively greater use of robbery" in lower
     assert "frozen openalex frame contained 857 unique bibliographic records" in lower
     assert "33 independent study programs" in lower
     assert "twenty-two showed the predicted direction" in lower
     assert "five were null" in lower
     assert "four were opposite" in lower
     assert "two were mixed" in lower
-    assert "finite provider-defined frame" in lower
-    assert "not an estimate of natural prevalence" in lower
+    assert "frozen openalex frame contained 857 unique bibliographic records" in lower
+    assert "not an estimate for the broader literature" in lower
     assert "bounded direct-evidence corpus contained 24 study programs" not in lower
     assert "standardized replication count is therefore still only two networks" in lower
     assert "participation inference depends on the physiological reach threshold" in lower
     assert "rr 1.772" in lower
     assert "1.105–2.841" in lower
     assert "1.8 multiplier used in a prior hummingbird-network analysis" in lower
-    assert "legitimate rr was 0.154" in lower
-    assert "selectively suppresses legitimate feeding" in lower
+    assert "legitimate feeding rates decreased" in lower
+    assert "all three 95% cis excluded 1" in lower
+    assert "the legitimate-rate direction reverses" in lower
+    assert "all three cis included 1" in lower
 
 
 def test_letter_submission_remains_fail_closed_until_archive_doi_and_author_metadata() -> None:
@@ -146,7 +148,7 @@ def test_archive_contract_contains_exact_analysis_tables_metadata_and_reproducti
         "effective-reach sensitivity",
         "5.311",
         "AUBERT2026_POSTOPEN_DIAGNOSTICS_RECEIPT_V1.json",
-        "585/999 bootstrap fits",
+        "585/999 threshold boundary mass",
         "10.5281/zenodo.8398202",
         "10.5281/zenodo.14185547",
         "DIRECT_ACCESS_GEOMETRY_ELIGIBILITY_DECISIONS_V23.csv",
@@ -212,9 +214,12 @@ def test_cover_letter_matches_current_evidence_hierarchy() -> None:
     assert "only 7/33 programs met a strict zero-inclusive both-route-rate criterion" in lower
     assert "not an estimate for the broader literature" in lower
     assert "which absolute route changed" in lower
-    assert "rr=0.154" in lower
-    assert "0.087–0.271" in lower
-    assert "retained relative to legitimate feeding by a factor of 5.31" in lower
+    assert "0.354, 0.154, 0.100" in lower
+    assert "0.851, 0.816, and 1.393" in lower
+    assert "4/3× ratio ci includes 1" in lower
+    assert "not a single common-risk-set replacement estimate" in lower
+    assert "descriptive ratio of separately fitted robbery-versus-legitimate rrs" in lower
+    assert "not a single common-risk-set replacement estimate" in lower
 
 
 @pytest.mark.prose_contract

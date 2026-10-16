@@ -28,6 +28,45 @@ jobs:
       - name: Audit public Zenodo archive
         run: |
           python scripts/audit_sakhalkar2023_zenodo.py artifacts/sakhalkar2023_zenodo_audit.json
+      - name: Verify pinned author-tag fallback against live public source
+        run: |
+          python - <<'PY'
+          import json
+          import math
+          from pathlib import Path
+          from scripts.audit_sakhalkar2023_zenodo import (
+              _pinned_author_github_snapshot,
+              summarize_archive,
+              UPSTREAM_COMMIT,
+          )
+          from scripts.analyze_sakhalkar2023_network import _find_workbook, analyze_workbook
+
+          # This explicitly exercises the real author-GitHub fallback even if
+          # Zenodo is reachable; no raw species data are printed or redistributed.
+          source_zip = _pinned_author_github_snapshot()
+          report = summarize_archive(source_zip)
+          candidates = [
+              (p, data)
+              for p, data in report["xlsx_workbooks"].items()
+              if Path(p).name == "cheaters_visitation_and_trait_data.xlsx"
+          ]
+          assert len(candidates) == 1
+          names = {sheet["name"] for sheet in candidates[0][1]["sheets"]}
+          assert {"cheater_data", "plant_traits"}.issubset(names)
+
+          observed = analyze_workbook(_find_workbook(source_zip), permutations=9999)
+          frozen = json.loads(Path(
+              "empirical/floral_defence_selectivity/results/sakhalkar2023_network_result.json"
+          ).read_text())
+          for key in ("raw_cheater_rows", "analysis_visit_rows", "species_with_any_cheating_and_tube_length"):
+              assert observed[key] == frozen[key], key
+          o = observed["tube_length_cheating_mode_balance"]
+          e = frozen["tube_length_cheating_mode_balance"]
+          assert o["n_species"] == e["n_species"] == 57
+          assert math.isclose(o["spearman_rho"], e["spearman_rho"], rel_tol=0, abs_tol=1e-12)
+          assert o["permutation_p_two_sided"] == e["permutation_p_two_sided"] == 0.0086
+          print(f"PINNED_AUTHOR_SOURCE_AND_FROZEN_SCIENCE_VERIFIED: {UPSTREAM_COMMIT}; n={o['n_species']}; rho={o['spearman_rho']:.9f}; p={o['permutation_p_two_sided']}")
+          PY
       - name: Publish aggregate audit
         run: |
           {

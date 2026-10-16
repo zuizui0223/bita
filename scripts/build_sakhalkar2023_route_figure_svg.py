@@ -178,7 +178,7 @@ def build_svg(
             _text(1115, 493, f'bird paired barrier: {int(bird_barrier["eligible_clusters"])} species; Δ = +{float(bird_barrier["mean_cluster_difference"]):.3f}; p = {float(bird_barrier["cluster_label_swap_permutation_p"]):.4f}', size=13, weight="bold"),
             _text(1115, 531, f'within-bird continuous: {int(bird_within["eligible_bird_species_continuous"])} species / {int(bird_within["bird_plant_dyads_in_pooled_test"]):,} dyads', size=13, weight="bold"),
             _text(1115, 560, f'centered-rank rho = {float(bird_within["pooled_within_bird_rank_rho"]):.3f}; p = {float(bird_within["within_bird_permutation_p_two_sided"]):.4f}', size=13, weight="bold"),
-            _text(1115, 598, f'descriptive pair-site robbery: barrier {barrier_rate:.3f} vs accessible {accessible_rate:.3f}', size=13),
+            _text(1115, 598, f'descriptive pair-site robbery share: barrier {barrier_rate:.3f} vs accessible {accessible_rate:.3f}', size=13),
         ])
         if participation is not None:
             decision = participation["decision"]
@@ -187,14 +187,23 @@ def build_svg(
                 _text(1115, 628, f'culmen-only pooled RR = {float(decision["rate_ratio"]):.3f} (95% CI {float(ci95[0]):.3f}–{float(ci95[1]):.3f})', size=13)
             )
             if reach is not None:
-                r18 = reach["sensitivities"]["1.8"]["zero_inclusive"]
-                leg = r18["legitimate_nonrobbing"]
-                rob = r18["robbing"]
-                ratio = r18["robbing_rr_over_legitimate_rr"]
-                ratio_ci = ratio["ci95"]
+                corrected = [
+                    reach["sensitivities"][key]["zero_inclusive"]
+                    for key in ("1.3333333333333333", "1.8", "2.0")
+                ]
+                legitimate = [entry["legitimate_nonrobbing"] for entry in corrected]
+                robbery = [entry["robbing"] for entry in corrected]
+                ratio = [entry["robbing_rr_over_legitimate_rr"] for entry in corrected]
+                if not all(float(v["ci95"][1]) < 1 for v in legitimate):
+                    raise ValueError("reach scenarios no longer support lower legitimate rates")
+                if not all(float(v["ci95"][0]) <= 1 <= float(v["ci95"][1]) for v in robbery):
+                    raise ValueError("reach scenarios no longer show unresolved robbery rates")
+                leg_range = sorted(float(v["rr"]) for v in legitimate)
+                rob_range = sorted(float(v["rr"]) for v in robbery)
+                ratio_range = sorted(float(v["ratio"]) for v in ratio)
                 parts.extend([
-                    _text(1115, 650, f'1.8× reach: legitimate RR {float(leg["rr"]):.3f}; robbery RR {float(rob["rr"]):.3f}', size=13, weight="bold"),
-                    _text(1115, 676, f'robbery / legitimate RR = {float(ratio["ratio"]):.2f} (95% CI {float(ratio_ci[0]):.2f}–{float(ratio_ci[1]):.2f})', size=12, weight="bold"),
+                    _text(1115, 650, f'post-open 4/3–2.0×: legitimate RR {leg_range[0]:.3f}–{leg_range[-1]:.3f}; each CI excludes 1', size=13, weight="bold"),
+                    _text(1115, 676, f'robbery RR {rob_range[0]:.3f}–{rob_range[-1]:.3f} (CIs include 1); descriptive RR ratios {ratio_range[0]:.2f}–{ratio_range[-1]:.2f}', size=12, weight="bold"),
                 ])
         else:
             parts.append(_text(1115, 632, f'{int(site["positive_sites"])} / {int(site["eligible_sites"])} sites positive; {int(native["pair_site_n"]):,} pair-site units', size=13))
@@ -208,7 +217,7 @@ def build_svg(
         _text(1115, 735, "Composition versus route-specific participation", size=19, weight="bold"),
         _text(1115, 775, "Insects: increasing access constraint shifts cheating toward bypass/robbing.", size=15),
         _text(1115, 810, "Birds: mismatch increases robbery share across plant and within-bird grains.", size=15),
-        _text(1115, 850, "1.8× reach: legitimate feeding declines; robbery shows no detectable increase.", size=15, weight="bold"),
+        _text(1115, 850, "Post-open corrected reach: legitimate declines; robbery direction unresolved.", size=15, weight="bold"),
         _text(120, 908, "Sakhalkar: significant univariate association; correlated morphology prevents a unique tube-length claim.", size=12, fill="#555"),
         _text(120, 934, "Aubert/EPHI: observational all-site extension; missing piercing is recoded as legitimate/no from source metadata.", size=12, fill="#555"),
         _text(120, 960, "No raw species identifiers or individual interaction rows are emitted in the figure.", size=12),
