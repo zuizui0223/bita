@@ -73,9 +73,11 @@ Do not merge the current draft PR solely because this document and wording pass 
 
 The old selected 1.8× point estimate is no longer the manuscript's main headline. The post-open all-hummingbird scenarios are reported side-by-side:
 
+**Hold-the-cohort-fixed diagnostic:** The actual preregistered bill-only participation sample had **50 bird species / 19,909 constructed opportunities**. The 1.00× row below is a **hummingbird-only refit** of the *same preregistered threshold definition*, restricted to **49 species and 19,903 opportunities** so all four rows share one input sample. Its legitimate RR is 1.882515 (CI 1.110980–3.189853); the original 50-species estimate was approximately 1.882643. At 1.00×, 11,387/19,903 edges are classified as barriers; those classifications fall to 8,224, 5,133 and 4,082 at 4/3×, 1.8× and 2.0×. Thus the sign reversal persists when excluding *Diglossa* is held constant: it is associated with changing the binary reach threshold, not with the six excluded opportunities. This is **a comparison of frozen post-open models**, not a preregistered physiological validation or a causal threshold effect.
+
 | Fixed reach multiplier | Legitimate RR (95% plant jackknife CI) | Robbery RR (95% plant jackknife CI) | Descriptive separately fitted RR ratio (conditional CI) |
 |---|---:|---:|---:|
-| 1.00 exposed culmen only, originally preregistered | 1.883 (1.111–3.190) | 0.463 (0.147–1.461) | 0.246 (0.070–0.869) |
+| 1.00 bill-only, post-open 49-hummingbird refit of preregistered barrier rule | 1.883 (1.111–3.190) | 0.463 (0.147–1.461) | 0.246 (0.070–0.869) |
 | 4/3 corrected | 0.354 (0.197–0.635) | 0.851 (0.328–2.212) | 2.406 (0.862–6.720) |
 | 1.80 corrected | 0.154 (0.087–0.271) | 0.816 (0.358–1.860) | 5.311 (1.923–14.672) |
 | 2.00 corrected | 0.100 (0.065–0.155) | 1.393 (0.729–2.663) | 13.876 (6.504–29.603) |
