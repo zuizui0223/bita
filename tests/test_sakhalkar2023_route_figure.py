@@ -118,7 +118,7 @@ def test_figure4_svg_contains_points_and_frozen_stats_without_species_ids() -> N
     assert "robber-only median = 8.000" in svg
     assert "thief-only median = 2.000" in svg
     assert "Aubert / EPHI" in svg
-    assert "descriptive pair-site robbery: barrier 0.147 vs accessible 0.020" in svg
+    assert "descriptive pair-site robbery share: barrier 0.147 vs accessible 0.020" in svg
     assert "culmen-only pooled RR = 1.772" in svg
     assert "95% CI 1.105–2.841" in svg
     assert "post-open 4/3–2.0×: legitimate RR 0.100–0.354; each CI excludes 1" in svg
