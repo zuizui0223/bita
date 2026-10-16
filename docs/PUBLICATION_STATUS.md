@@ -1,6 +1,14 @@
 # Publication status
 
-## Verified staging state (2026-10-14 JST)
+## Active scientific claim and release status
+
+- [Review PR #360](https://github.com/zuizui0223/bita/pull/360) is **draft and unmerged**. Check [canonical tracker #227](https://github.com/zuizui0223/bita/issues/227) for the exact newest verified head, run IDs and staging archive artifact. Older SHA/artifact checkpoints below are retained only as dated provenance.
+- **P1 is conditional composition:** its Ecuadorian plant- and bird-species tests correlate flower–bird mismatch with **the fraction of observed feeding interactions classified as robbery**. Values such as pair-site 0.147 versus 0.020 are **conditional shares, not zero-inclusive visitation rates**. The previously loose label "robbery rate" in the P1 manuscript/results has been corrected.
+- **P2 is opportunity-based rate comparison:** the original preregistered bill-only model covered **50 bird species and 19,909 opportunities**. The post-open corrected-threshold sensitivity compares 1.0×, 4/3×, 1.8× and 2.0× within the **same 49-hummingbird/19,903-opportunity sample**. For the 1.0× reference, legitimate RR is 1.883 (1.111–3.190); at corrected multipliers legitimate RRs are 0.354, 0.154 and 0.100, all with CIs below 1. Classifying 11,387, 8,224, 5,133 and 4,082 opportunities as barriers under these four definitions shows the reversal is associated with **threshold classification**, not dropping the flowerpiercer sample. The corrected fits are **post-open** and no one common multiplier has been measured for all 49 species.
+- **Do not decompose P1 with P2:** separately fitted legitimate and robbery Poisson FE models use different positive-margin supports, and P1 differs from P2 in denominator, aggregation and comparison. The 1.8× 5.311 ratio remains *descriptive*, with uncertainty over multiplier choice unaccounted for. The empirical result is consistent with legitimate-route reduction, **not** proof that the observed prevalence association was caused by that reduction or that individual birds switched tactics.
+- **External release is blocked:** complete author-controlled metadata and sign-off, a new BITA Zenodo DOI, exact DOI-bearing source commit and independently verified published DOI are required. A green PR virtual-merge staging build does not authorize publication, merge or submission.
+
+## Earlier fully verified staging checkpoint (2026-10-14 JST)
 
 - [Review PR #360](https://github.com/zuizui0223/bita/pull/360) is **draft/unmerged**. The reviewed head `3b42919668c25fc7b7c9014ea2e97439f57b39f3` passed the full [Letter package workflow](https://github.com/zuizui0223/bita/actions/runs/38415454239), [Python 3.10/3.11/3.12 CI](https://github.com/zuizui0223/bita/actions/runs/38415454318), source data audits and submission-scope tests.
 - Stage artifact ID `11824174728` contains review materials. Archive-only reproduction and **69/69** inner checksum checks passed. This is **not** a DOI-bearing published release; GitHub Actions used a virtual-merge source SHA.
@@ -24,7 +32,7 @@ missing piercing -> legitimate/no per source metadata
 plant-level mismatch rho = 0.503
 species permutation p = 0.0001
 paired barrier contrast: 130 plant species, mean difference +0.0915, p = 0.0001
-descriptive pair-site robbery: barrier 0.147 vs accessible 0.020
+descriptive pair-site conditional robbery share: barrier 0.147 vs accessible 0.020
 18 / 18 comparable sites same direction
 complete-case yes/no sensitivity retains plant-level direction
 within-bird paired barrier: 36 bird species, mean difference +0.0933, p = 0.0001
