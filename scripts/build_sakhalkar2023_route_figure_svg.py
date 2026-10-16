@@ -178,7 +178,7 @@ def build_svg(
             _text(1115, 493, f'bird paired barrier: {int(bird_barrier["eligible_clusters"])} species; Δ = +{float(bird_barrier["mean_cluster_difference"]):.3f}; p = {float(bird_barrier["cluster_label_swap_permutation_p"]):.4f}', size=13, weight="bold"),
             _text(1115, 531, f'within-bird continuous: {int(bird_within["eligible_bird_species_continuous"])} species / {int(bird_within["bird_plant_dyads_in_pooled_test"]):,} dyads', size=13, weight="bold"),
             _text(1115, 560, f'centered-rank rho = {float(bird_within["pooled_within_bird_rank_rho"]):.3f}; p = {float(bird_within["within_bird_permutation_p_two_sided"]):.4f}', size=13, weight="bold"),
-            _text(1115, 598, f'descriptive pair-site robbery: barrier {barrier_rate:.3f} vs accessible {accessible_rate:.3f}', size=13),
+            _text(1115, 598, f'descriptive pair-site robbery share: barrier {barrier_rate:.3f} vs accessible {accessible_rate:.3f}', size=13),
         ])
         if participation is not None:
             decision = participation["decision"]
