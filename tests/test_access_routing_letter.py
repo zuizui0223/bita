@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 from pathlib import Path
 
@@ -262,3 +263,51 @@ def test_letter_reach_sign_robustness_is_conditional_on_scenarios() -> None:
     assert "the plant-jackknife CIs are conditional on each multiplier" in text
     assert "The preregistered culmen-only P2 result reverses" in text
     assert "A shared multiplier assumes proportional tongue reach across species" in text
+
+
+@pytest.mark.prose_contract
+def test_p1_is_conditional_robbery_share_never_absolute_rate() -> None:
+    text = LETTER.read_text(encoding="utf-8")
+    p1 = text.split("**P1. Bird access barriers.**", 1)[1].split("**P2.", 1)[0]
+    methods = text.split("### Primary Ecuadorian bird–flower test", 1)[1].split(
+        "### Zero-inclusive participation decomposition", 1
+    )[0]
+    results = text.split("### Primary Ecuadorian test: access mismatch predicts robbery", 1)[1].split(
+        "### Participation inference depends on the physiological reach threshold", 1
+    )[0]
+    assert "conditional robbery share" in p1
+    assert "conditional robbery share" in methods
+    assert "mean conditional robbery share" in results
+    assert "robbery rate" not in p1.lower()
+    assert "robbery rate" not in methods.lower()
+    assert "mean robbery rate" not in results.lower()
+    assert "absolute robbery rates" not in results.lower()
+    assert "did not measure absolute robbery visitation frequency" in results
+
+
+def test_reach_sign_reversal_is_within_same_hummingbird_opportunity_sample() -> None:
+    text = LETTER.read_text(encoding="utf-8")
+    diag = json.loads((
+        ROOT / "empirical/floral_defence_selectivity/results/"
+        "aubert2026_hummingbird_effective_reach_sensitivity.json"
+    ).read_text(encoding="utf-8"))
+    assert diag["scope"]["hummingbird_species"] == 49
+    sens = diag["sensitivities"]
+    multipliers = ("1.0", "1.3333333333333333", "1.8", "2.0")
+    expected_barriers = (11387, 8224, 5133, 4082)
+    for key, n in zip(multipliers, expected_barriers):
+        zero = sens[key]["zero_inclusive"]
+        assert zero["barrier_edges"] == n
+        assert zero["barrier_edges"] + zero["accessible_edges"] == 19903
+
+    uncorrected = sens["1.0"]["zero_inclusive"]["legitimate_nonrobbing"]
+    assert uncorrected["rr"] > 1
+    assert uncorrected["ci95"][0] > 1
+    for key in multipliers[1:]:
+        corrected = sens[key]["zero_inclusive"]["legitimate_nonrobbing"]
+        assert corrected["rr"] < 1
+        assert corrected["ci95"][1] < 1
+
+    assert "bill-only refit within the same 19,903 hummingbird opportunities" in text
+    assert "excluding the flowerpiercer species does not explain the sign reversal" in text
+    assert "barriers numbered 11,387 at 1.0×, 8,224 at 4/3×" in text
