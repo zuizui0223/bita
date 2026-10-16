@@ -22,9 +22,9 @@ paired barrier species   = 130
 mean paired difference   = +0.0915
 label-swap p             = 0.0001
 
-descriptive pair-site means:
-barrier robbery     = 0.147
-accessible robbery  = 0.020
+descriptive pair-site conditional robbery shares (not absolute visit rates):
+barrier robbery share     = 0.147
+accessible robbery share  = 0.020
 18 / 18 comparable sites in the same direction
 complete-case yes/no sensitivity = same plant-level direction
 
@@ -55,7 +55,7 @@ independent network contributions k = 2
 
 Because `k=2`, the joint test does not estimate between-network heterogeneity, a network-population mean, or generality beyond the two analysed systems.
 
-The zero-inclusive rate analysis is **highly sensitive to how anatomical reach is defined**. The preregistered exposed-culmen-only barrier gave pooled RR 1.772 and legitimate RR **1.883 (1.111–3.190)**, in the opposite direction to all tongue-reach scenarios. Since hummingbirds extend their tongues beyond the bill tip, culmen alone is an incomplete proxy for nectar reach; the original result remains preserved rather than silently dropped.
+The zero-inclusive rate analysis is **highly sensitive to how anatomical reach is defined**. The preregistered exposed-culmen-only barrier gave pooled RR 1.772 and legitimate RR **1.883 (1.111–3.190)**, in the opposite direction to all tongue-reach scenarios. Since hummingbirds extend their tongues beyond the bill tip, culmen alone is an incomplete proxy for nectar reach; the original result remains preserved rather than silently dropped. In the **same 49-hummingbird/19,903-opportunity sample** used for the post-open corrections, refitting the 1.0× culmen-only barrier still gives legitimate RR **1.883 (1.111–3.190)**. Thus sample exclusion is not the cause of the corrected-barrier sign reversal; 11,387 of those opportunities are classed as barrier at 1.0×, compared with 8,224, 5,133 and 4,082 at 4/3×, 1.8× and 2.0×.
 
 Across three **post-open** hummingbird-only reach multipliers (4/3, 1.8, 2.0× culmen), separately fitted legitimate feeding RRs were **0.354 (0.197–0.635)**, **0.154 (0.087–0.271)**, and **0.100 (0.065–0.155)**: all three 95% CIs exclude 1 below. Robbery RRs were **0.851 (0.328–2.212)**, **0.816 (0.358–1.860)**, and **1.393 (0.729–2.663)**: all CIs include 1, so their rate direction remains unresolved. Descriptive robbery-to-legitimate RR ratios vary from **2.406 to 13.876** across these scenarios, with the 4/3 ratio CI **0.862–6.720** including 1. The former 1.8-only display value **5.311 (1.923–14.672)** is a conditional, not multiplier-integrated, interval.
 
