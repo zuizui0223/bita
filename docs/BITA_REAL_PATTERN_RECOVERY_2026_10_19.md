@@ -116,27 +116,43 @@ The more ambitious story, “male flowers actively deter moths and improve total
 
 **Not recovered:** Randomized effect of changing flower-class allocation, evolution of sex allocation from an ancestral architecture, joint male+female absolute fitness optimum, BITA theoretical parameters \`K\`, \`s\`, \`K(u)\`, or a mutation-fixation route. Five plots are neither five speciation transitions nor a representative sample of the plant kingdom.
 
-## Animal: independently reanalysed cichlid oral versus pharyngeal jaw integration
+## Animal: source-pinned phylogenetic integration of oral versus pharyngeal jaws
 
-**Source:** Conith & Albertson (2021) *Nature Communications*, DOI \`10.1038/s41467-021-25755-5\`, original author repository \`andrewjohnconith/cichlid_OJPJ\`, pinned Git commit \`575a148a6c6cb90ee957d4290cf3e2d141ca9c14\`.
+**Source:** Conith & Albertson (2021), *Nature Communications*, DOI 10.1038/s41467-021-25755-5; author's original repository andrewjohnconith/cichlid_OJPJ, immutable Git commit 575a148a6c6cb90ee957d4290cf3e2d141ca9c14.
 
-Oral and pharyngeal jaw PC1..PC5 scores are joined by exact taxon IDs for **88 species**. After standardization and demeaning by coarse author-defined clades, within-clade permutation (4,999) finds residual module integration:
+Published oral and lower pharyngeal jaw species-mean PC1–PC5 scores are joined by **88 exact matching taxon IDs**. Each of the two CSV inputs is pinned to the author's original Git blob. The published original time-scaled Newick phylogeny is also source-pinned (full **1,712** species; Git blob SHA1 23076ac2c895a92aaf36cebfa059124ec1139bd7). Pruning to the 88 sampled species yields **87 standardized Felsenstein phylogenetic independent contrasts** under the stated Brownian branch-variance assumption.
+
+### Previous coarse-clade calculation — descriptive, not phylogenetic correction
+
+After standardizing separate PC axes and demeaning by coarse author-defined clade, 4,999 pharyngeal-label permutations *within* broad clades gave:
 
 - first 3 PC dimensions: **RV=0.103462**, p **0.0058**;
 - first 5 PC dimensions: **RV=0.186222**, p **0.0002**.
 
-Diet-category associations with five-dimensional shapes:
+Diet-category associations with five-dimensional shape were oral jaw **R²=0.135143, p=0.0004** and pharyngeal jaw **R²=0.152144, p=0.0002**. The source diet categories are not a direct measurement of a capture-vs-processing trade-off, and the coarse-clade randomization is **not** a full phylogenetic analysis.
 
-- oral jaw: diet R² **0.135143**, p **0.0004**;
-- pharyngeal jaw: diet R² **0.152144**, p **0.0002**.
+### New actual-tree analysis — positive cross-module covariation remains after PIC
 
-These are **clade-stratified descriptive permutations**, **not full phylogenetic comparative regressions**. The source published residual jaw integration; our source-locked reanalysis verifies an additional implementation-level signature. It cannot estimate BITA's cost of trait differentiation or prove that ecological trade-offs historically created two jaw units.
+Independently transform both jaw-module PC matrices into contrasts on the **same** pruned source tree. Center and standardize each contrast PC axis separately; compute RV on the paired 87-contrast matrices, and compare against **4,999 permutations of entire pharyngeal contrast vectors** (whole-vector exchangeability under the assumed Brownian model; not free reshuffling of individual PC dimensions).
+
+| Phylogenetic assumption | n contrasts | PC axes per module | RV | p, PIC-row permutation |
+|---|---:|---:|---:|---:|
+| **Original source tree branch lengths** | 87 | 5 (primary) | **0.145319** | **0.0024** |
+| Original source branch lengths | 87 | 3 (dimension sensitivity) | **0.138451** | **0.0006** |
+| Equal branch lengths, **post-open** | 87 | 5 | **0.138304** | **0.0002** |
+| Twice the original terminal branch lengths, **post-open** | 87 | 5 | **0.151200** | **0.0012** |
+
+The central result is **not** an artifact of *only* removing the five coarse clade means: the same phylogenetic tree accounts for shared ancestry, yet oral and pharyngeal jaw evolutionary shape contrasts remain associated under this estimator. These post-open branch-variance alterations preserve the signal; they do not validate a universally correct Brownian model or identify the evolutionary cause.
+
+**Claim ceiling:** RV of phylogenetic contrasts measures evolutionary *covariation of traits*, not direct force-motion functional performance, genetic covariance, whether residual pleiotropy persisted from ancestral jaw architecture, causal diet effects, the historical origin of two modules, or BITA's theoretical coupling coefficient lambda / architecture cost K(u). One phylogenetic assemblage with 88 sampled species is **not** 88 independent evolutionary origins of functional specialization. The author's own shape-landmark phylogenetic PLS test is a different, earlier analysis; our PC-based RV is **a new reproducible estimator on the same published system, not an independent biological replication**.
+
+Machine-readable result: docs/BITA_CICHLID_PHYLOGENETIC_READOUT_V1.json. Code: scripts/analyze_bita_cichlid_phylogenetic_contrasts.py. Live original-tree CI: .github/workflows/analyze-bita-cichlid-phylogenetic-contrasts.yml.
 
 ## How the two taxa constrain BITA
 
 **Plant:** allocation toward a specialized reproductive floral class correlates with antagonist exposure; within contexts it predicts both fewer eggs and fewer fruits when total display is held constant. **The egg association weakens after conditioning on the number of vulnerable perfect flowers, and five-plot intervals do not resolve greater fruit retention**. Thus the evidence concerns exposure reallocation and trade-off, not proven active deterrence or improved net fitness.
 
-**Fish:** distinct functional modules retain correlated morphology and both still relate to ecology; an extra morphological axis **does not imply complete functional independence**.
+**Fish:** two functionally distinct jaw modules exhibit residual **phylogenetic evolutionary covariation** under independent contrasts (RV5=0.1453, p=0.0024, n=87 contrasts); coevolution persists across two alternative branch-length sensitivity assumptions. Morphological separation therefore **does not imply independent evolutionary shape trajectories** in this system. This does **not** identify genetic pleiotropy or the underlying adaptation route.
 
 Those observations fit two separate components of the broader BITA architecture story. They are **not two compatible effect sizes for meta-analysis**, and the evolutionary accessibility mechanism from the 540 theoretical parameter cells is **untested** by either species-level dataset. Because the two studies and their traits were selected for conceptual relevance rather than sampled under an outcome-blind cross-taxon search, do not claim systematic universality.
 
@@ -149,6 +165,7 @@ Those observations fit two separate components of the broader BITA architecture 
 - Live source and reanalysis CI: \`.github/workflows/probe-bita-peucedanum2025-huscap.yml\`.
 - Vulnerable-target vs total-display exposure comparison and matched female-fruit retention: \`scripts/analyze_bita_peucedanum2025_exposure_recovery.py\`, tested with \`tests/test_analyze_bita_peucedanum2025_exposure_recovery.py\` and original-data GitHub workflow \`.github/workflows/analyze-bita-peucedanum2025-exposure-recovery.yml\`.
 - Fish source-locked analysis/CI: \`scripts/analyze_bita_cichlid_public_integration.py\` / \`.github/workflows/analyze-bita-cichlid-public-integration.yml\`.
+- Full tree-based cichlid independent contrasts, 1,712-tip tree, 87 PICs and alternate-branch sensitivity: scripts/analyze_bita_cichlid_phylogenetic_contrasts.py; docs/BITA_CICHLID_PHYLOGENETIC_READOUT_V1.json; .github/workflows/analyze-bita-cichlid-phylogenetic-contrasts.yml.
 
 The data input is verified and processed by GitHub CI at its **source archive DOI**; only aggregated, source-backed receipts are uploaded. All scripts label their outputs as observational/exploratory and fail closed on corrupt inputs.
 
