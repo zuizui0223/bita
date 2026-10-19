@@ -79,10 +79,16 @@ def test_source_locked_analysis_never_invents_causal_fitness_gain(monkeypatch):
         "final_to_initial_fraction",
         "common_initial_fruits_log",
         "common_final_fruits_log",
+        "matched_log_final_minus_initial",
     }
     assert {x["n_individuals"] for x in out["matched_fruit_comparison"].values()}=={80}
     assert all(x["five_geographic_plot_jackknife"]["n_geographic_plot_clusters"]==5
                for x in out["matched_fruit_comparison"].values())
+    paired=out["matched_fruit_comparison"]
+    delta=paired["matched_log_final_minus_initial"]["within_context_allocation_beta"]
+    beta_f=paired["common_final_fruits_log"]["within_context_allocation_beta"]
+    beta_i=paired["common_initial_fruits_log"]["within_context_allocation_beta"]
+    assert delta==pytest.approx(beta_f-beta_i,abs=1e-10)
     assert out["target_exposure_adjusted"]["ovip"]["n_source_complete"]==80
     assert out["target_exposure_adjusted"]["ovip"][
         "alternative_perfect_target_adjusted"]["controls"]==[
