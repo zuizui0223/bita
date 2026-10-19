@@ -162,7 +162,7 @@ def test_committed_theory_readout_matches_recomputed_values():
     assert frozen["analytic_sufficient_valley_strict_tests"] == (
         live["analytic_sufficient_valley_strict_tests"]
     )
-    assert frozen["registered_grid"] == live["registered_grid"]
+    assert frozen["registered_grid"] == json.loads(json.dumps(live["registered_grid"]))
     for original, repeated in zip(frozen["scenarios"], live["scenarios"]):
         assert original["classification"] == repeated["classification"]
         assert original["optimum_distance"] == repeated["optimum_distance"]
