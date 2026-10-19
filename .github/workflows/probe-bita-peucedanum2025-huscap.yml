@@ -11,6 +11,8 @@ on:
       - tests/test_inspect_bita_peucedanum2025_raw.py
       - scripts/analyze_bita_peucedanum2025_population_patterns.py
       - tests/test_analyze_bita_peucedanum2025_population_patterns.py
+      - scripts/analyze_bita_peucedanum2025_within_context.py
+      - tests/test_analyze_bita_peucedanum2025_within_context.py
       - .github/workflows/probe-bita-peucedanum2025-huscap.yml
   pull_request:
     paths:
@@ -20,6 +22,8 @@ on:
       - tests/test_inspect_bita_peucedanum2025_raw.py
       - scripts/analyze_bita_peucedanum2025_population_patterns.py
       - tests/test_analyze_bita_peucedanum2025_population_patterns.py
+      - scripts/analyze_bita_peucedanum2025_within_context.py
+      - tests/test_analyze_bita_peucedanum2025_within_context.py
       - .github/workflows/probe-bita-peucedanum2025-huscap.yml
   workflow_dispatch:
 
@@ -108,6 +112,32 @@ jobs:
                 "rho_plot_year=0.7193;rho_plot=0.9,exact_p=0.083333",
                 "rho_2022_23=1.0,p=0.016667 exploratory-only")
           PY
+      - name: Verify exploratory within-plot/year outcome analysis on synthetic data
+        run: python -m pytest -q tests/test_analyze_bita_peucedanum2025_within_context.py
+      - name: Fit raw 2025 egg, predation and male fitness conditional associations
+        run: |
+          python -m scripts.analyze_bita_peucedanum2025_within_context \
+            --output artifacts/bita_peucedanum2025_within_context_v1.json
+      - name: Keep within-context observational conclusions separate from architecture claims
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("artifacts/bita_peucedanum2025_within_context_v1.json")
+          r=json.loads(p.read_text())
+          assert r["doi"]=="10.14943/hu95572"
+          assert r["raw_rows_redistributed"] is False
+          assert set(r["models"]) == {"ovip","predation","paternity"}
+          assert r["models"]["ovip"]["n_context_groups"] >= 15
+          assert r["models"]["paternity"]["n_individuals"] == 106
+          assert "no" in r["claim_limit"].lower() or "not" in r["claim_limit"].lower()
+          print("2025_PEUCEDANUM_WITHIN_CONTEXT_OBSERVATIONAL_RESULT",{
+              k: {"n":v["n_individuals"],
+                  "groups":v["n_context_groups"],
+                  "beta":v["within_context_allocation_beta"],
+                  "p":v["two_sided_within_context_residual_permutation_p"]}
+              for k,v in r["models"].items()})
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: bita-peucedanum-2025-primary-huscap-probe
@@ -115,4 +145,5 @@ jobs:
             artifacts/bita_peucedanum2025_huscap_probe.json
             artifacts/bita_peucedanum2025_raw_diagnostic.json
             artifacts/bita_peucedanum2025_observational_v1.json
+            artifacts/bita_peucedanum2025_within_context_v1.json
           if-no-files-found: error
