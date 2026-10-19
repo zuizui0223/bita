@@ -7,11 +7,13 @@ on:
     paths:
       - scripts/analyze_bita_cichlid_phylogenetic_contrasts.py
       - tests/test_bita_cichlid_phylogenetic_contrasts.py
+      - docs/BITA_CICHLID_PHYLOGENETIC_READOUT_V1.json
       - .github/workflows/analyze-bita-cichlid-phylogenetic-contrasts.yml
   pull_request:
     paths:
       - scripts/analyze_bita_cichlid_phylogenetic_contrasts.py
       - tests/test_bita_cichlid_phylogenetic_contrasts.py
+      - docs/BITA_CICHLID_PHYLOGENETIC_READOUT_V1.json
       - .github/workflows/analyze-bita-cichlid-phylogenetic-contrasts.yml
   workflow_dispatch:
 
