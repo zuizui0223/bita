@@ -16,6 +16,7 @@ from trait_architecture.evolutionary_accessibility import (
     gain_at_fraction,
     initial_gradient,
     landscape,
+    linear_cost_negative_control,
 )
 
 
@@ -163,6 +164,12 @@ def test_committed_theory_readout_matches_recomputed_values():
         live["analytic_sufficient_valley_strict_tests"]
     )
     assert frozen["registered_grid"] == json.loads(json.dumps(live["registered_grid"]))
+    for key, actual in live["d1_linear_cost_negative_control"].items():
+        value = frozen["d1_linear_cost_negative_control"][key]
+        if isinstance(actual, float):
+            assert value == pytest.approx(actual, abs=1e-9)
+        else:
+            assert value == actual
     for original, repeated in zip(frozen["scenarios"], live["scenarios"]):
         assert original["classification"] == repeated["classification"]
         assert original["optimum_distance"] == repeated["optimum_distance"]
@@ -180,3 +187,33 @@ def test_committed_theory_readout_matches_recomputed_values():
             assert a is b is None
         else:
             assert a == pytest.approx(b, abs=1e-9)
+
+
+def test_linear_same_final_cost_cannot_have_beneficial_global_trapped_locally():
+    # The cost distribution across early steps matters, not just its endpoint.
+    sat = landscape(distance=1.0)
+    linear = linear_cost_negative_control(distance=1.0)
+    assert sat.classification == "GLOBAL_GAIN_BUT_LOCAL_TRAP"
+    assert linear["full_deployment_cost"] == pytest.approx(0.15, abs=1e-9)
+    assert linear["maximum_relative_fitness"] == pytest.approx(.180625, abs=1e-7)
+    assert linear["initial_selection_gradient"] == pytest.approx(.85, abs=1e-7)
+    assert linear["selected_separation_fraction"] == pytest.approx(.425, abs=1e-6)
+    assert linear["global_gain_with_local_trap"] is False
+
+
+def test_linear_concavity_excludes_valley_on_declared_parameter_grid():
+    from itertools import product
+
+    for (w1, w2), coupling, cap, tau, d in product(
+        ((1, 1), (0.5, 2), (2, 0.5)), (0, .2, .5, 1.5),
+        (.03, .15, .4), (.01, .05, .2), (.3, .7, 1, 1.5, 2),
+    ):
+        control = linear_cost_negative_control(
+            distance=d, weight_1=w1, weight_2=w2,
+            coupling=coupling, activation_cost_cap=cap, activation_scale=tau,
+        )
+        assert not control["global_gain_with_local_trap"]
+        if control["initial_selection_gradient"] <= 0:
+            assert control["maximum_relative_fitness"] == pytest.approx(
+                0.0, abs=1e-10,
+            )
