@@ -57,6 +57,15 @@ jobs:
           assert counts["total_rows"]==685
           assert counts["matched_retention_rows"]>=400
           assert counts["matched_retention_rows"]+counts["excluded"]==685
+          matched=d["matched_fruit_comparison"]
+          assert set(matched) == {
+              "final_to_initial_fraction", "common_initial_fruits_log",
+              "common_final_fruits_log", "matched_log_final_minus_initial"
+          }
+          beta_i=matched["common_initial_fruits_log"]["within_context_allocation_beta"]
+          beta_f=matched["common_final_fruits_log"]["within_context_allocation_beta"]
+          beta_d=matched["matched_log_final_minus_initial"]["within_context_allocation_beta"]
+          assert abs(beta_d-(beta_f-beta_i))<1e-9
           for x in d["matched_fruit_comparison"].values():
               assert x["n_individuals"]==counts["matched_retention_rows"]
               assert x["five_geographic_plot_jackknife"]["n_geographic_plot_clusters"]==5
