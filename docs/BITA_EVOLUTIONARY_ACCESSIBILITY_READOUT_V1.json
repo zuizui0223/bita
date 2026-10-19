@@ -138,5 +138,13 @@
     "near_boundary_cases_not_classified_as_strict": 6,
     "margin_requirement": "both strict analytic margins > 1e-9"
   },
-  "claim_boundary": "A finite theoretical grid is not an estimate of natural strategy prevalence. No evolutionary fixation, historical architecture origin, genetics, empirical cost function, ecological parameter mapping or cross-world fitness comparator has been measured."
+  "claim_boundary": "A finite theoretical grid is not an estimate of natural strategy prevalence. No evolutionary fixation, historical architecture origin, genetics, empirical cost function, ecological parameter mapping or cross-world fitness comparator has been measured.",
+  "d1_linear_cost_negative_control": {
+    "model": "LINEAR_COST_SAME_FULL_DEPLOYMENT_NEGATIVE_CONTROL",
+    "full_deployment_cost": 0.14999999969082695,
+    "initial_selection_gradient": 0.850000000309173,
+    "selected_separation_fraction": 0.4250000001545865,
+    "maximum_relative_fitness": 0.1806250001313985,
+    "global_gain_with_local_trap": false
+  }
 }
