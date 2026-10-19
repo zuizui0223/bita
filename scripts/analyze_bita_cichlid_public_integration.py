@@ -185,6 +185,67 @@ def permuted_rv(data: list[dict], k: int, *, permutations: int = 4999, seed: int
     }
 
 
+
+def diet_r2(matrix: list[list[float]], diet_labels: list[str]) -> float:
+    """Among-diet fraction of variance in coarse-clade-demeaned jaw PCs."""
+    if len(matrix) != len(diet_labels) or not matrix:
+        raise ValueError("diet trait array mismatch")
+    denominator = sum(v*v for row in matrix for v in row)
+    if denominator <= 0:
+        raise ValueError("zero residual jaw variance")
+    groups: dict[str, list[int]] = {}
+    for i, diet in enumerate(diet_labels):
+        groups.setdefault(diet, []).append(i)
+    explained = 0.0
+    for idx in groups.values():
+        for j in range(len(matrix[0])):
+            mean = sum(matrix[i][j] for i in idx)/len(idx)
+            explained += len(idx)*mean*mean
+    return explained/denominator
+
+
+def diet_permuted(
+    data: list[dict], k: int, module: str, *,
+    permutations: int = 4999, seed: int = 2468101213,
+) -> dict:
+    """Exploratory diet labels permuted within coarse source clades."""
+    if permutations <= 0:
+        raise ValueError("permutations must be positive")
+    mat = residualized_matrix(data, module, k)
+    diet = [r["diet"] for r in data]
+    obs = diet_r2(mat, diet)
+    groups = [
+        [i for i, row in enumerate(data) if row["clade"] == clade]
+        for clade in dict.fromkeys(row["clade"] for row in data)
+    ]
+    state = seed & 0xFFFFFFFF
+    exceeds, null_scores = 0, []
+    for _ in range(permutations):
+        shuffled_labels = diet.copy()
+        for clade_idx in groups:
+            within = [diet[i] for i in clade_idx]
+            for j in range(len(within)-1, 0, -1):
+                state = (state*1664525+1013904223) & 0xFFFFFFFF
+                swap = int((state/4294967296)*(j+1))
+                within[j], within[swap] = within[swap], within[j]
+            for i, label in zip(clade_idx, within):
+                shuffled_labels[i] = label
+        value = diet_r2(mat, shuffled_labels)
+        null_scores.append(value)
+        if value >= obs-1e-12:
+            exceeds += 1
+    null_scores.sort()
+    return {
+        "pc_axes": k,
+        "jaw_module": module,
+        "r2_ecology": obs,
+        "permutations": permutations,
+        "permutation_p": (exceeds+1)/(permutations+1),
+        "null_r2_mean": sum(null_scores)/permutations,
+        "null_r2_q95": null_scores[int(.95*permutations)],
+    }
+
+
 def analyze(oral: bytes, pharyngeal: bytes) -> dict:
     pairs = join_inputs(load_rows("oral", oral), load_rows("pharyngeal", pharyngeal))
     return {
@@ -199,12 +260,18 @@ def analyze(oral: bytes, pharyngeal: bytes) -> dict:
         "source_clade_counts": dict(sorted(Counter(r["clade"] for r in pairs).items())),
         "assay": "RV between separately derived jaw-PC score matrices, globally standardized per PC and demeaned by coarse source clade; 4999 pharyngeal-label permutations within source clades",
         "results": [permuted_rv(pairs, k) for k in (3, 5)],
+        "diet_associations": [
+            diet_permuted(pairs, k, module)
+            for k in (3, 5) for module in ("oral", "pharyngeal")
+        ],
         "claim_limit": (
             "Residual cross-module covariance across 88 sampled species is an "
             "observational integration signature, not an estimated trade-off "
             "strength, functional independence, evolutionary cause, origin of "
             "jaw decoupling, or test of the BITA activation cost. Clade-stratified "
-            "permutation is not a phylogenetic comparative model."
+            "permutation is not a phylogenetic comparative model. Diet classes "
+            "are source-coded and covary with clade, so diet R-squared is not "
+            "causal selection or an empirical BITA conflict-strength estimate."
         ),
     }
 
