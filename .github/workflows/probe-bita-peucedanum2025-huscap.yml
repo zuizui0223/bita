@@ -1,0 +1,164 @@
+name: Probe BITA correct 2025 Peucedanum HUSCAP source
+
+on:
+  push:
+    branches:
+      - analysis/balance-to-differentiation-accessibility-v1
+    paths:
+      - scripts/audit_bita_peucedanum2025_huscap.py
+      - tests/test_audit_bita_peucedanum2025_huscap.py
+      - scripts/inspect_bita_peucedanum2025_raw.py
+      - tests/test_inspect_bita_peucedanum2025_raw.py
+      - scripts/analyze_bita_peucedanum2025_population_patterns.py
+      - tests/test_analyze_bita_peucedanum2025_population_patterns.py
+      - scripts/analyze_bita_peucedanum2025_within_context.py
+      - tests/test_analyze_bita_peucedanum2025_within_context.py
+      - .github/workflows/probe-bita-peucedanum2025-huscap.yml
+  pull_request:
+    paths:
+      - scripts/audit_bita_peucedanum2025_huscap.py
+      - tests/test_audit_bita_peucedanum2025_huscap.py
+      - scripts/inspect_bita_peucedanum2025_raw.py
+      - tests/test_inspect_bita_peucedanum2025_raw.py
+      - scripts/analyze_bita_peucedanum2025_population_patterns.py
+      - tests/test_analyze_bita_peucedanum2025_population_patterns.py
+      - scripts/analyze_bita_peucedanum2025_within_context.py
+      - tests/test_analyze_bita_peucedanum2025_within_context.py
+      - .github/workflows/probe-bita-peucedanum2025-huscap.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install offline test runner only
+        run: python -m pip install --disable-pip-version-check pytest
+      - name: Test fail-closed 2025 source identification
+        run: python -m pytest -q tests/test_audit_bita_peucedanum2025_huscap.py
+      - name: Fetch and inspect original HUSCAP 2025 ZIP without publishing raw data
+        run: |
+          python -m scripts.audit_bita_peucedanum2025_huscap \
+            --output artifacts/bita_peucedanum2025_huscap_probe.json
+      - name: Audit receipt says schema-only, never empirical result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("artifacts/bita_peucedanum2025_huscap_probe.json").read_text())
+          assert d["doi"] == "10.14943/hu95572"
+          assert d["receipt_schema"] == "BITA_2025_HUSCAP_SOURCE_SCHEMA_PROBE_V1"
+          assert d["raw_data_redistributed"] is False
+          assert d["statistical_result_computed"] is False
+          assert d["status"] in ("SOURCE_ZIP_VERIFIED_SCHEMA_LISTED","SOURCE_NOT_VERIFIED")
+          print("2025_HUSCAP_PRIMARY_SOURCE_PROBE", d["status"], d.get("zip_sha256", "no_verified_raw"))
+          PY
+      - name: Test raw observational CSV parsing and summary grains
+        run: python -m pytest -q tests/test_inspect_bita_peucedanum2025_raw.py
+      - name: Aggregate exact SHA-checked 2025 raw observational samples
+        run: |
+          python -m scripts.inspect_bita_peucedanum2025_raw \
+            --output artifacts/bita_peucedanum2025_raw_diagnostic.json
+      - name: Assert independent real 2025 input provenance and no raw redistribution
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("artifacts/bita_peucedanum2025_raw_diagnostic.json")
+          r=json.loads(p.read_text())
+          assert r["doi"] == "10.14943/hu95572"
+          assert r["zip_sha256"] == "07d9f718d58b795553d50c2cb2b33e9a7dd3df9e34b5c1757ed55d5674c777ca"
+          assert r["n_population_rows"] > 30
+          assert r["n_paternity_rows"] > 20
+          assert r["raw_rows_redistributed"] is False
+          assert r["statistical_hypothesis_test_run"] is False
+          print("2025_PEUCEDANUM_ORIGINAL_RAW_INPUT_VERIFIED",r["n_population_rows"],r["n_paternity_rows"])
+          PY
+      - name: Test five-plot exact inference and botanical endpoint contracts
+        run: python -m pytest -q tests/test_analyze_bita_peucedanum2025_population_patterns.py
+      - name: Reanalyze 2025 original individual plant and paternity data
+        run: |
+          python -m scripts.analyze_bita_peucedanum2025_population_patterns \
+            --output artifacts/bita_peucedanum2025_observational_v1.json
+      - name: Verify raw source, sampling grain and independent plot inference
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("artifacts/bita_peucedanum2025_observational_v1.json").read_text())
+          assert d["doi"] == "10.14943/hu95572"
+          assert d["n_plants_total"] == 685
+          assert d["n_paternity_plants"] == 106
+          assert d["n_distinct_plots"] == 5
+          assert d["n_plot_years"] == 19
+          assert d["n_plot_years_with_predation"] == 18
+          assert d["individual_predation_missing"] == 162
+          assert abs(d["plot_year_descriptive_spearman"]["male_fraction_vs_predation"]-0.7192982456140351)<1e-10
+          assert abs(d["five_plot_exact"]["rho"]-0.9) < 1e-10
+          assert abs(d["five_plot_exact"]["p_exact_two_sided"]-10/120)<1e-10
+          assert d["five_plot_exact"]["n_exact_permutations"] == 120
+          assert abs(d["balanced_2022_2023_five_plot_exact_post_open"]["rho"]-1.0)<1e-10
+          assert abs(d["balanced_2022_2023_five_plot_exact_post_open"]["p_exact_two_sided"]-2/120)<1e-10
+          assert d["raw_rows_redistributed"] is False
+          print("2025_PEUCEDANUM_ORIGINAL_EMPIRICAL_PATTERN_VERIFIED",
+                "685_individuals 19_plot_years 5_plots",
+                "rho_plot_year=0.7193;rho_plot=0.9,exact_p=0.083333",
+                "rho_2022_23=1.0,p=0.016667 exploratory-only")
+          PY
+      - name: Verify exploratory within-plot/year outcome analysis on synthetic data
+        run: python -m pytest -q tests/test_analyze_bita_peucedanum2025_within_context.py
+      - name: Fit raw 2025 egg, predation and male fitness conditional associations
+        run: |
+          python -m scripts.analyze_bita_peucedanum2025_within_context \
+            --output artifacts/bita_peucedanum2025_within_context_v1.json
+      - name: Keep within-context observational conclusions separate from architecture claims
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("artifacts/bita_peucedanum2025_within_context_v1.json")
+          r=json.loads(p.read_text())
+          assert r["doi"]=="10.14943/hu95572"
+          assert r["raw_rows_redistributed"] is False
+          assert set(r["models"]) == {
+              "ovip","predation","initial_fruits","final_fruits","paternity"
+          }
+          assert r["models"]["initial_fruits"]["n_individuals"] > 500
+          assert r["models"]["final_fruits"]["n_individuals"] > 500
+          assert r["models"]["ovip"]["n_context_groups"] >= 15
+          assert r["models"]["paternity"]["n_individuals"] == 106
+          for key, lo, hi, status in (
+              ("ovip",-2.3251736234602367,-0.10029878890458588,"EXCLUDES_ZERO"),
+              ("predation",-0.42802588733242775,0.0509380681016853,"INCLUDES_ZERO"),
+          ):
+              j=r["models"][key]["five_geographic_plot_jackknife"]
+              assert j["n_geographic_plot_clusters"] == 5
+              assert j["degrees_of_freedom"] == 4
+              assert abs(j["approximate_t4_ci95"][0]-lo) < 1e-8
+              assert abs(j["approximate_t4_ci95"][1]-hi) < 1e-8
+              assert j["interval_status"] == status
+              assert j["all_deleted_plot_estimates_same_sign"] is True
+          assert "no" in r["claim_limit"].lower() or "not" in r["claim_limit"].lower()
+          print("2025_PEUCEDANUM_WITHIN_CONTEXT_OBSERVATIONAL_RESULT",{
+              k: {"n":v["n_individuals"],
+                  "groups":v["n_context_groups"],
+                  "beta":v["within_context_allocation_beta"],
+                  "p":v["two_sided_within_context_residual_permutation_p"]}
+              for k,v in r["models"].items()})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-peucedanum-2025-primary-huscap-probe
+          path: |
+            artifacts/bita_peucedanum2025_huscap_probe.json
+            artifacts/bita_peucedanum2025_raw_diagnostic.json
+            artifacts/bita_peucedanum2025_observational_v1.json
+            artifacts/bita_peucedanum2025_within_context_v1.json
+          if-no-files-found: error

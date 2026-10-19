@@ -1,0 +1,63 @@
+{
+  "claim_ceiling": "Tree-adjusted cross-module jaw-shape covariation is not a measure of ecological tradeoff strength, ontogenetic/genetic constraint, causal diet selection, functionally optimal morphology, historical origin of separate jaws, BITA K(u), or evolutionary accessibility. All 88 taxa belong to one fish radiation, not 88 independent origins of modularization.",
+  "data_level": "REAL_PUBLIC_PINNED_SOURCE_EVOLUTIONARY_COVARIANCE",
+  "matched_species": 88,
+  "methods": "Felsenstein independent contrasts with original source tree branches; PC axes recomputed as contrasts from separately published module PC scores; axis-standardized RV; 4999 whole-contrast label permutations under Brownian contrast exchangeability",
+  "n_pruned_contrasts": 87,
+  "paper_doi": "10.1038/s41467-021-25755-5",
+  "phylogenetic_assumptions": "Tree, branch lengths, Brownian covariance, absence of relevant undermodelled directional trends and exchangeability of contrast vectors under the null are assumptions; original authors' shape-landmark phylo.integration estimate is a different estimator. Equal-edge and doubled-terminal results are post-open branch-variance sensitivities, not biological hypotheses measured independently.",
+  "post_open_branch_length_sensitivity": [
+    {
+      "branch_variance_model": "equal_edge_lengths",
+      "n_independent_contrasts": 87,
+      "null_rv_mean": 0.054745777555237955,
+      "null_rv_q95": 0.08206876098475221,
+      "pc_axes_per_module": 5,
+      "permutation_p": 0.0002,
+      "permutations": 4999,
+      "post_open": true,
+      "rv_pic": 0.1383043098331655
+    },
+    {
+      "branch_variance_model": "double_terminal_lengths",
+      "n_independent_contrasts": 87,
+      "null_rv_mean": 0.04549847172036885,
+      "null_rv_q95": 0.08483655938828365,
+      "pc_axes_per_module": 5,
+      "permutation_p": 0.0012,
+      "permutations": 4999,
+      "post_open": true,
+      "rv_pic": 0.15119981307741392
+    }
+  ],
+  "raw_source_files_redistributed": false,
+  "receipt_schema": "BITA_CICHLID_PHYLOGENETIC_CONTRASTS_V1",
+  "results": [
+    {
+      "n_independent_contrasts": 87,
+      "null_rv_mean": 0.04470862292029078,
+      "null_rv_q95": 0.08554787883904252,
+      "pc_axes_per_module": 5,
+      "permutation_p": 0.0024,
+      "permutations": 4999,
+      "rv_pic": 0.14531940071365707
+    },
+    {
+      "n_independent_contrasts": 87,
+      "null_rv_mean": 0.03121756949336877,
+      "null_rv_q95": 0.06619239419095294,
+      "pc_axes_per_module": 3,
+      "permutation_p": 0.0006,
+      "permutations": 4999,
+      "rv_pic": 0.13845073752302997
+    }
+  ],
+  "source_commit": "575a148a6c6cb90ee957d4290cf3e2d141ca9c14",
+  "source_repository": "andrewjohnconith/cichlid_OJPJ",
+  "source_trait_blob_sha1s": {
+    "oral": "c47c60c655a8cef745cb14cca261449a873913a4",
+    "pharyngeal": "d733f122b0b7db0590a9215e200b90502ff24403"
+  },
+  "source_tree_blob_sha1": "23076ac2c895a92aaf36cebfa059124ec1139bd7",
+  "source_tree_tips": 1712
+}

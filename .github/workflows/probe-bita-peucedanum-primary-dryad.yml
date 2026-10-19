@@ -1,0 +1,100 @@
+name: Probe BITA public Peucedanum primary Dryad files
+
+on:
+  push:
+    branches:
+      - analysis/balance-to-differentiation-accessibility-v1
+    paths:
+      - ".github/workflows/probe-bita-peucedanum-primary-dryad.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install read-only spreadsheet parsers
+        run: python -m pip install --disable-pip-version-check openpyxl xlrd
+      - name: Probe immutable original Dryad version-file IDs and digests
+        run: |
+          python - <<'PY'
+          import hashlib, io, json, urllib.request
+          from pathlib import Path
+          import openpyxl, xlrd
+
+          # File IDs and checksums from version-scoped official Dryad API.
+          sources = [
+            ("2021_public_observational_nine_populations", 609225, 74352,
+             "56fdbe36f5c92622272e6d641f284a6e7bfe891596fec182f5aecc645f73203a", "xlsx"),
+            ("later_public_floral_gender", 1899769, 84480,
+             "ac4fcc6df223c696514efccf4bb9b684a46e42fbda291852c13150c0e5f526a5", "xls"),
+            ("later_public_2020_2021_observations", 1899771, 89088,
+             "d76948e0f8ddcdf133b8cd5abda10222aa2e6b13093ed6f1c9f57916a9e4126d", "xls"),
+            ("later_public_fitness", 1899770, 44544,
+             "f101eec87b8c597bc10cdefde7bf0d1b90531d43265cbabd609797f2d5cf8caa", "xls"),
+          ]
+          receipts = []
+          for label, file_id, n, expected_digest, fmt in sources:
+            entry = {"label": label, "file_id": file_id,
+                     "expected_sha256": expected_digest, "expected_bytes": n}
+            try:
+              url = f"https://datadryad.org/downloads/file_stream/{file_id}"
+              req = urllib.request.Request(url, headers={
+                  "User-Agent": "Mozilla/5.0 (compatible; BITA public-source-research/1.0)",
+                  "Accept": "application/octet-stream, */*",
+              })
+              with urllib.request.urlopen(req, timeout=20) as response:
+                raw = response.read(n+1)
+              digest = hashlib.sha256(raw).hexdigest()
+              if len(raw) != n or digest != expected_digest:
+                raise ValueError(f"primary file SHA/length mismatch: got {len(raw)} bytes")
+              if fmt == "xlsx":
+                book = openpyxl.load_workbook(io.BytesIO(raw), read_only=True, data_only=True)
+                sheets = []
+                for sh in book:
+                  header_candidates = []
+                  for row in sh.iter_rows(min_row=1,max_row=min(6, sh.max_row),values_only=True):
+                    header_candidates.append([str(v)[:55] if v is not None else None
+                                             for v in row[:15]])
+                  sheets.append({"name":sh.title, "rows":sh.max_row,
+                                 "cols":sh.max_column, "first_rows":header_candidates})
+              else:
+                book = xlrd.open_workbook(file_contents=raw)
+                sheets = []
+                for sh in book.sheets():
+                  headers = [[str(sh.cell_value(i, j))[:55]
+                              for j in range(min(15,sh.ncols))]
+                             for i in range(min(6,sh.nrows))]
+                  sheets.append({"name":sh.name,"rows":sh.nrows,
+                                 "cols":sh.ncols,"first_rows":headers})
+              entry.update({"status":"RAW_SOURCE_SHA256_VERIFIED","sha256":digest,"sheets":sheets})
+            except Exception as exc:
+              # No substitute with figures, invented values, or a fake dataset.
+              entry.update({"status":"RAW_SOURCE_NOT_AVAILABLE_OR_INVALID",
+                            "error_class":type(exc).__name__,
+                            "error_summary":str(exc)[:180]})
+            receipts.append(entry)
+          out = {
+            "analysis":"BITA_PEUCEDANUM_PRIMARY_RAW_ACCESS_PROBE_V1",
+            "data_level":"SCHEMA_AND_TRANSPORT_AUDIT_ONLY",
+            "raw_workbook_redistributed":False,
+            "sources": receipts,
+            "statistical_result_computed":False,
+          }
+          Path("artifacts").mkdir(exist_ok=True)
+          Path("artifacts/bita_peucedanum_source_probe.json").write_text(
+              json.dumps(out,indent=2,ensure_ascii=False),encoding="utf-8")
+          print(json.dumps(out,ensure_ascii=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-peucedanum-primary-source-probe
+          path: artifacts/bita_peucedanum_source_probe.json
+          if-no-files-found: error

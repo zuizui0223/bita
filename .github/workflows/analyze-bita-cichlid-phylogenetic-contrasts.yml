@@ -1,0 +1,102 @@
+name: Analyze BITA cichlid phylogenetic jaw contrasts
+
+on:
+  push:
+    branches:
+      - analysis/balance-to-differentiation-accessibility-v1
+    paths:
+      - scripts/analyze_bita_cichlid_phylogenetic_contrasts.py
+      - tests/test_bita_cichlid_phylogenetic_contrasts.py
+      - docs/BITA_CICHLID_PHYLOGENETIC_READOUT_V1.json
+      - .github/workflows/analyze-bita-cichlid-phylogenetic-contrasts.yml
+  pull_request:
+    paths:
+      - scripts/analyze_bita_cichlid_phylogenetic_contrasts.py
+      - tests/test_bita_cichlid_phylogenetic_contrasts.py
+      - docs/BITA_CICHLID_PHYLOGENETIC_READOUT_V1.json
+      - .github/workflows/analyze-bita-cichlid-phylogenetic-contrasts.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  empirical-phylo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install isolated test runner
+        run: python -m pip install --disable-pip-version-check pytest
+      - name: Offline tree-contrast and evolutionary-inference guards
+        run: python -m pytest -q tests/test_bita_cichlid_phylogenetic_contrasts.py
+      - name: Recompute from 2021 original author 88-species jaw PC tables and real tree
+        run: |
+          python -m scripts.analyze_bita_cichlid_phylogenetic_contrasts \
+            --output artifacts/bita_cichlid_phylogenetic_contrasts_v1.json
+      - name: Audit source integrity, n-1 tree contrasts and interpretation
+        run: |
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          d=json.loads(Path("artifacts/bita_cichlid_phylogenetic_contrasts_v1.json").read_text())
+          assert d["receipt_schema"]=="BITA_CICHLID_PHYLOGENETIC_CONTRASTS_V1"
+          assert d["data_level"]=="REAL_PUBLIC_PINNED_SOURCE_EVOLUTIONARY_COVARIANCE"
+          assert d["source_commit"]=="575a148a6c6cb90ee957d4290cf3e2d141ca9c14"
+          assert d["source_tree_blob_sha1"]=="23076ac2c895a92aaf36cebfa059124ec1139bd7"
+          assert d["source_tree_tips"]==1712
+          assert d["matched_species"]==88
+          assert d["n_pruned_contrasts"]==87
+          assert d["raw_source_files_redistributed"] is False
+          assert len(d["results"])==2
+          assert [x["pc_axes_per_module"] for x in d["results"]]==[5,3]
+          assert all(x["n_independent_contrasts"]==87 and
+                     x["permutations"]==4999 and
+                     0<=x["rv_pic"]<=1 and
+                     0<x["permutation_p"]<=1 and
+                     math.isfinite(x["rv_pic"]) for x in d["results"])
+          # Freeze the independently reproduced observed phylogenetic
+          # evidence at a source-pinned, explicitly post-open checkpoint.
+          first,second=d["results"]
+          assert abs(first["rv_pic"]-0.14531940071365707)<1e-8
+          assert abs(first["permutation_p"]-0.0024)<1e-10
+          assert abs(second["rv_pic"]-0.13845073752302997)<1e-8
+          assert abs(second["permutation_p"]-0.0006)<1e-10
+          models=d["post_open_branch_length_sensitivity"]
+          assert [z["branch_variance_model"] for z in models]==[
+              "equal_edge_lengths","double_terminal_lengths"
+          ]
+          assert all(z["post_open"] is True for z in models)
+          for z,observed,pp in zip(
+              models,
+              (0.1383043098331655,0.15119981307741392),
+              (0.0002,0.0012),
+          ):
+              assert z["n_independent_contrasts"]==87
+              assert abs(z["rv_pic"]-observed)<1e-8
+              assert abs(z["permutation_p"]-pp)<1e-10
+          frozen=json.loads(Path("docs/BITA_CICHLID_PHYLOGENETIC_READOUT_V1.json").read_text())
+          assert frozen["receipt_schema"]==d["receipt_schema"]
+          assert frozen["source_commit"]==d["source_commit"]
+          assert frozen["source_tree_blob_sha1"]==d["source_tree_blob_sha1"]
+          for old,new in zip(frozen["results"],d["results"]):
+              assert old["pc_axes_per_module"]==new["pc_axes_per_module"]
+              assert abs(old["rv_pic"]-new["rv_pic"])<1e-8
+              assert abs(old["permutation_p"]-new["permutation_p"])<1e-10
+          for old,new in zip(
+              frozen["post_open_branch_length_sensitivity"],
+              d["post_open_branch_length_sensitivity"],
+          ):
+              assert old["branch_variance_model"]==new["branch_variance_model"]
+              assert abs(old["rv_pic"]-new["rv_pic"])<1e-8
+              assert abs(old["permutation_p"]-new["permutation_p"])<1e-10
+          print("REAL_CICHLID_PHYLOGENETIC_CONTRAST_RESULT_VERIFIED",json.dumps(d["results"],sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-cichlid-phylogenetic-88species
+          path: artifacts/bita_cichlid_phylogenetic_contrasts_v1.json
+          if-no-files-found: error

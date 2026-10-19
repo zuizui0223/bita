@@ -1,5 +1,20 @@
 # BITA Peucedanum Dryad import contract v1
 
+> **2026-10-19 source-provenance correction — mandatory for BITA core-hypothesis testing.**
+> This historical contract registers a **2021 Dryad paper** and an **older dataset deposited in 2022**.
+> Neither may be silently described as the raw data for Kudo & Shibata's **2025**
+> *Journal of Ecology* article `10.1111/1365-2745.70130`.
+> The journal's **DATA AVAILABILITY STATEMENT** identifies the **Hokkaido University
+> Data Repository, DOI `10.14943/hu95572`** for its primary data and code.
+> The corresponding source page is
+> `https://eprints.lib.hokudai.ac.jp/repo/huscap/all/95572/`,
+> advertising `Kudo$Shibata_JEcol_Data.zip`.
+> Primary-archive access/structure should be checked with
+> `scripts/audit_bita_peucedanum2025_huscap.py`. Do not promote the older
+> Dryad workbooks, published tables, or successful source **probe** as a
+> 2025 raw-data reanalysis without the actual DOI-matched inputs.
+> The older Dryad route below remains valid **for its correctly dated studies**.
+
 ## Purpose
 
 `Peucedanum multivittatum` is treated as a **Japan-accessible observational / field anchor for partial functional differentiation**, not as a substitute for the canonical SCH -> BITA `R_state` experiment.
