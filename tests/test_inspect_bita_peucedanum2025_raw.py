@@ -42,7 +42,7 @@ def test_exact_zip_header_join_and_aggregates(monkeypatch):
 
 
 def test_source_sha_mismatch_rejected_even_if_zip_valid():
-    with pytest.raises(ValueError,match="SOURCE.*SHA256_DRIFT"):
+    with pytest.raises(ValueError,match="2025_HUSCAP_ARCHIVE_SHA256_DRIFT"):
         raw.inspect(fixture_blob())
 
 
