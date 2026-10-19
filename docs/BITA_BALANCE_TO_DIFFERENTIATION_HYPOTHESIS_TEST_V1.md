@@ -116,6 +116,20 @@ Code: \`trait_architecture/evolutionary_accessibility.py\`. Output: \`docs/BITA_
 
 The existing 56 directional floral route records / 25 independent clusters explain ecological channel recurrence and identification limits after traits differ. They are **not** a dataset of evolutionary transitions from a single shared trait to two independent trait axes, and should **not** be counted as 25 replications of this hypothesis.
 
+### 2026-10-19 source-verified real-world update — ecological allocation, not evolutionary origin
+
+Original-source reanalysis is documented, with the fixed input hashes and complete inferential ceiling, in **`docs/BITA_REAL_PATTERN_RECOVERY_2026_10_19.md`** (Draft PR #361). Its two taxonomic data lanes must not be pooled as if they measured a common trade-off strength.
+
+For *Peucedanum multivittatum*, the correct 2025 Hokkaido University source **10.14943/hu95572** provided **685 plant observations across five plots and four years**, plus **106 paternity-panel plants**. Male allocation tracks predation across 18 plot×years (`rho=0.7193`) but five-plot exact `rho=0.9, p_two-sided=0.0833`. Within the same plot×year, after total-display and height adjustment, more male allocation correlates with fewer predator eggs **and** fewer initial/final fruits, so the candidate conflict has an observable female-opportunity cost.
+
+**Decisive alternative explanation:** replacing log(total floral display) with log(number of perfect flowers) as control on the *same 672 plants* reduces the male-allocation/egg coefficient from **−1.2127 to −0.2945**; post-open residual permutation `p=0.1448`, and five-geographic-plot t(4) sensitivity interval **[−1.0845,+0.4954]** includes zero. The available evidence therefore does **not** isolate active predator deterrence by male flowers beyond simply exposing fewer seed-bearing perfect flowers. Coefficient attenuation is not an identified mediated fraction.
+
+A matched 532-plant initial/final fruit subset shows a predicted female production cost. Final/initial retention trends positive by **+0.01775** for a +0.10 male-fraction difference, but the five-plot interval `[−0.0695,+0.4244]` for the unscaled coefficient **includes zero**, as does the common-support `log1p(final)-log1p(initial)` coefficient interval. Female protection may be traded against initial opportunity, but a net seed-fitness benefit is not established. Male fitness equivalence was not demonstrated by the 106-plant paternity panel.
+
+Separately, original jaw-shape data for **88 cichlid species** showed residual oral/pharyngeal covariance (`RV_5=0.1862`, coarse-clade permutation `p=0.0002`); morphology in both jaw modules relates to diet. This provides a **partial-integration counterexample to perfect decoupling**, not a measured BITA genetic `lambda` or architecture-switch fitness threshold.
+
+**Verdict:** real-world **functional conflict and context-dependent allocation patterns are recovered**, but the empirical critical surface `Phi=R-K=0` and hypothesized activation-cost invasion barrier are still **NOT IDENTIFIED**. This is a substantive partial test, including an unresolved alternative mechanism, **not** confirmation that trade-offs caused evolutionary origination of new modules.
+
 ### Falsification plan, kept downstream of the theoretical test
 
 At least two forms of data are needed: (1) a **paired common-fitness** shared-versus-differentiated architecture contrast to estimate the fitness margin, and (2) real **developmental/genetic accessibility information** capable of estimating \`K(u)\` and feasible change sizes. Additional genetic/phylogenetic comparisons are needed to infer historical transitions or among-lineage differentiation.
