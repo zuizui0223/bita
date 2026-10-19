@@ -46,6 +46,19 @@ Source receipts: [SCH selection-spectrum audit](https://github.com/zuizui0223/sc
 
 These make a nontrivial comparative prediction: architecture must be modeled at **species (or lineage) x function-pair x tested trait coordinate x exposure regime**, never by a species-wide binary 'trade-off present'. Source: [BALANCE functional-pair multiplex](https://github.com/zuizui0223/balance/blob/main/docs/BALANCE_PLANT_CONFLICT_MULTIPLEX_ECOLOGY_V1.md).
 
+## New audited real-source ecological contrast (BALANCE source-screen lane)
+
+The accompanying [BALANCE source-stratified analysis PR #248](https://github.com/zuizui0223/balance/pull/248) adds a read-only, provenance-hashed executable analysis of two *nonexchangeable* existing original-source frames. The following are **newly reproduced source-screen descriptive contrasts**, not newly collected natural populations, independent double-coder adjudication, a V4 confirmatory fit, or a causal evolutionary test.
+
+- U2 (22 review species): eight directly conflict-positive, **four integrated/shared**, **three nonstructural temporal/spatial separations**, **one mosaic**. Exactly zero have a source-confirmed `structural_module_division=true` receipt, but one mosaic has structural status unresolved; the positive structural count is therefore **bounded 0–1 of 8**, not definitively zero biological modules.
+- U2's 14 `NO_DEMONSTRATED_CONFLICT` rows contain **nine morphological mosaics, two spatial/temporal separations and three architecture-unknowns**. No demonstration is not proof of real ecological absence; this is a failure of the inference that structural complexity reveals the identified trade-off.
+- The outcome-enriched 29-row / 28-dependency-group plant pilot has **16 source-positive rows**: **seven pollinator–antagonist positives are shared**, whereas **all three pollen reward–gamete positives have source-coded structural division**. Across all positives, four structural receipts are confirmed, ten explicitly nonstructural and two unresolved: the strict structural count has a missing-status envelope of **4–6 among 16 source rows**. This striking contrast is **confounded by morphology-selected study recruitment** and is not an ecological effect estimate.
+- Three exact matching names between U2 and the pilot (*Polemonium viscosum*, *Narcissus assoanus*, *Ipomopsis aggregata*) reveal different function pairs, study-specific identification status, or different architecture coordinates. Bare species-name pooling would create spurious states. The historical `Solanum rostratum` name is held rather than mechanically merged because independent source/taxonomic identity is unresolved.
+
+The independent earlier [U3 heteranthery matched control](https://github.com/zuizui0223/balance/blob/main/docs/BALANCE_PLANT_U3_BINARY_CONFLICT_PARTIAL_IDENTIFICATION_V1.md) strengthens the specificity challenge: all four heterantherous cases and at least three of their four nonheterantherous matched controls have direct pollen-fate conflict; the fourth control is unresolved. Thus binary conflict presence is already non-diagnostic of heteranthery in that narrow sample. Different routing levels occur among the conflict-positive nonheterantherous controls, showing that **conflict, visible morphology and the location of functional routing are distinct biological variables**.
+
+**Scientific update:** the project now has several concrete source-supported **counterexamples to a deterministic 'trade-off -> new module' rule** and a testable function-pair-dependent architecture hypothesis. The missing causal intersection remains matched net structural fitness plus heritable/historical transition evidence. The descriptive U2/PILOT frames must not be combined into a grand rate or substituted for outcome-blind macro sampling.
+
 ## Theoretical counterexamples already implied by the registered models
 
 These numbers are **synthetic mathematical examples**, not measured fitness.
