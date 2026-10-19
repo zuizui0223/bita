@@ -124,3 +124,24 @@ def test_readout_is_explicitly_synthetic_and_not_an_empirical_confirmation():
     assert result["data_level"] == "THEORY_SIMULATION_ONLY"
     assert len(result["scenarios"]) == 5
     assert "source_dataset" not in json.dumps(result)
+
+
+def test_finite_registered_grid_and_sufficient_condition():
+    from scripts.analyze_evolutionary_accessibility import build_readout
+
+    output = build_readout()
+    assert output["registered_grid"]["n"] == 540
+    assert output["data_level"] == "THEORY_SIMULATION_ONLY"
+    assert output["counts_hypothetical_parameter_cells"] == {
+        "GLOBAL_GAIN_BUT_LOCAL_TRAP": 175,
+        "SHARED_GLOBAL_OPTIMUM": 205,
+        "SMALL_STEPS_CAN_INVADE": 160,
+    }
+    strict = output["analytic_sufficient_valley_strict_tests"]
+    assert strict == {
+        "passed": 167,
+        "violations": 0,
+        "near_boundary_cases_not_classified_as_strict": 6,
+        "margin_requirement": "both strict analytic margins > 1e-9",
+    }
+    assert "not an estimate of natural strategy prevalence" in output["claim_boundary"]
