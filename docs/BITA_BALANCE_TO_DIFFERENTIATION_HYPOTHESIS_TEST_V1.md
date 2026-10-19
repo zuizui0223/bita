@@ -73,6 +73,22 @@ In the d=1 example, the first positive-fitness separation occurs at **u=0.176958
 
 The sufficient lower global-gain distance bound for these parameters is sqrt(K_cap/(s*h))=**0.774596669...**; this is NOT the numerically identified exact transition. The small-step gradient flips at d=sqrt(K_cap/(2*h*tau))=**1.732050808...**.
 
+## Decisive cost-shape negative control: the same endpoint cost is not enough
+
+The fitness valley is **not a generic consequence** of adding a cost to trait differentiation. Replace the front-loaded saturating cost by a **linear** cost calibrated to be exactly the same at full separation:
+
+    K_linear(u) = K_sat(1) * u
+    Phi_linear(u) = [2*h*d^2-K_sat(1)]*u - (h+lambda)*d^2*u^2.
+
+This is a **concave quadratic**, so if Phi_linear has any positive maximum at u>0, its derivative at zero must already be positive. It cannot have the global-gain/local-trap classification. Therefore the accessibility gap in the constructed example depends on **startup cost curvature (or another source of nonconvexity)**, not on the endpoint cost alone.
+
+For the same dimensionless d=1 configuration, both cost models pay approximately **0.15 at u=1**:
+
+- front-loaded saturating cost: local gradient **-2.00**, best gain **+0.100007**, first beneficial jump **u≈0.17696**;
+- matched endpoint linear cost: local gradient **+0.850**, best gain **+0.180625**, optimum **u≈0.425**, and **no local trap**.
+
+A negative control applied to all **540** declared grid cells confirms that the concave-linear-cost model has **zero** global-gain/local-trap cases. This is a test of the model's causal **assumption** about developmental cost distribution, not a claim that real organisms pay saturating rather than linear costs.
+
 ## Finite robustness grid — no natural-prevalence interpretation
 
 Sweep these **540 wholly hypothetical parameter cells** (3 functional-weight pairs x 4 coupling values x 3 cost caps x 3 activation scales x 5 conflict distances):
