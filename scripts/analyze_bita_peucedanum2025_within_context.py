@@ -74,7 +74,7 @@ def fwl(data: list[dict], *, permutations: int = 4999,
             mean=statistics.fmean(data[i][name] for i in idx)
             for i in idx:
                 centered[name][i]=data[i][name]-mean
-    C=[[centered[name][i] for name in controls] for i in range(len(data)]
+    C=[[centered[name][i] for name in controls] for i in range(len(data))]
     beta_x_controls=covariate_projection(C,centered["x"])
     beta_y_controls=covariate_projection(C,centered["y"])
     rx=[v-sum(a*b for a,b in zip(row,beta_x_controls))
