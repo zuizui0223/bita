@@ -238,6 +238,28 @@ def fetch_tree() -> str:
     return raw.decode("utf-8")
 
 
+
+def alter_branch_model(tree: Node, model: str) -> Node:
+    """Post-open sensitivity: tree topology alone or amplified terminal change.
+
+    This changes the *assumed* branch variance model, not any observed
+    anatomical measurements. It is not a fitted optimum branch-length model.
+    """
+    if model not in {"equal_edge_lengths", "double_terminal_lengths"}:
+        raise ValueError("UNREGISTERED_PHYLOGENETIC_VARIANCE_SENSITIVITY")
+    def clone(node: Node, *, root: bool=False) -> Node:
+        children=[clone(ch) for ch in node.children]
+        length=node.length
+        if not root:
+            if model=="equal_edge_lengths":
+                length=1.0
+            elif not children:
+                length*=2.0
+        return Node(node.name,length,children)
+    return clone(tree,root=True)
+
+
+
 def analyze(oral_data: bytes, pharyngeal_data: bytes, tree_string: str) -> dict:
     oral=load_rows("oral",oral_data)
     phar=load_rows("pharyngeal",pharyngeal_data)
@@ -252,6 +274,15 @@ def analyze(oral_data: bytes, pharyngeal_data: bytes, tree_string: str) -> dict:
     source_phar={r["TaxaID"]:r["pc"] for r in phar}
     contrasts_oj=contrasts(reduced,source_oral)
     contrasts_pj=contrasts(reduced,source_phar)
+    sensitivity=[]
+    for model in ("equal_edge_lengths","double_terminal_lengths"):
+        alternative=alter_branch_model(reduced,model)
+        changed_oral=contrasts(alternative,source_oral)
+        changed_phar=contrasts(alternative,source_phar)
+        result=permuted_pic_rv(changed_oral,changed_phar,axes=5)
+        result["branch_variance_model"]=model
+        result["post_open"]=True
+        sensitivity.append(result)
     return {
         "receipt_schema":"BITA_CICHLID_PHYLOGENETIC_CONTRASTS_V1",
         "data_level":"REAL_PUBLIC_PINNED_SOURCE_EVOLUTIONARY_COVARIANCE",
@@ -265,12 +296,15 @@ def analyze(oral_data: bytes, pharyngeal_data: bytes, tree_string: str) -> dict:
         "n_pruned_contrasts":len(contrasts_oj),
         "methods":"Felsenstein independent contrasts with original source tree branches; PC axes recomputed as contrasts from separately published module PC scores; axis-standardized RV; 4999 whole-contrast label permutations under Brownian contrast exchangeability",
         "results":[permuted_pic_rv(contrasts_oj,contrasts_pj,axes=k) for k in (5,3)],
+        "post_open_branch_length_sensitivity":sensitivity,
         "raw_source_files_redistributed":False,
         "phylogenetic_assumptions":(
             "Tree, branch lengths, Brownian covariance, absence of relevant "
             "undermodelled directional trends and exchangeability of contrast "
             "vectors under the null are assumptions; original authors' "
-            "shape-landmark phylo.integration estimate is a different estimator."
+            "shape-landmark phylo.integration estimate is a different estimator. "
+            "Equal-edge and doubled-terminal results are post-open branch-variance "
+            "sensitivities, not biological hypotheses measured independently."
         ),
         "claim_ceiling":(
             "Tree-adjusted cross-module jaw-shape covariation is not a measure "
