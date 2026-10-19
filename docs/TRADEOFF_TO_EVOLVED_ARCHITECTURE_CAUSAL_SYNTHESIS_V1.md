@@ -61,6 +61,16 @@ The independent earlier [U3 heteranthery matched control](https://github.com/zui
 
 **Scientific update:** the project now has several concrete source-supported **counterexamples to a deterministic 'trade-off -> new module' rule** and a testable function-pair-dependent architecture hypothesis. The missing causal intersection remains matched net structural fitness plus heritable/historical transition evidence. The descriptive U2/PILOT frames must not be combined into a grand rate or substituted for outcome-blind macro sampling.
 
+## First new independent species-first morphology/opportunity baseline: AusTraits v7
+
+The complementary [BALANCE public-trait data PR #249](https://github.com/zuizui0223/balance/pull/249) has now completed an **actual source acquisition**, not merely a plan. Its checksum-verified AusTraits **v7.0.0** archive (DOI: [10.5281/zenodo.15718081](https://doi.org/10.5281/zenodo.15718081)) contains **1,798,215** long-format records, of which **46,299** records for six predeclared structural-sex, perianth, and pollination traits represent **24,492 source taxon names**. The original archive digest and non-redistributed aggregate receipt are frozen in [the BALANCE live readout](https://github.com/zuizui0223/balance/blob/data/austraits-independent-architecture-20261019/docs/BALANCE_AUSTRAITS_V7_LIVE_READOUT_20261019.md).
+
+A strict no-fuzzy-join comparison retained **2,841 binomial species** with exactly resolved source labels for species sex system (`hermaphrodite`, `monoecious`, `dioecious`) and pollination syndrome (`insect` or `wind`). Of 2,495 insect-labelled species, **183/2,495 = 7.33%** had separated-sex flowers/individuals; of 346 wind-labelled species, **60/346 = 17.34%** did. The raw wind-minus-insect difference is **+10.01 percentage points**.
+
+This is **independent morphology/opportunity ecology**, NOT independent SCH-confirmed opposing functional optima or evidence of new module origin. Critically, only **seven genera** are represented under both pollen-mode categories (among 603 genera), so the within-genus / repeated-transition evidence needed to distinguish deep phylogenetic sorting from ecological selection is nearly absent. The dataset is also unevenly contributed: `Sjostrom_2006` supplies 20,832 of 27,014 source sex-type records, while `White_2020` and `Draper_2023` dominate pollination-syndrome records. A post-open source-stratified sensitivity is therefore being reported separately from the frozen main descriptive contrast.
+
+**Updated claim ceiling:** the four-repository programme has (a) conflict-source patterns, (b) existing structural architecture observations, and now (c) an independently acquired multi-species **opportunity/morphology denominator**. It still lacks a dataset linking **measured within-axis conflict strength -> costed differentiating architecture -> historical lineage transition**. Do not turn this new raw cross-species association into the missing evolutionary causal proof.
+
 ## Theoretical counterexamples already implied by the registered models
 
 These numbers are **synthetic mathematical examples**, not measured fitness.
