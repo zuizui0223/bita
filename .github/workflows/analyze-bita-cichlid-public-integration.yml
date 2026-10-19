@@ -56,7 +56,21 @@ jobs:
           assert abs(a["permutation_p"]-0.0058) < 1e-8
           assert abs(b["permutation_p"]-0.0002) < 1e-8
           assert all(z["permutations"] == 4999 for z in (a,b))
-          print("REAL_CICHLID_EMPIRICAL_RESULT_VERIFIED n=88 rv3=0.10346 p3=0.0058 rv5=0.18622 p5=0.0002")
+          diet=d["diet_associations"]
+          assert [(z["pc_axes"],z["jaw_module"]) for z in diet] == [
+            (3,"oral"), (3,"pharyngeal"), (5,"oral"), (5,"pharyngeal")
+          ]
+          expected=[
+            (0.20586253508130337,0.0002),
+            (0.13662129866445621,0.0022),
+            (0.13514312222019936,0.0004),
+            (0.15214399899318648,0.0002)
+          ]
+          for z, (rr, pval) in zip(diet,expected):
+            assert abs(z["r2_ecology"]-rr) < 1e-8
+            assert abs(z["permutation_p"]-pval) < 1e-8
+            assert z["permutations"] == 4999
+          print("REAL_CICHLID_EMPIRICAL_RESULT_VERIFIED n=88 rv3=0.10346 p3=0.0058 rv5=0.18622 p5=0.0002; diet-R2 oral5=0.13514 p=0.0004, pharyngeal5=0.15214 p=0.0002")
           PY
 
       - uses: actions/upload-artifact@v4
