@@ -7,11 +7,19 @@ on:
     paths:
       - scripts/audit_bita_peucedanum2025_huscap.py
       - tests/test_audit_bita_peucedanum2025_huscap.py
+      - scripts/inspect_bita_peucedanum2025_raw.py
+      - tests/test_inspect_bita_peucedanum2025_raw.py
+      - scripts/analyze_bita_peucedanum2025_population_patterns.py
+      - tests/test_analyze_bita_peucedanum2025_population_patterns.py
       - .github/workflows/probe-bita-peucedanum2025-huscap.yml
   pull_request:
     paths:
       - scripts/audit_bita_peucedanum2025_huscap.py
       - tests/test_audit_bita_peucedanum2025_huscap.py
+      - scripts/inspect_bita_peucedanum2025_raw.py
+      - tests/test_inspect_bita_peucedanum2025_raw.py
+      - scripts/analyze_bita_peucedanum2025_population_patterns.py
+      - tests/test_analyze_bita_peucedanum2025_population_patterns.py
       - .github/workflows/probe-bita-peucedanum2025-huscap.yml
   workflow_dispatch:
 
@@ -69,10 +77,42 @@ jobs:
           assert r["statistical_hypothesis_test_run"] is False
           print("2025_PEUCEDANUM_ORIGINAL_RAW_INPUT_VERIFIED",r["n_population_rows"],r["n_paternity_rows"])
           PY
+      - name: Test five-plot exact inference and botanical endpoint contracts
+        run: python -m pytest -q tests/test_analyze_bita_peucedanum2025_population_patterns.py
+      - name: Reanalyze 2025 original individual plant and paternity data
+        run: |
+          python -m scripts.analyze_bita_peucedanum2025_population_patterns \
+            --output artifacts/bita_peucedanum2025_observational_v1.json
+      - name: Verify raw source, sampling grain and independent plot inference
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("artifacts/bita_peucedanum2025_observational_v1.json").read_text())
+          assert d["doi"] == "10.14943/hu95572"
+          assert d["n_plants_total"] == 685
+          assert d["n_paternity_plants"] == 106
+          assert d["n_distinct_plots"] == 5
+          assert d["n_plot_years"] == 19
+          assert d["n_plot_years_with_predation"] == 18
+          assert d["individual_predation_missing"] == 162
+          assert abs(d["plot_year_descriptive_spearman"]["male_fraction_vs_predation"]-0.7192982456140351)<1e-10
+          assert abs(d["five_plot_exact"]["rho"]-0.9) < 1e-10
+          assert abs(d["five_plot_exact"]["p_exact_two_sided"]-10/120)<1e-10
+          assert d["five_plot_exact"]["n_exact_permutations"] == 120
+          assert abs(d["balanced_2022_2023_five_plot_exact_post_open"]["rho"]-1.0)<1e-10
+          assert abs(d["balanced_2022_2023_five_plot_exact_post_open"]["p_exact_two_sided"]-2/120)<1e-10
+          assert d["raw_rows_redistributed"] is False
+          print("2025_PEUCEDANUM_ORIGINAL_EMPIRICAL_PATTERN_VERIFIED",
+                "685_individuals 19_plot_years 5_plots",
+                "rho_plot_year=0.7193;rho_plot=0.9,exact_p=0.083333",
+                "rho_2022_23=1.0,p=0.016667 exploratory-only")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: bita-peucedanum-2025-primary-huscap-probe
           path: |
             artifacts/bita_peucedanum2025_huscap_probe.json
             artifacts/bita_peucedanum2025_raw_diagnostic.json
+            artifacts/bita_peucedanum2025_observational_v1.json
           if-no-files-found: error
