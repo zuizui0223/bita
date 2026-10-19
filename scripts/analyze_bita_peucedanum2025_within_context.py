@@ -111,12 +111,20 @@ def fwl(data: list[dict], *, permutations: int = 4999,
 
 
 def make_population_rows(rows: list[dict], response: str) -> tuple[list[dict],int]:
+    fields = {
+        "ovip": "OvipN",
+        "predation": "PredationR",
+        "initial_fruits": "InitialFruitN",
+        "final_fruits": "FinalFruitN",
+    }
+    if response not in fields:
+        raise ValueError("UNREGISTERED_POPULATION_OUTCOME")
     valid=[]
     excluded=0
     for r in rows:
         h,m=number(r["HflowerN"]),number(r["MflowerN"])
         height=number(r["Height"])
-        v=number(r["OvipN"] if response=="ovip" else r["PredationR"])
+        v=number(r[fields[response]])
         if (h is None or m is None or h+m<=0 or height is None
                 or v is None or v<0 or (response=="predation" and v>1)):
             excluded+=1
@@ -124,7 +132,7 @@ def make_population_rows(rows: list[dict], response: str) -> tuple[list[dict],in
         valid.append({
             "group":r["Year"]+"/"+r["Plot"],"plot":r["Plot"],
             "x":m/(m+h),
-            "y":math.log1p(v) if response=="ovip" else v,
+            "y":v if response=="predation" else math.log1p(v),
             "log_total":math.log1p(m+h),
             "height":height,
         })
@@ -187,13 +195,16 @@ def five_plot_jackknife(beta: float, loo: dict[str, float | None]) -> dict:
 def analyze(blob: bytes) -> dict:
     data=checked_csvs(blob)
     results={}
-    for name in ("ovip","predation"):
+    outcomes={
+        "ovip": "log1p(predator_egg_count)",
+        "predation": "observed_predation_fraction",
+        "initial_fruits": "log1p(initial_fruit_count)",
+        "final_fruits": "log1p(final_intact_fruit_count)",
+    }
+    for name,outcome in outcomes.items():
         x,missing=make_population_rows(data["population"],name)
         test=fwl(x)
-        test["outcome"]=(
-            "log1p(predator_egg_count)" if name=="ovip"
-            else "observed_predation_fraction"
-        )
+        test["outcome"]=outcome
         test["n_excluded_missing_or_invalid"]=missing
         sensitivity={}
         for plot in sorted({r["plot"] for r in x}):
@@ -225,6 +236,9 @@ def analyze(blob: bytes) -> dict:
             "uses nonmissing cases; predation missingness is substantial and "
             "potentially nonrandom. Exchangeability for residual permutation "
             "is not assured. Flower-sex allocation is not randomized. "
+            "Female-fruit association is partly structurally induced by "
+            "the reduced fraction of seed-bearing perfect flowers; "
+            "do not identify an architecture maintenance cost from it. "
             "A null male-fitness association cannot establish equivalence; "
             "none of this estimates BITA's developmental startup K(u), "
             "common-fitness architecture advantage or heritable change."
