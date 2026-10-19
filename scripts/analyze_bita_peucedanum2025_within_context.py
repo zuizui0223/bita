@@ -51,7 +51,7 @@ def covariate_projection(cols: list[list[float]], y: list[float]) -> list[float]
 
 
 def fwl(data: list[dict], *, permutations: int = 4999,
-        seed: int = SEED) -> dict:
+        seed: int = SEED, controls: tuple[str, ...] = ("log_total", "height")) -> dict:
     """Freedman-Lane residual permutation within declared observation blocks.
 
     Response, predictor and controls are demeaned within group. Freedman-Lane
@@ -65,15 +65,16 @@ def fwl(data: list[dict], *, permutations: int = 4999,
         members[row["group"]].append(i)
     if any(len(ids)<3 for ids in members.values()):
         raise ValueError("INSUFFICIENT_WITHIN_GROUP_REPLICATION")
-    names=("x","y","log_total","height")
+    if len(set(controls)) != len(controls) or len(controls) < 1:
+        raise ValueError("CONTROLS_MUST_BE_DISTINCT_AND_NONEMPTY")
+    names=("x","y",*controls)
     centered={name:[0.0]*len(data) for name in names}
     for idx in members.values():
         for name in names:
             mean=statistics.fmean(data[i][name] for i in idx)
             for i in idx:
                 centered[name][i]=data[i][name]-mean
-    C=list(zip(centered["log_total"],centered["height"]))
-    C=[list(r) for r in C]
+    C=[[centered[name][i] for name in controls] for i in range(len(data)]
     beta_x_controls=covariate_projection(C,centered["x"])
     beta_y_controls=covariate_projection(C,centered["y"])
     rx=[v-sum(a*b for a,b in zip(row,beta_x_controls))
@@ -103,10 +104,17 @@ def fwl(data: list[dict], *, permutations: int = 4999,
         "within_context_allocation_beta":obs,
         "effect_per_10pp_male_share":obs*.1,
         "beta_per_1sd_residual_allocation":obs*xsd,
+        "residualized_allocation_sd":xsd,
+        "controls":list(controls),
         "two_sided_within_context_residual_permutation_p":(exceed+1)/(permutations+1),
         "permutations":permutations,
         "response_transformation":"outcome-specific as declared in receipt",
-        "notes":"Within-group fixed-effect transformed OLS with log(total flowers) and height covariates; exploratory conditional association, not a causal treatment effect or Poisson model.",
+        "notes":(
+            "Within-group fixed-effect transformed OLS with "
+            +", ".join(controls)
+            +" covariates; exploratory conditional association, not a causal "
+            "treatment effect or Poisson model."
+        ),
     }
 
 
@@ -134,6 +142,7 @@ def make_population_rows(rows: list[dict], response: str) -> tuple[list[dict],in
             "x":m/(m+h),
             "y":v if response=="predation" else math.log1p(v),
             "log_total":math.log1p(m+h),
+            "log_perfect":math.log1p(h),
             "height":height,
         })
     return valid,excluded
