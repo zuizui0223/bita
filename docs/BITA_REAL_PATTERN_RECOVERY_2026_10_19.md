@@ -76,9 +76,43 @@ Exploratory pairwise rank correlations (9,999 shuffled-label permutations):
 
 A post-open conditional OLS \`log(1+sired_seeds) ~ male_fraction + log(1+total_display) + height\` gives beta **+0.52030**, residual permutation p **0.2216** (n=106). There is **no detected negative male-allocation association** in these metrics, but **p>0.05 is not an equivalence demonstration** and male and female relative fitness are not calibrated on one joint evolutionary currency. The negative female-output association is also partly structurally expected because more male-only flowers mean fewer seed-bearing perfect flowers at a constrained total display.
 
+### Result D — a discriminator: fewer exposed flowers, not demonstrated active deterrence
+
+After seeing the initial within-context association, we explicitly tested a competing **compositional opportunity explanation**: if plants have fewer perfect/seed-bearing flowers, an egg-laying moth simply has fewer valid hosts. Under fixed total display, raising the male-only fraction *necessarily decreases* the perfect-flower count. Hence the original male-fraction coefficient alone cannot tell apart avoidance through reduced host number from any additional deterrent effect of male flowers.
+
+We fitted the identical samples/plot×year fixed effects/height controls, but replaced **log(total flowers)** with **log(1+perfect flower count)**. The difference is a post-open sensitivity across two nonnested conditioning targets, **not** a measured causal mediation fraction.
+
+| Outcome | n | β with total-display control | β with perfect-flower control | Perfect-control residual permutation p | Five-plot exploratory t(4) β interval |
+|---|---:|---:|---:|---:|---|
+| log(1+predator eggs) | 672 | −1.212736 | **−0.294548** | **0.1448** | **[−1.08454, +0.49544]** |
+| observed predation fraction | 511 | −0.188544 | **−0.112799** | **0.2298** | **[−0.32596, +0.10036]** |
+
+The direct egg coefficient is considerably attenuated, and both site-level heuristic intervals include zero. On the same covariate/individual samples, these data **do not establish extra active repellence by male flowers beyond variation in the number of exposed perfect flowers**. It remains possible but unidentified. Do not turn the difference between coefficients into “percentage mediated” because the numerator, structural composition and residual causal associations are not identified separately.
+
+### Result E — does reduced initial female opportunity pay off through retention?
+
+For a paired **final/initial fruit** comparison, only **532/685** population rows have the required interpretable endpoints. Explicitly excluded: **77 missing required values**, **73 with zero initial fruits** (ratio undefined) and **3 with final fruits exceeding initial fruits**. These exclusions may be nonrandom, and the apparently comparable stages are not guaranteed a direct single-fruit survival trace.
+
+Using the **exact same 532 plants**, with plot×year fixed effects, log(total flowers) and height:
+
+| Response | Male-fraction β | Difference at +0.10 fraction | Within-context perm p | Small-five-plot t(4) 95% interval for β |
+|---|---:|---:|---:|---|
+| log(1+initial fruits) | **−1.790699** | −0.179070 log units | 0.0002 | [−2.40133, −1.18007] |
+| log(1+final fruits) | **−1.166587** | −0.116659 log units | 0.0002 | [−2.09539, −0.23778] |
+| final / initial fruit fraction | **+0.177475** | +0.017747 fraction units | 0.0082 | **[−0.06950, +0.42445]** |
+| log(1+final) − log(1+initial) | **+0.624112** | +0.062411 | 0.0010 | **[−0.28036, +1.52859]** |
+
+The common-support difference of log slopes is verified algebraically: `−1.166587 − (−1.790699) = +0.624112`. Crucially, **the exploratory five-plot intervals for both residual/retention gains include zero**. Site-wise residual-permutation p-values on hundreds of plants alone would overstate independent ecological replication. This does **not** establish a net increase in intact female output, despite numerically greater retention of the fruits that formed. The decrease in initial output is also partly deterministic: fewer perfect flowers means fewer seed-bearing opportunities.
+
+### Interpretation after trying to falsify the apparent benefit
+
+The strongest supported BITA-relevant signature is **conditional allocation away from an exposed seed-bearing module, with opportunity costs**, not proof of an independently evolved defensive organ. Male flowers can contribute to display/pollen-donor function without adding the same female fruit target, but the data do not establish that increasing male allocation preserves siring **equivalently** or yields higher combined male+female fitness.
+
+The more ambitious story, “male flowers actively deter moths and improve total fitness, therefore high-antagonism environments caused modularization,” is **not supported by these data**. Under the observable, narrower story, the ecological environment can change the *value* of already-existing partial functional separation, while the evolutionary origin of that separation remains unresolved.
+
 ### Claim boundary for Peucedanum
 
-**Recovered:** Context-dependent partial allocation toward male-only flowers, with within-context lower predator oviposition at controlled floral display/height, plus an unresolved male success versus allocation relation and an association of total display with siring.
+**Recovered:** Strong directional context-dependent male-biased allocation, a within-context negative association with predator eggs when total display is controlled, and a demonstrable female opportunity cost. **When perfect-flower target number replaces total display, the extra negative egg association is no longer resolved.** The apparent post-initial fruit retention association has a five-plot uncertainty interval including zero; male allocation versus siring remains inconclusive.
 
 **Not recovered:** Randomized effect of changing flower-class allocation, evolution of sex allocation from an ancestral architecture, joint male+female absolute fitness optimum, BITA theoretical parameters \`K\`, \`s\`, \`K(u)\`, or a mutation-fixation route. Five plots are neither five speciation transitions nor a representative sample of the plant kingdom.
 
@@ -100,7 +134,7 @@ These are **clade-stratified descriptive permutations**, **not full phylogenetic
 
 ## How the two taxa constrain BITA
 
-**Plant:** allocation toward a specialized reproductive floral class correlates with antagonist exposure, and at matched contexts and display levels with fewer predator eggs.
+**Plant:** allocation toward a specialized reproductive floral class correlates with antagonist exposure; within contexts it predicts both fewer eggs and fewer fruits when total display is held constant. **The egg association weakens after conditioning on the number of vulnerable perfect flowers, and five-plot intervals do not resolve greater fruit retention**. Thus the evidence concerns exposure reallocation and trade-off, not proven active deterrence or improved net fitness.
 
 **Fish:** distinct functional modules retain correlated morphology and both still relate to ecology; an extra morphological axis **does not imply complete functional independence**.
 
@@ -113,6 +147,7 @@ Those observations fit two separate components of the broader BITA architecture 
 - Between-plot/year & paternity analysis: \`scripts/analyze_bita_peucedanum2025_population_patterns.py\`.
 - Within-context conditional fit with plot omission and small-five-site uncertainty: \`scripts/analyze_bita_peucedanum2025_within_context.py\`.
 - Live source and reanalysis CI: \`.github/workflows/probe-bita-peucedanum2025-huscap.yml\`.
+- Vulnerable-target vs total-display exposure comparison and matched female-fruit retention: \`scripts/analyze_bita_peucedanum2025_exposure_recovery.py\`, tested with \`tests/test_analyze_bita_peucedanum2025_exposure_recovery.py\` and original-data GitHub workflow \`.github/workflows/analyze-bita-peucedanum2025-exposure-recovery.yml\`.
 - Fish source-locked analysis/CI: \`scripts/analyze_bita_cichlid_public_integration.py\` / \`.github/workflows/analyze-bita-cichlid-public-integration.yml\`.
 
 The data input is verified and processed by GitHub CI at its **source archive DOI**; only aggregated, source-backed receipts are uploaded. All scripts label their outputs as observational/exploratory and fail closed on corrupt inputs.
