@@ -77,6 +77,17 @@ The ecological synthesis should therefore ask first **which function pair and ec
 
 **Updated claim ceiling:** the four-repository programme has (a) conflict-source patterns, (b) existing structural architecture observations, and now (c) an independently acquired multi-species **opportunity/morphology denominator**. It still lacks a dataset linking **measured within-axis conflict strength -> costed differentiating architecture -> historical lineage transition**. Do not turn this new raw cross-species association into the missing evolutionary causal proof.
 
+## Priority final causal-identification system from the independent genus frontier: Wurmbea
+
+The independent AusTraits congeneric screen identified *Wurmbea* as a candidate (14 strict hermaphroditic vs 3 sex-separated species, with insect pollination annotated for both organizational groups). A targeted original-source check, independently written to [BALANCE's Wurmbea causal handoff](https://github.com/zuizui0223/balance/blob/data/austraits-independent-architecture-20261019/docs/BALANCE_WURMBEA_FOCAL_CAUSAL_BRIDGE_20261019.md), finds **actual ecological intervention evidence**, not merely the coexistence of trait states:
+
+- **Ramsey et al. 2006, *W. dioica***: experimentally increased outcrossing of fruiting males reduced females' reported relative **seed-fitness advantage from 3.7 to 1.4**, suggesting mating context can alter the relative benefit of maintained sex morphs (DOI 10.1111/j.1420-9101.2006.01129.x). This is a sex-specific *component payoff*, not a costed net architecture margin or observed new architecture arising.
+- **Ramsey et al. 2006, *W. biglandulosa***: self/cross and morphological manipulation studies observed very high inbreeding depression, providing the candidate ecological route by which separating male/female functions can differ in reproductive return (DOI 10.1111/j.0014-3820.2006.tb01134.x, also legacy identifier 10.1554/04-433.1 for the **same** paper).
+- **Vaughton & Ramsey 2011, *Annals of Botany***: high/low resource manipulation altered gender plasticity of subdioecious males (66% versus 42%) and located plasticity costs in only particular sex-system contexts (DOI 10.1093/aob/mcr163). This is a plausible real-world mechanism for persistence of plastic shared functions rather than irreversible specialization.
+- **Case et al. 2008**: published plastid phylogeny explicitly leaves ancestral sexual-system nodes and historical transition directions uncertain, and documents the failure of simple species-monophyly assumptions for the two focal species (DOI 10.1086/523368).
+
+The resulting **nontrivial but bounded** biological inference is that even within a predominantly insect-pollinated reproductive system, the relative seed-fitness payoff of segregated sex function can depend strongly on mating and selfing context, while the genetic/developmental architecture may remain plastic. The full SCH `L`, structural SLK `Phi=R-K`, frequency-dependent PAYOFF invasion, and historical causal origin all remain **unidentified**. This is the strongest *focal validation candidate*, not an independently derived macroevolutionary proof or substitute for the independently sampled floristic background.
+
 ## Theoretical counterexamples already implied by the registered models
 
 These numbers are **synthetic mathematical examples**, not measured fitness.
