@@ -28,6 +28,9 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install test runner
+        run: python -m pip install --disable-pip-version-check pytest
+
       - name: Offline provenance and statistical contract tests
         run: python -m pytest -q tests/test_bita_cichlid_public_integration.py
 
