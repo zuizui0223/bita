@@ -1,0 +1,142 @@
+{
+  "model": "BITA_ACTIVATION_COST_UPHILL_PROXY_V1",
+  "data_level": "THEORY_SIMULATION_ONLY",
+  "assumptions": "quadratic functions and coupling, saturating activation cost, uphill mutant proposals",
+  "parameters": {
+    "weight_1": 1,
+    "weight_2": 1,
+    "coupling": 0.5,
+    "activation_cost_cap": 0.15,
+    "activation_scale": 0.05
+  },
+  "scenarios": [
+    {
+      "optimum_distance": 0.5,
+      "shared_conflict_loss": 0.125,
+      "baseline_recoverable_loss": 0.0625,
+      "baseline_decoupling": 0.5,
+      "activation_cost_cap": 0.15,
+      "activation_scale": 0.05,
+      "initial_selection_gradient": -2.75,
+      "selected_separation_fraction": 0,
+      "maximum_relative_fitness": 0,
+      "first_positive_invasion_fraction": null,
+      "classification": "SHARED_GLOBAL_OPTIMUM"
+    },
+    {
+      "optimum_distance": 0.8,
+      "shared_conflict_loss": 0.32000000000000006,
+      "baseline_recoverable_loss": 0.16000000000000003,
+      "baseline_decoupling": 0.5,
+      "activation_cost_cap": 0.15,
+      "activation_scale": 0.05,
+      "initial_selection_gradient": -2.36,
+      "selected_separation_fraction": 0.4998933667439187,
+      "maximum_relative_fitness": 0.010006817251172417,
+      "first_positive_invasion_fraction": 0.37447712616467066,
+      "classification": "GLOBAL_GAIN_BUT_LOCAL_TRAP"
+    },
+    {
+      "optimum_distance": 1,
+      "shared_conflict_loss": 0.5,
+      "baseline_recoverable_loss": 0.25,
+      "baseline_decoupling": 0.5,
+      "activation_cost_cap": 0.15,
+      "activation_scale": 0.05,
+      "initial_selection_gradient": -2,
+      "selected_separation_fraction": 0.4999318071634914,
+      "maximum_relative_fitness": 0.10000681463338792,
+      "first_positive_invasion_fraction": 0.17695885422471666,
+      "classification": "GLOBAL_GAIN_BUT_LOCAL_TRAP"
+    },
+    {
+      "optimum_distance": 1.5,
+      "shared_conflict_loss": 1.125,
+      "baseline_recoverable_loss": 0.5625,
+      "baseline_decoupling": 0.5,
+      "activation_cost_cap": 0.15,
+      "activation_scale": 0.05,
+      "initial_selection_gradient": -0.75,
+      "selected_separation_fraction": 0.49996971504213916,
+      "maximum_relative_fitness": 0.4125068120518667,
+      "first_positive_invasion_fraction": 0.03418712396139925,
+      "classification": "GLOBAL_GAIN_BUT_LOCAL_TRAP"
+    },
+    {
+      "optimum_distance": 2,
+      "shared_conflict_loss": 2,
+      "baseline_recoverable_loss": 1,
+      "baseline_decoupling": 0.5,
+      "activation_cost_cap": 0.15,
+      "activation_scale": 0.05,
+      "initial_selection_gradient": 1,
+      "selected_separation_fraction": 0.49998296922638186,
+      "maximum_relative_fitness": 0.8500068111492582,
+      "first_positive_invasion_fraction": 0,
+      "classification": "SMALL_STEPS_CAN_INVADE"
+    }
+  ],
+  "d1_uphill_small_step": [
+    0
+  ],
+  "d1_uphill_large_step": [
+    0,
+    0.25,
+    0.5
+  ],
+  "sufficient_global_favour_distance": 0.7745966692414834,
+  "local_gradient_sign_flip_distance": 1.7320508075688772,
+  "registered_grid": {
+    "weights": [
+      [
+        1,
+        1
+      ],
+      [
+        0.5,
+        2
+      ],
+      [
+        2,
+        0.5
+      ]
+    ],
+    "couplings": [
+      0,
+      0.2,
+      0.5,
+      1.5
+    ],
+    "activation_cost_caps": [
+      0.03,
+      0.15,
+      0.4
+    ],
+    "activation_scales": [
+      0.01,
+      0.05,
+      0.2
+    ],
+    "optimum_distances": [
+      0.3,
+      0.7,
+      1,
+      1.5,
+      2
+    ],
+    "n": 540
+  },
+  "counts_hypothetical_parameter_cells": {
+    "GLOBAL_GAIN_BUT_LOCAL_TRAP": 175,
+    "SHARED_GLOBAL_OPTIMUM": 205,
+    "SMALL_STEPS_CAN_INVADE": 160
+  },
+  "analytic_sufficient_valley_condition": "2*h*d**2*tau < Kcap < s*h*d**2; s=h/(h+lambda)",
+  "analytic_sufficient_valley_strict_tests": {
+    "passed": 167,
+    "violations": 0,
+    "near_boundary_cases_not_classified_as_strict": 6,
+    "margin_requirement": "both strict analytic margins > 1e-9"
+  },
+  "claim_boundary": "A finite theoretical grid is not an estimate of natural strategy prevalence. No evolutionary fixation, historical architecture origin, genetics, empirical cost function, ecological parameter mapping or cross-world fitness comparator has been measured."
+}
