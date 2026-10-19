@@ -145,3 +145,38 @@ def test_finite_registered_grid_and_sufficient_condition():
         "margin_requirement": "both strict analytic margins > 1e-9",
     }
     assert "not an estimate of natural strategy prevalence" in output["claim_boundary"]
+
+
+def test_committed_theory_readout_matches_recomputed_values():
+    from pathlib import Path
+    from scripts.analyze_evolutionary_accessibility import build_readout
+
+    path = (Path(__file__).resolve().parents[1]
+            / "docs/BITA_EVOLUTIONARY_ACCESSIBILITY_READOUT_V1.json")
+    frozen = json.loads(path.read_text(encoding="utf-8"))
+    live = build_readout()
+    assert frozen["data_level"] == "THEORY_SIMULATION_ONLY"
+    assert frozen["counts_hypothetical_parameter_cells"] == (
+        live["counts_hypothetical_parameter_cells"]
+    )
+    assert frozen["analytic_sufficient_valley_strict_tests"] == (
+        live["analytic_sufficient_valley_strict_tests"]
+    )
+    assert frozen["registered_grid"] == live["registered_grid"]
+    for original, repeated in zip(frozen["scenarios"], live["scenarios"]):
+        assert original["classification"] == repeated["classification"]
+        assert original["optimum_distance"] == repeated["optimum_distance"]
+        for name in (
+            "shared_conflict_loss", "baseline_recoverable_loss",
+            "initial_selection_gradient", "selected_separation_fraction",
+            "maximum_relative_fitness",
+        ):
+            assert original[name] == pytest.approx(repeated[name], abs=1e-9)
+        a, b = (
+            original["first_positive_invasion_fraction"],
+            repeated["first_positive_invasion_fraction"],
+        )
+        if a is None or b is None:
+            assert a is b is None
+        else:
+            assert a == pytest.approx(b, abs=1e-9)
