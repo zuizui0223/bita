@@ -102,3 +102,27 @@ def test_malformed_or_nonfinite_pc_rejected(monkeypatch):
     bad = oral.replace(b"Species_000", b"Species_00X", 1)
     with pytest.raises(ValueError, match="blob mismatch"):
         ci.load_rows("oral", bad)
+
+
+
+def test_synthetic_diet_association_is_seeded_and_bounded(monkeypatch):
+    oral, pharyngeal = _patched(monkeypatch)
+    pairs = ci.join_inputs(
+        ci.load_rows("oral", oral), ci.load_rows("pharyngeal", pharyngeal)
+    )
+    for module in ("oral", "pharyngeal"):
+        result = ci.diet_permuted(pairs, 3, module, permutations=79)
+        same = ci.diet_permuted(pairs, 3, module, permutations=79)
+        assert same == result
+        assert result["permutations"] == 79
+        assert 0 <= result["r2_ecology"] <= 1
+        assert 1/80 <= result["permutation_p"] <= 1
+
+
+def test_diet_r2_requires_numerical_data_and_not_taxa_labels():
+    assert ci.diet_r2([[1.0], [-1.0]], ["same", "same"]) == pytest.approx(0)
+    assert ci.diet_r2([[1.0], [-1.0]], ["A", "B"]) == pytest.approx(1)
+    with pytest.raises(ValueError, match="mismatch"):
+        ci.diet_r2([[0.0], [1.0]], ["A"])
+    with pytest.raises(ValueError, match="zero residual"):
+        ci.diet_r2([[0.0], [0.0]], ["A", "B"])
