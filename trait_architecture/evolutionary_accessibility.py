@@ -185,6 +185,37 @@ def deterministic_uphill_walk(
     return tuple(trajectory)
 
 
+
+def linear_cost_negative_control(
+    *, distance: float, weight_1: float = 1.0,
+    weight_2: float = 1.0, coupling: float = 0.5,
+    activation_cost_cap: float = 0.15, activation_scale: float = 0.05,
+) -> dict:
+    """Compare with a LINEAR cost having the same cost at full separation u=1.
+
+    For this countermodel, Phi(u)=a*u-b*u**2 is concave. Any positive
+    global gain necessarily implies a positive infinitesimal gain at u=0.
+    A global-beneficial/local-trap regime is IMPOSSIBLE under this model.
+    """
+    h, d2, lam, cap, tau = _terms(
+        distance, weight_1, weight_2, coupling,
+        activation_cost_cap, activation_scale,
+    )
+    full_cost = -cap*expm1(-1/tau)
+    a = 2*h*d2-full_cost
+    b = (h+lam)*d2
+    optimum = min(1.0, max(0.0, a/(2*b))) if b > 0 else (1.0 if a > 0 else 0.0)
+    maximum = a*optimum-b*optimum*optimum
+    return {
+        "model": "LINEAR_COST_SAME_FULL_DEPLOYMENT_NEGATIVE_CONTROL",
+        "full_deployment_cost": full_cost,
+        "initial_selection_gradient": a,
+        "selected_separation_fraction": optimum,
+        "maximum_relative_fitness": maximum,
+        "global_gain_with_local_trap": maximum > 1e-10 and a < -1e-10,
+    }
+
+
 def example_readout() -> dict:
     """Five prespecified hypothetical contrasts, never labelled empirical."""
     params = dict(
@@ -206,6 +237,7 @@ def example_readout() -> dict:
         "d1_uphill_large_step": deterministic_uphill_walk(
             maximum_step=0.25, distance=1.0, **params,
         ),
+        "d1_linear_cost_negative_control": linear_cost_negative_control(distance=1.0, **params),
         # This is a SUFFICIENT global-favour bound; actual threshold can be lower.
         "sufficient_global_favour_distance": sqrt(params["activation_cost_cap"]/(h*s)),
         "local_gradient_sign_flip_distance": sqrt(
