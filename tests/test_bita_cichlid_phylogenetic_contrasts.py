@@ -96,3 +96,18 @@ def test_no_uninformative_axis_or_inadequate_contrasts():
         pic.standardize_rows([[1,0]]*7,2)
     with pytest.raises(ValueError,match="NO_PERMUTATIONS"):
         pic.permuted_pic_rv([[1,2]]*7,[[1,2]]*7,axes=2,permutations=0)
+
+
+def test_post_open_branch_length_sensitivity_changes_only_tree_model():
+    root=pic.parse_newick("((A:1,B:1):3,(C:2,D:2):4);")
+    baseline=pic.contrasts(root,{"A":[2.0],"B":[1.0],"C":[0.0],"D":[3.0]})
+    equal=pic.alter_branch_model(root,"equal_edge_lengths")
+    terminal=pic.alter_branch_model(root,"double_terminal_lengths")
+    assert pic.tips(root)==pic.tips(equal)==pic.tips(terminal)
+    assert equal.children[0].length==pytest.approx(1)
+    assert terminal.children[0].length==pytest.approx(3)
+    assert terminal.children[0].children[0].length==pytest.approx(2)
+    assert root.children[0].children[0].length==pytest.approx(1)
+    assert pic.contrasts(terminal,{"A":[2.0],"B":[1.0],"C":[0.0],"D":[3.0]}) != baseline
+    with pytest.raises(ValueError,match="UNREGISTERED"):
+        pic.alter_branch_model(root,"pretend_BM_fit")
