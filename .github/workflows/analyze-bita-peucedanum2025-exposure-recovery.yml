@@ -1,0 +1,85 @@
+name: Analyze BITA Peucedanum 2025 exposure and fruit retention
+
+on:
+  push:
+    branches:
+      - analysis/balance-to-differentiation-accessibility-v1
+    paths:
+      - scripts/analyze_bita_peucedanum2025_exposure_recovery.py
+      - scripts/analyze_bita_peucedanum2025_within_context.py
+      - tests/test_analyze_bita_peucedanum2025_exposure_recovery.py
+      - .github/workflows/analyze-bita-peucedanum2025-exposure-recovery.yml
+  pull_request:
+    paths:
+      - scripts/analyze_bita_peucedanum2025_exposure_recovery.py
+      - scripts/analyze_bita_peucedanum2025_within_context.py
+      - tests/test_analyze_bita_peucedanum2025_exposure_recovery.py
+      - .github/workflows/analyze-bita-peucedanum2025-exposure-recovery.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  empirical:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install offline test runner
+        run: python -m pip install --disable-pip-version-check pytest
+      - name: Verify exposure control and fruit retention contracts on synthetic data
+        run: |
+          python -m pytest -q \
+            tests/test_analyze_bita_peucedanum2025_within_context.py \
+            tests/test_analyze_bita_peucedanum2025_exposure_recovery.py
+      - name: Recompute alternative biological explanations directly from exact 2025 HUSCAP source
+        run: |
+          python -m scripts.analyze_bita_peucedanum2025_exposure_recovery \
+            --output artifacts/bita_peucedanum2025_exposure_recovery_v1.json
+      - name: Fail closed on source, incomplete evidence or false causal release
+        run: |
+          python - <<'PY'
+          import json, math
+          from pathlib import Path
+          d=json.loads(Path("artifacts/bita_peucedanum2025_exposure_recovery_v1.json").read_text())
+          assert d["doi"]=="10.14943/hu95572"
+          assert d["data_level"]=="EXACT_SHA256_PUBLIC_ORIGINAL_OBSERVATIONAL_DATA"
+          assert d["raw_rows_redistributed"] is False
+          assert d["causal_fitness_or_heritability_identified"] is False
+          assert set(d["target_exposure_adjusted"])=={"ovip","predation"}
+          assert d["target_exposure_adjusted"]["ovip"]["n_source_complete"]==672
+          assert d["target_exposure_adjusted"]["predation"]["n_source_complete"]==511
+          counts=d["matched_fruit_construction"]
+          assert counts["total_rows"]==685
+          assert counts["matched_retention_rows"]>=400
+          assert counts["matched_retention_rows"]+counts["excluded"]==685
+          for x in d["matched_fruit_comparison"].values():
+              assert x["n_individuals"]==counts["matched_retention_rows"]
+              assert x["five_geographic_plot_jackknife"]["n_geographic_plot_clusters"]==5
+              assert math.isfinite(x["within_context_allocation_beta"])
+          print("HUSCAP_2025_EXPOSURE_RECOVERY_EVIDENCE_VERIFIED")
+          print(json.dumps({
+              "n_retention":counts,
+              "perfect_exposure":{
+                  k:{
+                      "beta":v["alternative_perfect_target_adjusted"]["within_context_allocation_beta"],
+                      "p":v["alternative_perfect_target_adjusted"]["two_sided_within_context_residual_permutation_p"],
+                      "five_plot_ci":v["alternative_perfect_target_adjusted"]["five_geographic_plot_jackknife"]["approximate_t4_ci95"],
+                  } for k,v in d["target_exposure_adjusted"].items()},
+              "common_fruit":{
+                  k:{
+                      "beta":v["within_context_allocation_beta"],
+                      "p":v["two_sided_within_context_residual_permutation_p"],
+                      "five_plot_ci":v["five_geographic_plot_jackknife"]["approximate_t4_ci95"],
+                  } for k,v in d["matched_fruit_comparison"].items()},
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-peucedanum-2025-exposure-recovery
+          path: artifacts/bita_peucedanum2025_exposure_recovery_v1.json
+          if-no-files-found: error
