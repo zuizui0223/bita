@@ -153,6 +153,37 @@ def make_paternity_rows(rows: list[dict]) -> tuple[list[dict],int]:
     return out,omitted
 
 
+
+T_CRITICAL_DF4_95 = 2.7764451051977987
+
+
+def five_plot_jackknife(beta: float, loo: dict[str, float | None]) -> dict:
+    """Sensitivity to five geographic plots; small-cluster t(4) heuristic.
+
+    This is NOT a formal independent-cluster randomization or exact interval:
+    observational plots are not randomized and five clusters remain few.
+    """
+    vals=[v for v in loo.values() if v is not None]
+    if len(vals) != 5 or not math.isfinite(beta):
+        return {
+            "status":"NOT_IDENTIFIED_INCOMPLETE_GEOGRAPHIC_JACKKNIFE",
+            "n_independent_plot_clusters":len(vals),
+        }
+    centre=statistics.fmean(vals)
+    se=math.sqrt(4/5*sum((v-centre)**2 for v in vals))
+    bound=T_CRITICAL_DF4_95*se
+    return {
+        "status":"SMALL_FIVE_PLOT_JACKKNIFE_DIAGNOSTIC",
+        "n_geographic_plot_clusters":5,
+        "degrees_of_freedom":4,
+        "delete_one_plot_se":se,
+        "approximate_t4_ci95":[beta-bound,beta+bound],
+        "all_deleted_plot_estimates_same_sign":all(v<0 for v in vals) or all(v>0 for v in vals),
+        "interval_status":"INCLUDES_ZERO" if beta-bound<=0<=beta+bound else "EXCLUDES_ZERO",
+        "interpretation":"Small-five-plot t4 jackknife sensitivity interval; exploratory, not independent evolutionary replication or causal effect",
+    }
+
+
 def analyze(blob: bytes) -> dict:
     data=checked_csvs(blob)
     results={}
@@ -173,6 +204,9 @@ def analyze(blob: bytes) -> dict:
             except ValueError:
                 sensitivity[plot]=None
         test["leave_one_geographic_plot_out_betas"]=sensitivity
+        test["five_geographic_plot_jackknife"]=five_plot_jackknife(
+            test["within_context_allocation_beta"],sensitivity
+        )
         results[name]=test
     pat,pat_missing=make_paternity_rows(data["paternity"])
     p=fwl(pat)
