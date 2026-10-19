@@ -127,7 +127,11 @@ jobs:
           r=json.loads(p.read_text())
           assert r["doi"]=="10.14943/hu95572"
           assert r["raw_rows_redistributed"] is False
-          assert set(r["models"]) == {"ovip","predation","paternity"}
+          assert set(r["models"]) == {
+              "ovip","predation","initial_fruits","final_fruits","paternity"
+          }
+          assert r["models"]["initial_fruits"]["n_individuals"] > 500
+          assert r["models"]["final_fruits"]["n_individuals"] > 500
           assert r["models"]["ovip"]["n_context_groups"] >= 15
           assert r["models"]["paternity"]["n_individuals"] == 106
           for key, lo, hi, status in (
