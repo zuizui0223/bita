@@ -120,6 +120,10 @@ def analyze(blob: bytes) -> dict:
             "common_final_fruits_log": [
                 {**r, "y":math.log1p(r["final"])} for r in valid
             ],
+            "matched_log_final_minus_initial": [
+                {**r, "y":math.log1p(r["final"])-math.log1p(r["initial"])}
+                for r in valid
+            ],
         }
         for label, rows in panels.items():
             models[label]=residual_diagnostics(rows,controls=("log_total","height"))
@@ -127,6 +131,7 @@ def analyze(blob: bytes) -> dict:
                 "final_to_initial_fraction":"observed final fruits / initial fruits",
                 "common_initial_fruits_log":"log1p(initial fruits) on exactly the retention rows",
                 "common_final_fruits_log":"log1p(final fruits) on exactly the retention rows",
+                "matched_log_final_minus_initial":"log1p(final fruits)-log1p(initial fruits) on identical rows",
             }[label]
         if any(model["n_individuals"]!=len(valid) for model in models.values()):
             raise AssertionError("FRUIT_COMMON_SUPPORT_MISMATCH")
