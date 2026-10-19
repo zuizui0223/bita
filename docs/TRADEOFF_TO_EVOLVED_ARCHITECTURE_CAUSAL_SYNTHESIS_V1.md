@@ -1,0 +1,98 @@
+# From functional trade-off to evolved trait architecture: a cross-repository causal synthesis (2026-10-19)
+
+**Status: source-grounded integration and prospective falsifiable predictions; NOT a claim of experimentally identified structural origin.**
+
+## One focal question, not four interchangeable hypotheses
+
+> Under what ecological, structural and evolutionary conditions does a verified conflict among functions using the same trait coordinate cause a transition toward differentiated trait architecture?
+
+The word **cause** requires three logically independent links:
+
+1. **Ecological conflict:** selective demands pull on the same phenotypic coordinate in opposing directions under identified conditions.
+2. **Architecture advantage and realizability:** an alternative with extra functional dimensions yields a *net* benefit on the same fitness scale, AND a heritable path can invade or cross the relevant barrier.
+3. **Evolutionary origin:** the differentiated structure arose after, and in response to, the relevant conflict rather than by prior exaptation, correlated selection, ecological sorting or drift.
+
+Contemporary conflict + differentiated morphology, even observed in one species, does not supply link 3. A positive trait interaction does not supply link 2.
+
+## Canonical ownership (the current contract, not legacy chapter labels)
+
+| Module | Object / identifying claim | Forbidden promotion |
+| --- | --- | --- |
+| [SCH](https://github.com/zuizui0223/sch) | Same-coordinate functional conflict; state-specific optimum contrasts; admissible compromise load `L` | Multifunctionality, or two fitted state optima alone, do not identify two pure-function optima or evolutionary architecture change |
+| [BALANCE](https://github.com/zuizui0223/balance) | Common-fitness-scale worldlines `W_S*`, `W_D*`; middle domain `L>0, Delta_W<0`; conflict/architecture comparisons | `L>0` is not positive architecture value or proof of a historical split |
+| [SLK](https://github.com/zuizui0223/slk) + [PAYOFF](https://github.com/zuizui0223/payoff) | Recoverable loss `R`, independently supported architecture cost `K`, `Phi=R-K`, architecture topology and realizability; population frequency, fixation and occupancy | Static `Phi>0` is not sufficient for invasion, fixation, or origin; `R=sL` is model-specific |
+| [BITA](https://github.com/zuizui0223/bita) | Measured `A x D` interaction and identified sets of pollinator, antagonist and other pathways after multiple axes exist; access and bypass routing | Mixed partial, observed network rewiring, or a fitted remainder is not a unique ecological mechanism or architecture formation cost |
+
+The active BITA [Ecology Letters Letter](../manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md) remains **unchanged** in topic and submission status. This synthesis is a programme-level bridge, not a replacement manuscript. Older BITA theory documents that label `Phi=0` as 'BITA-facing' remain historical provenance and are subordinated to the [BALANCE ownership closure](https://github.com/zuizui0223/balance/blob/main/docs/THEORY_OWNERSHIP_CLOSURE_V1.md).
+
+## Evidence already recovered; the exact missing intersection
+
+| Source result | Admissible biological inference | What is NOT demonstrated |
+| --- | --- | --- |
+| SCH four-programme pollination-selection spectrum: 24 trait/regime contrasts nested in four independent programmes; 11 point signs change, only one pair nominally supports opposite directional cell effects, zero comparisons survive the expanded 24-edge source-decimal-rounding-protected family criterion | Ecological selection gradients can be trait-axis- and context-sensitive; sign comparisons alone overstate reversal | Randomized manipulation of the focal trait; full `z x P x G` causal optimum, `L`, or structural evolution |
+| BALANCE U2 original-source frame: eight conflict-positive systems, with 4 `SHARED`, 3 `NONSTRUCTURAL_SEPARATION`, 1 `MOSAIC`, 0 `STRUCTURAL_MODULE_DIVISION` in its screened classification | Conflict can coexist with shared architecture or with nonstructural resolution | Structural differentiation was caused by conflict; population prevalence, independent double adjudication, or fitted structural worldlines |
+| BALANCE U1 review: 47 taxa, zero strict same-coordinate conflict-positive in the screened frame; U1 and U2 are nonexchangeable review universes | Function-pair- and assay-specific identification is necessary | '0/47' is natural absence of conflict, or a denominator for pooling with U2 |
+| BITA Ecuador bird–flower network: 259 plant species; complementary Afrotropical insect network: 57 plant species; joint standardized evidence from only two networks | Effective access barriers correspond to different legitimate/bypass routes; robbery proportion can rise when legitimate access collapses without a detectable rise in absolute robbery | Evolution of defense, increased robbery causal rate in all contexts, or structural origin |
+| SCH/BITA historical candidate systems (e.g. cichlid oral/pharyngeal jaws; floral functional redeployment in Dalechampia) | Structural decoupling and historical reuse are biologically possible; residual integration persists | A previously quantified `L` selected the independently reconstructed origin of an added module |
+| BALANCE matched optimized structural worldline comparison | **No qualifying same-context structural worldline receipts yet** | No empirical promotion to structural `Phi`, however suggestive the source cases |
+
+Source receipts: [SCH selection-spectrum audit](https://github.com/zuizui0223/sch/blob/main/docs/SCH_FOUR_PROGRAMME_POLLINATION_SELECTION_SPECTRUM_V1.md), [BALANCE cross-frame specificity](https://github.com/zuizui0223/balance/blob/main/docs/BALANCE_PLANT_CROSS_FRAME_FUNCTION_PAIR_SPECIFICITY_V1.md), [BALANCE structural source gate](https://github.com/zuizui0223/balance/blob/main/docs/BALANCE_STRUCTURAL_WORLDLINE_SOURCE_GATE_V1.md), [BITA routing manuscript](../manuscript/MANUSCRIPT_ACCESS_ROUTING_LETTER_V0.md), [BITA structural analogues](TRAIT_DIFFERENTIATION_EMPIRICAL_BRIDGES.md). All counts remain within their source-defined denominators; no grand meta-analytic rate is formed.
+
+### Species are not single conflict/architecture states
+
+**Polemonium viscosum:** original studies identify self-versus-outcross pollen interference on a reproductive timing/spacing coordinate AND, separately, bee-attraction-versus-ant-defense pressure on an integrated corolla-shape coordinate. These are distinct function pairs, tissues, experimental contexts and sources. The co-occurrence does not prove that one conflict produced the architecture observed in the other.
+
+**Narcissus assoanus:** forced self/cross interference affected greenhouse seed set, but its tested interference did not yield a detected male/female fitness cost in the wild. Potential conflict under forced overlap must not be treated as naturally realized conflict.
+
+These make a nontrivial comparative prediction: architecture must be modeled at **species (or lineage) x function-pair x tested trait coordinate x exposure regime**, never by a species-wide binary 'trade-off present'. Source: [BALANCE functional-pair multiplex](https://github.com/zuizui0223/balance/blob/main/docs/BALANCE_PLANT_CONFLICT_MULTIPLEX_ECOLOGY_V1.md).
+
+## Theoretical counterexamples already implied by the registered models
+
+These numbers are **synthetic mathematical examples**, not measured fitness.
+
+**A. Conflict without positive differentiation value (shared compromise persists).** For the registered quadratic model with `a=b=1`, pure-component optimum gap `Delta=2`, and residual coupling `c=1`: `L=2`, `s=1/3`, `R=sL=2/3`. If a new differentiated architecture costs `K=0.8`, then `Phi=-0.133333... <0`. Conflict exists, but the shared architecture has higher intrinsic optimized fitness.
+
+**B. Higher intrinsic value without invasion.** Keep `L=2`, `s=1/3`, but set `K=0.5`: `Phi=+1/6`. If the population game has positive architecture coordination feedback `eta=0.3`, rare differentiated invasion has `I_D=Phi-eta=-2/15`. The new architecture is globally advantageous on the frequency-independent comparison but cannot invade at rarity under this declared game.
+
+**C. Positive full module-release gain despite selection against infinitesimal release.** This is a **different baseline**: start from a pre-existing partially coupled *two-axis* architecture (`a=b=1`, `Delta=2`, reference coupling `c0=1`) and consider weakening the coupling edge by `d in [0,1]` at linear cost `0.9d`. PAYOFF's exact thresholds give `k_local=4/9`, `k_global=4/3`. Since `4/9 < 0.9 < 4/3`, full edge release gains `13/30` units, while the infinitesimal marginal net gain is `4/9-0.9 < 0`. This is a **finite-jump barrier**, not `R=sL` computed from the original one-axis architecture.
+
+The executable synthetic guards are in the [PAYOFF integration branch tests](https://github.com/zuizui0223/payoff/blob/integration/tradeoff-architecture-causality-20261019/tests/test_tradeoff_architecture_causal_counterexamples.py) and existing [modularization barrier model](https://github.com/zuizui0223/payoff/blob/main/src/modularization_barrier.py). These test model implications, not a biological causal transition.
+
+## Prospectively falsifiable predictions and necessary contrasts
+
+| Prediction | Required new independent evidence | Serious falsifier/alternative |
+| --- | --- | --- |
+| **P1. Verified conflict increases the relative value of structural separation** under otherwise matched conditions | Randomized/controlled conflict `e` x architecture `S/D`, common-scale reproductive fitness, independently justified architectural cost; estimate a difference-in-differences interaction | Relative net benefit does not respond to conflict; direct cost estimates negate the claimed advantage |
+| **P2. Conflict can persist with shared architecture** when structure is expensive, function demands occur at different times, or release is inaccessible | Prospective cost/exposure/heritability estimates, not explanations inferred after inspecting architecture | Architecture consistently changes despite measured high costs/no viable path, or the assumed exposure separation is absent |
+| **P3. Structural division is conditional on prior module opportunity and simultaneous exposure** while temporal/spatial separation can relieve asynchronous demands | Outcome-blind module-substrate and temporal-geometry coding before architecture outcome; separate sampling-universe intercepts | Predicted contrasts vanish or reverse in prospectively sampled, independently adjudicated systems |
+| **P4. Mechanism-specific effective-domain differentiation, not dimensionality alone, predicts functional relief** | BITA selective consumer factorial / real route-resolved fitness outcomes; actual joint cost assay | Added axes remain seen by the same agents and no channel-specific benefit is recovered |
+| **P5. Historical origin follows and tracks conflict** rather than only current co-occurrence | Reconstructed ancestral architecture and conflict/environment sequence, phylogenetic independent transitions, genetic/developmental feasibility, contemporaneous net benefit | Module predates conflict; same transitions occur in matched conflict-free clades; alternative selection explains transitions |
+
+For P1, define a **same-scale architecture x conflict interaction** (both architecture options viable and evaluated under both conditions):
+
+```text
+Gamma = [W_D*(conflict-on)-W_S*(conflict-on)]
+      - [W_D*(conflict-off)-W_S*(conflict-off)]
+```
+
+`Gamma>0` under randomized conditions would support conflict increasing the *relative fitness payoff* of the differentiated alternative. This still does not establish historical origin. `W_D*` and `W_S*` must be optimized or appropriately matched under a predeclared feasible-domain definition; simply comparing extant species with different structures invites ancestry and ecological-confounding bias.
+
+## Macroecological execution: recover pattern before the decisive experiment
+
+1. **Freeze a species/lineage-first sampling frame before reading the focal architecture result.** Stratify by phylogeny and habitat, record study effort and missingness, and include conflict-null/unknown cases. GloBI is an interaction-opportunity layer, **not** an estimate of functional conflict. Its current four-taxon pilot already exposed an authorship homonym for `Solanum rostratum`; propagate accepted taxon IDs and exact authorship rather than name-only joins.
+2. **Keep two independent receipts**: (i) a SCH-qualified functional-pair and tested-coordinate conflict record (with status `POSITIVE`, `ALIGNED_NEGATIVE`, `NO_DEMONSTRATED_CONFLICT`, `UNRESOLVED`); (ii) architecture coded independently and prospectively into BALANCE's four classes `SHARED`, `NONSTRUCTURAL_SEPARATION`, `STRUCTURAL_MODULE_DIVISION`, `MOSAIC`. Do not promote `NO_DEMONSTRATED_CONFLICT` into an experimentally demonstrated zero.
+3. **Analyze opportunity and architecture without post-outcome recoding.** The current BALANCE V4 model uses U2 and U6 separated intercepts, preregistered substrate and timing predictors, with spatial exposure secondary because of limited contrast support. Its independent coding and cross-universe generality gate are **not yet complete**; do not open them retrospectively to 'find significance'. The U2/U6 ensembles are intentionally selected, not population prevalence samples.
+4. **Separate comparative association from transition causality.** If architecture associations are supported, add phylogenetic transition counts, environmental timing, sister clades/independent origins, developmental-genetic constraints and matched functional fitness. Do not infer `K` from leftover BITA interaction terms or infer `eta` from architecture frequencies alone.
+5. **Use focused manipulations last** to discriminate the remaining alternatives: direct structural comparison plus ecological antagonism/mutualism intervention, and then test predicted invasibility or an observed genotype/recombinant transition path.
+
+Relevant frozen empirical sources: [BALANCE plant V4 preregistration](https://github.com/zuizui0223/balance/blob/main/docs/BALANCE_PLANT_CONFIRMATORY_MODEL_FREEZE_V4.md), [V4 reachability limitation](https://github.com/zuizui0223/balance/blob/main/docs/BALANCE_PLANT_V4_GENERALITY_REACHABILITY_V1.md), and [actual GloBI pilot with homonym audit](https://github.com/zuizui0223/balance/blob/main/docs/BALANCE_GLOBI_PUBLIC_INTERACTION_OPPORTUNITY_PILOT_V1.md).
+
+## Publication and claim freeze
+
+- **SCH standalone:** conditional conflict identification and source-supported variation in selection, with a residual experiment needed for pure-component optima.
+- **BITA Letter standalone:** access mismatch and route-specific participation, not defense evolution or historical trait splitting.
+- **BALANCE technical/macro programme:** conditional persistence and source-stratified architecture patterns; no direct structural worldline yet.
+- **PAYOFF/SLK standalone:** mathematical value-versus-accessibility distinction, not observed historical divergence.
+- **Future integrated ecological evolution manuscript (not yet a supported conclusion):** 'When does functional conflict select for new architecture rather than compromise or nonstructural avoidance?' The causal sentence is promotable only when P1 + P5 independent evidence is secured, alongside viable alternative-path scrutiny.
+
+**Current claim ceiling:** multiple ecological and architecture *pieces* are recovered, and model counterexamples distinguish the conditions. A trade-off causing a new structure to evolve **remains untested**. Avoid converting these programme-level model predictions into a positive empirical headline until supported.
