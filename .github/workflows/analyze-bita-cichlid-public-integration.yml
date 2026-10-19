@@ -1,0 +1,63 @@
+name: Analyze BITA real cichlid jaw integration
+
+on:
+  push:
+    branches:
+      - analysis/balance-to-differentiation-accessibility-v1
+    paths:
+      - scripts/analyze_bita_cichlid_public_integration.py
+      - tests/test_bita_cichlid_public_integration.py
+      - .github/workflows/analyze-bita-cichlid-public-integration.yml
+  pull_request:
+    paths:
+      - scripts/analyze_bita_cichlid_public_integration.py
+      - tests/test_bita_cichlid_public_integration.py
+      - .github/workflows/analyze-bita-cichlid-public-integration.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  empirical:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Offline provenance and statistical contract tests
+        run: python -m pytest -q tests/test_bita_cichlid_public_integration.py
+
+      - name: Live original-author GitHub source, exact blob checks and 88-species analysis
+        run: |
+          python -m scripts.analyze_bita_cichlid_public_integration \
+            --output artifacts/bita_cichlid_public_integration_v1.json
+
+      - name: Gate against data drift and implausible analytical changes
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("artifacts/bita_cichlid_public_integration_v1.json").read_text())
+          assert d["data_level"] == "REAL_PUBLIC_SPECIES_TRAIT_DATA"
+          assert d["n_species"] == 88
+          assert d["pinned_commit"] == "575a148a6c6cb90ee957d4290cf3e2d141ca9c14"
+          assert d["source_clade_counts"] == {"A":14,"M":20,"T":29,"U":20,"V":5}
+          a,b=d["results"]
+          assert (a["pc_axes"],b["pc_axes"]) == (3,5)
+          assert abs(a["rv"]-0.10346240944356636) < 1e-8
+          assert abs(b["rv"]-0.18622209789762637) < 1e-8
+          assert abs(a["permutation_p"]-0.0058) < 1e-8
+          assert abs(b["permutation_p"]-0.0002) < 1e-8
+          assert all(z["permutations"] == 4999 for z in (a,b))
+          print("REAL_CICHLID_EMPIRICAL_RESULT_VERIFIED n=88 rv3=0.10346 p3=0.0058 rv5=0.18622 p5=0.0002")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-cichlid-real-88species
+          path: artifacts/bita_cichlid_public_integration_v1.json
+          if-no-files-found: error
