@@ -99,3 +99,18 @@ def test_five_plot_jackknife_does_not_overclaim_missing_sites():
     receipt=w.five_plot_jackknife(.25,estimates)
     assert receipt["status"]=="NOT_IDENTIFIED_INCOMPLETE_GEOGRAPHIC_JACKKNIFE"
     assert "approximate_t4_ci95" not in receipt
+
+
+
+def test_initial_and_final_fruit_response_transformations_are_explicit():
+    src=[{
+        "Year":"Y2022","Plot":"HA","HflowerN":"12","MflowerN":"28",
+        "Height":"14","OvipN":"3","PredationR":"0.25",
+        "InitialFruitN":"10","FinalFruitN":"6",
+    }]
+    initial,missing=w.make_population_rows(src,"initial_fruits")
+    assert missing==0 and initial[0]["y"]==pytest.approx(math.log1p(10))
+    final,missing=w.make_population_rows(src,"final_fruits")
+    assert missing==0 and final[0]["y"]==pytest.approx(math.log1p(6))
+    with pytest.raises(ValueError,match="UNREGISTERED"):
+        w.make_population_rows(src,"unrecognized_endpoint")
