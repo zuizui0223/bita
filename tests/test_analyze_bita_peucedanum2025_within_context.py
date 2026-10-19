@@ -71,3 +71,31 @@ def test_paternity_field_and_unit_consistency():
     assert exc==0 and len(data)==1
     assert data[0]["x"]==pytest.approx(.6)
     assert data[0]["y"]==pytest.approx(math.log1p(5))
+
+
+
+def test_five_plot_jackknife_quantifies_independent_site_uncertainty():
+    estimates={
+        "HA": -0.9988218466795866,
+        "HC": -1.157998073403385,
+        "HD": -1.4882103818652526,
+        "HL": -1.0103294096575572,
+        "KD": -1.4000164825504635,
+    }
+    receipt=w.five_plot_jackknife(-1.2127362061824114,estimates)
+    assert receipt["status"]=="SMALL_FIVE_PLOT_JACKKNIFE_DIAGNOSTIC"
+    assert receipt["n_geographic_plot_clusters"]==5
+    assert receipt["degrees_of_freedom"]==4
+    assert receipt["delete_one_plot_se"]==pytest.approx(.40066969636648936)
+    assert receipt["approximate_t4_ci95"]==pytest.approx(
+        [-2.3251736234602367,-0.10029878890458588]
+    )
+    assert receipt["interval_status"]=="EXCLUDES_ZERO"
+    assert receipt["all_deleted_plot_estimates_same_sign"]
+
+
+def test_five_plot_jackknife_does_not_overclaim_missing_sites():
+    estimates={"HA":.1,"HC":.2,"HD":.3,"HL":.4,"KD":None}
+    receipt=w.five_plot_jackknife(.25,estimates)
+    assert receipt["status"]=="NOT_IDENTIFIED_INCOMPLETE_GEOGRAPHIC_JACKKNIFE"
+    assert "approximate_t4_ci95" not in receipt
