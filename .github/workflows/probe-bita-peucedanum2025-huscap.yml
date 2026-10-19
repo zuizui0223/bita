@@ -130,6 +130,17 @@ jobs:
           assert set(r["models"]) == {"ovip","predation","paternity"}
           assert r["models"]["ovip"]["n_context_groups"] >= 15
           assert r["models"]["paternity"]["n_individuals"] == 106
+          for key, lo, hi, status in (
+              ("ovip",-2.3251736234602367,-0.10029878890458588,"EXCLUDES_ZERO"),
+              ("predation",-0.42802588733242775,0.0509380681016853,"INCLUDES_ZERO"),
+          ):
+              j=r["models"][key]["five_geographic_plot_jackknife"]
+              assert j["n_geographic_plot_clusters"] == 5
+              assert j["degrees_of_freedom"] == 4
+              assert abs(j["approximate_t4_ci95"][0]-lo) < 1e-8
+              assert abs(j["approximate_t4_ci95"][1]-hi) < 1e-8
+              assert j["interval_status"] == status
+              assert j["all_deleted_plot_estimates_same_sign"] is True
           assert "no" in r["claim_limit"].lower() or "not" in r["claim_limit"].lower()
           print("2025_PEUCEDANUM_WITHIN_CONTEXT_OBSERVATIONAL_RESULT",{
               k: {"n":v["n_individuals"],
