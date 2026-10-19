@@ -1,0 +1,55 @@
+name: Probe BITA correct 2025 Peucedanum HUSCAP source
+
+on:
+  push:
+    branches:
+      - analysis/balance-to-differentiation-accessibility-v1
+    paths:
+      - scripts/audit_bita_peucedanum2025_huscap.py
+      - tests/test_audit_bita_peucedanum2025_huscap.py
+      - .github/workflows/probe-bita-peucedanum2025-huscap.yml
+  pull_request:
+    paths:
+      - scripts/audit_bita_peucedanum2025_huscap.py
+      - tests/test_audit_bita_peucedanum2025_huscap.py
+      - .github/workflows/probe-bita-peucedanum2025-huscap.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install offline test runner only
+        run: python -m pip install --disable-pip-version-check pytest
+      - name: Test fail-closed 2025 source identification
+        run: python -m pytest -q tests/test_audit_bita_peucedanum2025_huscap.py
+      - name: Fetch and inspect original HUSCAP 2025 ZIP without publishing raw data
+        run: |
+          python -m scripts.audit_bita_peucedanum2025_huscap \
+            --output artifacts/bita_peucedanum2025_huscap_probe.json
+      - name: Audit receipt says schema-only, never empirical result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("artifacts/bita_peucedanum2025_huscap_probe.json").read_text())
+          assert d["doi"] == "10.14943/hu95572"
+          assert d["receipt_schema"] == "BITA_2025_HUSCAP_SOURCE_SCHEMA_PROBE_V1"
+          assert d["raw_data_redistributed"] is False
+          assert d["statistical_result_computed"] is False
+          assert d["status"] in ("SOURCE_ZIP_VERIFIED_SCHEMA_LISTED","SOURCE_NOT_VERIFIED")
+          print("2025_HUSCAP_PRIMARY_SOURCE_PROBE", d["status"], d.get("zip_sha256", "no_verified_raw"))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-peucedanum-2025-primary-huscap-probe
+          path: artifacts/bita_peucedanum2025_huscap_probe.json
+          if-no-files-found: error
