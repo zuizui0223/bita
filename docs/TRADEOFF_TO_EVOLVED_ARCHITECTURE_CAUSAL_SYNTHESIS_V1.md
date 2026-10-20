@@ -176,6 +176,23 @@ Original article findings kept separate from any re-analysis:
 
 The resulting cross-taxon ecological hypothesis is more precise: **what determines whether functional conflict is mitigated by contemporaneous transfer-route separation, programmed temporal dosing, flexible reversible response, or a new heritable independent module?** Before claiming an evolutionary effect, independently code **mechanism and timing** instead of using the visible presence of two anther types as the endpoint. The [SLK generic three-strategy/value gate](https://github.com/zuizui0223/slk/blob/integration/plasticity-functional-routing-gates-20261020/docs/THREE_STRATEGY_VALUE_AND_ORIGIN_GATE_V1.md) now records programmed timing as a distinct observed strategy for botanical comparisons.
 
+### Executed source-selected cross-mechanism matrix: visible stamen architecture is not a functional module
+
+The follow-on [BALANCE Clarkia–U3 original-source mechanism crosscheck](https://github.com/zuizui0223/balance/blob/data/clarkia-heteranthery-mechanism-20261020/docs/BALANCE_HETERANTHERY_MORPHOLOGY_FUNCTION_TIME_NONBIJECTION_V1.md) now runs an exact evidence join over **8 U3 matched taxa** (4 PASS pairs, **3 frozen dependence blocks**) and **2 Kay2020 Clarkia study taxa** (one original paper and genus block). These **ten selected source taxa are NOT independent transitions or a representative global trait denominator**.
+
+Its registered morphology × ecological mechanism matrix is:
+
+| Morphological heteranthery (source-specific criteria) | Within-flower different-function routing | Among-flower routing | Temporally staged pollen dosing favoured | Unresolved |
+| --- | ---: | ---: | ---: | ---: |
+| Present: 4 U3 cases + 2 Clarkia cases | **4** | 0 | **2** | 0 |
+| Absent: 4 U3 controls | **1** | **1** | 0 | **2** |
+
+This is a **constructive non-bijection**: *Solanum rostratum* and *Clarkia cylindrica* both have visibly distinct anthers but their original ecological tests implicate different mechanisms; *Senna alata* and equal-stamen *S. spectabilis* both show within-flower function routing despite different visible morph classifications. Source taxon definitions differ (Clarkia's comparative character includes colour of the anther whorls, while the U3 studies use varying morphological criteria); these observations reject the **coarse deterministic binary proxy** but do not estimate a cross-species standardized quantitative morphology effect.
+
+Crucially, `TEMPORAL_POLLEN_DOSING_SOURCE_FAVORED` means that Kay2020's original experiments favor gradual pollen presentation, **not** that both whorls are proven physiologically equivalent or that a stage-specific male fitness benefit has been precisely measured. `UNRESOLVED` controls have not been set to zero, and Clarkia article statistics have not been relabeled raw-data reanalysis while Dryad byte access is HOLD (401/403).
+
+**Scientific consequence:** environmental synchrony and functional role allocation must be **independently assayed**; a visually differentiated anther does not certify the existence or historical emergence of an independent simultaneously coexpressed reward/transfer module. A fourth operational strategy, **programmed temporal pollen release**, is required alongside static shared, cue-reversible shared and genuinely independently coexpressed distinct-function modules. This does not revise the PAYOFF mathematical model itself, which has a smaller explicitly declared feasible strategy class. [SLK generic claim and measurement gate](https://github.com/zuizui0223/slk/blob/integration/plasticity-functional-routing-gates-20261020/docs/THREE_STRATEGY_VALUE_AND_ORIGIN_GATE_V1.md).
+
 ## Prospectively falsifiable predictions and necessary contrasts
 
 | Prediction | Required new independent evidence | Serious falsifier/alternative |
