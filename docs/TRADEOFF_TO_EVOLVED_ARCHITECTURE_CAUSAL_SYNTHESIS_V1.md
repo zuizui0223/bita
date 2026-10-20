@@ -103,6 +103,31 @@ Thus actual alternative sex architectures can be found in populations with close
 
 The newly narrowed identification target is explicit: compare **genetically supported, viable shared and sex-separated architectures** with male and female contributions on **one fitness scale**, estimate seed/pollen-mediated differences under the same ecological intervention, and infer historical transitions with uncertainty-aware population nuclear markers rather than equating plastid similarity with a new origin.
 
+## New residual PAYOFF result: permanent differentiation versus reversible plasticity
+
+The separate [PAYOFF plasticity/modularity PR #338](https://github.com/zuizui0223/payoff/pull/338) adds a **third comparator** missing from a simple shared-versus-differentiated value test: a reversible, cue-dependent shared phenotype. It does **not** relabel dichogamy, herkogamy, gender plasticity or a plant-level sexual system as the same biological construction without independent evidence.
+
+The exact synthetic two-function model decomposes the potential cost of one shared coordinate into
+
+```text
+C = ab/(a+b)*Delta²                      unavoidable simultaneous functional conflict
+T = (a-b)²*Delta²/[4(a+b)]              extra cross-environment static mismatch
+LOSS_SHARED = C+T
+LOSS_PLASTIC* = minimized cue-adjusted C+T+B+per-change switching debit
+LOSS_FIXED_MODULES = K                   idealized fully decoupled two-coordinate cost
+```
+
+Its **two different falsifiable phase slices** are:
+
+1. **Perfect cue still cannot remove concurrent conflict:** with `q=1`, no switching or plastic machinery cost, `LOSS_PLASTIC*=C`. Increasing the weaker *simultaneously active* functional demand (`b`) at constant stronger demand (`a`), trait-optimum gap, and module cost `K` can flip the predicted optimum from plastic to fixed modules. A declared synthetic witness has exact `b*=3/11`. This connects directly to the ecological question of **overlap in time / anatomical access of the function pair**, not mere opposite signs in observed selection gradients.
+2. **Fast switching can defeat plasticity:** in a *separately declared* noisy-cue two-state Markov model, cue accuracy `q`, true environment switch probability `rho`, and phenotype-reconfiguration cost are distinct. One fully specified exact witness has `rho*=0.65625`, with PLASTIC best at `rho=.1` and FIXED best at `rho=.9`. The analytic result is exact **only within a memoryless symmetric cue-response policy class**; a better memory-based controller might change the boundary.
+
+Both boundaries were verified with separate unit tests (including exhaustive 16-case environment/cue enumeration). These are **model-only theoretical conditional statements**, not evidence of Wurmbea genetic transitions, and not a claim of mathematical novelty against all previous plasticity theory. Importantly, the model's FIXED architecture coexpresses two independent functional coordinates; it is **not automatically a correct model of separate male versus female individuals**.
+
+**Revised cross-repository causal discriminator:** before studying historical structure origins, independently measure (i) how much of the observed conflict is **simultaneous** rather than sequential across environments, (ii) whether the actual shared phenotype shows reversible cue-dependent response and how costly that response is, (iii) whether a separately realizable fixed structure changes *total* rather than one-sex fitness, and (iv) whether the candidate is heritable/invasible and historically postdates its attributed selective conflict.
+
+**Existing real source limitations remain explicit:** the 1981/1983 marked-plant Wurmbea gender changes and 66%/42% manipulated-resource plasticity observations support reversible phenotypic response; they do **not** identify `q`, `rho`, `C`, `T`, switching cost or `K`. The mating manipulation's 3.7 vs 1.4 female seed advantage does not identify `Phi` or genetic invasion. BALANCE U2 timing/space and U3 sex/pollen-routing architecture codes provide candidate strategy types, but no response is relabeled PLASTIC without a repeated reversible phenotype assay. The first practical empirical comparison still needs source-level data on all three candidate architectures, measured conflict, shared timescale and realistic genetic inheritance. [Theory, proof, model assumptions and counterexamples](https://github.com/zuizui0223/payoff/blob/theory/plastic-compromise-to-modules-20261020/theory/PLASTIC_COMPROMISE_VERSUS_FIXED_ARCHITECTURE.md).
+
 ## Theoretical counterexamples already implied by the registered models
 
 These numbers are **synthetic mathematical examples**, not measured fitness.
