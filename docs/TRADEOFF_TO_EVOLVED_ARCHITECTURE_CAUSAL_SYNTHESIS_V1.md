@@ -160,6 +160,22 @@ The [new BALANCE original-screen timing and architecture analysis](https://githu
 
 The [SLK three-strategy empirical gate](https://github.com/zuizui0223/slk/blob/integration/plasticity-functional-routing-gates-20261020/docs/THREE_STRATEGY_VALUE_AND_ORIGIN_GATE_V1.md) now records the same source-supported limitation. A prospective source-independent taxon × function pair × time-overlap × module-substrate frame with real simultaneous-function fitness and phenotype reversibility assays is needed before promoting a positive structure-selection or historical-origin claim.
 
+## Independent original experimental challenger: Clarkia morphology is not pollen-role division
+
+[Kay et al. (2020), *Proc. R. Soc. B*, DOI 10.1098/rspb.2020.2593](https://pmc.ncbi.nlm.nih.gov/articles/PMC7779490/) tested a **different mechanism behind visibly heterantherous flowers**. In the BALANCE U3 original-source system, *Solanum rostratum* has differentiated feeding versus pollen-transfer anthers. Yet the independent *Clarkia* research programme finds anther dimorphism associated primarily with **gradual/staggered pollen exposure**, not a detected exclusive feeding-versus-export split.
+
+Original article findings kept separate from any re-analysis:
+- Anther-dehiscence overlap differs across **six heterantherous versus five nonheterantherous Clarkia species** (source phylogenetic `F=75.71,p=.002`).
+- Both anther whorls' pollen appears on bee scopae and floral stigmas in *C. cylindrica*; source destination comparison `p=.17` is **not** proof of equal functional loading.
+- In *C. unguiculata* greenhouse dosing arrays (**13** dosing vs **15** no-dosing), fully dehisced anthers expose **4.6 mm vs 1.9 mm** (~2.42 times); stigma pollen deposition shows **no statistically certified gain** from dosing (published no-dosing log coefficient `-0.3507,p=.27`), so the cumulative gradual-presentation explanation cannot be restated as a significantly estimated export increase in this one assay.
+- Original source inferred one heteranthery gain and two losses on its phylogeny; these are **not** observations that pollen-cost trade-offs historically created a novel reward/export functional module.
+
+**Third route warning:** timed pollen presentation is **developmentally scheduled** and may be irreversible within an individual flower. It is *not* automatically a cue-reversible `PLASTIC` strategy in PAYOFF's Markov model, and its morphology is not a genetically proven set of independently optimized coexpressed function coordinates. The fact that *Solanum* and *Clarkia* share visible stamen differentiation but yield different functional interpretations is a direct challenge to coding `heteranthery == evolved anatomical reward/export division` in any macro species database.
+
+**Source access ceiling:** The original [Dryad dataset](https://doi.org/10.5061/dryad.8cz8w9gmp) exposes a version-97733 manifest of **29 files** and original declared SHA256 digests. Anonymous file contents returned **401/403** in independent GitHub Actions attempts; BALANCE [PR #251](https://github.com/zuizui0223/balance/pull/251) therefore reports the original article's source statistics via a transparent audited ledger and no invented raw-data reanalysis. The 29-file archive metadata lack `BombusTrials2018.csv` although original usage notes mention it. This is an explicit recovery gap, **not** evidence of no biological mechanism.
+
+The resulting cross-taxon ecological hypothesis is more precise: **what determines whether functional conflict is mitigated by contemporaneous transfer-route separation, programmed temporal dosing, flexible reversible response, or a new heritable independent module?** Before claiming an evolutionary effect, independently code **mechanism and timing** instead of using the visible presence of two anther types as the endpoint. The [SLK generic three-strategy/value gate](https://github.com/zuizui0223/slk/blob/integration/plasticity-functional-routing-gates-20261020/docs/THREE_STRATEGY_VALUE_AND_ORIGIN_GATE_V1.md) now records programmed timing as a distinct observed strategy for botanical comparisons.
+
 ## Prospectively falsifiable predictions and necessary contrasts
 
 | Prediction | Required new independent evidence | Serious falsifier/alternative |
