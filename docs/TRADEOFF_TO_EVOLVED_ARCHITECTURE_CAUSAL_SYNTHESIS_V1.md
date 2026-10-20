@@ -152,6 +152,14 @@ These numbers are **synthetic mathematical examples**, not measured fitness.
 
 The executable synthetic guards are in the [PAYOFF integration branch tests](https://github.com/zuizui0223/payoff/blob/integration/tradeoff-architecture-causality-20261019/tests/test_tradeoff_architecture_causal_counterexamples.py) and existing [modularization barrier model](https://github.com/zuizui0223/payoff/blob/main/src/modularization_barrier.py). These test model implications, not a biological causal transition.
 
+## Additional real-source test of the simultaneous-demand predictor (2026-10-20)
+
+The [new BALANCE original-screen timing and architecture analysis](https://github.com/zuizui0223/balance/blob/analysis/source-stratified-trait-architecture-20261019/docs/BALANCE_TIMING_FUNCTION_ARCHITECTURE_COMMON_SUPPORT_V1.md) uses frozen U2 and pilot trait/family/timing statuses **without aggregating nonexchangeable review universes** or opening BALANCE V4 outcome coding. In U2, among eight conflict-positive source species, only one has a `SIMULTANEOUS` timing tag and it remains structurally shared. In the selected plant pilot, among 16 source-positive records, eight have `SIMULTANEOUS` timing tags: **four shared pollinator–antagonist**, **three within-flower pollen reward–gamete division**, and **one spatially separated pollinator–prey** source case.
+
+**This new descriptive pattern is not an independent causal overlap effect.** The source-selected positive records have **zero functional-pair strata with complete simultaneity/other × structural/nonstructural 2×2 support**. Therefore ecological timing and the type of trade-off cannot be statistically distinguished as separate determinants of module status in these current frames, and the 3/8 strict structural numerator is not a natural macroevolutionary rate. The registered `SIMULTANEOUS` screening code is not a time-aligned and randomized pure-function-optima experiment, hence cannot estimate the PAYOFF concurrent-demand floor `C`. There is also **no source-coded reversible within-genotype PLASTIC policy** and no matched `W_S,W_P,W_D` result; unresolved source cases remain unresolved.
+
+The [SLK three-strategy empirical gate](https://github.com/zuizui0223/slk/blob/integration/plasticity-functional-routing-gates-20261020/docs/THREE_STRATEGY_VALUE_AND_ORIGIN_GATE_V1.md) now records the same source-supported limitation. A prospective source-independent taxon × function pair × time-overlap × module-substrate frame with real simultaneous-function fitness and phenotype reversibility assays is needed before promoting a positive structure-selection or historical-origin claim.
+
 ## Prospectively falsifiable predictions and necessary contrasts
 
 | Prediction | Required new independent evidence | Serious falsifier/alternative |
