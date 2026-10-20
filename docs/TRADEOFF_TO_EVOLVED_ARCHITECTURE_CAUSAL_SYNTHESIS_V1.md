@@ -2,6 +2,8 @@
 
 **Status: source-grounded integration and prospective falsifiable predictions; NOT a claim of experimentally identified structural origin.**
 
+**Canonical flagship handoff (new SLK Draft PR #120):** [three-strategy value and evolutionary-origin identification gate](https://github.com/zuizui0223/slk/blob/integration/plasticity-functional-routing-gates-20261020/docs/THREE_STRATEGY_VALUE_AND_ORIGIN_GATE_V1.md). It requires comparison of SHARED, cue-REVERSIBLE PLASTIC, and structurally DIFFERENTIATED alternatives on one fitness horizon before promoting an ecological-conflict-induced architecture value. It also separates pollen routing from visible heteranthery and within-individual reversible sexual expression from genetically inherited developmental architectures. This is a generic measurement extension; the active SLK journal manuscript remains unchanged.
+
 ## One focal question, not four interchangeable hypotheses
 
 > Under what ecological, structural and evolutionary conditions does a verified conflict among functions using the same trait coordinate cause a transition toward differentiated trait architecture?
