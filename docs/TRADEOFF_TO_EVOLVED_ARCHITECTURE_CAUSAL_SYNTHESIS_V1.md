@@ -212,6 +212,18 @@ Gamma = [W_D*(conflict-on)-W_S*(conflict-on)]
 
 `Gamma>0` under randomized conditions would support conflict increasing the *relative fitness payoff* of the differentiated alternative. This still does not establish historical origin. `W_D*` and `W_S*` must be optimized or appropriately matched under a predeclared feasible-domain definition; simply comparing extant species with different structures invites ancestry and ecological-confounding bias.
 
+## Outcome-independent pollen-theft comparator U6: a real sampling improvement, not yet an effect
+
+A separate BALANCE [U6 pre-outcome opportunity/taxonomic audit](https://github.com/zuizui0223/balance/blob/audit/u6-preoutcome-taxonomy-20261021/docs/BALANCE_U6_SOURCE_OPPORTUNITY_AND_TAXON_ALIAS_AUDIT_V1.md) verifies a **21-dependency-group pollen-theft / consumptive emasculation source universe** assembled from 157 original Hargreaves et al. (2009) review references **without selecting on stamen morphology**. It provides an upstream ecological counterframe to the U3 heteranthery-positive discovery examples and the Clarkia mechanism study.
+
+The actual source-only findings are:
+- 15/21 taxa have resolved additional generic pollination/flower references; **6 remain source evidence ceiling**;
+- 63 source-side predictor receipts are **SCREENED but 0 ADJUDICATED**; architecture coder A/B forms are **42 UNSTARTED/UNRESOLVED**. Thus structural division, a matched `W_S,W_P,W_D`, and its prevalence are **not measured** in this 21-group frame;
+- all 21 source pollen conflict coordinates are `SINGLE_OR_CONTINUOUS` and `SAME_UNIT` (not morphological nonmodularity); time-of-pollen-theft source tags show **18 simultaneous, 3 sequential**; only time has source-side variation. The three sequential groups describe **visitor arrival order**, not developmental anther dosing nor cue-driven reversible plasticity;
+- the **canonical U6 dependency map already conservatively records two other-universe taxon matches**, *Impatiens capensis* (U1 exact species) and *Melastoma affine* (U3 *M. malabathricum* accepted species concept; [Kew POWO](https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:570553-1)). The old Pass-1 prose reporting no U3 overlap predates this map's taxonomic clarification. Nineteen groups are U6-only relative to these current identity checks, not nineteen statistically independent evolutionary origins.
+
+**Nontrivial methodological consequence:** the current literature evidence provides outcome-selected **known examples of alternative pollen routing** plus an architecture-blind **conflict-first sampling denominator** whose anatomical outcomes are not yet independently known. The central ecology cannot legitimately estimate a structural effect by mixing those two discovery processes or filling U6 outcomes from the heteranthery literature. The next data value comes from completing the originally frozen double-coder architecture evidence while keeping the taxon overlay and conflict-first inclusion rules unchanged. Until then, no real conditional preference for a newly evolved module can be attributed to source-side timing, overlap or a PAYOFF fitness threshold.
+
 ## Macroecological execution: recover pattern before the decisive experiment
 
 1. **Freeze a species/lineage-first sampling frame before reading the focal architecture result.** Stratify by phylogeny and habitat, record study effort and missingness, and include conflict-null/unknown cases. GloBI is an interaction-opportunity layer, **not** an estimate of functional conflict. Its current four-taxon pilot already exposed an authorship homonym for `Solanum rostratum`; propagate accepted taxon IDs and exact authorship rather than name-only joins.
