@@ -137,6 +137,12 @@ interaction routing
 selective defence / interference / bypass
 ```
 
+## Cross-repository causal synthesis (separate from the active Letter)
+
+[Trade-off to evolved architecture: causal integration v1](docs/TRADEOFF_TO_EVOLVED_ARCHITECTURE_CAUSAL_SYNTHESIS_V1.md) connects SCH's shared-coordinate conflict, BALANCE's persistent-compromise world, SLK/PAYOFF's architecture value and evolutionary accessibility, and BITA's orthogonal ecological-mechanism identification.
+
+The integration distinguishes (i) conflict, (ii) a profitable and reachable differentiated alternative, and (iii) independently established **historical origin caused by that conflict**. The first two have exact theoretical examples and partial source-backed ecological support. The third remains untested; no synthesis result is promoted to historical causality or substituted for the current route-specific Letter.
+
 ## Submission route
 
 ```text
