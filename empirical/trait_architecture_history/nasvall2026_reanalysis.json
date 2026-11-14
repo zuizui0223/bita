@@ -1,0 +1,102 @@
+{
+  "study_doi": "10.1093/g3journal/jkag167",
+  "experiment": 2,
+  "data_level": "PUBLISHED_TABLE_AND_AGGREGATE_REEXTRACTION_NOT_RAW_GROWTH",
+  "started_populations": 48,
+  "rescued_table_rows": 31,
+  "groups": {
+    "mutator": {
+      "started": 24,
+      "rescue": 21,
+      "hisA": 9,
+      "trpA": 11,
+      "unresolved": 1,
+      "no_detected_rescue": 3
+    },
+    "nonmutator": {
+      "started": 24,
+      "rescue": 10,
+      "hisA": 0,
+      "trpA": 10,
+      "unresolved": 0,
+      "no_detected_rescue": 14
+    }
+  },
+  "contrasts": {
+    "rescue": {
+      "mutator_events": 21,
+      "mutator_started": 24,
+      "nonmutator_events": 10,
+      "nonmutator_started": 24,
+      "mutator_proportion": 0.875,
+      "nonmutator_proportion": 0.4166666666666667,
+      "risk_difference": 0.4583333333333333,
+      "risk_difference_ci95_newcombe": [
+        0.1895226834132674,
+        0.6486810916675029
+      ],
+      "risk_ratio": 2.1,
+      "risk_ratio_ci95_log_wald": [
+        1.2776159146718593,
+        3.4517415988299245
+      ],
+      "risk_ratio_status": "FINITE_LOG_WALD_CI",
+      "fisher_two_sided_p": 0.0020490192464945366,
+      "holm_p_family_three": 0.004677713278864605
+    },
+    "hisA": {
+      "mutator_events": 9,
+      "mutator_started": 24,
+      "nonmutator_events": 0,
+      "nonmutator_started": 24,
+      "mutator_proportion": 0.375,
+      "nonmutator_proportion": 0.0,
+      "risk_difference": 0.375,
+      "risk_difference_ci95_newcombe": [
+        0.1611330789675395,
+        0.5729003755732571
+      ],
+      "risk_ratio": null,
+      "risk_ratio_ci95_log_wald": null,
+      "risk_ratio_status": "ZERO_REFERENCE_EVENT_PROBABILITY",
+      "fisher_two_sided_p": 0.001559237759621535,
+      "holm_p_family_three": 0.004677713278864605
+    },
+    "trpA": {
+      "mutator_events": 11,
+      "mutator_started": 24,
+      "nonmutator_events": 10,
+      "nonmutator_started": 24,
+      "mutator_proportion": 0.4583333333333333,
+      "nonmutator_proportion": 0.4166666666666667,
+      "risk_difference": 0.04166666666666663,
+      "risk_difference_ci95_newcombe": [
+        -0.22330755524072526,
+        0.2986306099751189
+      ],
+      "risk_ratio": 1.0999999999999999,
+      "risk_ratio_ci95_log_wald": [
+        0.5783746827062767,
+        2.0920694424906032
+      ],
+      "risk_ratio_status": "FINITE_LOG_WALD_CI",
+      "fisher_two_sided_p": 1.0,
+      "holm_p_family_three": 1.0
+    }
+  },
+  "route_risk_difference_decomposition": {
+    "hisA": 0.375,
+    "trpA": 0.04166666666666663,
+    "unresolved": 0.041666666666666664
+  },
+  "decomposition_is_arithmetic_not_causal_mediation": true,
+  "new_quantitative_studies": 1,
+  "pooled_meta_analysis_performed": false,
+  "empirical_hysteresis_effect_identified": false,
+  "gene_duplication_prevalence_estimated": false,
+  "selection_regime_effect_identified": false,
+  "theoretical_parameters_calibrated": [],
+  "intervals_assume_independent_populations": true,
+  "source_url": "https://academic.oup.com/g3journal/advance-article/doi/10.1093/g3journal/jkag167/8725334?searchresult=1",
+  "claim_boundary": "Exploratory reanalysis of one published experiment: background-associated physiological rescue and alternative gene-route access. Genetic background is not matched adaptation history. No K(u), entry or persistence threshold, genetic hysteresis, biochemical kinetic equivalence, or cross-study regime causal effect is identified. Table 1 is positive-outcome-selected; all 48 started populations remain in the denominators. Endpoints share populations."
+}
