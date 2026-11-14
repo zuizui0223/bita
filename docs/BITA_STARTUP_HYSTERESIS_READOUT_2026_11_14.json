@@ -1,0 +1,162 @@
+{
+  "claim_boundary": "conditional phenotype-landscape hysteresis under a specified local dynamic law; not evidence for historical origin, genetic inheritance, speciation, permanent irreversibility, empirical K(u), or a calibrated meta-analytic effect. The physical split is u*d; u is a normalized coordinate, not an observed organ size.",
+  "cost_interpretation": "state-dependent cost, not a one-off historical expenditure; K(u) stays fixed as d varies",
+  "data_level": "THEORY_ONLY",
+  "dynamics_assumption": "quasi-static projected-gradient ascent on u in [0,1]; fixed weights, coupling, cost and tau; no drift, finite jumps, recombination or physical-time inference",
+  "empirical_identification": {
+    "current_lanes": [
+      "plant allocation",
+      "phylogenetic jaw covariance",
+      "floral interaction routing"
+    ],
+    "identified_history_dependent_thresholds": 0,
+    "not_sufficient": [
+      "a cross-sectional trait-environment correlation",
+      "bimodality alone",
+      "related species differing in traits",
+      "a delayed transient without quasi-static stability",
+      "a null current association"
+    ],
+    "required_contrast": "same measured current environment and comparable lineages with independently recorded divergent histories; ideally controlled up/down perturbation with relaxation-time checks"
+  },
+  "example": {
+    "locally_stable_but_globally_inferior": {
+      "distance": 0.96,
+      "equilibria": {
+        "data_level": "THEORY_ONLY",
+        "differentiated_fraction": 0.26264271798973526,
+        "phase": "BISTABLE",
+        "shared_locally_stable": true,
+        "unstable_fraction": 0.12720025935348822
+      },
+      "score_of_differentiated_state": -0.005272459883957609
+    },
+    "loop": {
+      "boundary_interpretation": "grid event is bracketed by exact boundary, not an exact numeric replacement for it",
+      "down_first_shared_d": 0.947,
+      "ramp_max": 1.1,
+      "ramp_min": 0.9,
+      "selected_path_points": [
+        {
+          "ascending_u": 0.0,
+          "descending_u": 0.0,
+          "distance": 0.94
+        },
+        {
+          "ascending_u": 0.0,
+          "descending_u": 0.0,
+          "distance": 0.947
+        },
+        {
+          "ascending_u": 0.0,
+          "descending_u": 0.20664937347145512,
+          "distance": 0.948
+        },
+        {
+          "ascending_u": 0.0,
+          "descending_u": 0.26264271798973526,
+          "distance": 0.96
+        },
+        {
+          "ascending_u": 0.0,
+          "descending_u": 0.29662366659102135,
+          "distance": 0.98
+        },
+        {
+          "ascending_u": 0.0,
+          "descending_u": 0.3182809732583526,
+          "distance": 1.0
+        },
+        {
+          "ascending_u": 0.0,
+          "descending_u": 0.3345657476324691,
+          "distance": 1.02
+        },
+        {
+          "ascending_u": 0.0,
+          "descending_u": 0.33739810217940414,
+          "distance": 1.024
+        },
+        {
+          "ascending_u": 0.33808797901867804,
+          "descending_u": 0.33808797901867804,
+          "distance": 1.025
+        },
+        {
+          "ascending_u": 0.3476676430196382,
+          "descending_u": 0.3476676430196382,
+          "distance": 1.04
+        },
+        {
+          "ascending_u": 0.35861755448329236,
+          "descending_u": 0.35861755448329236,
+          "distance": 1.06
+        }
+      ],
+      "step": 0.001,
+      "up_first_split_d": 1.025
+    },
+    "parameters": {
+      "activation_scale": 0.3,
+      "cost_cap": 0.315,
+      "coupling": 0.5,
+      "weight_1": 1.0,
+      "weight_2": 1.0
+    },
+    "same_environment_d1": {
+      "from_differentiated": 0.3182809732583526,
+      "from_shared": 0.0
+    },
+    "thresholds": {
+      "data_level": "THEORY_ONLY",
+      "entry_distance": 1.02469507659596,
+      "fold_fraction": 0.2,
+      "global_gain_distance": 0.9736420087943984,
+      "has_hysteresis": true,
+      "log_persistence_distance": -0.053525439365621916,
+      "numerically_resolved": true,
+      "persistence_distance": 0.9478818271847161
+    }
+  },
+  "fold": "u_fold=s-tau; log(d_fold/d_entry)=(1-1/r-log(r))/2 for r<1",
+  "model": "BITA_EXPONENTIAL_STARTUP_HISTORY_DEPENDENCE_V1",
+  "new_independent_biological_studies": 0,
+  "source_model_commit": "924a2338dc253db4818648d9e550fdbec74de775",
+  "stationary_equation": "log(d^2/d_entry^2)=t+expm1(-t)/r; t=-log(1-u/s), r=tau/s",
+  "synthetic_grid": {
+    "cost_caps": [
+      0.1,
+      0.315
+    ],
+    "couplings": [
+      0,
+      0.2,
+      0.5,
+      1.5
+    ],
+    "interpretation": "finite numerical audit, not natural frequencies or independent studies",
+    "n": 120,
+    "strict_order_passed": 120,
+    "tau_over_s": [
+      0.2,
+      0.5,
+      0.8,
+      0.95,
+      0.99
+    ],
+    "weights": [
+      [
+        1,
+        1
+      ],
+      [
+        0.5,
+        2
+      ],
+      [
+        2,
+        0.5
+      ]
+    ]
+  }
+}
