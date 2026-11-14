@@ -4,7 +4,7 @@
 
 ## Previously frozen model
 
-For function weights \(\ w_1,w_2>0\), residual interference \(\lambda\geq0\), function-optimum distance \(d>0\), and separation \(0\leq u\leq1\), let
+For function weights \(w_1,w_2>0\), residual interference \(\lambda\geq0\), function-optimum distance \(d>0\), and separation \(0\leq u\leq1\), let
 
 \[
 h=\frac{w_1w_2}{w_1+w_2},\quad
@@ -94,8 +94,8 @@ Hold \(w_1=w_2=1\), \(\lambda=0.5\), \(d=1\), so \(h=s=0.5\). Use \(\tau=0.30\),
 
 ## Numerical safeguards and reproducibility
 
-The new regression tests use the frozen implementation in \`trait_architecture/evolutionary_accessibility.py\` and test (i) the explicit \(\tau=0.3\) positive-gain witness, (ii) 324 distinct \(\tau\geq s\), negative-initial-gradient configurations, and (iii) 36 additional constructive \(\tau=0.75s<s\) parameter configurations. The \(\tau\geq s\) impossibility itself rests on the inequality proof, not on a finite parameter grid.
+The new regression tests use the frozen implementation in `trait_architecture/evolutionary_accessibility.py` and test (i) the explicit \(\tau=0.3\) positive-gain witness, (ii) 324 distinct \(\tau\geq s\), negative-initial-gradient configurations, and (iii) 36 additional constructive \(\tau=0.75s<s\) parameter configurations. The \(\tau\geq s\) impossibility itself rests on the inequality proof, not on a finite parameter grid.
 
-Command: \`pytest -q tests/test_evolutionary_accessibility_exact_window.py\`
+Command: `pytest -q tests/test_evolutionary_accessibility_exact_window.py`
 
 **Inference ceiling:** This extension corrects the *mathematical sharpness of the feasibility statement within the assumed exponential family*. It does not measure real \(K(u)\), \(\tau\), \(s\), genetic mutational accessibility, organismal fitness, historical origin, or frequency of differentiation in nature. The broad specialization/pleiotropy question predates BITA (Rüffler et al. 2012, PNAS, DOI 10.1073/pnas.1110521109; Guillaume & Otto 2012, Genetics, DOI 10.1534/genetics.112.143214). The ecological Letter and published-data effect tables are untouched.
