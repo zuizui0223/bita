@@ -1,0 +1,48 @@
+{
+  "study_doi": "10.1093/g3journal/jkag167",
+  "first_online": "2026-07-06",
+  "issue": "2026-10",
+  "experiment": 2,
+  "endpoint_population_doublings_approx": 85,
+  "data_level": "PUBLISHED_TABLE_AND_AGGREGATE_REEXTRACTION_NOT_RAW_GROWTH",
+  "unit": "independently founded experimental population as described by source; independence conditional on no cross-contamination",
+  "groups": {
+    "mutator": {
+      "started": 24,
+      "reported_rescue": 21,
+      "reported_hisA": 9,
+      "reported_trpA": 11,
+      "reported_unresolved": 1
+    },
+    "nonmutator": {
+      "started": 24,
+      "reported_rescue": 10,
+      "reported_hisA": 0,
+      "reported_trpA": 10,
+      "reported_unresolved": 0
+    }
+  },
+  "endpoint_definition": "Growth more turbid than its own ancestor at the published endpoint assay (Table 1 footnote a); no-rescue means not meeting this endpoint, not no possible biochemical function.",
+  "source_locator": "Results: Experimental evolution restores growth; Table 1 and footnotes a-f",
+  "source_url": "https://academic.oup.com/g3journal/advance-article/doi/10.1093/g3journal/jkag167/8725334?searchresult=1",
+  "source_mirror": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13643763/",
+  "extraction_date": "2026-11-14",
+  "source_checks": [
+    "Table 1 rows verified against publisher-indexed full text and PMC-indexed table.",
+    "Author aggregate totals separately reproduce 21 and 10 rescued populations, 9 hisA and 21 trpA across both groups."
+  ],
+  "not_available": [
+    "source supplemental ZIP bytes",
+    "replicate growth curves",
+    "every-population copy-number surveillance"
+  ],
+  "limitations": [
+    "One unresolved rescued population retained.",
+    "Gene-specific events are alternatives, not independent outcome samples.",
+    "All three contrasts are post-publication exploratory; Holm family includes rescue, hisA route and trpA route.",
+    "Mutator background changes mutation spectrum, not solely a scalar mutation rate.",
+    "Article acknowledges cross-contamination cannot be entirely excluded; calculated intervals assume independent populations.",
+    "No adaptation-history-matched or bidirectional reversal contrast.",
+    "No inference of absence of gene amplification in all 48 populations from targeted sequencing."
+  ]
+}
