@@ -1,0 +1,70 @@
+name: audit-bita-bacillus-history-source
+on:
+  push:
+    branches: ['analysis/bita-bacillus-conditional-sign-20261115']
+    paths:
+      - '.github/workflows/audit-bita-bacillus-history-source.yml'
+  pull_request:
+    branches: ['analysis/bita-bacillus-benefit-persistence-20261115']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-supplement-and-manuscript:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download official supplementary PDF and institutional accepted full text
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request,urllib.error,hashlib,json,subprocess
+          from pathlib import Path
+          p=Path('original_sources');p.mkdir(exist_ok=True)
+          urls={
+            'nature_supplementary_information':'https://static-content.springer.com/esm/art%3A10.1038%2Fs41564-018-0263-y/MediaObjects/41564_2018_263_MOESM1_ESM.pdf',
+            'dtu_accepted_manuscript':'https://backend.orbit.dtu.dk/ws/portalfiles/portal/176479224/Dragos_et_al_NatMicrobiol_Accepted_version_with_Figures.pdf',
+          }
+          result={}
+          for k,u in urls.items():
+              try:
+                  req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0 (scientific data audit)','Accept':'application/pdf'})
+                  with urllib.request.urlopen(req,timeout=32) as resp:
+                      b=resp.read(6500000)
+                      status=resp.status
+                  if not b.startswith(b'%PDF'):
+                      raise ValueError('download is not valid PDF')
+                  dest=p/(k+'.pdf')
+                  dest.write_bytes(b)
+                  record={'status':status,'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest(),'url':u}
+                  try:
+                      subprocess.run(['pdftotext','-layout',str(dest),str(p/(k+'.txt'))],check=True,timeout=30)
+                      text=(p/(k+'.txt')).read_text(errors='replace')
+                      record['extracted_characters']=len(text)
+                      record['keyword_windows']={}
+                      for word in ('Fig. 1','Fig. 6','Supplementary Figure 11','fitness','monoculture','co-culture','initial'):
+                          index=text.lower().find(word.lower())
+                          if index>=0:
+                              record['keyword_windows'][word]=text[max(0,index-180):index+450].strip()
+                  except Exception as ex:
+                      record['pdf_text_extract_error']=type(ex).__name__
+                  result[k]=record
+              except urllib.error.HTTPError as ex:
+                  result[k]={'status':ex.code,'reason':str(ex.reason),'url':u}
+              except Exception as ex:
+                  result[k]={'status':'ERROR','reason':type(ex).__name__+': '+str(ex)[:170],'url':u}
+          (p/'receipt.json').write_text(json.dumps(result,indent=2,ensure_ascii=False))
+          print('BITA_BACILLUS_HISTORY_SOURCE_RECEIPT:'+json.dumps(result,ensure_ascii=False,separators=(',',':')),flush=True)
+          if result['nature_supplementary_information'].get('status')!=200:
+              raise ValueError('official Nature supplementary PDF unavailable, source audit incomplete')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-bacillus-nature-history-original-sources
+          path: original_sources/
+          if-no-files-found: error
+          retention-days: 21
