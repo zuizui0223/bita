@@ -1,0 +1,50 @@
+name: analyze-bita-elife-2025
+on:
+  push:
+    branches: ['analysis/bita-independent-data-20261115']
+    paths:
+      - 'scripts/analyze_bita_elife2025_replica_analysis.py'
+      - 'tests/test_bita_elife2025_replica_analysis.py'
+      - 'empirical/trait_architecture_history/mihajlovic2025_fig2_fig3_replicates.csv'
+      - '.github/workflows/analyze-bita-elife-2025.yml'
+  pull_request:
+    branches: ['analysis/bita-real-pattern-recovery-20261114']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent-line-analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run fixed endpoint reanalysis
+        run: python -m scripts.analyze_bita_elife2025_replica_analysis
+      - name: Check source row identities and exact line-level tests
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_bita_elife2025_replica_analysis.py
+      - name: Emit frozen machine-readable result receipt
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('empirical/trait_architecture_history/mihajlovic2025_replica_reanalysis.json')
+          result=json.loads(p.read_text())
+          assert result['doi']=='10.7554/eLife.97216.3'
+          assert result['independent_biological_replicates_per_group']==3
+          print('BITA_ELIFE_JSON:'+json.dumps(result,ensure_ascii=False,separators=(',',':')))
+          PY
+      - name: Archive original source-cell contrast readout
+        uses: actions/upload-artifact@v4
+        with:
+          name: bita-elife-2025-replicate-readout
+          path: |
+            empirical/trait_architecture_history/mihajlovic2025_fig2_fig3_replicates.csv
+            empirical/trait_architecture_history/mihajlovic2025_replica_reanalysis.json
+          if-no-files-found: error
+          retention-days: 30
