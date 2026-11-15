@@ -1,0 +1,78 @@
+name: bita-public-data-discovery
+on:
+  push:
+    branches: ['analysis/bita-macro-functional-split-20261115']
+    paths: ['.github/workflows/bita-public-data-discovery.yml']
+  pull_request:
+    branches: ['analysis/bita-fcy1-matched-complementarity-20261115']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect-public-datasets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Resolve Dryad Figshare and Zenodo metadata without protected downloads
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request,urllib.error,urllib.parse,json,re,hashlib
+          from pathlib import Path
+          h={'User-Agent':'BITA-ecological-source-audit/1.0 (public-data, no auth)','Accept':'application/json'}
+          def read(url):
+              req=urllib.request.Request(url,headers=h)
+              try:
+                  with urllib.request.urlopen(req,timeout=20) as r:
+                      data=r.read(900000);code=r.status
+                  return code,json.loads(data)
+              except urllib.error.HTTPError as ex:
+                  return ex.code,{'error':ex.reason,'body':ex.read(200).decode('utf8','replace')}
+              except Exception as ex:return 'ERROR',{'error':type(ex).__name__+': '+str(ex)[:200]}
+          sources={}
+          for name,doi in [('pseudomonas_2022','10.5061/dryad.2bvq83bs4'),
+                            ('clarkia_2020','10.5061/dryad.8cz8w9gmp'),
+                            ('merianieae_2021','10.5061/dryad.gxd2547m1')]:
+              url='https://datadryad.org/api/v2/datasets/'+urllib.parse.quote('doi:'+doi,safe='')
+              code,body=read(url)
+              versions_url=url+'/versions'
+              c2,v2=read(versions_url) if code==200 else ('NOT_ATTEMPTED',{})
+              parsed=[]
+              if c2==200:
+                  for elem in v2.get('_embedded',{}).get('stash:versions',[]):
+                      parsed.append({'id':elem.get('id'),'versionNumber':elem.get('versionNumber'),'files':elem.get('_links',{}).get('stash:files',{}).get('href')})
+                  version_id=next((p['id'] for p in parsed if p['id']),None)
+                  if version_id:
+                      c3,file_body=read('https://datadryad.org/api/v2/versions/'+str(version_id)+'/files?per_page=100')
+                      lst=file_body.get('_embedded',{}).get('stash:files',[]) if c3==200 else []
+                      if not lst:
+                          lst=file_body.get('_embedded',{}).get('files',[]) if c3==200 else []
+                      file_status={'status':c3,'n':len(lst),'files':[{'id':f.get('id'),'path':f.get('path'),'size':f.get('size'),'sha256_digest':f.get('digest')} for f in lst[:35]]}
+                  else:file_status={'status':'NO_VERSION_ID'}
+              else:file_status={'status':'NO_FILES_FETCHED'}
+              sources[name]={'dataset_status':code,'versions_status':c2,
+                  'metadata':{'title':body.get('title'),'id':body.get('id'),'versionNumber':body.get('versionNumber'),'_links':body.get('_links')},
+                  'versions':parsed,'file_status':file_status}
+          for name,u in [('figshare_collection','https://api.figshare.com/v2/collections/5230678'),
+                         ('figshare_articles','https://api.figshare.com/v2/collections/5230678/articles'),
+                         ('zenodo_merianieae','https://zenodo.org/api/records/7659158')]:
+              code,body=read(u)
+              if isinstance(body,list): items=[{'id':x.get('id'),'title':x.get('title'),'doi':x.get('doi')} for x in body[:30]]
+              elif name=='zenodo_merianieae':
+                  files=body.get('files',[])
+                  items=[{'key':x.get('key'),'size':x.get('size'),'checksum':x.get('checksum'),'url':x.get('links',{}).get('self')} for x in files[:45]]
+              else:
+                  items={'id':body.get('id'),'doi':body.get('doi'),'title':body.get('title'),'articles_count':body.get('articles_count'),'error':body.get('error')}
+              sources[name]={'status':code,'items':items}
+          Path('source-discovery.json').write_text(json.dumps(sources,indent=2,ensure_ascii=False))
+          print('BITA_SOURCE_DISCOVERY_JSON:'+json.dumps(sources,ensure_ascii=False,separators=(',',':')))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-source-discovery-20261115
+          path: source-discovery.json
+          retention-days: 14
