@@ -3,6 +3,9 @@ on:
   push:
     branches: ['analysis/bita-independent-data-20261115']
     paths: ['.github/workflows/source-intake-elife-97216.yml']
+  pull_request:
+    branches: ['analysis/bita-real-pattern-recovery-20261114']
+    paths: ['.github/workflows/source-intake-elife-97216.yml']
   workflow_dispatch:
 permissions:
   contents: read
