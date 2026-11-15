@@ -200,8 +200,7 @@ def analyze_source_xlsx(data: bytes) -> dict:
                     for p in profiles if p["mutation"]["position"] in absent_late
                 ],
             })
-    if (len(unexpected)!=1
-        or unexpected[0]["cell_value"]!="11"
+    if (len(unexpected)!=0
         or stable_baseline!={"delta_eps":[
            {"position":375887,"gene":"hxlA"},
            {"position":3502519,"gene":"ganA"}],
