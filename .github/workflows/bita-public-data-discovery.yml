@@ -68,6 +68,51 @@ jobs:
               else:
                   items={'id':body.get('id'),'doi':body.get('doi'),'title':body.get('title'),'articles_count':body.get('articles_count'),'error':body.get('error')}
               sources[name]={'status':code,'items':items}
+          # Explicit first-party Dryad file listing and unauthenticated download status.
+          for key in ('pseudomonas_2022','clarkia_2020','merianieae_2021'):
+              record=sources[key]
+              href=record['metadata'].get('_links',{}).get('stash:version',{}).get('href','')
+              if not href:continue
+              code,details=read('https://datadryad.org'+href+'/files?per_page=100')
+              files=details.get('_embedded',{}).get('stash:files',[]) if code==200 else []
+              record['file_status']={'status':code,'n':len(files),'files':[
+                  {'path':x.get('path'),'id':x.get('id'),'size':x.get('size'),
+                   'sha256':x.get('digest')} for x in files[:40]]}
+              targets=[x for x in files if str(x.get('path','')).endswith(('.xlsx','.csv'))]
+              if targets:
+                  tid=targets[0].get('id')
+                  if tid:
+                      url='https://datadryad.org/api/v2/files/'+str(tid)+'/download'
+                      req=urllib.request.Request(url,headers={'User-Agent':'BITA-ecological-source-audit/1.0'})
+                      try:
+                          with urllib.request.urlopen(req,timeout=18) as resp:
+                              sniff=resp.read(1024)
+                              record['anonymous_download']={'status':resp.status,'peek_sha256':hashlib.sha256(sniff).hexdigest()}
+                      except urllib.error.HTTPError as ex:
+                          record['anonymous_download']={'status':ex.code,'reason':str(ex.reason)}
+                      except Exception as ex:
+                          record['anonymous_download']={'status':'ERROR','reason':type(ex).__name__}
+          # Inspect publicly released Zenodo script archive without guessing its dataset.
+          import zipfile,io
+          try:
+              u='https://zenodo.org/api/records/7659158/files/skripts.zip/content'
+              req=urllib.request.Request(u,headers={'User-Agent':'BITA-ecological-source-audit/1.0'})
+              with urllib.request.urlopen(req,timeout=24) as resp:
+                  raw=resp.read(1200000)
+              z=zipfile.ZipFile(io.BytesIO(raw))
+              names=z.namelist()
+              preview=[]
+              for name in names:
+                  if name.lower().endswith(('.csv','.tsv','.tre','.r','.txt')) and not name.startswith('__MACOSX'):
+                      info=z.getinfo(name)
+                      if info.file_size<=300000 and len(preview)<45:
+                          textdata=z.read(name).decode('utf-8','replace')
+                          preview.append({'name':name,'size':info.file_size,'first_lines':textdata.splitlines()[:5]})
+              sources['zenodo_merianieae_archive']={
+                 'status':200,'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest(),
+                 'names':names[:180],'n':len(names),'previews':preview}
+          except Exception as ex:
+              sources['zenodo_merianieae_archive']={'status':'ERROR','reason':type(ex).__name__+': '+str(ex)[:100]}
           Path('source-discovery.json').write_text(json.dumps(sources,indent=2,ensure_ascii=False))
           print('BITA_SOURCE_DISCOVERY_JSON:'+json.dumps(sources,ensure_ascii=False,separators=(',',':')))
           PY
