@@ -68,14 +68,16 @@ def test_frozen_source_reanalysis_keeps_discordant_self_pair_outside_heteromers(
     assert record["source_growth_workbooks_missing"] == [
         "plate_6_C.xlsx", "plate_6_D.xlsx"]
     all_pairs = record["unrestricted_including_same_allele_controls"]
-    assert (all_pairs["total_pairs"], all_pairs["measured"], all_pairs["missing"]) == (171,168,3)
+    assert (all_pairs["total_pairs"], all_pairs["measured"], all_pairs["missing"]) == (171,167,4)
     assert (all_pairs["screen_positive_and_growth_positive"],
             all_pairs["screen_positive_and_growth_negative"],
             all_pairs["screen_negative_and_growth_positive"],
-            all_pairs["screen_negative_and_growth_negative"]) == (24,3,4,137)
+            all_pairs["screen_negative_and_growth_negative"]) == (24,3,3,137)
     primary = record["primary_distinct_variant_pairs"]
     assert (primary["total_pairs"],primary["measured"],primary["missing"]) == (153,152,1)
     assert (primary["TP"],primary["FP"],primary["FN"],primary["TN"]) == (24,3,3,122)
-    assert record["known_discrepancy"]["pair"] == ["M93G","M93G"]
-    assert record["known_discrepancy"]["in_primary_heteromer_analysis"] is False
+    assert record["source_excluded_contaminated_control"]["pair"] == ["M93G","M93G"]
+    assert record["source_excluded_contaminated_control"]["reason"] == "cross_contamination_reported_by_authors"
+    assert record["source_excluded_contaminated_control"]["raw_measurement_retained_not_scored"] == pytest.approx(.13188)
+    assert record["source_excluded_contaminated_control"]["in_primary_heteromer_analysis"] is False
     assert record["no_meta_analysis"] and record["fitness_comparison_shared_vs_divided_architecture_not_identified"]
