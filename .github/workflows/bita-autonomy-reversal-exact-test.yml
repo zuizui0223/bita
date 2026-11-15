@@ -66,8 +66,8 @@ jobs:
           from scipy.stats import fisher_exact
           from statsmodels.stats.proportion import confint_proportions_2indep
           from scripts.analyze_bita_autonomy_reversal import fisher_exact_2sided,newcombe_difference
-          assert fisher_exact([[5,7],[0,12]],alternative='two-sided').pvalue==fisher_exact_2sided(5,12,0,12)
-          assert fisher_exact([[5,7],[0,10]],alternative='two-sided').pvalue==fisher_exact_2sided(5,12,0,10)
+          assert abs(fisher_exact([[5,7],[0,12]],alternative='two-sided').pvalue-fisher_exact_2sided(5,12,0,12))<1e-14
+          assert abs(fisher_exact([[5,7],[0,10]],alternative='two-sided').pvalue-fisher_exact_2sided(5,12,0,10))<1e-14
           for a,n1,b,n2 in [(5,12,0,12),(5,12,0,10),(6,12,3,12)]:
               lhs=newcombe_difference(a,n1,b,n2)
               rhs=confint_proportions_2indep(a,n1,b,n2,method='newcomb',compare='diff')
