@@ -1,0 +1,83 @@
+name: bita-pseudomonas-published-study-evidence
+on:
+  push:
+    branches: ['analysis/bita-pseudomonas-wt-comparison-20261115']
+    paths:
+      - '.github/workflows/bita-pseudomonas-published-study-evidence.yml'
+  pull_request:
+    branches: ['analysis/bita-macro-functional-split-20261115']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-primary-literature:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check official Dryad public browser URL once and record response
+        shell: bash
+        run: |
+          python - <<'PY'
+          from urllib.request import Request,urlopen
+          from urllib.error import HTTPError
+          import json
+          cases=[
+             'https://datadryad.org/downloads/file_stream/1379566',
+             'https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.2bvq83bs4/download',
+          ]
+          for u in cases:
+              req=Request(u,headers={'User-Agent':'Mozilla/5.0 (source verification only)','Referer':'https://datadryad.org/dataset/doi%3A10.5061/dryad.2bvq83bs4'})
+              try:
+                  with urlopen(req,timeout=15) as r:
+                      b=r.read(350000)
+                      status={'url':u,'status':r.status,'bytes':len(b),'mime':r.headers.get('content-type'),'final_domain':r.url.split('/')[2]}
+              except HTTPError as e:
+                  status={'url':u,'status':e.code,'reason':str(e.reason),'content_type':e.headers.get('content-type')}
+              except Exception as e:
+                  status={'url':u,'status':'ERROR','reason':type(e).__name__}
+              print('DRYAD_ACCESS_GATE:'+json.dumps(status),flush=True)
+          PY
+      - name: Retrieve open original article XML and page-level evidence
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request,hashlib,xml.etree.ElementTree as ET,json,re
+          from pathlib import Path
+          u='https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9323447/fullTextXML'
+          req=urllib.request.Request(u,headers={'User-Agent':'BITA-primary-source-recovery/1.0','Accept':'application/xml'})
+          with urllib.request.urlopen(req,timeout=30) as r:
+              raw=r.read(1400000)
+          article=ET.fromstring(raw)
+          Path('evidence').mkdir(exist_ok=True)
+          Path('evidence/PMC9323447.xml').write_bytes(raw)
+          def plain(element):
+              return ' '.join(' '.join(''.join(element.itertext()).split()).split())
+          records=[]
+          for section in article.iter('sec'):
+              title=section.find('title')
+              if title is None:continue
+              name=plain(title)
+              if not name:continue
+              paragraphs=[plain(p) for p in section.findall('p')]
+              if not paragraphs:continue
+              keep=[p for p in paragraphs if any(z in p.lower() for z in ('wildtype','wild-type','specialist','iron','growth','fitness','productivity'))]
+              if keep:records.append({'section':name,'n_paragraphs':len(paragraphs),'matched_paragraphs':keep[:25]})
+          figs=[]
+          for fig in article.iter('fig'):
+              label=plain(fig.find('label')) if fig.find('label') is not None else ''
+              cap=fig.find('caption')
+              if cap is not None:figs.append({'id':fig.get('id'),'label':label,'caption':plain(cap)})
+          out={'url':u,'doi':'10.1111/jeb.14001','pmcid':'PMC9323447','sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw),'sections':records,'figure_captions':figs}
+          Path('evidence/published_source_readout.json').write_text(json.dumps(out,indent=2,ensure_ascii=False))
+          print('BITA_PSEUDOMONAS_JATS_EVIDENCE:'+json.dumps({'sha256':out['sha256'],'figures':figs,'sections':records[:8]},ensure_ascii=False),flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-pseudomonas-original-publication-evidence
+          path: evidence/
+          if-no-files-found: error
+          retention-days: 30
