@@ -220,19 +220,30 @@ def reproduce_original_plate_analysis(source_root: Path) -> dict:
     all_genotypes = set(VALIDATION_ALLELES)
     panel_hits = {pair for pair in positives
                   if pair[0] in all_genotypes and pair[1] in all_genotypes}
+    contaminated_raw = lookup("M93G", "M93G")
     for a,b in itertools.combinations_with_replacement(VALIDATION_ALLELES, 2):
-        panel.append({"pair": (a,b), "rates": (lookup(a,b), lookup(b,a))})
+        # Després et al. 2024 Methods explicitly excluded this diploid-stock
+        # genotype because of cross-contamination. The source workbook still
+        # contains the signal; preserve its value as QC, NEVER score growth.
+        measured = (None, None) if a == b == "M93G" else (lookup(a,b), lookup(b,a))
+        panel.append({"pair": (a,b), "rates": measured})
     classified = classify_panel(panel,panel_hits)
     counts = summarize_classification(classified)
     strict = [r for r in classified if r["allele_1"] != r["allele_2"]]
     homomer_controls = [r for r in classified if r["allele_1"] == r["allele_2"]]
     strict_counts = summarize_classification(strict)
     control_counts = summarize_classification(homomer_controls)
-    # Source executed notebook lists 24/3/3/137 and four unmeasured.
-    # Direct raw files leave M93G/M93G measured high (0.13188 OD/h).
-    # This is a same-allele control, NOT an independently rescuing
-    # heteromer. Preserve discrepancy instead of overwriting its value.
-    anomalous = [r for r in homomer_controls if r["growth_positive_at_0_02"] is True]
+    # The published Methods resolve the prior notebook-versus-workbook
+    # discrepancy: M93G/M93G was intentionally EXCLUDED as contaminated.
+    # Original workbook value is recorded separately, not a valid endpoint.
+    source_excluded = {
+        "pair": ["M93G", "M93G"],
+        "reason": "cross_contamination_reported_by_authors",
+        "raw_measurement_retained_not_scored": contaminated_raw,
+        "in_primary_heteromer_analysis": False,
+        "source_locator": "Després et al. 2024, Methods: Mating and growth rate measurements",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10888846/",
+    }
     return {
         "paper_doi": "10.1126/science.ado5719",
         "original_repo": "Landrylab/Despres_et_al_2024",
@@ -246,9 +257,9 @@ def reproduce_original_plate_analysis(source_root: Path) -> dict:
         "counts": counts,
         "distinct_allele_heteromer_counts": strict_counts,
         "same_allele_homomer_controls": control_counts,
-        "anomalous_positive_same_allele_controls": anomalous,
+        "source_excluded_contaminated_control": source_excluded,
         "source_notebook_cached_summary": {"TP":24, "FP":3, "FN":3, "TN":137, "unmeasured":4},
-        "raw_source_discrepancy_status": "ONE_ADDITIONAL_MEASURED_M93G_M93G_HIGH_GROWTH_VS_SAVED_NOTEBOOK_OUTPUT",
+        "raw_source_discrepancy_status": "RESOLVED_BY_PUBLISHED_CROSS_CONTAMINATION_EXCLUSION",
         "missing_original_plate_files": sorted(author_missing),
         "n_positives_from_source_inside_panel": len(panel_hits),
         "plate_workbook_sha256": manifest,
@@ -272,8 +283,8 @@ def main():
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args()
     result = reproduce_original_plate_analysis(args.source_dir)
-    expected_raw = dict(true_positive=24, false_positive=3, false_negative=4,
-                        true_negative=137, n_missing=3, n_total=171, n_measured=168)
+    expected_raw = dict(true_positive=24, false_positive=3, false_negative=3,
+                        true_negative=137, n_missing=4, n_total=171, n_measured=167)
     expected_heteromer = dict(true_positive=24, false_positive=3, false_negative=3,
                               true_negative=122, n_missing=1, n_total=153, n_measured=152)
     for section, expected in (("counts",expected_raw),
@@ -282,10 +293,12 @@ def main():
             if result[section][key] != value:
                 print("AUTHOR_COMPARISON_DIAGNOSTIC:"+json.dumps(result["counts"],ensure_ascii=False))
                 raise AssertionError(f"{section} source mismatch {key}: {result[section][key]} != {value}")
-    anomaly = result["anomalous_positive_same_allele_controls"]
-    if (len(anomaly) != 1 or anomaly[0]["allele_1"] != "M93G"
-            or abs(anomaly[0]["mean_growth_od_per_hour"]-0.13188)>1e-6):
-        raise AssertionError("M93G/M93G same-allele source discrepancy changed")
+    excluded = result["source_excluded_contaminated_control"]
+    if (excluded["pair"] != ["M93G", "M93G"]
+            or excluded["reason"] != "cross_contamination_reported_by_authors"
+            or excluded["raw_measurement_retained_not_scored"] is None
+            or abs(excluded["raw_measurement_retained_not_scored"]-0.13188)>1e-6):
+        raise AssertionError("published M93G/M93G source exclusion not verified")
     if result["n_positives_from_source_inside_panel"] != 27:
         raise AssertionError("wrong selected positive count")
     args.output.parent.mkdir(parents=True, exist_ok=True)
