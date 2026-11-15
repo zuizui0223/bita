@@ -1,0 +1,48 @@
+name: audit-bita-fcy1-compatibility
+on:
+  push:
+    branches: ['analysis/bita-fcy1-compatibility-20261115']
+    paths:
+      - '.github/workflows/audit-bita-fcy1-compatibility.yml'
+      - 'empirical/trait_architecture_history/despres2024_indep_crosses_source.csv'
+      - 'scripts/analyze_bita_fcy1_compatibility.py'
+      - 'tests/test_bita_fcy1_compatibility.py'
+  pull_request:
+    branches: ['analysis/bita-independent-data-20261115']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  positive-pair-graph:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reproduce exact source-level graph and outcome denominators
+        run: python -m scripts.analyze_bita_fcy1_compatibility
+      - name: Run Fcy1 source-adjudication tests
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_bita_fcy1_compatibility.py
+      - name: Expose machine-readable readout
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('empirical/trait_architecture_history/despres2024_compatibility_readout.json')
+          v=json.loads(p.read_text())
+          assert v['positive_pair_edges']==207 and v['positive_distinct_codon_cross_identifiers']==613
+          print('BITA_FCY1_JSON:'+json.dumps(v,ensure_ascii=False,separators=(',',':')))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-fcy1-2024-source-and-graph
+          path: |
+            empirical/trait_architecture_history/despres2024_indep_crosses_source.csv
+            empirical/trait_architecture_history/despres2024_compatibility_readout.json
+          if-no-files-found: error
+          retention-days: 30
