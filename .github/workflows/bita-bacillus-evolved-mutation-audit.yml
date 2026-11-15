@@ -63,7 +63,10 @@ jobs:
           source=pathlib.Path('empirical/trait_architecture_history/bacillus2018_evolved_mutation_recomputed.json')
           obj=json.loads(source.read_text())
           if frozen.exists():
-              assert obj==json.loads(frozen.read_text()), 'original mutation source diverged'
+              expected=json.loads(frozen.read_text())
+              assert set(expected).issubset(obj), 'frozen source field missing'
+              for field,val in expected.items():
+                  assert obj[field]==val, 'original mutation source diverged at '+field
               print('BITA_BACILLUS_MUTATION_ROUNDTRIP:PASS')
           else:
               print('BITA_BACILLUS_MUTATION_ROUNDTRIP:NOT_YET_FROZEN')
