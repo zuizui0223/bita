@@ -116,7 +116,7 @@ jobs:
           # Inspect preserved Dellinger source trait variable coding; no interpretation yet.
           import csv,collections
           if sources['zenodo_merianieae_archive'].get('status')==200:
-              data=z.read('1_morphospaces_disparity/floraltraits.csv').decode('utf8-sig')
+              data=z.read('1_morphospaces_disparity/floraltraits.csv').decode('utf-8-sig')
               records=list(csv.DictReader(io.StringIO(data)))
               cols=['confirmed.reward.type','stamen.shape.dimorphism',
                     'confirmed.pollinator','estimated_pollinator','pollen.expulsion',
