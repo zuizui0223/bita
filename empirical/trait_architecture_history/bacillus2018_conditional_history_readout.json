@@ -76,6 +76,7 @@
     "accepted_history_delay": true,
     "supp_eps_context": true,
     "supp_bsla_dependence": true,
-    "supp_history_assay": true
+    "supp_history_assay": true,
+    "accepted_scientific_pages_normalized_sha256": "d634c41c16509c699e845d5d4e4a958b1e152f16adb4084db43e4e7d23c58baf"
   }
 }
