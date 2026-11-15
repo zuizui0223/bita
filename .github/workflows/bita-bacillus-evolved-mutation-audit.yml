@@ -1,0 +1,70 @@
+name: bita-bacillus-evolved-mutation-audit
+on:
+  push:
+    branches: ['analysis/bita-bacillus-benefit-persistence-20261115']
+    paths:
+      - '.github/workflows/bita-bacillus-evolved-mutation-audit.yml'
+      - 'scripts/analyze_bita_bacillus_original_mutations.py'
+      - 'tests/test_bita_bacillus_original_mutations.py'
+  pull_request:
+    branches: ['analysis/bita-pseudomonas-wt-comparison-20261115']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-evolution-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch exact Nature follow-up original XLSX and verify digest
+        run: |
+          python - <<'PY'
+          import hashlib,urllib.request
+          url=('https://static-content.springer.com/esm/'
+              'art%3A10.1038%2Fs41564-018-0263-y/MediaObjects/'
+              '41564_2018_263_MOESM3_ESM.xlsx')
+          with urllib.request.urlopen(urllib.request.Request(url,headers={
+              'User-Agent':'BITA-original-scientific-source-audit/1.0'}),timeout=40) as r:
+              source=r.read(300000)
+          sha=hashlib.sha256(source).hexdigest()
+          assert len(source)==86904
+          assert sha=='ec916667dbd7a288246737979e3b0d2e4336acfcc8dd98d641339973361d9a43'
+          open('bacillus_original_mutations.xlsx','wb').write(source)
+          print('ORIGINAL_NATURE_XLSX_SHA256:'+sha)
+          PY
+      - name: Reproduce clone-parent assignment and mixed-lineage source series
+        run: |
+          python -m scripts.analyze_bita_bacillus_original_mutations \
+            --xlsx bacillus_original_mutations.xlsx \
+            --output empirical/trait_architecture_history/bacillus2018_evolved_mutation_recomputed.json
+      - name: Install pytest and verify saved result provenance
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_bita_bacillus_original_mutations.py
+      - name: Check exact frozen-result roundtrip when it exists
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          frozen=pathlib.Path('empirical/trait_architecture_history/bacillus2018_evolved_mutation_summary.json')
+          source=pathlib.Path('empirical/trait_architecture_history/bacillus2018_evolved_mutation_recomputed.json')
+          obj=json.loads(source.read_text())
+          if frozen.exists():
+              assert obj==json.loads(frozen.read_text()), 'original mutation source diverged'
+              print('BITA_BACILLUS_MUTATION_ROUNDTRIP:PASS')
+          else:
+              print('BITA_BACILLUS_MUTATION_ROUNDTRIP:NOT_YET_FROZEN')
+          print('BITA_BACILLUS_MUTATION_FULL_JSON:'+json.dumps(obj,separators=(',',':'),ensure_ascii=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-bacillus-nature-mutation-reanalysis
+          path: |
+            empirical/trait_architecture_history/bacillus2018_evolved_mutation_recomputed.json
+            bacillus_original_mutations.xlsx
+          if-no-files-found: error
+          retention-days: 30
