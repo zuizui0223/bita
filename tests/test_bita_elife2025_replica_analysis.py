@@ -59,6 +59,22 @@ def test_frozen_readout_recomputes_from_66_sha_pinned_values():
     from scripts.analyze_bita_elife2025_replica_analysis import RESULT
     assert RESULT.is_file()
     frozen=json.loads(RESULT.read_text(encoding="utf-8"))
-    assert frozen == summarize(read_rows())
+    recomputed = summarize(read_rows())
+    # Python 3.10/3.11/3.12 can differ at the final ulp for mean/AUC.
+    # Verify all scientific fields exactly, floats within 2e-14.
+    def compare(a, b):
+        if isinstance(a, dict) and isinstance(b, dict):
+            assert a.keys() == b.keys()
+            for key in a:
+                compare(a[key], b[key])
+        elif isinstance(a, list) and isinstance(b, list):
+            assert len(a) == len(b)
+            for x, y in zip(a, b):
+                compare(x, y)
+        elif isinstance(a, float) and isinstance(b, float):
+            assert a == pytest.approx(b, abs=2e-14, rel=0)
+        else:
+            assert a == b
+    compare(frozen, recomputed)
     assert frozen["source_sha256"]["fig2"] == "d8ab8a5cd012654e32cd1bac2059bd423ea2731f0e3a00ee39134ce632138bee"
     assert frozen["source_sha256"]["fig3"] == "8c9e9c84b4e2ed49684c580fc26863a871628a9a41125e9ead89f1c788c8bf32"
