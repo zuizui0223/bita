@@ -36,6 +36,37 @@ jobs:
         run: |
           python -m scripts.analyze_bita_fcy1_matched \
             --source source_growth_readout.json --output matched_growth_readout.json
+      - name: Verify frozen 22-edge table against freshly reconstructed source growth values
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv,json,math
+          from pathlib import Path
+          base=Path('empirical/trait_architecture_history')
+          fresh=json.loads(Path('matched_growth_readout.json').read_text())
+          summary=json.loads((base/'despres2024_matched_summary.json').read_text())
+          with (base/'despres2024_matched_strict_rescues.csv').open(newline='') as stream:
+            rows=list(csv.DictReader(stream))
+          original={(r['pair'][0],r['pair'][1]):r for r in fresh['comparison']['strict_edges']}
+          assert len(rows)==len(original)==summary['strict_both_parent_nonfunctional_and_pair_functional']==22
+          for r in rows:
+            a,b=r['allele_1'],r['allele_2']
+            e=original.pop((a,b))
+            for key,field in [('growth_rate','growth_AB_OD_per_h'),
+                              ('parent_homomer_a','growth_AA_OD_per_h'),
+                              ('parent_homomer_b','growth_BB_OD_per_h'),
+                              ('gain_over_best_self','gain_over_best_self_OD_per_h')]:
+              assert math.isclose(e[key],float(r[field]),abs_tol=5e-8,rel_tol=0)
+            assert e['n_measured_orientations']==int(r['n_reciprocal_directions'])==2
+            assert e['source_screen_positive']==(r['screen_positive']=='true')
+          assert not original
+          x=fresh['comparison']
+          assert x['n_strict_eligible_pairs']==summary['both_parent_homomers_directly_measured_nonfunctional_pairs']
+          assert x['n_positive_pairs_with_unknown_self_controls']==summary['growth_positive_pairs_missing_any_parental_control']
+          for t in summary['threshold_sensitivity']:
+            key=f"{t['threshold_OD_per_hour']:.3f}"
+            assert fresh['threshold_sensitivity'][key]['matched_rescues']==t['strict_rescues']
+          PY
       - name: Test all pure code and published-source counts
         run: python -m pytest -q tests/test_bita_fcy1_matched.py tests/test_bita_fcy1_validation.py
       - name: Emit transparent output receipt
