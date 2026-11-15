@@ -42,7 +42,8 @@ def summarize(rows: list[dict]) -> dict:
         "identified_architecture_origin_programme_families_n": len({
             r["programme_family"] for r in admitted
             if r["architecture_origin_identified"] == "True"}),
-        "new_study_level_effect_sizes_n": 0,
+        "new_source_studies_with_quantitative_contrasts_n": 1,
+        "new_nonpoolable_endpoint_contrasts_n": 2,
         "pooled_meta_analysis_performed": False,
         "primary_programme_families": families,
         "scientific_boundary": (
@@ -51,7 +52,7 @@ def summarize(rows: list[dict]) -> dict:
             "matched historical states, K(u), and common effect estimands remain "
             "unidentified. Despres mutation pairs and crossing events are selected "
             "assay observations, not independent biological transitions. "
-            "Mihajlovic figure source workbook must be audited before effect extraction.")
+            "Mihajlovic figures 2/3 were SHA-pinned from the publisher, with two non-poolable replicate-line effects audited; no absolute cross-study effect.")
     }
 
 def main() -> None:
