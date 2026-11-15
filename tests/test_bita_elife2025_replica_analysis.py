@@ -52,3 +52,13 @@ def test_incorrect_repeated_generation_is_not_independent():
     assert {r["biological_replicate"] for r in rows} == {"X","Y","Z"}
     assert len(rows)==66
     assert len({(r["figure"],r["copy_group"],r["biological_replicate"]) for r in rows})==12
+
+def test_frozen_readout_recomputes_from_66_sha_pinned_values():
+    import json
+    from pathlib import Path
+    from scripts.analyze_bita_elife2025_replica_analysis import RESULT
+    assert RESULT.is_file()
+    frozen=json.loads(RESULT.read_text(encoding="utf-8"))
+    assert frozen == summarize(read_rows())
+    assert frozen["source_sha256"]["fig2"] == "d8ab8a5cd012654e32cd1bac2059bd423ea2731f0e3a00ee39134ce632138bee"
+    assert frozen["source_sha256"]["fig3"] == "8c9e9c84b4e2ed49684c580fc26863a871628a9a41125e9ead89f1c788c8bf32"
