@@ -41,6 +41,15 @@ jobs:
           python -m scripts.analyze_bita_bacillus_original_mutations \
             --xlsx bacillus_original_mutations.xlsx \
             --output empirical/trait_architecture_history/bacillus2018_evolved_mutation_recomputed.json
+      - name: Print source-derived full readout before frozen-file tests
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('empirical/trait_architecture_history/bacillus2018_evolved_mutation_recomputed.json')
+          obj=json.loads(p.read_text(encoding='utf8'))
+          print('BITA_BACILLUS_MUTATION_FULL_JSON:'+json.dumps(obj,separators=(',',':'),ensure_ascii=False),flush=True)
+          PY
       - name: Install pytest and verify saved result provenance
         run: |
           python -m pip install pytest
