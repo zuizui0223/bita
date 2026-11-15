@@ -1,0 +1,115 @@
+{
+  "paper_doi": "10.1126/science.ado5719",
+  "upstream_programme": "Landrylab/Despres_et_al_2024",
+  "pinned_source_commit": "f124cef96a3b5806a096b679b2bd57b68aec6514",
+  "positive_pair_source_git_blob": "36839a3fd2eb05a521a070d11e60cde1748a682e",
+  "author_notebook_git_blob": "2ebafd783a94506aa349e46a1429fb2c98c16319",
+  "data_level": "RAW_AUTHOR_GROWTH_XLSX_RECOMPUTED_EXTERNAL_ACTIONS_ARTIFACT",
+  "source_growth_workbooks_available": 22,
+  "source_growth_workbooks_missing": [
+    "plate_6_C.xlsx",
+    "plate_6_D.xlsx"
+  ],
+  "source_layout_wells": 2304,
+  "variant_panel_n": 18,
+  "growth_positive_threshold_od_per_hour": 0.02,
+  "unrestricted_including_same_allele_controls": {
+    "total_pairs": 171,
+    "measured": 167,
+    "missing": 4,
+    "screen_positive_and_growth_positive": 24,
+    "screen_positive_and_growth_negative": 3,
+    "screen_negative_and_growth_positive": 3,
+    "screen_negative_and_growth_negative": 137
+  },
+  "primary_distinct_variant_pairs": {
+    "total_pairs": 153,
+    "measured": 152,
+    "missing": 1,
+    "TP": 24,
+    "FP": 3,
+    "FN": 3,
+    "TN": 122,
+    "precision": 0.8888888888888888,
+    "sensitivity": 0.8888888888888888,
+    "specificity": 0.976,
+    "negative_predictive_value": 0.976
+  },
+  "validated_screen_negative_growth_positive_pairs": [
+    {
+      "pair": [
+        "E64C",
+        "M100W"
+      ],
+      "growth_rate": 0.13196
+    },
+    {
+      "pair": [
+        "I156P",
+        "R73G"
+      ],
+      "growth_rate": 0.11204
+    },
+    {
+      "pair": [
+        "M100W",
+        "R53D"
+      ],
+      "growth_rate": 0.11634
+    }
+  ],
+  "screen_positive_not_recovered_on_measured_orientation": [
+    {
+      "pair": [
+        "E69L",
+        "H62C"
+      ],
+      "growth_rate": 0.0038,
+      "observed_reciprocal_directions": 1
+    },
+    {
+      "pair": [
+        "H62C",
+        "Y79S"
+      ],
+      "growth_rate": 0.00636,
+      "observed_reciprocal_directions": 1
+    },
+    {
+      "pair": [
+        "L74P",
+        "Y79S"
+      ],
+      "growth_rate": 0.0062,
+      "observed_reciprocal_directions": 1
+    }
+  ],
+  "unmeasured_distinct_variant_pair": [
+    "H62C",
+    "L74P"
+  ],
+  "source_notebook_saved_output": {
+    "TP": 24,
+    "FP": 3,
+    "FN": 3,
+    "TN": 137,
+    "unmeasured": 4
+  },
+  "evidence_cluster": "ONE_FCY1_ENGINEERED_VALIDATION_PROGRAMME_NOT_153_INDEPENDENT_EVOLUTIONARY_TRANSITIONS",
+  "no_meta_analysis": true,
+  "fitness_comparison_shared_vs_divided_architecture_not_identified": true,
+  "original_raw_analysis_run_id": 43683966411,
+  "original_raw_analysis_artifact_id": 14149900663,
+  "source_excluded_contaminated_control": {
+    "pair": [
+      "M93G",
+      "M93G"
+    ],
+    "reason": "cross_contamination_reported_by_authors",
+    "raw_measurement_retained_not_scored": 0.13188,
+    "source_locator": "Després et al. 2024 Science Methods, Mating and growth rate measurements",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10888846/",
+    "in_primary_heteromer_analysis": false
+  },
+  "raw_source_discrepancy_status": "RESOLVED_BY_PUBLISHED_CROSS_CONTAMINATION_EXCLUSION"
+}
