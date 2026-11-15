@@ -5,7 +5,7 @@ import pytest
 from scripts.analyze_bita_bacillus_conditional_context import analyse_context, wilson95, verify_pdf_sources
 
 ROOT=Path(__file__).resolve().parents[1]
-DATA=ROOT/'empirical/trait_architecture_history/bacillus2018_partner_history_source_coding.json'
+DATA=ROOT/'empirical/trait_architecture_history/bacillus2018_conditional_source_coding.json'
 
 def load():
     return json.loads(DATA.read_text(encoding='utf8'))
