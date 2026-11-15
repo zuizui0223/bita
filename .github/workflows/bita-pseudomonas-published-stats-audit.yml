@@ -1,0 +1,59 @@
+name: bita-pseudomonas-published-stats-audit
+on:
+  push:
+    branches: ['analysis/bita-pseudomonas-wt-comparison-20261115']
+    paths:
+      - 'scripts/analyze_bita_pseudomonas_published_stats.py'
+      - 'tests/test_bita_pseudomonas_published_stats.py'
+      - '.github/workflows/bita-pseudomonas-published-stats-audit.yml'
+  pull_request:
+    branches: ['analysis/bita-macro-functional-split-20261115']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-stats-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Obtain peer-reviewed original JATS and verify source fingerprint
+        run: |
+          python - <<'PY'
+          import urllib.request,hashlib,pathlib
+          u='https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9323447/fullTextXML'
+          req=urllib.request.Request(u,headers={'User-Agent':'BITA-primary-source-recovery/1.0','Accept':'application/xml'})
+          with urllib.request.urlopen(req,timeout=30) as f:raw=f.read(1400000)
+          expected='ff26c2e12bcd44bc7137656a7290ac9944ebc6823e8aae405e7a7f4ce999d55e'
+          assert hashlib.sha256(raw).hexdigest()==expected, 'publication source has changed'
+          pathlib.Path('original_primary_paper_jats.xml').write_bytes(raw)
+          print('SOURCE_JATS_SHA256:'+expected)
+          PY
+      - name: Extract paper-reported four WT comparisons and derived standardized departures
+        run: |
+          python -m scripts.analyze_bita_pseudomonas_published_stats             --jats original_primary_paper_jats.xml --output pseudomonas_published_stats.json
+      - name: Run isolated unit contract tests
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_bita_pseudomonas_published_stats.py
+      - name: Verify immutable frozen source receipt if checked in
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          expected=pathlib.Path('empirical/trait_architecture_history/mridha2022_published_stats_readout.json')
+          actual=pathlib.Path('pseudomonas_published_stats.json')
+          if expected.exists():
+              assert json.loads(actual.read_text())==json.loads(expected.read_text()),'frozen published-stat receipt mismatch'
+              print('BITA_PSEUDOMONAS_FROZEN_READOUT:PASS')
+          else:
+              print('BITA_PSEUDOMONAS_FROZEN_READOUT:NOT_YET_CREATED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-pseudomonas-published-comparison-readout
+          path: pseudomonas_published_stats.json
+          if-no-files-found: error
+          retention-days: 30
