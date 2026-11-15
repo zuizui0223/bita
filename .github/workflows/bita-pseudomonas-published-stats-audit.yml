@@ -45,6 +45,7 @@ jobs:
           import json,pathlib
           expected=pathlib.Path('empirical/trait_architecture_history/mridha2022_published_stats_readout.json')
           actual=pathlib.Path('pseudomonas_published_stats.json')
+          print('BITA_PSEUDOMONAS_FULL_SOURCE_JSON:'+json.dumps(json.loads(actual.read_text()),ensure_ascii=False,separators=(',',':')))
           if expected.exists():
               assert json.loads(actual.read_text())==json.loads(expected.read_text()),'frozen published-stat receipt mismatch'
               print('BITA_PSEUDOMONAS_FROZEN_READOUT:PASS')
