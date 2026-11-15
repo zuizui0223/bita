@@ -261,6 +261,11 @@ def main():
                     true_negative=137, n_missing=4, n_total=171, n_measured=167)
     for key, value in expected.items():
         if result["counts"][key] != value:
+            print("AUTHOR_COMPARISON_DIAGNOSTIC:"+json.dumps({
+                "expected": expected,
+                "observed": result["counts"],
+                "n_panel_positive": result["n_positives_from_source_inside_panel"],
+            },ensure_ascii=False,allow_nan=False))
             raise AssertionError(f"author notebook mismatch at {key}: {result['counts'][key]} vs {value}")
     if result["n_positives_from_source_inside_panel"] != 27:
         raise AssertionError("wrong selected positive count")
