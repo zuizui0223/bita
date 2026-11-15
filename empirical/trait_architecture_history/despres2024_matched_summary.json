@@ -1,0 +1,87 @@
+{
+  "study_doi": "10.1126/science.ado5719",
+  "original_author_repository": "Landrylab/Despres_et_al_2024",
+  "pinned_author_commit": "f124cef96a3b5806a096b679b2bd57b68aec6514",
+  "source_growth_audit_run_id": 43697687662,
+  "source_growth_audit_artifact_id": 14155400956,
+  "source_archive_full_output_sha256": "4e7220f410ef4d2d643f8b19d23a9767d5679ee1f99bb382a1978c8dc6c78f56",
+  "paper_contaminated_control_excluded": "M93G/M93G",
+  "whole_validation_panel_unordered_pairs": 171,
+  "distinct_mutant_pairs": 153,
+  "measured_distinct_mutant_pairs": 152,
+  "growth_positive_distinct_mutant_pairs": 27,
+  "valid_parent_homomer_alleles": 15,
+  "both_parent_homomers_directly_measured_nonfunctional_pairs": 105,
+  "strict_both_parent_nonfunctional_and_pair_functional": 22,
+  "strict_nonrescued_on_same_support": 83,
+  "strict_rescues_with_both_orientations": 22,
+  "growth_positive_pairs_missing_any_parental_control": 5,
+  "strict_growth_threshold_OD_per_hour": 0.02,
+  "strict_rescue_graph": {
+    "positive_pair_edges": 22,
+    "distinct_allele_vertices": 13,
+    "component_sizes": [
+      13
+    ],
+    "major_rescue_hubs": [
+      {
+        "allele": "M100W",
+        "partners": 9
+      },
+      {
+        "allele": "R73G",
+        "partners": 6
+      },
+      {
+        "allele": "Y79S",
+        "partners": 5
+      }
+    ]
+  },
+  "matched_growth_difference_OD_per_hour": {
+    "mean_all_105": 0.02033390476190476,
+    "median_all_105": 0.0014399999999999968,
+    "n_above_best_parent_by_any_amount": 70,
+    "n_above_best_parent_by_at_least_0_02": 20
+  },
+  "threshold_sensitivity": [
+    {
+      "threshold_OD_per_hour": 0.01,
+      "strict_eligible": 105,
+      "strict_rescues": 28,
+      "other_positive_missing_parents": 6
+    },
+    {
+      "threshold_OD_per_hour": 0.015,
+      "strict_eligible": 105,
+      "strict_rescues": 22,
+      "other_positive_missing_parents": 5
+    },
+    {
+      "threshold_OD_per_hour": 0.02,
+      "strict_eligible": 105,
+      "strict_rescues": 22,
+      "other_positive_missing_parents": 5
+    },
+    {
+      "threshold_OD_per_hour": 0.03,
+      "strict_eligible": 105,
+      "strict_rescues": 19,
+      "other_positive_missing_parents": 5
+    },
+    {
+      "threshold_OD_per_hour": 0.05,
+      "strict_eligible": 105,
+      "strict_rescues": 18,
+      "other_positive_missing_parents": 4
+    }
+  ],
+  "pair_independent_p_value": null,
+  "natural_frequency_estimated": false,
+  "ancestral_fitness_optimum_estimated": false,
+  "historical_evolutionary_origins_estimated": false,
+  "bita_cost_curve_estimated": false,
+  "cross_study_meta_analysis_performed": false,
+  "data_level": "AUTHOR_22_PLATE_ORIGINAL_GROWTH_REANALYSIS_WITH_CORRECTED_CONTAMINATION_EXCLUSION",
+  "claim_boundary": "Observed rescue relative to two measured defective parental homomers, not adaptive benefit of a differentiated organismal architecture over its ancestral shared state. All 105 pair types share component alleles. Missing parental controls never imputed. Source paper already proposed an analogous best-parental growth benchmark."
+}

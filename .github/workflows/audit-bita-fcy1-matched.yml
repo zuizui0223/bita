@@ -1,0 +1,102 @@
+name: audit-bita-fcy1-matched
+on:
+  push:
+    branches: ['analysis/bita-fcy1-matched-complementarity-20261115']
+    paths:
+      - '.github/workflows/audit-bita-fcy1-matched.yml'
+      - 'scripts/analyze_bita_fcy1_matched.py'
+      - 'tests/test_bita_fcy1_matched.py'
+  pull_request:
+    branches: ['analysis/bita-fcy1-validation-20261115']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-matched-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install original-source validation dependencies
+        run: python -m pip install "numpy>=1.26,<3" "pandas>=2.2,<3" "openpyxl>=3.1,<4" "pytest>=8"
+      - name: Clone and verify original author Git tree
+        shell: bash
+        run: |
+          git clone --depth 1 https://github.com/Landrylab/Despres_et_al_2024.git author_source
+          test "$(git -C author_source rev-parse HEAD)" = "f124cef96a3b5806a096b679b2bd57b68aec6514"
+          test "$(git -C author_source hash-object validations_analysis/indep_crosses.csv)" = "36839a3fd2eb05a521a070d11e60cde1748a682e"
+      - name: Reconstruct source growth curves including published contamination exclusion
+        run: |
+          python -m scripts.analyze_bita_fcy1_validation \
+            --source-dir author_source --output source_growth_readout.json
+      - name: Audit matched homomer versus heteromer growth and thresholds
+        run: |
+          python -m scripts.analyze_bita_fcy1_matched \
+            --source source_growth_readout.json --output matched_growth_readout.json
+      - name: Verify frozen 22-edge table against freshly reconstructed source growth values
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv,json,math
+          from pathlib import Path
+          base=Path('empirical/trait_architecture_history')
+          fresh=json.loads(Path('matched_growth_readout.json').read_text())
+          summary=json.loads((base/'despres2024_matched_summary.json').read_text())
+          with (base/'despres2024_matched_strict_rescues.csv').open(newline='') as stream:
+            rows=list(csv.DictReader(stream))
+          original={(r['pair'][0],r['pair'][1]):r for r in fresh['comparison']['strict_edges']}
+          assert len(rows)==len(original)==summary['strict_both_parent_nonfunctional_and_pair_functional']==22
+          for r in rows:
+            a,b=r['allele_1'],r['allele_2']
+            e=original.pop((a,b))
+            for key,field in [('growth_rate','growth_AB_OD_per_h'),
+                              ('parent_homomer_a','growth_AA_OD_per_h'),
+                              ('parent_homomer_b','growth_BB_OD_per_h'),
+                              ('gain_over_best_self','gain_over_best_self_OD_per_h')]:
+              assert math.isclose(e[key],float(r[field]),abs_tol=5e-8,rel_tol=0)
+            assert e['n_measured_orientations']==int(r['n_reciprocal_directions'])==2
+            assert e['source_screen_positive']==(r['screen_positive']=='true')
+          assert not original
+          x=fresh['comparison']
+          assert x['n_strict_eligible_pairs']==summary['both_parent_homomers_directly_measured_nonfunctional_pairs']
+          assert x['n_positive_pairs_with_unknown_self_controls']==summary['growth_positive_pairs_missing_any_parental_control']
+          for t in summary['threshold_sensitivity']:
+            key=f"{t['threshold_OD_per_hour']:.3f}"
+            assert fresh['threshold_sensitivity'][key]['matched_rescues']==t['strict_rescues']
+          PY
+      - name: Test all pure code and published-source counts
+        run: python -m pytest -q tests/test_bita_fcy1_matched.py tests/test_bita_fcy1_validation.py
+      - name: Emit transparent output receipt
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('matched_growth_readout.json').read_text())
+          v=d['comparison']
+          assert v['n_strict_eligible_pairs']==105
+          assert v['n_strict_rescues']==22
+          assert v['n_strict_rescues_two_orientations']==22
+          assert v['n_positive_pairs_with_unknown_self_controls']==5
+          assert v['strict_edge_component_sizes']==[13]
+          print('BITA_MATCHED_READOUT_JSON:'+json.dumps({
+            'source_doi':d['source_doi'], 'source_commit':d['source_commit'],
+            'matched_pairs':v['n_strict_eligible_pairs'], 'strict_rescues':v['n_strict_rescues'],
+            'missing_homomer_positive':v['n_positive_pairs_with_unknown_self_controls'],
+            'gain':v['eligible_gain_distribution'],
+            'thresholds':d['threshold_sensitivity'],
+            'top_nodes':v['strict_edge_network']['top_distinct_partner_counts'][:5]
+          },ensure_ascii=False,separators=(',',':')))
+          PY
+      - name: Archive full source-derived pair scores and controls
+        uses: actions/upload-artifact@v4
+        with:
+          name: bita-fcy1-matched-validated-readout
+          path: |
+            source_growth_readout.json
+            matched_growth_readout.json
+          if-no-files-found: error
+          retention-days: 30
