@@ -72,3 +72,28 @@ def test_missing_section_does_not_invent_values(monkeypatch):
 def test_no_false_precision_or_independent_origin_estimates():
     assert m.JATS_SHA256=="ff26c2e12bcd44bc7137656a7290ac9944ebc6823e8aae405e7a7f4ce999d55e"
     assert "study" not in m.MEDIA[0][0].lower()
+
+
+def test_frozen_original_jats_readout_not_an_invented_dryad_study():
+    from pathlib import Path
+    root=Path(__file__).resolve().parents[1]
+    path=root/"empirical/trait_architecture_history/mridha2022_published_stats_readout.json"
+    x=json.loads(path.read_text(encoding="utf8"))
+    assert x["study_doi"]=="10.1111/jeb.14001"
+    assert x["independent_studies_n"]==1
+    assert x["environmental_strata_n"]==4
+    assert x["new_individual_growth_observations"]==0
+    assert x["pooled_meta_analysis_performed"] is False
+    assert x["source_jats_sha256"]==m.JATS_SHA256
+    assert x["dryad_download_gate"]=={"api_files_http":401,"browser_file_stream_http":403}
+    v=x["conditions"]
+    assert [r["one_sample_t"] for r in v]==[12.17,1.819,-12.89,-6.745]
+    assert [r["productivity_direction_vs_wildtype"] for r in v]==[
+        "higher","not_resolved","lower","lower"]
+    assert [r["productivity_slope_vs_initial_pyochelin"] for r in v]==[
+        .0002,-.0008,-.0011,-.0054]
+    assert all(r["standardized_departure_from_wildtype_reference"]==
+               pytest.approx(r["one_sample_t"]/math.sqrt(r["t_df"]+1),abs=2e-14)
+               for r in v)
+    assert x["design"]["independent_experimental_blocks"]==4
+    assert "not the number of independent evolutionary origins" in x["claim_limit"]
