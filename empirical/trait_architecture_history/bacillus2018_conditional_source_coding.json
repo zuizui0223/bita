@@ -1,0 +1,85 @@
+{
+  "paper_doi": "10.1038/s41564-018-0263-y",
+  "source_pdf_sha256": {
+    "accepted": "5cf82d20baf805432c7a0afda748f67689d71c5614bb0a90f6baf54bc040d6af",
+    "supplement": "d5a62567ab0818926f51892ac5750757d9f4e83c37d015664e1cfd4a4ec7e05c"
+  },
+  "source_urls": {
+    "accepted": "https://backend.orbit.dtu.dk/ws/portalfiles/portal/176479224/Dragos_et_al_NatMicrobiol_Accepted_version_with_Figures.pdf",
+    "supplement": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41564-018-0263-y/MediaObjects/41564_2018_263_MOESM1_ESM.pdf"
+  },
+  "alleles": [
+    {
+      "mutation": "Y124C",
+      "eps_absent": "rescue_vs_ancestral_TasA",
+      "eps_present": "no_demonstrated_productivity_gain",
+      "eps_present_wetting": "hydrophobicity_lost",
+      "lineage": "e4",
+      "bslA_knockout": "pellicle_abolished",
+      "source_location": "Accepted manuscript Fig2b (PDF p7); Supplement Figure5a/c/d (PDF p12-13); Supplement Results1/2"
+    },
+    {
+      "mutation": "G183C",
+      "eps_absent": "rescue_vs_ancestral_TasA",
+      "eps_present": "negative_productivity_vs_wt_reported",
+      "eps_present_wetting": "hydrophobicity_lost",
+      "lineage": "e6",
+      "bslA_knockout": "pellicle_maintained",
+      "source_location": "Accepted manuscript Fig2b (PDF p7); Supplement Figure5a/c/d (PDF p12-13); Supplement Results1/2"
+    }
+  ],
+  "partner_swaps": [
+    {
+      "state": "delta_eps_ancestral__delta_tasA_ancestral",
+      "direction": "baseline",
+      "source": "Accepted Figure6, original n=22"
+    },
+    {
+      "state": "ancestral_eps__evolved_tasA",
+      "direction": "lower_for_nearly_all",
+      "source": "Accepted Figure6 and Results; evolved pair replicates 2-6"
+    },
+    {
+      "state": "evolved_eps__ancestral_tasA",
+      "direction": "similar_or_higher_tendency",
+      "source": "Accepted Figure6 and Results; evolved pair replicates 2-6"
+    },
+    {
+      "state": "evolved_eps__evolved_tasA",
+      "direction": "heterogeneous_some_higher",
+      "source": "Accepted Figure6 and Results; several higher than ancestry"
+    }
+  ],
+  "passaging": {
+    "mixed_delta_eps_extinct": {
+      "events": 4,
+      "n": 6
+    },
+    "monoculture_delta_eps_autonomy": {
+      "events": 2,
+      "n": 6
+    },
+    "monoculture_delta_tasA_autonomy": {
+      "events": 6,
+      "n": 6
+    }
+  },
+  "history": {
+    "delta_tasA_coculture_vs_monoculture": "co_culture_delays_recovery",
+    "delta_tasA_final_productivity": "roughly_similar",
+    "supplementary_figure11_arms": 3,
+    "independent_lines_per_arm": 6,
+    "joint_original_mutation_productivity_pair_rows_available": false,
+    "source": "Accepted manuscript Figure1/Discussion; Nature Supplement Figure11"
+  },
+  "extra_control": {
+    "engineered_eps_overproduction_in_delta_tasA": "increased_mix_productivity_and_improved_delta_eps_partner",
+    "interpreted_limit": "cannot_attribute_collapse_to_eps_overproduction_alone",
+    "source": "Accepted Results; Nature Supplement Fig10c"
+  },
+  "evidence_level": "MANUSCRIPT_AND_SUPPLEMENT_REPORT_TEXT_WITH_FIGURES_NOT_REPLICATE_CFU_VALUES",
+  "pairwise_cfu_values_available": false,
+  "isolates_in_two_e4_e6_lineages": 6,
+  "independent_evolved_tasa_cys_lineages": 2,
+  "claimed_k_u_empirical_estimate": false
+}
