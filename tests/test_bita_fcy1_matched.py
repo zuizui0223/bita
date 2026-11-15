@@ -112,3 +112,45 @@ def test_small_set_can_be_empty_without_invented_p():
     assert res["n_strict_rescues"]==0
     assert res["strict_edge_component_sizes"]==[]
     assert res["pair_independent_p_value"] is None
+
+
+def test_frozen_original_source_strict_edges_and_summary_are_self_consistent():
+    import csv
+    import json
+    from collections import Counter
+    from pathlib import Path
+    root=Path(__file__).resolve().parents[1]
+    base=root/"empirical/trait_architecture_history"
+    s=json.loads((base/"despres2024_matched_summary.json").read_text(encoding="utf-8"))
+    with (base/"despres2024_matched_strict_rescues.csv").open(newline="",encoding="utf-8") as stream:
+        edges=list(csv.DictReader(stream))
+    assert len(edges)==s["strict_both_parent_nonfunctional_and_pair_functional"]==22
+    assert s["both_parent_homomers_directly_measured_nonfunctional_pairs"]==105
+    assert s["strict_nonrescued_on_same_support"]==83
+    assert s["growth_positive_pairs_missing_any_parental_control"]==5
+    assert s["paper_contaminated_control_excluded"]=="M93G/M93G"
+    assert not s["cross_study_meta_analysis_performed"]
+    alleles=set()
+    seen=set()
+    degrees=Counter()
+    n_unscreened=0
+    for e in edges:
+        a,b=e["allele_1"],e["allele_2"]
+        assert a!=b and (a,b) not in seen
+        seen.add((a,b))
+        alleles.update((a,b))
+        degrees.update([a,b])
+        ab,aa,bb,delta=(float(e[key]) for key in (
+            "growth_AB_OD_per_h","growth_AA_OD_per_h",
+            "growth_BB_OD_per_h","gain_over_best_self_OD_per_h"))
+        assert ab>=.02 and 0<=aa<.02 and 0<=bb<.02
+        assert delta == pytest.approx(ab-max(aa,bb),abs=2e-8)
+        assert int(e["n_reciprocal_directions"])==2
+        assert e["screen_positive"] in ("true","false")
+        n_unscreened+=e["screen_positive"]=="false"
+    assert len(alleles)==s["strict_rescue_graph"]["distinct_allele_vertices"]==13
+    assert degrees["M100W"]==9 and degrees["R73G"]==6
+    assert n_unscreened==3
+    sensitivity=s["threshold_sensitivity"]
+    assert [(x["threshold_OD_per_hour"],x["strict_rescues"]) for x in sensitivity]==[
+        (.01,28),(.015,22),(.02,22),(.03,19),(.05,18)]
