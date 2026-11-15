@@ -164,8 +164,13 @@ def reproduce_original_plate_analysis(source_root: Path) -> dict:
     layout["growth_rate"] = np.nan
 
     growth_sources = sorted((dataset / "lofxlof_crosses").glob("plate_*_*.xlsx"))
-    if len(growth_sources) != 24:
-        raise ValueError("expected 24 original plate workbooks")
+    expected_files = {f"plate_{plate}_{quadrant}.xlsx"
+                      for plate in range(1, 7) for quadrant in "ABCD"}
+    actual_files = {p.name for p in growth_sources}
+    # The original author's source repository publishes 23/24 quadrants.
+    # plate_6_D.xlsx is not deposited; preserve missing wells as missing.
+    if expected_files - actual_files != {"plate_6_D.xlsx"} or actual_files - expected_files:
+        raise ValueError("unexpected original-plate availability; expected missing 6_D only")
     manifest = []
     for path in growth_sources:
         match = re.fullmatch(r"plate_([1-6])_([A-D])\.xlsx", path.name)
