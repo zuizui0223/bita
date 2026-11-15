@@ -29,11 +29,11 @@ Conditional on this deliberately chosen validation panel, 24/27 screen positives
 
 The three screen-positive pairs without demonstrated growth above threshold were E69L+H62C (0.00380 OD/h), H62C+Y79S (0.00636), and L74P+Y79S (0.00620), **each with only one reciprocal orientation measured**. Consequently these are not definitive biochemical failures for the unmeasured reciprocal arrangement. H62C+L74P is unmeasured in both directions and remains missing, not negative.
 
-## A source-execution discrepancy that must remain visible
+## Author-documented exclusion: resolved original source discrepancy
 
-The archived executed author notebook reports a whole-panel 2×2 of **TP 24 / FP 3 / FN 3 / TN 137** with four unclassified combinations, based on n=171. Recomputing from the **actual published plate workbook bytes** yielded **TP 24 / FP 3 / FN 4 / TN 137**, with **three** unclassified combinations. The discrepancy is precisely the **same-allele M93G+M93G control**, present in source raw growth sheets with mean **0.13188 OD/h** but absent from the cached author's classifications.
+The original **peer-reviewed Methods** explicitly exclude the same-allele `M93G + M93G` diploid-stock sample because of **cross-contamination with another genotype** (Després et al. 2024, section *Mating and growth rate measurements*; [source full text](https://pmc.ncbi.nlm.nih.gov/articles/PMC10888846/)). It is present in the deposited raw workbook (apparent 0.13188 OD/h), but this contaminated measurement is **not valid biological growth evidence**.
 
-This is *not* an additional heteromeric rescue; same-allele pairs cannot be used as evidence of division between distinct mutant subunits. We retain the raw value and discrepancy as QC rather than deleting it to force notebook agreement. Restricting to the biologically focal distinct-allele subset gives three independently missed functional pair *types* in both paths. Future source review should clarify why this one self-pair was omitted from the executed-notebook summary.
+An earlier extraction noted an apparent discrepancy: directly taking all source workbook values yielded 168 measured of 171 genotypes and an extra screening-negative/growth-positive same-allele control. The discrepancy is **resolved**, not unexplained, by following the explicit published exclusion. The corrected all-171-panel classification matches the author's saved notebook exactly: **TP 24 / FP 3 / FN 3 / TN 137**, **4 unclassified**, **167 measured**. The excluded workbook value is preserved solely as audit provenance. The distinct-mutant subset remains **153 pairs / 152 measured / TP24 FP3 FN3 TN122 / 1 unmeasured**. No heteromer rescue count is changed.
 
 **Source availability:** the author repository contains **22**, not 24, original \`plate_*_*.xlsx\` growth files; \`plate_6_C.xlsx\` and \`plate_6_D.xlsx\` are absent. They are **not imputed**. All 2304 source layout wells are retained as bookkeeping entries before the author's explicit filters, and missing coordinates remain missing.
 
@@ -63,7 +63,7 @@ Do **not** claim:
 - 207 positives / 613 positive crossing identifiers / 171 selected genotype pairs are a representative natural prevalence or independent evolutionary origins;
 - direct growth restoration establishes increased optimal whole-organism fitness over an ancestral shared architecture (the WT comparator and its resource costs have not been jointly manipulated here);
 - absent source variants are genuine negatives outside the 18-variant assay;
-- the additional same-allele M93G/M93G growth is direct evidence for heteromerization;
+- the original contaminated M93G/M93G workbook signal is biological evidence; the authors explicitly excluded it;
 - one engineered experimental programme identifies BITA's startup cost K(u), theoretical entry/global/fold threshold or species-level historical divergence;
 - this Fcy1 growth contrast can be pooled numerically with Salmonella physiological rescue, coGFP fluorescence, Peucedanum floral allocation or cichlid jaw covariance without predeclared common estimands.
 
