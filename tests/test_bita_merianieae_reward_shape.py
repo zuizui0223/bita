@@ -61,3 +61,24 @@ def test_duplicate_taxa_and_unmatched_traits_fail_closed():
         summarize_records([x,x],{x['x']})
     with pytest.raises(ValueError,match="no matched"):
         summarize_records([x],{'bogus'})
+
+
+def test_frozen_dellinger_tree_matched_counts_are_consistent():
+    import json
+    from pathlib import Path
+    root=Path(__file__).resolve().parents[1]
+    r=json.loads((root/"empirical/trait_architecture_history/dellinger2024_reward_shape_readout.json").read_text(encoding="utf8"))
+    assert r["source_archive_sha256"]=="9d4013d470d1d201ef89196442614429a4146ba2958e1367b0a197ef50b03ed8"
+    assert r["n_source_rows"]==145
+    assert r["n_phylogeny_joined"]==139
+    assert r["n_reward_known_in_tree"]==62
+    assert r["n_reward_missing_in_tree"]==77
+    assert r["known_reward_counts"]=={"pollen":37,"nectar":13,"food_body":12}
+    assert r["known_reward_shape_differentiated_counts"]=={"pollen":10,"nectar":3,"food_body":12}
+    assert r["genus_reward_shape"]["Axinaea"]["food_body"]["positive"]==9
+    mer=r["genus_reward_shape"]["Meriania"]
+    assert (mer["pollen"]["positive"],mer["pollen"]["known_shape"])==(8,22)
+    assert (mer["nectar"]["positive"],mer["nectar"]["known_shape"])==(3,13)
+    assert (mer["food_body"]["positive"],mer["food_body"]["known_shape"])==(3,3)
+    assert r["pooled_meta_analysis_performed"] is False
+    assert r["phylogenetic_transition_events_inferred"] is False
