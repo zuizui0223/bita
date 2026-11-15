@@ -1,0 +1,65 @@
+{
+  "source_doi": "10.1038/s41564-018-0263-y",
+  "original_supplement_sha256": "ec916667dbd7a288246737979e3b0d2e4336acfcc8dd98d641339973361d9a43",
+  "evolved_eps_deficient_tasa_cysteine_alleles": [
+    {
+      "gene": "tasA",
+      "position": 2552702,
+      "amino_acid": "Tyr124Cys",
+      "clonal_lineage": "e4",
+      "clone_ids": [
+        "e4A",
+        "e4B",
+        "e4C"
+      ]
+    },
+    {
+      "gene": "tasA",
+      "position": 2552526,
+      "amino_acid": "Gly183Cys",
+      "clonal_lineage": "e6",
+      "clone_ids": [
+        "e6A",
+        "e6B",
+        "e6C"
+      ]
+    }
+  ],
+  "genetically_independent_tasa_cys_lineages_lower_bound": 2,
+  "distinct_mutant_clones_not_independent_lineages": 6,
+  "mixed_population_transfer_records": 18,
+  "mixed_population_groups": 6,
+  "first_observed_transfer": 5,
+  "last_observed_transfer": 24,
+  "mixed_mutations_newly_detected_at_24_vs_5": 5,
+  "mixed_mutations_not_detected_at_24_but_detected_at_5": 3,
+  "n_ambiguous_or_non_X_cells": 0,
+  "mixed_mutations_present_in_all_9_within_genotype": {
+    "delta_eps": [
+      {
+        "position": 375887,
+        "gene": "hxlA"
+      },
+      {
+        "position": 3502519,
+        "gene": "ganA"
+      }
+    ],
+    "delta_tasA": [
+      {
+        "position": 3509522,
+        "gene": "(unannotated)"
+      },
+      {
+        "position": 3517700,
+        "gene": "epsK"
+      }
+    ]
+  },
+  "identical_baseline_markers_coded_as_independent_recurrent_mutations": false,
+  "mixed_populations_collapsed_from_genotypes": false,
+  "phenotypic_productivity_effect_from_supplement_estimated": false,
+  "evolutionary_origin_of_division_identified": false,
+  "data_level": "NATURE_AUTHOR_MUTATION_XLSX_NOT_GROWTH_RAW_DATA",
+  "source_url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41564-018-0263-y/MediaObjects/41564_2018_263_MOESM3_ESM.xlsx"
+}
