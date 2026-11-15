@@ -113,6 +113,36 @@ jobs:
                  'names':names[:180],'n':len(names),'previews':preview}
           except Exception as ex:
               sources['zenodo_merianieae_archive']={'status':'ERROR','reason':type(ex).__name__+': '+str(ex)[:100]}
+          # Inspect preserved Dellinger source trait variable coding; no interpretation yet.
+          import csv,collections
+          if sources['zenodo_merianieae_archive'].get('status')==200:
+              data=z.read('1_morphospaces_disparity/floraltraits.csv').decode('utf8-sig')
+              records=list(csv.DictReader(io.StringIO(data)))
+              cols=['confirmed.reward.type','stamen.shape.dimorphism',
+                    'confirmed.pollinator','estimated_pollinator','pollen.expulsion',
+                    'stamen.adaxial.thecal.wall','stamen.nr.of.pores']
+              result={'n_rows':len(records),'n_distinct_taxa':len({r['species'] for r in records}),
+                      'distinct_x':len({r['x'] for r in records}),
+                      'fields':list(records[0]),
+                      'source_sha256':hashlib.sha256(data.encode('utf8')).hexdigest(),
+                      'marginals':{},'cross_reward_shape':{}}
+              for col in cols:
+                  result['marginals'][col]=dict(sorted(collections.Counter(r.get(col,'') for r in records).items()))
+              for row in records:
+                  reward=row.get('confirmed.reward.type','')
+                  shape=row.get('stamen.shape.dimorphism','')
+                  k=reward+' | '+shape
+                  result['cross_reward_shape'][k]=result['cross_reward_shape'].get(k,0)+1
+              result['cross_reward_shape']=dict(sorted(result['cross_reward_shape'].items()))
+              result['sample_by_code']={}
+              for row in records:
+                  k=row.get('confirmed.reward.type','')
+                  result['sample_by_code'].setdefault(k,[])
+                  if len(result['sample_by_code'][k])<6:
+                      result['sample_by_code'][k].append({
+                         'species':row['species'],'shape_code':row.get('stamen.shape.dimorphism'),
+                         'pollinator':row.get('estimated_pollinator')})
+              sources['zenodo_merianieae_traits_audit']=result
           Path('source-discovery.json').write_text(json.dumps(sources,indent=2,ensure_ascii=False))
           print('BITA_SOURCE_DISCOVERY_JSON:'+json.dumps(sources,ensure_ascii=False,separators=(',',':')))
           PY
