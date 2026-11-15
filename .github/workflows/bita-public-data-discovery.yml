@@ -142,6 +142,37 @@ jobs:
                       result['sample_by_code'][k].append({
                          'species':row['species'],'shape_code':row.get('stamen.shape.dimorphism'),
                          'pollinator':row.get('estimated_pollinator')})
+              gtab={}
+              for row in records:
+                  genus=row['species'].split(' ')[0]
+                  reward=row['confirmed.reward.type']
+                  stamen=row['stamen.shape.dimorphism']
+                  gtab.setdefault(genus,{})
+                  k=reward+' | '+stamen
+                  gtab[genus][k]=gtab[genus].get(k,0)+1
+              result['genus_reward_shape_table']=gtab
+              tree=z.read('1_morphospaces_disparity/Marcelo_Meris.tre').decode('utf-8-sig')
+              leafnames=set(re.findall(r'(?<=[(,])([^():,;]+):',tree))
+              inphylo=[row for row in records if row['x'] in leafnames]
+              result['tree_file_sha256']=hashlib.sha256(tree.encode('utf8')).hexdigest()
+              result['n_tree_tips']=len(leafnames)
+              result['n_traits_matching_tree']=len(inphylo)
+              result['trait_species_not_in_tree']=[
+                  {'species':row['species'],'x':row['x']} for row in records if row['x'] not in leafnames]
+              phylo_table={}
+              for row in inphylo:
+                  k=row['confirmed.reward.type']+' | '+row['stamen.shape.dimorphism']
+                  phylo_table[k]=phylo_table.get(k,0)+1
+              result['tree_matched_cross_tab']=dict(sorted(phylo_table.items()))
+              script=z.read('1_morphospaces_disparity/1a_morphospaces_disparity.R').decode('utf-8-sig')
+              result['trait_coding_r_context']=[]
+              for term in ['stamen.shape.dimorphism','confirmed.reward.type']:
+                  start=0
+                  while len(result['trait_coding_r_context'])<16:
+                      loc=script.find(term,start)
+                      if loc<0:break
+                      result['trait_coding_r_context'].append(script[max(0,loc-180):min(len(script),loc+230)])
+                      start=loc+len(term)
               sources['zenodo_merianieae_traits_audit']=result
           Path('source-discovery.json').write_text(json.dumps(sources,indent=2,ensure_ascii=False))
           print('BITA_SOURCE_DISCOVERY_JSON:'+json.dumps(sources,ensure_ascii=False,separators=(',',':')))
