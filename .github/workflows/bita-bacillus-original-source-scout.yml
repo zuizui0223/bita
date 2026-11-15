@@ -76,7 +76,61 @@ jobs:
           p.joinpath('manifest.json').write_text(json.dumps(out,indent=2,ensure_ascii=False))
           print('BITA_BACILLUS_SOURCE_RECEIPT:'+json.dumps(out,ensure_ascii=False,separators=(',',':')),flush=True)
           if out['initial_2018'].get('status')!=200:
-              raise RuntimeError('Bacillus initial experiment source JATS unavailable')
+              out['initial_2018']['claim_boundary']='Europe PMC fullTextXML unavailable; use separately source-indexed original PMC text without pretending original JATS downloaded'
+              print('BITA_INITIAL_JATS_UNAVAILABLE:'+json.dumps(out['initial_2018']),flush=True)
+          # Nature publishes its original Supplementary Dataset 1 as a static XLSX
+          # with an exact link extracted from publisher HTML. Parse in-memory;
+          # retain workbook only in the Actions artifact; never invent variants.
+          import io,zipfile,xml.etree.ElementTree as ET
+          link=out.get('nature_followup',{}).get('relative_xlsx_links',[])
+          if len(link)==1:
+              official=link[0].replace('&amp;','&')
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(official,headers={
+                      'User-Agent':'BITA-evolution-source-audit/1.0'}),timeout=35) as response:
+                      wb=response.read(6500000)
+                  if not zipfile.is_zipfile(io.BytesIO(wb)):
+                      raise ValueError('publisher supplement is not original XLSX')
+                  sheetlist=[]
+                  ns='{http://schemas.openxmlformats.org/spreadsheetml/2006/main}'
+                  with zipfile.ZipFile(io.BytesIO(wb)) as zip:
+                      shared=[]
+                      if 'xl/sharedStrings.xml' in zip.namelist():
+                          el=ET.fromstring(zip.read('xl/sharedStrings.xml'))
+                          for s in el.findall(ns+'si'):
+                              shared.append(''.join(t.text or '' for t in s.iter(ns+'t')))
+                      for n in zip.namelist():
+                          if n.startswith('xl/worksheets/sheet') and n.endswith('.xml'):
+                              root=ET.fromstring(zip.read(n))
+                              rows=[]
+                              for row in root.iter(ns+'row'):
+                                  result=[]
+                                  for cell in row.findall(ns+'c'):
+                                      value=cell.find(ns+'v')
+                                      if value is not None:
+                                          v=value.text
+                                          if cell.attrib.get('t')=='s':
+                                              v=shared[int(v)]
+                                      else:
+                                          inline=cell.find(ns+'is')
+                                          v=''.join(t.text or '' for t in inline.iter(ns+'t')) if inline is not None else None
+                                      result.append([cell.attrib.get('r'),v])
+                                  rows.append(result)
+                              sheetlist.append({'name':n,'n_rows':len(rows),
+                                                'preview_rows':rows[:18],
+                                                'nonempty_cells':sum(len(r) for r in rows)})
+                  p.joinpath('Nature_Supplementary_Dataset_1.xlsx').write_bytes(wb)
+                  out['followup_original_supplement']={
+                       'status':200,'url':official,'bytes':len(wb),
+                       'sha256':hashlib.sha256(wb).hexdigest(),'sheets':sheetlist}
+              except urllib.error.HTTPError as ex:
+                  out['followup_original_supplement']={'status':ex.code,'reason':str(ex.reason)}
+              except Exception as ex:
+                  out['followup_original_supplement']={'status':'ERROR','reason':type(ex).__name__+': '+str(ex)[:150]}
+          p.joinpath('manifest.json').write_text(json.dumps(out,indent=2,ensure_ascii=False))
+          print('BITA_BACILLUS_SUPPLEMENT_SOURCE:'+json.dumps(out.get('followup_original_supplement',{}),ensure_ascii=False,separators=(',',':')),flush=True)
+          if out.get('followup_original_supplement',{}).get('status')!=200:
+              raise RuntimeError('Published follow-up supplement not verified')
           PY
       - uses: actions/upload-artifact@v4
         with:
