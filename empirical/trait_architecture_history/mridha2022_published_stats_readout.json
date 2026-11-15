@@ -1,0 +1,94 @@
+{
+  "study_doi": "10.1111/jeb.14001",
+  "pmcid": "PMC9323447",
+  "source_jats_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9323447/fullTextXML",
+  "source_jats_sha256": "ff26c2e12bcd44bc7137656a7290ac9944ebc6823e8aae405e7a7f4ce999d55e",
+  "source_grade": "ORIGINAL_PEER_REVIEWED_REPORTED_STATS_NOT_RAW_DRYAD",
+  "dryad_dataset_doi": "10.5061/dryad.2bvq83bs4",
+  "dryad_data_file_sha256_expected": "b64f8febcc72f30394169d593de5a9ab7cbc3b753d5253dd865a711bc77887f9",
+  "dryad_download_gate": {
+    "api_files_http": 401,
+    "browser_file_stream_http": 403
+  },
+  "independent_studies_n": 1,
+  "environmental_strata_n": 4,
+  "new_individual_growth_observations": 0,
+  "pooled_meta_analysis_performed": false,
+  "design": {
+    "growth_metric": "OD600 24-hour integral / matched-media WT integral",
+    "independent_experimental_blocks": 4,
+    "mix_replicates_per_medium_and_ratio": 12,
+    "monoculture_replicates_per_medium_and_background": 8,
+    "initial_pyochelin_percent": [
+      0,
+      5,
+      25,
+      50,
+      75,
+      95,
+      100
+    ],
+    "wildtype": "PAO1 produces both siderophores",
+    "pyochelin_only": "PAO1 delta pvdD",
+    "pyoverdine_only": "PAO1 delta pchEF"
+  },
+  "conditions": [
+    {
+      "condition": "iron_replete",
+      "medium": "CAA + 100 uM FeCl3",
+      "one_sample_t": 12.17,
+      "t_df": 73,
+      "t_test_n_implied": 74,
+      "reported_p_operator": "<",
+      "reported_p_value": 0.0001,
+      "standardized_departure_from_wildtype_reference": 1.4147337635122808,
+      "productivity_direction_vs_wildtype": "higher",
+      "productivity_slope_vs_initial_pyochelin": 0.0002,
+      "within_mix_relative_fitness_slope": -0.0129,
+      "fitted_pyochelin_equilibrium_percent": 69.8
+    },
+    {
+      "condition": "plain_CAA",
+      "medium": "plain CAA",
+      "one_sample_t": 1.819,
+      "t_df": 73,
+      "t_test_n_implied": 74,
+      "reported_p_operator": "=",
+      "reported_p_value": 0.073,
+      "standardized_departure_from_wildtype_reference": 0.21145445487500727,
+      "productivity_direction_vs_wildtype": "not_resolved",
+      "productivity_slope_vs_initial_pyochelin": -0.0008,
+      "within_mix_relative_fitness_slope": -0.0048,
+      "fitted_pyochelin_equilibrium_percent": 38.99
+    },
+    {
+      "condition": "chelator_100uM",
+      "medium": "CAA + 100 uM 2,2-bipyridyl",
+      "one_sample_t": -12.89,
+      "t_df": 73,
+      "t_test_n_implied": 74,
+      "reported_p_operator": "<",
+      "reported_p_value": 0.0001,
+      "standardized_departure_from_wildtype_reference": -1.4984320634078305,
+      "productivity_direction_vs_wildtype": "lower",
+      "productivity_slope_vs_initial_pyochelin": -0.0011,
+      "within_mix_relative_fitness_slope": -0.007,
+      "fitted_pyochelin_equilibrium_percent": 22.29
+    },
+    {
+      "condition": "chelator_300uM",
+      "medium": "CAA + 300 uM 2,2-bipyridyl",
+      "one_sample_t": -6.745,
+      "t_df": 71,
+      "t_test_n_implied": 72,
+      "reported_p_operator": "<",
+      "reported_p_value": 0.0001,
+      "standardized_departure_from_wildtype_reference": -0.7949058731838773,
+      "productivity_direction_vs_wildtype": "lower",
+      "productivity_slope_vs_initial_pyochelin": -0.0054,
+      "within_mix_relative_fitness_slope": -0.0075,
+      "fitted_pyochelin_equilibrium_percent": 30.09
+    }
+  ],
+  "claim_limit": "Only source-reported four condition-specific one-sample tests and ANCOVA slopes were re-extracted. Newly derived t/sqrt(df+1) is a within-study descriptive standardized departure, not a raw mean difference in OD600 or meta-analytic effect across independent studies. There are four experiment blocks and 12 replicates per specialist mixing ratio; the implied t-test n=74 or 72 is not the number of independent evolutionary origins. Missing original Dryad XLSX makes joint raw WT uncertainty, block-aware variance and effect size confidence intervals not identifiable here. Non-significant p=.073 is not equivalence. A fitted coexistence frequency is not a long-term evolutionary observation. No BITA startup cost K(u) or historical shared-to-split origin is measured."
+}
