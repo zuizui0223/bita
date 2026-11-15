@@ -1,0 +1,81 @@
+{
+  "paper_doi": "10.1038/s41564-018-0263-y",
+  "original_data_level": "AUTHOR_ACCEPTED_AND_NATURE_SUPPLEMENT_PDF_TEXT_NO_RAW_CFU",
+  "independent_evolution_programmes_n": 1,
+  "meta_analysis_performed": false,
+  "effects": {
+    "two_source_tasa_alleles": [
+      "Y124C",
+      "G183C"
+    ],
+    "changed_conditional_benefit_n": 2,
+    "strict_productivity_sign_reversal": [
+      "G183C"
+    ],
+    "eps_present_no_demonstrated_gain": [
+      "Y124C"
+    ],
+    "eps_present_both_mutants_reduce_water_repellency": true,
+    "bslA_deletion_results": {
+      "e4A_Y124C": "pellicle_abolished",
+      "e6A_G183C": "pellicle_maintained"
+    },
+    "bslA_universally_required": false,
+    "independent_evolved_tasa_cys_lineages": 2,
+    "descendant_isolates_not_independent_origins": 6,
+    "partner_swaps": {
+      "delta_eps_ancestral__delta_tasA_ancestral": "baseline",
+      "ancestral_eps__evolved_tasA": "lower_for_nearly_all",
+      "evolved_eps__ancestral_tasA": "similar_or_higher_tendency",
+      "evolved_eps__evolved_tasA": "heterogeneous_some_higher"
+    },
+    "verified_counterfactual_partner_swap": true,
+    "paired_cfu_effect_estimated": false,
+    "reestimated_fitness_p_values": false,
+    "mixed_delta_eps_extinct": {
+      "events": 4,
+      "n": 6
+    },
+    "monoculture_delta_eps_autonomy": {
+      "events": 2,
+      "n": 6
+    },
+    "monoculture_delta_tasA_autonomy": {
+      "events": 6,
+      "n": 6
+    },
+    "extinction_wilson95": [
+      0.29999331513839217,
+      0.9032285888942195
+    ],
+    "co_culture_delays_tasA_autonomy": true,
+    "final_tasA_productivity_roughly_similar": true,
+    "same_condition_different_preadaptation_records": true,
+    "separate_eps_overproduction_control": {
+      "engineered_eps_overproduction_in_delta_tasA": "increased_mix_productivity_and_improved_delta_eps_partner",
+      "interpreted_limit": "cannot_attribute_collapse_to_eps_overproduction_alone",
+      "source": "Accepted Results; Nature Supplement Fig10c"
+    },
+    "timepoint_matched_genotype_CFU_replicates_obtained": false,
+    "hysteresis_effect_identified": false,
+    "historical_ancestral_architecture_origin_identified": false,
+    "scientific_boundaries": "G183C gives EPS-conditional productivity gain versus reported decrease. Y124C EPS-present productivity has NO reported gain; it is not proven negative. Both lose water repellency when EPS is present. e4A/e6A show different BslA dependence, but BslA loss involves strain backgrounds as well. Evolved partner crossover differences describe experimentally sampled relative growth tendencies, not per-pair numeric fitness effects. In six coevolved cultures Δeps extinction occurred in four; distinct monoculture endpoints do not estimate adaptive-origin prevalence. No original matched genotype CFU time series, K(u), or hysteresis loop."
+  },
+  "original_source_validation": {
+    "source_pages": {
+      "accepted": 30,
+      "supplement": 23
+    },
+    "verified_pdf_digests": {
+      "accepted": "5cf82d20baf805432c7a0afda748f67689d71c5614bb0a90f6baf54bc040d6af",
+      "supplement": "d5a62567ab0818926f51892ac5750757d9f4e83c37d015664e1cfd4a4ec7e05c"
+    },
+    "accepted_mutant_reconstitution": true,
+    "accepted_four_of_six_extinction": true,
+    "accepted_evolved_partner_swap": true,
+    "accepted_history_delay": true,
+    "supp_eps_context": true,
+    "supp_bsla_dependence": true,
+    "supp_history_assay": true
+  }
+}
