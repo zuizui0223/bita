@@ -1,0 +1,59 @@
+name: audit-bita-fcy1-growth-validation
+
+on:
+  push:
+    branches: ['analysis/bita-fcy1-validation-20261115']
+    paths:
+      - 'scripts/analyze_bita_fcy1_validation.py'
+      - 'tests/test_bita_fcy1_validation.py'
+      - '.github/workflows/audit-bita-fcy1-growth-validation.yml'
+  pull_request:
+    branches: ['analysis/bita-fcy1-compatibility-20261115']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  raw-growth-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install original assay parsing dependencies
+        run: python -m pip install "numpy>=1.26,<3" "pandas>=2.2,<3" "openpyxl>=3.1,<4" "pytest>=8"
+      - name: Pin the original author repository commit
+        shell: bash
+        run: |
+          git clone --depth 1 https://github.com/Landrylab/Despres_et_al_2024.git author_source
+          test "$(git -C author_source rev-parse HEAD)" = "f124cef96a3b5806a096b679b2bd57b68aec6514"
+          git -C author_source hash-object validations_analysis/indep_crosses.csv | grep -Fx "36839a3fd2eb05a521a070d11e60cde1748a682e"
+      - name: Reconstruct growth-rate estimates and 171-pair validation from raw xlsx
+        run: |
+          python -m scripts.analyze_bita_fcy1_validation --source-dir author_source \
+             --output empirical/trait_architecture_history/despres2024_growth_validation_readout.json
+      - name: Unit tests (screen truth table and missingness)
+        run: python -m pytest -q tests/test_bita_fcy1_validation.py
+      - name: Print machine-checkable direct-validation receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('empirical/trait_architecture_history/despres2024_growth_validation_readout.json')
+          r=json.loads(p.read_text())
+          print('BITA_GROWTH_COUNTS_JSON:'+json.dumps({
+            'source_ref':r['original_ref'],'counts':r['counts'],
+            'n_source_plates':r['n_growth_assay_plate_workbooks'],
+            'source_positive_csv_blob':r['original_positive_csv_blob']
+          },ensure_ascii=False,separators=(',',':')))
+          PY
+      - name: Archive original source checksums and derived validation data
+        uses: actions/upload-artifact@v4
+        with:
+          name: bita-fcy1-growth-validation-readout
+          path: empirical/trait_architecture_history/despres2024_growth_validation_readout.json
+          if-no-files-found: error
+          retention-days: 30
