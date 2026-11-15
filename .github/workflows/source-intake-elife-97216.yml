@@ -63,6 +63,7 @@ jobs:
               (root/(figure+'_cells.json')).write_text(json.dumps(record,ensure_ascii=False,indent=2))
               manifest.append({'figure':figure,'sha256':record['sha256'],'bytes':len(data),'sheets':[{'path':s['path'],'n_data_rows':s['n_data_rows'],'preview':s['preview']} for s in sheets]})
               print('SOURCE_AUDIT_JSON:'+json.dumps(manifest[-1],ensure_ascii=False),flush=True)
+              print('SOURCE_FULL_CELLS:'+json.dumps({'figure':figure,'sheets':sheets},ensure_ascii=False),flush=True)
           (root/'manifest.json').write_text(json.dumps({'publication_doi':'10.7554/eLife.97216.3','status':'ORIGINAL_BYTES_CAPTURED_NOT_YET_ANALYSED','sources':manifest},indent=2,ensure_ascii=False))
           PY
       - name: Upload publisher source workbooks, cells, and sha receipts
