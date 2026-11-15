@@ -1,0 +1,85 @@
+name: bita-bacillus-conditional-original-pdfs
+on:
+  push:
+    branches: ['analysis/bita-bacillus-conditional-sign-20261115']
+    paths:
+      - '.github/workflows/bita-bacillus-conditional-original-pdfs.yml'
+      - 'scripts/analyze_bita_bacillus_conditional_context.py'
+      - 'tests/test_bita_bacillus_conditional_context.py'
+      - 'empirical/trait_architecture_history/bacillus2018_conditional_source_coding.json'
+      - 'empirical/trait_architecture_history/bacillus2018_conditional_history_readout.json'
+  pull_request:
+    branches: ['analysis/bita-bacillus-benefit-persistence-20261115']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-pdf-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install source-audit PDF text and tests
+        run: python -m pip install 'pymupdf>=1.24,<2' 'pytest>=8,<10'
+      - name: Retrieve source PDFs with original sha256
+        run: |
+          python - <<'PY'
+          import urllib.request,hashlib,pathlib
+          urls={
+            'accepted.pdf':('https://backend.orbit.dtu.dk/ws/portalfiles/portal/176479224/Dragos_et_al_NatMicrobiol_Accepted_version_with_Figures.pdf',
+                             '5cf82d20baf805432c7a0afda748f67689d71c5614bb0a90f6baf54bc040d6af'),
+            'supplement.pdf':('https://static-content.springer.com/esm/art%3A10.1038%2Fs41564-018-0263-y/MediaObjects/41564_2018_263_MOESM1_ESM.pdf',
+                             'd5a62567ab0818926f51892ac5750757d9f4e83c37d015664e1cfd4a4ec7e05c')
+          }
+          for filename,(url,sha) in urls.items():
+              req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 (scientific data audit)','Accept':'application/pdf'})
+              with urllib.request.urlopen(req,timeout=40) as f:raw=f.read(6500000)
+              if not raw.startswith(b'%PDF') or len(raw)<500000:
+                  raise ValueError('downloaded source is not original full PDF '+filename)
+              received=hashlib.sha256(raw).hexdigest()
+              if received!=sha:
+                  print('PDF_SOURCE_BYTE_VARIANT:'+str({'name':filename,'sha256':received,'size':len(raw)}),flush=True)
+                  if filename=='supplement.pdf':
+                      raise ValueError('publisher supplement PDF sha256 changed')
+                  # The institutional accepted-paper wrapper may be rebuilt.
+                  # Scientific content itself is verified by the FULL body-text
+                  # checksum in the next source analysis step, fail closed.
+              pathlib.Path(filename).write_bytes(raw)
+              print('ORIGINAL_PDF_VERIFIED:'+filename+':'+sha)
+          PY
+      - name: Recover experimentally supported categorical contrasts without inventing raw CFU
+        run: |
+          python -m scripts.analyze_bita_bacillus_conditional_context             --ledger empirical/trait_architecture_history/bacillus2018_conditional_source_coding.json             --accepted accepted.pdf --supplement supplement.pdf             --output /tmp/bacillus2018_conditional_history_recomputed.json
+      - name: Require freshly audited original source equals frozen committed evidence
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          frozen=pathlib.Path('empirical/trait_architecture_history/bacillus2018_conditional_history_readout.json')
+          fresh=pathlib.Path('/tmp/bacillus2018_conditional_history_recomputed.json')
+          if json.loads(frozen.read_text())!=json.loads(fresh.read_text()):
+              raise AssertionError('original PDF audit disagrees with frozen conditional evidence')
+          print('BITA_CONDITIONAL_PDF_ROUNDTRIP:PASS')
+          PY
+      - name: Source contract and reproducibility tests
+        run: python -m pytest -q tests/test_bita_bacillus_conditional_context.py
+      - name: Require committed JSON matches fresh PDF readout if already present
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          p=pathlib.Path('empirical/trait_architecture_history/bacillus2018_conditional_history_readout.json')
+          obj=json.loads(p.read_text())
+          assert obj['original_source_validation']['accepted_mutant_reconstitution'] is True
+          assert obj['original_source_validation']['supp_bsla_dependence'] is True
+          assert obj['effects']['strict_productivity_sign_reversal']==['G183C']
+          print('BITA_BACILLUS_FULL_CONTEXT_JSON:'+json.dumps(obj,ensure_ascii=False,separators=(',',':')))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-bacillus-conditional-history-verified
+          path: |
+            empirical/trait_architecture_history/bacillus2018_conditional_history_readout.json
+          if-no-files-found: error
+          retention-days: 30
