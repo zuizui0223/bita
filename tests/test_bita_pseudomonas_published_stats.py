@@ -52,11 +52,14 @@ def test_source_fingerprint_is_fail_closed(monkeypatch):
     x=synthetic_jats()
     with pytest.raises(ValueError,match="sha256"):
         m.parse_original_jats(x)
-    monkeypatch.setattr(m,"JATS_SHA256",hashlib.sha256(x).hexdigest())
+    changed_t=x.replace(b"12.17",b"12.18",1)
+    monkeypatch.setattr(m,"JATS_SHA256",hashlib.sha256(changed_t).hexdigest())
     with pytest.raises(ValueError,match="source WT"):
-        m.parse_original_jats(x.replace(b"12.17",b"12.18",1))
+        m.parse_original_jats(changed_t)
+    changed_slope=x.replace(b"0.0002",b"0.0003",1)
+    monkeypatch.setattr(m,"JATS_SHA256",hashlib.sha256(changed_slope).hexdigest())
     with pytest.raises(ValueError,match="source"):
-        m.parse_original_jats(x.replace(b"0.0002",b"0.0003",1))
+        m.parse_original_jats(changed_slope)
 
 
 def test_missing_section_does_not_invent_values(monkeypatch):
