@@ -42,7 +42,7 @@ def test_original_source_phenotypes_are_not_inferred_from_mutations():
     assert s["last_observed_transfer"]==24
     assert s["mixed_mutations_newly_detected_at_24_vs_5"]==5
     assert s["mixed_mutations_not_detected_at_24_but_detected_at_5"]==3
-    assert s["n_ambiguous_or_non_X_cells"]==1
+    assert s["n_ambiguous_or_non_X_cells"]==0
     assert s["phenotypic_productivity_effect_from_supplement_estimated"] is False
     assert s["evolutionary_origin_of_division_identified"] is False
 
