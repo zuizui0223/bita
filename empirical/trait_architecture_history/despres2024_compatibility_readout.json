@@ -1,0 +1,240 @@
+{
+  "study_doi": "10.1126/science.ado5719",
+  "source_repository": "Landrylab/Despres_et_al_2024",
+  "source_path": "validations_analysis/indep_crosses.csv",
+  "source_blob_sha": "36839a3fd2eb05a521a070d11e60cde1748a682e",
+  "source_data_level": "AUTHOR_PROCESSED_POSITIVE_SELECTED_CROSSING_TABLE",
+  "positive_pair_edges": 207,
+  "positive_unique_alleles": 103,
+  "positive_colony_observations": 887,
+  "positive_distinct_codon_cross_identifiers": 613,
+  "pairs_with_ge2_source_cross_identifiers": 104,
+  "pairs_with_one_source_cross_identifier": 103,
+  "positive_graph_thresholds": {
+    "ge1": {
+      "cutoff_min_distinct_cross_identifiers": 1,
+      "edges": 207,
+      "vertices": 103,
+      "component_sizes": [
+        97,
+        2,
+        2,
+        2
+      ],
+      "largest_component_vertices": 97,
+      "top_alleles_by_distinct_positive_partners": [
+        {
+          "allele": "M100W",
+          "partners": 39
+        },
+        {
+          "allele": "R73D",
+          "partners": 33
+        },
+        {
+          "allele": "R73G",
+          "partners": 24
+        },
+        {
+          "allele": "Y79S",
+          "partners": 17
+        },
+        {
+          "allele": "L24Q_R73G",
+          "partners": 13
+        },
+        {
+          "allele": "K41V_R73G",
+          "partners": 12
+        },
+        {
+          "allele": "L74P",
+          "partners": 12
+        },
+        {
+          "allele": "E64L",
+          "partners": 11
+        },
+        {
+          "allele": "K27R_M100W",
+          "partners": 11
+        },
+        {
+          "allele": "E64A",
+          "partners": 10
+        }
+      ],
+      "top5_endpoint_fraction": 0.30434782608695654
+    },
+    "ge2": {
+      "cutoff_min_distinct_cross_identifiers": 2,
+      "edges": 104,
+      "vertices": 53,
+      "component_sizes": [
+        44,
+        7,
+        2
+      ],
+      "largest_component_vertices": 44,
+      "top_alleles_by_distinct_positive_partners": [
+        {
+          "allele": "M100W",
+          "partners": 20
+        },
+        {
+          "allele": "R73D",
+          "partners": 18
+        },
+        {
+          "allele": "R73G",
+          "partners": 15
+        },
+        {
+          "allele": "Y79S",
+          "partners": 11
+        },
+        {
+          "allele": "E64L",
+          "partners": 9
+        },
+        {
+          "allele": "E64V",
+          "partners": 8
+        },
+        {
+          "allele": "K41V_R73G",
+          "partners": 8
+        },
+        {
+          "allele": "L24Q_R73G",
+          "partners": 8
+        },
+        {
+          "allele": "L74P",
+          "partners": 8
+        },
+        {
+          "allele": "E64A",
+          "partners": 7
+        }
+      ],
+      "top5_endpoint_fraction": 0.35096153846153844
+    },
+    "ge3": {
+      "cutoff_min_distinct_cross_identifiers": 3,
+      "edges": 73,
+      "vertices": 38,
+      "component_sizes": [
+        29,
+        7,
+        2
+      ],
+      "largest_component_vertices": 29,
+      "top_alleles_by_distinct_positive_partners": [
+        {
+          "allele": "R73D",
+          "partners": 15
+        },
+        {
+          "allele": "R73G",
+          "partners": 12
+        },
+        {
+          "allele": "Y79S",
+          "partners": 9
+        },
+        {
+          "allele": "E64L",
+          "partners": 8
+        },
+        {
+          "allele": "E64V",
+          "partners": 8
+        },
+        {
+          "allele": "M100W",
+          "partners": 8
+        },
+        {
+          "allele": "E64A",
+          "partners": 7
+        },
+        {
+          "allele": "L74P",
+          "partners": 7
+        },
+        {
+          "allele": "E64G",
+          "partners": 6
+        },
+        {
+          "allele": "E64S",
+          "partners": 6
+        }
+      ],
+      "top5_endpoint_fraction": 0.3561643835616438
+    },
+    "ge5": {
+      "cutoff_min_distinct_cross_identifiers": 5,
+      "edges": 38,
+      "vertices": 25,
+      "component_sizes": [
+        16,
+        7,
+        2
+      ],
+      "largest_component_vertices": 16,
+      "top_alleles_by_distinct_positive_partners": [
+        {
+          "allele": "E64V",
+          "partners": 7
+        },
+        {
+          "allele": "E64L",
+          "partners": 6
+        },
+        {
+          "allele": "R73D",
+          "partners": 6
+        },
+        {
+          "allele": "R73G",
+          "partners": 6
+        },
+        {
+          "allele": "Y79S",
+          "partners": 6
+        },
+        {
+          "allele": "E64A",
+          "partners": 5
+        },
+        {
+          "allele": "E64S",
+          "partners": 5
+        },
+        {
+          "allele": "E64G",
+          "partners": 4
+        },
+        {
+          "allele": "K41V_R73G",
+          "partners": 4
+        },
+        {
+          "allele": "L74P",
+          "partners": 4
+        }
+      ],
+      "top5_endpoint_fraction": 0.40789473684210525
+    }
+  },
+  "frequency_finite_n": 156,
+  "frequency_missing_n": 51,
+  "descriptive_spearman_frequency_vs_cross_recovery": 0.4779347876797335,
+  "no_unselected_negative_pair_denominator": true,
+  "independent_evolutionary_origins_estimated": false,
+  "poolable_study_effects_added": 0,
+  "meta_analysis_performed": false,
+  "claim_boundary": "Positive selected complementing pairs are not a random sample of all possible two-allele pairs. 613 distinct codon-by-cross recovery identifiers are not 613 independent evolutionary origins; 887 is positive colony observations, not all colonies screened. The graph is conditional on selection, enrichment and filters. The repeated-pair subgraph does not estimate an unbiased natural heteromer benefit, true mutation rate, K(u), fixation, or an ancestral architecture's evolutionary cause. Source abundance correlations are descriptive on positive pairs."
+}
