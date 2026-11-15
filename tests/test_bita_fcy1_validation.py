@@ -29,8 +29,9 @@ def test_skipna_reciprocal_and_screen_confusion_contract():
     assert counts["n_missing"]==1
     assert counts["true_positive"]==counts["false_positive"]==1
     assert counts["false_negative"]==counts["true_negative"]==1
-    assert annotated[1]["mean_growth_od_per_hour"]==pytest.approx(.01)
-    assert annotated[2]["mean_growth_od_per_hour"]==pytest.approx(.03)
+    by_pair = {(r["allele_1"],r["allele_2"]):r for r in annotated}
+    assert by_pair[("A","C")]["mean_growth_od_per_hour"]==pytest.approx(.01)
+    assert by_pair[("B","C")]["mean_growth_od_per_hour"]==pytest.approx(.03)
     assert counts["screen_precision"]==pytest.approx(.5)
     assert counts["screen_specificity"]==pytest.approx(.5)
 
