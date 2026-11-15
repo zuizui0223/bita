@@ -1,0 +1,75 @@
+name: audit-independent-elife-97216-original-data
+on:
+  push:
+    branches: ['analysis/bita-independent-data-20261115']
+    paths: ['.github/workflows/source-intake-elife-97216.yml']
+  pull_request:
+    branches: ['analysis/bita-real-pattern-recovery-20261114']
+    paths: ['.github/workflows/source-intake-elife-97216.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-intake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch exact published eLife 97216 figure datasets and audit original bytes
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib,io,json,os,re,urllib.request,zipfile
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          root=Path('source_audit');root.mkdir(exist_ok=True)
+          base='https://cdn.elifesciences.org/articles/97216/elife-97216-'
+          ns='{http://schemas.openxmlformats.org/spreadsheetml/2006/main}'
+          manifest=[]
+          for figure in ('fig2','fig3'):
+              url=base+figure+'-data1-v1.xlsx'
+              req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 BITA source-intake/1.0'})
+              with urllib.request.urlopen(req,timeout=30) as resp: data=resp.read(1000000)
+              if not zipfile.is_zipfile(io.BytesIO(data)): raise ValueError('not a valid xlsx: '+figure)
+              path=root/(figure+'.xlsx');path.write_bytes(data)
+              with zipfile.ZipFile(io.BytesIO(data)) as z:
+                  strings=[]
+                  if 'xl/sharedStrings.xml' in z.namelist():
+                      table=ET.fromstring(z.read('xl/sharedStrings.xml'))
+                      strings=[''.join(t.text or '' for t in s.iter(ns+'t')) for s in table.findall(ns+'si')]
+                  sheets=[]
+                  for name in sorted(x for x in z.namelist() if re.fullmatch(r'xl/worksheets/sheet[0-9]+.xml',x)):
+                      xml=ET.fromstring(z.read(name)); rows=[]
+                      for row in xml.iter(ns+'row'):
+                          cells={}
+                          for c in row.findall(ns+'c'):
+                              v=c.find(ns+'v');t=c.get('t')
+                              if t=='inlineStr':
+                                  el=c.find(ns+'is')
+                                  value=''.join(x.text or '' for x in el.iter(ns+'t')) if el is not None else ''
+                              elif v is None: continue
+                              elif t=='s': value=strings[int(v.text)]
+                              elif t in ('str','e'): value=v.text
+                              else:
+                                  try:value=float(v.text)
+                                  except (ValueError,TypeError):value=v.text
+                              cells[c.get('r')]=value
+                          if cells:rows.append(cells)
+                      sheets.append({'path':name,'n_data_rows':len(rows),'preview':rows[:12],'cells':rows})
+              record={'figure':figure,'publisher_url':url,'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data),'sheets':sheets}
+              (root/(figure+'_cells.json')).write_text(json.dumps(record,ensure_ascii=False,indent=2))
+              manifest.append({'figure':figure,'sha256':record['sha256'],'bytes':len(data),'sheets':[{'path':s['path'],'n_data_rows':s['n_data_rows'],'preview':s['preview']} for s in sheets]})
+              print('SOURCE_AUDIT_JSON:'+json.dumps(manifest[-1],ensure_ascii=False),flush=True)
+              print('SOURCE_FULL_CELLS:'+json.dumps({'figure':figure,'sheets':sheets},ensure_ascii=False),flush=True)
+          (root/'manifest.json').write_text(json.dumps({'publication_doi':'10.7554/eLife.97216.3','status':'ORIGINAL_BYTES_CAPTURED_NOT_YET_ANALYSED','sources':manifest},indent=2,ensure_ascii=False))
+          PY
+      - name: Upload publisher source workbooks, cells, and sha receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: bita-elife-97216-publisher-sources
+          path: source_audit/
+          if-no-files-found: error
+          retention-days: 30

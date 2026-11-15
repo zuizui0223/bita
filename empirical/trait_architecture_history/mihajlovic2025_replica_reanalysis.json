@@ -1,0 +1,197 @@
+{
+  "doi": "10.7554/eLife.97216.3",
+  "data_level": "ORIGINAL_PUBLISHER_XLSX_EXTRACTED_CELLS_SHA_PINNED",
+  "source_sha256": {
+    "fig2": "d8ab8a5cd012654e32cd1bac2059bd423ea2731f0e3a00ee39134ce632138bee",
+    "fig3": "8c9e9c84b4e2ed49684c580fc26863a871628a9a41125e9ead89f1c788c8bf32"
+  },
+  "independent_biological_replicates_per_group": 3,
+  "analysis_status": "POST_PUBLICATION_EXPLORATORY",
+  "pooled_meta_analysis_performed": false,
+  "evolutionary_origin_or_hysteresis_identified": false,
+  "claim_boundary": "One experimental source per Figure 2/3 outcome, not 10 or 11 independent studies. Five/six generations are repeated observations of the same three replicate lines per copy-number treatment. No two-copy division of labor, K(u), or evolutionary history identified by these readouts.",
+  "fig2_robustness": {
+    "n_values": 30,
+    "n_replicate_trajectories": 6,
+    "endpoint": "fraction_fluorescent_cells",
+    "generations": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "per_generation": [
+      {
+        "generation": 1,
+        "single_mean": 0.2636130171824213,
+        "double_mean": 0.41099621962294836,
+        "difference_double_minus_single": 0.14738320244052705,
+        "extreme_permutations": 2,
+        "permutations": 20,
+        "p_two_sided": 0.1
+      },
+      {
+        "generation": 2,
+        "single_mean": 0.18410866166132867,
+        "double_mean": 0.36059825720213634,
+        "difference_double_minus_single": 0.17648959554080768,
+        "extreme_permutations": 2,
+        "permutations": 20,
+        "p_two_sided": 0.1
+      },
+      {
+        "generation": 3,
+        "single_mean": 0.2627927947067597,
+        "double_mean": 0.30790545029629435,
+        "difference_double_minus_single": 0.045112655589534645,
+        "extreme_permutations": 2,
+        "permutations": 20,
+        "p_two_sided": 0.1
+      },
+      {
+        "generation": 4,
+        "single_mean": 0.3063076072199003,
+        "double_mean": 0.34081996605997167,
+        "difference_double_minus_single": 0.03451235884007137,
+        "extreme_permutations": 6,
+        "permutations": 20,
+        "p_two_sided": 0.3
+      },
+      {
+        "generation": 5,
+        "single_mean": 0.41297811812596436,
+        "double_mean": 0.468149650259958,
+        "difference_double_minus_single": 0.05517153213399362,
+        "extreme_permutations": 2,
+        "permutations": 20,
+        "p_two_sided": 0.1
+      }
+    ],
+    "final_gen": {
+      "generation": 5,
+      "single_mean": 0.41297811812596436,
+      "double_mean": 0.468149650259958,
+      "difference_double_minus_single": 0.05517153213399362,
+      "extreme_permutations": 2,
+      "permutations": 20,
+      "p_two_sided": 0.1
+    },
+    "trajectory_auc": {
+      "single_mean": 0.27287615781054536,
+      "double_mean": 0.36222415212496384,
+      "difference_double_minus_single": 0.08934799431441848,
+      "extreme_permutations": 2,
+      "permutations": 20,
+      "p_two_sided": 0.1,
+      "single_per_replicate": [
+        0.266933585226535,
+        0.2738482270702995,
+        0.2778466611348016
+      ],
+      "double_per_replicate": [
+        0.3902018647529131,
+        0.3478911420228321,
+        0.3485794495991464
+      ],
+      "method": "trapezoid AUC divided by generation span; independent unit is line"
+    }
+  },
+  "fig3_normalized_fluorescence": {
+    "n_values": 36,
+    "n_replicate_trajectories": 6,
+    "endpoint": "log10_fluorescence_normalized_to_ancestral",
+    "generations": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "per_generation": [
+      {
+        "generation": 0,
+        "single_mean": -0.00007388286666666668,
+        "double_mean": -0.00004601186666666667,
+        "difference_double_minus_single": 0.000027871000000000005,
+        "extreme_permutations": 20,
+        "permutations": 20,
+        "p_two_sided": 1
+      },
+      {
+        "generation": 1,
+        "single_mean": -0.007488347733333334,
+        "double_mean": -0.15951509566666666,
+        "difference_double_minus_single": -0.15202674793333332,
+        "extreme_permutations": 2,
+        "permutations": 20,
+        "p_two_sided": 0.1
+      },
+      {
+        "generation": 2,
+        "single_mean": 0.06627772733333333,
+        "double_mean": 0.015000284266666669,
+        "difference_double_minus_single": -0.05127744306666666,
+        "extreme_permutations": 4,
+        "permutations": 20,
+        "p_two_sided": 0.2
+      },
+      {
+        "generation": 3,
+        "single_mean": 0.8343111531333334,
+        "double_mean": 0.7760010809,
+        "difference_double_minus_single": -0.0583100722333334,
+        "extreme_permutations": 8,
+        "permutations": 20,
+        "p_two_sided": 0.4
+      },
+      {
+        "generation": 4,
+        "single_mean": 1.1222001122,
+        "double_mean": 1.2249336312666668,
+        "difference_double_minus_single": 0.10273351906666672,
+        "extreme_permutations": 16,
+        "permutations": 20,
+        "p_two_sided": 0.8
+      },
+      {
+        "generation": 5,
+        "single_mean": 1.4528422555333333,
+        "double_mean": 1.3768650782,
+        "difference_double_minus_single": -0.07597717733333331,
+        "extreme_permutations": 10,
+        "permutations": 20,
+        "p_two_sided": 0.5
+      }
+    ],
+    "final_gen": {
+      "generation": 5,
+      "single_mean": 1.4528422555333333,
+      "double_mean": 1.3768650782,
+      "difference_double_minus_single": -0.07597717733333331,
+      "extreme_permutations": 10,
+      "permutations": 20,
+      "p_two_sided": 0.5
+    },
+    "trajectory_auc": {
+      "single_mean": 0.5483369662533334,
+      "double_mean": 0.5089658867866667,
+      "difference_double_minus_single": -0.039371079466666736,
+      "extreme_permutations": 10,
+      "permutations": 20,
+      "p_two_sided": 0.5,
+      "single_per_replicate": [
+        0.53890052437,
+        0.5606584234900001,
+        0.5454519509
+      ],
+      "double_per_replicate": [
+        0.49562205107999996,
+        0.43869561994,
+        0.59257998934
+      ],
+      "method": "trapezoid AUC divided by generation span; independent unit is line"
+    }
+  }
+}

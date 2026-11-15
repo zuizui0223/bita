@@ -1,0 +1,20 @@
+{
+  "source_publications_n": 8,
+  "all_unique_programme_families_n": 7,
+  "primary_source_publications_n": 6,
+  "primary_independent_programme_families_n": 5,
+  "context_only_source_publications_n": 2,
+  "matched_history_programme_families_n": 0,
+  "identified_architecture_origin_programme_families_n": 0,
+  "pooled_meta_analysis_performed": false,
+  "primary_programme_families": [
+    "Cichlid_Jaw_Albertson",
+    "Ecoli_coGFP_Schaerli",
+    "Peucedanum_2025_Hokkaido",
+    "Salmonella_HisA_TrpF_Uppsala",
+    "Yeast_Fcy1_Landry"
+  ],
+  "scientific_boundary": "Evidence map; five non-exchangeable programme families, not five replicates of architecture evolution. Architecture-origin causation, matched historical states, K(u), and common effect estimands remain unidentified. Despres mutation pairs and crossing events are selected assay observations, not independent biological transitions. Mihajlovic figures 2/3 were SHA-pinned from the publisher, with two non-poolable replicate-line effects audited; no absolute cross-study effect.",
+  "new_source_studies_with_quantitative_contrasts_n": 1,
+  "new_nonpoolable_endpoint_contrasts_n": 2
+}
