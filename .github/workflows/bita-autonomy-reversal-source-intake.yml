@@ -1,0 +1,65 @@
+name: bita-autonomy-reversal-source-intake
+on:
+  push:
+    branches: ['analysis/bita-autonomy-reversal-20261115']
+    paths: ['.github/workflows/bita-autonomy-reversal-source-intake.yml']
+  pull_request:
+    branches: ['analysis/bita-bacillus-conditional-sign-20261115']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-evolution-paper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch exact PNAS original XML and inspect all evolution-denominator passages
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request,urllib.error,hashlib,json,xml.etree.ElementTree as ET,re
+          from pathlib import Path
+          p=Path('source_audit');p.mkdir(exist_ok=True)
+          url='https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11363282/fullTextXML'
+          with urllib.request.urlopen(urllib.request.Request(url,headers={
+                  'User-Agent':'BITA-original-ecology-source-audit/1.0',
+                  'Accept':'application/xml'}),timeout=35) as r:
+              data=r.read(1800000)
+          root=ET.fromstring(data)
+          p.joinpath('pnas_original.xml').write_bytes(data)
+          def content(el):return ' '.join(''.join(el.itertext()).split())
+          matched=[]
+          for s in root.iter('sec'):
+              title=s.find('title')
+              if title is None:continue
+              pars=[content(x) for x in s.findall('p')]
+              for text in pars:
+                  if any(q in text.lower() for q in (
+                      'twelve','12 replicates','five','autonomist','extinct',
+                      'reintroducing','fluctuating','22 generations','hgt','transfer')):
+                      matched.append({'section':content(title),'content':text})
+          fig=[]
+          for f in root.iter('fig'):
+              cap=f.find('caption')
+              if cap is not None:fig.append({'id':f.get('id'),
+                  'label':content(f.find('label')) if f.find('label') is not None else None,
+                  'caption':content(cap)})
+          stats={'doi':'10.1073/pnas.2317182121','pmcid':'PMC11363282',
+                 'xml_url':url,'sha256':hashlib.sha256(data).hexdigest(),
+                 'bytes':len(data),'matched_paragraphs':matched,'figures':fig}
+          p.joinpath('source_evidence.json').write_text(json.dumps(stats,ensure_ascii=False,indent=2))
+          print('BITA_REVERSAL_SOURCE_SNAPSHOT:'+json.dumps({
+              'sha256':stats['sha256'],'bytes':stats['bytes'],
+              'matched_paragraphs':matched,'figures':fig
+          },ensure_ascii=False,separators=(',',':')),flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-pnas2024-autonomy-original-source
+          path: source_audit/
+          if-no-files-found: error
+          retention-days: 30

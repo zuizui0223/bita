@@ -1,0 +1,82 @@
+name: bita-autonomy-reversal-exact-test
+on:
+  push:
+    branches: ['analysis/bita-autonomy-reversal-20261115']
+    paths:
+      - '.github/workflows/bita-autonomy-reversal-exact-test.yml'
+      - 'scripts/analyze_bita_autonomy_reversal.py'
+      - 'tests/test_bita_autonomy_reversal.py'
+      - 'empirical/trait_architecture_history/chen2024_autonomy_reversal_readout.json'
+  pull_request:
+    branches: ['analysis/bita-bacillus-conditional-sign-20261115']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-population-evolution:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch the exact publication source JATS by DOI/PMCID
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request,hashlib
+          u='https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11363282/fullTextXML'
+          req=urllib.request.Request(u,headers={'User-Agent':'BITA-source-locked-evolution/1.0','Accept':'application/xml'})
+          with urllib.request.urlopen(req,timeout=35) as r:raw=r.read(1800000)
+          sha=hashlib.sha256(raw).hexdigest()
+          expected='64bfc840381c06b3fd417da5ea068a51d9c1854e67af22b8b7a54e54cc3494d6'
+          if sha!=expected:raise ValueError('original PNAS full text sha256 changed')
+          open('pnas_original.xml','wb').write(raw)
+          print('ORIGINAL_PNAS_SOURCE_SHA256:'+sha)
+          PY
+      - name: Recalculate original experimental-line success rates and exact comparisons
+        run: |
+          python -m scripts.analyze_bita_autonomy_reversal --xml pnas_original.xml             --output /tmp/chen2024_autonomy_reversal_readout.json
+      - name: Generate checkable source-derived frozen readout and verify if already committed
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,shutil
+          actual=Path('/tmp/chen2024_autonomy_reversal_readout.json')
+          target=Path('empirical/trait_architecture_history/chen2024_autonomy_reversal_readout.json')
+          target.parent.mkdir(parents=True,exist_ok=True)
+          if target.exists():
+              old=json.loads(target.read_text())
+              new=json.loads(actual.read_text())
+              if old!=new:raise ValueError('source recomputation differs from frozen scientific readout')
+              print('BITA_AUTONOMY_FROZEN_ORIGINAL_ROUNDTRIP:PASS')
+          else:
+              print('BITA_AUTONOMY_FROZEN_ORIGINAL_ROUNDTRIP:AWAITING_FREEZE')
+          shutil.copy2(actual,target)
+          print('BITA_AUTONOMY_FULL_JSON:'+json.dumps(json.loads(target.read_text()),ensure_ascii=False,separators=(',',':')))
+          PY
+      - name: Verify exact tests and all independent source denominators
+        run: |
+          python -m pip install 'pytest>=8,<10' 'scipy>=1.11' 'statsmodels>=0.14'
+          python -m pytest -q tests/test_bita_autonomy_reversal.py
+      - name: Independent SciPy and statsmodels verification of exact calculations
+        run: |
+          python - <<'PY'
+          from scipy.stats import fisher_exact
+          from statsmodels.stats.proportion import confint_proportions_2indep
+          from scripts.analyze_bita_autonomy_reversal import fisher_exact_2sided,newcombe_difference
+          assert abs(fisher_exact([[5,7],[0,12]],alternative='two-sided').pvalue-fisher_exact_2sided(5,12,0,12))<1e-14
+          assert abs(fisher_exact([[5,7],[0,10]],alternative='two-sided').pvalue-fisher_exact_2sided(5,12,0,10))<1e-14
+          for a,n1,b,n2 in [(5,12,0,12),(5,12,0,10),(6,12,3,12)]:
+              lhs=newcombe_difference(a,n1,b,n2)
+              rhs=confint_proportions_2indep(a,n1,b,n2,method='newcomb',compare='diff')
+              assert all(abs(x-y)<1e-13 for x,y in zip(lhs,rhs))
+          print('INDEPENDENT_EXACT_FISHER_AND_NEWCOMBE_CHECK:PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-chen2024-evolutionary-reversal-exact-results
+          path: empirical/trait_architecture_history/chen2024_autonomy_reversal_readout.json
+          if-no-files-found: error
+          retention-days: 30
