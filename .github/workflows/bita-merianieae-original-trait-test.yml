@@ -1,0 +1,70 @@
+name: bita-merianieae-original-trait-test
+on:
+  push:
+    branches: ['analysis/bita-macro-functional-split-20261115']
+    paths:
+      - 'scripts/analyze_bita_merianieae_reward_shape.py'
+      - 'tests/test_bita_merianieae_reward_shape.py'
+      - '.github/workflows/bita-merianieae-original-trait-test.yml'
+  pull_request:
+    branches: ['analysis/bita-fcy1-matched-complementarity-20261115']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-trait-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Retrieve public Zenodo original data with pinned SHA256
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request,hashlib
+          u='https://zenodo.org/api/records/7659158/files/skripts.zip/content'
+          with urllib.request.urlopen(
+              urllib.request.Request(u,headers={'User-Agent':'BITA-ecology-source-audit/1.0'}),timeout=30) as f:
+              raw=f.read(1200000)
+          expected='9d4013d470d1d201ef89196442614429a4146ba2958e1367b0a197ef50b03ed8'
+          if hashlib.sha256(raw).hexdigest()!=expected:raise ValueError('original zip sha mismatch')
+          open('original_merianieae_skripts.zip','wb').write(raw)
+          print('ZENODO_ORIGINAL_ARCHIVE_SHA256:'+expected)
+          PY
+      - name: Analyse measured reward and shape on exactly joined source tree
+        run: |
+          python -m scripts.analyze_bita_merianieae_reward_shape             --source-zip original_merianieae_skripts.zip             --output /tmp/dellinger2024_reward_shape_recomputed.json
+      - name: Check that committed result equals fresh source recomputation
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          frozen=Path('empirical/trait_architecture_history/dellinger2024_reward_shape_readout.json')
+          recomputed=Path('/tmp/dellinger2024_reward_shape_recomputed.json')
+          if json.loads(frozen.read_text()) != json.loads(recomputed.read_text()):
+              raise AssertionError('frozen Merianieae readout differs from original-source recomputation')
+          print('BITA_FROZEN_SOURCE_ROUNDTRIP:PASS')
+          PY
+      - name: Test missingness source coding and taxon-grain controls
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_bita_merianieae_reward_shape.py
+      - name: Publish independent counted-source receipt
+        run: |
+          python - <<'PY'
+          import json
+          p='empirical/trait_architecture_history/dellinger2024_reward_shape_readout.json'
+          d=json.load(open(p))
+          print('BITA_MERIANIEAE_JSON:'+json.dumps(d,ensure_ascii=False,separators=(',',':')))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-merianieae-original-trait-readout
+          path: |
+            empirical/trait_architecture_history/dellinger2024_reward_shape_readout.json
+          if-no-files-found: error
+          retention-days: 30

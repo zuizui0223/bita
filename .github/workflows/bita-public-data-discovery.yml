@@ -1,0 +1,184 @@
+name: bita-public-data-discovery
+on:
+  push:
+    branches: ['analysis/bita-macro-functional-split-20261115']
+    paths: ['.github/workflows/bita-public-data-discovery.yml']
+  pull_request:
+    branches: ['analysis/bita-fcy1-matched-complementarity-20261115']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect-public-datasets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Resolve Dryad Figshare and Zenodo metadata without protected downloads
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request,urllib.error,urllib.parse,json,re,hashlib
+          from pathlib import Path
+          h={'User-Agent':'BITA-ecological-source-audit/1.0 (public-data, no auth)','Accept':'application/json'}
+          def read(url):
+              req=urllib.request.Request(url,headers=h)
+              try:
+                  with urllib.request.urlopen(req,timeout=20) as r:
+                      data=r.read(900000);code=r.status
+                  return code,json.loads(data)
+              except urllib.error.HTTPError as ex:
+                  return ex.code,{'error':ex.reason,'body':ex.read(200).decode('utf8','replace')}
+              except Exception as ex:return 'ERROR',{'error':type(ex).__name__+': '+str(ex)[:200]}
+          sources={}
+          for name,doi in [('pseudomonas_2022','10.5061/dryad.2bvq83bs4'),
+                            ('clarkia_2020','10.5061/dryad.8cz8w9gmp'),
+                            ('merianieae_2021','10.5061/dryad.gxd2547m1')]:
+              url='https://datadryad.org/api/v2/datasets/'+urllib.parse.quote('doi:'+doi,safe='')
+              code,body=read(url)
+              versions_url=url+'/versions'
+              c2,v2=read(versions_url) if code==200 else ('NOT_ATTEMPTED',{})
+              parsed=[]
+              if c2==200:
+                  for elem in v2.get('_embedded',{}).get('stash:versions',[]):
+                      parsed.append({'id':elem.get('id'),'versionNumber':elem.get('versionNumber'),'files':elem.get('_links',{}).get('stash:files',{}).get('href')})
+                  version_id=next((p['id'] for p in parsed if p['id']),None)
+                  if version_id:
+                      c3,file_body=read('https://datadryad.org/api/v2/versions/'+str(version_id)+'/files?per_page=100')
+                      lst=file_body.get('_embedded',{}).get('stash:files',[]) if c3==200 else []
+                      if not lst:
+                          lst=file_body.get('_embedded',{}).get('files',[]) if c3==200 else []
+                      file_status={'status':c3,'n':len(lst),'files':[{'id':f.get('id'),'path':f.get('path'),'size':f.get('size'),'sha256_digest':f.get('digest')} for f in lst[:35]]}
+                  else:file_status={'status':'NO_VERSION_ID'}
+              else:file_status={'status':'NO_FILES_FETCHED'}
+              sources[name]={'dataset_status':code,'versions_status':c2,
+                  'metadata':{'title':body.get('title'),'id':body.get('id'),'versionNumber':body.get('versionNumber'),'_links':body.get('_links')},
+                  'versions':parsed,'file_status':file_status}
+          for name,u in [('figshare_collection','https://api.figshare.com/v2/collections/5230678'),
+                         ('figshare_articles','https://api.figshare.com/v2/collections/5230678/articles'),
+                         ('zenodo_merianieae','https://zenodo.org/api/records/7659158')]:
+              code,body=read(u)
+              if isinstance(body,list): items=[{'id':x.get('id'),'title':x.get('title'),'doi':x.get('doi')} for x in body[:30]]
+              elif name=='zenodo_merianieae':
+                  files=body.get('files',[])
+                  items=[{'key':x.get('key'),'size':x.get('size'),'checksum':x.get('checksum'),'url':x.get('links',{}).get('self')} for x in files[:45]]
+              else:
+                  items={'id':body.get('id'),'doi':body.get('doi'),'title':body.get('title'),'articles_count':body.get('articles_count'),'error':body.get('error')}
+              sources[name]={'status':code,'items':items}
+          # Explicit first-party Dryad file listing and unauthenticated download status.
+          for key in ('pseudomonas_2022','clarkia_2020','merianieae_2021'):
+              record=sources[key]
+              href=record['metadata'].get('_links',{}).get('stash:version',{}).get('href','')
+              if not href:continue
+              code,details=read('https://datadryad.org'+href+'/files?per_page=100')
+              files=details.get('_embedded',{}).get('stash:files',[]) if code==200 else []
+              record['file_status']={'status':code,'n':len(files),'files':[
+                  {'path':x.get('path'),'id':x.get('id'),'size':x.get('size'),
+                   'sha256':x.get('digest')} for x in files[:40]]}
+              targets=[x for x in files if str(x.get('path','')).endswith(('.xlsx','.csv'))]
+              if targets:
+                  tid=targets[0].get('id')
+                  if tid:
+                      url='https://datadryad.org/api/v2/files/'+str(tid)+'/download'
+                      req=urllib.request.Request(url,headers={'User-Agent':'BITA-ecological-source-audit/1.0'})
+                      try:
+                          with urllib.request.urlopen(req,timeout=18) as resp:
+                              sniff=resp.read(1024)
+                              record['anonymous_download']={'status':resp.status,'peek_sha256':hashlib.sha256(sniff).hexdigest()}
+                      except urllib.error.HTTPError as ex:
+                          record['anonymous_download']={'status':ex.code,'reason':str(ex.reason)}
+                      except Exception as ex:
+                          record['anonymous_download']={'status':'ERROR','reason':type(ex).__name__}
+          # Inspect publicly released Zenodo script archive without guessing its dataset.
+          import zipfile,io
+          try:
+              u='https://zenodo.org/api/records/7659158/files/skripts.zip/content'
+              req=urllib.request.Request(u,headers={'User-Agent':'BITA-ecological-source-audit/1.0'})
+              with urllib.request.urlopen(req,timeout=24) as resp:
+                  raw=resp.read(1200000)
+              z=zipfile.ZipFile(io.BytesIO(raw))
+              names=z.namelist()
+              preview=[]
+              for name in names:
+                  if name.lower().endswith(('.csv','.tsv','.tre','.r','.txt')) and not name.startswith('__MACOSX'):
+                      info=z.getinfo(name)
+                      if info.file_size<=300000 and len(preview)<45:
+                          textdata=z.read(name).decode('utf-8','replace')
+                          preview.append({'name':name,'size':info.file_size,'first_lines':textdata.splitlines()[:5]})
+              sources['zenodo_merianieae_archive']={
+                 'status':200,'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest(),
+                 'names':names[:180],'n':len(names),'previews':preview}
+          except Exception as ex:
+              sources['zenodo_merianieae_archive']={'status':'ERROR','reason':type(ex).__name__+': '+str(ex)[:100]}
+          # Inspect preserved Dellinger source trait variable coding; no interpretation yet.
+          import csv,collections
+          if sources['zenodo_merianieae_archive'].get('status')==200:
+              data=z.read('1_morphospaces_disparity/floraltraits.csv').decode('utf-8-sig')
+              records=list(csv.DictReader(io.StringIO(data)))
+              cols=['confirmed.reward.type','stamen.shape.dimorphism',
+                    'confirmed.pollinator','estimated_pollinator','pollen.expulsion',
+                    'stamen.adaxial.thecal.wall','stamen.nr.of.pores']
+              result={'n_rows':len(records),'n_distinct_taxa':len({r['species'] for r in records}),
+                      'distinct_x':len({r['x'] for r in records}),
+                      'fields':list(records[0]),
+                      'source_sha256':hashlib.sha256(data.encode('utf8')).hexdigest(),
+                      'marginals':{},'cross_reward_shape':{}}
+              for col in cols:
+                  result['marginals'][col]=dict(sorted(collections.Counter(r.get(col,'') for r in records).items()))
+              for row in records:
+                  reward=row.get('confirmed.reward.type','')
+                  shape=row.get('stamen.shape.dimorphism','')
+                  k=reward+' | '+shape
+                  result['cross_reward_shape'][k]=result['cross_reward_shape'].get(k,0)+1
+              result['cross_reward_shape']=dict(sorted(result['cross_reward_shape'].items()))
+              result['sample_by_code']={}
+              for row in records:
+                  k=row.get('confirmed.reward.type','')
+                  result['sample_by_code'].setdefault(k,[])
+                  if len(result['sample_by_code'][k])<6:
+                      result['sample_by_code'][k].append({
+                         'species':row['species'],'shape_code':row.get('stamen.shape.dimorphism'),
+                         'pollinator':row.get('estimated_pollinator')})
+              gtab={}
+              for row in records:
+                  genus=row['species'].split(' ')[0]
+                  reward=row['confirmed.reward.type']
+                  stamen=row['stamen.shape.dimorphism']
+                  gtab.setdefault(genus,{})
+                  k=reward+' | '+stamen
+                  gtab[genus][k]=gtab[genus].get(k,0)+1
+              result['genus_reward_shape_table']=gtab
+              tree=z.read('1_morphospaces_disparity/Marcelo_Meris.tre').decode('utf-8-sig')
+              leafnames=set(re.findall(r'(?<=[(,])([^():,;]+):',tree))
+              inphylo=[row for row in records if row['x'] in leafnames]
+              result['tree_file_sha256']=hashlib.sha256(tree.encode('utf8')).hexdigest()
+              result['n_tree_tips']=len(leafnames)
+              result['n_traits_matching_tree']=len(inphylo)
+              result['trait_species_not_in_tree']=[
+                  {'species':row['species'],'x':row['x']} for row in records if row['x'] not in leafnames]
+              phylo_table={}
+              for row in inphylo:
+                  k=row['confirmed.reward.type']+' | '+row['stamen.shape.dimorphism']
+                  phylo_table[k]=phylo_table.get(k,0)+1
+              result['tree_matched_cross_tab']=dict(sorted(phylo_table.items()))
+              script=z.read('1_morphospaces_disparity/1a_morphospaces_disparity.R').decode('utf-8-sig')
+              result['trait_coding_r_context']=[]
+              for term in ['stamen.shape.dimorphism','confirmed.reward.type']:
+                  start=0
+                  while len(result['trait_coding_r_context'])<16:
+                      loc=script.find(term,start)
+                      if loc<0:break
+                      result['trait_coding_r_context'].append(script[max(0,loc-180):min(len(script),loc+230)])
+                      start=loc+len(term)
+              sources['zenodo_merianieae_traits_audit']=result
+          Path('source-discovery.json').write_text(json.dumps(sources,indent=2,ensure_ascii=False))
+          print('BITA_SOURCE_DISCOVERY_JSON:'+json.dumps(sources,ensure_ascii=False,separators=(',',':')))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-source-discovery-20261115
+          path: source-discovery.json
+          retention-days: 14
