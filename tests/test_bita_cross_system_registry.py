@@ -21,7 +21,8 @@ def test_prespecified_independence_units_and_exclusions():
     assert s["context_only_source_publications_n"] == 2
     assert s["matched_history_programme_families_n"] == 0
     assert s["identified_architecture_origin_programme_families_n"] == 0
-    assert s["new_study_level_effect_sizes_n"] == 0
+    assert s["new_source_studies_with_quantitative_contrasts_n"] == 1
+    assert s["new_nonpoolable_endpoint_contrasts_n"] == 2
     assert s["pooled_meta_analysis_performed"] is False
 
 def test_salmonella_papers_share_a_research_family():
@@ -34,10 +35,10 @@ def test_experiments_not_pooled_from_variant_counts():
     assert "207" in d["source_observation"] and "613" in d["source_observation"]
     assert all(x["poolable_same_endpoint"] == "False" for x in r)
 
-def test_negative_control_and_unavailable_original_source():
+def test_negative_control_and_publisher_source_audited():
     m = next(x for x in read() if x["source_id"] == "Mihajlovic_2025")
     assert "no blue-green duplicate specialization" in m["source_observation"]
-    assert "pending" in m["data_state"]
+    assert "sha_verified_66_values" in m["data_state"]
     assert m["architecture_origin_identified"] == "False"
 
 def test_duplicate_and_pseudopooling_fail_closed():
