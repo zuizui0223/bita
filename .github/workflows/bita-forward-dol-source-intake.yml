@@ -73,7 +73,6 @@ jobs:
                     },ensure_ascii=False,separators=(',',':')),flush=True)
               except urllib.error.HTTPError as ex:out[key]={'status':ex.code,'error':str(ex.reason),'url':url}
               except Exception as ex:out[key]={'status':'ERROR','error':type(ex).__name__+': '+str(ex)[:180]}
-          dryad='https://datadryad.org/api/v2/datasets/'+urllib.parse.quote('doi:10.5061/dryad.bnzs7h462',safe='')
           try:
               import urllib.parse
               dryad='https://datadryad.org/api/v2/datasets/'+urllib.parse.quote('doi:10.5061/dryad.bnzs7h462',safe='')
