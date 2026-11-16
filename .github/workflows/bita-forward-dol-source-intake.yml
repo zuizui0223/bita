@@ -1,0 +1,105 @@
+name: bita-forward-dol-source-intake
+on:
+  push:
+    branches: ['analysis/bita-forward-dol-source-20261116']
+    paths:
+      - '.github/workflows/bita-forward-dol-source-intake.yml'
+  pull_request:
+    branches: ['analysis/bita-autonomy-reversal-20261115']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-forward-source-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit original Kim 2016 and Zhang 2020 article source data, plus Dryad file inventory
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib,urllib.request,urllib.error,json,re,xml.etree.ElementTree as ET
+          from pathlib import Path
+          root=Path('forward_source');root.mkdir(exist_ok=True)
+          hdr={'User-Agent':'BITA-original-evolution-source-audit/1.0','Accept':'application/xml,application/json'}
+          cases={
+            'Kim2016':'PMC4748119',
+            'Zhang2020':'PMC6962034'
+          }
+          def tx(el):return ' '.join(''.join(el.itertext()).split())
+          out={}
+          for key,pmcid in cases.items():
+              url='https://www.ebi.ac.uk/europepmc/webservices/rest/'+pmcid+'/fullTextXML'
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(url,headers=hdr),timeout=35) as r:
+                      raw=r.read(2200000)
+                  article=ET.fromstring(raw)
+                  root.joinpath(key+'_original.xml').write_bytes(raw)
+                  body=[]
+                  for sec in article.iter('sec'):
+                      t=sec.find('title')
+                      if t is None:continue
+                      name=tx(t)
+                      for para in sec.findall('p'):
+                          content=tx(para)
+                          if any(word in content.lower() for word in (
+                            'independently','replicate','mutants','fitness','spore','antibiotic',
+                            'mutation','population','division of labo','colony spread',
+                            'frequency-dependent','selection','recombin')):
+                              body.append({'heading':name,'paragraph':content})
+                  figs=[{'id':fig.get('id'),'label':tx(fig.find('label')) if fig.find('label') is not None else None,
+                         'caption':tx(fig.find('caption')) if fig.find('caption') is not None else None}
+                        for fig in article.iter('fig')]
+                  supplements=[]
+                  for s in article.iter('supplementary-material'):
+                      supplements.append({'id':s.get('id'),
+                         'href':s.get('{http://www.w3.org/1999/xlink}href'),
+                         'filename':s.get('href'),
+                         'caption':tx(s.find('caption')) if s.find('caption') is not None else None})
+                  record={'url':url,'sha256':hashlib.sha256(raw).hexdigest(),
+                          'bytes':len(raw),'doi':[x.text for x in article.iter('article-id') if x.get('pub-id-type')=='doi'],
+                          'paragraphs':body,'figures':figs,'supplements':supplements}
+                  out[key]=record
+                  print('BITA_FORWARD_JATS_SUMMARY:'+json.dumps({
+                      'key':key,'source_sha256':record['sha256'],
+                      'bytes':record['bytes'],'n_paragraphs':len(body),
+                      'figures':[{'label':x['label'],'caption':(x['caption'] or '')[:1450]} for x in figs],
+                      'source_paragraphs':[{'heading':x['heading'],'text':x['paragraph'][:2000]} for x in body[:55]],
+                      'supplements':supplements
+                    },ensure_ascii=False,separators=(',',':')),flush=True)
+              except urllib.error.HTTPError as ex:out[key]={'status':ex.code,'error':str(ex.reason),'url':url}
+              except Exception as ex:out[key]={'status':'ERROR','error':type(ex).__name__+': '+str(ex)[:180]}
+          try:
+              import urllib.parse
+              dryad='https://datadryad.org/api/v2/datasets/'+urllib.parse.quote('doi:10.5061/dryad.bnzs7h462',safe='')
+              with urllib.request.urlopen(urllib.request.Request(dryad,headers={
+                  'User-Agent':'BITA-original-evolution-source-audit/1.0','Accept':'application/json'}),timeout=25) as f:
+                  meta=json.load(f)
+              ver=meta.get('_links',{}).get('stash:version',{}).get('href','')
+              if not ver:raise ValueError('no Dryad version ID')
+              with urllib.request.urlopen(urllib.request.Request('https://datadryad.org'+ver+'/files',headers={
+                   'User-Agent':'BITA-original-evolution-source-audit/1.0','Accept':'application/json'}),timeout=25) as f:
+                  files=json.load(f)
+              docfiles=[]
+              for item in files.get('_embedded',{}).get('stash:files',[]):
+                  docfiles.append({'path':item.get('path'),'size':item.get('size'),
+                      'sha256':item.get('digest'),
+                      'link':item.get('_links',{}).get('stash:download',{}).get('href')})
+              out['Zhang2020_Dryad']={'metadata_title':meta.get('title'),
+                                    'doi':meta.get('doi'),'files':docfiles}
+              print('BITA_FORWARD_DRYAD_METADATA:'+json.dumps(out['Zhang2020_Dryad'],ensure_ascii=False),flush=True)
+          except Exception as ex:out['Zhang2020_Dryad']={'error':str(ex)[:250]}
+          root.joinpath('source_inventory.json').write_text(json.dumps(out,ensure_ascii=False,indent=2))
+          if 'sha256' not in out.get('Kim2016',{}) or 'sha256' not in out.get('Zhang2020',{}):
+              raise RuntimeError('at least one original article source unavailable')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-forward-Kim-Zhang-original-articles
+          path: forward_source/
+          if-no-files-found: error
+          retention-days: 30

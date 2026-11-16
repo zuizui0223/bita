@@ -1,0 +1,71 @@
+name: bita-forward-dol-raw-source-gate
+on:
+  push:
+    branches: ['analysis/bita-forward-dol-source-20261116']
+    paths:
+      - '.github/workflows/bita-forward-dol-raw-source-gate.yml'
+  pull_request:
+    branches: ['analysis/bita-autonomy-reversal-20261115']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-source-download-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify official Dryad source download and declared checksum without inferred access
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib,json,urllib.request,urllib.error,io,zipfile
+          from pathlib import Path
+          expected={'name':'Data_Dryad_DoL-Zheren_Zhang.xlsx',
+                    'bytes':81045,
+                    'sha256':'a23b8ac0f31fe52d76d5f1ebc1dcf3ddab3f9e8f769cea154b10e89c02a6c82e'}
+          urls=[
+             'https://datadryad.org/api/v2/files/207443/download',
+             'https://datadryad.org/downloads/file_stream/207443',
+             'https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.bnzs7h462/download',
+          ]
+          out={'source_doi':'10.5061/dryad.bnzs7h462','declared_source':expected,'attempts':[]}
+          for u in urls:
+              req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0 (science original-source audit)',
+                    'Referer':'https://datadryad.org/dataset/doi%3A10.5061/dryad.bnzs7h462'})
+              try:
+                  with urllib.request.urlopen(req,timeout=18) as r:
+                      raw=r.read(1000000)
+                      typ=r.headers.get('content-type')
+                      status=r.status
+                  z=zipfile.is_zipfile(io.BytesIO(raw))
+                  sha=hashlib.sha256(raw).hexdigest()
+                  record={'url':u,'http_status':status,'bytes':len(raw),'sha256':sha,
+                          'mime':typ,'is_xlsx_zip':z}
+                  if len(raw)==expected['bytes'] and sha==expected['sha256'] and z:
+                      Path('original_zhang2020.xlsx').write_bytes(raw)
+                      out['source_file_sha256_verified']=True
+                      out['source_download_url']=u
+                  elif status==200:
+                      record['source_bytes_match_expected']=False
+              except urllib.error.HTTPError as ex:
+                  record={'url':u,'http_status':ex.code,'reason':str(ex.reason)}
+              except Exception as ex:
+                  record={'url':u,'http_status':'ERROR','reason':type(ex).__name__+': '+str(ex)[:125]}
+              out['attempts'].append(record)
+          if 'source_file_sha256_verified' not in out:
+              out['source_file_sha256_verified']=False
+              out['scientific_data_status']='RAW_XLSX_UNAVAILABLE_NOT_REANALYSED'
+          Path('zhang_dryad_access_receipt.json').write_text(json.dumps(out,indent=2))
+          print('BITA_FORWARD_ORIGINAL_XLSX_GATE:'+json.dumps(out,ensure_ascii=False,separators=(',',':')),flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-streptomyces-original-xlsx-access-receipt
+          path: |
+            zhang_dryad_access_receipt.json
+            original_zhang2020.xlsx
+          retention-days: 14
