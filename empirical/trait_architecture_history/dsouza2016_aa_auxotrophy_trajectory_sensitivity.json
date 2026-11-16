@@ -182,7 +182,6 @@
   },
   "inference_scope": {
     "all_outcomes_exploratory_post_source": true,
-    "multiple_endpoints_not_multiplicity_adjusted": true,
     "whole_trajectory_labels_permuted_not_96_cells": true,
     "permutation_exchangeability_assumption_required": true,
     "sampled_detection_count_not_duration_or_true_auxotroph_frequency": true,
@@ -190,6 +189,44 @@
     "non_detection_not_absence_of_mutation": true,
     "function_loss_not_reciprocal_division_of_labour": true,
     "mutation_supply_and_selection_not_separately_identified": true,
-    "meta_analysis_performed": false
+    "meta_analysis_performed": false,
+    "four_reported_outcomes_max_t_adjusted": true,
+    "reported_outcome_family_selected_post_source": true
+  },
+  "four_view_multiplicity_sensitivity": {
+    "method": "max_abs_population_permutation_z_four_displayed_outcomes",
+    "prospective_confirmatory_family": false,
+    "whole_populations_relabelled": true,
+    "outcome_names": [
+      "sampled_detected_count",
+      "late_detected_count",
+      "ever_detected",
+      "final_detected"
+    ],
+    "null_permutation_sd_of_difference": {
+      "sampled_detected_count": 0.46435439052516775,
+      "late_detected_count": 0.47871355387816905,
+      "ever_detected": 0.25,
+      "final_detected": 0.25
+    },
+    "observed_abs_standardized_difference": {
+      "sampled_detected_count": 2.4227185592617446,
+      "late_detected_count": 2.6111648393354674,
+      "ever_detected": 2,
+      "final_detected": 3
+    },
+    "familywise_extreme_partitions": {
+      "sampled_detected_count": 360,
+      "late_detected_count": 252,
+      "ever_detected": 2610,
+      "final_detected": 168
+    },
+    "all_label_partitions": 12870,
+    "four_view_max_t_adjusted_p": {
+      "sampled_detected_count": 0.027972027972027972,
+      "late_detected_count": 0.019580419580419582,
+      "ever_detected": 0.20279720279720279,
+      "final_detected": 0.013053613053613054
+    }
   }
 }
