@@ -1,0 +1,102 @@
+name: bita-kinsler2024-original-author-source-audit
+on:
+  push:
+    branches: ['analysis/bita-kinsler2024-independent-mutational-architecture-20261117']
+    paths:
+      - '.github/workflows/bita-kinsler2024-original-author-source-audit.yml'
+      - 'scripts/audit_bita_kinsler2024_source.py'
+      - 'tests/test_bita_kinsler2024_source.py'
+      - 'scripts/analyze_bita_kinsler2024_parent_relative.py'
+      - 'tests/test_bita_kinsler2024_parent_relative.py'
+      - 'empirical/trait_architecture_history/kinsler2024_author_source_inventory.json'
+      - 'empirical/trait_architecture_history/kinsler2024_parent_relative_readout.json'
+  pull_request:
+    branches: ['analysis/bita-ecoli-detection-transition-20261117']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pin-and-audit-author-original:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Retrieve published-author source CSVs from immutable commit
+        shell: bash
+        run: |
+          python - <<'PY'
+          import pathlib, urllib.request
+          from scripts.audit_bita_kinsler2024_source import BASE, FILE_GIT_BLOBS, verify_git_source
+          dst = pathlib.Path('/tmp/bita_kinsler2024_original')
+          dst.mkdir(parents=True, exist_ok=True)
+          for name in FILE_GIT_BLOBS:
+              url = BASE + '/' + name
+              req = urllib.request.Request(url, headers={
+                  'User-Agent':'bita-original-publication-independent-evolution-source-audit/1.0',
+                  'Accept':'text/csv, text/plain, */*',
+              })
+              with urllib.request.urlopen(req, timeout=50) as response:
+                  raw = response.read(4_000_000)
+              receipt = verify_git_source(raw, name)
+              (dst/name).write_bytes(raw)
+              print('BITA_KINSLER_AUTHOR_SOURCE_VERIFIED:'+str(receipt),flush=True)
+          PY
+      - name: Profile source schemas, lineage and selected-clone denominators
+        run: |
+          python -m scripts.audit_bita_kinsler2024_source \
+            --s1 /tmp/bita_kinsler2024_original/S1_Data.csv \
+            --s3 /tmp/bita_kinsler2024_original/S3_Data.csv \
+            --output /tmp/bita_kinsler2024_source_inventory.json
+      - name: Recover original parent-relative fermentation/respiration sign profiles
+        run: |
+          python -m scripts.analyze_bita_kinsler2024_parent_relative \
+            --s1 /tmp/bita_kinsler2024_original/S1_Data.csv \
+            --s3 /tmp/bita_kinsler2024_original/S3_Data.csv \
+            --output /tmp/bita_kinsler2024_parent_relative.json
+      - name: Emit full read-only aggregate receipts for freezing and audit
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          for label,name in (
+              ('BITA_KINSLER_FULL_SOURCE_INVENTORY','/tmp/bita_kinsler2024_source_inventory.json'),
+              ('BITA_KINSLER_FULL_PARENT_RELATIVE','/tmp/bita_kinsler2024_parent_relative.json'),
+          ):
+              d=json.loads(pathlib.Path(name).read_text())
+              print(label+':'+json.dumps(d,sort_keys=True,separators=(',',':')),flush=True)
+          PY
+      - name: Verify structural source and no-population-inflation tests
+        run: |
+          python -m pip install 'pytest>=8,<10'
+          python -m pytest -q tests/test_bita_kinsler2024_source.py tests/test_bita_kinsler2024_parent_relative.py
+      - name: Recompute against frozen aggregate if present
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          path=pathlib.Path('empirical/trait_architecture_history/kinsler2024_author_source_inventory.json')
+          if path.exists():
+              current=json.loads(pathlib.Path('/tmp/bita_kinsler2024_source_inventory.json').read_text())
+              frozen=json.loads(path.read_text())
+              if current!=frozen: raise ValueError('source deposit changed from audited frozen aggregate')
+              print('BITA_KINSLER_ORIGINAL_SOURCE_FROZEN_ROUNDTRIP:PASS')
+          else:
+              print('BITA_KINSLER_ORIGINAL_SOURCE_FROZEN_ROUNDTRIP:AWAITING_FIRST_FREEZE')
+          result_path=pathlib.Path('empirical/trait_architecture_history/kinsler2024_parent_relative_readout.json')
+          if result_path.exists():
+              current=json.loads(pathlib.Path('/tmp/bita_kinsler2024_parent_relative.json').read_text())
+              frozen=json.loads(result_path.read_text())
+              if current!=frozen: raise ValueError('pinned author parent-relative numerical result diverged')
+              print('BITA_KINSLER_PARENT_RELATIVE_FROZEN_ROUNDTRIP:PASS')
+          else:
+              print('BITA_KINSLER_PARENT_RELATIVE_FROZEN_ROUNDTRIP:AWAITING_FIRST_FREEZE')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kinsler2024-original-author-source-aggregate-schema
+          path: |
+            /tmp/bita_kinsler2024_source_inventory.json
+            /tmp/bita_kinsler2024_parent_relative.json
+          if-no-files-found: error
+          retention-days: 30

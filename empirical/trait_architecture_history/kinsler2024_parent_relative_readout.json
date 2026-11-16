@@ -1,0 +1,1607 @@
+{
+  "S1_all_rows": 4633,
+  "S1_sources": {
+    "Aggeli2020": 2459,
+    "Li2019": 442,
+    "This_study": 1250,
+    "Venkataram2015": 482
+  },
+  "author_commit": "0de5873c853e08e78541cec4f50988f41327af47",
+  "clone_weighted_by_environment_and_class": {
+    "Evo2D|adaptive_haploid": {
+      "complete_parent_relative_fermentation_respiration": 241,
+      "descriptive_both_gain_share": 0.26556016597510373,
+      "descriptive_resp_gain_fer_cost_share": 0.7219917012448133,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 64,
+        "fermentation_gain_respiration_not_positive": 3,
+        "respiration_gain_fermentation_cost": 174
+      },
+      "selected_clone_rows": 241,
+      "stationary_phase": {
+        "available_stationary_measurements": 241,
+        "stationary_gain_among_both": 16,
+        "stationary_gain_among_resp_gain_fer_cost": 77,
+        "stationary_negative_exceeds_deposited_error": 94,
+        "stationary_nonmissing_among_both": 64,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 174,
+        "stationary_positive_exceeds_deposited_error": 72,
+        "stationary_positive_exceeds_error_among_both": 5,
+        "stationary_positive_exceeds_error_among_other": 67,
+        "stationary_with_error_available": 241
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 241,
+        "both_positive_margin_gt_2errors": 24,
+        "other_or_uncertain_sign": 118,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 99
+      }
+    },
+    "Evo2D|all_adaptive_classes": {
+      "complete_parent_relative_fermentation_respiration": 306,
+      "descriptive_both_gain_share": 0.3562091503267974,
+      "descriptive_resp_gain_fer_cost_share": 0.6339869281045751,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 109,
+        "fermentation_gain_respiration_not_positive": 3,
+        "respiration_gain_fermentation_cost": 194
+      },
+      "selected_clone_rows": 306,
+      "stationary_phase": {
+        "available_stationary_measurements": 306,
+        "stationary_gain_among_both": 26,
+        "stationary_gain_among_resp_gain_fer_cost": 82,
+        "stationary_negative_exceeds_deposited_error": 129,
+        "stationary_nonmissing_among_both": 109,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 194,
+        "stationary_positive_exceeds_deposited_error": 77,
+        "stationary_positive_exceeds_error_among_both": 7,
+        "stationary_positive_exceeds_error_among_other": 70,
+        "stationary_with_error_available": 306
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 306,
+        "both_positive_margin_gt_2errors": 56,
+        "other_or_uncertain_sign": 136,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 114
+      }
+    },
+    "Evo2D|high_fitness_diploids": {
+      "complete_parent_relative_fermentation_respiration": 65,
+      "descriptive_both_gain_share": 0.6923076923076923,
+      "descriptive_resp_gain_fer_cost_share": 0.3076923076923077,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 45,
+        "respiration_gain_fermentation_cost": 20
+      },
+      "selected_clone_rows": 65,
+      "stationary_phase": {
+        "available_stationary_measurements": 65,
+        "stationary_gain_among_both": 10,
+        "stationary_gain_among_resp_gain_fer_cost": 5,
+        "stationary_negative_exceeds_deposited_error": 35,
+        "stationary_nonmissing_among_both": 45,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 20,
+        "stationary_positive_exceeds_deposited_error": 5,
+        "stationary_positive_exceeds_error_among_both": 2,
+        "stationary_positive_exceeds_error_among_other": 3,
+        "stationary_with_error_available": 65
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 65,
+        "both_positive_margin_gt_2errors": 32,
+        "other_or_uncertain_sign": 18,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 15
+      }
+    },
+    "Evo3D|adaptive_haploid": {
+      "complete_parent_relative_fermentation_respiration": 186,
+      "descriptive_both_gain_share": 0.0967741935483871,
+      "descriptive_resp_gain_fer_cost_share": 0.9032258064516129,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 18,
+        "respiration_gain_fermentation_cost": 168
+      },
+      "selected_clone_rows": 186,
+      "stationary_phase": {
+        "available_stationary_measurements": 186,
+        "stationary_gain_among_both": 8,
+        "stationary_gain_among_resp_gain_fer_cost": 159,
+        "stationary_negative_exceeds_deposited_error": 11,
+        "stationary_nonmissing_among_both": 18,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 168,
+        "stationary_positive_exceeds_deposited_error": 152,
+        "stationary_positive_exceeds_error_among_both": 3,
+        "stationary_positive_exceeds_error_among_other": 149,
+        "stationary_with_error_available": 186
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 186,
+        "both_positive_margin_gt_2errors": 9,
+        "other_or_uncertain_sign": 73,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 104
+      }
+    },
+    "Evo3D|all_adaptive_classes": {
+      "complete_parent_relative_fermentation_respiration": 202,
+      "descriptive_both_gain_share": 0.12376237623762376,
+      "descriptive_resp_gain_fer_cost_share": 0.8762376237623762,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 25,
+        "respiration_gain_fermentation_cost": 177
+      },
+      "selected_clone_rows": 202,
+      "stationary_phase": {
+        "available_stationary_measurements": 202,
+        "stationary_gain_among_both": 12,
+        "stationary_gain_among_resp_gain_fer_cost": 166,
+        "stationary_negative_exceeds_deposited_error": 15,
+        "stationary_nonmissing_among_both": 25,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 177,
+        "stationary_positive_exceeds_deposited_error": 160,
+        "stationary_positive_exceeds_error_among_both": 5,
+        "stationary_positive_exceeds_error_among_other": 155,
+        "stationary_with_error_available": 202
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 202,
+        "both_positive_margin_gt_2errors": 11,
+        "other_or_uncertain_sign": 80,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 111
+      }
+    },
+    "Evo3D|high_fitness_diploids": {
+      "complete_parent_relative_fermentation_respiration": 16,
+      "descriptive_both_gain_share": 0.4375,
+      "descriptive_resp_gain_fer_cost_share": 0.5625,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 7,
+        "respiration_gain_fermentation_cost": 9
+      },
+      "selected_clone_rows": 16,
+      "stationary_phase": {
+        "available_stationary_measurements": 16,
+        "stationary_gain_among_both": 4,
+        "stationary_gain_among_resp_gain_fer_cost": 7,
+        "stationary_negative_exceeds_deposited_error": 4,
+        "stationary_nonmissing_among_both": 7,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 9,
+        "stationary_positive_exceeds_deposited_error": 8,
+        "stationary_positive_exceeds_error_among_both": 2,
+        "stationary_positive_exceeds_error_among_other": 6,
+        "stationary_with_error_available": 16
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 16,
+        "both_positive_margin_gt_2errors": 2,
+        "other_or_uncertain_sign": 7,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 7
+      }
+    }
+  },
+  "equal_weight_across_present_parents_descriptive": {
+    "Evo2D": {
+      "backgrounds_n": 5,
+      "mean_of_ancestral_background_specific_both_gain_shares": 0.36080294494854653,
+      "mean_of_ancestral_background_specific_resp_gain_fer_cost_shares": 0.6252435666793603,
+      "not_an_evolutionary_population_weighted_estimate": true,
+      "represented_backgrounds": [
+        "CYR1",
+        "GPB2",
+        "TOR1",
+        "IRA1_MIS",
+        "IRA1_NON"
+      ]
+    },
+    "Evo3D": {
+      "backgrounds_n": 4,
+      "mean_of_ancestral_background_specific_both_gain_shares": 0.21184371184371184,
+      "mean_of_ancestral_background_specific_resp_gain_fer_cost_shares": 0.7881562881562881,
+      "not_an_evolutionary_population_weighted_estimate": true,
+      "represented_backgrounds": [
+        "CYR1",
+        "GPB2",
+        "IRA1_MIS",
+        "IRA1_NON"
+      ]
+    }
+  },
+  "interpretation_ceiling": {
+    "2024_source_rows_not_assumed_independent_of_Aggeli2020": true,
+    "S3_185_selected_R2_barcodes_not_full_Evo2D_2024_denominator": true,
+    "no_historical_division_of_two_functions_or_Bita_Ku_estimated": true,
+    "no_predeclared_hypothesis_test_or_meta_analysis": true,
+    "no_source_population_id_found_in_deposited_S1_schema": true,
+    "not_a_random_sample_of_mutation_occurrences": true,
+    "parent_relative_columns_are_author_deposited": true,
+    "single_evolved_clone_not_an_independent_evolution_population": true,
+    "source_file_is_four_publication_historical_composite": true,
+    "two_error_margin_not_equivalent_to_original_repeated_resampling": true
+  },
+  "parent_and_evolution_condition_strata": {
+    "CYR1|Evo2D|adaptive_haploid": {
+      "complete_parent_relative_fermentation_respiration": 43,
+      "descriptive_both_gain_share": 0.37209302325581395,
+      "descriptive_resp_gain_fer_cost_share": 0.5581395348837209,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 16,
+        "fermentation_gain_respiration_not_positive": 3,
+        "respiration_gain_fermentation_cost": 24
+      },
+      "selected_clone_rows": 43,
+      "stationary_phase": {
+        "available_stationary_measurements": 43,
+        "stationary_gain_among_both": 6,
+        "stationary_gain_among_resp_gain_fer_cost": 16,
+        "stationary_negative_exceeds_deposited_error": 6,
+        "stationary_nonmissing_among_both": 16,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 24,
+        "stationary_positive_exceeds_deposited_error": 15,
+        "stationary_positive_exceeds_error_among_both": 2,
+        "stationary_positive_exceeds_error_among_other": 13,
+        "stationary_with_error_available": 43
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 43,
+        "both_positive_margin_gt_2errors": 5,
+        "other_or_uncertain_sign": 30,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 8
+      }
+    },
+    "CYR1|Evo2D|all_adaptive_classes": {
+      "complete_parent_relative_fermentation_respiration": 62,
+      "descriptive_both_gain_share": 0.5,
+      "descriptive_resp_gain_fer_cost_share": 0.45161290322580644,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 31,
+        "fermentation_gain_respiration_not_positive": 3,
+        "respiration_gain_fermentation_cost": 28
+      },
+      "selected_clone_rows": 62,
+      "stationary_phase": {
+        "available_stationary_measurements": 62,
+        "stationary_gain_among_both": 14,
+        "stationary_gain_among_resp_gain_fer_cost": 18,
+        "stationary_negative_exceeds_deposited_error": 11,
+        "stationary_nonmissing_among_both": 31,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 28,
+        "stationary_positive_exceeds_deposited_error": 19,
+        "stationary_positive_exceeds_error_among_both": 4,
+        "stationary_positive_exceeds_error_among_other": 15,
+        "stationary_with_error_available": 62
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 62,
+        "both_positive_margin_gt_2errors": 16,
+        "other_or_uncertain_sign": 36,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 10
+      }
+    },
+    "CYR1|Evo2D|high_fitness_diploids": {
+      "complete_parent_relative_fermentation_respiration": 19,
+      "descriptive_both_gain_share": 0.7894736842105263,
+      "descriptive_resp_gain_fer_cost_share": 0.21052631578947367,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 15,
+        "respiration_gain_fermentation_cost": 4
+      },
+      "selected_clone_rows": 19,
+      "stationary_phase": {
+        "available_stationary_measurements": 19,
+        "stationary_gain_among_both": 8,
+        "stationary_gain_among_resp_gain_fer_cost": 2,
+        "stationary_negative_exceeds_deposited_error": 5,
+        "stationary_nonmissing_among_both": 15,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 4,
+        "stationary_positive_exceeds_deposited_error": 4,
+        "stationary_positive_exceeds_error_among_both": 2,
+        "stationary_positive_exceeds_error_among_other": 2,
+        "stationary_with_error_available": 19
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 19,
+        "both_positive_margin_gt_2errors": 11,
+        "other_or_uncertain_sign": 6,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 2
+      }
+    },
+    "CYR1|Evo3D|adaptive_haploid": {
+      "complete_parent_relative_fermentation_respiration": 18,
+      "descriptive_both_gain_share": 0.1111111111111111,
+      "descriptive_resp_gain_fer_cost_share": 0.8888888888888888,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 2,
+        "respiration_gain_fermentation_cost": 16
+      },
+      "selected_clone_rows": 18,
+      "stationary_phase": {
+        "available_stationary_measurements": 18,
+        "stationary_gain_among_both": 1,
+        "stationary_gain_among_resp_gain_fer_cost": 13,
+        "stationary_negative_exceeds_deposited_error": 2,
+        "stationary_nonmissing_among_both": 2,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 16,
+        "stationary_positive_exceeds_deposited_error": 11,
+        "stationary_positive_exceeds_error_among_both": 1,
+        "stationary_positive_exceeds_error_among_other": 10,
+        "stationary_with_error_available": 18
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 18,
+        "both_positive_margin_gt_2errors": 1,
+        "other_or_uncertain_sign": 6,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 11
+      }
+    },
+    "CYR1|Evo3D|all_adaptive_classes": {
+      "complete_parent_relative_fermentation_respiration": 22,
+      "descriptive_both_gain_share": 0.22727272727272727,
+      "descriptive_resp_gain_fer_cost_share": 0.7727272727272727,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 5,
+        "respiration_gain_fermentation_cost": 17
+      },
+      "selected_clone_rows": 22,
+      "stationary_phase": {
+        "available_stationary_measurements": 22,
+        "stationary_gain_among_both": 3,
+        "stationary_gain_among_resp_gain_fer_cost": 14,
+        "stationary_negative_exceeds_deposited_error": 2,
+        "stationary_nonmissing_among_both": 5,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 17,
+        "stationary_positive_exceeds_deposited_error": 13,
+        "stationary_positive_exceeds_error_among_both": 2,
+        "stationary_positive_exceeds_error_among_other": 11,
+        "stationary_with_error_available": 22
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 22,
+        "both_positive_margin_gt_2errors": 1,
+        "other_or_uncertain_sign": 9,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 12
+      }
+    },
+    "CYR1|Evo3D|high_fitness_diploids": {
+      "complete_parent_relative_fermentation_respiration": 4,
+      "descriptive_both_gain_share": 0.75,
+      "descriptive_resp_gain_fer_cost_share": 0.25,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 3,
+        "respiration_gain_fermentation_cost": 1
+      },
+      "selected_clone_rows": 4,
+      "stationary_phase": {
+        "available_stationary_measurements": 4,
+        "stationary_gain_among_both": 2,
+        "stationary_gain_among_resp_gain_fer_cost": 1,
+        "stationary_negative_exceeds_deposited_error": 0,
+        "stationary_nonmissing_among_both": 3,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 1,
+        "stationary_positive_exceeds_deposited_error": 2,
+        "stationary_positive_exceeds_error_among_both": 1,
+        "stationary_positive_exceeds_error_among_other": 1,
+        "stationary_with_error_available": 4
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 4,
+        "both_positive_margin_gt_2errors": 0,
+        "other_or_uncertain_sign": 3,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 1
+      }
+    },
+    "GPB2|Evo2D|adaptive_haploid": {
+      "complete_parent_relative_fermentation_respiration": 10,
+      "descriptive_both_gain_share": 0.6,
+      "descriptive_resp_gain_fer_cost_share": 0.4,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 6,
+        "respiration_gain_fermentation_cost": 4
+      },
+      "selected_clone_rows": 10,
+      "stationary_phase": {
+        "available_stationary_measurements": 10,
+        "stationary_gain_among_both": 2,
+        "stationary_gain_among_resp_gain_fer_cost": 1,
+        "stationary_negative_exceeds_deposited_error": 4,
+        "stationary_nonmissing_among_both": 6,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 4,
+        "stationary_positive_exceeds_deposited_error": 1,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 1,
+        "stationary_with_error_available": 10
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 10,
+        "both_positive_margin_gt_2errors": 2,
+        "other_or_uncertain_sign": 8,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 0
+      }
+    },
+    "GPB2|Evo2D|all_adaptive_classes": {
+      "complete_parent_relative_fermentation_respiration": 13,
+      "descriptive_both_gain_share": 0.6923076923076923,
+      "descriptive_resp_gain_fer_cost_share": 0.3076923076923077,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 9,
+        "respiration_gain_fermentation_cost": 4
+      },
+      "selected_clone_rows": 13,
+      "stationary_phase": {
+        "available_stationary_measurements": 13,
+        "stationary_gain_among_both": 2,
+        "stationary_gain_among_resp_gain_fer_cost": 1,
+        "stationary_negative_exceeds_deposited_error": 6,
+        "stationary_nonmissing_among_both": 9,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 4,
+        "stationary_positive_exceeds_deposited_error": 1,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 1,
+        "stationary_with_error_available": 13
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 13,
+        "both_positive_margin_gt_2errors": 4,
+        "other_or_uncertain_sign": 9,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 0
+      }
+    },
+    "GPB2|Evo2D|high_fitness_diploids": {
+      "complete_parent_relative_fermentation_respiration": 3,
+      "descriptive_both_gain_share": 1,
+      "descriptive_resp_gain_fer_cost_share": 0,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 3
+      },
+      "selected_clone_rows": 3,
+      "stationary_phase": {
+        "available_stationary_measurements": 3,
+        "stationary_gain_among_both": 0,
+        "stationary_gain_among_resp_gain_fer_cost": 0,
+        "stationary_negative_exceeds_deposited_error": 2,
+        "stationary_nonmissing_among_both": 3,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 0,
+        "stationary_positive_exceeds_deposited_error": 0,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 3
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 3,
+        "both_positive_margin_gt_2errors": 2,
+        "other_or_uncertain_sign": 1,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 0
+      }
+    },
+    "GPB2|Evo3D|adaptive_haploid": {
+      "complete_parent_relative_fermentation_respiration": 10,
+      "descriptive_both_gain_share": 0.3,
+      "descriptive_resp_gain_fer_cost_share": 0.7,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 3,
+        "respiration_gain_fermentation_cost": 7
+      },
+      "selected_clone_rows": 10,
+      "stationary_phase": {
+        "available_stationary_measurements": 10,
+        "stationary_gain_among_both": 1,
+        "stationary_gain_among_resp_gain_fer_cost": 5,
+        "stationary_negative_exceeds_deposited_error": 3,
+        "stationary_nonmissing_among_both": 3,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 7,
+        "stationary_positive_exceeds_deposited_error": 5,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 5,
+        "stationary_with_error_available": 10
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 10,
+        "both_positive_margin_gt_2errors": 1,
+        "other_or_uncertain_sign": 3,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 6
+      }
+    },
+    "GPB2|Evo3D|all_adaptive_classes": {
+      "complete_parent_relative_fermentation_respiration": 14,
+      "descriptive_both_gain_share": 0.2857142857142857,
+      "descriptive_resp_gain_fer_cost_share": 0.7142857142857143,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 4,
+        "respiration_gain_fermentation_cost": 10
+      },
+      "selected_clone_rows": 14,
+      "stationary_phase": {
+        "available_stationary_measurements": 14,
+        "stationary_gain_among_both": 1,
+        "stationary_gain_among_resp_gain_fer_cost": 8,
+        "stationary_negative_exceeds_deposited_error": 4,
+        "stationary_nonmissing_among_both": 4,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 10,
+        "stationary_positive_exceeds_deposited_error": 7,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 7,
+        "stationary_with_error_available": 14
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 14,
+        "both_positive_margin_gt_2errors": 1,
+        "other_or_uncertain_sign": 4,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 9
+      }
+    },
+    "GPB2|Evo3D|high_fitness_diploids": {
+      "complete_parent_relative_fermentation_respiration": 4,
+      "descriptive_both_gain_share": 0.25,
+      "descriptive_resp_gain_fer_cost_share": 0.75,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 1,
+        "respiration_gain_fermentation_cost": 3
+      },
+      "selected_clone_rows": 4,
+      "stationary_phase": {
+        "available_stationary_measurements": 4,
+        "stationary_gain_among_both": 0,
+        "stationary_gain_among_resp_gain_fer_cost": 3,
+        "stationary_negative_exceeds_deposited_error": 1,
+        "stationary_nonmissing_among_both": 1,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 3,
+        "stationary_positive_exceeds_deposited_error": 2,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 2,
+        "stationary_with_error_available": 4
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 4,
+        "both_positive_margin_gt_2errors": 0,
+        "other_or_uncertain_sign": 1,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 3
+      }
+    },
+    "IRA1_MIS|Evo2D|adaptive_haploid": {
+      "complete_parent_relative_fermentation_respiration": 63,
+      "descriptive_both_gain_share": 0.14285714285714285,
+      "descriptive_resp_gain_fer_cost_share": 0.8571428571428571,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 9,
+        "respiration_gain_fermentation_cost": 54
+      },
+      "selected_clone_rows": 63,
+      "stationary_phase": {
+        "available_stationary_measurements": 63,
+        "stationary_gain_among_both": 0,
+        "stationary_gain_among_resp_gain_fer_cost": 16,
+        "stationary_negative_exceeds_deposited_error": 41,
+        "stationary_nonmissing_among_both": 9,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 54,
+        "stationary_positive_exceeds_deposited_error": 15,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 15,
+        "stationary_with_error_available": 63
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 63,
+        "both_positive_margin_gt_2errors": 7,
+        "other_or_uncertain_sign": 18,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 38
+      }
+    },
+    "IRA1_MIS|Evo2D|all_adaptive_classes": {
+      "complete_parent_relative_fermentation_respiration": 90,
+      "descriptive_both_gain_share": 0.25555555555555554,
+      "descriptive_resp_gain_fer_cost_share": 0.7444444444444445,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 23,
+        "respiration_gain_fermentation_cost": 67
+      },
+      "selected_clone_rows": 90,
+      "stationary_phase": {
+        "available_stationary_measurements": 90,
+        "stationary_gain_among_both": 2,
+        "stationary_gain_among_resp_gain_fer_cost": 18,
+        "stationary_negative_exceeds_deposited_error": 59,
+        "stationary_nonmissing_among_both": 23,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 67,
+        "stationary_positive_exceeds_deposited_error": 15,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 15,
+        "stationary_with_error_available": 90
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 90,
+        "both_positive_margin_gt_2errors": 17,
+        "other_or_uncertain_sign": 24,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 49
+      }
+    },
+    "IRA1_MIS|Evo2D|high_fitness_diploids": {
+      "complete_parent_relative_fermentation_respiration": 27,
+      "descriptive_both_gain_share": 0.5185185185185185,
+      "descriptive_resp_gain_fer_cost_share": 0.48148148148148145,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 14,
+        "respiration_gain_fermentation_cost": 13
+      },
+      "selected_clone_rows": 27,
+      "stationary_phase": {
+        "available_stationary_measurements": 27,
+        "stationary_gain_among_both": 2,
+        "stationary_gain_among_resp_gain_fer_cost": 2,
+        "stationary_negative_exceeds_deposited_error": 18,
+        "stationary_nonmissing_among_both": 14,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 13,
+        "stationary_positive_exceeds_deposited_error": 0,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 27
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 27,
+        "both_positive_margin_gt_2errors": 10,
+        "other_or_uncertain_sign": 6,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 11
+      }
+    },
+    "IRA1_MIS|Evo3D|adaptive_haploid": {
+      "complete_parent_relative_fermentation_respiration": 28,
+      "descriptive_both_gain_share": 0.42857142857142855,
+      "descriptive_resp_gain_fer_cost_share": 0.5714285714285714,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 12,
+        "respiration_gain_fermentation_cost": 16
+      },
+      "selected_clone_rows": 28,
+      "stationary_phase": {
+        "available_stationary_measurements": 28,
+        "stationary_gain_among_both": 6,
+        "stationary_gain_among_resp_gain_fer_cost": 14,
+        "stationary_negative_exceeds_deposited_error": 6,
+        "stationary_nonmissing_among_both": 12,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 16,
+        "stationary_positive_exceeds_deposited_error": 12,
+        "stationary_positive_exceeds_error_among_both": 2,
+        "stationary_positive_exceeds_error_among_other": 10,
+        "stationary_with_error_available": 28
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 28,
+        "both_positive_margin_gt_2errors": 6,
+        "other_or_uncertain_sign": 9,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 13
+      }
+    },
+    "IRA1_MIS|Evo3D|all_adaptive_classes": {
+      "complete_parent_relative_fermentation_respiration": 30,
+      "descriptive_both_gain_share": 0.43333333333333335,
+      "descriptive_resp_gain_fer_cost_share": 0.5666666666666667,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 13,
+        "respiration_gain_fermentation_cost": 17
+      },
+      "selected_clone_rows": 30,
+      "stationary_phase": {
+        "available_stationary_measurements": 30,
+        "stationary_gain_among_both": 6,
+        "stationary_gain_among_resp_gain_fer_cost": 14,
+        "stationary_negative_exceeds_deposited_error": 8,
+        "stationary_nonmissing_among_both": 13,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 17,
+        "stationary_positive_exceeds_deposited_error": 12,
+        "stationary_positive_exceeds_error_among_both": 2,
+        "stationary_positive_exceeds_error_among_other": 10,
+        "stationary_with_error_available": 30
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 30,
+        "both_positive_margin_gt_2errors": 7,
+        "other_or_uncertain_sign": 9,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 14
+      }
+    },
+    "IRA1_MIS|Evo3D|high_fitness_diploids": {
+      "complete_parent_relative_fermentation_respiration": 2,
+      "descriptive_both_gain_share": 0.5,
+      "descriptive_resp_gain_fer_cost_share": 0.5,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 1,
+        "respiration_gain_fermentation_cost": 1
+      },
+      "selected_clone_rows": 2,
+      "stationary_phase": {
+        "available_stationary_measurements": 2,
+        "stationary_gain_among_both": 0,
+        "stationary_gain_among_resp_gain_fer_cost": 0,
+        "stationary_negative_exceeds_deposited_error": 2,
+        "stationary_nonmissing_among_both": 1,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 1,
+        "stationary_positive_exceeds_deposited_error": 0,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 2
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 2,
+        "both_positive_margin_gt_2errors": 1,
+        "other_or_uncertain_sign": 0,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 1
+      }
+    },
+    "IRA1_NON|Evo2D|adaptive_haploid": {
+      "complete_parent_relative_fermentation_respiration": 92,
+      "descriptive_both_gain_share": 0.17391304347826086,
+      "descriptive_resp_gain_fer_cost_share": 0.8260869565217391,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 16,
+        "respiration_gain_fermentation_cost": 76
+      },
+      "selected_clone_rows": 92,
+      "stationary_phase": {
+        "available_stationary_measurements": 92,
+        "stationary_gain_among_both": 3,
+        "stationary_gain_among_resp_gain_fer_cost": 41,
+        "stationary_negative_exceeds_deposited_error": 30,
+        "stationary_nonmissing_among_both": 16,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 76,
+        "stationary_positive_exceeds_deposited_error": 40,
+        "stationary_positive_exceeds_error_among_both": 3,
+        "stationary_positive_exceeds_error_among_other": 37,
+        "stationary_with_error_available": 92
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 92,
+        "both_positive_margin_gt_2errors": 5,
+        "other_or_uncertain_sign": 34,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 53
+      }
+    },
+    "IRA1_NON|Evo2D|all_adaptive_classes": {
+      "complete_parent_relative_fermentation_respiration": 95,
+      "descriptive_both_gain_share": 0.17894736842105263,
+      "descriptive_resp_gain_fer_cost_share": 0.8210526315789474,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 17,
+        "respiration_gain_fermentation_cost": 78
+      },
+      "selected_clone_rows": 95,
+      "stationary_phase": {
+        "available_stationary_measurements": 95,
+        "stationary_gain_among_both": 3,
+        "stationary_gain_among_resp_gain_fer_cost": 41,
+        "stationary_negative_exceeds_deposited_error": 33,
+        "stationary_nonmissing_among_both": 17,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 78,
+        "stationary_positive_exceeds_deposited_error": 40,
+        "stationary_positive_exceeds_error_among_both": 3,
+        "stationary_positive_exceeds_error_among_other": 37,
+        "stationary_with_error_available": 95
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 95,
+        "both_positive_margin_gt_2errors": 5,
+        "other_or_uncertain_sign": 36,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 54
+      }
+    },
+    "IRA1_NON|Evo2D|high_fitness_diploids": {
+      "complete_parent_relative_fermentation_respiration": 3,
+      "descriptive_both_gain_share": 0.3333333333333333,
+      "descriptive_resp_gain_fer_cost_share": 0.6666666666666666,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 1,
+        "respiration_gain_fermentation_cost": 2
+      },
+      "selected_clone_rows": 3,
+      "stationary_phase": {
+        "available_stationary_measurements": 3,
+        "stationary_gain_among_both": 0,
+        "stationary_gain_among_resp_gain_fer_cost": 0,
+        "stationary_negative_exceeds_deposited_error": 3,
+        "stationary_nonmissing_among_both": 1,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 2,
+        "stationary_positive_exceeds_deposited_error": 0,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 3
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 3,
+        "both_positive_margin_gt_2errors": 0,
+        "other_or_uncertain_sign": 2,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 1
+      }
+    },
+    "IRA1_NON|Evo3D|adaptive_haploid": {
+      "complete_parent_relative_fermentation_respiration": 130,
+      "descriptive_both_gain_share": 0.007692307692307693,
+      "descriptive_resp_gain_fer_cost_share": 0.9923076923076923,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 1,
+        "respiration_gain_fermentation_cost": 129
+      },
+      "selected_clone_rows": 130,
+      "stationary_phase": {
+        "available_stationary_measurements": 130,
+        "stationary_gain_among_both": 0,
+        "stationary_gain_among_resp_gain_fer_cost": 127,
+        "stationary_negative_exceeds_deposited_error": 0,
+        "stationary_nonmissing_among_both": 1,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 129,
+        "stationary_positive_exceeds_deposited_error": 124,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 124,
+        "stationary_with_error_available": 130
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 130,
+        "both_positive_margin_gt_2errors": 1,
+        "other_or_uncertain_sign": 55,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 74
+      }
+    },
+    "IRA1_NON|Evo3D|all_adaptive_classes": {
+      "complete_parent_relative_fermentation_respiration": 134,
+      "descriptive_both_gain_share": 0.007462686567164179,
+      "descriptive_resp_gain_fer_cost_share": 0.9925373134328358,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 1,
+        "respiration_gain_fermentation_cost": 133
+      },
+      "selected_clone_rows": 134,
+      "stationary_phase": {
+        "available_stationary_measurements": 134,
+        "stationary_gain_among_both": 0,
+        "stationary_gain_among_resp_gain_fer_cost": 130,
+        "stationary_negative_exceeds_deposited_error": 1,
+        "stationary_nonmissing_among_both": 1,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 133,
+        "stationary_positive_exceeds_deposited_error": 127,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 127,
+        "stationary_with_error_available": 134
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 134,
+        "both_positive_margin_gt_2errors": 1,
+        "other_or_uncertain_sign": 57,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 76
+      }
+    },
+    "IRA1_NON|Evo3D|high_fitness_diploids": {
+      "complete_parent_relative_fermentation_respiration": 4,
+      "descriptive_both_gain_share": 0,
+      "descriptive_resp_gain_fer_cost_share": 1,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "respiration_gain_fermentation_cost": 4
+      },
+      "selected_clone_rows": 4,
+      "stationary_phase": {
+        "available_stationary_measurements": 4,
+        "stationary_gain_among_both": 0,
+        "stationary_gain_among_resp_gain_fer_cost": 3,
+        "stationary_negative_exceeds_deposited_error": 1,
+        "stationary_nonmissing_among_both": 0,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 4,
+        "stationary_positive_exceeds_deposited_error": 3,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 3,
+        "stationary_with_error_available": 4
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 4,
+        "both_positive_margin_gt_2errors": 0,
+        "other_or_uncertain_sign": 2,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 2
+      }
+    },
+    "TOR1|Evo2D|adaptive_haploid": {
+      "complete_parent_relative_fermentation_respiration": 33,
+      "descriptive_both_gain_share": 0.5151515151515151,
+      "descriptive_resp_gain_fer_cost_share": 0.48484848484848486,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 17,
+        "respiration_gain_fermentation_cost": 16
+      },
+      "selected_clone_rows": 33,
+      "stationary_phase": {
+        "available_stationary_measurements": 33,
+        "stationary_gain_among_both": 5,
+        "stationary_gain_among_resp_gain_fer_cost": 3,
+        "stationary_negative_exceeds_deposited_error": 13,
+        "stationary_nonmissing_among_both": 17,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 16,
+        "stationary_positive_exceeds_deposited_error": 1,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 1,
+        "stationary_with_error_available": 33
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 33,
+        "both_positive_margin_gt_2errors": 5,
+        "other_or_uncertain_sign": 28,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 0
+      }
+    },
+    "TOR1|Evo2D|all_adaptive_classes": {
+      "complete_parent_relative_fermentation_respiration": 46,
+      "descriptive_both_gain_share": 0.6304347826086957,
+      "descriptive_resp_gain_fer_cost_share": 0.3695652173913043,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 29,
+        "respiration_gain_fermentation_cost": 17
+      },
+      "selected_clone_rows": 46,
+      "stationary_phase": {
+        "available_stationary_measurements": 46,
+        "stationary_gain_among_both": 5,
+        "stationary_gain_among_resp_gain_fer_cost": 4,
+        "stationary_negative_exceeds_deposited_error": 20,
+        "stationary_nonmissing_among_both": 29,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 17,
+        "stationary_positive_exceeds_deposited_error": 2,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 2,
+        "stationary_with_error_available": 46
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 46,
+        "both_positive_margin_gt_2errors": 14,
+        "other_or_uncertain_sign": 31,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 1
+      }
+    },
+    "TOR1|Evo2D|high_fitness_diploids": {
+      "complete_parent_relative_fermentation_respiration": 13,
+      "descriptive_both_gain_share": 0.9230769230769231,
+      "descriptive_resp_gain_fer_cost_share": 0.07692307692307693,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 12,
+        "respiration_gain_fermentation_cost": 1
+      },
+      "selected_clone_rows": 13,
+      "stationary_phase": {
+        "available_stationary_measurements": 13,
+        "stationary_gain_among_both": 0,
+        "stationary_gain_among_resp_gain_fer_cost": 1,
+        "stationary_negative_exceeds_deposited_error": 7,
+        "stationary_nonmissing_among_both": 12,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 1,
+        "stationary_positive_exceeds_deposited_error": 1,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 1,
+        "stationary_with_error_available": 13
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 13,
+        "both_positive_margin_gt_2errors": 9,
+        "other_or_uncertain_sign": 3,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 1
+      }
+    },
+    "TOR1|Evo3D|adaptive_haploid": {
+      "complete_parent_relative_fermentation_respiration": 0,
+      "descriptive_both_gain_share": null,
+      "descriptive_resp_gain_fer_cost_share": null,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {},
+      "selected_clone_rows": 0,
+      "stationary_phase": {
+        "available_stationary_measurements": 0,
+        "stationary_gain_among_both": 0,
+        "stationary_gain_among_resp_gain_fer_cost": 0,
+        "stationary_negative_exceeds_deposited_error": 0,
+        "stationary_nonmissing_among_both": 0,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 0,
+        "stationary_positive_exceeds_deposited_error": 0,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 0
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 0,
+        "both_positive_margin_gt_2errors": 0,
+        "other_or_uncertain_sign": 0,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 0
+      }
+    },
+    "TOR1|Evo3D|all_adaptive_classes": {
+      "complete_parent_relative_fermentation_respiration": 2,
+      "descriptive_both_gain_share": 1,
+      "descriptive_resp_gain_fer_cost_share": 0,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 2
+      },
+      "selected_clone_rows": 2,
+      "stationary_phase": {
+        "available_stationary_measurements": 2,
+        "stationary_gain_among_both": 2,
+        "stationary_gain_among_resp_gain_fer_cost": 0,
+        "stationary_negative_exceeds_deposited_error": 0,
+        "stationary_nonmissing_among_both": 2,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 0,
+        "stationary_positive_exceeds_deposited_error": 1,
+        "stationary_positive_exceeds_error_among_both": 1,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 2
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 2,
+        "both_positive_margin_gt_2errors": 1,
+        "other_or_uncertain_sign": 1,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 0
+      }
+    },
+    "TOR1|Evo3D|high_fitness_diploids": {
+      "complete_parent_relative_fermentation_respiration": 2,
+      "descriptive_both_gain_share": 1,
+      "descriptive_resp_gain_fer_cost_share": 0,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 2
+      },
+      "selected_clone_rows": 2,
+      "stationary_phase": {
+        "available_stationary_measurements": 2,
+        "stationary_gain_among_both": 2,
+        "stationary_gain_among_resp_gain_fer_cost": 0,
+        "stationary_negative_exceeds_deposited_error": 0,
+        "stationary_nonmissing_among_both": 2,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 0,
+        "stationary_positive_exceeds_deposited_error": 1,
+        "stationary_positive_exceeds_error_among_both": 1,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 2
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 2,
+        "both_positive_margin_gt_2errors": 1,
+        "other_or_uncertain_sign": 1,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 0
+      }
+    }
+  },
+  "publication_and_evolution_condition_strata": {
+    "Aggeli2020|Evo2D|adaptive_haploid": {
+      "complete_parent_relative_fermentation_respiration": 86,
+      "descriptive_both_gain_share": 0.45348837209302323,
+      "descriptive_resp_gain_fer_cost_share": 0.5116279069767442,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 39,
+        "fermentation_gain_respiration_not_positive": 3,
+        "respiration_gain_fermentation_cost": 44
+      },
+      "selected_clone_rows": 86,
+      "stationary_phase": {
+        "available_stationary_measurements": 86,
+        "stationary_gain_among_both": 13,
+        "stationary_gain_among_resp_gain_fer_cost": 20,
+        "stationary_negative_exceeds_deposited_error": 23,
+        "stationary_nonmissing_among_both": 39,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 44,
+        "stationary_positive_exceeds_deposited_error": 17,
+        "stationary_positive_exceeds_error_among_both": 2,
+        "stationary_positive_exceeds_error_among_other": 15,
+        "stationary_with_error_available": 86
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 86,
+        "both_positive_margin_gt_2errors": 12,
+        "other_or_uncertain_sign": 66,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 8
+      }
+    },
+    "Aggeli2020|Evo2D|all_adaptive_classes": {
+      "complete_parent_relative_fermentation_respiration": 121,
+      "descriptive_both_gain_share": 0.5702479338842975,
+      "descriptive_resp_gain_fer_cost_share": 0.4049586776859504,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 69,
+        "fermentation_gain_respiration_not_positive": 3,
+        "respiration_gain_fermentation_cost": 49
+      },
+      "selected_clone_rows": 121,
+      "stationary_phase": {
+        "available_stationary_measurements": 121,
+        "stationary_gain_among_both": 21,
+        "stationary_gain_among_resp_gain_fer_cost": 23,
+        "stationary_negative_exceeds_deposited_error": 37,
+        "stationary_nonmissing_among_both": 69,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 49,
+        "stationary_positive_exceeds_deposited_error": 22,
+        "stationary_positive_exceeds_error_among_both": 4,
+        "stationary_positive_exceeds_error_among_other": 18,
+        "stationary_with_error_available": 121
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 121,
+        "both_positive_margin_gt_2errors": 34,
+        "other_or_uncertain_sign": 76,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 11
+      }
+    },
+    "Aggeli2020|Evo3D|adaptive_haploid": {
+      "complete_parent_relative_fermentation_respiration": 0,
+      "descriptive_both_gain_share": null,
+      "descriptive_resp_gain_fer_cost_share": null,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {},
+      "selected_clone_rows": 0,
+      "stationary_phase": {
+        "available_stationary_measurements": 0,
+        "stationary_gain_among_both": 0,
+        "stationary_gain_among_resp_gain_fer_cost": 0,
+        "stationary_negative_exceeds_deposited_error": 0,
+        "stationary_nonmissing_among_both": 0,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 0,
+        "stationary_positive_exceeds_deposited_error": 0,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 0
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 0,
+        "both_positive_margin_gt_2errors": 0,
+        "other_or_uncertain_sign": 0,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 0
+      }
+    },
+    "Aggeli2020|Evo3D|all_adaptive_classes": {
+      "complete_parent_relative_fermentation_respiration": 0,
+      "descriptive_both_gain_share": null,
+      "descriptive_resp_gain_fer_cost_share": null,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {},
+      "selected_clone_rows": 0,
+      "stationary_phase": {
+        "available_stationary_measurements": 0,
+        "stationary_gain_among_both": 0,
+        "stationary_gain_among_resp_gain_fer_cost": 0,
+        "stationary_negative_exceeds_deposited_error": 0,
+        "stationary_nonmissing_among_both": 0,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 0,
+        "stationary_positive_exceeds_deposited_error": 0,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 0
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 0,
+        "both_positive_margin_gt_2errors": 0,
+        "other_or_uncertain_sign": 0,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 0
+      }
+    },
+    "This_study|Evo2D|adaptive_haploid": {
+      "complete_parent_relative_fermentation_respiration": 155,
+      "descriptive_both_gain_share": 0.16129032258064516,
+      "descriptive_resp_gain_fer_cost_share": 0.8387096774193549,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 25,
+        "respiration_gain_fermentation_cost": 130
+      },
+      "selected_clone_rows": 155,
+      "stationary_phase": {
+        "available_stationary_measurements": 155,
+        "stationary_gain_among_both": 3,
+        "stationary_gain_among_resp_gain_fer_cost": 57,
+        "stationary_negative_exceeds_deposited_error": 71,
+        "stationary_nonmissing_among_both": 25,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 130,
+        "stationary_positive_exceeds_deposited_error": 55,
+        "stationary_positive_exceeds_error_among_both": 3,
+        "stationary_positive_exceeds_error_among_other": 52,
+        "stationary_with_error_available": 155
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 155,
+        "both_positive_margin_gt_2errors": 12,
+        "other_or_uncertain_sign": 52,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 91
+      }
+    },
+    "This_study|Evo2D|all_adaptive_classes": {
+      "complete_parent_relative_fermentation_respiration": 185,
+      "descriptive_both_gain_share": 0.21621621621621623,
+      "descriptive_resp_gain_fer_cost_share": 0.7837837837837838,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 40,
+        "respiration_gain_fermentation_cost": 145
+      },
+      "selected_clone_rows": 185,
+      "stationary_phase": {
+        "available_stationary_measurements": 185,
+        "stationary_gain_among_both": 5,
+        "stationary_gain_among_resp_gain_fer_cost": 59,
+        "stationary_negative_exceeds_deposited_error": 92,
+        "stationary_nonmissing_among_both": 40,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 145,
+        "stationary_positive_exceeds_deposited_error": 55,
+        "stationary_positive_exceeds_error_among_both": 3,
+        "stationary_positive_exceeds_error_among_other": 52,
+        "stationary_with_error_available": 185
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 185,
+        "both_positive_margin_gt_2errors": 22,
+        "other_or_uncertain_sign": 60,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 103
+      }
+    },
+    "This_study|Evo3D|adaptive_haploid": {
+      "complete_parent_relative_fermentation_respiration": 186,
+      "descriptive_both_gain_share": 0.0967741935483871,
+      "descriptive_resp_gain_fer_cost_share": 0.9032258064516129,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 18,
+        "respiration_gain_fermentation_cost": 168
+      },
+      "selected_clone_rows": 186,
+      "stationary_phase": {
+        "available_stationary_measurements": 186,
+        "stationary_gain_among_both": 8,
+        "stationary_gain_among_resp_gain_fer_cost": 159,
+        "stationary_negative_exceeds_deposited_error": 11,
+        "stationary_nonmissing_among_both": 18,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 168,
+        "stationary_positive_exceeds_deposited_error": 152,
+        "stationary_positive_exceeds_error_among_both": 3,
+        "stationary_positive_exceeds_error_among_other": 149,
+        "stationary_with_error_available": 186
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 186,
+        "both_positive_margin_gt_2errors": 9,
+        "other_or_uncertain_sign": 73,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 104
+      }
+    },
+    "This_study|Evo3D|all_adaptive_classes": {
+      "complete_parent_relative_fermentation_respiration": 202,
+      "descriptive_both_gain_share": 0.12376237623762376,
+      "descriptive_resp_gain_fer_cost_share": 0.8762376237623762,
+      "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+      "missing_parent_relative_either": 0,
+      "quadrants": {
+        "both_fermentation_and_respiration_improve": 25,
+        "respiration_gain_fermentation_cost": 177
+      },
+      "selected_clone_rows": 202,
+      "stationary_phase": {
+        "available_stationary_measurements": 202,
+        "stationary_gain_among_both": 12,
+        "stationary_gain_among_resp_gain_fer_cost": 166,
+        "stationary_negative_exceeds_deposited_error": 15,
+        "stationary_nonmissing_among_both": 25,
+        "stationary_nonmissing_among_resp_gain_fer_cost": 177,
+        "stationary_positive_exceeds_deposited_error": 160,
+        "stationary_positive_exceeds_error_among_both": 5,
+        "stationary_positive_exceeds_error_among_other": 155,
+        "stationary_with_error_available": 202
+      },
+      "strict_two_reported_error_margin": {
+        "available_with_both_reported_phenotype_errors": 202,
+        "both_positive_margin_gt_2errors": 11,
+        "other_or_uncertain_sign": 80,
+        "resp_positive_and_fer_negative_margin_gt_2errors": 111
+      }
+    }
+  },
+  "publisher_count_reconstruction": {
+    "Evo2D": {
+      "both_fermentation_respiration_positive": 109,
+      "selected_adaptive_clones": 306,
+      "stationary_positive_among_both": 7,
+      "stationary_positive_among_other": 70,
+      "stationary_positive_exceeds_deposited_error": 77
+    },
+    "Evo3D": {
+      "both_fermentation_respiration_positive": 25,
+      "selected_adaptive_clones": 202,
+      "stationary_positive_among_both": 5,
+      "stationary_positive_among_other": 155,
+      "stationary_positive_exceeds_deposited_error": 160
+    }
+  },
+  "same_new_source_matched_IRA1_parent_sensitivity": {
+    "Evo2D": {
+      "clone_weighted": {
+        "complete_parent_relative_fermentation_respiration": 185,
+        "descriptive_both_gain_share": 0.21621621621621623,
+        "descriptive_resp_gain_fer_cost_share": 0.7837837837837838,
+        "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+        "missing_parent_relative_either": 0,
+        "quadrants": {
+          "both_fermentation_and_respiration_improve": 40,
+          "respiration_gain_fermentation_cost": 145
+        },
+        "selected_clone_rows": 185,
+        "stationary_phase": {
+          "available_stationary_measurements": 185,
+          "stationary_gain_among_both": 5,
+          "stationary_gain_among_resp_gain_fer_cost": 59,
+          "stationary_negative_exceeds_deposited_error": 92,
+          "stationary_nonmissing_among_both": 40,
+          "stationary_nonmissing_among_resp_gain_fer_cost": 145,
+          "stationary_positive_exceeds_deposited_error": 55,
+          "stationary_positive_exceeds_error_among_both": 3,
+          "stationary_positive_exceeds_error_among_other": 52,
+          "stationary_with_error_available": 185
+        },
+        "strict_two_reported_error_margin": {
+          "available_with_both_reported_phenotype_errors": 185,
+          "both_positive_margin_gt_2errors": 22,
+          "other_or_uncertain_sign": 60,
+          "resp_positive_and_fer_negative_margin_gt_2errors": 103
+        }
+      },
+      "equal_two_parent_mean_both_gain_share": 0.21725146198830408,
+      "per_background": {
+        "IRA1_MIS": {
+          "complete_parent_relative_fermentation_respiration": 90,
+          "descriptive_both_gain_share": 0.25555555555555554,
+          "descriptive_resp_gain_fer_cost_share": 0.7444444444444445,
+          "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+          "missing_parent_relative_either": 0,
+          "quadrants": {
+            "both_fermentation_and_respiration_improve": 23,
+            "respiration_gain_fermentation_cost": 67
+          },
+          "selected_clone_rows": 90,
+          "stationary_phase": {
+            "available_stationary_measurements": 90,
+            "stationary_gain_among_both": 2,
+            "stationary_gain_among_resp_gain_fer_cost": 18,
+            "stationary_negative_exceeds_deposited_error": 59,
+            "stationary_nonmissing_among_both": 23,
+            "stationary_nonmissing_among_resp_gain_fer_cost": 67,
+            "stationary_positive_exceeds_deposited_error": 15,
+            "stationary_positive_exceeds_error_among_both": 0,
+            "stationary_positive_exceeds_error_among_other": 15,
+            "stationary_with_error_available": 90
+          },
+          "strict_two_reported_error_margin": {
+            "available_with_both_reported_phenotype_errors": 90,
+            "both_positive_margin_gt_2errors": 17,
+            "other_or_uncertain_sign": 24,
+            "resp_positive_and_fer_negative_margin_gt_2errors": 49
+          }
+        },
+        "IRA1_NON": {
+          "complete_parent_relative_fermentation_respiration": 95,
+          "descriptive_both_gain_share": 0.17894736842105263,
+          "descriptive_resp_gain_fer_cost_share": 0.8210526315789474,
+          "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+          "missing_parent_relative_either": 0,
+          "quadrants": {
+            "both_fermentation_and_respiration_improve": 17,
+            "respiration_gain_fermentation_cost": 78
+          },
+          "selected_clone_rows": 95,
+          "stationary_phase": {
+            "available_stationary_measurements": 95,
+            "stationary_gain_among_both": 3,
+            "stationary_gain_among_resp_gain_fer_cost": 41,
+            "stationary_negative_exceeds_deposited_error": 33,
+            "stationary_nonmissing_among_both": 17,
+            "stationary_nonmissing_among_resp_gain_fer_cost": 78,
+            "stationary_positive_exceeds_deposited_error": 40,
+            "stationary_positive_exceeds_error_among_both": 3,
+            "stationary_positive_exceeds_error_among_other": 37,
+            "stationary_with_error_available": 95
+          },
+          "strict_two_reported_error_margin": {
+            "available_with_both_reported_phenotype_errors": 95,
+            "both_positive_margin_gt_2errors": 5,
+            "other_or_uncertain_sign": 36,
+            "resp_positive_and_fer_negative_margin_gt_2errors": 54
+          }
+        }
+      },
+      "same_source_and_two_parents_not_independently_randomized_mutation_origins": true
+    },
+    "Evo3D": {
+      "clone_weighted": {
+        "complete_parent_relative_fermentation_respiration": 164,
+        "descriptive_both_gain_share": 0.08536585365853659,
+        "descriptive_resp_gain_fer_cost_share": 0.9146341463414634,
+        "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+        "missing_parent_relative_either": 0,
+        "quadrants": {
+          "both_fermentation_and_respiration_improve": 14,
+          "respiration_gain_fermentation_cost": 150
+        },
+        "selected_clone_rows": 164,
+        "stationary_phase": {
+          "available_stationary_measurements": 164,
+          "stationary_gain_among_both": 6,
+          "stationary_gain_among_resp_gain_fer_cost": 144,
+          "stationary_negative_exceeds_deposited_error": 9,
+          "stationary_nonmissing_among_both": 14,
+          "stationary_nonmissing_among_resp_gain_fer_cost": 150,
+          "stationary_positive_exceeds_deposited_error": 139,
+          "stationary_positive_exceeds_error_among_both": 2,
+          "stationary_positive_exceeds_error_among_other": 137,
+          "stationary_with_error_available": 164
+        },
+        "strict_two_reported_error_margin": {
+          "available_with_both_reported_phenotype_errors": 164,
+          "both_positive_margin_gt_2errors": 8,
+          "other_or_uncertain_sign": 66,
+          "resp_positive_and_fer_negative_margin_gt_2errors": 90
+        }
+      },
+      "equal_two_parent_mean_both_gain_share": 0.22039800995024877,
+      "per_background": {
+        "IRA1_MIS": {
+          "complete_parent_relative_fermentation_respiration": 30,
+          "descriptive_both_gain_share": 0.43333333333333335,
+          "descriptive_resp_gain_fer_cost_share": 0.5666666666666667,
+          "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+          "missing_parent_relative_either": 0,
+          "quadrants": {
+            "both_fermentation_and_respiration_improve": 13,
+            "respiration_gain_fermentation_cost": 17
+          },
+          "selected_clone_rows": 30,
+          "stationary_phase": {
+            "available_stationary_measurements": 30,
+            "stationary_gain_among_both": 6,
+            "stationary_gain_among_resp_gain_fer_cost": 14,
+            "stationary_negative_exceeds_deposited_error": 8,
+            "stationary_nonmissing_among_both": 13,
+            "stationary_nonmissing_among_resp_gain_fer_cost": 17,
+            "stationary_positive_exceeds_deposited_error": 12,
+            "stationary_positive_exceeds_error_among_both": 2,
+            "stationary_positive_exceeds_error_among_other": 10,
+            "stationary_with_error_available": 30
+          },
+          "strict_two_reported_error_margin": {
+            "available_with_both_reported_phenotype_errors": 30,
+            "both_positive_margin_gt_2errors": 7,
+            "other_or_uncertain_sign": 9,
+            "resp_positive_and_fer_negative_margin_gt_2errors": 14
+          }
+        },
+        "IRA1_NON": {
+          "complete_parent_relative_fermentation_respiration": 134,
+          "descriptive_both_gain_share": 0.007462686567164179,
+          "descriptive_resp_gain_fer_cost_share": 0.9925373134328358,
+          "inferential_unit": "selected_isolated_barcode_nested_under_unrecovered_evolution_replication",
+          "missing_parent_relative_either": 0,
+          "quadrants": {
+            "both_fermentation_and_respiration_improve": 1,
+            "respiration_gain_fermentation_cost": 133
+          },
+          "selected_clone_rows": 134,
+          "stationary_phase": {
+            "available_stationary_measurements": 134,
+            "stationary_gain_among_both": 0,
+            "stationary_gain_among_resp_gain_fer_cost": 130,
+            "stationary_negative_exceeds_deposited_error": 1,
+            "stationary_nonmissing_among_both": 1,
+            "stationary_nonmissing_among_resp_gain_fer_cost": 133,
+            "stationary_positive_exceeds_deposited_error": 127,
+            "stationary_positive_exceeds_error_among_both": 0,
+            "stationary_positive_exceeds_error_among_other": 127,
+            "stationary_with_error_available": 134
+          },
+          "strict_two_reported_error_margin": {
+            "available_with_both_reported_phenotype_errors": 134,
+            "both_positive_margin_gt_2errors": 1,
+            "other_or_uncertain_sign": 57,
+            "resp_positive_and_fer_negative_margin_gt_2errors": 76
+          }
+        }
+      },
+      "same_source_and_two_parents_not_independently_randomized_mutation_origins": true
+    }
+  },
+  "source_SHA256": {
+    "S1_Data.csv": "889200d28f0127ec262690f0c72f639ba292a40141068c60d82e1e9fee1b6584",
+    "S3_Data.csv": "e197f25a326dfc71f22be3205e78fc76e6c6a885231a00964f4333154e3b4ec4"
+  },
+  "source_doi": "10.1371/journal.pbio.3002848",
+  "source_selection": {
+    "selected_by_ancestor_and_condition": {
+      "CYR1|Evo2D": 62,
+      "CYR1|Evo3D": 22,
+      "GPB2|Evo2D": 13,
+      "GPB2|Evo3D": 14,
+      "IRA1_MIS|Evo2D": 90,
+      "IRA1_MIS|Evo3D": 30,
+      "IRA1_NON|Evo2D": 95,
+      "IRA1_NON|Evo3D": 134,
+      "TOR1|Evo2D": 46,
+      "TOR1|Evo3D": 2
+    },
+    "selected_by_condition_class": {
+      "Evo2D|adaptive_haploid": 241,
+      "Evo2D|high_fitness_diploids": 65,
+      "Evo3D|adaptive_haploid": 186,
+      "Evo3D|high_fitness_diploids": 16
+    },
+    "selected_by_source_publication": {
+      "Aggeli2020": 121,
+      "This_study": 387
+    }
+  }
+}
