@@ -1,0 +1,88 @@
+name: bita-ecoli-auxotrophy-dryad-intake
+on:
+  push:
+    branches: ['analysis/bita-ecoli-auxotrophy-selection-20261116']
+    paths:
+      - '.github/workflows/bita-ecoli-auxotrophy-dryad-intake.yml'
+  pull_request:
+    branches: ['analysis/bita-kim-forward-wsp-genotypes-20261116']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-original-data-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check original PLOS Data Availability Dryad DOI with exact public file manifests
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request,urllib.error,urllib.parse,hashlib,zipfile,io,json
+          from pathlib import Path
+          out=Path('dryad_audit');out.mkdir(exist_ok=True)
+          base='https://datadryad.org'
+          dataset='10.5061/dryad.9b47j'
+          request=base+'/api/v2/datasets/'+urllib.parse.quote('doi:'+dataset,safe='')
+          def get(url,accept='application/json',limit=1500000):
+              req=urllib.request.Request(url,headers={
+                'Accept':accept,'User-Agent':'BITA-public-research-source-audit/1.0'})
+              try:
+                  with urllib.request.urlopen(req,timeout=22) as r:
+                      raw=r.read(limit)
+                      return {'status':r.status,'url':url,'size':len(raw),
+                              'mime':r.headers.get('content-type'),
+                              'sha256':hashlib.sha256(raw).hexdigest()},raw
+              except urllib.error.HTTPError as e:
+                  return {'status':e.code,'reason':str(e.reason),'url':url},b''
+              except Exception as e:
+                  return {'status':'ERROR','reason':type(e).__name__+': '+str(e)[:110],
+                          'url':url},b''
+          meta_status,raw=get(request)
+          result={'doi':dataset,'dataset_api':meta_status}
+          if meta_status.get('status')==200:
+              meta=json.loads(raw)
+              version=meta.get('_links',{}).get('stash:version',{}).get('href','')
+              result['title']=meta.get('title')
+              result['version_href']=version
+              if version:
+                  list_status,body=get(base+version+'/files?per_page=100')
+                  result['file_list_status']=list_status
+                  if list_status['status']==200:
+                      listing=json.loads(body)
+                      files=listing.get('_embedded',{}).get('stash:files',[])
+                      result['files']=[]
+                      for f in files:
+                          rec={'path':f.get('path'),'size':f.get('size'),
+                              'digest':f.get('digest'),'id':f.get('id')}
+                          urls=[base+f.get('_links',{}).get('stash:download',{}).get('href',''),
+                                base+'/api/v2/files/'+str(f.get('id'))+'/download']
+                          for url in dict.fromkeys(urls):
+                              status,download=get(url,accept='*/*',limit=4000000)
+                              if status.get('status')==200:
+                                  status['first_bytes_hex']=download[:16].hex()
+                                  status['is_zip']=zipfile.is_zipfile(io.BytesIO(download))
+                                  status['digest_matches_advertised']=(len(download)==f.get('size')
+                                      and hashlib.sha256(download).hexdigest()==f.get('digest'))
+                                  if status['digest_matches_advertised']:
+                                      out.joinpath(f['path'].replace('/','_')).write_bytes(download)
+                              rec.setdefault('attempts',[]).append(status)
+                              if status.get('digest_matches_advertised'):break
+                          result['files'].append(rec)
+          result['verified_original_data_files']=[
+              f['path'] for f in result.get('files',[])
+              if any(a.get('digest_matches_advertised') for a in f['attempts'])]
+          out.joinpath('dryad_original_access_readout.json').write_text(
+              json.dumps(result,indent=2,ensure_ascii=False),encoding='utf8')
+          print('BITA_ECOLI_DRYAD_GATE:'+json.dumps(result,ensure_ascii=False,separators=(',',':')),flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-ecoli2016-dryad-source-access
+          path: dryad_audit/
+          if-no-files-found: error
+          retention-days: 30
