@@ -24,8 +24,13 @@
         "available_stationary_measurements": 241,
         "stationary_gain_among_both": 16,
         "stationary_gain_among_resp_gain_fer_cost": 77,
+        "stationary_negative_exceeds_deposited_error": 94,
         "stationary_nonmissing_among_both": 64,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 174
+        "stationary_nonmissing_among_resp_gain_fer_cost": 174,
+        "stationary_positive_exceeds_deposited_error": 72,
+        "stationary_positive_exceeds_error_among_both": 5,
+        "stationary_positive_exceeds_error_among_other": 67,
+        "stationary_with_error_available": 241
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 241,
@@ -50,8 +55,13 @@
         "available_stationary_measurements": 306,
         "stationary_gain_among_both": 26,
         "stationary_gain_among_resp_gain_fer_cost": 82,
+        "stationary_negative_exceeds_deposited_error": 129,
         "stationary_nonmissing_among_both": 109,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 194
+        "stationary_nonmissing_among_resp_gain_fer_cost": 194,
+        "stationary_positive_exceeds_deposited_error": 77,
+        "stationary_positive_exceeds_error_among_both": 7,
+        "stationary_positive_exceeds_error_among_other": 70,
+        "stationary_with_error_available": 306
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 306,
@@ -75,8 +85,13 @@
         "available_stationary_measurements": 65,
         "stationary_gain_among_both": 10,
         "stationary_gain_among_resp_gain_fer_cost": 5,
+        "stationary_negative_exceeds_deposited_error": 35,
         "stationary_nonmissing_among_both": 45,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 20
+        "stationary_nonmissing_among_resp_gain_fer_cost": 20,
+        "stationary_positive_exceeds_deposited_error": 5,
+        "stationary_positive_exceeds_error_among_both": 2,
+        "stationary_positive_exceeds_error_among_other": 3,
+        "stationary_with_error_available": 65
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 65,
@@ -100,8 +115,13 @@
         "available_stationary_measurements": 186,
         "stationary_gain_among_both": 8,
         "stationary_gain_among_resp_gain_fer_cost": 159,
+        "stationary_negative_exceeds_deposited_error": 11,
         "stationary_nonmissing_among_both": 18,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 168
+        "stationary_nonmissing_among_resp_gain_fer_cost": 168,
+        "stationary_positive_exceeds_deposited_error": 152,
+        "stationary_positive_exceeds_error_among_both": 3,
+        "stationary_positive_exceeds_error_among_other": 149,
+        "stationary_with_error_available": 186
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 186,
@@ -125,8 +145,13 @@
         "available_stationary_measurements": 202,
         "stationary_gain_among_both": 12,
         "stationary_gain_among_resp_gain_fer_cost": 166,
+        "stationary_negative_exceeds_deposited_error": 15,
         "stationary_nonmissing_among_both": 25,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 177
+        "stationary_nonmissing_among_resp_gain_fer_cost": 177,
+        "stationary_positive_exceeds_deposited_error": 160,
+        "stationary_positive_exceeds_error_among_both": 5,
+        "stationary_positive_exceeds_error_among_other": 155,
+        "stationary_with_error_available": 202
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 202,
@@ -150,8 +175,13 @@
         "available_stationary_measurements": 16,
         "stationary_gain_among_both": 4,
         "stationary_gain_among_resp_gain_fer_cost": 7,
+        "stationary_negative_exceeds_deposited_error": 4,
         "stationary_nonmissing_among_both": 7,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 9
+        "stationary_nonmissing_among_resp_gain_fer_cost": 9,
+        "stationary_positive_exceeds_deposited_error": 8,
+        "stationary_positive_exceeds_error_among_both": 2,
+        "stationary_positive_exceeds_error_among_other": 6,
+        "stationary_with_error_available": 16
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 16,
@@ -217,8 +247,13 @@
         "available_stationary_measurements": 43,
         "stationary_gain_among_both": 6,
         "stationary_gain_among_resp_gain_fer_cost": 16,
+        "stationary_negative_exceeds_deposited_error": 6,
         "stationary_nonmissing_among_both": 16,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 24
+        "stationary_nonmissing_among_resp_gain_fer_cost": 24,
+        "stationary_positive_exceeds_deposited_error": 15,
+        "stationary_positive_exceeds_error_among_both": 2,
+        "stationary_positive_exceeds_error_among_other": 13,
+        "stationary_with_error_available": 43
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 43,
@@ -243,8 +278,13 @@
         "available_stationary_measurements": 62,
         "stationary_gain_among_both": 14,
         "stationary_gain_among_resp_gain_fer_cost": 18,
+        "stationary_negative_exceeds_deposited_error": 11,
         "stationary_nonmissing_among_both": 31,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 28
+        "stationary_nonmissing_among_resp_gain_fer_cost": 28,
+        "stationary_positive_exceeds_deposited_error": 19,
+        "stationary_positive_exceeds_error_among_both": 4,
+        "stationary_positive_exceeds_error_among_other": 15,
+        "stationary_with_error_available": 62
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 62,
@@ -268,8 +308,13 @@
         "available_stationary_measurements": 19,
         "stationary_gain_among_both": 8,
         "stationary_gain_among_resp_gain_fer_cost": 2,
+        "stationary_negative_exceeds_deposited_error": 5,
         "stationary_nonmissing_among_both": 15,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 4
+        "stationary_nonmissing_among_resp_gain_fer_cost": 4,
+        "stationary_positive_exceeds_deposited_error": 4,
+        "stationary_positive_exceeds_error_among_both": 2,
+        "stationary_positive_exceeds_error_among_other": 2,
+        "stationary_with_error_available": 19
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 19,
@@ -293,8 +338,13 @@
         "available_stationary_measurements": 18,
         "stationary_gain_among_both": 1,
         "stationary_gain_among_resp_gain_fer_cost": 13,
+        "stationary_negative_exceeds_deposited_error": 2,
         "stationary_nonmissing_among_both": 2,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 16
+        "stationary_nonmissing_among_resp_gain_fer_cost": 16,
+        "stationary_positive_exceeds_deposited_error": 11,
+        "stationary_positive_exceeds_error_among_both": 1,
+        "stationary_positive_exceeds_error_among_other": 10,
+        "stationary_with_error_available": 18
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 18,
@@ -318,8 +368,13 @@
         "available_stationary_measurements": 22,
         "stationary_gain_among_both": 3,
         "stationary_gain_among_resp_gain_fer_cost": 14,
+        "stationary_negative_exceeds_deposited_error": 2,
         "stationary_nonmissing_among_both": 5,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 17
+        "stationary_nonmissing_among_resp_gain_fer_cost": 17,
+        "stationary_positive_exceeds_deposited_error": 13,
+        "stationary_positive_exceeds_error_among_both": 2,
+        "stationary_positive_exceeds_error_among_other": 11,
+        "stationary_with_error_available": 22
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 22,
@@ -343,8 +398,13 @@
         "available_stationary_measurements": 4,
         "stationary_gain_among_both": 2,
         "stationary_gain_among_resp_gain_fer_cost": 1,
+        "stationary_negative_exceeds_deposited_error": 0,
         "stationary_nonmissing_among_both": 3,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 1
+        "stationary_nonmissing_among_resp_gain_fer_cost": 1,
+        "stationary_positive_exceeds_deposited_error": 2,
+        "stationary_positive_exceeds_error_among_both": 1,
+        "stationary_positive_exceeds_error_among_other": 1,
+        "stationary_with_error_available": 4
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 4,
@@ -368,8 +428,13 @@
         "available_stationary_measurements": 10,
         "stationary_gain_among_both": 2,
         "stationary_gain_among_resp_gain_fer_cost": 1,
+        "stationary_negative_exceeds_deposited_error": 4,
         "stationary_nonmissing_among_both": 6,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 4
+        "stationary_nonmissing_among_resp_gain_fer_cost": 4,
+        "stationary_positive_exceeds_deposited_error": 1,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 1,
+        "stationary_with_error_available": 10
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 10,
@@ -393,8 +458,13 @@
         "available_stationary_measurements": 13,
         "stationary_gain_among_both": 2,
         "stationary_gain_among_resp_gain_fer_cost": 1,
+        "stationary_negative_exceeds_deposited_error": 6,
         "stationary_nonmissing_among_both": 9,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 4
+        "stationary_nonmissing_among_resp_gain_fer_cost": 4,
+        "stationary_positive_exceeds_deposited_error": 1,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 1,
+        "stationary_with_error_available": 13
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 13,
@@ -417,8 +487,13 @@
         "available_stationary_measurements": 3,
         "stationary_gain_among_both": 0,
         "stationary_gain_among_resp_gain_fer_cost": 0,
+        "stationary_negative_exceeds_deposited_error": 2,
         "stationary_nonmissing_among_both": 3,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 0
+        "stationary_nonmissing_among_resp_gain_fer_cost": 0,
+        "stationary_positive_exceeds_deposited_error": 0,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 3
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 3,
@@ -442,8 +517,13 @@
         "available_stationary_measurements": 10,
         "stationary_gain_among_both": 1,
         "stationary_gain_among_resp_gain_fer_cost": 5,
+        "stationary_negative_exceeds_deposited_error": 3,
         "stationary_nonmissing_among_both": 3,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 7
+        "stationary_nonmissing_among_resp_gain_fer_cost": 7,
+        "stationary_positive_exceeds_deposited_error": 5,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 5,
+        "stationary_with_error_available": 10
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 10,
@@ -467,8 +547,13 @@
         "available_stationary_measurements": 14,
         "stationary_gain_among_both": 1,
         "stationary_gain_among_resp_gain_fer_cost": 8,
+        "stationary_negative_exceeds_deposited_error": 4,
         "stationary_nonmissing_among_both": 4,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 10
+        "stationary_nonmissing_among_resp_gain_fer_cost": 10,
+        "stationary_positive_exceeds_deposited_error": 7,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 7,
+        "stationary_with_error_available": 14
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 14,
@@ -492,8 +577,13 @@
         "available_stationary_measurements": 4,
         "stationary_gain_among_both": 0,
         "stationary_gain_among_resp_gain_fer_cost": 3,
+        "stationary_negative_exceeds_deposited_error": 1,
         "stationary_nonmissing_among_both": 1,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 3
+        "stationary_nonmissing_among_resp_gain_fer_cost": 3,
+        "stationary_positive_exceeds_deposited_error": 2,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 2,
+        "stationary_with_error_available": 4
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 4,
@@ -517,8 +607,13 @@
         "available_stationary_measurements": 63,
         "stationary_gain_among_both": 0,
         "stationary_gain_among_resp_gain_fer_cost": 16,
+        "stationary_negative_exceeds_deposited_error": 41,
         "stationary_nonmissing_among_both": 9,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 54
+        "stationary_nonmissing_among_resp_gain_fer_cost": 54,
+        "stationary_positive_exceeds_deposited_error": 15,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 15,
+        "stationary_with_error_available": 63
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 63,
@@ -542,8 +637,13 @@
         "available_stationary_measurements": 90,
         "stationary_gain_among_both": 2,
         "stationary_gain_among_resp_gain_fer_cost": 18,
+        "stationary_negative_exceeds_deposited_error": 59,
         "stationary_nonmissing_among_both": 23,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 67
+        "stationary_nonmissing_among_resp_gain_fer_cost": 67,
+        "stationary_positive_exceeds_deposited_error": 15,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 15,
+        "stationary_with_error_available": 90
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 90,
@@ -567,8 +667,13 @@
         "available_stationary_measurements": 27,
         "stationary_gain_among_both": 2,
         "stationary_gain_among_resp_gain_fer_cost": 2,
+        "stationary_negative_exceeds_deposited_error": 18,
         "stationary_nonmissing_among_both": 14,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 13
+        "stationary_nonmissing_among_resp_gain_fer_cost": 13,
+        "stationary_positive_exceeds_deposited_error": 0,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 27
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 27,
@@ -592,8 +697,13 @@
         "available_stationary_measurements": 28,
         "stationary_gain_among_both": 6,
         "stationary_gain_among_resp_gain_fer_cost": 14,
+        "stationary_negative_exceeds_deposited_error": 6,
         "stationary_nonmissing_among_both": 12,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 16
+        "stationary_nonmissing_among_resp_gain_fer_cost": 16,
+        "stationary_positive_exceeds_deposited_error": 12,
+        "stationary_positive_exceeds_error_among_both": 2,
+        "stationary_positive_exceeds_error_among_other": 10,
+        "stationary_with_error_available": 28
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 28,
@@ -617,8 +727,13 @@
         "available_stationary_measurements": 30,
         "stationary_gain_among_both": 6,
         "stationary_gain_among_resp_gain_fer_cost": 14,
+        "stationary_negative_exceeds_deposited_error": 8,
         "stationary_nonmissing_among_both": 13,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 17
+        "stationary_nonmissing_among_resp_gain_fer_cost": 17,
+        "stationary_positive_exceeds_deposited_error": 12,
+        "stationary_positive_exceeds_error_among_both": 2,
+        "stationary_positive_exceeds_error_among_other": 10,
+        "stationary_with_error_available": 30
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 30,
@@ -642,8 +757,13 @@
         "available_stationary_measurements": 2,
         "stationary_gain_among_both": 0,
         "stationary_gain_among_resp_gain_fer_cost": 0,
+        "stationary_negative_exceeds_deposited_error": 2,
         "stationary_nonmissing_among_both": 1,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 1
+        "stationary_nonmissing_among_resp_gain_fer_cost": 1,
+        "stationary_positive_exceeds_deposited_error": 0,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 2
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 2,
@@ -667,8 +787,13 @@
         "available_stationary_measurements": 92,
         "stationary_gain_among_both": 3,
         "stationary_gain_among_resp_gain_fer_cost": 41,
+        "stationary_negative_exceeds_deposited_error": 30,
         "stationary_nonmissing_among_both": 16,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 76
+        "stationary_nonmissing_among_resp_gain_fer_cost": 76,
+        "stationary_positive_exceeds_deposited_error": 40,
+        "stationary_positive_exceeds_error_among_both": 3,
+        "stationary_positive_exceeds_error_among_other": 37,
+        "stationary_with_error_available": 92
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 92,
@@ -692,8 +817,13 @@
         "available_stationary_measurements": 95,
         "stationary_gain_among_both": 3,
         "stationary_gain_among_resp_gain_fer_cost": 41,
+        "stationary_negative_exceeds_deposited_error": 33,
         "stationary_nonmissing_among_both": 17,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 78
+        "stationary_nonmissing_among_resp_gain_fer_cost": 78,
+        "stationary_positive_exceeds_deposited_error": 40,
+        "stationary_positive_exceeds_error_among_both": 3,
+        "stationary_positive_exceeds_error_among_other": 37,
+        "stationary_with_error_available": 95
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 95,
@@ -717,8 +847,13 @@
         "available_stationary_measurements": 3,
         "stationary_gain_among_both": 0,
         "stationary_gain_among_resp_gain_fer_cost": 0,
+        "stationary_negative_exceeds_deposited_error": 3,
         "stationary_nonmissing_among_both": 1,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 2
+        "stationary_nonmissing_among_resp_gain_fer_cost": 2,
+        "stationary_positive_exceeds_deposited_error": 0,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 3
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 3,
@@ -742,8 +877,13 @@
         "available_stationary_measurements": 130,
         "stationary_gain_among_both": 0,
         "stationary_gain_among_resp_gain_fer_cost": 127,
+        "stationary_negative_exceeds_deposited_error": 0,
         "stationary_nonmissing_among_both": 1,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 129
+        "stationary_nonmissing_among_resp_gain_fer_cost": 129,
+        "stationary_positive_exceeds_deposited_error": 124,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 124,
+        "stationary_with_error_available": 130
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 130,
@@ -767,8 +907,13 @@
         "available_stationary_measurements": 134,
         "stationary_gain_among_both": 0,
         "stationary_gain_among_resp_gain_fer_cost": 130,
+        "stationary_negative_exceeds_deposited_error": 1,
         "stationary_nonmissing_among_both": 1,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 133
+        "stationary_nonmissing_among_resp_gain_fer_cost": 133,
+        "stationary_positive_exceeds_deposited_error": 127,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 127,
+        "stationary_with_error_available": 134
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 134,
@@ -791,8 +936,13 @@
         "available_stationary_measurements": 4,
         "stationary_gain_among_both": 0,
         "stationary_gain_among_resp_gain_fer_cost": 3,
+        "stationary_negative_exceeds_deposited_error": 1,
         "stationary_nonmissing_among_both": 0,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 4
+        "stationary_nonmissing_among_resp_gain_fer_cost": 4,
+        "stationary_positive_exceeds_deposited_error": 3,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 3,
+        "stationary_with_error_available": 4
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 4,
@@ -816,8 +966,13 @@
         "available_stationary_measurements": 33,
         "stationary_gain_among_both": 5,
         "stationary_gain_among_resp_gain_fer_cost": 3,
+        "stationary_negative_exceeds_deposited_error": 13,
         "stationary_nonmissing_among_both": 17,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 16
+        "stationary_nonmissing_among_resp_gain_fer_cost": 16,
+        "stationary_positive_exceeds_deposited_error": 1,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 1,
+        "stationary_with_error_available": 33
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 33,
@@ -841,8 +996,13 @@
         "available_stationary_measurements": 46,
         "stationary_gain_among_both": 5,
         "stationary_gain_among_resp_gain_fer_cost": 4,
+        "stationary_negative_exceeds_deposited_error": 20,
         "stationary_nonmissing_among_both": 29,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 17
+        "stationary_nonmissing_among_resp_gain_fer_cost": 17,
+        "stationary_positive_exceeds_deposited_error": 2,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 2,
+        "stationary_with_error_available": 46
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 46,
@@ -866,8 +1026,13 @@
         "available_stationary_measurements": 13,
         "stationary_gain_among_both": 0,
         "stationary_gain_among_resp_gain_fer_cost": 1,
+        "stationary_negative_exceeds_deposited_error": 7,
         "stationary_nonmissing_among_both": 12,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 1
+        "stationary_nonmissing_among_resp_gain_fer_cost": 1,
+        "stationary_positive_exceeds_deposited_error": 1,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 1,
+        "stationary_with_error_available": 13
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 13,
@@ -888,8 +1053,13 @@
         "available_stationary_measurements": 0,
         "stationary_gain_among_both": 0,
         "stationary_gain_among_resp_gain_fer_cost": 0,
+        "stationary_negative_exceeds_deposited_error": 0,
         "stationary_nonmissing_among_both": 0,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 0
+        "stationary_nonmissing_among_resp_gain_fer_cost": 0,
+        "stationary_positive_exceeds_deposited_error": 0,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 0
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 0,
@@ -912,8 +1082,13 @@
         "available_stationary_measurements": 2,
         "stationary_gain_among_both": 2,
         "stationary_gain_among_resp_gain_fer_cost": 0,
+        "stationary_negative_exceeds_deposited_error": 0,
         "stationary_nonmissing_among_both": 2,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 0
+        "stationary_nonmissing_among_resp_gain_fer_cost": 0,
+        "stationary_positive_exceeds_deposited_error": 1,
+        "stationary_positive_exceeds_error_among_both": 1,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 2
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 2,
@@ -936,8 +1111,13 @@
         "available_stationary_measurements": 2,
         "stationary_gain_among_both": 2,
         "stationary_gain_among_resp_gain_fer_cost": 0,
+        "stationary_negative_exceeds_deposited_error": 0,
         "stationary_nonmissing_among_both": 2,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 0
+        "stationary_nonmissing_among_resp_gain_fer_cost": 0,
+        "stationary_positive_exceeds_deposited_error": 1,
+        "stationary_positive_exceeds_error_among_both": 1,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 2
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 2,
@@ -964,8 +1144,13 @@
         "available_stationary_measurements": 86,
         "stationary_gain_among_both": 13,
         "stationary_gain_among_resp_gain_fer_cost": 20,
+        "stationary_negative_exceeds_deposited_error": 23,
         "stationary_nonmissing_among_both": 39,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 44
+        "stationary_nonmissing_among_resp_gain_fer_cost": 44,
+        "stationary_positive_exceeds_deposited_error": 17,
+        "stationary_positive_exceeds_error_among_both": 2,
+        "stationary_positive_exceeds_error_among_other": 15,
+        "stationary_with_error_available": 86
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 86,
@@ -990,8 +1175,13 @@
         "available_stationary_measurements": 121,
         "stationary_gain_among_both": 21,
         "stationary_gain_among_resp_gain_fer_cost": 23,
+        "stationary_negative_exceeds_deposited_error": 37,
         "stationary_nonmissing_among_both": 69,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 49
+        "stationary_nonmissing_among_resp_gain_fer_cost": 49,
+        "stationary_positive_exceeds_deposited_error": 22,
+        "stationary_positive_exceeds_error_among_both": 4,
+        "stationary_positive_exceeds_error_among_other": 18,
+        "stationary_with_error_available": 121
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 121,
@@ -1012,8 +1202,13 @@
         "available_stationary_measurements": 0,
         "stationary_gain_among_both": 0,
         "stationary_gain_among_resp_gain_fer_cost": 0,
+        "stationary_negative_exceeds_deposited_error": 0,
         "stationary_nonmissing_among_both": 0,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 0
+        "stationary_nonmissing_among_resp_gain_fer_cost": 0,
+        "stationary_positive_exceeds_deposited_error": 0,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 0
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 0,
@@ -1034,8 +1229,13 @@
         "available_stationary_measurements": 0,
         "stationary_gain_among_both": 0,
         "stationary_gain_among_resp_gain_fer_cost": 0,
+        "stationary_negative_exceeds_deposited_error": 0,
         "stationary_nonmissing_among_both": 0,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 0
+        "stationary_nonmissing_among_resp_gain_fer_cost": 0,
+        "stationary_positive_exceeds_deposited_error": 0,
+        "stationary_positive_exceeds_error_among_both": 0,
+        "stationary_positive_exceeds_error_among_other": 0,
+        "stationary_with_error_available": 0
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 0,
@@ -1059,8 +1259,13 @@
         "available_stationary_measurements": 155,
         "stationary_gain_among_both": 3,
         "stationary_gain_among_resp_gain_fer_cost": 57,
+        "stationary_negative_exceeds_deposited_error": 71,
         "stationary_nonmissing_among_both": 25,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 130
+        "stationary_nonmissing_among_resp_gain_fer_cost": 130,
+        "stationary_positive_exceeds_deposited_error": 55,
+        "stationary_positive_exceeds_error_among_both": 3,
+        "stationary_positive_exceeds_error_among_other": 52,
+        "stationary_with_error_available": 155
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 155,
@@ -1084,8 +1289,13 @@
         "available_stationary_measurements": 185,
         "stationary_gain_among_both": 5,
         "stationary_gain_among_resp_gain_fer_cost": 59,
+        "stationary_negative_exceeds_deposited_error": 92,
         "stationary_nonmissing_among_both": 40,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 145
+        "stationary_nonmissing_among_resp_gain_fer_cost": 145,
+        "stationary_positive_exceeds_deposited_error": 55,
+        "stationary_positive_exceeds_error_among_both": 3,
+        "stationary_positive_exceeds_error_among_other": 52,
+        "stationary_with_error_available": 185
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 185,
@@ -1109,8 +1319,13 @@
         "available_stationary_measurements": 186,
         "stationary_gain_among_both": 8,
         "stationary_gain_among_resp_gain_fer_cost": 159,
+        "stationary_negative_exceeds_deposited_error": 11,
         "stationary_nonmissing_among_both": 18,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 168
+        "stationary_nonmissing_among_resp_gain_fer_cost": 168,
+        "stationary_positive_exceeds_deposited_error": 152,
+        "stationary_positive_exceeds_error_among_both": 3,
+        "stationary_positive_exceeds_error_among_other": 149,
+        "stationary_with_error_available": 186
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 186,
@@ -1134,8 +1349,13 @@
         "available_stationary_measurements": 202,
         "stationary_gain_among_both": 12,
         "stationary_gain_among_resp_gain_fer_cost": 166,
+        "stationary_negative_exceeds_deposited_error": 15,
         "stationary_nonmissing_among_both": 25,
-        "stationary_nonmissing_among_resp_gain_fer_cost": 177
+        "stationary_nonmissing_among_resp_gain_fer_cost": 177,
+        "stationary_positive_exceeds_deposited_error": 160,
+        "stationary_positive_exceeds_error_among_both": 5,
+        "stationary_positive_exceeds_error_among_other": 155,
+        "stationary_with_error_available": 202
       },
       "strict_two_reported_error_margin": {
         "available_with_both_reported_phenotype_errors": 202,
@@ -1143,6 +1363,22 @@
         "other_or_uncertain_sign": 80,
         "resp_positive_and_fer_negative_margin_gt_2errors": 111
       }
+    }
+  },
+  "publisher_count_reconstruction": {
+    "Evo2D": {
+      "both_fermentation_respiration_positive": 109,
+      "selected_adaptive_clones": 306,
+      "stationary_positive_among_both": 7,
+      "stationary_positive_among_other": 70,
+      "stationary_positive_exceeds_deposited_error": 77
+    },
+    "Evo3D": {
+      "both_fermentation_respiration_positive": 25,
+      "selected_adaptive_clones": 202,
+      "stationary_positive_among_both": 5,
+      "stationary_positive_among_other": 155,
+      "stationary_positive_exceeds_deposited_error": 160
     }
   },
   "same_new_source_matched_IRA1_parent_sensitivity": {
@@ -1162,8 +1398,13 @@
           "available_stationary_measurements": 185,
           "stationary_gain_among_both": 5,
           "stationary_gain_among_resp_gain_fer_cost": 59,
+          "stationary_negative_exceeds_deposited_error": 92,
           "stationary_nonmissing_among_both": 40,
-          "stationary_nonmissing_among_resp_gain_fer_cost": 145
+          "stationary_nonmissing_among_resp_gain_fer_cost": 145,
+          "stationary_positive_exceeds_deposited_error": 55,
+          "stationary_positive_exceeds_error_among_both": 3,
+          "stationary_positive_exceeds_error_among_other": 52,
+          "stationary_with_error_available": 185
         },
         "strict_two_reported_error_margin": {
           "available_with_both_reported_phenotype_errors": 185,
@@ -1189,8 +1430,13 @@
             "available_stationary_measurements": 90,
             "stationary_gain_among_both": 2,
             "stationary_gain_among_resp_gain_fer_cost": 18,
+            "stationary_negative_exceeds_deposited_error": 59,
             "stationary_nonmissing_among_both": 23,
-            "stationary_nonmissing_among_resp_gain_fer_cost": 67
+            "stationary_nonmissing_among_resp_gain_fer_cost": 67,
+            "stationary_positive_exceeds_deposited_error": 15,
+            "stationary_positive_exceeds_error_among_both": 0,
+            "stationary_positive_exceeds_error_among_other": 15,
+            "stationary_with_error_available": 90
           },
           "strict_two_reported_error_margin": {
             "available_with_both_reported_phenotype_errors": 90,
@@ -1214,8 +1460,13 @@
             "available_stationary_measurements": 95,
             "stationary_gain_among_both": 3,
             "stationary_gain_among_resp_gain_fer_cost": 41,
+            "stationary_negative_exceeds_deposited_error": 33,
             "stationary_nonmissing_among_both": 17,
-            "stationary_nonmissing_among_resp_gain_fer_cost": 78
+            "stationary_nonmissing_among_resp_gain_fer_cost": 78,
+            "stationary_positive_exceeds_deposited_error": 40,
+            "stationary_positive_exceeds_error_among_both": 3,
+            "stationary_positive_exceeds_error_among_other": 37,
+            "stationary_with_error_available": 95
           },
           "strict_two_reported_error_margin": {
             "available_with_both_reported_phenotype_errors": 95,
@@ -1243,8 +1494,13 @@
           "available_stationary_measurements": 164,
           "stationary_gain_among_both": 6,
           "stationary_gain_among_resp_gain_fer_cost": 144,
+          "stationary_negative_exceeds_deposited_error": 9,
           "stationary_nonmissing_among_both": 14,
-          "stationary_nonmissing_among_resp_gain_fer_cost": 150
+          "stationary_nonmissing_among_resp_gain_fer_cost": 150,
+          "stationary_positive_exceeds_deposited_error": 139,
+          "stationary_positive_exceeds_error_among_both": 2,
+          "stationary_positive_exceeds_error_among_other": 137,
+          "stationary_with_error_available": 164
         },
         "strict_two_reported_error_margin": {
           "available_with_both_reported_phenotype_errors": 164,
@@ -1270,8 +1526,13 @@
             "available_stationary_measurements": 30,
             "stationary_gain_among_both": 6,
             "stationary_gain_among_resp_gain_fer_cost": 14,
+            "stationary_negative_exceeds_deposited_error": 8,
             "stationary_nonmissing_among_both": 13,
-            "stationary_nonmissing_among_resp_gain_fer_cost": 17
+            "stationary_nonmissing_among_resp_gain_fer_cost": 17,
+            "stationary_positive_exceeds_deposited_error": 12,
+            "stationary_positive_exceeds_error_among_both": 2,
+            "stationary_positive_exceeds_error_among_other": 10,
+            "stationary_with_error_available": 30
           },
           "strict_two_reported_error_margin": {
             "available_with_both_reported_phenotype_errors": 30,
@@ -1295,8 +1556,13 @@
             "available_stationary_measurements": 134,
             "stationary_gain_among_both": 0,
             "stationary_gain_among_resp_gain_fer_cost": 130,
+            "stationary_negative_exceeds_deposited_error": 1,
             "stationary_nonmissing_among_both": 1,
-            "stationary_nonmissing_among_resp_gain_fer_cost": 133
+            "stationary_nonmissing_among_resp_gain_fer_cost": 133,
+            "stationary_positive_exceeds_deposited_error": 127,
+            "stationary_positive_exceeds_error_among_both": 0,
+            "stationary_positive_exceeds_error_among_other": 127,
+            "stationary_with_error_available": 134
           },
           "strict_two_reported_error_margin": {
             "available_with_both_reported_phenotype_errors": 134,
