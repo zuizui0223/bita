@@ -165,6 +165,12 @@ def analyze_original(s1: bytes, s3: bytes) -> dict:
             subset = [r for r in selected if r["evolution_condition"] == env
                       and r["class_new"] == cl]
             groups[f"{env}|{cl}"] = summarize_group(subset)
+    # The publisher's ~35% Evo2D and ~13% Evo3D rounded results
+    # correspond to *both* selected adaptive classes (306 and 202 rows),
+    # not just the `adaptive_haploid` class in the CSV.
+    for env in CONDITIONS:
+        subset = [r for r in selected if r["evolution_condition"] == env]
+        groups[f"{env}|all_adaptive_classes"] = summarize_group(subset)
     by_parent = {}
     for a in BACKGROUNDS:
         for env in CONDITIONS:
@@ -173,6 +179,8 @@ def analyze_original(s1: bytes, s3: bytes) -> dict:
                           and r["evolution_condition"] == env
                           and r["class_new"] == cl]
                 by_parent[f"{a}|{env}|{cl}"] = summarize_group(subset)
+            subset_all = [r for r in selected if r["ancestor"] == a and r["evolution_condition"] == env]
+            by_parent[f"{a}|{env}|all_adaptive_classes"] = summarize_group(subset_all)
     by_publication = {}
     for name in sorted({r["source_publication"] for r in selected}):
         for env in CONDITIONS:
@@ -180,6 +188,35 @@ def analyze_original(s1: bytes, s3: bytes) -> dict:
                       and r["evolution_condition"] == env and
                       r["class_new"] == "adaptive_haploid"]
             by_publication[f"{name}|{env}|adaptive_haploid"] = summarize_group(subset)
+    # Independent publication provenance: prior Aggeli second-step clones
+    # are mixed into the same author S1 aggregate as This_study. Preserve
+    # all selected adaptive classes, and never count prior work as new 2024.
+    for name in sorted({r["source_publication"] for r in selected}):
+        for env in CONDITIONS:
+            subset = [r for r in selected if r["source_publication"] == name
+                      and r["evolution_condition"] == env]
+            by_publication[f"{name}|{env}|all_adaptive_classes"] = summarize_group(subset)
+    # Same-source, same two parental backgrounds as strictest available
+    # compositional check. Still not a true n=evolution-populations effect.
+    ira1_matched = {}
+    for env in CONDITIONS:
+        by_ancestor = {}
+        for a in ("IRA1_MIS", "IRA1_NON"):
+            subset = [r for r in selected if r["source_publication"] == "This_study"
+                      and r["ancestor"] == a and r["evolution_condition"] == env]
+            by_ancestor[a] = summarize_group(subset)
+        full = [r for r in selected if r["source_publication"] == "This_study"
+                and r["ancestor"] in ("IRA1_MIS", "IRA1_NON")
+                and r["evolution_condition"] == env]
+        q = [by_ancestor[a]["descriptive_both_gain_share"] for a in ("IRA1_MIS", "IRA1_NON")]
+        if any(x is None for x in q):
+            raise ValueError("both IRA1 parental backgrounds must be observed in each evolution condition")
+        ira1_matched[env] = {
+            "per_background": by_ancestor,
+            "clone_weighted": summarize_group(full),
+            "equal_two_parent_mean_both_gain_share": sum(q)/2,
+            "same_source_and_two_parents_not_independently_randomized_mutation_origins": True,
+        }
     equal_parent = {}
     for env in CONDITIONS:
         rates = []
@@ -212,6 +249,7 @@ def analyze_original(s1: bytes, s3: bytes) -> dict:
         "clone_weighted_by_environment_and_class": groups,
         "parent_and_evolution_condition_strata": by_parent,
         "publication_and_evolution_condition_strata": by_publication,
+        "same_new_source_matched_IRA1_parent_sensitivity": ira1_matched,
         "equal_weight_across_present_parents_descriptive": equal_parent,
         "interpretation_ceiling": {
             "parent_relative_columns_are_author_deposited": True,
@@ -243,6 +281,7 @@ def main() -> None:
         "by_condition": d["clone_weighted_by_environment_and_class"],
         "equal_parent": d["equal_weight_across_present_parents_descriptive"],
         "by_publication": d["publication_and_evolution_condition_strata"],
+        "matched_IRA1": d["same_new_source_matched_IRA1_parent_sensitivity"],
         "by_parent":d["parent_and_evolution_condition_strata"],
     },separators=(",",":")))
 
