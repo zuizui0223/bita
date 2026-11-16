@@ -131,7 +131,6 @@ def parse_original_jats(original:bytes,which:str)->dict:
     numbers=re.search(r"(\d+) of (\d+); P < 0\.01",src_sec)
     if numbers is None:raise ValueError("original mutant reproductive-cost denominator unavailable")
     losing,total=(int(v) for v in numbers.groups())
-    prod_F=_number(r"F2,7\s*=\s*([0-9.]+)",fig4,"antibiotic response") # first F2,7 in figure
     both=re.findall(r"F2,7\s*=\s*([0-9.]+)",fig4)
     if both!=["107.7","37.95"]:
         raise ValueError("figure 4 two model results changed")
