@@ -1,0 +1,49 @@
+name: bita-ecoli-detection-transitions-exact
+on:
+  push:
+    branches: ['analysis/bita-ecoli-detection-transition-20261117']
+    paths:
+      - '.github/workflows/bita-ecoli-detection-transitions-exact.yml'
+      - 'scripts/analyze_bita_ecoli_detection_transitions.py'
+      - 'tests/test_bita_ecoli_detection_transitions.py'
+      - 'empirical/trait_architecture_history/dsouza2016_aa_auxotrophy_transition_audit.json'
+      - 'empirical/trait_architecture_history/dsouza2016_aa_auxotrophy_trajectory_sensitivity.json'
+      - 'empirical/trait_architecture_history/dsouza2016_aa_auxotrophy_fig2_readout.json'
+  pull_request:
+    branches: ['analysis/bita-ecoli-trajectory-sensitivity-20261116']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-state-transition-decomposition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate full frozen-source transition readout with n=16 full-history permutations
+        run: |
+          python -m scripts.analyze_bita_ecoli_detection_transitions \
+            --output /tmp/dsouza2016_aa_auxotrophy_transition_audit.json
+      - name: Confirm whole output matches repository freeze
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          fresh=json.loads(pathlib.Path('/tmp/dsouza2016_aa_auxotrophy_transition_audit.json').read_text())
+          frozen=json.loads(pathlib.Path('empirical/trait_architecture_history/dsouza2016_aa_auxotrophy_transition_audit.json').read_text())
+          if fresh!=frozen:
+              raise ValueError('source-frozen independent-population transition audit changed')
+          print('BITA_ECOLI_TRANSITION_FROZEN_ROUNDTRIP:PASS')
+          PY
+      - name: Verify exact counts, 8-view p-values, no pseudoreplication and source gates
+        run: |
+          python -m pip install 'pytest>=8,<10'
+          python -m pytest -q tests/test_bita_ecoli_detection_transitions.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-ecoli-detection-state-transition-exact
+          path: /tmp/dsouza2016_aa_auxotrophy_transition_audit.json
+          if-no-files-found: error
+          retention-days: 30
