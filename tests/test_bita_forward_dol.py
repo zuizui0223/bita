@@ -77,3 +77,23 @@ def test_frozen_readout_contains_source_checksums_and_correct_denominators():
     assert result["source_statement_excludes_genetic_ancestry_generalism"] is True
     assert result["experimental_raw_data_obtained"] is False
     assert result["publication_count_not_metanalysis_n"] is True
+
+
+def test_five_programme_index_keeps_forward_engineering_and_reverse_separate():
+    import csv
+    root=Path(__file__).resolve().parents[1]
+    path=root/"empirical/trait_architecture_history/bita_forward_group_benefit_evidence_20261116.csv"
+    with path.open(newline="",encoding="utf8") as stream:
+        records=list(csv.DictReader(stream))
+    assert len(records)==5
+    families=[r["programme_id"] for r in records]
+    assert len(families)==len(set(families))
+    assert all(r["effect_pooled_cross_study"]=="no" for r in records)
+    by_id={r["programme_id"]:r for r in records}
+    assert "single M parent" in by_id["Kim2016_Pfluorescens"]["independent_biological_unit"]
+    assert "source M" in by_id["Kim2016_Pfluorescens"]["reason_not_poolable"]
+    assert "Somatic" in by_id["Zhang2020_Scoelicolor"]["architecture_origin"]
+    assert "no unbiased" in by_id["Zhang2020_Scoelicolor"]["independent_evolutionary_origin_count_identified"]
+    assert ";" in by_id["Dragos2018_Bsubtilis"]["source_doi"]  # same research programme, two papers
+    assert "reverse" in by_id["Chen2024_Pstutzeri"]["architecture_origin"]
+    assert "not a new stable heritable" not in by_id["Kim2016_Pfluorescens"]["source_direction"] if "source_direction" in by_id["Kim2016_Pfluorescens"] else True
