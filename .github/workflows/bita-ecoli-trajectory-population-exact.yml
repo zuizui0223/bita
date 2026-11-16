@@ -1,0 +1,52 @@
+name: bita-ecoli-trajectory-population-exact
+on:
+  push:
+    branches:
+      - 'analysis/bita-ecoli-trajectory-sensitivity-20261116'
+    paths:
+      - 'scripts/analyze_bita_ecoli_trajectory_sensitivity.py'
+      - 'tests/test_bita_ecoli_trajectory_sensitivity.py'
+      - 'empirical/trait_architecture_history/dsouza2016_aa_auxotrophy_trajectory_sensitivity.json'
+      - 'empirical/trait_architecture_history/dsouza2016_aa_auxotrophy_fig2_readout.json'
+      - '.github/workflows/bita-ecoli-trajectory-population-exact.yml'
+  pull_request:
+    branches:
+      - 'analysis/bita-ecoli-auxotrophy-selection-20261116'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  whole-population-exact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate frozen source-readout population sensitivity
+        run: |
+          python -m scripts.analyze_bita_ecoli_trajectory_sensitivity \
+            --output /tmp/dsouza2016_trajectory_exact.json
+      - name: Check regenerated full readout is frozen
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          actual = json.loads(pathlib.Path('/tmp/dsouza2016_trajectory_exact.json').read_text())
+          frozen = json.loads(pathlib.Path(
+              'empirical/trait_architecture_history/dsouza2016_aa_auxotrophy_trajectory_sensitivity.json'
+          ).read_text())
+          if actual != frozen:
+              raise ValueError('whole-population exact source reanalysis differs from frozen readout')
+          print('BITA_ECOLI_TRAJECTORY_FROZEN_ROUNDTRIP:PASS')
+          PY
+      - name: Validate source identities, finite permutation denominators and inference guards
+        run: |
+          python -m pip install 'pytest>=8,<10'
+          python -m pytest -q tests/test_bita_ecoli_trajectory_sensitivity.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-ecoli-trajectories-population-exact-readout
+          path: /tmp/dsouza2016_trajectory_exact.json
+          if-no-files-found: error
+          retention-days: 30
