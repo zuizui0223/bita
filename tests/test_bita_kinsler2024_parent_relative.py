@@ -47,6 +47,26 @@ def test_exact_selected_clone_numerators_not_evolution_population_n():
     assert d["inferential_unit"].startswith("selected_isolated_barcode")
 
 
+def test_stationary_source_error_threshold_is_distinct_from_positive_sign():
+    rows = [
+        row(.05, .04, .019),  # s>0 but below the source error of .02
+        row(-.05, .04, .021), # s>error; respiration gain and fermentation cost
+        row(.05, .04, .030),  # both gain and stationary gain>error
+    ]
+    for x in rows:
+        x["StaPerHour_error"] = ".02"
+    q = summarize_group(rows)
+    st = q["stationary_phase"]
+    assert st["stationary_gain_among_both"] == 2  # raw s>0 and f,r>0
+    assert st["stationary_positive_exceeds_deposited_error"] == 2
+    assert st["stationary_positive_exceeds_error_among_both"] == 1
+    assert st["stationary_positive_exceeds_error_among_other"] == 1
+    assert st["stationary_with_error_available"] == 3
+    rows[1]["StaPerHour_error"] = "-.01"
+    with pytest.raises(ValueError, match="negative"):
+        summarize_group(rows)
+
+
 def test_missingness_not_silently_filled():
     d = summarize_group([row("", ".04", ""), row(".03", ".04", ".01")])
     assert d["selected_clone_rows"] == 2
