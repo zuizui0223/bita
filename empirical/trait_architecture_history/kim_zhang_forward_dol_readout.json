@@ -1,0 +1,95 @@
+{
+  "sources": {
+    "kim": {
+      "doi": "10.1038/ncomms10508",
+      "sha256": "a876e838044cb44ab28c47a1f9e243df3172c15650ad52f56be1e1a1d5c8ab68",
+      "pmcid": "PMC4748119"
+    },
+    "zhang": {
+      "doi": "10.1126/sciadv.aay5781",
+      "sha256": "bfe5787f48f0c2dde277d9d6db6387180472b55c182c5d45738309e45cc0d092",
+      "pmcid": "PMC6962034"
+    }
+  },
+  "source_grade": "ORIGINAL_PUBLISHED_JATS_WITH_SOURCE_CHECKSUMS_NOT_ORIGINAL_REPLICATE_VALUES",
+  "kim_source_readout": {
+    "doi": "10.1038/ncomms10508",
+    "pmcid": "PMC4748119",
+    "sha256": "a876e838044cb44ab28c47a1f9e243df3172c15650ad52f56be1e1a1d5c8ab68",
+    "organism": "Pseudomonas fluorescens",
+    "parental_genotype_state": "single M parent already carries rsmE frameshift enhancing mucoid polymer",
+    "direct_origin_observed": "new D morphotype repeatedly selected from clonally plated M",
+    "dry_mutants_sequenced_from_separate_fans": 20,
+    "all_selected_D_variants_had_Wsp_locus_mutation": true,
+    "source_counterfactuals": {
+      "pure_M": "no collective spreading phenotype until new D evolves",
+      "pure_D": "no collective spreading phenotype until M evolves",
+      "engineered_M_plus_D": "spreading and higher CFU than either pure state",
+      "M_polymer_loss_plus_D": "no spreading; experimental lubrication dependency",
+      "engineered_wspCD_mutant_plus_M": "new dry morphotype and collective spreading"
+    },
+    "figure_1_single_vs_mixed_cfu_anova_p": 0.000957,
+    "figure_4_lubrication_control_cfu_anova_p": 0.000167,
+    "figure_2_colonies_per_starting_frequency": 3,
+    "source_stable_M_fraction_approx": 0.1,
+    "origin_frequency_estimated": false,
+    "ancestral_two_function_generalist_documented": false,
+    "selected_successes_all_plated_denominator_observed": false,
+    "new_absolute_CFU_values_extracted": false
+  },
+  "zhang_source_readout": {
+    "doi": "10.1126/sciadv.aay5781",
+    "pmcid": "PMC6962034",
+    "sha256": "bfe5787f48f0c2dde277d9d6db6387180472b55c182c5d45738309e45cc0d092",
+    "organism": "Streptomyces coelicolor",
+    "origin_type": "within-clonal-colony recurrent genomic terminal deletion and amplification",
+    "selected_mutant_strains": 30,
+    "selected_mutants_with_reduced_spore_production": 28,
+    "genome_change_subset_with_full_size_measurement": "F(1,7) means nine observations not thirty",
+    "figure_4_mutant_frequency_model": {
+      "antibiotic_F": 107.7,
+      "antibiotic_df": [
+        2,
+        7
+      ],
+      "antibiotic_R2_rederived": 0.9685251798561151,
+      "spore_fitness_F": 37.95,
+      "spore_fitness_df": [
+        2,
+        7
+      ],
+      "spore_fitness_R2_rederived": 0.9155609167671894
+    },
+    "fig4_antibiotic_vs_mutant_fraction_F": 107.7,
+    "fig4_spore_fitness_vs_mutant_fraction_F": 37.95,
+    "report_composition_region": "up to approximately 50 percent mutant: stronger antibiotic output without reported colony spore loss",
+    "selected_mutant_isolates_independent_evolved_architecture_origins": false,
+    "single_ancestral_colony_genotype": "S. coelicolor A3(2) M145",
+    "new_raw_figure4_growth_or_inhibition_values_extracted": false,
+    "origin_frequency_estimated": false
+  },
+  "comparison": {
+    "independent_research_programmes": 2,
+    "kim_independent_spreading_fan_mutants_examined": 20,
+    "kim_origin_probability_estimated": false,
+    "kim_selected_genetic_variants_with_Wsp_mutations": "20 sequenced from separate selected successful fans, NOT 20 of all founding colonies",
+    "kim_group_CFU_benefit_figure_one_anova_p": 0.000957,
+    "kim_polymer_deletion_abrogates_spreading_anova_p": 0.000167,
+    "zhang_selected_mutant_strains": 30,
+    "zhang_selected_mutants_with_reduced_spore_production": 28,
+    "zhang_parental_mutant_spore_cost_fraction_descriptive": 0.9333333333333333,
+    "zhang_independent_evolutionary_origins_estimated": false,
+    "zhang_group_benefit_mutant_frequency_threshold": "approx 0.50, not an estimated change-point",
+    "zhang_antibiotic_production_F2_7": 107.7,
+    "zhang_colony_spore_cost_F2_7": 37.95,
+    "pooled_fitness_effect": null,
+    "forward_trait_axis_origin_identified": false,
+    "category_associations_are_history_not_randomized_independent_effects": true,
+    "scientific_boundaries": "Kim M ancestral state already has an rsmE mucoid mutation; M and D cooperative emergence is NOT direct demonstration of separating two originally optimized functions in one generalist cell. Twenty dry isolates were deliberately chosen from different spreading fans, so 20/20 is not a rate of division-of-labour origin. Zhang 30 selected mutant clone phenotypes are not thirty independent new organ-origin events, nor are F2,7 regression fit statistics WT vs mutant colony mean effects. Higher antibiotic output with mutant investment up to about 50% without observed spore penalty is a colony context, not an empirical BITA K(u) threshold. Both studies use different collective fitness currencies, and no common meta-analytic effect can be pooled or historical ancestral two-function fitness landscape identified."
+  },
+  "source_statement_excludes_genetic_ancestry_generalism": true,
+  "experimental_raw_data_obtained": false,
+  "publication_count_not_metanalysis_n": true,
+  "evidence_direction": "new functional collaborator appears within same original colony lineage; not an observed irreversible two-trait architectural switch",
+  "independent_reanalysis_claim": "F-to-R2 consistency checks for source published per-study regression fits, not new WT interaction-effect estimates"
+}
