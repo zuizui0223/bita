@@ -1,0 +1,120 @@
+name: bita-ecoli-metabolic-loss-source-intake
+on:
+  push:
+    branches: ['analysis/bita-ecoli-auxotrophy-selection-20261116']
+    paths:
+      - '.github/workflows/bita-ecoli-metabolic-loss-source-intake.yml'
+  pull_request:
+    branches: ['analysis/bita-kim-forward-wsp-genotypes-20261116']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-metabolic-loss:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install embedded supplemental PDF parser
+        run: python -m pip install 'pymupdf>=1.24,<2'
+      - name: Fetch PLOS Genetics original JATS and publicly deposited supplemental tables
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request,urllib.error,json,hashlib,xml.etree.ElementTree as ET,re
+          from pathlib import Path
+          import fitz
+          folder=Path('original_source');folder.mkdir(exist_ok=True)
+          data_url='https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5096674/fullTextXML'
+          with urllib.request.urlopen(urllib.request.Request(data_url,headers={
+               'User-Agent':'BITA-source-verified-evolution/1.0','Accept':'application/xml'}),
+               timeout=32) as f:
+              raw=f.read(2200000)
+          root=ET.fromstring(raw)
+          doi=[x.text for x in root.iter('article-id') if x.get('pub-id-type')=='doi']
+          if '10.1371/journal.pgen.1006364' not in doi:
+              raise ValueError('unexpected article DOI')
+          folder.joinpath('plos_original_article.xml').write_bytes(raw)
+          def t(x):return ' '.join(''.join(x.itertext()).split())
+          sections=[]
+          for sec in root.iter('sec'):
+              title=sec.find('title')
+              if title is None:continue
+              name=t(title)
+              paras=[t(x) for x in sec.findall('p')]
+              matches=[x for x in paras if any(v in x.lower() for v in [
+                  'eight replicate','populations from later','auxotroph','without an external supply',
+                  'auxotrophs derived','coculture','invasion-from-rare','selection coefficients','fitness'])]
+              if matches:sections.append({'section':name,'relevant_paragraphs':matches[:22]})
+          figures=[]
+          for fig in root.iter('fig'):
+              label=fig.find('label')
+              cap=fig.find('caption')
+              if label is not None and cap is not None:
+                  figures.append({'label':t(label),'caption':t(cap)})
+          report={'doi':doi[0],'source_sha256':hashlib.sha256(raw).hexdigest(),
+                  'bytes':len(raw),'sections':sections,'figures':figures,'supplements':[]}
+          for label,idx in [('S1_Table','s004'),('S2_Table','s005'),('S3_Table','s006')]:
+              url=('https://journals.plos.org/plosgenetics/article/file?'
+                   'id=10.1371/journal.pgen.1006364.'+idx+'&type=supplementary')
+              item={'label':label,'url':url}
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(url,headers={
+                       'User-Agent':'Mozilla/5.0 (public scientific-source verification)',
+                       'Accept':'application/pdf'}),timeout=32) as f:
+                      pdf=f.read(6000000)
+                      item['http_status']=f.status
+                      item['mime']=f.headers.get('content-type')
+                  item['bytes']=len(pdf)
+                  item['sha256']=hashlib.sha256(pdf).hexdigest()
+                  if not pdf.startswith(b'%PDF'):
+                      item['valid_pdf']=False
+                  else:
+                      item['valid_pdf']=True
+                      folder.joinpath(label+'.pdf').write_bytes(pdf)
+                      with fitz.open(stream=pdf,filetype='pdf') as doc:
+                          item['pages']=len(doc)
+                          texts=[page.get_text('text') for page in doc]
+                          item['page_characters']=[len(x) for x in texts]
+                          item['page_extract_preview']=[
+                              {'page':i+1,'text':v[:12500]} for i,v in enumerate(texts[:8])]
+              except urllib.error.HTTPError as ex:
+                  item['http_status']=ex.code;item['error']=str(ex.reason)
+              except Exception as ex:
+                  item['http_status']='ERROR';item['error']=type(ex).__name__+': '+str(ex)[:120]
+              report['supplements'].append(item)
+          # Author's original Fig. 2 heatmap is a visualization, not raw counts.
+          # Preserve unchanged image for visual QC; do not infer exact pixel-derived
+          # cell-level mutant frequencies as original measurements.
+          figure_url=('https://journals.plos.org/plosgenetics/article/figure/image?'
+                      'size=large&id=10.1371/journal.pgen.1006364.g002')
+          try:
+              with urllib.request.urlopen(urllib.request.Request(figure_url,headers={
+                   'User-Agent':'Mozilla/5.0 (public scientific source audit)',
+                   'Accept':'image/png,image/jpeg'}),timeout=24) as resp:
+                  img=resp.read(4000000)
+                  mime=resp.headers.get('content-type')
+              report['original_fig2_image']={'url':figure_url,'bytes':len(img),
+                  'sha256':hashlib.sha256(img).hexdigest(),'mime':mime,
+                  'original_embedded_png_or_jpeg':img[:3] in (bytes.fromhex('ffd8ff'),bytes.fromhex('89504e'))}
+              if img.startswith(bytes.fromhex('ffd8ff')) or img.startswith(bytes.fromhex('89504e47')):
+                  folder.joinpath('original_Figure_2'+('.png' if img.startswith(bytes.fromhex('89504e47')) else '.jpg')).write_bytes(img)
+          except Exception as ex:
+              report['original_fig2_image']={'download_status':'ERROR','reason':type(ex).__name__+': '+str(ex)[:140]}
+          folder.joinpath('source_report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2))
+          print('BITA_AUXO_ORIGINAL_SOURCE:'+json.dumps({
+              'source_sha256':report['source_sha256'],
+              'sections':[{'name':s['section'],'paragraphs':[p[:1600] for p in s['relevant_paragraphs'][:7]]} for s in sections[:18]],
+              'figures':[{'label':f['label'],'caption':f['caption'][:900]} for f in figures],
+              'supplements':report['supplements']
+          },ensure_ascii=False,separators=(',',':')),flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-plosgenetics2016-auxotrophy-original-supplements
+          path: original_source/
+          if-no-files-found: error
+          retention-days: 30

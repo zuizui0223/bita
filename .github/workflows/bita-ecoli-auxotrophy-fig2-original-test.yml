@@ -1,0 +1,103 @@
+name: bita-ecoli-auxotrophy-fig2-original-test
+on:
+  push:
+    branches: ['analysis/bita-ecoli-auxotrophy-selection-20261116']
+    paths:
+      - '.github/workflows/bita-ecoli-auxotrophy-fig2-original-test.yml'
+      - 'scripts/analyze_bita_ecoli_auxotrophy_fig2.py'
+      - 'tests/test_bita_ecoli_auxotrophy_fig2.py'
+      - 'empirical/trait_architecture_history/dsouza2016_aa_auxotrophy_fig2_readout.json'
+  pull_request:
+    branches: ['analysis/bita-kim-forward-wsp-genotypes-20261116']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-evolution-reanalysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install source pixel, PDF and independent statistics libraries
+        run: python -m pip install 'pillow>=10,<12' 'pymupdf>=1.24,<2' 'pytest>=8,<10' 'scipy>=1.11' 'statsmodels>=0.14'
+      - name: Retrieve the five original PLOS source files and fingerprint them
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request,hashlib
+          original={
+            'figure2.png':(
+              'https://journals.plos.org/plosgenetics/article/figure/image?size=large&id=10.1371/journal.pgen.1006364.g002',
+              '71da8f3c1707d1ade887d4030446d1869f9fd33b05fa8cfed6fb3cd49823bd8b'),
+            'article.xml':(
+              'https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5096674/fullTextXML',
+              '6eb810ff515b2aa0a7ccb4190067e97810e7cbaca26bc2947d1ef720f77e0e97'),
+            's1.pdf':(
+              'https://journals.plos.org/plosgenetics/article/file?id=10.1371/journal.pgen.1006364.s004&type=supplementary',
+              '249f0657f5ce93f155b6ef9b23a59437f5c205ddc3436ea1fdbf71db37074ca7'),
+            's2.pdf':(
+              'https://journals.plos.org/plosgenetics/article/file?id=10.1371/journal.pgen.1006364.s005&type=supplementary',
+              'a0bc2dbb9a4bf5c590bb59cfce226986bfa1bdd94274489ebae25413d70b2ab4'),
+            's3.pdf':(
+              'https://journals.plos.org/plosgenetics/article/file?id=10.1371/journal.pgen.1006364.s006&type=supplementary',
+              '3047c6a82418eb18378f1d60546f88656db6c9a7ce237ab7bcd9196235dfb0af'),
+          }
+          for dest,(url,expected) in original.items():
+              req=urllib.request.Request(url,headers={
+                  'User-Agent':'Mozilla/5.0 (source-verified evolutionary ecology)',
+                  'Accept':'application/xml,image/png,image/jpeg,application/pdf'})
+              with urllib.request.urlopen(req,timeout=40) as response:
+                  raw=response.read(3500000)
+              sha=hashlib.sha256(raw).hexdigest()
+              if sha!=expected:
+                  raise ValueError('original source changed for '+dest+': '+sha)
+              open(dest,'wb').write(raw)
+              print('BITA_ORIGINAL_ECOLI_FILE:'+dest+':'+sha+':'+str(len(raw)),flush=True)
+          PY
+      - name: Reconstruct 96 source figure observations and independent n8×n8 test
+        run: |
+          python -m scripts.analyze_bita_ecoli_auxotrophy_fig2 \
+             --fig2 figure2.png --jats article.xml \
+             --s1 s1.pdf --s2 s2.pdf --s3 s3.pdf \
+             --output /tmp/dsouza2016_aa_auxotrophy_fig2_readout.json
+      - name: Freeze or verify source-derived readout without modifying checkout
+        run: |
+          python - <<'PY'
+          import json,shutil,pathlib
+          fresh=pathlib.Path('/tmp/dsouza2016_aa_auxotrophy_fig2_readout.json')
+          frozen=pathlib.Path('empirical/trait_architecture_history/dsouza2016_aa_auxotrophy_fig2_readout.json')
+          frozen.parent.mkdir(parents=True,exist_ok=True)
+          if frozen.is_file():
+              if json.loads(frozen.read_text())!=json.loads(fresh.read_text()):
+                  raise ValueError('source-recomputed 96-cell result differs from frozen original')
+              print('BITA_AUXO_SOURCE_ROUNDTRIP:PASS')
+          else:
+              print('BITA_AUXO_SOURCE_ROUNDTRIP:AWAITING_FREEZE')
+              shutil.copy2(fresh,frozen)
+          print('BITA_AUXO_FULL_SOURCE_JSON:'+json.dumps(
+              json.loads(fresh.read_text()),ensure_ascii=False,separators=(',',':')),flush=True)
+          PY
+      - name: Test source lineage identity, mutation/count discrepancies and exact outcomes
+        run: python -m pytest -q tests/test_bita_ecoli_auxotrophy_fig2.py
+      - name: Independently verify endpoint Fisher exact and Newcombe interval
+        run: |
+          python - <<'PY'
+          from scipy.stats import fisher_exact
+          from statsmodels.stats.proportion import confint_proportions_2indep
+          from scripts.analyze_bita_ecoli_auxotrophy_fig2 import two_sided_fisher,newcombe_diff
+          pv=fisher_exact([[6,2],[0,8]],alternative='two-sided').pvalue
+          assert abs(pv-two_sided_fisher(6,8,0,8))<1e-14
+          ci=confint_proportions_2indep(6,8,0,8,method='newcomb',compare='diff')
+          assert all(abs(a-b)<1e-14 for a,b in zip(ci,newcombe_diff(6,8,0,8)))
+          print('BITA_AUXOTROPHY_INDEPENDENT_EXACT_STATS:PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-ecoli2016-auxotrophy-original-pixel-source-readout
+          path: |
+            /tmp/dsouza2016_aa_auxotrophy_fig2_readout.json
+          if-no-files-found: error
+          retention-days: 30
