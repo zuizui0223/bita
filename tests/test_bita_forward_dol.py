@@ -90,11 +90,11 @@ def test_five_programme_index_keeps_forward_engineering_and_reverse_separate():
     assert len(families)==len(set(families))
     assert all(r["effect_pooled_cross_study"]=="no" for r in records)
     by_id={r["programme_id"]:r for r in records}
-    assert "single M parent" in by_id["Kim2016_Pfluorescens"]["independent_biological_unit"]
+    assert "one source M colony per selected dry spreading fan" in by_id["Kim2016_Pfluorescens"]["independent_biological_unit"]
     assert "source M" in by_id["Kim2016_Pfluorescens"]["reason_not_poolable"]
     assert "Somatic" in by_id["Zhang2020_Scoelicolor"]["architecture_origin"]
     assert "no unbiased" in by_id["Zhang2020_Scoelicolor"]["independent_evolutionary_origin_count_identified"]
     assert ";" in by_id["Dragos2018_Bsubtilis"]["source_doi"]  # same research programme, two papers
     assert "reverse" in by_id["Chen2024_Pstutzeri"]["architecture_origin"]
     assert "engineered" in by_id["Chen2024_Pstutzeri"]["architecture_origin"].lower()
-    assert "HTTP 401/403" not in by_id["Mridha2022_Paeruginosa"]["original_raw_replicate_observations_acquired"]  # absence is a data gate, not source absence
+    assert "Dryad original xlsx HTTP 401/403" in by_id["Mridha2022_Paeruginosa"]["original_raw_replicate_observations_acquired"]
