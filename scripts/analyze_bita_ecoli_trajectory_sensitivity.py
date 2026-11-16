@@ -120,12 +120,72 @@ def analyze_outcome(tracks: dict, outcome: str) -> dict:
     }
 
 
+
+def exact_four_outcome_max_t(tracks: dict, outcome_names: tuple[str, ...]) -> dict:
+    """Joint whole-population max-|T| calibration for the four *reported* views.
+
+    Exact exhaustive permutations and finite-population standardization make
+    the four outcomes comparable without assuming independent timepoints.
+    This corrects only the displayed outcome family; selection of the family
+    occurred after reading the paper and is NOT prospective confirmatory FWER.
+    """
+    histories = tracks["AA_present"] + tracks["AA_absent"]
+    if len(histories) != 16:
+        raise ValueError("joint permutation requires the original 16 populations")
+    values = [[score(t, name) for name in outcome_names] for t in histories]
+    k = len(outcome_names)
+    if k != 4:
+        raise ValueError("freeze exactly the four reported outcome choices")
+    total = [sum(row[j] for row in values) for j in range(k)]
+    mean = [s / 16 for s in total]
+    # Finite-population random partition variance of a difference in means
+    # with 8 of 16 whole-population observations in each treatment arm.
+    sd = [
+        math.sqrt(
+            sum((row[j] - mean[j]) ** 2 for row in values) / 15 * (1 / 8 + 1 / 8)
+        )
+        for j in range(k)
+    ]
+    if any(v <= 0 for v in sd):
+        raise ValueError("maxT needs positive permutation variance for each view")
+    observed_delta = [
+        sum(values[i][j] for i in range(8)) / 8
+        - sum(values[i][j] for i in range(8, 16)) / 8
+        for j in range(k)
+    ]
+    observed_z = [abs(x) / s for x, s in zip(observed_delta, sd)]
+    exceed = [0] * k
+    n_assignments = 0
+    for subset in itertools.combinations(range(16), 8):
+        assigned = [sum(values[i][j] for i in subset) for j in range(k)]
+        diffs = [assigned[j] / 8 - (total[j] - assigned[j]) / 8 for j in range(k)]
+        permuted_max = max(abs(d) / s for d, s in zip(diffs, sd))
+        for j in range(k):
+            if permuted_max >= observed_z[j] - 1e-12:
+                exceed[j] += 1
+        n_assignments += 1
+    if n_assignments != 12870:
+        raise ValueError("incomplete joint exact label enumeration")
+    return {
+        "method": "max_abs_population_permutation_z_four_displayed_outcomes",
+        "prospective_confirmatory_family": False,
+        "whole_populations_relabelled": True,
+        "outcome_names": list(outcome_names),
+        "null_permutation_sd_of_difference": dict(zip(outcome_names, sd)),
+        "observed_abs_standardized_difference": dict(zip(outcome_names, observed_z)),
+        "familywise_extreme_partitions": dict(zip(outcome_names, exceed)),
+        "all_label_partitions": n_assignments,
+        "four_view_max_t_adjusted_p": dict(zip(
+            outcome_names, [v / n_assignments for v in exceed]
+        )),
+    }
+
+
 def build_readout(source: dict) -> dict:
     tracks = extract_trajectories(source)
-    outcomes = {
-        name: analyze_outcome(tracks, name)
-        for name in ("sampled_detected_count", "late_detected_count", "ever_detected", "final_detected")
-    }
+    outcome_names = ("sampled_detected_count", "late_detected_count", "ever_detected", "final_detected")
+    outcomes = {name: analyze_outcome(tracks, name) for name in outcome_names}
+    max_t = exact_four_outcome_max_t(tracks, outcome_names)
     # Parent's exact two-arm endpoint computation must agree with an
     # independent whole-population permutation of the source line histories.
     parent = source["primary_endpoint"]
@@ -187,6 +247,7 @@ def build_readout(source: dict) -> dict:
         "sampled_generations": list(GENERATIONS),
         "positive_population_counts_by_generation": by_gen,
         "outcomes": outcomes,
+        "four_view_multiplicity_sensitivity": max_t,
         "source_500_generation_label_discrepancy": {
             "figure": "nonAA R2", "original_results_prose": "nonAA R3",
             "unresolved": True, "alternate_assignment_leaves_all_exact_tests_unchanged": alt_identical
@@ -201,7 +262,8 @@ def build_readout(source: dict) -> dict:
         },
         "inference_scope": {
             "all_outcomes_exploratory_post_source": True,
-            "multiple_endpoints_not_multiplicity_adjusted": True,
+            "four_reported_outcomes_max_t_adjusted": True,
+            "reported_outcome_family_selected_post_source": True,
             "whole_trajectory_labels_permuted_not_96_cells": True,
             "permutation_exchangeability_assumption_required": True,
             "sampled_detection_count_not_duration_or_true_auxotroph_frequency": True,
