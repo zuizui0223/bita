@@ -1,5 +1,7 @@
 """Inference-grain and author parent-relative sign tests, without source duplication."""
 import math
+import json
+from pathlib import Path
 import pytest
 
 from scripts.analyze_bita_kinsler2024_parent_relative import (
@@ -91,3 +93,53 @@ def test_only_selected_2D_or_3D_advanced_mutants_enter_analysis():
     assert summary["selected_by_source_publication"]["This_study"] == 2
     assert summary["selected_by_condition_class"]["Evo2D|adaptive_haploid"] == 1
     assert summary["selected_by_condition_class"]["Evo3D|adaptive_haploid"] == 1
+
+
+def test_frozen_original_publisher_table_count_reproduction():
+    root = Path(__file__).resolve().parents[1]
+    frozen = json.loads((root / (
+        "empirical/trait_architecture_history/"
+        "kinsler2024_parent_relative_readout.json"
+    )).read_text(encoding="utf8"))
+    source_counts = frozen["publisher_count_reconstruction"]
+    assert source_counts["Evo2D"] == {
+        "selected_adaptive_clones": 306,
+        "both_fermentation_respiration_positive": 109,
+        "stationary_positive_exceeds_deposited_error": 77,
+        "stationary_positive_among_both": 7,
+        "stationary_positive_among_other": 70,
+    }
+    assert source_counts["Evo3D"] == {
+        "selected_adaptive_clones": 202,
+        "both_fermentation_respiration_positive": 25,
+        "stationary_positive_exceeds_deposited_error": 160,
+        "stationary_positive_among_both": 5,
+        "stationary_positive_among_other": 155,
+    }
+    assert frozen["S1_all_rows"] == 4633
+    assert frozen["S1_sources"] == {
+        "Aggeli2020": 2459, "Li2019": 442,
+        "This_study": 1250, "Venkataram2015": 482,
+    }
+    source = frozen["source_selection"]["selected_by_source_publication"]
+    assert source == {"Aggeli2020": 121, "This_study": 387}
+    assert frozen["interpretation_ceiling"]["single_evolved_clone_not_an_independent_evolution_population"]
+    assert frozen["interpretation_ceiling"]["no_source_population_id_found_in_deposited_S1_schema"]
+
+
+def test_matched_genotype_stratification_sign_reversal_not_mutation_origin_rate():
+    root = Path(__file__).resolve().parents[1]
+    d = json.loads((root / (
+        "empirical/trait_architecture_history/"
+        "kinsler2024_parent_relative_readout.json"
+    )).read_text(encoding="utf8"))
+    matched = d["same_new_source_matched_IRA1_parent_sensitivity"]
+    m2, m3 = matched["Evo2D"], matched["Evo3D"]
+    assert m2["per_background"]["IRA1_MIS"]["selected_clone_rows"] == 90
+    assert m2["per_background"]["IRA1_NON"]["selected_clone_rows"] == 95
+    assert m3["per_background"]["IRA1_MIS"]["selected_clone_rows"] == 30
+    assert m3["per_background"]["IRA1_NON"]["selected_clone_rows"] == 134
+    assert m2["equal_two_parent_mean_both_gain_share"] == pytest.approx(0.21725146198830408)
+    assert m3["equal_two_parent_mean_both_gain_share"] == pytest.approx(0.22039800995024877)
+    assert m2["clone_weighted"]["selected_clone_rows"] == 185
+    assert m3["clone_weighted"]["selected_clone_rows"] == 164
