@@ -71,6 +71,21 @@ def test_source_label_disagreement_is_not_hidden_or_falsely_resolved():
     assert all(x["alternate_assignment_leaves_all_exact_tests_unchanged"].values())
 
 
+
+def test_four_view_joint_max_t_is_from_the_same_12870_population_label_partitions():
+    d = build_readout(source())["four_view_multiplicity_sensitivity"]
+    assert d["method"] == "max_abs_population_permutation_z_four_displayed_outcomes"
+    assert d["prospective_confirmatory_family"] is False
+    assert d["whole_populations_relabelled"] is True
+    assert d["all_label_partitions"] == 12870
+    names = ("sampled_detected_count", "late_detected_count", "ever_detected", "final_detected")
+    assert d["outcome_names"] == list(names)
+    for name, count in zip(names, (360, 252, 2610, 168)):
+        assert d["familywise_extreme_partitions"][name] == count
+        assert d["four_view_max_t_adjusted_p"][name] == pytest.approx(count / 12870)
+    assert d["observed_abs_standardized_difference"]["final_detected"] == pytest.approx(3.0)
+
+
 def test_one_evolution_population_dropout_not_cell_dropout():
     x = build_readout(source())["leave_one_population_out_sampled_count"]
     assert x["refits"] == 16
@@ -85,7 +100,11 @@ def test_frozen_readout_matches_independent_stdlib_recomputation():
     actual = build_readout(source())
     frozen = json.loads(FROZEN.read_text(encoding="utf8"))
     assert actual == frozen
-    assert all(actual["inference_scope"].values())  # all are guardrail flags
+    flags = actual["inference_scope"]
+    assert flags["meta_analysis_performed"] is False
+    assert flags["four_reported_outcomes_max_t_adjusted"] is True
+    assert flags["reported_outcome_family_selected_post_source"] is True
+    assert all(v is True for k, v in flags.items() if k != "meta_analysis_performed")
 
 
 def test_invalid_source_units_and_mutated_sha_fail_closed():
