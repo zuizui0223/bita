@@ -1,0 +1,224 @@
+{
+  "S1_original_source_schema_and_counts": {
+    "barcode_presence": true,
+    "category_counts": {
+      "ancestor": {
+        "CYR1": 775,
+        "GPB2": 1415,
+        "IRA1_MIS": 360,
+        "IRA1_NON": 241,
+        "TOR1": 918,
+        "WT": 924
+      },
+      "class_new": {
+        "adaptive_haploid": 773,
+        "high_fitness_diploids": 185,
+        "neutral_haploids": 2096,
+        "pure_diploids": 1579
+      },
+      "evolution_condition": {
+        "Evo1D": 884,
+        "Evo1_5D": 227,
+        "Evo2D": 3178,
+        "Evo3D": 237,
+        "Evo5D": 107
+      },
+      "source_publication": {
+        "Aggeli2020": 2459,
+        "Li2019": 442,
+        "This_study": 1250,
+        "Venkataram2015": 482
+      }
+    },
+    "column_distinct_counts": {
+      "FerPerHour": 4633,
+      "FerPerHour_error": 4633,
+      "FerPerHour_relative": 4633,
+      "ResPerHour": 4633,
+      "ResPerHour_error": 4633,
+      "ResPerHour_relative": 4633,
+      "StaPerHour": 4633,
+      "StaPerHour_error": 4633,
+      "StaPerHour_relative": 4633,
+      "additional_muts": 170,
+      "all_mutations_verbose": 402,
+      "ancestor": 6,
+      "barcode": 4633,
+      "class_new": 4,
+      "cloneID_new": 4056,
+      "effect": 40,
+      "evolution_condition": 5,
+      "gene": 107,
+      "ploidy_new": 8,
+      "source_publication": 4
+    },
+    "columns": 20,
+    "columns_with_missing": {
+      "additional_muts": 1295,
+      "all_mutations_verbose": 4199,
+      "cloneID_new": 577,
+      "effect": 4348,
+      "gene": 3424,
+      "ploidy_new": 285
+    },
+    "distinct_barcode_count": 4633,
+    "evolution_by_class": {
+      "Evo1D|adaptive_haploid": 92,
+      "Evo1D|high_fitness_diploids": 25,
+      "Evo1D|neutral_haploids": 291,
+      "Evo1D|pure_diploids": 476,
+      "Evo1_5D|adaptive_haploid": 113,
+      "Evo1_5D|high_fitness_diploids": 6,
+      "Evo1_5D|neutral_haploids": 67,
+      "Evo1_5D|pure_diploids": 41,
+      "Evo2D|adaptive_haploid": 341,
+      "Evo2D|high_fitness_diploids": 84,
+      "Evo2D|neutral_haploids": 1731,
+      "Evo2D|pure_diploids": 1022,
+      "Evo3D|adaptive_haploid": 186,
+      "Evo3D|high_fitness_diploids": 16,
+      "Evo3D|neutral_haploids": 7,
+      "Evo3D|pure_diploids": 28,
+      "Evo5D|adaptive_haploid": 41,
+      "Evo5D|high_fitness_diploids": 54,
+      "Evo5D|neutral_haploids": 0,
+      "Evo5D|pure_diploids": 12
+    },
+    "headers": [
+      "barcode",
+      "cloneID_new",
+      "class_new",
+      "ancestor",
+      "evolution_condition",
+      "source_publication",
+      "gene",
+      "effect",
+      "additional_muts",
+      "all_mutations_verbose",
+      "ploidy_new",
+      "ResPerHour",
+      "FerPerHour",
+      "StaPerHour",
+      "ResPerHour_error",
+      "FerPerHour_error",
+      "StaPerHour_error",
+      "FerPerHour_relative",
+      "ResPerHour_relative",
+      "StaPerHour_relative"
+    ],
+    "rows": 4633,
+    "selected_second_step_by_ancestor_environment": {
+      "CYR1|Evo2D|adaptive_haploid": 43,
+      "CYR1|Evo2D|high_fitness_diploids": 19,
+      "CYR1|Evo3D|adaptive_haploid": 18,
+      "CYR1|Evo3D|high_fitness_diploids": 4,
+      "GPB2|Evo2D|adaptive_haploid": 10,
+      "GPB2|Evo2D|high_fitness_diploids": 3,
+      "GPB2|Evo3D|adaptive_haploid": 10,
+      "GPB2|Evo3D|high_fitness_diploids": 4,
+      "IRA1_MIS|Evo2D|adaptive_haploid": 63,
+      "IRA1_MIS|Evo2D|high_fitness_diploids": 27,
+      "IRA1_MIS|Evo3D|adaptive_haploid": 28,
+      "IRA1_MIS|Evo3D|high_fitness_diploids": 2,
+      "IRA1_NON|Evo2D|adaptive_haploid": 92,
+      "IRA1_NON|Evo2D|high_fitness_diploids": 3,
+      "IRA1_NON|Evo3D|adaptive_haploid": 130,
+      "IRA1_NON|Evo3D|high_fitness_diploids": 4,
+      "TOR1|Evo2D|adaptive_haploid": 33,
+      "TOR1|Evo2D|high_fitness_diploids": 13,
+      "TOR1|Evo3D|adaptive_haploid": 0,
+      "TOR1|Evo3D|high_fitness_diploids": 2
+    }
+  },
+  "S3_original_source_schema_and_counts": {
+    "barcode_presence": true,
+    "category_counts": {
+      "ancestor": {
+        "CYR1": 32,
+        "GPB2": 5,
+        "IRA1_MIS": 82,
+        "IRA1_NON": 59,
+        "TOR1": 7
+      },
+      "class_new": {
+        "adaptive_haploid": 140,
+        "high_fitness_diploids": 45
+      },
+      "evolution_condition": {
+        "Evo2D": 185
+      },
+      "isolated_evolution_condition": {
+        "Evo2D_CYR1_R2": 32,
+        "Evo2D_GPB2_R2": 5,
+        "Evo2D_Ira1_Mis_R2": 82,
+        "Evo2D_Ira1_Non_R2": 59,
+        "Evo2D_TOR1_R2": 7
+      }
+    },
+    "column_distinct_counts": {
+      "FerPerHour": 185,
+      "Fit2D_early_fitness": 185,
+      "ResPerHour": 185,
+      "ancestor": 5,
+      "barcode": 185,
+      "class_new": 2,
+      "evolution_condition": 1,
+      "evolution_fitness_per_cycle": 185,
+      "gene": 30,
+      "isolated_evolution_condition": 5
+    },
+    "columns": 10,
+    "columns_with_missing": {
+      "gene": 54
+    },
+    "distinct_barcode_count": 185,
+    "headers": [
+      "barcode",
+      "ancestor",
+      "evolution_condition",
+      "class_new",
+      "gene",
+      "evolution_fitness_per_cycle",
+      "ResPerHour",
+      "FerPerHour",
+      "Fit2D_early_fitness",
+      "isolated_evolution_condition"
+    ],
+    "rows": 185
+  },
+  "author_repo": "grantkinsler/EvolvingFront",
+  "author_repo_commit": "0de5873c853e08e78541cec4f50988f41327af47",
+  "interpretation_ceiling": {
+    "S3_is_selected_185_barcode_subset_not_185_evolving_populations": true,
+    "different_ancestor_genotypes_and_assay_phases_need_explicit_conditioning": true,
+    "further_reanalysis_awaits_full_S1_schema_adjudication": true,
+    "new_independent_publication_from_DSouza2016": true,
+    "no_causal_architecture_splitting_claim": true,
+    "source_raw_data_not_copied_to_own_repo": true
+  },
+  "primary_doi": "10.1371/journal.pbio.3002848",
+  "source_access": "author_public_GitHub_files_pinned_by_Git_object_SHA",
+  "source_barcode_cross_checks": {
+    "s1_barcode_column_exists": true,
+    "s1_duplicate_barcode_rows": 0,
+    "s1_s3_barcode_overlap_count": 185,
+    "s3_all_185_evo2d": true,
+    "s3_all_isolated_R2": true,
+    "s3_not_in_s1_count": 0
+  },
+  "source_git_blobs": {
+    "S1_Data.csv": {
+      "bytes_sha256": "889200d28f0127ec262690f0c72f639ba292a40141068c60d82e1e9fee1b6584",
+      "file": "S1_Data.csv",
+      "git_blob_sha1": "978383e99eae1065771fd46176095bbf65ca0b81",
+      "source_bytes": 1559246
+    },
+    "S3_Data.csv": {
+      "bytes_sha256": "e197f25a326dfc71f22be3205e78fc76e6c6a885231a00964f4333154e3b4ec4",
+      "file": "S3_Data.csv",
+      "git_blob_sha1": "8dcb160b94e8877002233a8e7e0e2d62445c46cb",
+      "source_bytes": 33912
+    }
+  },
+  "source_study": "Kinsler_et_al_2024_PLoS_Biology"
+}
