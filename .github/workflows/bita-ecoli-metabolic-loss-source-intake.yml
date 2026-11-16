@@ -86,6 +86,24 @@ jobs:
               except Exception as ex:
                   item['http_status']='ERROR';item['error']=type(ex).__name__+': '+str(ex)[:120]
               report['supplements'].append(item)
+          # Author's original Fig. 2 heatmap is a visualization, not raw counts.
+          # Preserve unchanged image for visual QC; do not infer exact pixel-derived
+          # cell-level mutant frequencies as original measurements.
+          figure_url=('https://journals.plos.org/plosgenetics/article/figure/image?'
+                      'size=large&id=10.1371/journal.pgen.1006364.g002')
+          try:
+              with urllib.request.urlopen(urllib.request.Request(figure_url,headers={
+                   'User-Agent':'Mozilla/5.0 (public scientific source audit)',
+                   'Accept':'image/png,image/jpeg'}),timeout=24) as resp:
+                  img=resp.read(4000000)
+                  mime=resp.headers.get('content-type')
+              report['original_fig2_image']={'url':figure_url,'bytes':len(img),
+                  'sha256':hashlib.sha256(img).hexdigest(),'mime':mime,
+                  'original_embedded_png_or_jpeg':img[:3] in (bytes.fromhex('ffd8ff'),bytes.fromhex('89504e'))}
+              if img.startswith(bytes.fromhex('ffd8ff')) or img.startswith(bytes.fromhex('89504e47')):
+                  folder.joinpath('original_Figure_2'+('.png' if img.startswith(bytes.fromhex('89504e47')) else '.jpg')).write_bytes(img)
+          except Exception as ex:
+              report['original_fig2_image']={'download_status':'ERROR','reason':type(ex).__name__+': '+str(ex)[:140]}
           folder.joinpath('source_report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2))
           print('BITA_AUXO_ORIGINAL_SOURCE:'+json.dumps({
               'source_sha256':report['source_sha256'],
