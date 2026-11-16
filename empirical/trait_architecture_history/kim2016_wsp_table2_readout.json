@@ -1,0 +1,241 @@
+{
+  "paper_doi": "10.1038/ncomms10508",
+  "source_pdf_sha256": "deadd620be9018aa3b7f196971a243c703a69db50e49364fe17f6d667a671475",
+  "parent_article_jats_sha256": "a876e838044cb44ab28c47a1f9e243df3172c15650ad52f56be1e1a1d5c8ab68",
+  "source_document": "Kim et al. 2016 Nature Communications, Supplementary Information Table 2, PDF page 7",
+  "sample_frame": "selected original experimental strain catalogue, not the 20 independent selected dry fans",
+  "source_table_strains_n": 26,
+  "source_classes": {
+    "published_ancestor": 2,
+    "Constructed isolate": 19,
+    "Evolved isolate": 5
+  },
+  "phenotype_counts": {
+    "Wildtype": 1,
+    "Mucoid": 10,
+    "Dry": 9,
+    "Non-mucoid": 6
+  },
+  "evolved_dry_representative_strains_n": 4,
+  "evolved_dry_representative_mutation_targets": {
+    "Pf0-1DV (D)": "wspC",
+    "WspAΔ850-933": "wspA",
+    "WspAA381V": "wspA",
+    "WspED648G": "wspE"
+  },
+  "evolved_dry_representative_targets_gene_count": {
+    "wspC": 1,
+    "wspA": 2,
+    "wspE": 1
+  },
+  "representative_dry_wsp_target_genes": [
+    "wspA",
+    "wspC",
+    "wspE"
+  ],
+  "evolved_M_reversion_entries_n": 1,
+  "evolved_M_reversion_from": "WspAΔ850-933 (wspEC134A)",
+  "constructed_matching_D_allele": "wspC:D",
+  "constructed_Wsp_knockout_negative_controls": [
+    "ΔwspC",
+    "ΔwspD",
+    "ΔwspCΔwspD"
+  ],
+  "constructed_polymer_negative_control": "M*",
+  "published_separately_selected_dry_fans_sequenced_n": 20,
+  "per_20_fan_allele_frequency_identified": false,
+  "gene_specific_mutation_origin_rate_identified": false,
+  "all_ancestral_plated_colonies_total_identified": false,
+  "evolved_representative_entries_are_not_an_unbiased_origin_denominator": true,
+  "fitness_gain_per_genotype_estimated_from_table": false,
+  "claim_ceiling": "Original Supplementary Table 2 is a strain catalogue: exactly four source-labelled evolved Dry representative genotypes across WspA, WspC and WspE; one evolved Mucoid revertant; 19 constructed isolates and two source ancestor/prior strains. The 20 selected sequenced D morphotypes referenced in Methods do not appear individually with their alleles in this table. Therefore 2/4 at wspA cannot be interpreted as the mutation-target frequency among the 20 selected fans, nor can 20/20 estimate the incidence of division of labour from all founding M colonies. Constructed isolates do not count as independent natural evolution. This table does not identify BITA K(u), trait-axis split in a two-function generalist, or historical hysteresis.",
+  "table_rows": [
+    {
+      "source_row_number": 1,
+      "strain": "Pf0-1",
+      "genotype": "Wildtype",
+      "phenotype": "Wildtype",
+      "source_reference": "published_ancestor"
+    },
+    {
+      "source_row_number": 2,
+      "strain": "Pf0-1MV (M)",
+      "genotype": "Pf0-1 (rsmEΔ126)",
+      "phenotype": "Mucoid",
+      "source_reference": "published_ancestor"
+    },
+    {
+      "source_row_number": 3,
+      "strain": "MK",
+      "genotype": "Pf0-1MV (Tn7-Km)",
+      "phenotype": "Mucoid",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 4,
+      "strain": "MS",
+      "genotype": "Pf0-1MV (Tn7-Sm)",
+      "phenotype": "Mucoid",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 5,
+      "strain": "MG",
+      "genotype": "Pf0-1MV (Tn7-Gm(gfp2))",
+      "phenotype": "Mucoid",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 6,
+      "strain": "MR",
+      "genotype": "Pf0-1MV (Tn7-Gm(DsRedExpress-b))",
+      "phenotype": "Mucoid",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 7,
+      "strain": "Pf0-1DV (D)",
+      "genotype": "Pf0-1MV (wspCΔ1269-70)",
+      "phenotype": "Dry",
+      "source_reference": "Evolved isolate"
+    },
+    {
+      "source_row_number": 8,
+      "strain": "DK",
+      "genotype": "Pf0-1DV (Tn7-Km)",
+      "phenotype": "Dry",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 9,
+      "strain": "DS",
+      "genotype": "Pf0-1DV (Tn7-Sm)",
+      "phenotype": "Dry",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 10,
+      "strain": "DG",
+      "genotype": "Pf0-1DV (Tn7-Gm(gfp2))",
+      "phenotype": "Dry",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 11,
+      "strain": "DR",
+      "genotype": "Pf0-1DV (Tn7-Gm(DsRedExpress-b))",
+      "phenotype": "Dry",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 12,
+      "strain": "M*",
+      "genotype": "Pf0-1MV (ΔPfl01_3834)",
+      "phenotype": "Non-mucoid",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 13,
+      "strain": "M*K",
+      "genotype": "M* (Tn7-Km)",
+      "phenotype": "Non-mucoid",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 14,
+      "strain": "M*G",
+      "genotype": "M* (Tn7-Gm(gfp2))",
+      "phenotype": "Non-mucoid",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 15,
+      "strain": "M*::Tn1",
+      "genotype": "Pf0-1MV (Pfl01_383444::Tn5)",
+      "phenotype": "Non-mucoid",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 16,
+      "strain": "M*::Tn2",
+      "genotype": "Pf0-1MV (Pfl01_3834257::Tn5)",
+      "phenotype": "Non-mucoid",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 17,
+      "strain": "M*::Tn3",
+      "genotype": "Pf0-1MV (Pfl01_3839502::Tn5)",
+      "phenotype": "Non-mucoid",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 18,
+      "strain": "WspAΔ850-933",
+      "genotype": "Pf0-1MV (wspAΔ850-933)",
+      "phenotype": "Dry",
+      "source_reference": "Evolved isolate"
+    },
+    {
+      "source_row_number": 19,
+      "strain": "WspAA381V",
+      "genotype": "Pf0-1MV (wspAC1142T)",
+      "phenotype": "Dry",
+      "source_reference": "Evolved isolate"
+    },
+    {
+      "source_row_number": 20,
+      "strain": "wspC:D",
+      "genotype": "Pf0-1MV (wspCΔ1269-70)",
+      "phenotype": "Dry",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 21,
+      "strain": "ΔwspC",
+      "genotype": "Pf0-1MV (ΔwspC)",
+      "phenotype": "Mucoid",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 22,
+      "strain": "ΔwspD",
+      "genotype": "Pf0-1MV (ΔwspD)",
+      "phenotype": "Mucoid",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 23,
+      "strain": "ΔwspCΔwspD",
+      "genotype": "Pf0-1MV (ΔwspC ΔwspD)",
+      "phenotype": "Mucoid",
+      "source_reference": "Constructed isolate"
+    },
+    {
+      "source_row_number": 24,
+      "strain": "WspED648G",
+      "genotype": "Pf0-1MV (wspEA1943G)",
+      "phenotype": "Dry",
+      "source_reference": "Evolved isolate"
+    },
+    {
+      "source_row_number": 25,
+      "strain": "wspE#",
+      "genotype": "WspAΔ850-933 (wspEC134A)",
+      "phenotype": "Mucoid",
+      "source_reference": "Evolved isolate"
+    },
+    {
+      "source_row_number": 26,
+      "strain": "wspE::Tn",
+      "genotype": "Pf0-1DV (wspE1360::Tn5)",
+      "phenotype": "Mucoid",
+      "source_reference": "Constructed isolate"
+    }
+  ],
+  "original_article_methods_confirmation": {
+    "primary_source_jats_sha256": "a876e838044cb44ab28c47a1f9e243df3172c15650ad52f56be1e1a1d5c8ab68",
+    "selected_dry_fans_sequenced_according_to_methods": 20,
+    "per_fan_allele_data_available_in_supp_table2": false
+  }
+}

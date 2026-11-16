@@ -1,0 +1,85 @@
+name: bita-kim-wsp-source-reanalysis
+on:
+  push:
+    branches: ['analysis/bita-kim-forward-wsp-genotypes-20261116']
+    paths:
+      - '.github/workflows/bita-kim-wsp-source-reanalysis.yml'
+      - 'scripts/analyze_bita_kim_wsp_source.py'
+      - 'tests/test_bita_kim_wsp_source.py'
+      - 'empirical/trait_architecture_history/kim2016_wsp_table2_readout.json'
+  pull_request:
+    branches: ['analysis/bita-forward-dol-source-20261116']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-genotype-catalogue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PDF table reader and test runner
+        run: python -m pip install 'pymupdf>=1.24,<2' 'pytest>=8,<10'
+      - name: Obtain original publisher Supplementary Table 2 and PMC source Methods
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib,urllib.request,pathlib
+          original=[
+            (
+              'original_supplement.pdf',
+              'https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fncomms10508/MediaObjects/41467_2016_BFncomms10508_MOESM747_ESM.pdf',
+              'deadd620be9018aa3b7f196971a243c703a69db50e49364fe17f6d667a671475',
+            ),
+            (
+              'original_article.xml',
+              'https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4748119/fullTextXML',
+              'a876e838044cb44ab28c47a1f9e243df3172c15650ad52f56be1e1a1d5c8ab68',
+            )
+          ]
+          for dest,url,expected in original:
+              request=urllib.request.Request(url,headers={
+                'User-Agent':'Mozilla/5.0 (public scientific source provenance)',
+                'Accept':'application/pdf' if dest.endswith('.pdf') else 'application/xml'})
+              with urllib.request.urlopen(request,timeout=35) as response:
+                  raw=response.read(2500000)
+              sha=hashlib.sha256(raw).hexdigest()
+              if sha!=expected:
+                  raise ValueError('original external scientific source checksum mismatch: '+dest)
+              pathlib.Path(dest).write_bytes(raw)
+              print('BITA_ORIGINAL_KIM_SOURCE_SHA256:'+dest+':'+sha)
+          PY
+      - name: Reconstruct original 26-strain catalogue and Methods 20-selected-fan observation
+        run: |
+          python -m scripts.analyze_bita_kim_wsp_source \
+            --pdf original_supplement.pdf --jats original_article.xml \
+            --output /tmp/kim2016_wsp_table2_readout.json
+      - name: Record full machine-readable original-source receipt
+        run: |
+          python - <<'PY'
+          import json,shutil,pathlib
+          actual=pathlib.Path('/tmp/kim2016_wsp_table2_readout.json')
+          target=pathlib.Path('empirical/trait_architecture_history/kim2016_wsp_table2_readout.json')
+          if target.is_file():
+              if json.loads(target.read_text())!=json.loads(actual.read_text()):
+                  raise ValueError('original source readout differs from frozen repository version')
+              print('BITA_KIM_WSP_FROZEN_SOURCE_ROUNDTRIP:PASS')
+          else:
+              print('BITA_KIM_WSP_FROZEN_SOURCE_ROUNDTRIP:AWAITING_FREEZE')
+              target.parent.mkdir(parents=True,exist_ok=True)
+              shutil.copy2(actual,target)
+          print('BITA_KIM_WSP_FULL_JSON:'+json.dumps(
+              json.loads(actual.read_text()),ensure_ascii=False,separators=(',',':')),flush=True)
+          PY
+      - name: Run catalogue, negative-control, and independence tests
+        run: python -m pytest -q tests/test_bita_kim_wsp_source.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-kim2016-source-wsp-route-readout
+          path: |
+            empirical/trait_architecture_history/kim2016_wsp_table2_readout.json
+          if-no-files-found: error
+          retention-days: 30
