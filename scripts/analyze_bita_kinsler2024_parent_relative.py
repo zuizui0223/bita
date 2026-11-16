@@ -55,7 +55,7 @@ def phenotype_quadrant(f: float, r: float) -> str:
 
 
 def summarize_group(rows: list[dict]) -> dict:
-    """All numerators are selected-clone description, not evolutionary hits."""
+    """Clone-level phenotypes. Preserve raw sign and source-error thresholds."""
     complete = []
     missing = 0
     for row in rows:
@@ -67,10 +67,12 @@ def summarize_group(rows: list[dict]) -> dict:
             continue
         ferr = finite_field(row, "FerPerHour_error")
         rerr = finite_field(row, "ResPerHour_error")
-        if ferr is not None and ferr < 0 or rerr is not None and rerr < 0:
+        serr = finite_field(row, "StaPerHour_error")
+        if any(v is not None and v < 0 for v in (ferr, rerr, serr)):
             raise ValueError("negative original reported error")
-        complete.append((f, r, s, ferr, rerr))
-    quad = collections.Counter(phenotype_quadrant(f, r) for f, r, _, _, _ in complete)
+        complete.append((f, r, s, ferr, rerr, serr))
+
+    quad = collections.Counter(phenotype_quadrant(f, r) for f, r, _, _, _, _ in complete)
     n = len(complete)
     if sum(quad.values()) != n:
         raise ValueError("quadrant classification is not exhaustive")
@@ -82,7 +84,7 @@ def summarize_group(rows: list[dict]) -> dict:
         "resp_positive_and_fer_negative_margin_gt_2errors": 0,
         "other_or_uncertain_sign": 0,
     }
-    for f, r, s, ferr, rerr in complete:
+    for f, r, s, ferr, rerr, serr in complete:
         if ferr is None or rerr is None:
             continue
         robust["available_with_both_reported_phenotype_errors"] += 1
@@ -98,20 +100,38 @@ def summarize_group(rows: list[dict]) -> dict:
         "other_or_uncertain_sign",
     )) != robust["available_with_both_reported_phenotype_errors"]:
         raise ValueError("error margin categories not exhaustive")
+
     stationary = {
-        "available_stationary_measurements": sum(s is not None for _, _, s, _, _ in complete),
+        "available_stationary_measurements": sum(
+            s is not None for f, r, s, ferr, rerr, serr in complete),
         "stationary_gain_among_both": sum(
-            s is not None and s > 0 and f > 0 and r > 0 for f, r, s, _, _ in complete
-        ),
+            s is not None and s > 0 and f > 0 and r > 0
+            for f, r, s, ferr, rerr, serr in complete),
         "stationary_gain_among_resp_gain_fer_cost": sum(
-            s is not None and s > 0 and f < 0 and r > 0 for f, r, s, _, _ in complete
-        ),
+            s is not None and s > 0 and f < 0 and r > 0
+            for f, r, s, ferr, rerr, serr in complete),
         "stationary_nonmissing_among_both": sum(
-            s is not None and f > 0 and r > 0 for f, r, s, _, _ in complete
-        ),
+            s is not None and f > 0 and r > 0
+            for f, r, s, ferr, rerr, serr in complete),
         "stationary_nonmissing_among_resp_gain_fer_cost": sum(
-            s is not None and f < 0 and r > 0 for f, r, s, _, _ in complete
-        ),
+            s is not None and f < 0 and r > 0
+            for f, r, s, ferr, rerr, serr in complete),
+        "stationary_with_error_available": sum(
+            s is not None and serr is not None
+            for f, r, s, ferr, rerr, serr in complete),
+        "stationary_positive_exceeds_deposited_error": sum(
+            s is not None and serr is not None and s > serr
+            for f, r, s, ferr, rerr, serr in complete),
+        "stationary_negative_exceeds_deposited_error": sum(
+            s is not None and serr is not None and s < -serr
+            for f, r, s, ferr, rerr, serr in complete),
+        "stationary_positive_exceeds_error_among_both": sum(
+            s is not None and serr is not None and s > serr and f > 0 and r > 0
+            for f, r, s, ferr, rerr, serr in complete),
+        "stationary_positive_exceeds_error_among_other": sum(
+            s is not None and serr is not None and s > serr
+            and not (f > 0 and r > 0)
+            for f, r, s, ferr, rerr, serr in complete),
     }
     return {
         "selected_clone_rows": len(rows),
@@ -234,6 +254,40 @@ def analyze_original(s1: bytes, s3: bytes) -> dict:
                 sum(x[2] for x in rates)/len(rates) if rates else None),
             "not_an_evolutionary_population_weighted_estimate": True,
         }
+    # Publisher table numerators reproduced from original author-deposited data:
+    # the stationary gain threshold is relative gain > deposited source error.
+    # This numerical match does not independently reconstruct author's
+    # resampling/measurement model.
+    publisher_counts = {}
+    for env in CONDITIONS:
+        q = groups[f"{env}|all_adaptive_classes"]
+        st = q["stationary_phase"]
+        publisher_counts[env] = {
+            "selected_adaptive_clones": q["selected_clone_rows"],
+            "both_fermentation_respiration_positive": q["quadrants"].get(
+                "both_fermentation_and_respiration_improve", 0),
+            "stationary_positive_exceeds_deposited_error":
+                st["stationary_positive_exceeds_deposited_error"],
+            "stationary_positive_among_both":
+                st["stationary_positive_exceeds_error_among_both"],
+            "stationary_positive_among_other":
+                st["stationary_positive_exceeds_error_among_other"],
+        }
+    expected_publisher_counts = {
+        "Evo2D": (306, 109, 77, 7, 70),
+        "Evo3D": (202, 25, 160, 5, 155),
+    }
+    for env, expected in expected_publisher_counts.items():
+        q = publisher_counts[env]
+        recovered = (
+            q["selected_adaptive_clones"],
+            q["both_fermentation_respiration_positive"],
+            q["stationary_positive_exceeds_deposited_error"],
+            q["stationary_positive_among_both"],
+            q["stationary_positive_among_other"],
+        )
+        if recovered != expected:
+            raise ValueError(f"source-published count reconstruction changed: {env}: {recovered}")
     # No independent population ID in S1; cloneID / barcode cannot be treated
     # as a replacement without published mapping.
     return {
@@ -246,6 +300,7 @@ def analyze_original(s1: bytes, s3: bytes) -> dict:
         "S1_all_rows": len(rows),
         "S1_sources": source_inventory["S1_original_source_schema_and_counts"]["category_counts"].get("source_publication"),
         "source_selection": totals,
+        "publisher_count_reconstruction": publisher_counts,
         "clone_weighted_by_environment_and_class": groups,
         "parent_and_evolution_condition_strata": by_parent,
         "publication_and_evolution_condition_strata": by_publication,
@@ -278,6 +333,7 @@ def main() -> None:
     print("BITA_KINSLER_PARENT_RELATIVE_PROFILE:" + json.dumps({
         "total_and_source": {"S1_rows":d["S1_all_rows"],"sources":d["S1_sources"]},
         "selection": d["source_selection"],
+        "publisher_count_reconstruction": d["publisher_count_reconstruction"],
         "by_condition": d["clone_weighted_by_environment_and_class"],
         "equal_parent": d["equal_weight_across_present_parents_descriptive"],
         "by_publication": d["publication_and_evolution_condition_strata"],
