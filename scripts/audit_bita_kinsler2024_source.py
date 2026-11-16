@@ -71,7 +71,7 @@ def describe_rows(headers: list[str], rows: list[dict[str, str]]) -> dict:
     categories = {}
     for col in (
         "ancestor", "evolution_condition", "isolated_evolution_condition",
-        "class_new", "class", "ploidy", "source", "source_data",
+        "class_new", "class", "ploidy", "source", "source_data", "source_publication",
         "mutation_class", "is_adaptive", "is_parental", "source_evolution",
         "evolution_replicate", "evolution_rep", "status"
     ):
@@ -104,6 +104,29 @@ def audit_files(s1: bytes, s3: bytes) -> dict:
         raise ValueError(f"Unexpected author S3 source schema: {headers3!r}")
     s1data = describe_rows(headers1, rows1)
     s3data = describe_rows(headers3, rows3)
+    if not all(k in headers1 for k in (
+        "source_publication", "ancestor", "evolution_condition", "class_new",
+        "FerPerHour_relative", "ResPerHour_relative", "StaPerHour_relative",
+        "FerPerHour_error", "ResPerHour_error", "barcode",
+    )):
+        raise ValueError("S1 parent-relative fitness/phenotype identifiers missing")
+    s1data["evolution_by_class"] = {
+        f"{ev}|{c}": sum(
+            row["evolution_condition"] == ev and row["class_new"] == c
+            for row in rows1
+        )
+        for ev in sorted({r["evolution_condition"] for r in rows1})
+        for c in sorted({r["class_new"] for r in rows1})
+    }
+    s1data["selected_second_step_by_ancestor_environment"] = {
+        f"{a}|{env}|{kind}": sum(
+            row["ancestor"] == a and row["evolution_condition"] == env
+            and row["class_new"] == kind for row in rows1
+        )
+        for a in sorted({r["ancestor"] for r in rows1 if r["ancestor"] != "WT"})
+        for env in ("Evo2D", "Evo3D")
+        for kind in ("adaptive_haploid", "high_fitness_diploids")
+    }
     if len(rows3) != 185 or len(set(r["barcode"] for r in rows3)) != 185:
         raise ValueError("S3 subset is not the original 185 distinct selected barcodes")
     cross = {
