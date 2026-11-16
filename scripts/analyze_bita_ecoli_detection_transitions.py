@@ -102,6 +102,7 @@ def arm_summary(tracks: dict) -> dict:
                     "present_at_final")
         sums.update({k: sum(p[k] for p in profiles) for k in namekeys})
         sums["first_detection_population_count"] = sum(p["first_detected_generation"] is not None for p in profiles)
+        sums["populations_with_adjacent_positive_inspections"] = sum(p["adjacent_positive_transition_count"] > 0 for p in profiles)
         sums["zero_to_one_decomposition"] = {
             "first_detected_across_observed_histories": sums["first_detection_population_count"],
             "later_redetections_after_observed_gap": sums["redetections_after_observed_gap"],
@@ -177,8 +178,8 @@ def exact_eight_view_max_t(tracks: dict) -> dict:
         "method": "eight_post_source_view_max_absolute_permutation_z",
         "all_label_partitions": n,
         "observed_between_arm_mean_differences": dict(zip(ALL_OUTCOMES, observed)),
-        "finite_population_permutation_sd": dict(zip(ALL_OUTCOMES, sd)),
-        "observed_abs_standardized_differences": dict(zip(ALL_OUTCOMES, obs_abs_z)),
+        "finite_population_permutation_sd": dict(zip(ALL_OUTCOMES, [round(x, 12) for x in sd])),
+        "observed_abs_standardized_differences": dict(zip(ALL_OUTCOMES, [round(x, 12) for x in obs_abs_z])),
         "adjusted_extreme_partitions": dict(zip(ALL_OUTCOMES, extreme)),
         "adjusted_p_for_only_the_eight_displayed_views": dict(zip(ALL_OUTCOMES, [v/n for v in extreme])),
         "not_prospective_confirmatory": True,
