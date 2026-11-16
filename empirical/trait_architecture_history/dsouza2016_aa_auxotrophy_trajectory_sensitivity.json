@@ -1,0 +1,195 @@
+{
+  "source_doi": "10.1371/journal.pgen.1006364",
+  "frozen_publisher_figure_sha256": "71da8f3c1707d1ade887d4030446d1869f9fd33b05fa8cfed6fb3cd49823bd8b",
+  "source": "parent PR #376 frozen 96-cell categorical heatmap, not individual CFU counts",
+  "independent_population_count": 16,
+  "population_count_per_arm": 8,
+  "repeated_population_time_cells": 96,
+  "sampled_generations": [
+    0,
+    250,
+    500,
+    1000,
+    1500,
+    2000
+  ],
+  "positive_population_counts_by_generation": {
+    "0": {
+      "AA_present": 0,
+      "AA_absent": 0
+    },
+    "250": {
+      "AA_present": 0,
+      "AA_absent": 0
+    },
+    "500": {
+      "AA_present": 0,
+      "AA_absent": 1
+    },
+    "1000": {
+      "AA_present": 4,
+      "AA_absent": 0
+    },
+    "1500": {
+      "AA_present": 2,
+      "AA_absent": 2
+    },
+    "2000": {
+      "AA_present": 6,
+      "AA_absent": 0
+    }
+  },
+  "outcomes": {
+    "sampled_detected_count": {
+      "AA_present_population_scores": [
+        1,
+        2,
+        3,
+        2,
+        1,
+        1,
+        0,
+        2
+      ],
+      "AA_absent_population_scores": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "AA_present_sum": 12,
+      "AA_absent_sum": 3,
+      "AA_present_mean": 1.5,
+      "AA_absent_mean": 0.375,
+      "difference_in_mean_population_scores": 1.125,
+      "two_sided_exact_label_permutation_p": 0.023776223776223775,
+      "extreme_label_partitions": 306,
+      "all_label_partitions": 12870
+    },
+    "late_detected_count": {
+      "AA_present_population_scores": [
+        1,
+        2,
+        3,
+        2,
+        1,
+        1,
+        0,
+        2
+      ],
+      "AA_absent_population_scores": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "AA_present_sum": 12,
+      "AA_absent_sum": 2,
+      "AA_present_mean": 1.5,
+      "AA_absent_mean": 0.25,
+      "difference_in_mean_population_scores": 1.25,
+      "two_sided_exact_label_permutation_p": 0.012121212121212121,
+      "extreme_label_partitions": 156,
+      "all_label_partitions": 12870
+    },
+    "ever_detected": {
+      "AA_present_population_scores": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        1
+      ],
+      "AA_absent_population_scores": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "AA_present_sum": 7,
+      "AA_absent_sum": 3,
+      "AA_present_mean": 0.875,
+      "AA_absent_mean": 0.375,
+      "difference_in_mean_population_scores": 0.5,
+      "two_sided_exact_label_permutation_p": 0.11888111888111888,
+      "extreme_label_partitions": 1530,
+      "all_label_partitions": 12870
+    },
+    "final_detected": {
+      "AA_present_population_scores": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        1
+      ],
+      "AA_absent_population_scores": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "AA_present_sum": 6,
+      "AA_absent_sum": 0,
+      "AA_present_mean": 0.75,
+      "AA_absent_mean": 0,
+      "difference_in_mean_population_scores": 0.75,
+      "two_sided_exact_label_permutation_p": 0.006993006993006993,
+      "extreme_label_partitions": 90,
+      "all_label_partitions": 12870
+    }
+  },
+  "source_500_generation_label_discrepancy": {
+    "figure": "nonAA R2",
+    "original_results_prose": "nonAA R3",
+    "unresolved": true,
+    "alternate_assignment_leaves_all_exact_tests_unchanged": {
+      "sampled_detected_count": true,
+      "late_detected_count": true,
+      "ever_detected": true,
+      "final_detected": true
+    }
+  },
+  "leave_one_population_out_sampled_count": {
+    "refits": 16,
+    "min_mean_score_difference": 0.9107142857142858,
+    "max_mean_score_difference": 1.3392857142857142,
+    "min_two_sided_p": 0.005439005439005439,
+    "max_two_sided_p": 0.04242424242424243,
+    "all_effects_positive": true
+  },
+  "inference_scope": {
+    "all_outcomes_exploratory_post_source": true,
+    "multiple_endpoints_not_multiplicity_adjusted": true,
+    "whole_trajectory_labels_permuted_not_96_cells": true,
+    "permutation_exchangeability_assumption_required": true,
+    "sampled_detection_count_not_duration_or_true_auxotroph_frequency": true,
+    "raw_workbook_unavailable_no_colony_frequency_estimated": true,
+    "non_detection_not_absence_of_mutation": true,
+    "function_loss_not_reciprocal_division_of_labour": true,
+    "mutation_supply_and_selection_not_separately_identified": true,
+    "meta_analysis_performed": false
+  }
+}
