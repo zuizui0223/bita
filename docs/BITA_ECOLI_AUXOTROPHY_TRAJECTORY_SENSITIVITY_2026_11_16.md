@@ -18,14 +18,16 @@ Source: D'Souza & Kost (2016), [doi:10.1371/journal.pgen.1006364](https://doi.or
 
 ## Four exploratory views of the same 16 populations
 
-| Unit-level score | AA supplied | AA absent | Difference in mean population score | Exact two-sided p |
-|---|---:|---:|---:|---:|
-| Count of positive sampled generations per population (6 inspections) | 12 detections over 8 population histories | 3 over 8 | **+1.125 positive inspections/population** | **0.023776** |
-| Positive inspections at generations 1,000/1,500/2,000 | 12 over 8 | 2 over 8 | **+1.250 positive inspections/population** | **0.012121** |
-| Population ever detected positive (one score per population) | 7/8 | 3/8 | **+0.500** | **0.118881** |
-| Population positive at 2,000 generations (original endpoint) | 6/8 | 0/8 | **+0.750** | **0.006993** |
+| Unit-level score | AA supplied | AA absent | Mean population-score difference | Exact two-sided p | Four-view maxT p |
+|---|---:|---:|---:|---:|---:|
+| Positive sampled generations per population (6 inspections) | 12 detections over 8 population histories | 3 over 8 | **+1.125 inspections/population** | **0.023776** | **0.027972** |
+| Positive inspections at generations 1,000/1,500/2,000 | 12 over 8 | 2 over 8 | **+1.250 inspections/population** | **0.012121** | **0.019580** |
+| Population ever detected positive (one score per population) | 7/8 | 3/8 | **+0.500** | **0.118881** | **0.202797** |
+| Population positive at 2,000 generations (original endpoint) | 6/8 | 0/8 | **+0.750** | **0.006993** | **0.013054** |
 
 Source-by-generation positive-population counts are **AA supplied versus absent**: 0/0 (generation 0), 0/0 (250), 0/1 (500), 4/0 (1,000), **2/2 (1,500)**, 6/0 (2,000). The pattern is **not monotonically separated at every sampling time**; the 1,500-generation treatment contrast is zero.
+
+**Multiplicity check for the four displayed outcomes.** We additionally enumerated the very same 12,870 whole-population allocations, standardized each between-arm contrast by its exact finite-population permutation SD, and compared each observed absolute standardized contrast against the **maximum** over all four contrasts in each allocation (max-|T|). The adjusted exact extreme-allocation numerators are **360, 252, 2,610, 168**, respectively. The adjusted p values are valid as a *within-these-four-views* permutation sensitivity under exchangeability; these four estimands were chosen after inspecting the source, so the analysis does **not** provide prospective familywise error control over all conceivable outcomes or reframe an exploratory test as confirmatory. No assumption of independent longitudinal samples is made.
 
 The six-inspection count includes two inspection times (0 and 250) where both groups are zero. Those zeros do not change the count-difference permutation p. Among just the four post-250 sampled opportunities, positive inspection fractions are **12/32 = 37.50%** versus **3/32 = 9.375%**; these fractions summarize repeated observed opportunities, **not 32 independent populations**, and their difference does not estimate an evolving population's continuous-time residence time. The 500–1,000-generation interval is longer than the early 250-generation intervals, so equal-inspection counts are **not** a time-integrated area-under-curve.
 
@@ -39,7 +41,7 @@ The six-inspection count includes two inspection times (0 and 250) where both gr
 
 **Supported by this one source:** In the available Figure 2 binary detection readout, an amino-acid-rich growth environment is associated with more repeated sampling occasions on which evolved populations contain detectable auxotrophic cells. This source-level tendency is **not solely a consequence of choosing the final observation**. The endpoint contrast is stronger than the less selective 'ever detected' contrast, emphasizing the difference between *a genotype being observed at least once* and *being detectable at a given later time*.
 
-**Not supported:** An evolved population with a zero cell is not proven to lack auxotrophy mutations, and a positive cell is not proof of fixation. The analysis cannot estimate time of origin, disappearance/extinction, continuous-time persistence, mutation rate, distinct genetic histories, isolated selection coefficients, reciprocal division of labour, a two-functional-coordinate ancestral split, startup cost `K(u)`, or between-species/meta-analytic generality. Availability of amino acids also changes density and mutation supply. All four outcomes were inspected after viewing the original source; no multiple-testing adjustment or prospective confirmatory claim is made. With only **one source research programme**, this is an exploratory single-study *sensitivity*, not meta-analysis.
+**Not supported:** An evolved population with a zero cell is not proven to lack auxotrophy mutations, and a positive cell is not proof of fixation. The analysis cannot estimate time of origin, disappearance/extinction, continuous-time persistence, mutation rate, distinct genetic histories, isolated selection coefficients, reciprocal division of labour, a two-functional-coordinate ancestral split, startup cost `K(u)`, or between-species/meta-analytic generality. Availability of amino acids also changes density and mutation supply. All four outcomes were inspected after viewing the original source; the displayed **four-view maxT permutation adjustment** does not correct for unreported alternative choices, and no prospective confirmatory claim is made. With only **one source research programme**, this is an exploratory single-study *sensitivity*, not meta-analysis.
 
 ## Reproduce
 
