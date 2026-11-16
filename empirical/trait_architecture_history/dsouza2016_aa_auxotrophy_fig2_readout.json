@@ -1,0 +1,1850 @@
+{
+  "doi": "10.1371/journal.pgen.1006364",
+  "source_fig2_url": "https://journals.plos.org/plosgenetics/article/figure/image?size=large&id=10.1371/journal.pgen.1006364.g002",
+  "source_fig2_sha256": "71da8f3c1707d1ade887d4030446d1869f9fd33b05fa8cfed6fb3cd49823bd8b",
+  "primary_jats_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5096674/fullTextXML",
+  "source_grade": "ORIGINAL_PUBLISHER_FIG2_BINARY_HEATMAP_NOT_RAW_COLONY_FREQUENCIES",
+  "source_validation": {
+    "article_jats_sha256": "6eb810ff515b2aa0a7ccb4190067e97810e7cbaca26bc2947d1ef720f77e0e97",
+    "supplement_sha256": {
+      "S1_table": "249f0657f5ce93f155b6ef9b23a59437f5c205ddc3436ea1fdbf71db37074ca7",
+      "S2_table": "a0bc2dbb9a4bf5c590bb59cfce226986bfa1bdd94274489ebae25413d70b2ab4",
+      "S3_table": "3047c6a82418eb18378f1d60546f88656db6c9a7ce237ab7bcd9196235dfb0af"
+    },
+    "source_design": {
+      "initial_ancestral_genotype": "prototrophic E. coli",
+      "independent_populations_per_regime": 8,
+      "total_evolved_populations": 16,
+      "colonies_phenotyped_per_population_per_sampled_generation": 1000,
+      "generation_samples": [
+        0,
+        250,
+        500,
+        1000,
+        1500,
+        2000
+      ],
+      "regimes": [
+        "AA_present",
+        "AA_absent"
+      ],
+      "source_genome_sequencing_subset": {
+        "AA_auxotroph": 6,
+        "nonAA_auxotroph": 2,
+        "AA_prototroph": 4,
+        "nonAA_prototroph": 2
+      }
+    },
+    "S1_selected_isolate_tally": {
+      "AA_1000_gen": 60,
+      "AA_1500_gen": 256,
+      "AA_2000_gen": 157,
+      "source_table_AA_sum": 473,
+      "original_results_text_says_AA": 483,
+      "unexplained_difference_in_original_sources": 10,
+      "nonAA_500_gen": 18,
+      "nonAA_1500_gen": 19,
+      "nonAA_source_table_sum_and_results_text": 37,
+      "scientific_status": "UNRESOLVED_ORIGINAL_TEXT_TABLE_DISCREPANCY"
+    },
+    "S2_function_mutation_annotated_occurrences": {
+      "auxotroph_structural_gene": 18,
+      "auxotroph_regulatory_gene": 19,
+      "prototroph_structural_gene": 5,
+      "prototroph_regulatory_gene": 6,
+      "counts_are_mutation_annotations_not_independent_genetic_origins": true
+    },
+    "S3_selected_sequenced_genotype_IDs": {
+      "AA_auxotroph": [
+        "2-AA-AT",
+        "3-AA-AT",
+        "4-AA-AT",
+        "5-AA-AT",
+        "6-AA-AT",
+        "8-AA-AT"
+      ],
+      "nonAA_auxotroph": [
+        "7-NA-AT",
+        "8-NA-AT"
+      ],
+      "AA_or_nonAA_prototroph": [
+        "3-AA-PT",
+        "4-AA-PT",
+        "5-AA-PT",
+        "6-AA-PT",
+        "7-NA-PT",
+        "8-NA-PT"
+      ],
+      "selected_genomes_not_all_16_population_histories": true
+    },
+    "source_500_nonAA_label_in_prose": "R3",
+    "source_500_nonAA_label_in_figure": "R2",
+    "source_500_nonAA_discrepancy": "GENOTYPE_LABEL_CONFLICT_SOURCE_FIGURE_VS_RESULTS_TEXT",
+    "source_jats_pubdate_year": 2016,
+    "original_dryad_doi": "10.5061/dryad.9b47j"
+  },
+  "figure_cells": [
+    {
+      "condition": "AA_present",
+      "population_id": "R1",
+      "generation": 0,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        411,
+        170
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R1",
+      "generation": 250,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        538,
+        170
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R1",
+      "generation": 500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        668,
+        170
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R1",
+      "generation": 1000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        796,
+        170
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R1",
+      "generation": 1500,
+      "detectable_auxotrophic_colony": true,
+      "figure_cell_rgb": [
+        245,
+        147,
+        149
+      ],
+      "source_figure_cell_origin_pixel": [
+        926,
+        170
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R1",
+      "generation": 2000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        1053,
+        170
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R2",
+      "generation": 0,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        411,
+        296
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R2",
+      "generation": 250,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        538,
+        296
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R2",
+      "generation": 500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        668,
+        296
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R2",
+      "generation": 1000,
+      "detectable_auxotrophic_colony": true,
+      "figure_cell_rgb": [
+        249,
+        187,
+        188
+      ],
+      "source_figure_cell_origin_pixel": [
+        796,
+        296
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R2",
+      "generation": 1500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        926,
+        296
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R2",
+      "generation": 2000,
+      "detectable_auxotrophic_colony": true,
+      "figure_cell_rgb": [
+        243,
+        129,
+        130
+      ],
+      "source_figure_cell_origin_pixel": [
+        1053,
+        296
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R3",
+      "generation": 0,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        411,
+        424
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R3",
+      "generation": 250,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        538,
+        424
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R3",
+      "generation": 500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        668,
+        424
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R3",
+      "generation": 1000,
+      "detectable_auxotrophic_colony": true,
+      "figure_cell_rgb": [
+        251,
+        200,
+        200
+      ],
+      "source_figure_cell_origin_pixel": [
+        796,
+        424
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R3",
+      "generation": 1500,
+      "detectable_auxotrophic_colony": true,
+      "figure_cell_rgb": [
+        238,
+        34,
+        37
+      ],
+      "source_figure_cell_origin_pixel": [
+        926,
+        424
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R3",
+      "generation": 2000,
+      "detectable_auxotrophic_colony": true,
+      "figure_cell_rgb": [
+        251,
+        202,
+        202
+      ],
+      "source_figure_cell_origin_pixel": [
+        1053,
+        424
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R4",
+      "generation": 0,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        411,
+        553
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R4",
+      "generation": 250,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        538,
+        553
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R4",
+      "generation": 500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        668,
+        553
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R4",
+      "generation": 1000,
+      "detectable_auxotrophic_colony": true,
+      "figure_cell_rgb": [
+        250,
+        199,
+        200
+      ],
+      "source_figure_cell_origin_pixel": [
+        796,
+        553
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R4",
+      "generation": 1500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        2,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        926,
+        553
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R4",
+      "generation": 2000,
+      "detectable_auxotrophic_colony": true,
+      "figure_cell_rgb": [
+        249,
+        185,
+        186
+      ],
+      "source_figure_cell_origin_pixel": [
+        1053,
+        553
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R5",
+      "generation": 0,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        411,
+        681
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R5",
+      "generation": 250,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        538,
+        681
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R5",
+      "generation": 500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        668,
+        681
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R5",
+      "generation": 1000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        2,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        796,
+        681
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R5",
+      "generation": 1500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        2,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        926,
+        681
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R5",
+      "generation": 2000,
+      "detectable_auxotrophic_colony": true,
+      "figure_cell_rgb": [
+        248,
+        176,
+        177
+      ],
+      "source_figure_cell_origin_pixel": [
+        1053,
+        681
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R6",
+      "generation": 0,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        411,
+        810
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R6",
+      "generation": 250,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        538,
+        810
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R6",
+      "generation": 500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        668,
+        810
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R6",
+      "generation": 1000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        796,
+        810
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R6",
+      "generation": 1500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        926,
+        810
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R6",
+      "generation": 2000,
+      "detectable_auxotrophic_colony": true,
+      "figure_cell_rgb": [
+        244,
+        134,
+        135
+      ],
+      "source_figure_cell_origin_pixel": [
+        1053,
+        810
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R7",
+      "generation": 0,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        411,
+        938
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R7",
+      "generation": 250,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        538,
+        938
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R7",
+      "generation": 500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        668,
+        938
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R7",
+      "generation": 1000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        796,
+        938
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R7",
+      "generation": 1500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        926,
+        938
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R7",
+      "generation": 2000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        1053,
+        938
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R8",
+      "generation": 0,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        411,
+        1064
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R8",
+      "generation": 250,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        538,
+        1064
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R8",
+      "generation": 500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        668,
+        1064
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R8",
+      "generation": 1000,
+      "detectable_auxotrophic_colony": true,
+      "figure_cell_rgb": [
+        249,
+        180,
+        182
+      ],
+      "source_figure_cell_origin_pixel": [
+        796,
+        1064
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R8",
+      "generation": 1500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        926,
+        1064
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_present",
+      "population_id": "R8",
+      "generation": 2000,
+      "detectable_auxotrophic_colony": true,
+      "figure_cell_rgb": [
+        247,
+        168,
+        170
+      ],
+      "source_figure_cell_origin_pixel": [
+        1053,
+        1064
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R1",
+      "generation": 0,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2022,
+        170
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R1",
+      "generation": 250,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2152,
+        170
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R1",
+      "generation": 500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2282,
+        170
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R1",
+      "generation": 1000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2415,
+        170
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R1",
+      "generation": 1500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2542,
+        170
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R1",
+      "generation": 2000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2672,
+        170
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R2",
+      "generation": 0,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2022,
+        296
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R2",
+      "generation": 250,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        2,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2152,
+        296
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R2",
+      "generation": 500,
+      "detectable_auxotrophic_colony": true,
+      "figure_cell_rgb": [
+        249,
+        189,
+        191
+      ],
+      "source_figure_cell_origin_pixel": [
+        2282,
+        296
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R2",
+      "generation": 1000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        2415,
+        296
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R2",
+      "generation": 1500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        2542,
+        296
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R2",
+      "generation": 2000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2672,
+        296
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R3",
+      "generation": 0,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2022,
+        424
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R3",
+      "generation": 250,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        2,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2152,
+        424
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R3",
+      "generation": 500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2282,
+        424
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R3",
+      "generation": 1000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2415,
+        424
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R3",
+      "generation": 1500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        2542,
+        424
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R3",
+      "generation": 2000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        2,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2672,
+        424
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R4",
+      "generation": 0,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2022,
+        553
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R4",
+      "generation": 250,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2152,
+        553
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R4",
+      "generation": 500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        2282,
+        553
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R4",
+      "generation": 1000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        2415,
+        553
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R4",
+      "generation": 1500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2542,
+        553
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R4",
+      "generation": 2000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        2672,
+        553
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R5",
+      "generation": 0,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        2022,
+        681
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R5",
+      "generation": 250,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2152,
+        681
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R5",
+      "generation": 500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        2,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2282,
+        681
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R5",
+      "generation": 1000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2415,
+        681
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R5",
+      "generation": 1500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        2542,
+        681
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R5",
+      "generation": 2000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2672,
+        681
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R6",
+      "generation": 0,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        2022,
+        810
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R6",
+      "generation": 250,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2152,
+        810
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R6",
+      "generation": 500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        2282,
+        810
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R6",
+      "generation": 1000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2415,
+        810
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R6",
+      "generation": 1500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2542,
+        810
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R6",
+      "generation": 2000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        2672,
+        810
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R7",
+      "generation": 0,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        2022,
+        938
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R7",
+      "generation": 250,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2152,
+        938
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R7",
+      "generation": 500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        2,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2282,
+        938
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R7",
+      "generation": 1000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        2,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2415,
+        938
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R7",
+      "generation": 1500,
+      "detectable_auxotrophic_colony": true,
+      "figure_cell_rgb": [
+        250,
+        195,
+        196
+      ],
+      "source_figure_cell_origin_pixel": [
+        2542,
+        938
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R7",
+      "generation": 2000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2672,
+        938
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R8",
+      "generation": 0,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        2,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2022,
+        1064
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R8",
+      "generation": 250,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2152,
+        1064
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R8",
+      "generation": 500,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        2,
+        2,
+        2
+      ],
+      "source_figure_cell_origin_pixel": [
+        2282,
+        1064
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R8",
+      "generation": 1000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        2,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2415,
+        1064
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R8",
+      "generation": 1500,
+      "detectable_auxotrophic_colony": true,
+      "figure_cell_rgb": [
+        250,
+        199,
+        200
+      ],
+      "source_figure_cell_origin_pixel": [
+        2542,
+        1064
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    },
+    {
+      "condition": "AA_absent",
+      "population_id": "R8",
+      "generation": 2000,
+      "detectable_auxotrophic_colony": false,
+      "figure_cell_rgb": [
+        1,
+        1,
+        1
+      ],
+      "source_figure_cell_origin_pixel": [
+        2672,
+        1064
+      ],
+      "derived_from": "original_published_heatmap_color_not_raw_colony_count"
+    }
+  ],
+  "sampled_arm_summaries": {
+    "AA_present": {
+      "sampled_population_count": 8,
+      "generations": [
+        0,
+        250,
+        500,
+        1000,
+        1500,
+        2000
+      ],
+      "positive_population_count_per_generation": [
+        0,
+        0,
+        0,
+        4,
+        2,
+        6
+      ],
+      "ever_detected_population_ids": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "R8"
+      ],
+      "detected_at_final_generation_ids": [
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "R8"
+      ],
+      "full_source_row_by_generation_binary": [
+        [
+          false,
+          false,
+          false,
+          false,
+          true,
+          false
+        ],
+        [
+          false,
+          false,
+          false,
+          true,
+          false,
+          true
+        ],
+        [
+          false,
+          false,
+          false,
+          true,
+          true,
+          true
+        ],
+        [
+          false,
+          false,
+          false,
+          true,
+          false,
+          true
+        ],
+        [
+          false,
+          false,
+          false,
+          false,
+          false,
+          true
+        ],
+        [
+          false,
+          false,
+          false,
+          false,
+          false,
+          true
+        ],
+        [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        [
+          false,
+          false,
+          false,
+          true,
+          false,
+          true
+        ]
+      ],
+      "inference_unit": "distinct evolved populations not 1000 assayed colonies"
+    },
+    "AA_absent": {
+      "sampled_population_count": 8,
+      "generations": [
+        0,
+        250,
+        500,
+        1000,
+        1500,
+        2000
+      ],
+      "positive_population_count_per_generation": [
+        0,
+        0,
+        1,
+        0,
+        2,
+        0
+      ],
+      "ever_detected_population_ids": [
+        "R2",
+        "R7",
+        "R8"
+      ],
+      "detected_at_final_generation_ids": [],
+      "full_source_row_by_generation_binary": [
+        [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        [
+          false,
+          false,
+          true,
+          false,
+          false,
+          false
+        ],
+        [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        [
+          false,
+          false,
+          false,
+          false,
+          true,
+          false
+        ],
+        [
+          false,
+          false,
+          false,
+          false,
+          true,
+          false
+        ]
+      ],
+      "inference_unit": "distinct evolved populations not 1000 assayed colonies"
+    }
+  },
+  "primary_endpoint": {
+    "generation": 2000,
+    "aa_positive_populations": 6,
+    "aa_evolutionary_populations": 8,
+    "nonAA_positive_populations": 0,
+    "nonAA_evolutionary_populations": 8,
+    "risk_difference": 0.75,
+    "95pct_newcombe_interval": [
+      0.27953905524027883,
+      0.928520787247891
+    ],
+    "two_sided_fisher_exact_p": 0.006993006993006993,
+    "inference": "at-gen-2000 DETECTABLE auxotrophy only, not lifetime mutation origin/fixation"
+  },
+  "ever_detected_descriptive": {
+    "AA_ever_population_count": 7,
+    "nonAA_ever_population_count": 3,
+    "time_window": "0_to_2000_gen",
+    "not_an_independent_timepoint_study": true,
+    "prevalence_comparison_not_preregistered": true
+  },
+  "raw_isolate_frequencies_estimated": false,
+  "previous_timepoint_rows_are_repeated_measures": true,
+  "independent_research_programmes": 1,
+  "genetic_auxotrophy_equivalent_to_reciprocal_division_of_labour": false,
+  "fitness_effect_of_each_16_lineages_at_timepoint_measured": false,
+  "published_raw_dryad_xlsx_verified": false,
+  "meta_analysis_performed": false,
+  "evidence_ceiling": "Randomized/parallel AA availability comparison identifies an environment-associated difference in detectably auxotrophic evolved population outcomes at generation 2000 (6/8 vs 0/8). The original color heatmap reports categorical bins, not exact colony numbers, and 1000 phenotyped colonies per line are NOT 1000 independent evolutionary replicates. Earlier and later timepoints repeatedly sample the same sixteen populations. AA conditions can change both selection and total population size or mutation supply, so the experiment does not identify a pure mutation-rate or pure selection-pressure coefficient. Prose R3 vs Figure R2 at generation 500 NA and prose n=483 AA isolates versus original S1 table sum=473 remain unresolved source inconsistencies and are NOT silently reconciled. Auxotrophy can derive AA from the medium, not necessarily another specialist: no proof of two-way reciprocal labour division, BITA startup cost K(u), optimum functional split or selection-dependent hysteresis."
+}
