@@ -1,0 +1,602 @@
+{
+  "source_doi": "10.1371/journal.pgen.1006364",
+  "frozen_original_publisher_figure_sha256": "71da8f3c1707d1ade887d4030446d1869f9fd33b05fa8cfed6fb3cd49823bd8b",
+  "parent_source": "PR #376 original Figure 2, PR #377 source-validated exact 4-view analysis",
+  "independent_evolved_populations": 16,
+  "original_figure_binary_cells_not_independent_trials": 96,
+  "arm_aggregates": {
+    "AA_present": {
+      "biological_populations": 8,
+      "observed_time_intervals": 40,
+      "counts": {
+        "0_to_0": 24,
+        "0_to_1": 10,
+        "1_to_0": 4,
+        "1_to_1": 2,
+        "positive_inspections": 12,
+        "ever_detected": 7,
+        "repeated_positive_inspections": 4,
+        "adjacent_positive_transition_count": 2,
+        "redetections_after_observed_gap": 3,
+        "present_at_final": 6,
+        "first_detection_population_count": 7,
+        "populations_with_adjacent_positive_inspections": 1,
+        "zero_to_one_decomposition": {
+          "first_detected_across_observed_histories": 7,
+          "later_redetections_after_observed_gap": 3
+        }
+      },
+      "per_population": [
+        {
+          "population_id": "R1",
+          "transition_counts": {
+            "0_to_0": 3,
+            "0_to_1": 1,
+            "1_to_0": 1,
+            "1_to_1": 0
+          },
+          "first_detected_generation": 1500,
+          "positive_inspections": 1,
+          "ever_detected": 1,
+          "repeated_positive_inspections": 0,
+          "adjacent_positive_transition_count": 0,
+          "redetections_after_observed_gap": 0,
+          "present_at_final": 0
+        },
+        {
+          "population_id": "R2",
+          "transition_counts": {
+            "0_to_0": 2,
+            "0_to_1": 2,
+            "1_to_0": 1,
+            "1_to_1": 0
+          },
+          "first_detected_generation": 1000,
+          "positive_inspections": 2,
+          "ever_detected": 1,
+          "repeated_positive_inspections": 1,
+          "adjacent_positive_transition_count": 0,
+          "redetections_after_observed_gap": 1,
+          "present_at_final": 1
+        },
+        {
+          "population_id": "R3",
+          "transition_counts": {
+            "0_to_0": 2,
+            "0_to_1": 1,
+            "1_to_0": 0,
+            "1_to_1": 2
+          },
+          "first_detected_generation": 1000,
+          "positive_inspections": 3,
+          "ever_detected": 1,
+          "repeated_positive_inspections": 1,
+          "adjacent_positive_transition_count": 2,
+          "redetections_after_observed_gap": 0,
+          "present_at_final": 1
+        },
+        {
+          "population_id": "R4",
+          "transition_counts": {
+            "0_to_0": 2,
+            "0_to_1": 2,
+            "1_to_0": 1,
+            "1_to_1": 0
+          },
+          "first_detected_generation": 1000,
+          "positive_inspections": 2,
+          "ever_detected": 1,
+          "repeated_positive_inspections": 1,
+          "adjacent_positive_transition_count": 0,
+          "redetections_after_observed_gap": 1,
+          "present_at_final": 1
+        },
+        {
+          "population_id": "R5",
+          "transition_counts": {
+            "0_to_0": 4,
+            "0_to_1": 1,
+            "1_to_0": 0,
+            "1_to_1": 0
+          },
+          "first_detected_generation": 2000,
+          "positive_inspections": 1,
+          "ever_detected": 1,
+          "repeated_positive_inspections": 0,
+          "adjacent_positive_transition_count": 0,
+          "redetections_after_observed_gap": 0,
+          "present_at_final": 1
+        },
+        {
+          "population_id": "R6",
+          "transition_counts": {
+            "0_to_0": 4,
+            "0_to_1": 1,
+            "1_to_0": 0,
+            "1_to_1": 0
+          },
+          "first_detected_generation": 2000,
+          "positive_inspections": 1,
+          "ever_detected": 1,
+          "repeated_positive_inspections": 0,
+          "adjacent_positive_transition_count": 0,
+          "redetections_after_observed_gap": 0,
+          "present_at_final": 1
+        },
+        {
+          "population_id": "R7",
+          "transition_counts": {
+            "0_to_0": 5,
+            "0_to_1": 0,
+            "1_to_0": 0,
+            "1_to_1": 0
+          },
+          "first_detected_generation": null,
+          "positive_inspections": 0,
+          "ever_detected": 0,
+          "repeated_positive_inspections": 0,
+          "adjacent_positive_transition_count": 0,
+          "redetections_after_observed_gap": 0,
+          "present_at_final": 0
+        },
+        {
+          "population_id": "R8",
+          "transition_counts": {
+            "0_to_0": 2,
+            "0_to_1": 2,
+            "1_to_0": 1,
+            "1_to_1": 0
+          },
+          "first_detected_generation": 1000,
+          "positive_inspections": 2,
+          "ever_detected": 1,
+          "repeated_positive_inspections": 1,
+          "adjacent_positive_transition_count": 0,
+          "redetections_after_observed_gap": 1,
+          "present_at_final": 1
+        }
+      ]
+    },
+    "AA_absent": {
+      "biological_populations": 8,
+      "observed_time_intervals": 40,
+      "counts": {
+        "0_to_0": 34,
+        "0_to_1": 3,
+        "1_to_0": 3,
+        "1_to_1": 0,
+        "positive_inspections": 3,
+        "ever_detected": 3,
+        "repeated_positive_inspections": 0,
+        "adjacent_positive_transition_count": 0,
+        "redetections_after_observed_gap": 0,
+        "present_at_final": 0,
+        "first_detection_population_count": 3,
+        "populations_with_adjacent_positive_inspections": 0,
+        "zero_to_one_decomposition": {
+          "first_detected_across_observed_histories": 3,
+          "later_redetections_after_observed_gap": 0
+        }
+      },
+      "per_population": [
+        {
+          "population_id": "R1",
+          "transition_counts": {
+            "0_to_0": 5,
+            "0_to_1": 0,
+            "1_to_0": 0,
+            "1_to_1": 0
+          },
+          "first_detected_generation": null,
+          "positive_inspections": 0,
+          "ever_detected": 0,
+          "repeated_positive_inspections": 0,
+          "adjacent_positive_transition_count": 0,
+          "redetections_after_observed_gap": 0,
+          "present_at_final": 0
+        },
+        {
+          "population_id": "R2",
+          "transition_counts": {
+            "0_to_0": 3,
+            "0_to_1": 1,
+            "1_to_0": 1,
+            "1_to_1": 0
+          },
+          "first_detected_generation": 500,
+          "positive_inspections": 1,
+          "ever_detected": 1,
+          "repeated_positive_inspections": 0,
+          "adjacent_positive_transition_count": 0,
+          "redetections_after_observed_gap": 0,
+          "present_at_final": 0
+        },
+        {
+          "population_id": "R3",
+          "transition_counts": {
+            "0_to_0": 5,
+            "0_to_1": 0,
+            "1_to_0": 0,
+            "1_to_1": 0
+          },
+          "first_detected_generation": null,
+          "positive_inspections": 0,
+          "ever_detected": 0,
+          "repeated_positive_inspections": 0,
+          "adjacent_positive_transition_count": 0,
+          "redetections_after_observed_gap": 0,
+          "present_at_final": 0
+        },
+        {
+          "population_id": "R4",
+          "transition_counts": {
+            "0_to_0": 5,
+            "0_to_1": 0,
+            "1_to_0": 0,
+            "1_to_1": 0
+          },
+          "first_detected_generation": null,
+          "positive_inspections": 0,
+          "ever_detected": 0,
+          "repeated_positive_inspections": 0,
+          "adjacent_positive_transition_count": 0,
+          "redetections_after_observed_gap": 0,
+          "present_at_final": 0
+        },
+        {
+          "population_id": "R5",
+          "transition_counts": {
+            "0_to_0": 5,
+            "0_to_1": 0,
+            "1_to_0": 0,
+            "1_to_1": 0
+          },
+          "first_detected_generation": null,
+          "positive_inspections": 0,
+          "ever_detected": 0,
+          "repeated_positive_inspections": 0,
+          "adjacent_positive_transition_count": 0,
+          "redetections_after_observed_gap": 0,
+          "present_at_final": 0
+        },
+        {
+          "population_id": "R6",
+          "transition_counts": {
+            "0_to_0": 5,
+            "0_to_1": 0,
+            "1_to_0": 0,
+            "1_to_1": 0
+          },
+          "first_detected_generation": null,
+          "positive_inspections": 0,
+          "ever_detected": 0,
+          "repeated_positive_inspections": 0,
+          "adjacent_positive_transition_count": 0,
+          "redetections_after_observed_gap": 0,
+          "present_at_final": 0
+        },
+        {
+          "population_id": "R7",
+          "transition_counts": {
+            "0_to_0": 3,
+            "0_to_1": 1,
+            "1_to_0": 1,
+            "1_to_1": 0
+          },
+          "first_detected_generation": 1500,
+          "positive_inspections": 1,
+          "ever_detected": 1,
+          "repeated_positive_inspections": 0,
+          "adjacent_positive_transition_count": 0,
+          "redetections_after_observed_gap": 0,
+          "present_at_final": 0
+        },
+        {
+          "population_id": "R8",
+          "transition_counts": {
+            "0_to_0": 3,
+            "0_to_1": 1,
+            "1_to_0": 1,
+            "1_to_1": 0
+          },
+          "first_detected_generation": 1500,
+          "positive_inspections": 1,
+          "ever_detected": 1,
+          "repeated_positive_inspections": 0,
+          "adjacent_positive_transition_count": 0,
+          "redetections_after_observed_gap": 0,
+          "present_at_final": 0
+        }
+      ]
+    }
+  },
+  "interval_aggregates": [
+    {
+      "from_generation": 0,
+      "to_generation": 250,
+      "elapsed_generations": 250,
+      "per_arm_transitions": {
+        "AA_present": {
+          "0_to_0": 8,
+          "0_to_1": 0,
+          "1_to_0": 0,
+          "1_to_1": 0
+        },
+        "AA_absent": {
+          "0_to_0": 8,
+          "0_to_1": 0,
+          "1_to_0": 0,
+          "1_to_1": 0
+        }
+      }
+    },
+    {
+      "from_generation": 250,
+      "to_generation": 500,
+      "elapsed_generations": 250,
+      "per_arm_transitions": {
+        "AA_present": {
+          "0_to_0": 8,
+          "0_to_1": 0,
+          "1_to_0": 0,
+          "1_to_1": 0
+        },
+        "AA_absent": {
+          "0_to_0": 7,
+          "0_to_1": 1,
+          "1_to_0": 0,
+          "1_to_1": 0
+        }
+      }
+    },
+    {
+      "from_generation": 500,
+      "to_generation": 1000,
+      "elapsed_generations": 500,
+      "per_arm_transitions": {
+        "AA_present": {
+          "0_to_0": 4,
+          "0_to_1": 4,
+          "1_to_0": 0,
+          "1_to_1": 0
+        },
+        "AA_absent": {
+          "0_to_0": 7,
+          "0_to_1": 0,
+          "1_to_0": 1,
+          "1_to_1": 0
+        }
+      }
+    },
+    {
+      "from_generation": 1000,
+      "to_generation": 1500,
+      "elapsed_generations": 500,
+      "per_arm_transitions": {
+        "AA_present": {
+          "0_to_0": 3,
+          "0_to_1": 1,
+          "1_to_0": 3,
+          "1_to_1": 1
+        },
+        "AA_absent": {
+          "0_to_0": 6,
+          "0_to_1": 2,
+          "1_to_0": 0,
+          "1_to_1": 0
+        }
+      }
+    },
+    {
+      "from_generation": 1500,
+      "to_generation": 2000,
+      "elapsed_generations": 500,
+      "per_arm_transitions": {
+        "AA_present": {
+          "0_to_0": 1,
+          "0_to_1": 5,
+          "1_to_0": 1,
+          "1_to_1": 1
+        },
+        "AA_absent": {
+          "0_to_0": 6,
+          "0_to_1": 0,
+          "1_to_0": 2,
+          "1_to_1": 0
+        }
+      }
+    }
+  ],
+  "four_new_exploratory_population_exact_tests": {
+    "zero_to_one": {
+      "AA_population_scores": [
+        1,
+        2,
+        1,
+        2,
+        1,
+        1,
+        0,
+        2
+      ],
+      "nonAA_population_scores": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "difference_in_mean_population_scores": 0.875,
+      "two_sided_exact_label_permutation_p": 0.039160839160839164,
+      "extreme_label_partitions": 504,
+      "all_label_partitions": 12870
+    },
+    "one_to_one": {
+      "AA_population_scores": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "nonAA_population_scores": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "difference_in_mean_population_scores": 0.25,
+      "two_sided_exact_label_permutation_p": 1,
+      "extreme_label_partitions": 12870,
+      "all_label_partitions": 12870
+    },
+    "one_to_zero": {
+      "AA_population_scores": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ],
+      "nonAA_population_scores": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "difference_in_mean_population_scores": 0.125,
+      "two_sided_exact_label_permutation_p": 1,
+      "extreme_label_partitions": 12870,
+      "all_label_partitions": 12870
+    },
+    "repeat_detected_population": {
+      "AA_population_scores": [
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1
+      ],
+      "nonAA_population_scores": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "difference_in_mean_population_scores": 0.5,
+      "two_sided_exact_label_permutation_p": 0.07692307692307693,
+      "extreme_label_partitions": 990,
+      "all_label_partitions": 12870
+    }
+  },
+  "eight_view_multiplicity_sensitivity": {
+    "labels": [
+      "sampled_detected_count",
+      "late_detected_count",
+      "ever_detected",
+      "final_detected",
+      "zero_to_one",
+      "one_to_one",
+      "one_to_zero",
+      "repeat_detected_population"
+    ],
+    "method": "eight_post_source_view_max_absolute_permutation_z",
+    "all_label_partitions": 12870,
+    "observed_between_arm_mean_differences": {
+      "sampled_detected_count": 1.125,
+      "late_detected_count": 1.25,
+      "ever_detected": 0.5,
+      "final_detected": 0.75,
+      "zero_to_one": 0.875,
+      "one_to_one": 0.25,
+      "one_to_zero": 0.125,
+      "repeat_detected_population": 0.5
+    },
+    "finite_population_permutation_sd": {
+      "sampled_detected_count": 0.464354390525,
+      "late_detected_count": 0.478713553878,
+      "ever_detected": 0.25,
+      "final_detected": 0.25,
+      "zero_to_one": 0.375,
+      "one_to_one": 0.25,
+      "one_to_zero": 0.256173769149,
+      "repeat_detected_population": 0.22360679775
+    },
+    "observed_abs_standardized_differences": {
+      "sampled_detected_count": 2.422718559262,
+      "late_detected_count": 2.611164839335,
+      "ever_detected": 2,
+      "final_detected": 3,
+      "zero_to_one": 2.333333333333,
+      "one_to_one": 1,
+      "one_to_zero": 0.487950036474,
+      "repeat_detected_population": 2.2360679775
+    },
+    "adjusted_extreme_partitions": {
+      "sampled_detected_count": 786,
+      "late_detected_count": 264,
+      "ever_detected": 3100,
+      "final_detected": 180,
+      "zero_to_one": 858,
+      "one_to_one": 12870,
+      "one_to_zero": 12870,
+      "repeat_detected_population": 1548
+    },
+    "adjusted_p_for_only_the_eight_displayed_views": {
+      "sampled_detected_count": 0.061072261072261075,
+      "late_detected_count": 0.020512820512820513,
+      "ever_detected": 0.24087024087024086,
+      "final_detected": 0.013986013986013986,
+      "zero_to_one": 0.06666666666666667,
+      "one_to_one": 1,
+      "one_to_zero": 1,
+      "repeat_detected_population": 0.12027972027972028
+    },
+    "not_prospective_confirmatory": true,
+    "family_selected_after_inspecting_source": true,
+    "whole_population_trajectories_not_individual_cells_are_reallocated": true
+  },
+  "R2_R3_source_discrepancy": {
+    "figure": "non-AA R2 at generation 500",
+    "article_prose": "non-AA R3 at generation 500",
+    "unresolved": true,
+    "aggregate_transition_counts_unchanged_by_label_swap": true,
+    "eight_view_extreme_partition_counts_unchanged": true
+  },
+  "interpretation_limits": {
+    "first_detection_is_not_de_novo_mutation_origin": true,
+    "re_detection_after_zero_is_not_new_mutation_or_true_regain": true,
+    "adjacent_positive_assays_are_not_genotype_identity_or_fixation": true,
+    "zero_assay_is_not_mutation_absence_or_true_extinction": true,
+    "unequal_interval_lengths_preclude_per_generation_hazard_interpretation": true,
+    "nested_observations_and_8_lineages_per_arm": true,
+    "evolved_population_not_screened_colony_is_inferential_unit": true,
+    "eight_view_max_t_is_post_source_not_prospective": true,
+    "not_a_new_independent_study_or_meta_analysis": true,
+    "no_identified_genetic_origins_or_2_function_division_of_labour": true
+  }
+}
