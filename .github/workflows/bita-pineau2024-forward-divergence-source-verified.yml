@@ -1,0 +1,90 @@
+name: bita-pineau2024-forward-divergence-source-verified
+on:
+  push:
+    branches: ['analysis/bita-pineau2024-verified-forward-divergence-20261117']
+    paths:
+      - '.github/workflows/bita-pineau2024-forward-divergence-source-verified.yml'
+      - 'scripts/audit_bita_pineau2024_forward_divergence.py'
+      - 'tests/test_bita_pineau2024_forward_divergence.py'
+      - 'empirical/trait_architecture_history/pineau2024_original_forward_divergence.json'
+  pull_request:
+    branches: ['analysis/bita-kinsler2024-independent-mutational-architecture-20261117']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-and-denominators:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Read only download of original article and author Figure 2 source and raw workbook
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import urllib.request, hashlib
+          from scripts.audit_bita_pineau2024_forward_divergence import (
+              ARTICLE_JATS_URL, AUTHOR_F2_URL, AUTHOR_REPO_COMMIT, git_blob_sha1,
+              AUTHOR_F2_GIT_BLOB_SHA1, AUTHOR_XLSX_GIT_BLOB_SHA1,
+          )
+          urls = {
+              "pineau_article.xml": ARTICLE_JATS_URL,
+              "pineau_F2.m": AUTHOR_F2_URL,
+              "pineau_original.xlsx": (
+                  "https://raw.githubusercontent.com/Ratcliff-Lab/coexistence-paper/"
+                  + AUTHOR_REPO_COMMIT
+                  + "/data_used_to_generate_figs_in_coexistence_paper.xlsx"
+              ),
+          }
+          dst = Path('/tmp/bita_pineau2024'); dst.mkdir(parents=True,exist_ok=True)
+          for name,url in urls.items():
+              req = urllib.request.Request(url, headers={
+                "User-Agent": "BITA-academic-original-source-audit/1.0",
+                "Accept": "application/xml,text/plain,application/octet-stream,*/*",
+              })
+              with urllib.request.urlopen(req, timeout=55) as response:
+                  raw = response.read(5_000_000)
+              (dst/name).write_bytes(raw)
+              if name == "pineau_F2.m" and git_blob_sha1(raw) != AUTHOR_F2_GIT_BLOB_SHA1:
+                  raise ValueError('original author Figure 2 Git blob fingerprint changed')
+              if name == "pineau_original.xlsx" and git_blob_sha1(raw) != AUTHOR_XLSX_GIT_BLOB_SHA1:
+                  raise ValueError('original author 12-tab workbook fingerprint changed')
+              print('BITA_PINEAU_SOURCE_BYTE_RECEIPT:'+name+':'+hashlib.sha256(raw).hexdigest()
+                    +':'+str(len(raw)),flush=True)
+          PY
+      - name: Verify JATS DOI and author fit; compute only bounded source-grade summaries
+        run: |
+          python -m scripts.audit_bita_pineau2024_forward_divergence \
+            --jats /tmp/bita_pineau2024/pineau_article.xml \
+            --f2 /tmp/bita_pineau2024/pineau_F2.m \
+            --xlsx /tmp/bita_pineau2024/pineau_original.xlsx \
+            --output /tmp/bita_pineau2024_original_divergence.json
+      - name: Verify source-calibrated units and biological claim guardrails
+        run: |
+          python -m pip install 'pytest>=8,<10'
+          python -m pytest -q tests/test_bita_pineau2024_forward_divergence.py
+      - name: Emit aggregate-only freeze receipt and check frozen record when present
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          a = json.loads(Path('/tmp/bita_pineau2024_original_divergence.json').read_text())
+          frozen = Path('empirical/trait_architecture_history/pineau2024_original_forward_divergence.json')
+          if frozen.exists():
+              expected = json.loads(frozen.read_text())
+              if a != expected: raise ValueError('Pineau source-derived readout changed relative to freeze')
+              print('BITA_PINEAU_ORIGINAL_READOUT_ROUNDTRIP:PASS',flush=True)
+          else:
+              print('BITA_PINEAU_ORIGINAL_READOUT_ROUNDTRIP:AWAITING_FREEZE',flush=True)
+          print('BITA_PINEAU_AGGREGATE_CANONICAL_JSON:'+
+                json.dumps(a,sort_keys=True,separators=(',',':')),flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-pineau2024-original-source-bounded-summary
+          path: /tmp/bita_pineau2024_original_divergence.json
+          if-no-files-found: error
+          retention-days: 30
