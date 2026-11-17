@@ -69,3 +69,35 @@ def test_git_sha_uses_github_blob_framing():
     data = b"abc"
     canonical = hashlib.sha1(b"blob 3\0abc").hexdigest()
     assert git_blob_sha1(data) == canonical
+
+
+def test_frozen_derived_readout_keeps_competition_and_evolution_replicates_separate():
+    import json
+    from pathlib import Path
+    root=Path(__file__).resolve().parents[1]
+    file=root/"empirical/trait_architecture_history/pineau2024_original_forward_divergence.json"
+    d=json.loads(file.read_text(encoding="utf8"))
+    evo=d["single_evolution_programme"]
+    fit=d["source_audit"]["figure2_code_fit"]
+    original=d["source_audit"]["original_workbook_bytes"]
+    assert evo["independent_initial_aerobic_populations"] == 5
+    assert evo["authors_dimorphism_successes"] == 3
+    assert evo["authors_dimorphism_failures"] == 2
+    assert evo["sampled_small_and_large_isolates_per_evolution_population"] == 20
+    assert [p["evolved_population"] for p in evo["line_specific_outcomes_from_published_article"]
+            if p["authors_endpoint_phenotypically_dimorphic"]] == ["PO-3","PO-4","PO-5"]
+    assert fit["source_code_fitted_large_delta_intercept"] == pytest.approx(.095083)
+    assert fit["source_code_fitted_large_delta_slope"] == pytest.approx(-1.0274)
+    assert fit["equilibrium_large_fraction_recovered_from_fit"] == pytest.approx(.09254720654078255)
+    assert fit["original_standard_O2_competition_code_series"] == 8
+    assert fit["original_high_O2_competition_code_series"] == 7
+    assert fit["publisher_high_O2_figure_caption_n"] == 6
+    assert fit["high_O2_count_discrepancy_unresolved"] is True
+    assert original["original_raw_workbook_bytes"] == 1535384
+    assert original["original_raw_workbook_sha256"] == "b6bc44d5085344292b5b33cac81369652b25e56f0947c1057cfc00ae4947057f"
+    assert original["workbook_cells_analyzed"] is False
+    assert d["source_audit"]["jats"]["article_binary_verified"] is False
+    guards=d["comparability_and_scope"]
+    assert guards["no_primary_cross_treatment_risk_ratio_or_fisher_test"] is True
+    assert guards["not_20_independent_evolution_origin_replicates_per_population"] is True
+    assert guards["oxygen_intervention_tests_retention_not_de_novo_origin"] if "oxygen_intervention_tests_retention_not_de_novo_origin" in guards else d["mechanism_and_maintenance"]["oxygen_intervention_tests_retention_not_de_novo_origin"]
