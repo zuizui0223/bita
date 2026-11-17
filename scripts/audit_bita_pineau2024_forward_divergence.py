@@ -37,7 +37,7 @@ ORIGINAL_AUTHOR_POSITIVE_LINE_IDS = ("PO-3", "PO-4", "PO-5")
 
 
 def git_blob_sha1(raw: bytes) -> str:
-    return hashlib.sha1(b"blob " + str(len(raw)).encode("ascii") + b"\\0" + raw).hexdigest()
+    return hashlib.sha1(b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest()
 
 
 def check_article_jats(xml: bytes) -> dict:
@@ -78,8 +78,8 @@ def author_source_fit(mcode: bytes) -> dict:
         raise ValueError("author original F2.m Git blob changed")
     code = mcode.decode("utf-8")
     expression = re.search(
-        r"plot\\(freq_at_start\\(idx\\),\\s*([0-9.]+)\\s*-\\s*"
-        r"([0-9.]+)\\.\\*freq_at_start\\(idx\\)", code
+        r"plot\(freq_at_start\(idx\),\s*([0-9.]+)\s*-\s*"
+        r"([0-9.]+)\.\*freq_at_start\(idx\)", code
     )
     if not expression:
         raise ValueError("source F2.m Large frequency-change fit missing")
@@ -88,7 +88,7 @@ def author_source_fit(mcode: bytes) -> dict:
         raise ValueError("author's frozen fitted competition coefficients changed")
     if not 0 < intercept / slope < 1:
         raise ValueError("source code predicts invalid composition equilibrium")
-    loops = [int(x) for x in re.findall(r"for\\s+i\\s*=\\s*1:(\\d+)", code)]
+    loops = [int(x) for x in re.findall(r"for\s+i\s*=\s*1:(\d+)", code)]
     if loops[:2] != [8, 7]:
         raise ValueError("author code standard/high O2 plotted-series gate changed")
     if "data_used_to_generate_figs_in_coexistence_paper.xlsx" not in code:
@@ -199,7 +199,7 @@ def main() -> None:
     result = build(args.jats.read_bytes(), args.f2.read_bytes())
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, ensure_ascii=False,
-                                       allow_nan=False)+"\\n", encoding="utf8")
+                                       allow_nan=False)+"\n", encoding="utf8")
     print("BITA_PINEAU_ORIGINAL_SOURCE_REPRO:" + json.dumps({
         "jats_sha256": result["source_audit"]["jats"]["jats_sha256"],
         "f2_git_sha1": result["source_audit"]["figure2_code_fit"]["author_f2_git_blob_sha1"],
