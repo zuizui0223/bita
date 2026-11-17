@@ -1,0 +1,116 @@
+{
+  "comparability_and_scope": {
+    "PM_PA_715_individual_endpoint_screen_equal_to_PO_not_source_verified": true,
+    "genotype_level_architecture_module_duplication_not_identified": true,
+    "high_O2_n_discrepancy_unresolved": true,
+    "no_Ku_or_fitness_invasion_coefficient_calibrated": true,
+    "no_evolution_programme_meta_analysis_performed": true,
+    "no_primary_cross_treatment_risk_ratio_or_fisher_test": true,
+    "not_20_independent_evolution_origin_replicates_per_population": true,
+    "not_8_independent_evolution_origin_replicates_from_competition_tests": true,
+    "other_metabolic_treatments_have_5_populations_each": true,
+    "reconstruction_from_article_and_author_source_code_only": true,
+    "source_authors_report_no_size_dimorphism_in_PA_PM_context": true,
+    "source_figure_workbook_binary_not_reanalyzed": true
+  },
+  "mechanism_and_maintenance": {
+    "PO3_small_large_genomes_nonshared_mutations_reported": true,
+    "high_O2_fraction_difference_descriptive_from_rounded_publisher_values": 0.77,
+    "high_O2_percent_atmospheric_level_approx": 84,
+    "negative_frequency_dependence_demonstrated_within_PO4_pair": true,
+    "oxygen_intervention_tests_retention_not_de_novo_origin": true,
+    "representative_focal_fitness_pair": "PO-4 Small versus PO-4 Large only",
+    "size_based_growth_survival_tradeoff": true,
+    "source_article_high_O2_large_fraction_approx": 0.86,
+    "source_article_standard_O2_large_fraction_approx": 0.09,
+    "source_fitted_large_fraction_approx": 0.09254720654078255,
+    "standard_O2_percent_atmospheric_level_approx": 26,
+    "t715_lineage_sequence_from_every_founder_population": false
+  },
+  "publication": {
+    "article_full_text": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11090753/fullTextXML",
+    "author_original_xlsx_git_blob_sha1": "8f7d01b388489374aba210db96495f387d4338e2",
+    "author_original_xlsx_path": "data_used_to_generate_figs_in_coexistence_paper.xlsx",
+    "author_repo": "Ratcliff-Lab/coexistence-paper",
+    "author_repo_commit": "071affa79f16f0a469f099058372a7488c35c0c2",
+    "doi": "10.1038/s41559-024-02367-y",
+    "primary_article": "https://www.nature.com/articles/s41559-024-02367-y"
+  },
+  "single_evolution_programme": {
+    "authors_dimorphism_failures": 2,
+    "authors_dimorphism_successes": 3,
+    "daily_transfers": 715,
+    "descriptive_wilson_95pct_interval": [
+      0.2307242812760128,
+      0.882379225767352
+    ],
+    "estimated_generations": 4300,
+    "evolution_treatment": "obligately_aerobic_glycerol_with_growth_and_settling",
+    "independent_initial_aerobic_populations": 5,
+    "independent_programme_count": 1,
+    "is_a_general_species_level_diversification_probability": false,
+    "line_specific_outcomes_from_published_article": [
+      {
+        "authors_endpoint_phenotypically_dimorphic": false,
+        "evolved_population": "PO-1",
+        "published_large_vs_small_isolate_volume_fold": 2,
+        "source_scope": "t715 original authors' long-term aerobic evolved population"
+      },
+      {
+        "authors_endpoint_phenotypically_dimorphic": false,
+        "evolved_population": "PO-2",
+        "published_large_vs_small_isolate_volume_fold": 1.5,
+        "source_scope": "t715 original authors' long-term aerobic evolved population"
+      },
+      {
+        "authors_endpoint_phenotypically_dimorphic": true,
+        "evolved_population": "PO-3",
+        "published_large_vs_small_isolate_volume_fold": 37,
+        "source_scope": "t715 original authors' long-term aerobic evolved population"
+      },
+      {
+        "authors_endpoint_phenotypically_dimorphic": true,
+        "evolved_population": "PO-4",
+        "published_large_vs_small_isolate_volume_fold": 27,
+        "source_scope": "t715 original authors' long-term aerobic evolved population"
+      },
+      {
+        "authors_endpoint_phenotypically_dimorphic": true,
+        "evolved_population": "PO-5",
+        "published_large_vs_small_isolate_volume_fold": 16,
+        "source_scope": "t715 original authors' long-term aerobic evolved population"
+      }
+    ],
+    "original_common_ancestor": "engineered ACE2-deleted snowflake yeast",
+    "reported_observed_fraction": 0.6,
+    "sampled_small_and_large_isolates_per_evolution_population": 20
+  },
+  "source_audit": {
+    "figure2_code_fit": {
+      "author_f2_git_blob_sha1": "4b5dba14b244b335294ca28be52a77c5dc278d79",
+      "author_f2_sha256": "36ab3c0f53e26103f824f2b62847c9e86d1ed0fdeb3ce798284f9f14516b9f00",
+      "code_assays_in_one_PO_4_isolate_pair_not_evolution_independent_origins": true,
+      "equilibrium_large_fraction_recovered_from_fit": 0.09254720654078255,
+      "high_O2_count_discrepancy_unresolved": true,
+      "original_high_O2_competition_code_series": 7,
+      "original_standard_O2_competition_code_series": 8,
+      "publisher_high_O2_figure_caption_n": 6,
+      "publisher_high_O2_methods_describes_5_initial_populations": true,
+      "source_code_fitted_large_delta_intercept": 0.095083,
+      "source_code_fitted_large_delta_slope": -1.0274
+    },
+    "jats": {
+      "article_binary_verified": false,
+      "article_source_text_confirmation": "publisher web article reviewed separately; XML unavailable in this run",
+      "jats_article_pmcid": "PMC11090753",
+      "publisher_doi": "10.1038/s41559-024-02367-y"
+    },
+    "original_workbook_bytes": {
+      "byte_identity_only_not_sheet_reanalysis": true,
+      "original_raw_workbook_bytes": 1535384,
+      "original_raw_workbook_git_blob_sha1": "8f7d01b388489374aba210db96495f387d4338e2",
+      "original_raw_workbook_sha256": "b6bc44d5085344292b5b33cac81369652b25e56f0947c1057cfc00ae4947057f",
+      "workbook_cells_analyzed": false
+    }
+  }
+}
