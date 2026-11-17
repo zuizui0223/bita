@@ -222,7 +222,7 @@ def main() -> None:
     args.output.write_text(json.dumps(result, indent=2, ensure_ascii=False,
                                        allow_nan=False)+"\n", encoding="utf8")
     print("BITA_PINEAU_ORIGINAL_SOURCE_REPRO:" + json.dumps({
-        "jats_sha256": result["source_audit"]["jats"]["jats_sha256"],
+        "jats_sha256": result["source_audit"]["jats"].get("jats_sha256"),
         "f2_git_sha1": result["source_audit"]["figure2_code_fit"]["author_f2_git_blob_sha1"],
         "evolved_populations": result["single_evolution_programme"]["independent_initial_aerobic_populations"],
         "positive": result["single_evolution_programme"]["authors_dimorphism_successes"],
