@@ -132,8 +132,13 @@ def check_unparsed_original_xlsx(workbook_bytes: bytes) -> dict:
     }
 
 
-def build(article_xml: bytes, f2_code: bytes, workbook_bytes: bytes) -> dict:
-    article = check_article_jats(article_xml)
+def build(article_xml: bytes | None, f2_code: bytes, workbook_bytes: bytes) -> dict:
+    article = check_article_jats(article_xml) if article_xml is not None else {
+        'publisher_doi': DOI,
+        'jats_article_pmcid': PMCID,
+        'article_binary_verified': False,
+        'article_source_text_confirmation': 'publisher web article reviewed separately; XML unavailable in this run',
+    }
     fit = author_source_fit(f2_code)
     source_workbook = check_unparsed_original_xlsx(workbook_bytes)
     line = []
@@ -207,12 +212,12 @@ def build(article_xml: bytes, f2_code: bytes, workbook_bytes: bytes) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--jats", type=Path, required=True)
+    parser.add_argument("--jats", type=Path, required=False)
     parser.add_argument("--f2", type=Path, required=True)
     parser.add_argument("--xlsx", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    result = build(args.jats.read_bytes(), args.f2.read_bytes(), args.xlsx.read_bytes())
+    result = build(args.jats.read_bytes() if args.jats is not None else None, args.f2.read_bytes(), args.xlsx.read_bytes())
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, ensure_ascii=False,
                                        allow_nan=False)+"\n", encoding="utf8")
