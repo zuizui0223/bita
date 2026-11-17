@@ -61,11 +61,11 @@ def test_binary_workbook_not_spreadsheet_reanalyzed_or_from_unverified_bytes():
     with pytest.raises(ValueError, match="ZIP/XML XLSX"):
         check_unparsed_original_xlsx(b'not an actual workbook')
     with pytest.raises(ValueError, match="fingerprint"):
-        check_unparsed_original_xlsx(b"PK\\x03\\x04"+b'tampered workbook')
+        check_unparsed_original_xlsx(b"PK\x03\x04"+b'tampered workbook')
 
 
 def test_git_sha_uses_github_blob_framing():
     import hashlib
     data = b"abc"
-    canonical = hashlib.sha1(b"blob 3\\0abc").hexdigest()
+    canonical = hashlib.sha1(b"blob 3\0abc").hexdigest()
     assert git_blob_sha1(data) == canonical
