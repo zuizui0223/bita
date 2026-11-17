@@ -118,9 +118,24 @@ def wilson(k: int, n: int, z: float = 1.959963984540054) -> tuple[float, float]:
     return (center-half, center+half)
 
 
-def build(article_xml: bytes, f2_code: bytes) -> dict:
+def check_unparsed_original_xlsx(workbook_bytes: bytes) -> dict:
+    if not workbook_bytes.startswith(b"PK\\x03\\x04"):
+        raise ValueError("author source workbook is not a ZIP/XML XLSX")
+    if git_blob_sha1(workbook_bytes) != AUTHOR_XLSX_GIT_BLOB_SHA1:
+        raise ValueError("author original XLSX blob fingerprint changed")
+    return {
+        "original_raw_workbook_git_blob_sha1": AUTHOR_XLSX_GIT_BLOB_SHA1,
+        "original_raw_workbook_sha256": hashlib.sha256(workbook_bytes).hexdigest(),
+        "original_raw_workbook_bytes": len(workbook_bytes),
+        "workbook_cells_analyzed": False,
+        "byte_identity_only_not_sheet_reanalysis": True,
+    }
+
+
+def build(article_xml: bytes, f2_code: bytes, workbook_bytes: bytes) -> dict:
     article = check_article_jats(article_xml)
     fit = author_source_fit(f2_code)
+    source_workbook = check_unparsed_original_xlsx(workbook_bytes)
     line = []
     for label, ratio in PO_LINE_VOLUMES:
         positive = label in ORIGINAL_AUTHOR_POSITIVE_LINE_IDS
@@ -143,7 +158,7 @@ def build(article_xml: bytes, f2_code: bytes) -> dict:
             "author_repo_commit": AUTHOR_REPO_COMMIT,
             "author_original_xlsx_path": AUTHOR_XLSX_REPO_PATH,
             "author_original_xlsx_git_blob_sha1": AUTHOR_XLSX_GIT_BLOB_SHA1},
-        "source_audit": {"jats": article, "figure2_code_fit": fit},
+        "source_audit": {"jats": article, "figure2_code_fit": fit, "original_workbook_bytes": source_workbook},
         "single_evolution_programme": {
             "independent_initial_aerobic_populations": 5,
             "original_common_ancestor": "engineered ACE2-deleted snowflake yeast",
@@ -194,9 +209,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--jats", type=Path, required=True)
     parser.add_argument("--f2", type=Path, required=True)
+    parser.add_argument("--xlsx", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    result = build(args.jats.read_bytes(), args.f2.read_bytes())
+    result = build(args.jats.read_bytes(), args.f2.read_bytes(), args.xlsx.read_bytes())
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, ensure_ascii=False,
                                        allow_nan=False)+"\n", encoding="utf8")
