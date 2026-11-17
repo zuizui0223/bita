@@ -119,7 +119,7 @@ def wilson(k: int, n: int, z: float = 1.959963984540054) -> tuple[float, float]:
 
 
 def check_unparsed_original_xlsx(workbook_bytes: bytes) -> dict:
-    if not workbook_bytes.startswith(b"PK\\x03\\x04"):
+    if not workbook_bytes.startswith(b"PK\x03\x04"):
         raise ValueError("author source workbook is not a ZIP/XML XLSX")
     if git_blob_sha1(workbook_bytes) != AUTHOR_XLSX_GIT_BLOB_SHA1:
         raise ValueError("author original XLSX blob fingerprint changed")
