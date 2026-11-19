@@ -1,0 +1,72 @@
+name: bita-pineau2024-original-f2-workbook-cell-reanalysis
+on:
+  push:
+    branches: ['analysis/bita-pineau2024-workbook-f2-20261119']
+    paths:
+      - '.github/workflows/bita-pineau2024-original-f2-workbook-cell-reanalysis.yml'
+      - 'scripts/audit_bita_pineau2024_f2_workbook.py'
+      - 'tests/test_bita_pineau2024_f2_workbook.py'
+      - 'empirical/trait_architecture_history/pineau2024_f2_workbook_source_reanalysis.json'
+  pull_request:
+    branches: ['analysis/bita-pineau2024-verified-forward-divergence-20261117']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sha-verified-workbook-f2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch original immutable author binary and verify Git and SHA256
+        run: |
+          python - <<'PY'
+          import urllib.request, pathlib
+          from scripts.audit_bita_pineau2024_f2_workbook import (
+              AUTHOR_COMMIT, verify_author_bytes,
+          )
+          url = (
+              'https://raw.githubusercontent.com/Ratcliff-Lab/coexistence-paper/'
+              + AUTHOR_COMMIT + '/data_used_to_generate_figs_in_coexistence_paper.xlsx'
+          )
+          request=urllib.request.Request(url,headers={
+              'User-Agent':'Academic-BITA-source-audit-published-original/1.0',
+              'Accept':'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/octet-stream,*/*'})
+          with urllib.request.urlopen(request,timeout=55) as resp:
+              raw=resp.read(4000000)
+          receipt=verify_author_bytes(raw)
+          pathlib.Path('/tmp/pineau2024_original.xlsx').write_bytes(raw)
+          print('BITA_PINEAU_ORIGINAL_XLSX_VERIFIED:'+str(receipt),flush=True)
+          PY
+      - name: Read author workbook Figure2 Excel cell values without changing original
+        run: |
+          python -m scripts.audit_bita_pineau2024_f2_workbook \
+            --input /tmp/pineau2024_original.xlsx \
+            --output /tmp/pineau2024_f2_cell_reanalysis.json
+      - name: Test frozen code and cell/competition no-pseudoreplication guards
+        run: |
+          python -m pip install 'pytest>=8,<10'
+          python -m pytest -q tests/test_bita_pineau2024_f2_workbook.py
+      - name: Verify exact frozen readout, or emit freeze-required audit receipt
+        run: |
+          python - <<'PY'
+          import pathlib,json
+          fresh=pathlib.Path('/tmp/pineau2024_f2_cell_reanalysis.json')
+          frozen=pathlib.Path('empirical/trait_architecture_history/pineau2024_f2_workbook_source_reanalysis.json')
+          actual=json.loads(fresh.read_text())
+          if frozen.exists():
+              if actual != json.loads(frozen.read_text()):
+                  raise ValueError('source original F2A/F2C workbook cells differ from frozen readout')
+              print('BITA_PINEAU_F2_WORKBOOK_FROZEN_ROUNDTRIP:PASS')
+          else:
+              print('BITA_PINEAU_F2_WORKBOOK_FROZEN_ROUNDTRIP:AWAITING_FREEZE')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pineau-original-figure2-workbook-aggregate-audit
+          path: /tmp/pineau2024_f2_cell_reanalysis.json
+          if-no-files-found: error
+          retention-days: 30
