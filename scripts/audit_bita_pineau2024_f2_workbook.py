@@ -24,9 +24,7 @@ from collections import Counter
 
 AUTHOR_COMMIT = "071affa79f16f0a469f099058372a7488c35c0c2"
 XLSX_BLOB_SHA1 = "8f7d01b388489374aba210db96495f387d4338e2"
-XLSX_SHA256 = "b6bc44d5085344292b5b33cac81369652b25e56f0947c1057f4c1057f"
-# Note: expected sha is defined with the true source value below, not a partial hash.
-XLSX_SHA256 = "b6bc44d5085344292b5b33cac81369652b25e56f0947c1057f4c1057f"
+XLSX_SHA256 = "b6bc44d5085344292b5b33cac81369652b25e56f0947c1057f4c00ae4947057f"
 WORKBOOK_ORIGINAL_BYTES = 1535384
 NS = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main",
       "r": "http://schemas.openxmlformats.org/officeDocument/2006/relationships",
@@ -42,7 +40,7 @@ def git_blob_sha1(raw: bytes) -> str:
 def verify_author_bytes(raw: bytes) -> dict:
     sha1 = git_blob_sha1(raw)
     sha256 = hashlib.sha256(raw).hexdigest()
-    if sha1 != XLSX_BLOB_SHA1 or len(raw) != WORKBOOK_ORIGINAL_BYTES:
+    if sha1 != XLSX_BLOB_SHA1 or sha256 != XLSX_SHA256 or len(raw) != WORKBOOK_ORIGINAL_BYTES:
         raise ValueError("untrusted Pineau original author XLSX bytes")
     return {"author_commit": AUTHOR_COMMIT,
             "git_blob_sha1": sha1, "sha256": sha256, "source_bytes": len(raw)}
