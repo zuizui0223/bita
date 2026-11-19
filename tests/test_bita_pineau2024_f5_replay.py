@@ -51,8 +51,8 @@ def test_population_slope_not_timepoint_replication():
 def test_exact_seven_population_label_enumeration_not_cluster_permutation():
     q=exact_population_label_permutation([-3,-2,-1],[1,2,3,4])
     assert q["seven_line_source_label_partition_count"]==35
-    assert q["extreme_partition_count"]==2
-    assert q["two_sided_reference_fraction"]==pytest.approx(2/35)
+    assert q["extreme_partition_count"]==1
+    assert q["two_sided_reference_fraction"]==pytest.approx(1/35)
     assert q["reference_only_not_a_randomized_label_test"]
     with pytest.raises(ValueError,match="3 Large"):
         exact_population_label_permutation([-1,-2],[1,2,3,4])
