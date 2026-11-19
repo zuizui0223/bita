@@ -46,20 +46,21 @@ def test_fitted_frequency_change_uses_complete_independent_competitions_only():
 
 def test_sheet_extraction_and_missing_competition_series_are_separate():
     rows=[
-        {"excel_row":1,"cells":{0:"C1",1:"C2",2:"C3",3:"C4"},"formula_count":0},
-        {"excel_row":2,"cells":{0:.1,1:.3,2:.5,3:.7},"formula_count":0},
-        {"excel_row":3,"cells":{0:.15,1:.35,2:None,3:.55},"formula_count":0},
-        {"excel_row":4,"cells":{0:.2,1:.4,2:.4,3:.5},"formula_count":0},
-        {"excel_row":5,"cells":{0:.25,1:.45,2:.35,3:.45},"formula_count":0},
+        {"excel_row":1,"cells":{0:"C1",1:"C2",2:"C3",3:"C4",4:"C5"},"formula_count":0},
+        {"excel_row":2,"cells":{0:.1,1:.3,2:.5,3:.7,4:.9},"formula_count":0},
+        {"excel_row":3,"cells":{0:.15,1:.25,2:None,3:.45,4:.55},"formula_count":0},
+        {"excel_row":4,"cells":{0:.15,1:.25,2:.35,3:.45,4:.55},"formula_count":0},
+        {"excel_row":5,"cells":{0:.15,1:.25,2:.35,3:.45,4:.55},"formula_count":0},
     ]
     sheet=numeric_matrix(rows,"F2A")
-    assert sheet["summary"]["active_column_count"] == 4
+    assert sheet["summary"]["active_column_count"] == 5
     assert sheet["summary"]["numeric_row_count"] == 4
     audit=f2_reanalysis(sheet,8)
-    assert audit["original_sheet_active_series"] == 4
-    assert audit["complete_trajectory_count"] == 3
+    assert audit["original_sheet_active_series"] == 5
+    assert audit["complete_trajectory_count"] == 4
     assert audit["incomplete_active_excel_columns"] == [3]
-    assert audit["first_last_fit"]["n_paired_trajectories"] == 3
+    assert audit["first_last_fit"]["n_paired_trajectories"] == 4
+    assert audit["standard_O2_whole_competition_leave_one_out"]["refits"] == 4
 
 
 def test_xml_relationships_and_numeric_table_are_not_excel_formulas():
