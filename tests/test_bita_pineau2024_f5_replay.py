@@ -83,3 +83,31 @@ def test_exact_original_numeric_vector_duplication_is_not_a_new_replay_line():
         "cross_independent_evolution_population":True,
     }]
     assert q["no_independent_endpoints_claim_for_duplicated_columns"]
+
+
+def test_frozen_original_doubled_day40_is_quarantined_in_both_source_groups():
+    import json
+    from pathlib import Path
+    root=Path(__file__).resolve().parents[1]
+    path=root/"empirical/trait_architecture_history/pineau2024_f5_original_replay_readout.json"
+    d=json.loads(path.read_text())
+    audit=d["original_Fig5A_source_duplicate_audit"]
+    assert audit["cross_population_duplicate_pairs"]==1
+    assert audit["cross_population_suspect_excel_columns_1indexed"]==[6,24]
+    assert audit["exact_duplicate_source_column_pairs"][0][
+        "identical_excel_row_and_numeric_value_pairs"]==164
+    assert d["all_seven_original_day40_endpoints_do_not_pass_independent_source_QA"]
+    valid=d["primary_quarantined_independent_day40_endpoints"]
+    assert valid["small"]["independent_original_population_day40_endpoints_after_QA"]==3
+    assert valid["small"]["population_IDs"]==["s2","s3","s4"]
+    assert valid["large"]["independent_original_population_day40_endpoints_after_QA"]==2
+    assert valid["large"]["population_IDs"]==["l3","l4"]
+    assert valid["small"]["mean_per_valid_line_day40_minus_initial_um"]==pytest.approx(9.012177598717132)
+    assert valid["large"]["mean_per_valid_line_day40_minus_initial_um"]==pytest.approx(-5.975551045357875)
+    assert valid["small"]["each_source_valid_line_changed_in_predeclared_direction"]
+    assert valid["large"]["each_source_valid_line_changed_in_predeclared_direction"]
+    assert {p["author_population_ID"] for p in
+            d["quarantined_duplicated_day40_populations"]}=={"l1","s1"}
+    assert d["between_founder_phenotypes_exploratory_label_sensitivity"][
+        "not_eligible_as_primary_source_QA_inference"]
+    assert d["interpretation_ceiling"]["both_duplicated_day40_endpoints_quarantined_not_arbitrarily_assigned"]
