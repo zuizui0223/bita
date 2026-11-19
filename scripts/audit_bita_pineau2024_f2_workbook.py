@@ -136,7 +136,7 @@ def numeric_matrix(rows: list[dict], sheet_name: str) -> dict:
     numeric = []
     for row, values in zip(rows, rawrows):
         numeric_values = [x for x in values if isinstance(x, (int, float)) and not isinstance(x, bool)]
-        if len(numeric_values) >= 4:
+        if len(numeric_values) >= 2:
             numeric.append({"excel_row": row["excel_row"], "values": values})
         else:
             metadata.append({"excel_row": row["excel_row"], "cells": {
