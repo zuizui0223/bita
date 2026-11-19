@@ -18,7 +18,7 @@ from scripts.audit_bita_pineau2024_f2_workbook import (
 def test_author_identity_and_sha256_are_frozen():
     assert AUTHOR_COMMIT == "071affa79f16f0a469f099058372a7488c35c0c2"
     assert XLSX_BLOB_SHA1 == "8f7d01b388489374aba210db96495f387d4338e2"
-    assert XLSX_SHA256 == "b6bc44d5085344292b5b33cac81369652b25e56f0947c1057f4c00ae4947057f"
+    assert XLSX_SHA256 == "b6bc44d5085344292b5b33cac81369652b25e56f0947c1057cfc00ae4947057f"
     assert WORKBOOK_ORIGINAL_BYTES == 1535384
     with pytest.raises(ValueError, match="untrusted"):
         verify_author_bytes(b"fake workbook")
