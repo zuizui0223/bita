@@ -99,8 +99,8 @@ def summarize_sheet(rows: list[dict], name: str) -> dict:
         "source_numeric_row_count":len(numeric_rows),
         "numeric_excel_row_range":[numeric_rows[0][0],numeric_rows[-1][0]] if numeric_rows else None,
         "numeric_values_per_row_distribution":dict(sorted({
-            str(n):sum(len(v)==n for _,v in numeric_rows)
-            for _,v in numeric_rows
+            str(n):sum(len(values)==n for _,values in numeric_rows)
+            for n in {len(values) for _,values in numeric_rows}
         }.items())),
         "first_six_source_header_tokens":[
             {"row":r["excel_row"],"text":[str(v)[:90] for v in r["cells"].values()
