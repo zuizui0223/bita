@@ -1,0 +1,284 @@
+{
+  "paper_doi": "10.1038/s41559-024-02367-y",
+  "author_workbook_bytes_SHA_verified": {
+    "author_commit": "071affa79f16f0a469f099058372a7488c35c0c2",
+    "git_blob_sha1": "8f7d01b388489374aba210db96495f387d4338e2",
+    "sha256": "b6bc44d5085344292b5b33cac81369652b25e56f0947c1057cfc00ae4947057f",
+    "source_bytes": 1535384
+  },
+  "author_original_R_code_gate": {
+    "author_source_commit": "071affa79f16f0a469f099058372a7488c35c0c2",
+    "load_data_R_blob_SHA1": "77844c9c336d01ea264a0b2b30229f61191a7ff7",
+    "plot_R_blob_SHA1": "9ec49af81ba1805277223149644c9fe35ab47f0f",
+    "small_population_codes_from_R": [
+      "s1",
+      "s2",
+      "s3",
+      "s4"
+    ],
+    "large_population_codes_from_R": [
+      "l1",
+      "l3",
+      "l4"
+    ],
+    "small_independently_evolved_monoculture_replays_visible_in_author_code": 4,
+    "large_independently_evolved_monoculture_replays_visible_in_author_code": 3,
+    "author_R_fig5_rows": 7,
+    "author_R_fig5_repeated_timepoints": 6,
+    "author_R_fig5_expected_population_time_means": 42,
+    "author_R_fig5_R_days": [
+      0,
+      5,
+      10,
+      15,
+      20,
+      40
+    ],
+    "author_R_recorded_raw_file_read_calls": 63,
+    "author_R_input_files_are_machine_local_paths_not_in_public_repo": true,
+    "original_fig5_R_regression_reuses_repeated_times_within_lines": true
+  },
+  "figure5_sheet_summaries": {
+    "Fig5A": {
+      "name": "Fig5A",
+      "nonempty_excel_rows": 2507,
+      "nonempty_excel_columns": 42,
+      "first_nonempty_excel_row": 1,
+      "last_nonempty_excel_row": 2507,
+      "cell_type_count": {
+        "numeric": 44910,
+        "strings": 50,
+        "missing": 0,
+        "formulas": 0
+      },
+      "source_numeric_row_count": 2504,
+      "numeric_excel_row_range": [
+        4,
+        2507
+      ],
+      "numeric_values_per_row_distribution": {
+        "1": 454,
+        "2": 204,
+        "3": 186,
+        "4": 40,
+        "5": 54,
+        "6": 36,
+        "7": 2,
+        "8": 17,
+        "9": 53,
+        "10": 29,
+        "11": 14,
+        "12": 18,
+        "13": 7,
+        "14": 42,
+        "15": 30,
+        "16": 33,
+        "17": 12,
+        "18": 107,
+        "19": 78,
+        "20": 2,
+        "21": 3,
+        "22": 29,
+        "23": 8,
+        "24": 74,
+        "25": 94,
+        "26": 9,
+        "27": 1,
+        "28": 13,
+        "29": 87,
+        "30": 86,
+        "31": 46,
+        "32": 20,
+        "33": 45,
+        "34": 34,
+        "35": 44,
+        "36": 20,
+        "37": 141,
+        "38": 67,
+        "39": 101,
+        "41": 48,
+        "42": 116
+      },
+      "first_six_source_header_tokens": [
+        {
+          "row": 1,
+          "text": [
+            "F7. Size distributions of the Large and Small populations from the re-evolution experiment"
+          ]
+        },
+        {
+          "row": 2,
+          "text": [
+            "Line1_large_area",
+            "Line3_large_area",
+            "Line4_large_area",
+            "Line1_small_area",
+            "Line2_small_area",
+            "Line3_small_area",
+            "Line4_small_area"
+          ]
+        },
+        {
+          "row": 3,
+          "text": [
+            "Day1",
+            "Day5",
+            "Day10",
+            "Day15",
+            "Day20",
+            "Day40",
+            "Day1",
+            "Day5",
+            "Day10",
+            "Day15"
+          ]
+        },
+        {
+          "row": 4,
+          "text": []
+        },
+        {
+          "row": 5,
+          "text": []
+        },
+        {
+          "row": 6,
+          "text": []
+        }
+      ],
+      "contains_author_numeric_timecourse": true,
+      "source_numeric_value_range": [
+        100.006,
+        54320.149
+      ]
+    },
+    "SuppF5A": {
+      "name": "SuppF5A",
+      "nonempty_excel_rows": 17,
+      "nonempty_excel_columns": 2,
+      "first_nonempty_excel_row": 1,
+      "last_nonempty_excel_row": 17,
+      "cell_type_count": {
+        "numeric": 30,
+        "strings": 3,
+        "missing": 0,
+        "formulas": 0
+      },
+      "source_numeric_row_count": 15,
+      "numeric_excel_row_range": [
+        3,
+        17
+      ],
+      "numeric_values_per_row_distribution": {
+        "2": 15
+      },
+      "first_six_source_header_tokens": [
+        {
+          "row": 1,
+          "text": [
+            "F5A. Mean proportion of Large before (t0) and after 24 hours of growth (t24)."
+          ]
+        },
+        {
+          "row": 2,
+          "text": [
+            "t0",
+            "t24"
+          ]
+        },
+        {
+          "row": 3,
+          "text": []
+        },
+        {
+          "row": 4,
+          "text": []
+        },
+        {
+          "row": 5,
+          "text": []
+        },
+        {
+          "row": 6,
+          "text": []
+        }
+      ],
+      "contains_author_numeric_timecourse": true,
+      "source_numeric_value_range": [
+        0.00813008130081301,
+        0.974358974358974
+      ]
+    },
+    "SuppF5B": {
+      "name": "SuppF5B",
+      "nonempty_excel_rows": 22,
+      "nonempty_excel_columns": 2,
+      "first_nonempty_excel_row": 1,
+      "last_nonempty_excel_row": 22,
+      "cell_type_count": {
+        "numeric": 40,
+        "strings": 3,
+        "missing": 0,
+        "formulas": 0
+      },
+      "source_numeric_row_count": 20,
+      "numeric_excel_row_range": [
+        3,
+        22
+      ],
+      "numeric_values_per_row_distribution": {
+        "2": 20
+      },
+      "first_six_source_header_tokens": [
+        {
+          "row": 1,
+          "text": [
+            "F5B. Mean proportion of Large before and after selection."
+          ]
+        },
+        {
+          "row": 2,
+          "text": [
+            "before_SS",
+            "after_SS"
+          ]
+        },
+        {
+          "row": 3,
+          "text": []
+        },
+        {
+          "row": 4,
+          "text": []
+        },
+        {
+          "row": 5,
+          "text": []
+        },
+        {
+          "row": 6,
+          "text": []
+        }
+      ],
+      "contains_author_numeric_timecourse": true,
+      "source_numeric_value_range": [
+        0.00137551581843191,
+        0.993055555555556
+      ]
+    }
+  },
+  "paper_text_replication_conflicts": {
+    "Methods_monoculture_populations_per_phenotype": 4,
+    "Figure5_caption_monoculture_populations_per_phenotype": 5,
+    "author_R_code_small_population_count": 4,
+    "author_R_code_large_population_count": 3,
+    "source_sample_size_not_reconciled": true
+  },
+  "inference_scope": {
+    "author_code_data_directory_not_available_in_public_github": true,
+    "n_population_not_n_phenotyped_clusters_or_population_time_cells": true,
+    "do_not_treat_R_ANCOVA_38_residual_df_as_independent_evolved_populations": true,
+    "not_original_causal_evolutionary_architecture_invasion_probability": true,
+    "no_meta_analysis_or_cross_research_programme_replication": true
+  }
+}
