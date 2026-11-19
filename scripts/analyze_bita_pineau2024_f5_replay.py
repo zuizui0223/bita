@@ -79,6 +79,49 @@ def exact_population_label_permutation(large:list[float],small:list[float])->dic
     }
 
 
+def audit_exact_source_column_duplicates(rows:list[dict])->dict:
+    """Check measurement vectors by exact Excel-row/value pairs, not means.
+
+    A duplicated source column across different evolved populations cannot
+    be used as an independent endpoint, even if its title differs.
+    """
+    columns={}
+    for col in range(42):
+        pairs=tuple((r["excel_row"],float(r["cells"][col]))
+                    for r in rows[3:]
+                    if col in r["cells"] and type(r["cells"][col]) in (int,float))
+        if not pairs:
+            raise ValueError("Fig5A has empty biological population-time source column")
+        columns[col]=pairs
+    pairs=[]
+    suspect=set()
+    for i in range(42):
+        for j in range(i+1,42):
+            if columns[i]==columns[j]:
+                gid1,day1=divmod(i,6)
+                gid2,day2=divmod(j,6)
+                candidate={
+                    "left_population":LINES[gid1][0],
+                    "left_original_day":SHEET_DAY_LABELS[day1],
+                    "left_excel_column_1indexed":i+1,
+                    "right_population":LINES[gid2][0],
+                    "right_original_day":SHEET_DAY_LABELS[day2],
+                    "right_excel_column_1indexed":j+1,
+                    "identical_excel_row_and_numeric_value_pairs":len(columns[i]),
+                    "cross_independent_evolution_population":gid1!=gid2,
+                }
+                pairs.append(candidate)
+                if gid1!=gid2:
+                    suspect.update((i,j))
+    return {
+        "all_original_measurement_columns":42,
+        "exact_duplicate_source_column_pairs":pairs,
+        "cross_population_duplicate_pairs":sum(p["cross_independent_evolution_population"] for p in pairs),
+        "cross_population_suspect_excel_columns_1indexed":[i+1 for i in sorted(suspect)],
+        "no_independent_endpoints_claim_for_duplicated_columns":True,
+    }
+
+
 def weighted_phenotype(area:list[float],trim_radius_above:float|None=None)->dict:
     if not area or any(not 0<r and math.isfinite(r) for r in area):
         raise ValueError("source area measurements must be finite and positive")
@@ -120,6 +163,8 @@ def build_original(source_xlsx:bytes,load_r:bytes,plot_r:bytes)->dict:
         raise ValueError("source Fig5A day labels do not align with original R code")
     if max((max(r["cells"]) for r in rows if r["cells"]),default=0)!=41:
         raise ValueError("original Fig5A 42 population-time columns changed")
+    duplicate_gate=audit_exact_source_column_duplicates(rows)
+    source_ambiguous=set(duplicate_gate["cross_population_suspect_excel_columns_1indexed"])
 
     profiles=[]
     for index,(name,kind,source_header) in enumerate(LINES):
@@ -140,6 +185,7 @@ def build_original(source_xlsx:bytes,load_r:bytes,plot_r:bytes)->dict:
                 "original_xlsx_day_label":day,
                 "author_R_analysis_day":AUTHOR_F5_PLOT_DAYS[k],
                 "source_excel_column_1indexed":col+1,
+                "source_numeric_vector_cross_population_duplicated":col+1 in source_ambiguous,
                 **as_measured,
                 "source_R_explicit_radius_outlier_filter_gt_100":author_flag,
                 "corresponding_trimmed_sensitivity":source_qc,
@@ -190,6 +236,7 @@ def build_original(source_xlsx:bytes,load_r:bytes,plot_r:bytes)->dict:
         "article_doi":"10.1038/s41559-024-02367-y",
         "original_git_pinned_xlsx":origin,
         "author_R_script_original_sha_gates":source,
+        "original_Fig5A_source_duplicate_audit":duplicate_gate,
         "original_Fig5A_column_grain": {
             "author_replication_populations":7,
             "author_timepoint_columns_per_population":6,
