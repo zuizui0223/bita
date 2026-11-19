@@ -1,0 +1,273 @@
+{
+  "source": {
+    "author_commit": "071affa79f16f0a469f099058372a7488c35c0c2",
+    "git_blob_sha1": "8f7d01b388489374aba210db96495f387d4338e2",
+    "sha256": "b6bc44d5085344292b5b33cac81369652b25e56f0947c1057cfc00ae4947057f",
+    "source_bytes": 1535384
+  },
+  "available_sheet_names": [
+    "Fig1C",
+    "Fig1D",
+    "Fig1F",
+    "F2A",
+    "F2C",
+    "Fig5A",
+    "SuppF1",
+    "SuppF2",
+    "SuppF4",
+    "SuppF5A",
+    "SuppF5B",
+    "SuppF6"
+  ],
+  "sheet_count": 12,
+  "sheet_aggregate": {
+    "F2A": {
+      "sheet": "F2A",
+      "all_nonempty_excel_rows": 8,
+      "numeric_excel_row_numbers": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "numeric_row_count": 6,
+      "active_column_count": 8,
+      "active_excel_columns_1indexed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "numeric_counts_per_active_column": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "header_or_nonnumeric_row_metadata": [
+        {
+          "excel_row": 1,
+          "cells": {
+            "1": "F2A. Competition in low oxygen."
+          }
+        },
+        {
+          "excel_row": 2,
+          "cells": {
+            "1": "lowO2_1",
+            "2": "lowO2_3",
+            "3": "lowO2_6",
+            "4": "lowO2_7",
+            "5": "lowO2_8",
+            "6": "lowO2_9",
+            "7": "lowO2_10",
+            "8": "lowO2_11"
+          }
+        }
+      ],
+      "embedded_formula_cells": 0,
+      "first_observed_values": [
+        0.118581313,
+        0.592477772,
+        0.777045112,
+        0.396520824,
+        0.285875957,
+        0.208248317,
+        0.01674833,
+        0.083322054
+      ],
+      "last_observed_values": [
+        0.088244781,
+        0.066443729,
+        0.033803948,
+        0.108172243,
+        0.178029452,
+        0.123040324,
+        0.032522898,
+        0.062597204
+      ],
+      "min_observed": 0.003627302,
+      "max_observed": 0.777045112
+    },
+    "F2C": {
+      "sheet": "F2C",
+      "all_nonempty_excel_rows": 8,
+      "numeric_excel_row_numbers": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "numeric_row_count": 6,
+      "active_column_count": 7,
+      "active_excel_columns_1indexed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "numeric_counts_per_active_column": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "header_or_nonnumeric_row_metadata": [
+        {
+          "excel_row": 1,
+          "cells": {
+            "1": "F2C. Competition in supplemental oxygen."
+          }
+        },
+        {
+          "excel_row": 2,
+          "cells": {
+            "1": "highO2_1",
+            "2": "highO2_2",
+            "3": "highO2_3",
+            "4": "highO2_4",
+            "5": "highO2_5",
+            "6": "highO2_6",
+            "7": "highO2_7"
+          }
+        }
+      ],
+      "embedded_formula_cells": 0,
+      "first_observed_values": [
+        0.15617411,
+        0.16614151,
+        0.27903016,
+        0.30200309,
+        0.30200309,
+        0.30200309,
+        0.30200309
+      ],
+      "last_observed_values": [
+        0.81236902,
+        0.97283945,
+        0.91883623,
+        0.8890549,
+        0.82117862,
+        0.81945336,
+        0.76144628
+      ],
+      "min_observed": 0.15617411,
+      "max_observed": 0.97283945
+    }
+  },
+  "standard_O2_reanalysis": {
+    "documented_author_script_series_count": 8,
+    "original_sheet_active_series": 8,
+    "complete_trajectory_count": 8,
+    "incomplete_active_excel_columns": [],
+    "first_last_fit": {
+      "n_paired_trajectories": 8,
+      "slope": -1.0273563373277579,
+      "intercept": 0.09508325078917607,
+      "r2": 0.9691365073338942,
+      "equilibrium_if_slope_nonzero": 0.09255138391076242,
+      "first_frequencies": [
+        0.118581313,
+        0.592477772,
+        0.777045112,
+        0.396520824,
+        0.285875957,
+        0.208248317,
+        0.01674833,
+        0.083322054
+      ],
+      "final_frequencies": [
+        0.088244781,
+        0.06644372900000006,
+        0.03380394799999997,
+        0.108172243,
+        0.178029452,
+        0.123040324,
+        0.032522898,
+        0.062597204
+      ],
+      "mean_final_fraction": 0.086606822375
+    },
+    "standard_O2_whole_competition_leave_one_out": {
+      "refits": 8,
+      "minimum_zero_change_frequency": 0.07877067191825358,
+      "maximum_zero_change_frequency": 0.11348730403526239,
+      "descriptive_influence_only_not_independent_studies": true
+    }
+  },
+  "high_O2_reanalysis": {
+    "documented_author_script_series_count": 7,
+    "original_sheet_active_series": 7,
+    "complete_trajectory_count": 7,
+    "incomplete_active_excel_columns": [],
+    "first_last_fit": {
+      "n_paired_trajectories": 7,
+      "slope": -1.4007282389252131,
+      "intercept": 0.9600341087181712,
+      "r2": 0.6561856048872357,
+      "equilibrium_if_slope_nonzero": 0.6853821334071275,
+      "first_frequencies": [
+        0.15617411,
+        0.16614151,
+        0.27903016,
+        0.30200309,
+        0.30200309,
+        0.30200309,
+        0.30200309
+      ],
+      "final_frequencies": [
+        0.81236902,
+        0.97283945,
+        0.91883623,
+        0.8890548999999999,
+        0.82117862,
+        0.81945336,
+        0.76144628
+      ],
+      "mean_final_fraction": 0.85645398
+    },
+    "high_O2_unknown_exclusion_sensitivity": {
+      "5": {
+        "possible_subsets": 21,
+        "minimum_end_fraction": 0.820700436,
+        "maximum_end_fraction": 0.884272512,
+        "cannot_identify_published_exclusion": true
+      },
+      "6": {
+        "possible_subsets": 7,
+        "minimum_end_fraction": 0.8370564016666666,
+        "maximum_end_fraction": 0.8722885966666667,
+        "cannot_identify_published_exclusion": true
+      }
+    },
+    "high_O2_fitted_zero_crossing_extrapolates_beyond_starting_frequency_range": true,
+    "high_O2_fitted_zero_crossing_not_an_estimated_equilibrium": true,
+    "high_O2_source_n7_vs_caption_n6_vs_methods_n5_unresolved": true
+  },
+  "interpretation_limit": {
+    "workbook_verified_by_original_author_git_blob": true,
+    "worksheet_cells_parsed_without_modifying_workbook": true,
+    "competition_replicates_not_evolving_population_replicates": true,
+    "no_new_forward_diversification_origins_in_competition": true,
+    "published_highO2_n6_and_code_n7_are_not_silently_reconciled": true,
+    "original_raw_workbook_not_committed_to_bita": true
+  }
+}
