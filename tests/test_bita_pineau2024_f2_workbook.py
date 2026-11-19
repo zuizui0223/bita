@@ -99,3 +99,63 @@ def test_xml_relationships_and_numeric_table_are_not_excel_formulas():
         assert cells[0]["cells"][0]=="C1"
         assert cells[1]["cells"][0]==.1
         assert not cells[0]["formula_count"]
+
+
+def test_original_f2_source_json_reproduces_independent_raw_excel_cells():
+    root=Path(__file__).resolve().parents[1]
+    d=json.loads((root/"empirical/trait_architecture_history/"
+        "pineau2024_f2_workbook_source_reanalysis.json").read_text(encoding="utf8"))
+    assert d["sheet_count"]==12
+    assert len(d["available_sheet_names"])==12
+    assert d["source"]["source_bytes"]==1535384
+    std=d["sheet_aggregate"]["F2A"]
+    high=d["sheet_aggregate"]["F2C"]
+    assert std["numeric_excel_row_numbers"] == [3,4,5,6,7,8]
+    assert high["numeric_excel_row_numbers"] == [3,4,5,6,7,8]
+    assert std["active_column_count"] == 8
+    assert high["active_column_count"] == 7
+    assert std["numeric_counts_per_active_column"] == [6]*8
+    assert high["numeric_counts_per_active_column"] == [6]*7
+    assert std["embedded_formula_cells"] == high["embedded_formula_cells"] == 0
+    assert len(std["first_observed_values"])==8
+    assert len(high["last_observed_values"])==7
+    assert high["header_or_nonnumeric_row_metadata"][1]["cells"]["7"]=="highO2_7"
+
+
+def test_fitted_standard_oxygen_equilibrium_matches_author_from_original_cells():
+    root=Path(__file__).resolve().parents[1]
+    d=json.loads((root/"empirical/trait_architecture_history/"
+        "pineau2024_f2_workbook_source_reanalysis.json").read_text())
+    f=d["standard_O2_reanalysis"]["first_last_fit"]
+    assert f["n_paired_trajectories"]==8
+    assert f["intercept"] == pytest.approx(.09508325078917607,abs=1e-12)
+    assert f["slope"] == pytest.approx(-1.0273563373277579,abs=1e-12)
+    assert f["r2"] == pytest.approx(.9691365073338942,abs=1e-12)
+    assert f["equilibrium_if_slope_nonzero"]==pytest.approx(.09255138391076242,abs=1e-12)
+    assert f["mean_final_fraction"]==pytest.approx(.086606822375,abs=1e-12)
+    loo=d["standard_O2_reanalysis"]["standard_O2_whole_competition_leave_one_out"]
+    assert loo["refits"]==8
+    assert loo["minimum_zero_change_frequency"]==pytest.approx(.07877067191825358,abs=1e-12)
+    assert loo["maximum_zero_change_frequency"]==pytest.approx(.11348730403526239,abs=1e-12)
+
+
+def test_high_oxygen_complete_seven_source_vs_caption_six_never_silently_resolved():
+    root=Path(__file__).resolve().parents[1]
+    d=json.loads((root/"empirical/trait_architecture_history/"
+        "pineau2024_f2_workbook_source_reanalysis.json").read_text())
+    s=d["high_O2_reanalysis"]
+    assert s["original_sheet_active_series"]==7
+    assert s["complete_trajectory_count"]==7
+    assert s["incomplete_active_excel_columns"]==[]
+    assert s["first_last_fit"]["mean_final_fraction"]==pytest.approx(.85645398,abs=1e-12)
+    sensitivity=s["high_O2_unknown_exclusion_sensitivity"]
+    assert sensitivity["6"]["possible_subsets"]==7
+    assert sensitivity["6"]["minimum_end_fraction"]==pytest.approx(.8370564016666666)
+    assert sensitivity["6"]["maximum_end_fraction"]==pytest.approx(.8722885966666667)
+    assert sensitivity["5"]["possible_subsets"]==21
+    assert sensitivity["5"]["minimum_end_fraction"]==pytest.approx(.820700436)
+    assert sensitivity["5"]["maximum_end_fraction"]==pytest.approx(.884272512)
+    assert s["high_O2_source_n7_vs_caption_n6_vs_methods_n5_unresolved"] is True
+    assert s["high_O2_fitted_zero_crossing_extrapolates_beyond_starting_frequency_range"] is True
+    assert s["high_O2_fitted_zero_crossing_not_an_estimated_equilibrium"] is True
+    assert d["interpretation_limit"]["competition_replicates_not_evolving_population_replicates"]
