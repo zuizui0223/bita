@@ -5,6 +5,7 @@ import pytest
 from scripts.analyze_bita_pineau2024_f5_replay import (
     LINES, SHEET_DAY_LABELS, AUTHOR_F5_PLOT_DAYS,
     slope, weighted_phenotype, exact_population_label_permutation,
+    audit_exact_source_column_duplicates,
 )
 
 
@@ -56,3 +57,29 @@ def test_exact_seven_population_label_enumeration_not_cluster_permutation():
     assert q["reference_only_not_a_randomized_label_test"]
     with pytest.raises(ValueError,match="3 Large"):
         exact_population_label_permutation([-1,-2],[1,2,3,4])
+
+
+def test_exact_original_numeric_vector_duplication_is_not_a_new_replay_line():
+    rows=[
+        {"excel_row":1,"cells":{0:"Figure 5A"},"formula_count":0},
+        {"excel_row":2,"cells":{},"formula_count":0},
+        {"excel_row":3,"cells":{},"formula_count":0},
+    ]
+    for i in range(4,9):
+        values={j:1000*j+i for j in range(42)}
+        values[23]=values[5]  # large l1 Day40 duplicated as small s1 Day40
+        rows.append({"excel_row":i,"cells":values,"formula_count":0})
+    q=audit_exact_source_column_duplicates(rows)
+    assert q["cross_population_duplicate_pairs"]==1
+    assert q["cross_population_suspect_excel_columns_1indexed"]==[6,24]
+    assert q["exact_duplicate_source_column_pairs"]==[{
+        "left_population":"l1",
+        "left_original_day":"Day40",
+        "left_excel_column_1indexed":6,
+        "right_population":"s1",
+        "right_original_day":"Day40",
+        "right_excel_column_1indexed":24,
+        "identical_excel_row_and_numeric_value_pairs":5,
+        "cross_independent_evolution_population":True,
+    }]
+    assert q["no_independent_endpoints_claim_for_duplicated_columns"]
