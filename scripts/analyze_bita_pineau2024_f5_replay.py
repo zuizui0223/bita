@@ -228,15 +228,77 @@ def build_original(source_xlsx:bytes,load_r:bytes,plot_r:bytes)->dict:
             "trimmed_R_source_quality_control_mean_slope":statistics.mean(qq),
             "population_IDs_not_cluster_measures_are_independent_units":True,
         }
+    # Exact duplicate l1 Day40 and s1 Day40 source vectors are documented
+    # in the SHA-verified public data deposit. Neither can be assigned to
+    # its correct culture on the evidence currently available. Quarantine
+    # *both* as day40 endpoints. Early nonduplicate observations remain valid.
+    observed_duplicate_pairs=duplicate_gate["exact_duplicate_source_column_pairs"]
+    expected_duplicate=[{
+        "left_population":"l1", "left_original_day":"Day40",
+        "left_excel_column_1indexed":6,
+        "right_population":"s1", "right_original_day":"Day40",
+        "right_excel_column_1indexed":24,
+        "identical_excel_row_and_numeric_value_pairs":164,
+        "cross_independent_evolution_population":True,
+    }]
+    if observed_duplicate_pairs != expected_duplicate:
+        raise ValueError("original source duplicate dataset no longer matches registered exact QA")
+    source_valid=[
+        p for p in profiles
+        if not p["source_rows"][0]["source_numeric_vector_cross_population_duplicated"]
+        and not p["source_rows"][-1]["source_numeric_vector_cross_population_duplicated"]
+    ]
+    no_valid=[p for p in profiles if p not in source_valid]
+    valid_group={}
+    for kind in ("small","large"):
+        pop=[p for p in source_valid if p["founder_phenotype"]==kind]
+        vals=[p["change_day40_minus_first_um_biomass_weighted"] for p in pop]
+        if not vals:
+            raise ValueError("no trustworthy independent source day40 data in a genotype class")
+        valid_group[kind]={
+            "independent_original_population_day40_endpoints_after_QA":len(pop),
+            "population_IDs":[p["author_population_ID"] for p in pop],
+            "mean_per_valid_line_day40_minus_initial_um":statistics.mean(vals),
+            "min_per_valid_line_day40_minus_initial_um":min(vals),
+            "max_per_valid_line_day40_minus_initial_um":max(vals),
+            "each_source_valid_line_changed_in_predeclared_direction":all(
+                x>0 if kind=="small" else x<0 for x in vals),
+            "individual_valid_line_day40_changes_um":vals,
+            "no_unverified_cross_population_reused_source_cell":True,
+        }
+    if (valid_group["small"]["independent_original_population_day40_endpoints_after_QA"],
+        valid_group["large"]["independent_original_population_day40_endpoints_after_QA"]) != (3,2):
+        raise ValueError("source duplicate quarantine unexpectedly failed to leave 3 small and 2 large")
+    quarantined=[
+        {
+            "author_population_ID":p["author_population_ID"],
+            "founder_phenotype":p["founder_phenotype"],
+            "source_day40_numeric_column_duplicated":True,
+            "source_initial_minus_day20_timepoint_details_not_day40": {
+                "day20_minus_initial_um":p["source_rows"][4]["mean_radius_um_biomass_weighted_direct"]-
+                                         p["source_rows"][0]["mean_radius_um_biomass_weighted_direct"],
+                "original_initial_day_label":"Day1",
+                "source_intermediate_day_label":"Day20",
+            },
+        } for p in no_valid
+    ]
+    # This reference includes ambiguously duplicated endpoints; preserve as
+    # a diagnostic only and never promote its empirical permutation fraction
+    # or all-7 result as a source-independent claim.
     diff=exact_population_label_permutation(
         groups["large"]["population_slope_values"],
         groups["small"]["population_slope_values"],
     )
+    diff["includes_two_cross_population_duplicated_day40_endpoints"]=True
+    diff["not_eligible_as_primary_source_QA_inference"]=True
     return {
         "article_doi":"10.1038/s41559-024-02367-y",
         "original_git_pinned_xlsx":origin,
         "author_R_script_original_sha_gates":source,
         "original_Fig5A_source_duplicate_audit":duplicate_gate,
+        "primary_quarantined_independent_day40_endpoints":valid_group,
+        "quarantined_duplicated_day40_populations":quarantined,
+        "all_seven_original_day40_endpoints_do_not_pass_independent_source_QA":True,
         "original_Fig5A_column_grain": {
             "author_replication_populations":7,
             "author_timepoint_columns_per_population":6,
@@ -253,6 +315,7 @@ def build_original(source_xlsx:bytes,load_r:bytes,plot_r:bytes)->dict:
             "unavailable_original_separate_image_raw_files":True,
             "direct_volume_weighted_estimator_differs_from_author_1500_bin_approx":True,
             "not_five_replays_per_phenotype_in_author_code_or_workbook":True,
+            "both_duplicated_day40_endpoints_quarantined_not_arbitrarily_assigned":True,
             "population_repeated_timepoints_not_42_independent_origins":True,
             "original_source_inconsistent_four_or_five_per_type_unresolved":True,
             "no_genotypic_module_splitting_or_theoretical_Ku_calibrated":True,
