@@ -1,0 +1,117 @@
+name: bita-pineau2024-f5-original-source-lineage-audit
+on:
+  push:
+    branches: ['analysis/bita-pineau2024-f5-character-displacement-20261119']
+    paths:
+      - '.github/workflows/bita-pineau2024-f5-original-source-lineage-audit.yml'
+      - 'scripts/audit_bita_pineau2024_f5_source.py'
+      - 'tests/test_bita_pineau2024_f5_source.py'
+      - 'scripts/analyze_bita_pineau2024_f5_replay.py'
+      - 'tests/test_bita_pineau2024_f5_replay.py'
+      - 'empirical/trait_architecture_history/pineau2024_f5_original_replay_readout.json'
+      - 'empirical/trait_architecture_history/pineau2024_f5_original_source_inventory.json'
+  pull_request:
+    branches: ['analysis/bita-pineau2024-workbook-f2-20261119']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-replay-source-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Read-only fetch of original workbook and author replay R code at pinned commit
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request
+          from pathlib import Path
+          from scripts.audit_bita_pineau2024_f5_source import (
+              AUTHOR_COMMIT, LOAD_DATA_BLOB, PLOT_CODE_BLOB, git_blob_hash
+          )
+          from scripts.audit_bita_pineau2024_f2_workbook import verify_author_bytes
+          base = ('https://raw.githubusercontent.com/Ratcliff-Lab/coexistence-paper/'
+                  + AUTHOR_COMMIT + '/')
+          sources={
+              'original.xlsx':'data_used_to_generate_figs_in_coexistence_paper.xlsx',
+              'F5_load-data.R':'F5_load-data.R',
+              'F5_plot_mean_versus_time_biomass_transformed.R':
+                  'F5_plot_mean_versus_time_biomass_transformed.R',
+          }
+          work=Path('/tmp/pineau2024_F5_source');work.mkdir(exist_ok=True)
+          for local,src in sources.items():
+              req=urllib.request.Request(base+src,headers={
+                  'User-Agent':'BITA-published-figure-F5-source-lineage-audit/1.0',
+                  'Accept':'application/octet-stream,text/plain,*/*',
+              })
+              with urllib.request.urlopen(req,timeout=55) as response:
+                  raw=response.read(4_000_000)
+              (work/local).write_bytes(raw)
+              if local=='original.xlsx':
+                  receipt=verify_author_bytes(raw)
+              else:
+                  receipt={'git_blob_sha1':git_blob_hash(raw),
+                           'source_bytes':len(raw)}
+                  expected=(LOAD_DATA_BLOB if local=='F5_load-data.R'
+                            else PLOT_CODE_BLOB)
+                  if receipt['git_blob_sha1'] != expected:
+                      raise ValueError('author original F5 source has changed')
+              print('BITA_PINEAU_F5_SOURCE_VERIFIED:'+local+':'+str(receipt),flush=True)
+          PY
+      - name: Recover the original workbook Fig5A and provenance-correct R script lineage grain
+        run: |
+          python -m scripts.audit_bita_pineau2024_f5_source \
+            --xlsx /tmp/pineau2024_F5_source/original.xlsx \
+            --load-r /tmp/pineau2024_F5_source/F5_load-data.R \
+            --plot-r /tmp/pineau2024_F5_source/F5_plot_mean_versus_time_biomass_transformed.R \
+            --output /tmp/pineau2024_f5_source_inventory.json
+      - name: Reanalyze all 42 original Figure5A area-measurement columns at n=7 population grain
+        run: |
+          python -m scripts.analyze_bita_pineau2024_f5_replay \
+            --xlsx /tmp/pineau2024_F5_source/original.xlsx \
+            --load-r /tmp/pineau2024_F5_source/F5_load-data.R \
+            --plot-r /tmp/pineau2024_F5_source/F5_plot_mean_versus_time_biomass_transformed.R \
+            --output /tmp/pineau2024_f5_replay_science.json
+      - name: Fail-closed regression/unit tests
+        run: |
+          python -m pip install 'pytest>=8,<10'
+          python -m pytest -q tests/test_bita_pineau2024_f5_source.py tests/test_bita_pineau2024_f5_replay.py
+      - name: Check frozen original-data summary, when present
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          output=Path('/tmp/pineau2024_f5_source_inventory.json')
+          current=json.loads(output.read_text())
+          target=Path('empirical/trait_architecture_history/pineau2024_f5_original_source_inventory.json')
+          if target.exists():
+              if current != json.loads(target.read_text()):
+                  raise ValueError('original author F5 source inventory changed')
+              print('BITA_PINEAU_F5_ORIGINAL_SOURCE_FROZEN_ROUNDTRIP:PASS',flush=True)
+          else:
+              print('BITA_PINEAU_F5_ORIGINAL_SOURCE_FROZEN_ROUNDTRIP:AWAITING_FREEZE',flush=True)
+          print('BITA_PINEAU_F5_AGGREGATE_JSON:'+json.dumps(current,separators=(',',':')),flush=True)
+          source_replay=Path('/tmp/pineau2024_f5_replay_science.json')
+          replay=json.loads(source_replay.read_text())
+          replay_freeze=Path('empirical/trait_architecture_history/pineau2024_f5_original_replay_readout.json')
+          if replay_freeze.exists():
+              if replay != json.loads(replay_freeze.read_text()):
+                  raise ValueError('original author Fig5A direct measurement trajectories differ from freeze')
+              print('BITA_PINEAU_F5_REPLAY_FROZEN_ROUNDTRIP:PASS',flush=True)
+          else:
+              print('BITA_PINEAU_F5_REPLAY_FROZEN_ROUNDTRIP:AWAITING_FREEZE',flush=True)
+          print('BITA_PINEAU_F5_REPLAY_FULL_JSON:'+
+                json.dumps(replay,separators=(',',':')),flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-pineau2024-character-displacement-original-source-inventory
+          path: |
+            /tmp/pineau2024_f5_source_inventory.json
+            /tmp/pineau2024_f5_replay_science.json
+          if-no-files-found: error
+          retention-days: 30

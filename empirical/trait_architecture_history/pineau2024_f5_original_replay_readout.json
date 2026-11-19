@@ -1,0 +1,842 @@
+{
+  "article_doi": "10.1038/s41559-024-02367-y",
+  "original_git_pinned_xlsx": {
+    "author_commit": "071affa79f16f0a469f099058372a7488c35c0c2",
+    "git_blob_sha1": "8f7d01b388489374aba210db96495f387d4338e2",
+    "sha256": "b6bc44d5085344292b5b33cac81369652b25e56f0947c1057cfc00ae4947057f",
+    "source_bytes": 1535384
+  },
+  "author_R_script_original_sha_gates": {
+    "author_source_commit": "071affa79f16f0a469f099058372a7488c35c0c2",
+    "load_data_R_blob_SHA1": "77844c9c336d01ea264a0b2b30229f61191a7ff7",
+    "plot_R_blob_SHA1": "9ec49af81ba1805277223149644c9fe35ab47f0f",
+    "small_population_codes_from_R": [
+      "s1",
+      "s2",
+      "s3",
+      "s4"
+    ],
+    "large_population_codes_from_R": [
+      "l1",
+      "l3",
+      "l4"
+    ],
+    "small_independently_evolved_monoculture_replays_visible_in_author_code": 4,
+    "large_independently_evolved_monoculture_replays_visible_in_author_code": 3,
+    "author_R_fig5_rows": 7,
+    "author_R_fig5_repeated_timepoints": 6,
+    "author_R_fig5_expected_population_time_means": 42,
+    "author_R_fig5_R_days": [
+      0,
+      5,
+      10,
+      15,
+      20,
+      40
+    ],
+    "author_R_recorded_raw_file_read_calls": 63,
+    "author_R_input_files_are_machine_local_paths_not_in_public_repo": true,
+    "original_fig5_R_regression_reuses_repeated_times_within_lines": true
+  },
+  "original_Fig5A_source_duplicate_audit": {
+    "all_original_measurement_columns": 42,
+    "exact_duplicate_source_column_pairs": [
+      {
+        "left_population": "l1",
+        "left_original_day": "Day40",
+        "left_excel_column_1indexed": 6,
+        "right_population": "s1",
+        "right_original_day": "Day40",
+        "right_excel_column_1indexed": 24,
+        "identical_excel_row_and_numeric_value_pairs": 164,
+        "cross_independent_evolution_population": true
+      }
+    ],
+    "cross_population_duplicate_pairs": 1,
+    "cross_population_suspect_excel_columns_1indexed": [
+      6,
+      24
+    ],
+    "no_independent_endpoints_claim_for_duplicated_columns": true
+  },
+  "primary_quarantined_independent_day40_endpoints": {
+    "small": {
+      "independent_original_population_day40_endpoints_after_QA": 3,
+      "population_IDs": [
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "mean_per_valid_line_day40_minus_initial_um": 9.012177598717132,
+      "min_per_valid_line_day40_minus_initial_um": 6.498533231018838,
+      "max_per_valid_line_day40_minus_initial_um": 12.59771176250414,
+      "each_source_valid_line_changed_in_predeclared_direction": true,
+      "individual_valid_line_day40_changes_um": [
+        12.59771176250414,
+        7.94028780262842,
+        6.498533231018838
+      ],
+      "no_unverified_cross_population_reused_source_cell": true
+    },
+    "large": {
+      "independent_original_population_day40_endpoints_after_QA": 2,
+      "population_IDs": [
+        "l3",
+        "l4"
+      ],
+      "mean_per_valid_line_day40_minus_initial_um": -5.975551045357875,
+      "min_per_valid_line_day40_minus_initial_um": -6.4551381597125825,
+      "max_per_valid_line_day40_minus_initial_um": -5.495963931003168,
+      "each_source_valid_line_changed_in_predeclared_direction": true,
+      "individual_valid_line_day40_changes_um": [
+        -5.495963931003168,
+        -6.4551381597125825
+      ],
+      "no_unverified_cross_population_reused_source_cell": true
+    }
+  },
+  "quarantined_duplicated_day40_populations": [
+    {
+      "author_population_ID": "l1",
+      "founder_phenotype": "large",
+      "source_day40_numeric_column_duplicated": true,
+      "source_initial_minus_day20_timepoint_details_not_day40": {
+        "day20_minus_initial_um": -18.614205776688323,
+        "original_initial_day_label": "Day1",
+        "source_intermediate_day_label": "Day20"
+      }
+    },
+    {
+      "author_population_ID": "s1",
+      "founder_phenotype": "small",
+      "source_day40_numeric_column_duplicated": true,
+      "source_initial_minus_day20_timepoint_details_not_day40": {
+        "day20_minus_initial_um": -0.42274617261198344,
+        "original_initial_day_label": "Day1",
+        "source_intermediate_day_label": "Day20"
+      }
+    }
+  ],
+  "all_seven_original_day40_endpoints_do_not_pass_independent_source_QA": true,
+  "original_Fig5A_column_grain": {
+    "author_replication_populations": 7,
+    "author_timepoint_columns_per_population": 6,
+    "source_measurement_columns": 42,
+    "original_day1_source_is_R_analysis_day0_proxy": true,
+    "no_independent_growth_vs_survival_dissection_in_this_sheet": true
+  },
+  "per_evolving_population": [
+    {
+      "author_population_ID": "l1",
+      "founder_phenotype": "large",
+      "source_header": "Line1_large_area",
+      "raw_source_measured_objects_across_time": 5587,
+      "source_rows": [
+        {
+          "original_xlsx_day_label": "Day1",
+          "author_R_analysis_day": 0,
+          "source_excel_column_1indexed": 1,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1083,
+          "retained_after_explicit_radius_QC": 1083,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 30.676237907442,
+          "mean_radius_um_biomass_weighted_direct": 57.832152877915476,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day5",
+          "author_R_analysis_day": 5,
+          "source_excel_column_1indexed": 2,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1166,
+          "retained_after_explicit_radius_QC": 1166,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 30.160074417137796,
+          "mean_radius_um_biomass_weighted_direct": 56.42281654291472,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day10",
+          "author_R_analysis_day": 10,
+          "source_excel_column_1indexed": 3,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 636,
+          "retained_after_explicit_radius_QC": 636,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 23.26554604839685,
+          "mean_radius_um_biomass_weighted_direct": 43.194114313912294,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day15",
+          "author_R_analysis_day": 15,
+          "source_excel_column_1indexed": 4,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 972,
+          "retained_after_explicit_radius_QC": 972,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 22.025553956115814,
+          "mean_radius_um_biomass_weighted_direct": 35.3838490917675,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day20",
+          "author_R_analysis_day": 20,
+          "source_excel_column_1indexed": 5,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1566,
+          "retained_after_explicit_radius_QC": 1566,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 23.34419378095884,
+          "mean_radius_um_biomass_weighted_direct": 39.21794710122715,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day40",
+          "author_R_analysis_day": 40,
+          "source_excel_column_1indexed": 6,
+          "source_numeric_vector_cross_population_duplicated": true,
+          "original_cluster_objects": 164,
+          "retained_after_explicit_radius_QC": 164,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 29.005551713092462,
+          "mean_radius_um_biomass_weighted_direct": 45.76405913364087,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        }
+      ],
+      "change_day40_minus_first_um_biomass_weighted": -12.068093744274606,
+      "ordinary_population_time_slope_um_per_R_plot_day": -0.3074898163202832,
+      "R_explicit_outlier_trimmed_population_time_slope_um_per_R_plot_day": -0.3074898163202832,
+      "population_timepoints_not_independent_evolved_origins": true
+    },
+    {
+      "author_population_ID": "l3",
+      "founder_phenotype": "large",
+      "source_header": "Line3_large_area",
+      "raw_source_measured_objects_across_time": 7081,
+      "source_rows": [
+        {
+          "original_xlsx_day_label": "Day1",
+          "author_R_analysis_day": 0,
+          "source_excel_column_1indexed": 7,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1620,
+          "retained_after_explicit_radius_QC": 1620,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 29.803426631190472,
+          "mean_radius_um_biomass_weighted_direct": 52.39130511344568,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day5",
+          "author_R_analysis_day": 5,
+          "source_excel_column_1indexed": 8,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1086,
+          "retained_after_explicit_radius_QC": 1086,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 32.16245784117931,
+          "mean_radius_um_biomass_weighted_direct": 60.59995455919865,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day10",
+          "author_R_analysis_day": 10,
+          "source_excel_column_1indexed": 9,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1273,
+          "retained_after_explicit_radius_QC": 1273,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 22.403248201698776,
+          "mean_radius_um_biomass_weighted_direct": 41.43888929280373,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day15",
+          "author_R_analysis_day": 15,
+          "source_excel_column_1indexed": 10,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1528,
+          "retained_after_explicit_radius_QC": 1528,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 22.80268485879079,
+          "mean_radius_um_biomass_weighted_direct": 35.97868997902011,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day20",
+          "author_R_analysis_day": 20,
+          "source_excel_column_1indexed": 11,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1458,
+          "retained_after_explicit_radius_QC": 1458,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 24.49739855031018,
+          "mean_radius_um_biomass_weighted_direct": 44.45097062578441,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day40",
+          "author_R_analysis_day": 40,
+          "source_excel_column_1indexed": 12,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 116,
+          "retained_after_explicit_radius_QC": 116,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 32.7744324375113,
+          "mean_radius_um_biomass_weighted_direct": 46.895341182442515,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        }
+      ],
+      "change_day40_minus_first_um_biomass_weighted": -5.495963931003168,
+      "ordinary_population_time_slope_um_per_R_plot_day": -0.2044251860677055,
+      "R_explicit_outlier_trimmed_population_time_slope_um_per_R_plot_day": -0.2044251860677055,
+      "population_timepoints_not_independent_evolved_origins": true
+    },
+    {
+      "author_population_ID": "l4",
+      "founder_phenotype": "large",
+      "source_header": "Line4_large_area",
+      "raw_source_measured_objects_across_time": 7056,
+      "source_rows": [
+        {
+          "original_xlsx_day_label": "Day1",
+          "author_R_analysis_day": 0,
+          "source_excel_column_1indexed": 13,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1429,
+          "retained_after_explicit_radius_QC": 1429,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 29.02749519537349,
+          "mean_radius_um_biomass_weighted_direct": 54.756466236091434,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day5",
+          "author_R_analysis_day": 5,
+          "source_excel_column_1indexed": 14,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 868,
+          "retained_after_explicit_radius_QC": 868,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 30.563293695819358,
+          "mean_radius_um_biomass_weighted_direct": 64.24234447736255,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day10",
+          "author_R_analysis_day": 10,
+          "source_excel_column_1indexed": 15,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1054,
+          "retained_after_explicit_radius_QC": 1054,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 24.07092562392654,
+          "mean_radius_um_biomass_weighted_direct": 42.31560511605332,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day15",
+          "author_R_analysis_day": 15,
+          "source_excel_column_1indexed": 16,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 869,
+          "retained_after_explicit_radius_QC": 869,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 23.643951920677566,
+          "mean_radius_um_biomass_weighted_direct": 47.579672636112,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day20",
+          "author_R_analysis_day": 20,
+          "source_excel_column_1indexed": 17,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 2504,
+          "retained_after_explicit_radius_QC": 2504,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 19.205405306166757,
+          "mean_radius_um_biomass_weighted_direct": 35.13561368329277,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day40",
+          "author_R_analysis_day": 40,
+          "source_excel_column_1indexed": 18,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 332,
+          "retained_after_explicit_radius_QC": 332,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 32.79812732830867,
+          "mean_radius_um_biomass_weighted_direct": 48.30132807637885,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        }
+      ],
+      "change_day40_minus_first_um_biomass_weighted": -6.4551381597125825,
+      "ordinary_population_time_slope_um_per_R_plot_day": -0.2921371935693285,
+      "R_explicit_outlier_trimmed_population_time_slope_um_per_R_plot_day": -0.2921371935693285,
+      "population_timepoints_not_independent_evolved_origins": true
+    },
+    {
+      "author_population_ID": "s1",
+      "founder_phenotype": "small",
+      "source_header": "Line1_small_area",
+      "raw_source_measured_objects_across_time": 4830,
+      "source_rows": [
+        {
+          "original_xlsx_day_label": "Day1",
+          "author_R_analysis_day": 0,
+          "source_excel_column_1indexed": 19,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1046,
+          "retained_after_explicit_radius_QC": 1046,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 11.286240525687894,
+          "mean_radius_um_biomass_weighted_direct": 13.497419439063545,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day5",
+          "author_R_analysis_day": 5,
+          "source_excel_column_1indexed": 20,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 2050,
+          "retained_after_explicit_radius_QC": 2050,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 10.477337628508613,
+          "mean_radius_um_biomass_weighted_direct": 14.04653914618591,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day10",
+          "author_R_analysis_day": 10,
+          "source_excel_column_1indexed": 21,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 537,
+          "retained_after_explicit_radius_QC": 537,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 12.029022329084228,
+          "mean_radius_um_biomass_weighted_direct": 14.220252862266264,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day15",
+          "author_R_analysis_day": 15,
+          "source_excel_column_1indexed": 22,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 265,
+          "retained_after_explicit_radius_QC": 265,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 13.173145255495035,
+          "mean_radius_um_biomass_weighted_direct": 16.758274707813655,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day20",
+          "author_R_analysis_day": 20,
+          "source_excel_column_1indexed": 23,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 768,
+          "retained_after_explicit_radius_QC": 768,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 10.684172937424094,
+          "mean_radius_um_biomass_weighted_direct": 13.074673266451562,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day40",
+          "author_R_analysis_day": 40,
+          "source_excel_column_1indexed": 24,
+          "source_numeric_vector_cross_population_duplicated": true,
+          "original_cluster_objects": 164,
+          "retained_after_explicit_radius_QC": 164,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 29.005551713092462,
+          "mean_radius_um_biomass_weighted_direct": 45.76405913364087,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        }
+      ],
+      "change_day40_minus_first_um_biomass_weighted": 32.26663969457732,
+      "ordinary_population_time_slope_um_per_R_plot_day": 0.795446897314136,
+      "R_explicit_outlier_trimmed_population_time_slope_um_per_R_plot_day": 0.795446897314136,
+      "population_timepoints_not_independent_evolved_origins": true
+    },
+    {
+      "author_population_ID": "s2",
+      "founder_phenotype": "small",
+      "source_header": "Line2_small_area",
+      "raw_source_measured_objects_across_time": 6155,
+      "source_rows": [
+        {
+          "original_xlsx_day_label": "Day1",
+          "author_R_analysis_day": 0,
+          "source_excel_column_1indexed": 25,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 855,
+          "retained_after_explicit_radius_QC": 855,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 12.671801192719377,
+          "mean_radius_um_biomass_weighted_direct": 14.940439725862692,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day5",
+          "author_R_analysis_day": 5,
+          "source_excel_column_1indexed": 26,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1285,
+          "retained_after_explicit_radius_QC": 1285,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 11.815654082950338,
+          "mean_radius_um_biomass_weighted_direct": 15.371513097765549,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day10",
+          "author_R_analysis_day": 10,
+          "source_excel_column_1indexed": 27,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1415,
+          "retained_after_explicit_radius_QC": 1415,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 12.101948934155576,
+          "mean_radius_um_biomass_weighted_direct": 57.07588369480787,
+          "source_R_explicit_radius_outlier_filter_gt_100": true,
+          "corresponding_trimmed_sensitivity": {
+            "original_cluster_objects": 1415,
+            "retained_after_explicit_radius_QC": 1413,
+            "removed_after_explicit_radius_QC": 2,
+            "mean_radius_um_cluster_count_weighted": 11.967887786366527,
+            "mean_radius_um_biomass_weighted_direct": 14.377421815674472
+          }
+        },
+        {
+          "original_xlsx_day_label": "Day15",
+          "author_R_analysis_day": 15,
+          "source_excel_column_1indexed": 28,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 616,
+          "retained_after_explicit_radius_QC": 616,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 11.235297155279582,
+          "mean_radius_um_biomass_weighted_direct": 15.310056473194278,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day20",
+          "author_R_analysis_day": 20,
+          "source_excel_column_1indexed": 29,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1511,
+          "retained_after_explicit_radius_QC": 1511,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 12.716834163651235,
+          "mean_radius_um_biomass_weighted_direct": 18.59746688526111,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day40",
+          "author_R_analysis_day": 40,
+          "source_excel_column_1indexed": 30,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 473,
+          "retained_after_explicit_radius_QC": 473,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 16.971469633608038,
+          "mean_radius_um_biomass_weighted_direct": 27.538151488366832,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        }
+      ],
+      "change_day40_minus_first_um_biomass_weighted": 12.59771176250414,
+      "ordinary_population_time_slope_um_per_R_plot_day": 0.11823997629584113,
+      "R_explicit_outlier_trimmed_population_time_slope_um_per_R_plot_day": 0.33173228569150814,
+      "population_timepoints_not_independent_evolved_origins": true
+    },
+    {
+      "author_population_ID": "s3",
+      "founder_phenotype": "small",
+      "source_header": "Line3_small_area",
+      "raw_source_measured_objects_across_time": 7234,
+      "source_rows": [
+        {
+          "original_xlsx_day_label": "Day1",
+          "author_R_analysis_day": 0,
+          "source_excel_column_1indexed": 31,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1397,
+          "retained_after_explicit_radius_QC": 1397,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 11.709940368895898,
+          "mean_radius_um_biomass_weighted_direct": 14.72514536980607,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day5",
+          "author_R_analysis_day": 5,
+          "source_excel_column_1indexed": 32,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1390,
+          "retained_after_explicit_radius_QC": 1390,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 10.995140690777337,
+          "mean_radius_um_biomass_weighted_direct": 13.580660376537752,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day10",
+          "author_R_analysis_day": 10,
+          "source_excel_column_1indexed": 33,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1348,
+          "retained_after_explicit_radius_QC": 1348,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 10.327699670557836,
+          "mean_radius_um_biomass_weighted_direct": 13.087820020710994,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day15",
+          "author_R_analysis_day": 15,
+          "source_excel_column_1indexed": 34,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 682,
+          "retained_after_explicit_radius_QC": 682,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 10.026953778917006,
+          "mean_radius_um_biomass_weighted_direct": 14.39082271980445,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day20",
+          "author_R_analysis_day": 20,
+          "source_excel_column_1indexed": 35,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1846,
+          "retained_after_explicit_radius_QC": 1846,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 12.251907773605648,
+          "mean_radius_um_biomass_weighted_direct": 15.411120334974289,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day40",
+          "author_R_analysis_day": 40,
+          "source_excel_column_1indexed": 36,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 571,
+          "retained_after_explicit_radius_QC": 571,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 16.116543361203437,
+          "mean_radius_um_biomass_weighted_direct": 22.66543317243449,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        }
+      ],
+      "change_day40_minus_first_um_biomass_weighted": 7.94028780262842,
+      "ordinary_population_time_slope_um_per_R_plot_day": 0.22156854656971015,
+      "R_explicit_outlier_trimmed_population_time_slope_um_per_R_plot_day": 0.22156854656971015,
+      "population_timepoints_not_independent_evolved_origins": true
+    },
+    {
+      "author_population_ID": "s4",
+      "founder_phenotype": "small",
+      "source_header": "Line4_small_area",
+      "raw_source_measured_objects_across_time": 6967,
+      "source_rows": [
+        {
+          "original_xlsx_day_label": "Day1",
+          "author_R_analysis_day": 0,
+          "source_excel_column_1indexed": 37,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1660,
+          "retained_after_explicit_radius_QC": 1660,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 11.544735331839227,
+          "mean_radius_um_biomass_weighted_direct": 14.589511883624377,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day5",
+          "author_R_analysis_day": 5,
+          "source_excel_column_1indexed": 38,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1088,
+          "retained_after_explicit_radius_QC": 1088,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 11.785646006586147,
+          "mean_radius_um_biomass_weighted_direct": 14.572431427132004,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day10",
+          "author_R_analysis_day": 10,
+          "source_excel_column_1indexed": 39,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1318,
+          "retained_after_explicit_radius_QC": 1318,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 11.138662851673024,
+          "mean_radius_um_biomass_weighted_direct": 13.571209518605231,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day15",
+          "author_R_analysis_day": 15,
+          "source_excel_column_1indexed": 40,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 878,
+          "retained_after_explicit_radius_QC": 878,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 11.550737128561535,
+          "mean_radius_um_biomass_weighted_direct": 13.281015825711942,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day20",
+          "author_R_analysis_day": 20,
+          "source_excel_column_1indexed": 41,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 1530,
+          "retained_after_explicit_radius_QC": 1530,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 10.858322619694073,
+          "mean_radius_um_biomass_weighted_direct": 14.21437211698287,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        },
+        {
+          "original_xlsx_day_label": "Day40",
+          "author_R_analysis_day": 40,
+          "source_excel_column_1indexed": 42,
+          "source_numeric_vector_cross_population_duplicated": false,
+          "original_cluster_objects": 493,
+          "retained_after_explicit_radius_QC": 493,
+          "removed_after_explicit_radius_QC": 0,
+          "mean_radius_um_cluster_count_weighted": 15.654112822827399,
+          "mean_radius_um_biomass_weighted_direct": 21.088045114643215,
+          "source_R_explicit_radius_outlier_filter_gt_100": false,
+          "corresponding_trimmed_sensitivity": null
+        }
+      ],
+      "change_day40_minus_first_um_biomass_weighted": 6.498533231018838,
+      "ordinary_population_time_slope_um_per_R_plot_day": 0.16584994833228286,
+      "R_explicit_outlier_trimmed_population_time_slope_um_per_R_plot_day": 0.16584994833228286,
+      "population_timepoints_not_independent_evolved_origins": true
+    }
+  ],
+  "independent_replay_population_summary": {
+    "small": {
+      "independent_original_monoculture_replay_population_n": 4,
+      "population_IDs": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "all_replay_lines_change_towards_intermediate_size": true,
+      "mean_per_line_day40_minus_initial_um": 14.82579312268218,
+      "min_per_line_day40_minus_initial_um": 6.498533231018838,
+      "max_per_line_day40_minus_initial_um": 32.26663969457732,
+      "mean_per_line_linear_slope_um_per_day": 0.3252763421279925,
+      "population_slope_values": [
+        0.795446897314136,
+        0.11823997629584113,
+        0.22156854656971015,
+        0.16584994833228286
+      ],
+      "population_day40_minus_first_values": [
+        32.26663969457732,
+        12.59771176250414,
+        7.94028780262842,
+        6.498533231018838
+      ],
+      "trimmed_R_source_quality_control_mean_slope": 0.3786494194769093,
+      "population_IDs_not_cluster_measures_are_independent_units": true
+    },
+    "large": {
+      "independent_original_monoculture_replay_population_n": 3,
+      "population_IDs": [
+        "l1",
+        "l3",
+        "l4"
+      ],
+      "all_replay_lines_change_towards_intermediate_size": true,
+      "mean_per_line_day40_minus_initial_um": -8.006398611663451,
+      "min_per_line_day40_minus_initial_um": -12.068093744274606,
+      "max_per_line_day40_minus_initial_um": -5.495963931003168,
+      "mean_per_line_linear_slope_um_per_day": -0.26801739865243907,
+      "population_slope_values": [
+        -0.3074898163202832,
+        -0.2044251860677055,
+        -0.2921371935693285
+      ],
+      "population_day40_minus_first_values": [
+        -12.068093744274606,
+        -5.495963931003168,
+        -6.4551381597125825
+      ],
+      "trimmed_R_source_quality_control_mean_slope": -0.26801739865243907,
+      "population_IDs_not_cluster_measures_are_independent_units": true
+    }
+  },
+  "between_founder_phenotypes_exploratory_label_sensitivity": {
+    "observed_small_minus_large_mean_slope": 0.5932937407804315,
+    "seven_line_source_label_partition_count": 35,
+    "extreme_partition_count": 1,
+    "two_sided_reference_fraction": 0.02857142857142857,
+    "reference_only_not_a_randomized_label_test": true,
+    "no_cluster_or_time_cell_pseudoreplication": true,
+    "includes_two_cross_population_duplicated_day40_endpoints": true,
+    "not_eligible_as_primary_source_QA_inference": true
+  },
+  "interpretation_ceiling": {
+    "not_a_randomly_allocated_lineage_treatment": true,
+    "same_source_programme_as_parent_Pineau2024": true,
+    "unavailable_original_separate_image_raw_files": true,
+    "direct_volume_weighted_estimator_differs_from_author_1500_bin_approx": true,
+    "not_five_replays_per_phenotype_in_author_code_or_workbook": true,
+    "both_duplicated_day40_endpoints_quarantined_not_arbitrarily_assigned": true,
+    "population_repeated_timepoints_not_42_independent_origins": true,
+    "original_source_inconsistent_four_or_five_per_type_unresolved": true,
+    "no_genotypic_module_splitting_or_theoretical_Ku_calibrated": true
+  }
+}
