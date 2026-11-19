@@ -205,11 +205,55 @@ def f2_reanalysis(sheet: dict, expected_series: int) -> dict:
     if any(not (0<=v<=1) for v in starts+ends):
         raise ValueError("competition proportion outside [0,1]")
     fit=fit_ols(starts,[end-start for start,end in zip(starts,ends)])
-    return {"documented_author_script_series_count":expected_series,
-            "original_sheet_active_series":len(active),
-            "complete_trajectory_count":len(usable),
-            "incomplete_active_excel_columns": [j+1 for j in active if j not in usable],
-            "first_last_fit":fit}
+    output = {
+        "documented_author_script_series_count": expected_series,
+        "original_sheet_active_series": len(active),
+        "complete_trajectory_count": len(usable),
+        "incomplete_active_excel_columns": [j+1 for j in active if j not in usable],
+        "first_last_fit": fit,
+    }
+    if expected_series == 8:
+        # Full individual competition trajectories are the resampling unit.
+        # These 8 correlated refits are not 8 biological evolution origins.
+        loo = []
+        for k in range(len(starts)):
+            subx = [v for j,v in enumerate(starts) if j != k]
+            suby = [v-u for j,(u,v) in enumerate(zip(starts,ends)) if j != k]
+            loo.append(fit_ols(subx,suby)["equilibrium_if_slope_nonzero"])
+        if any(x is None or not 0 <= x <= 1 for x in loo):
+            raise ValueError("LOO standard oxygen equilibrium out of biological frequency range")
+        output["standard_O2_whole_competition_leave_one_out"] = {
+            "refits": len(loo),
+            "minimum_zero_change_frequency": min(loo),
+            "maximum_zero_change_frequency": max(loo),
+            "descriptive_influence_only_not_independent_studies": True,
+        }
+    elif expected_series == 7:
+        # Test how source n=7 differs from hypothetical report n=6 (or
+        # Methods n=5). Because the identifiers do not explain exclusions,
+        # report ALL omissions, never choose the most favorable subset.
+        from itertools import combinations
+        by_n = {}
+        for n in (6, 5):
+            vals = [statistics.mean(ends[i] for i in ids)
+                    for ids in combinations(range(len(ends)), n)]
+            if not vals:
+                raise ValueError("no high O2 source series for sensitivity")
+            by_n[str(n)] = {
+                "possible_subsets": len(vals),
+                "minimum_end_fraction": min(vals),
+                "maximum_end_fraction": max(vals),
+                "cannot_identify_published_exclusion": True,
+            }
+        output["high_O2_unknown_exclusion_sensitivity"] = by_n
+        output["high_O2_fitted_zero_crossing_extrapolates_beyond_starting_frequency_range"] = (
+            fit["equilibrium_if_slope_nonzero"] is None
+            or fit["equilibrium_if_slope_nonzero"] > max(starts)
+            or fit["equilibrium_if_slope_nonzero"] < min(starts)
+        )
+        output["high_O2_fitted_zero_crossing_not_an_estimated_equilibrium"] = True
+        output["high_O2_source_n7_vs_caption_n6_vs_methods_n5_unresolved"] = True
+    return output
 
 
 def analyze_workbook(raw: bytes) -> dict:
