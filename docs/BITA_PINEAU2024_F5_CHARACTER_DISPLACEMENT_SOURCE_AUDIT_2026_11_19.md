@@ -2,6 +2,31 @@
 
 **2026-11-19.** This is a stacked, additive follow-up to [PR #381](https://github.com/zuizui0223/bita/pull/381). Active BITA mechanism-identification and SLK architecture theory remain frozen and untouched.
 
+
+## Source-data identity correction and conservative primary result
+
+**A critical original-data duplicate was verified.** In the unchanged, hash-verified author workbook Fig5A, Excel column 6 (large l1, Day40) and column 24 (small s1, Day40) contain exactly the same 164 (Excel row, numerical cluster area) pairs. This is an exact repeated measurement vector under two different putatively independent population labels, not an accidental match in derived means. The authors' R source loader names different raw microscopy image files for the two populations, but those original separate image files are not available in the connected GitHub source. There is no source-backed way to decide which Day40 column is correct. **Both are quarantined**, rather than arbitrarily accepting one.
+
+| Original independent replay | Founding type | Direct Day40 minus initial mean radius (μm) | Source QA |
+|---|---|---:|---|
+| l1 | Large | −12.0681 | Quarantined: Day40 source duplicate |
+| l3 | Large | −5.4960 | Pass |
+| l4 | Large | −6.4551 | Pass |
+| s1 | Small | +32.2666 | Quarantined: Day40 source duplicate |
+| s2 | Small | +12.5977 | Pass |
+| s3 | Small | +7.9403 | Pass |
+| s4 | Small | +6.4985 | Pass |
+
+**Primary source-validated endpoint after quarantine:** among three independently verified Small replays, mean Day40 minus initial radius **+9.0122 μm** (range +6.4985 to +12.5977 μm); among two verified Large replays, **−5.9756 μm** (range −6.4551 to −5.4960 μm). These **five** available independent population endpoints all move toward intermediate size under competitor removal. The raw unfiltered Small +14.8258 μm and Large −8.0064 μm means are demoted to *source-QA diagnostics*, not the main scientific result.
+
+**No inference about the two excluded Day40 endpoints:** l1 had a Day20 minus initial decrease of −18.6142 μm, while s1 had a Day20 minus initial change of −0.4227 μm, approximately unchanged. Therefore one may not rescue the claim that all seven lines moved toward the middle at Day40 by substituting observations from Day20.
+
+**No overconfident p value:** the seven-line exploratory 1/35 absolute label permutation reference includes the two duplicated Day40 source values; Small versus Large founding genotypes also were not randomized. It is an invalid confirmatory test of the current post-QA claim. The article's F(1,38) ANCOVA interaction similarly uses repeated time points and cannot be interpreted as 40 independent replay evolutions.
+
+**Source figure and preprocessing boundary:** Fig5A is 42 population-time columns containing 44,910 original cluster-area numeric cells. The science code converts each positive area to radius and volume and computes a direct biomass-weighted mean radius. It is not exactly the same as the original R code's 1,500-bin midpoint approximation; the known s2 Day10 >100-μm trimming is recorded as a sensitivity only, not silently applied to the Day40 primary endpoint. Original Figure 5 caption 5/5 versus Methods 4/4 versus R plotted 3 Large+4 Small remains unresolved.
+
+Reproduction: scripts/analyze_bita_pineau2024_f5_replay.py and the SHA-verified GitHub Actions workflow regenerate empirical/trait_architecture_history/pineau2024_f5_original_replay_readout.json. The tests assert the exact 164-row duplicate and the n=3 Small/n=2 Large conservative evidence gate. This remains a Draft branch and one research programme, with no merge or changes to the active BITA manuscript and SLK theory.
+
 ## Biological question
 
 Does removing the ecological competitor from the already-diverged PO-4 Small and Large snowflake yeast isolate pair produce directional evolution back toward intermediate group sizes? This is a **direct evolutionary replay under competitor removal** within the Pineau et al. (2024) programme, DOI [10.1038/s41559-024-02367-y](https://doi.org/10.1038/s41559-024-02367-y). It is stronger mechanistic evidence for competition-mediated character displacement than an equilibrium frequency alone, but no more than *one source programme with a few independent replay cultures*. It does not prove the historical genomic origin of an individual-level architecture or an independently measured trade-off between two within-organism functional modules.
