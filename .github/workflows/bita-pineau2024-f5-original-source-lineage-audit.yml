@@ -6,6 +6,9 @@ on:
       - '.github/workflows/bita-pineau2024-f5-original-source-lineage-audit.yml'
       - 'scripts/audit_bita_pineau2024_f5_source.py'
       - 'tests/test_bita_pineau2024_f5_source.py'
+      - 'scripts/analyze_bita_pineau2024_f5_replay.py'
+      - 'tests/test_bita_pineau2024_f5_replay.py'
+      - 'empirical/trait_architecture_history/pineau2024_f5_original_replay_readout.json'
       - 'empirical/trait_architecture_history/pineau2024_f5_original_source_inventory.json'
   pull_request:
     branches: ['analysis/bita-pineau2024-workbook-f2-20261119']
@@ -66,10 +69,17 @@ jobs:
             --load-r /tmp/pineau2024_F5_source/F5_load-data.R \
             --plot-r /tmp/pineau2024_F5_source/F5_plot_mean_versus_time_biomass_transformed.R \
             --output /tmp/pineau2024_f5_source_inventory.json
+      - name: Reanalyze all 42 original Figure5A area-measurement columns at n=7 population grain
+        run: |
+          python -m scripts.analyze_bita_pineau2024_f5_replay \
+            --xlsx /tmp/pineau2024_F5_source/original.xlsx \
+            --load-r /tmp/pineau2024_F5_source/F5_load-data.R \
+            --plot-r /tmp/pineau2024_F5_source/F5_plot_mean_versus_time_biomass_transformed.R \
+            --output /tmp/pineau2024_f5_replay_science.json
       - name: Fail-closed regression/unit tests
         run: |
           python -m pip install 'pytest>=8,<10'
-          python -m pytest -q tests/test_bita_pineau2024_f5_source.py
+          python -m pytest -q tests/test_bita_pineau2024_f5_source.py tests/test_bita_pineau2024_f5_replay.py
       - name: Check frozen original-data summary, when present
         run: |
           python - <<'PY'
@@ -85,10 +95,23 @@ jobs:
           else:
               print('BITA_PINEAU_F5_ORIGINAL_SOURCE_FROZEN_ROUNDTRIP:AWAITING_FREEZE',flush=True)
           print('BITA_PINEAU_F5_AGGREGATE_JSON:'+json.dumps(current,separators=(',',':')),flush=True)
+          source_replay=Path('/tmp/pineau2024_f5_replay_science.json')
+          replay=json.loads(source_replay.read_text())
+          replay_freeze=Path('empirical/trait_architecture_history/pineau2024_f5_original_replay_readout.json')
+          if replay_freeze.exists():
+              if replay != json.loads(replay_freeze.read_text()):
+                  raise ValueError('original author Fig5A direct measurement trajectories differ from freeze')
+              print('BITA_PINEAU_F5_REPLAY_FROZEN_ROUNDTRIP:PASS',flush=True)
+          else:
+              print('BITA_PINEAU_F5_REPLAY_FROZEN_ROUNDTRIP:AWAITING_FREEZE',flush=True)
+          print('BITA_PINEAU_F5_REPLAY_FULL_JSON:'+
+                json.dumps(replay,separators=(',',':')),flush=True)
           PY
       - uses: actions/upload-artifact@v4
         with:
           name: bita-pineau2024-character-displacement-original-source-inventory
-          path: /tmp/pineau2024_f5_source_inventory.json
+          path: |
+            /tmp/pineau2024_f5_source_inventory.json
+            /tmp/pineau2024_f5_replay_science.json
           if-no-files-found: error
           retention-days: 30
