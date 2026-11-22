@@ -1,0 +1,140 @@
+name: bita-pineau2024-official-publisher-supplement-source-adjudication
+on:
+  push:
+    branches: ['analysis/bita-pineau2024-publisher-source-adjudication-20261122']
+    paths:
+      - '.github/workflows/bita-pineau2024-official-publisher-supplement-source-adjudication.yml'
+      - 'scripts/audit_bita_pineau2024_publisher_source.py'
+      - 'tests/test_bita_pineau2024_publisher_source.py'
+      - 'empirical/trait_architecture_history/pineau2024_publisher_source_adjudication.json'
+  pull_request:
+    branches: ['analysis/bita-pineau2024-f5-character-displacement-20261119']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publisher-independent-source-adjudication:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download immutable author's original source and attempt official publisher deposits
+        run: |
+          python - <<'PY'
+          import io, json, pathlib, urllib.request, urllib.error
+          from scripts.audit_bita_pineau2024_publisher_source import (
+              SOURCE_DOI_GITHUB_COMMIT, SUPPLEMENT_NAME,
+              find_named_publisher_xlsx,
+          )
+          from scripts.audit_bita_pineau2024_f2_workbook import verify_author_bytes
+          base='https://raw.githubusercontent.com/Ratcliff-Lab/coexistence-paper/'
+          author_url=(base+SOURCE_DOI_GITHUB_COMMIT+
+                      '/data_used_to_generate_figs_in_coexistence_paper.xlsx')
+          def get(url,maxbytes=9000000):
+              req=urllib.request.Request(url,headers={
+                  'User-Agent':'BITA-single-paper-official-source-adjudication/1.0',
+                  'Accept':'application/octet-stream,application/zip,*/*',
+              })
+              with urllib.request.urlopen(req,timeout=40) as response:
+                  data=response.read(maxbytes+1)
+              if len(data)>maxbytes:raise ValueError('single source exceeds maxbytes')
+              return data
+          work=pathlib.Path('/tmp/bita_pineau_publisher')
+          work.mkdir(parents=True,exist_ok=True)
+          author=get(author_url)
+          print('BITA_PINEAU_AUTHOR_BYTES:'+str(verify_author_bytes(author)),flush=True)
+          (work/'author.xlsx').write_bytes(author)
+          official=[
+              ('PMC_author_manuscript_source_data',
+               'https://pmc.ncbi.nlm.nih.gov/articles/PMC11090753/bin/'
+               +SUPPLEMENT_NAME),
+              ('Europe_PMC_official_supplementary_archive',
+               'https://www.ebi.ac.uk/europepmc/webservices/rest/'
+               'PMC11090753/supplementaryFiles?includeInlineImage=false'),
+          ]
+          receipts=[]
+          selected=None
+          publisher_url=None
+          member=None
+          for label,url in official:
+              try:
+                  raw=get(url)
+                  name=SUPPLEMENT_NAME if label.startswith('PMC_') else 'official_supplementary.zip'
+                  candidate,member_name=find_named_publisher_xlsx(raw,name)
+                  receipt={'provider':label,'url':url,'status':'downloaded',
+                           'received_bytes':len(raw),'recognized_source':candidate is not None,
+                           'entry_or_reason':member_name}
+                  if candidate is not None and selected is None:
+                      selected=candidate;publisher_url=url;member=member_name
+              except urllib.error.HTTPError as ex:
+                  receipt={'provider':label,'url':url,'status':'http_error',
+                           'http_status':ex.code,'recognized_source':False}
+              except (urllib.error.URLError,TimeoutError,ValueError) as ex:
+                  receipt={'provider':label,'url':url,'status':'inaccessible_or_invalid',
+                           'error_type':type(ex).__name__,'recognized_source':False}
+              receipts.append(receipt)
+              print('BITA_PINEAU_PUBLISHER_SOURCE_ATTEMPT:'+json.dumps(receipt,sort_keys=True),flush=True)
+          if selected is not None:
+              (work/'publisher.xlsx').write_bytes(selected)
+          (work/'fetch_receipts.json').write_text(json.dumps(receipts,indent=2)+'\n',encoding='utf8')
+          (work/'publisher_meta.json').write_text(json.dumps({
+              'publisher_url':publisher_url,'archive_member':member})+'\n',encoding='utf8')
+          PY
+      - name: Compare original author and actual official source vectors and freeze source status
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          from scripts.audit_bita_pineau2024_publisher_source import audit
+          work=pathlib.Path('/tmp/bita_pineau_publisher')
+          meta=json.loads((work/'publisher_meta.json').read_text())
+          publisher=work/'publisher.xlsx'
+          d=audit(
+              (work/'author.xlsx').read_bytes(),
+              publisher.read_bytes() if publisher.exists() else None,
+              meta['publisher_url'],
+              json.loads((work/'fetch_receipts.json').read_text()),
+              meta['archive_member'],
+          )
+          target=work/'readout.json'
+          target.write_text(json.dumps(d,indent=2,ensure_ascii=False,allow_nan=False)+'\n')
+          print('BITA_PINEAU_OFFICIAL_PUBLISHER_COMPARE:'+
+                json.dumps(d['publisher_comparison'],sort_keys=True),flush=True)
+          print('BITA_PINEAU_OFFICIAL_FULL_AGGREGATE_JSON:'+
+                json.dumps(d,separators=(',',':')),flush=True)
+          PY
+      - name: Validate exact named-source, vector-fingerprint and no-pseudoreplication tests
+        run: |
+          python -m pip install 'pytest>=8,<10'
+          python -m pytest -q tests/test_bita_pineau2024_publisher_source.py
+      - name: Source receipt roundtrip and unavailable-status gate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          work=Path('/tmp/bita_pineau_publisher')
+          d=json.loads((work/'readout.json').read_text())
+          frozen=Path('empirical/trait_architecture_history/pineau2024_publisher_source_adjudication.json')
+          if frozen.exists():
+              if d != json.loads(frozen.read_text()):
+                  raise ValueError('official publisher original source status/measurements differ from frozen receipt')
+              print('BITA_PINEAU_PUBLISHER_SOURCE_FROZEN_ROUNDTRIP:PASS')
+          else:
+              print('BITA_PINEAU_PUBLISHER_SOURCE_FROZEN_ROUNDTRIP:AWAITING_FIRST_FREEZE')
+          if d['publisher_source_downloaded']:
+              q=d['publisher_comparison']
+              if q['status']!='publisher_independent_distribution_retrieved':
+                  raise ValueError('source retrieval and source analysis disagree')
+              print('BITA_PINEAU_PUBLISHER_SOURCE_GRADE:SOURCE_AVAILABLE')
+          else:
+              assert d['publisher_comparison']['status']=='publisher_independent_raw_bytes_not_retrieved'
+              print('BITA_PINEAU_PUBLISHER_SOURCE_GRADE:ACCESS_BLOCKED_NOT_ADJUDICATED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-pineau2024-official-publisher-source-derived-adjudication
+          path: /tmp/bita_pineau_publisher/readout.json
+          if-no-files-found: error
+          retention-days: 30
