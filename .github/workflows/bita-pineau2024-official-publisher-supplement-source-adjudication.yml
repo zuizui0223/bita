@@ -80,8 +80,22 @@ jobs:
               except (urllib.error.URLError,TimeoutError,ValueError) as ex:
                   receipt={'provider':label,'url':url,'status':'inaccessible_or_invalid',
                            'error_type':type(ex).__name__,'recognized_source':False}
-              receipts.append(receipt)
               print('BITA_PINEAU_PUBLISHER_SOURCE_ATTEMPT:'+json.dumps(receipt,sort_keys=True),flush=True)
+              # A publisher server fluctuates between HTTP 404 and HTTP
+              # 200 with a non-XLSX error page. Both are biologically the
+              # same source grade: NO USABLE SECOND WORKBOOK. Preserve exact
+              # transport status in logs, but freeze only the source outcome.
+              canonical={
+                  'provider':label,
+                  'url':url,
+                  'recognized_source':receipt['recognized_source'],
+                  'source_grade':('verified_workbook' if receipt['recognized_source']
+                                  else 'no_valid_workbook'),
+              }
+              if receipt['recognized_source']:
+                  canonical['verified_publisher_xlsx_bytes']=len(candidate)
+                  canonical['publisher_entry']=member_name
+              receipts.append(canonical)
           if selected is not None:
               (work/'publisher.xlsx').write_bytes(selected)
           (work/'fetch_receipts.json').write_text(json.dumps(receipts,indent=2)+'\n',encoding='utf8')
