@@ -1,0 +1,110 @@
+{
+  "source_doi": "10.1038/s41559-024-02367-y",
+  "publisher_article_pmcid": "PMC11090753",
+  "original_publisher_supplement_name": "NIHMS1986110-supplement-Source_data.xlsx",
+  "original_publisher_article_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11090753/",
+  "original_author_source_receipt": {
+    "author_commit": "071affa79f16f0a469f099058372a7488c35c0c2",
+    "git_blob_sha1": "8f7d01b388489374aba210db96495f387d4338e2",
+    "sha256": "b6bc44d5085344292b5b33cac81369652b25e56f0947c1057cfc00ae4947057f",
+    "source_bytes": 1535384
+  },
+  "publisher_source_attempts": [
+    {
+      "provider": "PMC_author_manuscript_source_data",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11090753/bin/NIHMS1986110-supplement-Source_data.xlsx",
+      "status": "http_error",
+      "http_status": 404,
+      "recognized_source": false
+    },
+    {
+      "provider": "Europe_PMC_official_supplementary_archive",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11090753/supplementaryFiles?includeInlineImage=false",
+      "status": "downloaded",
+      "received_bytes": 292,
+      "recognized_source": false,
+      "entry_or_reason": "not_an_xlsx_or_zip"
+    }
+  ],
+  "publisher_source_downloaded": false,
+  "publisher_source_url": null,
+  "publisher_source_archive_member": null,
+  "original_author_Fig5A_exact_cross_population_duplicate": {
+    "all_original_measurement_columns": 42,
+    "exact_duplicate_source_column_pairs": [
+      {
+        "left_population": "l1",
+        "left_original_day": "Day40",
+        "left_excel_column_1indexed": 6,
+        "right_population": "s1",
+        "right_original_day": "Day40",
+        "right_excel_column_1indexed": 24,
+        "identical_excel_row_and_numeric_value_pairs": 164,
+        "cross_independent_evolution_population": true
+      }
+    ],
+    "cross_population_duplicate_pairs": 1,
+    "cross_population_suspect_excel_columns_1indexed": [
+      6,
+      24
+    ],
+    "no_independent_endpoints_claim_for_duplicated_columns": true
+  },
+  "original_author_Fig5A_source_column_sha256": {
+    "1": "b53e8705689968b708c61d3665850cf61bf24d5658d866aeffacd6fc243dd67f",
+    "2": "d82dbfc63b4cc502c095cb12f68dc9d77f4d92e37e5c7844554f115e12199189",
+    "3": "64cc3af865c4788a58609039bcfaa32530f7b68fefa728c08a2df43e80178841",
+    "4": "6a57b480d3ef28c259aea3d2cf9e9588026c30a056c1f94c5f73734049e0c632",
+    "5": "101cd35db259af4a925f53e80311c49a41f10b1bbf8070c7b656007e706bb7a7",
+    "6": "51cc4ba233b1e248db2a16ceafb794566cf09047de7f1c91b99a30dec00f130f",
+    "7": "0c93e285e13328a996b82d7e83c427ac9fa426699e851c988ed9d735bb7b96d1",
+    "8": "4e6cb2e6fc33ab60748da10a555d39eb33683eac497d2b132ecacc69ed0c7dd6",
+    "9": "3985dbf3b59a600453c905490c1e3bfd5e45433da6ce292f8d24320171951a9e",
+    "10": "9bb9107f1a5fcbf4237c8f263f23ef579713dbdb7001cff8581190bd46a0b3e0",
+    "11": "75033fbd8a1d44a9e9febe9769072b71cf1160fff6952431ddc5bb5f093bfee0",
+    "12": "40e064dcd6e069dbe7b16bb7219fd4de67d5964aa20c907328dc485fb3d986d3",
+    "13": "ea4e705bfda47e084918f0a38f16860ba4e03d22ff11d9cc8eb95498d3a982bd",
+    "14": "311b87bcb802ad2b67b1b0f9acb2f076334c3e2f3d98651652ae93891cef6e37",
+    "15": "8bc1f951162e975a3f6119efb6758487862cca261419a9d9f24128b40af0fa90",
+    "16": "6f7dfc2ea90e78ec308671b9b2d050e0465be4a4173071ca36680a8147d1def9",
+    "17": "01fa8478d84eeeb41bb99f87736938b40570f286a594c8462a89051593fab363",
+    "18": "ab8b50a13f374b83660063b4cf70e7c712a7b8f676f480ac1221c93e3c74b1e7",
+    "19": "af4b8b7d182cd8996d3b206d8befcfb77edc56342691d274da8a9d2fdf1752ed",
+    "20": "8068fef4f4bab17707a59f1111072c8080fd2067199cbd86872f108ba0d79c2e",
+    "21": "dcf2e21071247bf21d0d536a3a78592d35965728ff69674ab0053ddedca1b3c5",
+    "22": "7030816857a54d53aaf2db8711fb9c2728c4cb77014d9a1587955d2a5d820d3c",
+    "23": "a96546a185a104c06f86680b5ed6353e266795e816ebaf86c7843433d32321c9",
+    "24": "51cc4ba233b1e248db2a16ceafb794566cf09047de7f1c91b99a30dec00f130f",
+    "25": "d87b27525fa9ebc62a4c98b27bd52dc31d6a7153719f4db15f82963a5722079c",
+    "26": "3245bbdc2d99bd5a6a416d17ce4509dd283d281b5f3e6ae9fdbfd6e230ce007b",
+    "27": "eb67fbe6819a4d087c8c4886d39786a7c4b05cb64b46a51c96747a82f5337ae1",
+    "28": "7f07e1157ce55ec54f32cb4d77922626abb7c11ec82ae92294173fdaee58e0b1",
+    "29": "c10d082d8d599750451da9d43900b6a0c21871e982e1fcb146122e68b048e8fb",
+    "30": "7d2a2b4f16162401f67293d1c71eaf8cfa00de304524100e78d9957b07bed5cf",
+    "31": "37a9f7df35dc1f609fab28219f775176c1346516995678ccc0df32c2cc440fab",
+    "32": "fd5f9be52cdcc248981502414a37791cd78c85a06b73b10f57f3f862334b5541",
+    "33": "c4313a7141e5c43fff6fa9d357a2365f7e11d4774e1e429b3f70a796fc712e62",
+    "34": "1a9ca1f6ebf5f8a2b71ade1d4d95e6c050cd33f31ef3a75e31e8419e0f4ab74a",
+    "35": "bef3f355c3d525574b514cfba243226cb7cb8c68603ab60fe687e9c096f36071",
+    "36": "df1871036071f91c168827984ae540c3a445e8fbfc4ac52c8763a5189601efda",
+    "37": "5eb6e121559f372e67de8ae479dec45e9ef34367e76de20728c1a578e2b1344d",
+    "38": "fc533b697b390756948df90671acf44ca6212dfcfa2d0d0c47b23f3257cf22c1",
+    "39": "2353565435428e3c7af3fa7bae4c1dbf8c31b420cfcc231ba0f6e075d34dde17",
+    "40": "c0bb56caad32678d7a96175c759c3f73aa755d59de6f785a9fb6563719867eb4",
+    "41": "2a2f6c805cefff9bfe606563522a123a954010e37cf5e564b1c4e2ac3159259a",
+    "42": "225fffb68ea5a5cf736d25675c88a3c0c5e16b66025728cae3d709ac857f9251"
+  },
+  "publisher_comparison": {
+    "status": "publisher_independent_raw_bytes_not_retrieved",
+    "can_decide_whether_publisher_copy_corrected_the_duplicate": false,
+    "quarantine_author_l1_and_s1_day40_retained": true
+  },
+  "interpretation_ceiling": {
+    "same_original_Pineau2024_research_programme": true,
+    "duplicate_source_column_not_two_independent_day40_measurements": true,
+    "publisher_distribution_identity_not_independent_raw_microscopy_verification": true,
+    "cannot_infer_gene_module_split_or_historical_origin_rate": true,
+    "do_not_promote_unadjudicated_l1_s1_day40_results": true,
+    "no_published_xlsx_or_original_measurement_vectors_committed": true
+  }
+}
