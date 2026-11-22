@@ -15,9 +15,13 @@ def fixture_xlsx(duplicate=True):
     main_ns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"
     rel_ns="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
     wb=(f'<workbook xmlns="{main_ns}" xmlns:r="{rel_ns}"><sheets>'
-        '<sheet name="Fig5A" sheetId="1" r:id="rId1"/></sheets></workbook>')
+        '<sheet name="Fig5A" sheetId="1" r:id="rId1"/>'
+        '<sheet name="F2A" sheetId="2" r:id="rId2"/>'
+        '<sheet name="F2C" sheetId="3" r:id="rId3"/></sheets></workbook>')
     rel=('<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
          '<Relationship Id="rId1" Target="worksheets/sheet1.xml"/>'
+         '<Relationship Id="rId2" Target="worksheets/sheet2.xml"/>'
+         '<Relationship Id="rId3" Target="worksheets/sheet3.xml"/>'
          '</Relationships>')
     def a1(index):
         s=""
@@ -31,7 +35,9 @@ def fixture_xlsx(duplicate=True):
     for i,name in names.items():
         row2+=f'<c r="{a1(i+1)}2" t="inlineStr"><is><t>{name}</t></is></c>'
     row2+='</row>'
-    dayrow='<row r="3"/>'
+    dayrow='<row r="3">' + ''.join(
+        f'<c r="{a1(i+1)}3" t="inlineStr"><is><t>Day{[1,5,10,15,20,40][i%6]}</t></is></c>'
+        for i in range(42)) + '</row>'
     rows=[]
     for excelrow in range(4,10):
         cells=[]
@@ -49,6 +55,8 @@ def fixture_xlsx(duplicate=True):
         z.writestr('xl/workbook.xml',wb)
         z.writestr('xl/_rels/workbook.xml.rels',rel)
         z.writestr('xl/worksheets/sheet1.xml',sheet)
+        z.writestr('xl/worksheets/sheet2.xml',sheet)
+        z.writestr('xl/worksheets/sheet3.xml',sheet)
     return mem.getvalue()
 
 
