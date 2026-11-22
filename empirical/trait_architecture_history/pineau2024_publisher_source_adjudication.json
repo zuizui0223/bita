@@ -21,7 +21,6 @@
       "provider": "Europe_PMC_official_supplementary_archive",
       "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11090753/supplementaryFiles?includeInlineImage=false",
       "status": "downloaded",
-      "received_bytes": 292,
       "recognized_source": false,
       "entry_or_reason": "not_an_xlsx_or_zip"
     }
