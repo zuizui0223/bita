@@ -106,3 +106,40 @@ def test_source_digest_not_a_new_evolution_study():
     data=((4,10.0),(5,20.0))
     expected=hashlib.sha256(b'[[4,10.0],[5,20.0]]').hexdigest()
     assert column_fingerprint(data)==expected
+
+
+def test_frozen_official_access_gate_keeps_day40_quarantine():
+    import json
+    from pathlib import Path
+    base=Path(__file__).resolve().parents[1]
+    readout=json.loads((base/"empirical/trait_architecture_history/"
+                        "pineau2024_publisher_source_adjudication.json").read_text())
+    gate=readout["publisher_comparison"]
+    assert readout["source_doi"]==DOI
+    assert readout["publisher_article_pmcid"]==PMCID
+    assert readout["publisher_source_downloaded"] is False
+    assert gate["status"]=="publisher_independent_raw_bytes_not_retrieved"
+    assert gate["can_decide_whether_publisher_copy_corrected_the_duplicate"] is False
+    assert gate["quarantine_author_l1_and_s1_day40_retained"] is True
+    attempts=readout["publisher_source_attempts"]
+    assert len(attempts)==2
+    assert attempts[0]["provider"]=="PMC_author_manuscript_source_data"
+    assert attempts[0]["http_status"]==404
+    assert attempts[1]["provider"]=="Europe_PMC_official_supplementary_archive"
+    assert attempts[1]["received_bytes"]==292
+    assert attempts[1]["recognized_source"] is False
+    src=readout["original_author_source_receipt"]
+    assert src["git_blob_sha1"]=="8f7d01b388489374aba210db96495f387d4338e2"
+    assert src["sha256"]=="b6bc44d5085344292b5b33cac81369652b25e56f0947c1057cfc00ae4947057f"
+    assert src["source_bytes"]==1535384
+    duplications=readout["original_author_Fig5A_exact_cross_population_duplicate"]
+    assert duplications["cross_population_duplicate_pairs"]==1
+    assert duplications["cross_population_suspect_excel_columns_1indexed"]==[6,24]
+    assert duplications["exact_duplicate_source_column_pairs"][0][
+        "identical_excel_row_and_numeric_value_pairs"]==164
+    signatures=readout["original_author_Fig5A_source_column_sha256"]
+    assert len(signatures)==42
+    assert signatures["6"]==signatures["24"]
+    assert signatures["6"] != signatures["5"]
+    assert signatures["6"] != signatures["25"]
+    assert all(readout["interpretation_ceiling"].values())
