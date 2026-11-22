@@ -65,8 +65,13 @@ jobs:
                   name=SUPPLEMENT_NAME if label.startswith('PMC_') else 'official_supplementary.zip'
                   candidate,member_name=find_named_publisher_xlsx(raw,name)
                   receipt={'provider':label,'url':url,'status':'downloaded',
-                           'received_bytes':len(raw),'recognized_source':candidate is not None,
+                           'recognized_source':candidate is not None,
                            'entry_or_reason':member_name}
+                  # Error/HTML payload sizes can change (292 vs 297 bytes
+                  # observed). They are NOT source biological measurements.
+                  # Freeze only a stable format gate, not transient error bytes.
+                  if candidate is not None:
+                      receipt['verified_publisher_xlsx_bytes']=len(candidate)
                   if candidate is not None and selected is None:
                       selected=candidate;publisher_url=url;member=member_name
               except urllib.error.HTTPError as ex:
