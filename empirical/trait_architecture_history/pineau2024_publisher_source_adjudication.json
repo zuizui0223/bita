@@ -13,16 +13,14 @@
     {
       "provider": "PMC_author_manuscript_source_data",
       "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11090753/bin/NIHMS1986110-supplement-Source_data.xlsx",
-      "status": "http_error",
-      "http_status": 404,
-      "recognized_source": false
+      "recognized_source": false,
+      "source_grade": "no_valid_workbook"
     },
     {
       "provider": "Europe_PMC_official_supplementary_archive",
       "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11090753/supplementaryFiles?includeInlineImage=false",
-      "status": "downloaded",
       "recognized_source": false,
-      "entry_or_reason": "not_an_xlsx_or_zip"
+      "source_grade": "no_valid_workbook"
     }
   ],
   "publisher_source_downloaded": false,
