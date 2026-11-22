@@ -126,7 +126,10 @@ def test_frozen_official_access_gate_keeps_day40_quarantine():
     assert attempts[0]["provider"]=="PMC_author_manuscript_source_data"
     assert attempts[0]["http_status"]==404
     assert attempts[1]["provider"]=="Europe_PMC_official_supplementary_archive"
-    assert attempts[1]["received_bytes"]==292
+    assert attempts[1]["recognized_source"] is False
+    assert attempts[1]["entry_or_reason"]=="not_an_xlsx_or_zip"
+    assert "received_bytes" not in attempts[1]
+    assert "verified_publisher_xlsx_bytes" not in attempts[1]
     assert attempts[1]["recognized_source"] is False
     src=readout["original_author_source_receipt"]
     assert src["git_blob_sha1"]=="8f7d01b388489374aba210db96495f387d4338e2"
