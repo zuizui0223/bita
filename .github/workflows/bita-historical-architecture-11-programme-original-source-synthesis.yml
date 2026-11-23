@@ -1,0 +1,53 @@
+name: bita-historical-architecture-11-programme-original-source-synthesis
+on:
+  push:
+    branches: ['analysis/bita-cross-programme-evolution-chain-20261124']
+    paths:
+      - '.github/workflows/bita-historical-architecture-11-programme-original-source-synthesis.yml'
+      - 'scripts/audit_bita_cross_programme_architecture_chain.py'
+      - 'tests/test_bita_cross_programme_architecture_chain.py'
+      - 'empirical/trait_architecture_history/bita_architecture_cross_programme_evidence_20261124.json'
+  pull_request:
+    branches: ['analysis/bita-pineau2024-publisher-source-adjudication-20261122']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  eleven-programme-claim-grain-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recompute source-pinned, no-meta-analysis programme ledger
+        run: |
+          python -m scripts.audit_bita_cross_programme_architecture_chain \
+            --output /tmp/bita_architecture_cross_programme_evidence.json
+      - name: Check exact source, programme, denominator and no-promotion tests
+        run: |
+          python -m pip install 'pytest>=8,<10'
+          python -m pytest -q tests/test_bita_cross_programme_architecture_chain.py
+      - name: Frozen JSON identity or explicit bootstrap status
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          fresh=json.loads(Path('/tmp/bita_architecture_cross_programme_evidence.json').read_text())
+          frozen=Path('empirical/trait_architecture_history/bita_architecture_cross_programme_evidence_20261124.json')
+          if frozen.exists():
+              if fresh != json.loads(frozen.read_text()):
+                  raise ValueError("source-locked independent-programme evidence differs from frozen receipt")
+              print('BITA_11_PROGRAMME_SOURCE_FROZEN_ROUNDTRIP:PASS',flush=True)
+          else:
+              print('BITA_11_PROGRAMME_SOURCE_FROZEN_ROUNDTRIP:AWAITING_FIRST_FREEZE',flush=True)
+          print('BITA_11_PROGRAMME_SOURCE_CANONICAL_JSON:'+
+                json.dumps(fresh,sort_keys=True,separators=(',',':')),flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-original-source-programme-grain-evidence-ledger
+          path: /tmp/bita_architecture_cross_programme_evidence.json
+          if-no-files-found: error
+          retention-days: 30
