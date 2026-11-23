@@ -46,7 +46,7 @@ Bacillus co-evolution supplies a second *distinct* demonstration of partner-loss
 
 ## 4. Environmental / genetic controls and negative boundaries
 
-The remaining six source programmes delimit competing explanations and prevent positive-only selection:
+Five additional contextual and negative-control programmes delimit competing explanations and prevent positive-only selection (Mridha is already discussed in Lane 2):
 
 | Source and context | Credible observed endpoint | Why it cannot be promoted to a historical split |
 |---|---|---|
@@ -56,7 +56,7 @@ The remaining six source programmes delimit competing explanations and prevent p
 | Després et al. (2024), Fcy1, [DOI 10.1126/science.ado5719](https://doi.org/10.1126/science.ado5719) | **22 of 105** source-matched pairs rescue function relative to two measured defective parental homomers | Engineered allele heteromer complementarity does **not** observe selected evolutionary origination of a new module |
 | Näsvall et al. (2026), [DOI 10.1093/g3journal/jkag167](https://doi.org/10.1093/g3journal/jkag167) | Mutator **21/24** vs non-mutator **10/24** originally started populations with physiological rescue | Different genetic-route accessibility and genetic background are not a historical shared-to-specialist allocation change |
 
-These are **five** contextual/boundary programmes. The total number of programmes in the matrix is **11**: three emergence, Bacillus one engineered-partner evolution, Chen one reverse-autonomy, and five boundary/context programmes. The categories are **for organizing source evidence**, not a predeclared representative sample. Furthermore, the three emergent systems do not share a common phenotype, selection protocol, or reproductive mode.
+These are **five** contextual/boundary programmes. The total number of programmes in the matrix is **11**: three emergence (Pineau, Kim, Zhang), one Bacillus engineered-partner evolution, one Chen reverse-autonomy, one Mridha engineered-payoff/maintenance programme, and five further contextual/negative-control programmes. The categories are **for organizing source evidence**, not a predeclared representative sample. Furthermore, the three emergent systems do not share a common phenotype, selection protocol, or reproductive mode.
 
 ## The evidence-completion matrix, by independent programme
 
