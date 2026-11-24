@@ -1,0 +1,18 @@
+# Chapter 2 matched payoff meta-analysis intake — 2026-11-24
+
+## Question and eligibility
+Separate forward emergence, immediate collective performance, ecological retention, and evolutionary exit. Do not reinterpret a benefit as the probability of origin. The primary candidate payoff estimand is log(mean stationary biomass of complementary specialist mix / mean stationary biomass of a matched multi-function generalist) at the same initial environmental condition. Record exposure, assay stage, group unit, SD versus SE, biological n, starting composition, comparator regulatory state, and source DOI/programme. Retain endpoint CFU, integrated AUC, growth rate and terminal reproduction as distinct outcome families; avoid a common effect across unlike fitness currencies. Never select an optimal mixing ratio after viewing results as the only entry. Retain neutral/negative contrasts. Match composition rules and time endpoint when expanding the corpus.
+
+## New numeric source
+Beck et al. 2022, mSystems, DOI 10.1128/msystems.00051-22, Results Figs 7–8. The publisher reports mean and SD for LAE and WT at initial pH 7.0, n=3 biological flasks each. At 6.3 mM phosphate the endpoint biomass is 0.48±0.02 versus 0.31±0.01 g/L, at 64 mM it is 0.55±0.04 versus 1.87±0.12. The log ratios are 0.437214 and -1.223775; strong minus weak = -1.660989 (ratio of ratios 0.189951). Sampling variances are first-order delta approximations assuming independent flasks and contexts; rounded n=3 input makes intervals exploratory, not confirmatory. Growth rate decreases in both contexts based on reported means, a separate endpoint. No pooling. The original author workbook listing is verified but raw bytes were NOT obtained (local DNS failure). Source statistics are sufficient for a preliminary candidate effect, not source-cell replication.
+
+## Existing corpus
+Read the 12-programme v2 matrix at parent e96b43a73ce3fa716b8fa08d090404bd97d16f90. The new intake audit JSON records all twelve dispositions and three discovery seeds. Dragoš Current Biology 2018 is a promising same-programme WT/CFU comparator, but WT already phenotypically differentiates. Mridha is a separate AUC lane with shared controls and block structure; t/sqrt(n) is not an lnRR and cannot enter this endpoint pool. Pineau 3/5 and Al-Tameemi 4/4 vs 0/4 have different event definitions and are not pooled. No matched forward incidence exposure contrast passes in the frozen parent. This targeted search is not exhaustive.
+
+## Gates and next extraction
+1. Acquire author workbook and verify blob hash, extract all relevant replicates and check final time, starting density, and shared controls.
+2. Recover original quantitative WT controls in Dragoš and block-level AUC in Mridha; search additional independent experiments with endpoint biomass, null and adverse outcomes. Separately search ecological diversification experiments with full founder denominators and exposure controls.
+3. Require >=3 independent comparable programmes for exploratory study-level random-effects synthesis (prefer >=5 before stability claims); use REML and Hartung–Knapp sensitivity, account for shared controls and multiple contexts, leave-one-programme-out. Do not force an intercept across biologically incompatible outcomes. Do not estimate a moderator with insufficient independent contrasts; report study-level intervals instead. Thresholds here are working rules, not universal guarantees.
+4. No main/manuscript edits, no new wet-lab result, no validated causal effect of ancestral functional conflict on architecture origin.
+
+Run: `python scripts/chapter2_beck2022_payoff_summary.py`. 

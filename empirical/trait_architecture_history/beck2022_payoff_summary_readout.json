@@ -1,0 +1,47 @@
+{
+  "independent_programmes": 1,
+  "effect_rows": 2,
+  "cross_study_pool_performed": false,
+  "rows": [
+    {
+      "id": "weak_buffer",
+      "lnRR": 0.43721380642274466,
+      "sampling_variance_delta": 0.0009255646124792848,
+      "percent_change": 54.83870967741935,
+      "approx_normal_95_ci_lnRR": [
+        0.37758454334411506,
+        0.49684306950137425
+      ],
+      "conservative_t_df2_sensitivity_lnRR": [
+        0.30631380052720125,
+        0.5681138123182881
+      ],
+      "growth_rate_percent_change_descriptive": -58.49056603773586
+    },
+    {
+      "id": "strong_buffer",
+      "lnRR": -1.2237754316221157,
+      "sampling_variance_delta": 0.0031357297415806375,
+      "percent_change": -70.58823529411764,
+      "approx_normal_95_ci_lnRR": [
+        -1.3335307019978757,
+        -1.1140201612463556
+      ],
+      "conservative_t_df2_sensitivity_lnRR": [
+        -1.4647136018676388,
+        -0.9828372613765926
+      ],
+      "growth_rate_percent_change_descriptive": -64.61538461538461
+    }
+  ],
+  "strong_minus_weak": {
+    "ln_ratio_of_ratios": -1.6609892380448603,
+    "ratio_of_ratios": 0.18995098039215688,
+    "sampling_variance_delta_assuming_independent_contexts": 0.004061294354059922,
+    "approx_normal_95_ci_ln_ratio_of_ratios": [
+      -1.7858966773371483,
+      -1.5360817987525723
+    ]
+  },
+  "meta_gate": "NOT_POOLABLE_SINGLE_PROGRAMME"
+}
