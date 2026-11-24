@@ -1,0 +1,251 @@
+{
+  "schema": "chapter2_evolved_architecture_intake_v3",
+  "parent_head": "aa787cb28da63d887e42aa5756e23d7abc134226",
+  "extraction_date": "2026-11-24",
+  "source_grade": "published_primary_article_results; no original replicate files newly acquired",
+  "scope": "targeted source expansion; not systematic search or causal meta-analysis",
+  "programmes": [
+    {
+      "programme": "POLTAK_COOPER2011",
+      "doi": "10.1038/ismej.2010.136",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3105725/",
+      "location": "Methods; Results adaptive diversification, productivity, spatial partitioning; Figs 2-4",
+      "origin": "common clonal ancestor; 6 biofilm and 6 planktonic founding populations",
+      "endpoint": "all three derived colony morphotypes observed and persisted in founding population during experiment",
+      "contrast": {
+        "exposed_events": 6,
+        "exposed_n": 6,
+        "reference_events": 0,
+        "reference_n": 6
+      },
+      "sensitivity": {
+        "definition": "any novel colony type observed (not necessarily stable polymorphism)",
+        "exposed_events": 6,
+        "exposed_n": 6,
+        "reference_events": 1,
+        "reference_n": 6
+      },
+      "limits": [
+        "different ecological selection and generation totals; source estimate ~1425–1509 vs ~1000 generations, not a pure spatial-structure intervention",
+        "three-morphotype outcome distinct from two-morphotype retention",
+        "phenotypic ecological differentiation not confirmed ancestral two-task molecular module split",
+        "focal payoff experiments on two populations B1/B2, not six independent payoff tests"
+      ],
+      "payoff": {
+        "focal_founder_populations": 2,
+        "mixed_viable_cell_yield_vs_each_constituent": "positive in both, source p<1e-5 for comparisons",
+        "biomass_rank": "high-biofilm morphs W,R > S,mix > ancestor",
+        "fold_relative_to_additive_expectation": {
+          "B1": [
+            2.25,
+            2.21,
+            1.36
+          ],
+          "B2": [
+            1.45,
+            3.18,
+            3.91
+          ]
+        },
+        "morph_order": [
+          "S",
+          "R",
+          "W"
+        ],
+        "complementarity_share_percent": [
+          109,
+          75
+        ],
+        "selection_share_percent": [
+          -9,
+          25
+        ],
+        "total_cell_number_vs_additive_expected": "more than double according to Results; not ratio to ancestral generalist",
+        "exact_group_mean_sd_n_available": false
+      },
+      "mechanism": "structure-removal in two focal founder populations reduced diversity; cross-feeding and spatial partitioning contributed, with population-specific responses"
+    },
+    {
+      "programme": "HELLING_ROSENZWEIG_YANG",
+      "doi": "10.1128/AEM.00051-20",
+      "origin_doi": "10.1093/genetics/116.3.349",
+      "related_genomic_doi": "10.1371/journal.pgen.1004436",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7117940/",
+      "location": "Results, Fig 1, Fig 3, Fig 4, Table 2",
+      "origin": "single selected historical chemostat programme; three isolates sampled at generation 773; Helling 1987 and later same population papers must not count as independent origins",
+      "payoff": {
+        "endpoint": "steady-state dry biomass per ml, glucose-limited chemostats",
+        "biological_replicate_n_range": [
+          4,
+          6
+        ],
+        "three_member_median_vs_ancestor": "almost 2-fold, authors' description",
+        "single_evolved_strain_biomass_vs_ancestor": "no significant increase for any of three",
+        "two_member_mixes_vs_all_monocultures": "higher biomass",
+        "three_member_vs_evolved_mono_fitness": "higher competitive fitness",
+        "three_member_vs_two_member_competitive_fitness": "paired t-test p<0.05 each",
+        "no_claim_three_member_biomass_significantly_higher_than_two_member": true,
+        "group_mean_sd_exact_n_not_recovered": true,
+        "boxplot_quantiles": "median, 25th/75th and 10th/90th percentiles"
+      },
+      "residual_metabolites": {
+        "metric": "mean concentration in micromolar +/- SEM; source Table 2, exact arm n only range 3–6",
+        "A": {
+          "glucose": [
+            1.33,
+            0.3
+          ],
+          "acetate": [
+            54.43,
+            2.79
+          ]
+        },
+        "E3": {
+          "glucose": [
+            0.09,
+            0.03
+          ],
+          "acetate": [
+            36.85,
+            4.3
+          ]
+        },
+        "E31": {
+          "glucose": [
+            0.1,
+            0.01
+          ],
+          "acetate": [
+            0,
+            0
+          ]
+        },
+        "E36": {
+          "glucose": [
+            0.15,
+            0.02
+          ],
+          "acetate": [
+            32.22,
+            2.06
+          ]
+        },
+        "E316": {
+          "glucose": [
+            0.18,
+            0.02
+          ],
+          "acetate": [
+            0,
+            0
+          ]
+        },
+        "zero_semantics": "no residual acetate detected; no claim exact chemical zero; no log ratio of zero; no exact variance of concentration contrasts"
+      },
+      "limits": [
+        "selected successful historical programme; no unscreened denominator",
+        "ancestral comparison confounds ordinary adaptation; comparator against evolved monocultures partially addresses this",
+        "chemostat steady-state concentration, not stationary batch biomass",
+        "no direct perturbation of ancestral functional conflict or startup cost"
+      ]
+    },
+    {
+      "programme": "SAXER2009",
+      "doi": "10.1098/rspb.2008.1827",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2677259/",
+      "location": "Results and Fig 1–2",
+      "origin": {
+        "multiple_colony_morphotypes_after_350_generations": 12,
+        "founding_populations": 12,
+        "reference_arm": false
+      },
+      "maintenance": {
+        "matched_original_populations": 9,
+        "unassayable_population_exclusions": 3,
+        "relative_diversity_reduction_approx": 0.5,
+        "paired_nfds_slope_t": -10.21,
+        "paired_nfds_slope_df": 8,
+        "paired_nfds_slope_p_upper": 0.0001,
+        "liquid_frequency_invasion_t": 11.71,
+        "liquid_frequency_invasion_df": 8,
+        "monoculture_exploitation_t": 1.31,
+        "monoculture_exploitation_p": 0.23
+      },
+      "limits": [
+        "existing diversification in unstructured conditions, not a matched origin-rate contrast",
+        "diversity metric corrected colony-size CV, not binary loss in every replicate",
+        "paired slope difference standardized using paired SD, not independent-group Hedges g or group fitness",
+        "mechanism of reduced metabolite diffusion inferred from assays, not directly measured transport coefficient"
+      ]
+    },
+    {
+      "programme": "WINTERMUTE_SILVER2010",
+      "doi": "10.1038/msb.2010.66",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2964121/",
+      "location": "Results Fig 1 and Supplementary Growth Data listing",
+      "constructs": 46,
+      "pair_contexts": {
+        "same_pathway": {
+          "n": 55,
+          "percentage_over_50fold_approx": 3.6
+        },
+        "different_pathway": {
+          "n": 980,
+          "percentage_over_50fold_approx": 18
+        }
+      },
+      "limits": [
+        "mutant rescue versus deficient controls, not WT/generalist comparison",
+        "shared genotypes; pair counts not independent programmes",
+        "rounded percentages; do not infer exact positive counts",
+        "published XLS growth data identified, not downloaded"
+      ],
+      "lane": "complementation mechanism only"
+    }
+  ],
+  "pande_s2": {
+    "doi": "10.1038/ismej.2013.211",
+    "official_article": "https://www.nature.com/articles/ismej2013211",
+    "official_doc": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fismej.2013.211/MediaObjects/41396_2014_BFismej2013211_MOESM19_ESM.doc",
+    "official_listing_size_kb": 1870,
+    "secondary_caption_url": "https://docest.com/doc/180574/fitness-and-stability-of-obligate-cross-feeding-interactions-that-emerge-upon-gene-loss",
+    "caption_statistic": "median and range of Malthusian parameter, n=8 per comparison (secondary indexed caption; original DOC not acquired)",
+    "prior_positive_combinations": 43,
+    "total_crossfeeder_combinations": 54,
+    "verified_original_bytes": false,
+    "local_dns_error": true,
+    "web_binary_cache_miss": true,
+    "all_pair_numeric_values_recovered": false,
+    "do_not_convert_range_to_sd_without_assumptions": true
+  },
+  "candidate_followup": [
+    {
+      "doi": "10.1038/27900",
+      "stage": "origin + maintenance",
+      "reason": "Rainey & Travisano directly link ecological opportunity and competitive tradeoffs; full exact founding denominators pending; prior art, not independent experimental programme counts from reviews"
+    },
+    {
+      "doi": "10.1126/sciadv.1600124",
+      "stage": "origin/phenotypic diversification",
+      "reason": "Jousset et al. community functional diversity increases diversification while focal species fitness declines; quantitative replicate-level richness or morphology pending"
+    },
+    {
+      "doi": "10.1111/j.1558-5646.2011.01559.x",
+      "stage": "competition by space factorial",
+      "reason": "six independent endpoint microcosms per species composition and structure; destructive cohorts separated, outcomes not yet extracted"
+    },
+    {
+      "doi": "10.1111/evo.12512",
+      "stage": "niche construction",
+      "reason": "new niche generation under shaken conditions; separate original experiment, endpoint contrast pending"
+    }
+  ],
+  "search_queries": [
+    "Pande 2014 54 supplementary figure S2",
+    "microbial division of labor generalist specialists consortium wild type biomass productivity",
+    "experimental evolution microbial diversity productivity mixed evolved strains ancestral population",
+    "spatial structure ecological diversification replicate populations experimental evolution",
+    "negative effects of spatial structure on diversity microbial ecological breakdown"
+  ],
+  "interpretation": "all candidate evidence kept regardless of effect direction; preselected programmes and exploratory extraction; no pooled effect"
+}

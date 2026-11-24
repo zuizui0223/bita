@@ -1,0 +1,52 @@
+{
+  "schema": "chapter2_payoff_summary_v1",
+  "study_id": "BECK2022",
+  "doi": "10.1128/msystems.00051-22",
+  "source_url": "https://journals.asm.org/doi/10.1128/msystems.00051-22",
+  "source_location": "Results: Consortium performance was a function of environmental context; Figs 3,5,7,8 and Methods triplicate flasks",
+  "data_grade": "publisher_reported_rounded_means_SD_n_not_raw",
+  "source_author_repository": "https://github.com/rosspcarlson/becketal-syntheticconsortia",
+  "author_tree_sha": "c147cbe89249b740203141942dbdb6c061ad2439",
+  "author_workbook": {
+    "path": "22_0519_SupplementaryDataSets.xlsx",
+    "git_blob_sha": "0ed48b34713d08dbdb17d9ca626387d63c673dbf",
+    "listed_bytes": 1112530,
+    "bytes_retrieved": false
+  },
+  "outcome": "stationary_phase_cell_dry_weight_g_per_L",
+  "context": "initial pH 7.0; LAE consortium versus WT E. coli K12 MG1655; distinct triplicate flasks per condition",
+  "rows": [
+    {
+      "id": "weak_buffer",
+      "buffer_mM": 6.3,
+      "split_mean": 0.48,
+      "split_sd": 0.02,
+      "split_n": 3,
+      "wt_mean": 0.31,
+      "wt_sd": 0.01,
+      "wt_n": 3,
+      "split_growth_rate": 0.22,
+      "wt_growth_rate": 0.53
+    },
+    {
+      "id": "strong_buffer",
+      "buffer_mM": 64,
+      "split_mean": 0.55,
+      "split_sd": 0.04,
+      "split_n": 3,
+      "wt_mean": 1.87,
+      "wt_sd": 0.12,
+      "wt_n": 3,
+      "split_growth_rate": 0.23,
+      "wt_growth_rate": 0.65
+    }
+  ],
+  "limitations": [
+    "engineered division rather than historical forward origin",
+    "stationary endpoint is not equal-time growth rate or invasion fitness",
+    "rounded SD and n=3; sampling variance assumes independent flasks, covariance and batch effects unverified",
+    "one study, two environmental strata; not two independent programmes",
+    "WT is the generalist; acetate consortium shares source programme and is not pooled; full strata/raw values pending",
+    "publisher abstract growth-rate percentage is ambiguous/inconsistent with reported means; use direct means only"
+  ]
+}

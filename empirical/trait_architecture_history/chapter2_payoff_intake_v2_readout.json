@@ -1,0 +1,49 @@
+{
+  "source": "chapter2_payoff_intake_v2_input.json",
+  "bernstein": {
+    "lnRR": 0.14310084364067324,
+    "variance_delta": 0.0004936445321060706,
+    "percent_change": 15.384615384615374,
+    "approx_normal_95_ci_lnRR": [
+      0.0995533427417849,
+      0.18664834453956158
+    ],
+    "t_df2_sensitivity_lnRR": [
+      0.047504020368114505,
+      0.23869766691323197
+    ],
+    "strict_pool_eligible": false
+  },
+  "pande": {
+    "significant_positive_fraction_of_tested_construct_pairs": 0.7962962962962963,
+    "nonpositive_or_unresolved_count": 11,
+    "share_denominator_is_not_independent_programmes": true,
+    "selected_direct_competition_higher_fraction": 0.75,
+    "exact_continuous_effect_not_recovered": true
+  },
+  "dragos": {
+    "df": 10,
+    "t_magnitude_strict_lower_bound": 2.359314623736535,
+    "cohens_d_strict_lower_bound": 1.3621509331173092,
+    "hedges_g_strict_lower_bound": 1.2569187910394113,
+    "not_point_estimate": true,
+    "not_sampling_variance": true
+  },
+  "beck": {
+    "aae_pH7_ratio_approx_upper_bound_using_reported_means": 0.3870967741935484,
+    "aae_pH7_ratio_rounding_conservative_upper_bound": 0.4098360655737705,
+    "aae_pH7_lnRR_rounding_conservative_upper_bound": -0.8919980393051105,
+    "not_exact_aae_effect": true,
+    "strict_equal_total_density_verified": false,
+    "previous_lae_effects_unchanged": true
+  },
+  "coverage": {
+    "distinct_candidate_experimental_programmes": 5,
+    "summary_endpoint_biomass_programmes": 2,
+    "strict_two_specialist_endpoint_biomass_with_summary_stats": 1,
+    "strict_two_specialist_equal_total_density_endpoint_biomass_verified": 0,
+    "independent_lab_cluster_count_for_two_biomass_programmes": 1,
+    "origin_meta_analysis": false,
+    "pooled_meta_analysis": false
+  }
+}

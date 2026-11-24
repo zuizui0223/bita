@@ -1,0 +1,120 @@
+{
+  "schema": "chapter2_payoff_intake_v2",
+  "parent_head": "fe8dcda92a7d2284ab8e65dbea228882d2db4fe3",
+  "source_grade": "published primary article text and existing source-verified Mridha receipt; no new original replicate files",
+  "sources": [
+    {
+      "programme": "BERNSTEIN2012",
+      "doi": "10.1016/j.jbiotec.2011.10.001",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3549274/",
+      "location": "section 3.2, Fig 2A, methods 2.3",
+      "architecture": "WT MG1655 + acetate specialist 403G100 vs WT MG1655 alone; augmentation, not strict two-specialist split",
+      "endpoint": "final cell dry weight g/L, batch 30h",
+      "mix_mean": 1.2,
+      "mix_sd": 0.04,
+      "mix_n": 3,
+      "wt_mean": 1.04,
+      "wt_sd": 0.02,
+      "wt_n": 3,
+      "starting_density": "Methods describe 12 ml of OD600 0.2 inoculum per strain in batch reactors; equal total inoculum not established",
+      "dependency": "Shared authors Bernstein/Carlson and related 403 strain lineage with Beck; distinct reported experiments, not assumed independent research-lab clusters",
+      "other_outcomes": "chemostat and biofilm reported approximate gains but no exact comparable arm-level summaries extracted; dual-specialist contrast against producer-only strain excluded from generalist pool",
+      "lane": "partial_specialization_biomass_sensitivity"
+    },
+    {
+      "programme": "PANDE2014",
+      "doi": "10.1038/ismej.2013.211",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3996690/",
+      "location": "Results growth advantage; Fig 2c, Fig 3, Fig 5, Supplementary Fig S2",
+      "architecture": "two complementary amino-acid cross-feeding deletion strains vs ancestral prototrophic WT; similar initial cell density",
+      "endpoint": "24h realized growth Malthusian parameter; direct competition separate",
+      "tested_pairs": 54,
+      "significantly_higher_pairs": 43,
+      "remaining_pairs": 11,
+      "remaining_involving_low_production_genotype": 9,
+      "replicates_per_pair": 8,
+      "representative_direct_competition_pairs": 4,
+      "representative_direct_competition_higher": 3,
+      "direct_competition_n": 10,
+      "auxotrophy_benefit_approx_percent": 20,
+      "overproduction_cost_approx_percent_range": [
+        5,
+        8
+      ],
+      "dependency": "shared genotypes and WT controls; 54 pair designs are not independent studies or evolutionary origins",
+      "lane": "growth_and_direct_competition_separate_from_biomass"
+    },
+    {
+      "programme": "BACILLUS_DRAGOS",
+      "doi": "10.1016/j.cub.2018.04.046",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6331042/",
+      "location": "Fig 4A and Statistical analysis; Fig 3A secondary",
+      "architecture": "engineered EPS/TasA mix initially 50:50 vs WT that already differentiates phenotypically",
+      "endpoint": "root biofilm CFU/mm",
+      "mix_n": 6,
+      "wt_n": 6,
+      "p_upper_two_sided": 0.04,
+      "test": "reported equal variance two-sided Student t-test",
+      "direction": "positive",
+      "dependency": "same programme as 2018 Nature Microbiology evolutionary follow-up; no pooling of related papers",
+      "raw": "Data available from authors; DTU accepted manuscript PDF URL returned 403 in web access; no raw means/SD obtained",
+      "lane": "partial_comparator_CFU_bound_only"
+    },
+    {
+      "programme": "MRIDHA2022",
+      "doi": "10.1111/jeb.14001",
+      "url": "https://onlinelibrary.wiley.com/doi/full/10.1111/jeb.14001",
+      "location": "Results and Discussion; existing mridha2022_published_stats_readout.json",
+      "endpoint": "24h growth AUC relative to WT",
+      "raw_data_doi": "10.5061/dryad.2bvq83bs4",
+      "data_filename": "Mridha_Kummerli_2022_JEB_raw_data_dryad.xlsx",
+      "lane": "AUC_with_shared_WT_and_block_uncertainty",
+      "directions": [
+        "positive",
+        "unresolved",
+        "negative",
+        "negative"
+      ],
+      "interpretation": "iron-replete benefit where both siderophores little needed may be residual expression cost; negative under severe iron limitation where one function disproportionately valuable; do not code non-significant as equivalence"
+    },
+    {
+      "programme": "BECK2022",
+      "doi": "10.1128/msystems.00051-22",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9426560/",
+      "location": "Methods Batch culturing; Figs 3–8; AAE and LAE Results",
+      "endpoint": "final biomass per L at stationary phase",
+      "initial_wt_OD600_approx": 0.02,
+      "initial_mix_producer_OD600_approx": 0.02,
+      "initial_mix_consumer_OD600_approx": 0.02,
+      "initial_mix_total_OD600_approx": 0.04,
+      "comparison_limit": "same initial primary producer density, not same total cell density; may not share assay duration; not net biomass production without initial mass",
+      "aae_max_rounded_mean_across_four_weak_buffer_initial_ph": 0.12,
+      "aae_max_initial_ph": 7.5,
+      "wt_weak_buffer_ph7_rounded_mean": 0.31,
+      "aae_pH7_exact_mean_available": false,
+      "aae_generalist_performance_direction": "no superior performance metric reported; biomass lower",
+      "lane": "strict_genetic_split_endpoint_biomass_but_unequal_total_inoculum"
+    }
+  ],
+  "retrieval_attempts": [
+    {
+      "source": "Beck author XLSX",
+      "status": "container requests DNS failure; GitHub fetch_file base64 returned empty content but matching blob SHA; GitHub fetch blob route rejected non-UTF8"
+    },
+    {
+      "source": "Mridha Dryad",
+      "status": "public dataset listing verified; local API DNS failure; no bytes"
+    },
+    {
+      "source": "Dragos accepted PDF",
+      "status": "DTU public link returned HTTP403; original article text accessible; raw data by author request"
+    }
+  ],
+  "prior_art": {
+    "doi": "10.1016/j.jtbi.2014.07.011",
+    "title": "Quantifying the effects of the division of labor in metabolic pathways",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/25038317/",
+    "relevance": "Theoretical proof for an explicitly defined pathway model: with unchanged kinetics and yield, split consortium biomass cannot exceed equivalent monoculture. Context-dependent division benefits and metabolic efficiency are not novel by themselves; distinguish historical emergence and accessibility from payoff."
+  },
+  "scope": "targeted expansion of candidate studies, not comprehensive, outcome-based selection forbidden in eventual synthesis"
+}

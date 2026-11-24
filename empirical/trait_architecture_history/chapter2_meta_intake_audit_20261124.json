@@ -1,0 +1,83 @@
+{
+  "parent_programme_matrix": "empirical/trait_architecture_history/bita_architecture_cross_programme_v2_12_sources_20261124.json",
+  "parent_head": "e96b43a73ce3fa716b8fa08d090404bd97d16f90",
+  "scope": "purpose-selected 12-programme intake audit, not systematic corpus",
+  "decisions": {
+    "PINEAU2024": [
+      "origin_maintenance",
+      "3/5 aerobic founders; matched screening other arms not verified; no group endpoint comparison"
+    ],
+    "KIM2016": [
+      "payoff_candidate_alternate_comparator",
+      "mixed vs pure specialist roles, no ancestral two-task generalist; ANOVA alone inadequate"
+    ],
+    "ZHANG2020": [
+      "payoff_candidate_multivariate",
+      "group antimicrobial and spore currencies separate; raw mixing values absent"
+    ],
+    "BACILLUS_DRAGOS": [
+      "payoff_candidate",
+      "CFU versus partially differentiating WT; original Current Biology Figure 3/4 raw or means/SD needed, shared research programme"
+    ],
+    "CHEN2024": [
+      "reverse_only",
+      "autonomy regain, not forward differentiation"
+    ],
+    "DSOUZA2016": [
+      "function_loss_only",
+      "auxotroph detection, not reciprocal division"
+    ],
+    "KINSLER2024": [
+      "selected_mutation_scope",
+      "selected clones not founding lines"
+    ],
+    "MRIDHA2022": [
+      "payoff_candidate_distinct_outcome",
+      "24h growth AUC not endpoint biomass; shared WT and block-aware variance unavailable"
+    ],
+    "COGFP2025": [
+      "duplication_control",
+      "no observed task split"
+    ],
+    "DESPRES2024": [
+      "complementation_only",
+      "engineered allele rescue, not matched group payoff"
+    ],
+    "NASVALL2026": [
+      "genetic_rescue_only",
+      "not matched specialist architecture"
+    ],
+    "ALTAMEEMI2024": [
+      "maintenance_only",
+      "4/4 versus 0/4 retained bimodality; resource supply confounded; not origin"
+    ]
+  },
+  "primary_target": "same-context endpoint total biomass of complementary engineered specialist consortium vs actual multi-function WT/generalist; separate partial-specialization WT, CFU, AUC and growth rate sensitivity, never conflate with origin",
+  "new_candidate": "BECK2022",
+  "independent_programmes_with_extracted_endpoint_mean_SD_n": 1,
+  "origin_contrasts_with_verified_exposure_control_and_unscreened_denominator_in_parent": 0,
+  "additional_discovery_seeds": [
+    {
+      "doi": "10.1126/sciadv.1600124",
+      "study": "Jousset 2016",
+      "lane": "diversification vs community functional diversity; colony morphotype nested sampling; recover population-level outcomes"
+    },
+    {
+      "doi": "10.1073/pnas.1506184112",
+      "study": "Frenkel 2015",
+      "lane": "13 candidate stable lineages among approximately 1000 screened; no exact denominator or all-population verification yet; not a rate contrast"
+    },
+    {
+      "doi": "10.1371/journal.pbio.1001490",
+      "study": "Herron and Doebeli 2013",
+      "lane": "three genotyped populations from Spencer et al parent evolution experiment; recover original sampling denominator before using"
+    }
+  ],
+  "search_queries": [
+    "microbial division of labor complementary specialists generalist mixed culture productivity wild type experimental data",
+    "experimental evolution division of labor specialists generalists group productivity trade off microbial mixed culture",
+    "experimental microbial diversification resource competition clonal ancestral parallel evolution ecotypes sympatric diversification treatments replicate populations trade off"
+  ],
+  "search_date": "2026-11-24",
+  "search_scope": "targeted public web discovery only; not comprehensive; no outcome-based selection for eventual pool"
+}
