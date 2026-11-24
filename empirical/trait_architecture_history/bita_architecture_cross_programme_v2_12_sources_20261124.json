@@ -1,0 +1,465 @@
+{
+  "descriptive_catalogue_counts_not_natural_prevalence": {
+    "programmes_closing_L_to_occupancy_full_chain": 0,
+    "programmes_identifying_historical_ancestral_within_genotype_two_function_module_split": 0,
+    "programmes_with_complete_founder_denominators_for_maintained_Pputida_bimodality": 1,
+    "programmes_with_confounded_biotic_vs_abiotic_resource_supply": 1,
+    "programmes_with_focal_two_genotype_NFDS_unconfirmed_despite_observed_bimodality": 1,
+    "programmes_with_forward_specialist_phenotype_or_partner_emergence": 3,
+    "programmes_with_registered_maintenance_or_group_intervention": 6,
+    "programmes_with_reverse_autonomy_or_partner_exit": 2,
+    "programmes_with_unscreened_founder_denominator_for_forward_specialization": 1
+  },
+  "entries": [
+    {
+      "ancestral_within_genotype_two_function_module_split_identified": false,
+      "authoritative_existing_original_source_receipts": [
+        "pineau2024_original_forward_divergence.json",
+        "pineau2024_f2_workbook_source_reanalysis.json",
+        "pineau2024_f5_original_replay_readout.json",
+        "pineau2024_publisher_source_adjudication.json"
+      ],
+      "correct_inference_unit": "five independent PO aerobic founding evolution populations; PO-4 competition pair; QA-valid replays 3 Small + 2 Large",
+      "de_novo_mutant_role_origin_observed": false,
+      "evidence_class": "forward_phenotypic_lineage_divergence_with_retention_intervention",
+      "evidence_layer": "forward_phenotypic_origin_and_ecological_maintenance",
+      "forward_founder_denominator_available": true,
+      "fully_identifies_L_R_Phi_K_accessibility_invasion_fixation_occupancy": false,
+      "maintenance_or_group_intervention_present": true,
+      "matched_ancestral_shared_coordinate_conflict_fitness_assayed": false,
+      "observed_forward_specialist_phenotype_or_partner_emergence": true,
+      "organism": "Saccharomyces cerevisiae",
+      "original_publication_doi": "10.1038/s41559-024-02367-y",
+      "programme_id": "PINEAU2024",
+      "registered_source_counts": {
+        "PO4_high_O2_mean_final_large_fraction": 0.85645398,
+        "PO4_standard_O2_competitions": 8,
+        "PO4_standard_equilibrium_from_raw_F2A": 0.09255138391076242,
+        "PO4_supplemented_O2_competitions": 7,
+        "QA_valid_Large_mean_day40_minus_first_radius_um": -5.975551045357875,
+        "QA_valid_Large_replay_day40_populations": 2,
+        "QA_valid_Small_mean_day40_minus_first_radius_um": 9.012177598717132,
+        "QA_valid_Small_replay_day40_populations": 3,
+        "evolved_PO_populations_started": 5,
+        "evolved_divergent_populations": 3,
+        "excluded_duplicated_original_area_pairs": 164
+      },
+      "reverse_autonomy_or_partner_exit_observed": false,
+      "source_specific_limit": "One single study; phenotypic alternative yeast lineage divergence is not a genetic two-function module split. QA duplicates quarantine both l1/s1 Day40; publisher raw xlsx unavailable.",
+      "source_supported_observation": "Founder PO phenotype divergence with two failed lines; PO4 oxygen-sensitive coexistence and QA-validated reverse size shift when competitor is removed"
+    },
+    {
+      "ancestral_within_genotype_two_function_module_split_identified": false,
+      "authoritative_existing_original_source_receipts": [
+        "kim_zhang_forward_dol_readout.json"
+      ],
+      "correct_inference_unit": "preselected positive independent spreading-fan contexts; colony CFU and polymer-engineered controls",
+      "de_novo_mutant_role_origin_observed": true,
+      "evidence_class": "forward_cooperative_morphotype_emergence_positive_selected_fans",
+      "evidence_layer": "forward_partner_emergence_without_unscreened_denominator",
+      "forward_founder_denominator_available": false,
+      "fully_identifies_L_R_Phi_K_accessibility_invasion_fixation_occupancy": false,
+      "maintenance_or_group_intervention_present": true,
+      "matched_ancestral_shared_coordinate_conflict_fitness_assayed": false,
+      "observed_forward_specialist_phenotype_or_partner_emergence": true,
+      "organism": "Pseudomonas fluorescens",
+      "original_publication_doi": "10.1038/ncomms10508",
+      "programme_id": "KIM2016",
+      "registered_source_counts": {
+        "CFU_mixed_single_source_figure_anova_p": 0.000957,
+        "individually_chosen_successful_D_fan_mutants": 20,
+        "polymer_loss_control_anova_p": 0.000167,
+        "source_M_equilibrium_fraction_approx": 0.1
+      },
+      "reverse_autonomy_or_partner_exit_observed": false,
+      "source_specific_limit": "Parent already rsmE-mutant, selected successful D fans only, not an ancestral two-function generalist or unbiased probability of origin.",
+      "source_supported_observation": "New complementary Dry role from Mucoid background, required polymer and collective spread; no denominator of all founding colonies"
+    },
+    {
+      "ancestral_within_genotype_two_function_module_split_identified": false,
+      "authoritative_existing_original_source_receipts": [
+        "kim_zhang_forward_dol_readout.json"
+      ],
+      "correct_inference_unit": "source-selected terminal mutant clones, nested in parent colony; colony mixing frequency",
+      "de_novo_mutant_role_origin_observed": true,
+      "evidence_class": "recurrent_terminal_specialization_not_stable_reproducing_lineage",
+      "evidence_layer": "terminal_functional_division_no_stable_specialist_line",
+      "forward_founder_denominator_available": false,
+      "fully_identifies_L_R_Phi_K_accessibility_invasion_fixation_occupancy": false,
+      "maintenance_or_group_intervention_present": true,
+      "matched_ancestral_shared_coordinate_conflict_fitness_assayed": false,
+      "observed_forward_specialist_phenotype_or_partner_emergence": true,
+      "organism": "Streptomyces coelicolor",
+      "original_publication_doi": "10.1126/sciadv.aay5781",
+      "programme_id": "ZHANG2020",
+      "registered_source_counts": {
+        "antibiotic_fraction_model_F": 107.7,
+        "selected_mutants": 30,
+        "selected_mutants_reduced_spore_production": 28,
+        "spore_fraction_model_F": 37.95
+      },
+      "reverse_autonomy_or_partner_exit_observed": false,
+      "source_specific_limit": "Thirty selected clones are not 30 biological origins, terminal mutants lack stable independent reproduction; no raw original Figure4 mixing values.",
+      "source_supported_observation": "Somatic-like terminal genome variants hyperproduce antibiotics at clone fertility cost; parents regenerate terminal differentiation"
+    },
+    {
+      "ancestral_within_genotype_two_function_module_split_identified": false,
+      "authoritative_existing_original_source_receipts": [
+        "bacillus2018_conditional_history_readout.json"
+      ],
+      "correct_inference_unit": "independently evolved mixed pellicle culture, not engineered EPS/TasA clone count",
+      "de_novo_mutant_role_origin_observed": false,
+      "evidence_class": "engineered_division_and_evolutionary_dependency_escape",
+      "evidence_layer": "engineered_split_evolutionary_instability",
+      "forward_founder_denominator_available": false,
+      "fully_identifies_L_R_Phi_K_accessibility_invasion_fixation_occupancy": false,
+      "maintenance_or_group_intervention_present": true,
+      "matched_ancestral_shared_coordinate_conflict_fitness_assayed": false,
+      "observed_forward_specialist_phenotype_or_partner_emergence": false,
+      "organism": "Bacillus subtilis",
+      "original_publication_doi": "10.1038/s41564-018-0263-y",
+      "programme_id": "BACILLUS_DRAGOS",
+      "registered_source_counts": {
+        "mixed_cultures_eps_partner_extinct": 4,
+        "mixed_cultures_started": 6,
+        "monoculture_eps_dependency_escape_events": 2,
+        "monoculture_eps_started": 6
+      },
+      "reverse_autonomy_or_partner_exit_observed": true,
+      "source_specific_limit": "Two source publications from the same programme; engineered division, not a newly evolved forward origin.",
+      "source_supported_observation": "Engineered complementary EPS/TasA partner association sometimes raises short-run pellicle output but Δeps partner is lost in four of six coevolved mixed cultures"
+    },
+    {
+      "ancestral_within_genotype_two_function_module_split_identified": false,
+      "authoritative_existing_original_source_receipts": [
+        "chen2024_autonomy_reversal_readout.json"
+      ],
+      "correct_inference_unit": "independently started evolution lines within each of three carbon regimes",
+      "de_novo_mutant_role_origin_observed": false,
+      "evidence_class": "reverse_specialists_to_autonomous_genotype",
+      "evidence_layer": "reverse_architecture_exit",
+      "forward_founder_denominator_available": false,
+      "fully_identifies_L_R_Phi_K_accessibility_invasion_fixation_occupancy": false,
+      "maintenance_or_group_intervention_present": false,
+      "matched_ancestral_shared_coordinate_conflict_fitness_assayed": false,
+      "observed_forward_specialist_phenotype_or_partner_emergence": false,
+      "organism": "Pseudomonas stutzeri",
+      "original_publication_doi": "10.1073/pnas.2317182121",
+      "programme_id": "CHEN2024",
+      "registered_source_counts": {
+        "autonomist_events_by_regime": [
+          0,
+          0,
+          5
+        ],
+        "sequenced_successful_evolution_lines": 5,
+        "started_lines_by_regime": [
+          12,
+          12,
+          12
+        ]
+      },
+      "reverse_autonomy_or_partner_exit_observed": true,
+      "source_specific_limit": "Genetic reacquisition consistent with HGT; reverse direction only; simulated parameter sets not biological programmes.",
+      "source_supported_observation": "Specialist pair genetically regains whole-pathway autonomist in 5/12 alternating lines, not in either constant 0/12 arm"
+    },
+    {
+      "ancestral_within_genotype_two_function_module_split_identified": false,
+      "authoritative_existing_original_source_receipts": [
+        "dsouza2016_aa_auxotrophy_fig2_readout.json"
+      ],
+      "correct_inference_unit": "16 independent evolving populations (8 with amino acids and 8 without); 96 repeated assay cells",
+      "de_novo_mutant_role_origin_observed": false,
+      "evidence_class": "environment_contingent_function_loss_not_reciprocal_split",
+      "evidence_layer": "conditional_function_loss_context",
+      "forward_founder_denominator_available": false,
+      "fully_identifies_L_R_Phi_K_accessibility_invasion_fixation_occupancy": false,
+      "maintenance_or_group_intervention_present": false,
+      "matched_ancestral_shared_coordinate_conflict_fitness_assayed": false,
+      "observed_forward_specialist_phenotype_or_partner_emergence": false,
+      "organism": "Escherichia coli",
+      "original_publication_doi": "10.1371/journal.pgen.1006364",
+      "programme_id": "DSOUZA2016",
+      "registered_source_counts": {
+        "AA_supplied_detectable_auxotroph_lines_gen2000": 6,
+        "AA_supplied_started_lines": 8,
+        "no_AA_detectable_auxotroph_lines_gen2000": 0,
+        "no_AA_started_lines": 8
+      },
+      "reverse_autonomy_or_partner_exit_observed": false,
+      "source_specific_limit": "Source figure cells are repeated assays and detection can change without genotype origin/extinction; original Dryad workbook inaccessible.",
+      "source_supported_observation": "Environment-dependent terminal detectability of evolved auxotrophy, not independently identified mutation-origin frequency or reciprocal role split"
+    },
+    {
+      "ancestral_within_genotype_two_function_module_split_identified": false,
+      "authoritative_existing_original_source_receipts": [
+        "kinsler2024_parent_relative_readout.json"
+      ],
+      "correct_inference_unit": "selected barcoded adaptive clone, nested in evolution condition, ancestral background and historical publication",
+      "de_novo_mutant_role_origin_observed": false,
+      "evidence_class": "selected_mutant_pleiotropy_vs_modular_effects",
+      "evidence_layer": "conditional_mutational_effect_scope",
+      "forward_founder_denominator_available": false,
+      "fully_identifies_L_R_Phi_K_accessibility_invasion_fixation_occupancy": false,
+      "maintenance_or_group_intervention_present": false,
+      "matched_ancestral_shared_coordinate_conflict_fitness_assayed": false,
+      "observed_forward_specialist_phenotype_or_partner_emergence": false,
+      "organism": "Saccharomyces cerevisiae",
+      "original_publication_doi": "10.1371/journal.pbio.3002848",
+      "programme_id": "KINSLER2024",
+      "registered_source_counts": {
+        "Evo2D_both_function_gain_clones": 109,
+        "Evo2D_selected_clones": 306,
+        "Evo3D_both_function_gain_clones": 25,
+        "Evo3D_selected_clones": 202,
+        "total_older_and_current_S1_clone_rows": 4633
+      },
+      "reverse_autonomy_or_partner_exit_observed": false,
+      "source_specific_limit": "S1 pools 2024 and prior publication clones; not an unscreened mutation origin sample, nor independently evolved 306/202 populations.",
+      "source_supported_observation": "Phenotypic scope of selected adaptive mutations across fermentation and respiration depends on backgrounds, source and assay class"
+    },
+    {
+      "ancestral_within_genotype_two_function_module_split_identified": false,
+      "authoritative_existing_original_source_receipts": [
+        "mridha2022_published_stats_readout.json"
+      ],
+      "correct_inference_unit": "engineered mixed-specialist culture under iron environmental strata, not de novo origin",
+      "de_novo_mutant_role_origin_observed": false,
+      "evidence_class": "engineered_specialist_group_payoff_vs_coexistence",
+      "evidence_layer": "payoff_and_occupancy_are_distinct",
+      "forward_founder_denominator_available": false,
+      "fully_identifies_L_R_Phi_K_accessibility_invasion_fixation_occupancy": false,
+      "maintenance_or_group_intervention_present": true,
+      "matched_ancestral_shared_coordinate_conflict_fitness_assayed": false,
+      "observed_forward_specialist_phenotype_or_partner_emergence": false,
+      "organism": "Pseudomonas aeruginosa",
+      "original_publication_doi": "10.1111/jeb.14001",
+      "programme_id": "MRIDHA2022",
+      "registered_source_counts": {
+        "WT_relative_group_payoff_directions": [
+          "higher",
+          "not_resolved",
+          "lower",
+          "lower"
+        ],
+        "environmental_strata": 4,
+        "experimental_blocks": 4
+      },
+      "reverse_autonomy_or_partner_exit_observed": false,
+      "source_specific_limit": "Engineered split; growth AUC source reported and Dryad raw values unavailable; negative frequency dependence not an adaptive origin.",
+      "source_supported_observation": "Specialist mix can coexist with negative frequency dependence while mixed group productivity switches from above to below WT across iron regimes"
+    },
+    {
+      "ancestral_within_genotype_two_function_module_split_identified": false,
+      "authoritative_existing_original_source_receipts": [
+        "mihajlovic2025_replica_reanalysis.json"
+      ],
+      "correct_inference_unit": "independent replicate fluorescence evolution lines per one vs two gene copies",
+      "de_novo_mutant_role_origin_observed": false,
+      "evidence_class": "gene_duplication_without_observed_subfunctionalization",
+      "evidence_layer": "duplication_negative_control",
+      "forward_founder_denominator_available": false,
+      "fully_identifies_L_R_Phi_K_accessibility_invasion_fixation_occupancy": false,
+      "maintenance_or_group_intervention_present": false,
+      "matched_ancestral_shared_coordinate_conflict_fitness_assayed": false,
+      "observed_forward_specialist_phenotype_or_partner_emergence": false,
+      "organism": "Escherichia coli",
+      "original_publication_doi": "10.7554/eLife.97216.3",
+      "programme_id": "COGFP2025",
+      "registered_source_counts": {
+        "independent_lines_per_copy_number": 3,
+        "two_gene_copy_subfunctionalization_in_source": false
+      },
+      "reverse_autonomy_or_partner_exit_observed": false,
+      "source_specific_limit": "One vs two copy GFP adaptation, not forward division of two distinct tasks or a historical module split.",
+      "source_supported_observation": "A second gene copy can change robustness or fluorescent-cell fraction without observed division into different specialized functions"
+    },
+    {
+      "ancestral_within_genotype_two_function_module_split_identified": false,
+      "authoritative_existing_original_source_receipts": [
+        "despres2024_matched_summary.json"
+      ],
+      "correct_inference_unit": "matched engineered mutant allele pair with both parental homomer growth controls",
+      "de_novo_mutant_role_origin_observed": false,
+      "evidence_class": "engineered_heteromer_rescue_without_origin_history",
+      "evidence_layer": "complementation_without_origins",
+      "forward_founder_denominator_available": false,
+      "fully_identifies_L_R_Phi_K_accessibility_invasion_fixation_occupancy": false,
+      "maintenance_or_group_intervention_present": false,
+      "matched_ancestral_shared_coordinate_conflict_fitness_assayed": false,
+      "observed_forward_specialist_phenotype_or_partner_emergence": false,
+      "organism": "Saccharomyces cerevisiae",
+      "original_publication_doi": "10.1126/science.ado5719",
+      "programme_id": "DESPRES2024",
+      "registered_source_counts": {
+        "pairs_with_both_parent_controls": 105,
+        "strict_heteromer_rescue_pairs": 22
+      },
+      "reverse_autonomy_or_partner_exit_observed": false,
+      "source_specific_limit": "Shared component alleles; 105 mutant combinations not independent evolutionary origin events; no matched original WT optimal shared genotype.",
+      "source_supported_observation": "Engineered Fcy1 heteromer can rescue function of two defective homomer pairs, demonstrating complementation but not historical architecture origin"
+    },
+    {
+      "ancestral_within_genotype_two_function_module_split_identified": false,
+      "authoritative_existing_original_source_receipts": [
+        "nasvall2026_reanalysis.json"
+      ],
+      "correct_inference_unit": "48 independently started populations across mutator and nonmutator genetic backgrounds",
+      "de_novo_mutant_role_origin_observed": false,
+      "evidence_class": "genetic_background_conditioned_rescue_not_module_origin",
+      "evidence_layer": "background_conditioned_genetic_accessibility",
+      "forward_founder_denominator_available": false,
+      "fully_identifies_L_R_Phi_K_accessibility_invasion_fixation_occupancy": false,
+      "maintenance_or_group_intervention_present": false,
+      "matched_ancestral_shared_coordinate_conflict_fitness_assayed": false,
+      "observed_forward_specialist_phenotype_or_partner_emergence": false,
+      "organism": "Salmonella",
+      "original_publication_doi": "10.1093/g3journal/jkag167",
+      "programme_id": "NASVALL2026",
+      "registered_source_counts": {
+        "mutator_rescued_lines": 21,
+        "mutator_started": 24,
+        "nonmutator_rescued_lines": 10,
+        "nonmutator_started": 24
+      },
+      "reverse_autonomy_or_partner_exit_observed": false,
+      "source_specific_limit": "Not a matched split/history experiment; rescue is not emergence of two jointly maintained specialist units or hysteresis.",
+      "source_supported_observation": "Different genetic backgrounds grant different physiological-rescue routes, not an observed division into two complementary modules"
+    },
+    {
+      "ancestral_within_genotype_two_function_module_split_identified": false,
+      "authoritative_existing_original_source_receipts": [
+        "altameemi2024_source_grade_evolution_and_nfds_readout.json"
+      ],
+      "correct_inference_unit": "four independently founded coculture/monoculture P. putida line pairs, and one selected original evolved population for replay",
+      "de_novo_mutant_role_origin_observed": false,
+      "evidence_class": "community_dependent_retained_polymorphism_without_focal_NFDS_support",
+      "evidence_layer": "environment_dependent_phenotypic_polymorphism_retention_mechanism_unresolved",
+      "focal_NFDS_mechanism_identified": false,
+      "forward_founder_denominator_available": false,
+      "founder_denominator_for_endpoint_polymorphism_available": true,
+      "fully_identifies_L_R_Phi_K_accessibility_invasion_fixation_occupancy": false,
+      "known_resource_supplier_effect_not_separable_from_carbon_supply": true,
+      "maintenance_or_group_intervention_present": true,
+      "matched_ancestral_shared_coordinate_conflict_fitness_assayed": false,
+      "modern_2026_related_followup_not_counted_as_extra_programme": true,
+      "observed_forward_specialist_phenotype_or_partner_emergence": false,
+      "organism": "Pseudomonas putida + Acinetobacter johnsonii",
+      "original_publication_doi": "10.1128/msystems.01053-24",
+      "programme_id": "ALTAMEEMI2024",
+      "registered_source_counts": {
+        "coculture_bimodal_at_gen200": 4,
+        "coculture_started_evolving_Pputida_lines": 4,
+        "focal_invader_genotype_pair_source_evolution_line": 2,
+        "monoculture_bimodal_at_gen200": 0,
+        "monoculture_started_evolving_Pputida_lines": 4,
+        "paired_founder_McNemar_two_sided_p_sensitivity": 0.125,
+        "replay_independent_original_evolution_histories": 1,
+        "replay_technical_cultures_per_condition": 6,
+        "unpaired_Fisher_two_sided_p_descriptive": 0.02857142857142857
+      },
+      "retained_two_morphotypes_in_coculture_after_evolution": true,
+      "reverse_autonomy_or_partner_exit_observed": false,
+      "source_specific_limit": "Complete 4+4 founder denominator for retained two-morphotype state, NOT a tested frequency of role splitting. Isolates show yield/motility trade-offs but a small morphotype is not proven to specialize in complementary function. Unmatched carbon resource levels; a single genotype-pair NFDS test inconclusive.",
+      "source_supported_observation": "Both larger and small colony genotypes are retained at generation 200 in all four coculture evolved lines but no monoculture evolved lines. Larger type originated in both environments; focal two-genotype invasion failed to support NFDS, while whole-community replay depends on crossfeeding species presence."
+    }
+  ],
+  "interpretation_contract": {
+    "AlTameemi_2026_potential_followup_not_automatically_independent": true,
+    "AlTameemi_and_original_2019_200_generation_evolution_same_programme": true,
+    "Bacillus_two_article_programme_counted_once": true,
+    "Fisher_vs_possible_founder_pairing_exact_tests_not_conflated": true,
+    "Kim_and_Zhang_shared_receipt_count_as_two_separate_original_programmes": true,
+    "Pineau_4_derivative_receipts_count_as_one_programme": true,
+    "active_BITA_mechanism_identification_paper_untouched": true,
+    "biotic_resource_supplementation_confounded": true,
+    "focal_experiment_is_not_this_literature_synthesis": true,
+    "legacy_architecture_chapter2_and_SLK_owned_by_theory_companion": true,
+    "new_4of4_vs0of4_measures_retained_polymorphism_not_first_origin_frequency": true,
+    "no_inferred_cross_programme_effect_size_or_origin_rate": true,
+    "no_matched_original_shared_vs_differentiated_cost_bridge_Ku": true,
+    "no_meta_analysis": true,
+    "no_prevalence_in_nature_or_complete_literature_universe": true,
+    "programmes_still_unpooled": true,
+    "programmes_with_different_event_definitions_never_pooled": true,
+    "same_source_repeated_assays_never_relabelled_as_new_programmes": true,
+    "source_NFDS_unconfirmed_in_focal_pair_not_proof_of_no_NFDS_globally": true,
+    "stage_separation": "forward biological emergence != immediate group payoff != ecological retention != evolutionary escape",
+    "technically_replicated_replay_of_one_line_not_six_independent_origins": true
+  },
+  "new_12th_programme_specific_claim": {
+    "article_doi": "10.1128/msystems.01053-24",
+    "biotic_vs_resource_supplied_not_deconfounded": true,
+    "founder_4x4_unpaired_reference_p": 0.02857142857142857,
+    "independent_founding_line_retained_bimodality_exposure": "4/4 co-culture versus 0/4 monoculture at 200 generations",
+    "negative_focal_clone_pair_NFDS_test_not_supported": true,
+    "not_original_two_task_module_origin": true,
+    "paired_original_founder_block_reference_p": 0.125,
+    "replay_technical_6_per_arm_not_independent_parent_histories": true,
+    "whole_population_crossfed_replay_no_morphotype_extinction_with_partner_removed": true
+  },
+  "number_of_distinct_machine_read_source_receipts": 14,
+  "number_of_unique_independent_research_programmes": 12,
+  "predecessor_11_programme_SHA256": "376a4585e5493f199f7f81d8fb6d4f37d7adcdf295a2bfd29bf52f7b43578b97",
+  "programme_sampling_frame": "purposefully selected and non-exhaustive original studies; NOT systematic literature meta-analysis",
+  "programme_to_receipt_mapping": {
+    "ALTAMEEMI2024": [
+      "altameemi2024_source_grade_evolution_and_nfds_readout.json"
+    ],
+    "BACILLUS_DRAGOS": [
+      "bacillus2018_conditional_history_readout.json"
+    ],
+    "CHEN2024": [
+      "chen2024_autonomy_reversal_readout.json"
+    ],
+    "COGFP2025": [
+      "mihajlovic2025_replica_reanalysis.json"
+    ],
+    "DESPRES2024": [
+      "despres2024_matched_summary.json"
+    ],
+    "DSOUZA2016": [
+      "dsouza2016_aa_auxotrophy_fig2_readout.json"
+    ],
+    "KIM2016": [
+      "kim_zhang_forward_dol_readout.json"
+    ],
+    "KINSLER2024": [
+      "kinsler2024_parent_relative_readout.json"
+    ],
+    "MRIDHA2022": [
+      "mridha2022_published_stats_readout.json"
+    ],
+    "NASVALL2026": [
+      "nasvall2026_reanalysis.json"
+    ],
+    "PINEAU2024": [
+      "pineau2024_f2_workbook_source_reanalysis.json",
+      "pineau2024_f5_original_replay_readout.json",
+      "pineau2024_original_forward_divergence.json",
+      "pineau2024_publisher_source_adjudication.json"
+    ],
+    "ZHANG2020": [
+      "kim_zhang_forward_dol_readout.json"
+    ]
+  },
+  "source_grade": "original_source_JATS_11_previous_machine_source_receipts_plus_new_original_2024_mSystems_fulltext",
+  "source_receipts_sha256": {
+    "altameemi2024_source_grade_evolution_and_nfds_readout.json": "492e9b128d9a790f989473d2ec951019c4764d4289a79bc354ac05069cfc9fe0",
+    "bacillus2018_conditional_history_readout.json": "8725a2653d7a6e6a2e18b9d64186fdfcaebb3d18aa44d180d354cab42506f430",
+    "chen2024_autonomy_reversal_readout.json": "2dba88c78bf89a57819a4e31c9c937d97d0ad6b5f01dd78ffaacce96ebd1c469",
+    "despres2024_matched_summary.json": "aa4da259b3029c28f2079d4f462956fd8ea4ddebf51a488ea576b0e7c40500ee",
+    "dsouza2016_aa_auxotrophy_fig2_readout.json": "d16ce0defc434c8ad626713caa370c6b2661803b7a08cbec5ed544b0bf20b316",
+    "kim_zhang_forward_dol_readout.json": "bbeaf2c245b4795770049c3ac59f9a32a10f1f13bb68e0c15433dd78f5aebaf1",
+    "kinsler2024_parent_relative_readout.json": "f88588fb0850653ca33205a4b9aa3b6aeb882d66222c1078868be5380071040c",
+    "mihajlovic2025_replica_reanalysis.json": "25acda3d005bfd374ebfe548d958e770c5940545a32f72106ca0144d7d44ada3",
+    "mridha2022_published_stats_readout.json": "1eaf7bbe77bf99d6c893faf676be6f19002bebec04896105788c2481e0052538",
+    "nasvall2026_reanalysis.json": "13f2ff100bb4bbc684b88fc7a4cff89c13e6806c0c491a6ce86d82cb6dfe657a",
+    "pineau2024_f2_workbook_source_reanalysis.json": "8fb1e3a668f388a1a4850fbc7a7dd2ab3933d255d403601428d34b209c50e41b",
+    "pineau2024_f5_original_replay_readout.json": "640c6b35daac426df0502a2d46c918e60cc53d04deefd4375985145ea4526f85",
+    "pineau2024_original_forward_divergence.json": "4e3aa61132c3322182d504f6e05135509b325659cffcebbd356fc3d0ff33a4c7",
+    "pineau2024_publisher_source_adjudication.json": "127b0c3b68532ae6d7ae11566018806ffa0f0268bf3b5c88027827abbeb8f5e2"
+  },
+  "title": "Historical architecture programme-level evidence v2: co-culture maintained morphotypes, source-negative focal NFDS",
+  "version": "v2_additive_2026_11_24"
+}
