@@ -1,0 +1,118 @@
+name: bita-altameemi2024-source-verified-crossfeeding-diversification
+on:
+  push:
+    branches: ['analysis/bita-altameemi2024-crossfeeding-diversification-20261124']
+    paths:
+      - '.github/workflows/bita-altameemi2024-source-verified-crossfeeding-diversification.yml'
+      - 'scripts/audit_bita_altameemi2024_source.py'
+      - 'tests/test_bita_altameemi2024_source.py'
+      - 'empirical/trait_architecture_history/altameemi2024_source_grade_evolution_and_nfds_readout.json'
+  pull_request:
+    branches: ['analysis/bita-cross-programme-evolution-chain-20261124']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-primary-article-and-biological-denominators:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Attempt authentic original full text by original journal and archived JATS
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, pathlib, urllib.request, urllib.error
+          from scripts.audit_bita_altameemi2024_source import (
+              ORIGINAL_JATS, PUB_URL, validate_original_source,
+          )
+          root=pathlib.Path('/tmp/bita_altameemi_original_article');root.mkdir(parents=True,exist_ok=True)
+          sources=[
+              ('original_EuropePMC_JATS',ORIGINAL_JATS,'jats'),
+              ('original_ASM_publisher_HTML',PUB_URL,'html'),
+          ]
+          result=None;all_attempts=[]
+          for name,url,kind in sources:
+              receipt={'provider':name,'url':url,'source_type':kind,'valid_original_fulltext':False}
+              try:
+                  req=urllib.request.Request(url,headers={
+                      'User-Agent':'BITA-original-peer-reviewed-article-audit/1.0',
+                      'Accept':'application/xml,text/html,text/plain,*/*'
+                  })
+                  with urllib.request.urlopen(req,timeout=35) as response:
+                      raw=response.read(4_000_001)
+                  verified=validate_original_source(raw,kind)
+                  receipt['valid_original_fulltext']=True
+                  receipt['verified_sha256']=verified['source_sha256']
+                  receipt['verified_original_article_length']=verified['source_bytes']
+                  (root/'source.original').write_bytes(raw)
+                  result={'source_type':kind,'receipt':verified}
+              except (urllib.error.URLError,ValueError,TimeoutError,
+                      UnicodeDecodeError) as error:
+                  receipt['unavailable_or_not_a_verified_original_article'] = True
+                  receipt['observed_failure_class']=type(error).__name__
+              all_attempts.append(receipt)
+              print('BITA_ALTAMEEMI_PRIMARY_SOURCE_ATTEMPT:'+json.dumps(receipt,sort_keys=True),flush=True)
+              if result is not None:break
+          (root/'fetch_receipts.json').write_text(json.dumps(all_attempts,indent=2)+'\n',encoding='utf8')
+          (root/'source_status.json').write_text(json.dumps({
+              'source_type':result['source_type'] if result else None,
+              'primary_original_fulltext_binary_validated':result is not None,
+          })+'\n',encoding='utf8')
+          print('BITA_ALTAMEEMI_PRIMARY_SOURCE_GRADE:'+(
+              'ORIGINAL_FULLTEXT_VERIFIED' if result else
+              'NO_AUTHENTIC_FULLTEXT_BINARY_FOR_MACHINE_AUDIT'
+          ),flush=True)
+          PY
+      - name: Recover original trial denominators and explicit unknown frequency dependence
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          from scripts.audit_bita_altameemi2024_source import (
+              validate_original_source,source_record,
+          )
+          base=pathlib.Path('/tmp/bita_altameemi_original_article')
+          grade=json.loads((base/'source_status.json').read_text())
+          raw=base/'source.original'
+          checked=(validate_original_source(raw.read_bytes(),grade['source_type'])
+                  if raw.is_file() else None)
+          result=source_record(
+              checked, json.loads((base/'fetch_receipts.json').read_text())
+          )
+          output=base/'source_results.json'
+          output.write_text(json.dumps(result,indent=2,ensure_ascii=False,allow_nan=False)+'\n',encoding='utf8')
+          print('BITA_ALTAMEEMI_SOURCE_GRADE:'+result['source_grade'],flush=True)
+          print('BITA_ALTAMEEMI_SOURCE_CANONICAL_JSON:'+
+                json.dumps(result,sort_keys=True,separators=(',',':')),flush=True)
+          PY
+      - name: Regression, original source units, pairing sensitivity and mechanism boundary
+        run: |
+          python -m pip install 'pytest>=8,<10'
+          python -m pytest -q tests/test_bita_altameemi2024_source.py
+      - name: Exact derived JSON roundtrip or first-source freeze declaration
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          fresh=json.loads(Path('/tmp/bita_altameemi_original_article/source_results.json').read_text())
+          frozen=Path('empirical/trait_architecture_history/altameemi2024_source_grade_evolution_and_nfds_readout.json')
+          if frozen.exists():
+              if fresh != json.loads(frozen.read_text()):
+                  raise ValueError('source-grade experiment/negative mechanism readout differs from frozen artifact')
+              print('BITA_ALTAMEEMI_SOURCE_FROZEN_ROUNDTRIP:PASS',flush=True)
+          else:
+              print('BITA_ALTAMEEMI_SOURCE_FROZEN_ROUNDTRIP:AWAITING_FIRST_FREEZE',flush=True)
+          assert fresh['source_evolution']['Pputida_coculture_bimodal_lines_at_endpoint']==4
+          assert fresh['source_evolution']['Pputida_monoculture_bimodal_lines_at_endpoint']==0
+          assert fresh['mechanism_diagnostics']['reciprocal_invasion_negative_frequency_dependence_not_supported']
+          assert fresh['mechanism_diagnostics']['without_Ajohnsonii_both_morphotypes_not_extinct']
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-altameemi-original-study-source-receipt-and-correct-denominators
+          path: /tmp/bita_altameemi_original_article/source_results.json
+          if-no-files-found: error
+          retention-days: 30
