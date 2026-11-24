@@ -1,0 +1,41 @@
+{
+  "schema": "chapter2_evolved_architecture_readout_v3",
+  "independent_new_programmes_described": 4,
+  "strict_evolution_origin_programmes_added": 2,
+  "poltak_three_morphs": {
+    "risk_difference": 1,
+    "wilson_newcombe_95ci": [
+      0.44798395618951337,
+      1
+    ],
+    "fisher_two_sided_unpaired": 0.0021645021645021645
+  },
+  "poltak_any_novel_type_sensitivity": {
+    "risk_difference": 0.8333333333333334,
+    "wilson_newcombe_95ci": [
+      0.2767007878961947,
+      0.9699466302516934
+    ],
+    "fisher_two_sided_unpaired": 0.015151515151515152
+  },
+  "altameemi_existing_retained_bimodality_unpaired_reference": {
+    "risk_difference": 1,
+    "wilson_newcombe_95ci": [
+      0.3071897350036086,
+      1
+    ],
+    "fisher_two_sided_unpaired": 0.02857142857142857
+  },
+  "altameemi_paired_reference_two_sided": 0.125,
+  "poltak_paired_design_assumption": "unpaired calculation conditional on independent exchangeable founding populations; not an isolated effect of spatial structure",
+  "saxer_paired_slope_dz": -3.4033333333333338,
+  "saxer_dz_role": "descriptive within-study paired standardized slope change only",
+  "yang_biomass_mean_effect_recovered": false,
+  "yang_ancestor_vs_consorita_median_only": true,
+  "pande_s2_original_numeric_recovery": false,
+  "wintermute_approx_ratio_of_threshold_percentages": 5,
+  "strict_comparable_endpoint_biomass_pool_eligible_new": 0,
+  "cross_study_pool_performed": false,
+  "endpoint_binary_pool_performed": false,
+  "reason": "Poltak endpoint three derived morphs versus Al-Tameemi retained bimodality; contrasts structure/selection vs biotic resource supply, and possible pairing in Al-Tameemi; no common causal effect or representative search"
+}
