@@ -1,0 +1,110 @@
+{
+  "article_source_receipt": {
+    "all_original_result_tokens_verified": true,
+    "article_PMCI": "PMC11575400",
+    "original_article_fulltext_grade": "FULL_TEXT_PRIMARY_ARTICLE_WITH_REQUIRED_RESULTS_VERIFIED",
+    "published_article_DOI": "10.1128/msystems.01053-24",
+    "registered_source_body_passage_verified": true,
+    "source_bytes": 134602,
+    "source_sha256": "f264ccad7af897c9836ac1144ffc5d8cbdede97a034684ec7d2b9b799b223af0",
+    "source_type": "jats"
+  },
+  "cross_programme_comparability": {
+    "2026_same_species_800_generation_study_not_counted_as_separate_programme_without_lineage_audit": true,
+    "no_Ku_or_full_L_to_occupancy_theory_path_estimated": true,
+    "no_ancestral_same_genotype_two_function_optimum_test": true,
+    "no_genetic_module_duplication_established": true,
+    "no_wildtype_vs_new_split_architecture_causal_test": true,
+    "original_SRA_genomes_directly_reanalysed": false,
+    "original_data_raw_isolate_measurements_retrieved": false,
+    "resource_demand_confound_benzoate_not_externally_supplied_to_mono": true,
+    "short_term_200_generation_retention_not_permanent_long_term_persistence": true,
+    "source_matched_abiotic_carbon_supply_control_available": false,
+    "unpaired_vs_paired_small_n_statistical_sensitivity_explicit": true
+  },
+  "focal_founder_ancestry": "four line-specific clonal ancestral isolates, diverged by a few generations",
+  "focal_species": "Pseudomonas putida KT2440",
+  "genetic_and_tradeoff": {
+    "fleQ_mutant_reduced_biofilm": true,
+    "fleQ_mutant_reduced_motility": true,
+    "fleQ_or_flagellar_gene_mutations_within_source_evolved_lineages": true,
+    "large_morphotype_increased_yield": true,
+    "motility_biofilm_vs_yield_different_endpoints_not_two_independent_new_modules": true,
+    "reported_large_vs_ancestor_yield_fold": 3.4,
+    "source_replicate_two_ancestral_yield_OD_per_mM": 0.02,
+    "source_replicate_two_large_yield_OD_per_mM": 0.068,
+    "source_replicate_two_small_yield_OD_per_mM": 0.023
+  },
+  "mechanism_diagnostics": {
+    "not_equivalence_or_definitive_null_mechanism": true,
+    "partner_role_is_interspecific_resource_supplier_not_origin_of_two_Pputida_roles": true,
+    "published_pooled_rare_genotype_fitness_p_for_Ajohnsonii_presence": 0.814,
+    "published_t_df": 28,
+    "reciprocal_invasion_negative_frequency_dependence_not_supported": true,
+    "reciprocal_invasion_pair_source_replicate_2_only": true,
+    "replay_control_with_partner_densities_more_stable": true,
+    "replay_over_additional_generations_approx": 50,
+    "replay_tubes_are_technical_within_one_original_evolution_history": true,
+    "replay_tubes_per_Ajohnsonii_present_absent_arm": 6,
+    "replay_uses_one_original_138_generation_coculture_population": true,
+    "replay_without_partner_small_morphotype_approx_fourfold_larger_density": true,
+    "this_does_not_rule_out_frequency_dependence_in_whole_multigenotype_population": true,
+    "without_Ajohnsonii_both_morphotypes_not_extinct": true
+  },
+  "one_new_independent_programme_relative_to_current_BITA_11": true,
+  "original_article_PMCID": "PMC11575400",
+  "original_article_url": "https://journals.asm.org/doi/10.1128/msystems.01053-24",
+  "original_biological_experiment_family": "RodriguezVerdugo_Ackermann_original_200_generation_evolution_AlTameemi2024",
+  "original_publication_year": 2024,
+  "paper_DOI": "10.1128/msystems.01053-24",
+  "paper_title": "Microbial diversification is maintained in an experimentally evolved synthetic community",
+  "previous_experiment_publication": "Rodriguez-Verdugo and Ackermann, original 200-generation evolution; not an independent new 2024 founding experiment",
+  "resource_provider": "Acinetobacter johnsonii C6",
+  "retrieval_receipts": [
+    {
+      "provider": "original_EuropePMC_JATS",
+      "source_type": "jats",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11575400/fullTextXML",
+      "valid_original_fulltext": true,
+      "verified_original_article_length": 134602,
+      "verified_sha256": "f264ccad7af897c9836ac1144ffc5d8cbdede97a034684ec7d2b9b799b223af0"
+    }
+  ],
+  "source_evolution": {
+    "Ajohnsonii_monoculture_founding_lines": 4,
+    "Pputida_coculture_bimodal_lines_at_endpoint": 4,
+    "Pputida_coculture_founding_lines": 4,
+    "Pputida_coculture_larger_morphotype_appeared_during_evolution": true,
+    "Pputida_monoculture_bimodal_lines_at_endpoint": 0,
+    "Pputida_monoculture_founding_lines": 4,
+    "Pputida_monoculture_larger_morphotype_appeared_during_evolution": true,
+    "endpoint_type": "retained_large_and_small_colony_morphotypes_at_generation_200",
+    "generations": 200,
+    "isolated_colonies_do_not_count_as_independent_founding_lines": true,
+    "isolated_colonies_per_independent_evolution_line": 30,
+    "source_historical_origin_probability_4of4_vs_0of4": false
+  },
+  "source_grade": "FULL_TEXT_PRIMARY_ARTICLE_WITH_REQUIRED_RESULTS_VERIFIED",
+  "source_replicate_two_longitudinal_example": {
+    "larger_morphotype_first_detected_gen_coculture_approx": 70,
+    "larger_morphotype_first_detected_gen_mono_approx": 40,
+    "monoculture_small_morphotype_extinct_by_approx_gen140": true,
+    "morphotypes_coexist_from_approx_gen70_to_200_in_coculture": true,
+    "not_four_independent_longitudinal_measurement_series": true,
+    "source_line": "Pputida original evolution line 2"
+  },
+  "source_specific_4_arm_exact_sensitivity": {
+    "co_culture_detectable_bimodal_lines": 4,
+    "co_culture_started_Pputida_lines": 4,
+    "conditional_pairing_4_discordant_pairs_exact_two_sided_p_sensitivity": 0.125,
+    "four_isolates_vs_four_cultures_not_comparable": true,
+    "mono_culture_detectable_bimodal_lines": 0,
+    "mono_culture_started_Pputida_lines": 4,
+    "observed_risk_difference": 1,
+    "pairing_requires_source_lineage_adjudication": true,
+    "post_source_analytical_tests_not_preregistered": true,
+    "source_arms_corresponding_founder_indices_1_to_4": true,
+    "unpaired_Fisher_table_allocations": 70,
+    "unpaired_Fisher_two_sided_p_descriptive": 0.02857142857142857
+  }
+}
