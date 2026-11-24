@@ -1,0 +1,56 @@
+name: bita-12-programme-source-locked-nfds-maintenance-synthesis
+on:
+  push:
+    branches: ['analysis/bita-altameemi2024-crossfeeding-diversification-20261124']
+    paths:
+      - '.github/workflows/bita-12-programme-source-locked-nfds-maintenance-synthesis.yml'
+      - 'scripts/audit_bita_cross_programme_extension_12.py'
+      - 'tests/test_bita_cross_programme_extension_12.py'
+      - 'empirical/trait_architecture_history/bita_architecture_cross_programme_v2_12_sources_20261124.json'
+  pull_request:
+    branches: ['analysis/bita-cross-programme-evolution-chain-20261124']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-verified-twelve-programme-no-meta-analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Extend exact original eleven-programme science receipt by one JATS-verified study
+        run: |
+          python -m scripts.audit_bita_cross_programme_extension_12 \
+            --output /tmp/bita_cross_programme_v2_12_studies.json
+      - name: Test source cohort independence and original retention/focal-NFDS distinction
+        run: |
+          python -m pip install 'pytest>=8,<10'
+          python -m pytest -q tests/test_bita_cross_programme_extension_12.py tests/test_bita_altameemi2024_source.py
+      - name: Verify v2 original-source receipt vs committed exact JSON
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          new=json.loads(Path('/tmp/bita_cross_programme_v2_12_studies.json').read_text())
+          frozen=Path('empirical/trait_architecture_history/bita_architecture_cross_programme_v2_12_sources_20261124.json')
+          if frozen.exists():
+              if new != json.loads(frozen.read_text()):
+                  raise ValueError('New 12-programme original-source evidence changed from frozen JSON')
+              print('BITA_CROSS_PROGRAMME_V2_ORIGINAL_SOURCE_FROZEN_ROUNDTRIP:PASS')
+          else:
+              print('BITA_CROSS_PROGRAMME_V2_ORIGINAL_SOURCE_FROZEN_ROUNDTRIP:AWAITING_FIRST_FREEZE')
+          assert new["number_of_unique_independent_research_programmes"] == 12
+          assert new["number_of_distinct_machine_read_source_receipts"] == 14
+          assert new["interpretation_contract"]["no_meta_analysis"]
+          print('BITA_CROSS_PROGRAMME_12_FULL_JSON:'+
+                json.dumps(new,sort_keys=True,separators=(',',':')),flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bita-original-evidence-retention-not-origination-12-programmes
+          path: /tmp/bita_cross_programme_v2_12_studies.json
+          if-no-files-found: error
+          retention-days: 30
